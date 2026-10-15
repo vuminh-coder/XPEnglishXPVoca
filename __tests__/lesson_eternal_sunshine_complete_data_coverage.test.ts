@@ -35,7 +35,7 @@ describe("Video #10 (mov_rom_10): Eternal Sunshine Complete Data Coverage & Time
     const segments = LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK.segments;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -76,6 +76,8 @@ describe("Video #10 (mov_rom_10): Eternal Sunshine Complete Data Coverage & Time
       expect(q.targetedConceptEn?.length).toBeGreaterThan(5);
       expect(q.targetedConceptVi?.length).toBeGreaterThan(5);
       expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK.segments.length);
     }
   });
 

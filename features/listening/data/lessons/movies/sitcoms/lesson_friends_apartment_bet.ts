@@ -45,13 +45,13 @@ export const QUIZ_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA_EXTENDED: VideoQuizDat
         "Sấm sét trên bầu trời công viên Central Park"
       ],
       "correctAnswer": 0,
-      "explanation": "In Segments 74-78, Monica correctly answers 'Michael Flatley, Lord of the Dance!', and Chandler shudders explaining that 'his legs flail about as if independent from his body!'",
-      "explanationEn": "In Segments 74-78, Monica correctly answers 'Michael Flatley, Lord of the Dance!', and Chandler shudders explaining that 'his legs flail about as if independent from his body!'",
-      "explanationVi": "Trong các Phân đoạn 74-78, Monica trả lời chính xác 'Michael Flatley, Lord of the Dance!', và Chandler rùng mình giải thích rằng 'đôi chân của hắn ta vung vẩy loạn xạ như thể tách rời khỏi cơ thể vậy!'",
+      "explanation": "In Segments 75-79, Monica correctly answers 'Michael Flatley, Lord of the Dance!', and Chandler shudders explaining that 'his legs flail about as if independent from his body!'",
+      "explanationEn": "In Segments 75-79, Monica correctly answers 'Michael Flatley, Lord of the Dance!', and Chandler shudders explaining that 'his legs flail about as if independent from his body!'",
+      "explanationVi": "Trong các Phân đoạn 75-79, Monica trả lời chính xác 'Michael Flatley, Lord of the Dance!', và Chandler rùng mình giải thích rằng 'đôi chân của hắn ta vung vẩy loạn xạ như thể tách rời khỏi cơ thể vậy!'",
       "targetedConcept": "Pop-culture phobia & vivid comic imagery",
       "targetedConceptEn": "Pop-culture phobia & vivid comic imagery",
       "targetedConceptVi": "Nỗi sợ văn hóa đại chúng và hình tượng miêu tả hài hước",
-      "referenceSegmentIndex": 75
+      "referenceSegmentIndex": 76
     },
     {
       "id": "mov_sit_01_q2",
@@ -77,19 +77,19 @@ export const QUIZ_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA_EXTENDED: VideoQuizDat
         "Cô không bao giờ ăn viền bánh pizza vào dịp cuối tuần."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 2, Joey proves he knows Monica deeply by revealing: 'You can only eat Tic Tacs in even numbers.'",
-      "explanationEn": "In Segment 2, Joey proves he knows Monica deeply by revealing: 'You can only eat Tic Tacs in even numbers.'",
-      "explanationVi": "Trong Phân đoạn 2, Joey chứng minh hiểu Monica tận chân tơ kẽ tóc: 'Cậu chỉ có thể ăn kẹo Tic Tac theo số lượng chẵn thôi.'",
+      "explanation": "In Segment 3, Joey proves he knows Monica deeply by revealing: 'You can only eat Tic Tacs in even numbers.'",
+      "explanationEn": "In Segment 3, Joey proves he knows Monica deeply by revealing: 'You can only eat Tic Tacs in even numbers.'",
+      "explanationVi": "Trong Phân đoạn 3, Joey chứng minh hiểu Monica tận chân tơ kẽ tóc: 'Cậu chỉ có thể ăn kẹo Tic Tac theo số lượng chẵn thôi.'",
       "targetedConcept": "Quirky character habits & obsessive-compulsive traits",
       "targetedConceptEn": "Quirky character habits & obsessive-compulsive traits",
       "targetedConceptVi": "Thói quen kỳ quặc và nét tính cách cưỡng chế đặc trưng",
-      "referenceSegmentIndex": 2
+      "referenceSegmentIndex": 3
     },
     {
       "id": "mov_sit_01_q3",
-      "question": "What does the American slang idiom 'pay the piper' mean when Chandler demands the wager money in Segment 39?",
-      "questionEn": "What does the American slang idiom 'pay the piper' mean when Chandler demands the wager money in Segment 39?",
-      "questionVi": "Thành ngữ tiếng Anh 'pay the piper' có nghĩa là gì khi Chandler đòi tiền cược trong Phân đoạn 39?",
+      "question": "What does the American slang idiom 'pay the piper' mean when Chandler demands the wager money in Segment 40?",
+      "questionEn": "What does the American slang idiom 'pay the piper' mean when Chandler demands the wager money in Segment 40?",
+      "questionVi": "Thành ngữ tiếng Anh 'pay the piper' có nghĩa là gì khi Chandler đòi tiền cược trong Phân đoạn 40?",
       "options": [
         "To hire an acoustic bagpipe player for dinner",
         "To bear the consequences and pay the money owed from a wager",
@@ -109,18 +109,18 @@ export const QUIZ_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA_EXTENDED: VideoQuizDat
         "Trả lại dụng cụ nhà bếp đã mượn"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 39, 'Pay the piper' is an idiom meaning to pay the financial penalty or accept the unfavorable consequences of one's actions or bets.",
-      "explanationEn": "In Segment 39, 'Pay the piper' is an idiom meaning to pay the financial penalty or accept the unfavorable consequences of one's actions or bets.",
-      "explanationVi": "Trong Phân đoạn 39, 'Pay the piper' là thành ngữ mang ý nghĩa phải trả tiền phạt hoặc chấp nhận hậu quả tài chính từ giao kèo thua cược.",
+      "explanation": "In Segment 40, 'Pay the piper' is an idiom meaning to pay the financial penalty or accept the unfavorable consequences of one's actions or bets.",
+      "explanationEn": "In Segment 40, 'Pay the piper' is an idiom meaning to pay the financial penalty or accept the unfavorable consequences of one's actions or bets.",
+      "explanationVi": "Trong Phân đoạn 40, 'Pay the piper' là thành ngữ mang ý nghĩa phải trả tiền phạt hoặc chấp nhận hậu quả tài chính từ giao kèo thua cược.",
       "targetedConcept": "Idiomatic expression 'pay the piper'",
       "targetedConceptEn": "Idiomatic expression 'pay the piper'",
       "targetedConceptVi": "Thành ngữ tiếng Anh 'pay the piper' (chấp nhận trả giá)",
-      "referenceSegmentIndex": 39
+      "referenceSegmentIndex": 40
     },
     {
       "id": "mov_sit_01_q4",
-      "question": "What was Monica's biggest pet peeve according to the trivia question in Segment 69?",
-      "questionEn": "What was Monica's biggest pet peeve according to the trivia question in Segment 69?",
+      "question": "What was Monica's biggest pet peeve according to the trivia question in Segment 70?",
+      "questionEn": "What was Monica's biggest pet peeve according to the trivia question in Segment 70?",
       "questionVi": "Điều gây khó chịu tột cùng nhất (pet peeve) của Monica trong câu hỏi ở Phân đoạn 69 là gì?",
       "options": [
         "Leaving shoes near the apartment entrance",
@@ -141,13 +141,13 @@ export const QUIZ_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA_EXTENDED: VideoQuizDat
         "Dùng sai đế lót ly cho đồ uống nóng"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 69-70, Ross asks 'What is Monica's biggest pet peeve?' and Joey instantly answers 'Animals dressed as humans!' which is correct.",
-      "explanationEn": "In Segments 69-70, Ross asks 'What is Monica's biggest pet peeve?' and Joey instantly answers 'Animals dressed as humans!' which is correct.",
-      "explanationVi": "Trong các Phân đoạn 69-70, Ross hỏi 'Điều làm Monica khó chịu nhất là gì?' và Joey lập tức trả lời 'Động vật mặc quần áo như con người!', hoàn toàn chính xác.",
+      "explanation": "In Segments 70-71, Ross asks 'What is Monica's biggest pet peeve?' and Joey instantly answers 'Animals dressed as humans!' which is correct.",
+      "explanationEn": "In Segments 70-71, Ross asks 'What is Monica's biggest pet peeve?' and Joey instantly answers 'Animals dressed as humans!' which is correct.",
+      "explanationVi": "Trong các Phân đoạn 70-71, Ross hỏi 'Điều làm Monica khó chịu nhất là gì?' và Joey lập tức trả lời 'Động vật mặc quần áo như con người!', hoàn toàn chính xác.",
       "targetedConcept": "Idiom 'pet peeve' and character psychology",
       "targetedConceptEn": "Idiom 'pet peeve' and character psychology",
       "targetedConceptVi": "Thuật ngữ 'pet peeve' (điều khó chịu kinh niên) và tâm lý nhân vật",
-      "referenceSegmentIndex": 70
+      "referenceSegmentIndex": 71
     },
     {
       "id": "mov_sit_01_q5",
@@ -173,13 +173,13 @@ export const QUIZ_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA_EXTENDED: VideoQuizDat
         "Cậu gọi điện hỏi bà Judy Geller trong giờ hội ý."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 86-90, Chandler blurts out 'Althea'. When Joey complains 'You're shooting with Althea?!', Ross confirms that Althea is indeed correct.",
-      "explanationEn": "In Segments 86-90, Chandler blurts out 'Althea'. When Joey complains 'You're shooting with Althea?!', Ross confirms that Althea is indeed correct.",
-      "explanationVi": "Trong các Phân đoạn 86-90, Chandler buột miệng nói 'Althea'. Khi Joey phàn nàn 'Cậu liều mạng với Althea đấy hả?!', Ross xác nhận Althea thực sự là đáp án đúng.",
+      "explanation": "In Segments 87-91, Chandler blurts out 'Althea'. When Joey complains 'You're shooting with Althea?!', Ross confirms that Althea is indeed correct.",
+      "explanationEn": "In Segments 87-91, Chandler blurts out 'Althea'. When Joey complains 'You're shooting with Althea?!', Ross confirms that Althea is indeed correct.",
+      "explanationVi": "Trong các Phân đoạn 87-91, Chandler buột miệng nói 'Althea'. Khi Joey phàn nàn 'Cậu liều mạng với Althea đấy hả?!', Ross xác nhận Althea thực sự là đáp án đúng.",
       "targetedConcept": "Colloquial expression 'take a shot' (đoán mò, thử vận may)",
       "targetedConceptEn": "Colloquial expression 'take a shot' (đoán mò, thử vận may)",
       "targetedConceptVi": "Thành ngữ khẩu ngữ 'take a shot' (thử vận may)",
-      "referenceSegmentIndex": 88
+      "referenceSegmentIndex": 89
     },
     {
       "id": "mov_sit_01_q6",
@@ -205,19 +205,19 @@ export const QUIZ_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA_EXTENDED: VideoQuizDat
         "Dinh thự Ken Adams"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 97-100, Chandler reveals that the TV Guide address label is addressed to 'Chanandler Bong', and Ross delivers the punchline: 'Actually, it's Miss Chanandler Bong.'",
-      "explanationEn": "In Segments 97-100, Chandler reveals that the TV Guide address label is addressed to 'Chanandler Bong', and Ross delivers the punchline: 'Actually, it's Miss Chanandler Bong.'",
-      "explanationVi": "Trong các Phân đoạn 97-100, Chandler tiết lộ nhãn tạp chí TV Guide ghi tên 'Chanandler Bong', và Ross nhấn thêm câu chốt hạ đắt giá: 'Thực ra phải là Quý cô Chanandler Bong.'",
+      "explanation": "In Segments 98-101, Chandler reveals that the TV Guide address label is addressed to 'Chanandler Bong', and Ross delivers the punchline: 'Actually, it's Miss Chanandler Bong.'",
+      "explanationEn": "In Segments 98-101, Chandler reveals that the TV Guide address label is addressed to 'Chanandler Bong', and Ross delivers the punchline: 'Actually, it's Miss Chanandler Bong.'",
+      "explanationVi": "Trong các Phân đoạn 98-101, Chandler tiết lộ nhãn tạp chí TV Guide ghi tên 'Chanandler Bong', và Ross nhấn thêm câu chốt hạ đắt giá: 'Thực ra phải là Quý cô Chanandler Bong.'",
       "targetedConcept": "Iconic TV sitcom trivia & mail misspelling joke",
       "targetedConceptEn": "Iconic TV sitcom trivia & mail misspelling joke",
       "targetedConceptVi": "Chi tiết đố vui kinh điển trong Sitcom & trò đùa viết sai tên trên bưu phẩm",
-      "referenceSegmentIndex": 100
+      "referenceSegmentIndex": 101
     },
     {
       "id": "mov_sit_01_q7",
-      "question": "Why was Chandler able to guess the final grocery item 'Scotch tape' with 100% certainty in Segment 34?",
-      "questionEn": "Why was Chandler able to guess the final grocery item 'Scotch tape' with 100% certainty in Segment 34?",
-      "questionVi": "Vì sao Chandler có thể đoán chắc như đinh đóng cột món đồ tạp hóa cuối cùng là 'băng dính Scotch' trong Phân đoạn 34?",
+      "question": "Why was Chandler able to guess the final grocery item 'Scotch tape' with 100% certainty in Segment 35?",
+      "questionEn": "Why was Chandler able to guess the final grocery item 'Scotch tape' with 100% certainty in Segment 35?",
+      "questionVi": "Vì sao Chandler có thể đoán chắc như đinh đóng cột món đồ tạp hóa cuối cùng là 'băng dính Scotch' trong Phân đoạn 35?",
       "options": [
         "He peeked through Rachel's transparent shopping bag.",
         "He and Joey had used up all of Monica and Rachel's tape the night before making scary faces.",
@@ -237,13 +237,13 @@ export const QUIZ_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA_EXTENDED: VideoQuizDat
         "Monica để lại cuộn băng dính rỗng trên bàn cà phê."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 34, Chandler explains: 'Well, we used up theirs last night making scary faces.'",
-      "explanationEn": "In Segment 34, Chandler explains: 'Well, we used up theirs last night making scary faces.'",
-      "explanationVi": "Trong Phân đoạn 34, Chandler giải thích lý do logic: 'Tối qua bọn này dùng hết sạch cuộn băng dính của mấy cậu để dán mặt dọa ma rồi.'",
+      "explanation": "In Segment 35, Chandler explains: 'Well, we used up theirs last night making scary faces.'",
+      "explanationEn": "In Segment 35, Chandler explains: 'Well, we used up theirs last night making scary faces.'",
+      "explanationVi": "Trong Phân đoạn 35, Chandler giải thích lý do logic: 'Tối qua bọn này dùng hết sạch cuộn băng dính của mấy cậu để dán mặt dọa ma rồi.'",
       "targetedConcept": "Comedic cause-and-effect narrative logic",
       "targetedConceptEn": "Comedic cause-and-effect narrative logic",
       "targetedConceptVi": "Logic nhân quả hài hước trong kết cấu kịch bản",
-      "referenceSegmentIndex": 34
+      "referenceSegmentIndex": 35
     },
     {
       "id": "mov_sit_01_q8",
@@ -269,13 +269,13 @@ export const QUIZ_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA_EXTENDED: VideoQuizDat
         "Thảm họa Lễ Tạ Ơn, Các chuyến du lịch nghỉ lễ, Hoài bão sự nghiệp, và Thú cưng"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 59-60, Ross announces the categories: 'The categories are: Fears and Pet Peeves, Ancient History, Literature, and It's All Relative.'",
-      "explanationEn": "In Segments 59-60, Ross announces the categories: 'The categories are: Fears and Pet Peeves, Ancient History, Literature, and It's All Relative.'",
-      "explanationVi": "Trong các Phân đoạn 59-60, Ross công bố các chủ đề: 'Bốn chủ đề gồm có: Nỗi Sợ Hãi và Điều Khó Chịu, Lịch Sử Cổ Đại, Văn Học, và Tất Cả Là Chuyện Gia Đình.'",
+      "explanation": "In Segments 60-61, Ross announces the categories: 'The categories are: Fears and Pet Peeves, Ancient History, Literature, and It's All Relative.'",
+      "explanationEn": "In Segments 60-61, Ross announces the categories: 'The categories are: Fears and Pet Peeves, Ancient History, Literature, and It's All Relative.'",
+      "explanationVi": "Trong các Phân đoạn 60-61, Ross công bố các chủ đề: 'Bốn chủ đề gồm có: Nỗi Sợ Hãi và Điều Khó Chịu, Lịch Sử Cổ Đại, Văn Học, và Tất Cả Là Chuyện Gia Đình.'",
       "targetedConcept": "Structured comedic game show parody format",
       "targetedConceptEn": "Structured comedic game show parody format",
       "targetedConceptVi": "Cấu trúc game show đố vui giễu nhại hài hước",
-      "referenceSegmentIndex": 59
+      "referenceSegmentIndex": 60
     }
   ]
 };
@@ -303,7 +303,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
     "Trường đoạn đố vui cá cược kinh điển nhất lịch sử sitcom truyền hình Friends: Từ màn cá cược đoán túi đồ tạp hóa 10 đô-la, chiếc băng dính Scotch tape, Ross làm trọng tài bất đắc dĩ, nỗi sợ Michael Flatley Lord of the Dance, người bà Althea, cho đến cú chốt hạ danh xưng bất hủ 'Miss Chanandler Bong' khiến hai cô gái phải ngậm ngùi hoán đổi căn hộ.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.0,
         "endTime": 4.8,
         "text": "I just can't believe that you think that you and Chandler know me and Rachel better than we know you.",
@@ -321,7 +321,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 20
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 5.0,
         "endTime": 6.8,
         "text": "Well, we do.",
@@ -336,7 +336,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 7.0,
         "endTime": 10.5,
         "text": "You can only eat Tic Tacs in even numbers.",
@@ -353,7 +353,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 11.0,
         "endTime": 13.0,
         "text": "Yeah, well, what's that about?!",
@@ -368,7 +368,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 13.2,
         "endTime": 20.2,
         "text": "And you, Ross, I believe if you check Rachel's bag, you will find a half-eaten box of cookies in there.",
@@ -386,7 +386,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 20
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 23.0,
         "endTime": 25.0,
         "text": "You're good.",
@@ -401,7 +401,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 25.8,
         "endTime": 28.0,
         "text": "These are not.",
@@ -415,7 +415,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 28.5,
         "endTime": 32.2,
         "text": "So not impressed! Everybody snacks when they shop.",
@@ -430,7 +430,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 32.5,
         "endTime": 33.5,
         "text": "Yeah.",
@@ -444,7 +444,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 33.8,
         "endTime": 36.5,
         "text": "Oh, yeah? Ross, how many items left in that bag?",
@@ -461,7 +461,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 36.6,
         "endTime": 37.5,
         "text": "Five.",
@@ -475,7 +475,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 37.8,
         "endTime": 42.5,
         "text": "Okay, ten bucks says that we can name every item in that bag.",
@@ -490,7 +490,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 42.8,
         "endTime": 44.0,
         "text": "How many guesses do you get?",
@@ -504,7 +504,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 44.2,
         "endTime": 45.2,
         "text": "Six.",
@@ -518,7 +518,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 45.4,
         "endTime": 47.5,
         "text": "Challenge extended.",
@@ -532,7 +532,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 48.8,
         "endTime": 50.0,
         "text": "Deal.",
@@ -546,7 +546,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 50.2,
         "endTime": 52.5,
         "text": "Challenge accepted.",
@@ -560,7 +560,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 53.0,
         "endTime": 56.8,
         "text": "All right. We'll start with apples.",
@@ -575,7 +575,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 57.0,
         "endTime": 60.5,
         "text": "We'll be starting with apples.",
@@ -590,7 +590,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 62.0,
         "endTime": 64.0,
         "text": "Stop that now.",
@@ -604,7 +604,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 65.8,
         "endTime": 67.0,
         "text": "Yes.",
@@ -618,7 +618,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 67.2,
         "endTime": 70.0,
         "text": "Okay. Tortilla chips.",
@@ -632,7 +632,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 70.2,
         "endTime": 71.2,
         "text": "Yogurt.",
@@ -646,7 +646,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 71.3,
         "endTime": 72.5,
         "text": "Diet soda.",
@@ -660,7 +660,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 72.6,
         "endTime": 74.8,
         "text": "Yes, yes, yes.",
@@ -674,7 +674,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 75.8,
         "endTime": 77.0,
         "text": "Orange juice.",
@@ -688,7 +688,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 77.2,
         "endTime": 80.0,
         "text": "Oh, there's no orange juice in there. We win!",
@@ -703,7 +703,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 80.2,
         "endTime": 82.5,
         "text": "They have another guess.",
@@ -717,7 +717,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 83.0,
         "endTime": 85.5,
         "text": "Okay, well, we won that one.",
@@ -731,7 +731,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 85.8,
         "endTime": 88.5,
         "text": "Okay, the last thing.",
@@ -745,7 +745,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 91.0,
         "endTime": 94.5,
         "text": "No, not for like another two weeks.",
@@ -759,7 +759,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 97.8,
         "endTime": 99.0,
         "text": "I got it.",
@@ -773,7 +773,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 99.2,
         "endTime": 102.5,
         "text": "Scotch tape.",
@@ -789,7 +789,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 107.0,
         "endTime": 110.2,
         "text": "How did you know she would buy Scotch tape?!",
@@ -806,7 +806,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 110.5,
         "endTime": 114.0,
         "text": "Well, we used up theirs last night making scary faces.",
@@ -821,7 +821,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 114.8,
         "endTime": 116.0,
         "text": "Man!",
@@ -836,7 +836,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 116.2,
         "endTime": 118.0,
         "text": "All right, ten bucks.",
@@ -850,7 +850,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 118.2,
         "endTime": 119.2,
         "text": "Fork it over.",
@@ -865,7 +865,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 119.3,
         "endTime": 120.5,
         "text": "Cough it up.",
@@ -880,7 +880,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 120.6,
         "endTime": 122.2,
         "text": "Pay the piper.",
@@ -895,7 +895,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 122.4,
         "endTime": 124.5,
         "text": "Give me it.",
@@ -909,7 +909,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 125.0,
         "endTime": 127.5,
         "text": "That does not mean you know us better.",
@@ -923,7 +923,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 127.6,
         "endTime": 128.5,
         "text": "I want a rematch.",
@@ -937,7 +937,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 128.6,
         "endTime": 130.5,
         "text": "Yeah, and none of these stupid grocery questions,",
@@ -951,7 +951,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 130.6,
         "endTime": 132.5,
         "text": "real personal questions.",
@@ -965,7 +965,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 132.6,
         "endTime": 134.8,
         "text": "And the winner gets a hundred bucks.",
@@ -980,7 +980,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 135.0,
         "endTime": 136.2,
         "text": "Serious?",
@@ -994,7 +994,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 136.5,
         "endTime": 138.8,
         "text": "What, are you scared?",
@@ -1009,7 +1009,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 139.0,
         "endTime": 140.2,
         "text": "No.",
@@ -1023,7 +1023,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 142.0,
         "endTime": 144.2,
         "text": "Okay, who'll make up the questions?",
@@ -1037,7 +1037,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 144.5,
         "endTime": 145.8,
         "text": "Ross'll do it.",
@@ -1053,7 +1053,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 146.0,
         "endTime": 147.2,
         "text": "Oh, sure.",
@@ -1067,7 +1067,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 147.4,
         "endTime": 148.8,
         "text": "Ross'll do it.",
@@ -1083,7 +1083,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 149.0,
         "endTime": 153.2,
         "text": "It's not like he has a job or a child or a life of his own.",
@@ -1098,7 +1098,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 153.5,
         "endTime": 154.5,
         "text": "Fine, we'll ask Phoebe.",
@@ -1114,7 +1114,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 154.8,
         "endTime": 158.0,
         "text": "No, no, no, no, no, I want to play!",
@@ -1128,7 +1128,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 160.0,
         "endTime": 161.5,
         "text": "Okay.",
@@ -1142,7 +1142,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 161.8,
         "endTime": 164.2,
         "text": "Each team will answer ten questions.",
@@ -1156,7 +1156,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 164.5,
         "endTime": 168.0,
         "text": "The first team to answer the most questions wins.",
@@ -1170,7 +1170,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 168.2,
         "endTime": 173.2,
         "text": "The categories are: Fears and Pet Peeves, Ancient History,",
@@ -1185,7 +1185,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 173.5,
         "endTime": 178.5,
         "text": "Literature, and It's All Relative.",
@@ -1200,7 +1200,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 179.0,
         "endTime": 184.0,
         "text": "Now, the coin toss to see who goes first.",
@@ -1215,7 +1215,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 62,
+        "orderIndex": 63,
         "startTime": 191.0,
         "endTime": 192.5,
         "text": "Okay.",
@@ -1229,7 +1229,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 63,
+        "orderIndex": 64,
         "startTime": 192.8,
         "endTime": 195.0,
         "text": "Somebody call it this time.",
@@ -1243,7 +1243,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 64,
+        "orderIndex": 65,
         "startTime": 195.8,
         "endTime": 197.5,
         "text": "Tails!",
@@ -1257,7 +1257,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 65,
+        "orderIndex": 66,
         "startTime": 197.8,
         "endTime": 199.0,
         "text": "It's heads.",
@@ -1271,7 +1271,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 66,
+        "orderIndex": 67,
         "startTime": 199.2,
         "endTime": 200.5,
         "text": "Yes!",
@@ -1285,7 +1285,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 67,
+        "orderIndex": 68,
         "startTime": 200.8,
         "endTime": 203.2,
         "text": "Gentlemen, pick your category.",
@@ -1299,7 +1299,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 68,
+        "orderIndex": 69,
         "startTime": 203.5,
         "endTime": 206.0,
         "text": "Fears and Pet Peeves.",
@@ -1313,7 +1313,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 69,
+        "orderIndex": 70,
         "startTime": 207.0,
         "endTime": 210.0,
         "text": "What is Monica's biggest pet peeve?",
@@ -1329,7 +1329,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 70,
+        "orderIndex": 71,
         "startTime": 210.2,
         "endTime": 211.5,
         "text": "Animals dressed as humans!",
@@ -1343,7 +1343,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 71,
+        "orderIndex": 72,
         "startTime": 211.8,
         "endTime": 213.0,
         "text": "That's correct.",
@@ -1357,7 +1357,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 72,
+        "orderIndex": 73,
         "startTime": 215.0,
         "endTime": 216.2,
         "text": "Ladies?",
@@ -1371,7 +1371,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 73,
+        "orderIndex": 74,
         "startTime": 216.5,
         "endTime": 218.0,
         "text": "Same category.",
@@ -1385,7 +1385,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 74,
+        "orderIndex": 75,
         "startTime": 219.0,
         "endTime": 224.5,
         "text": "According to Chandler, what phenomenon scares the bejeezus out of him?",
@@ -1402,7 +1402,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 75,
+        "orderIndex": 76,
         "startTime": 224.8,
         "endTime": 227.8,
         "text": "Michael Flatley, Lord of the Dance!",
@@ -1420,7 +1420,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 76,
+        "orderIndex": 77,
         "startTime": 228.0,
         "endTime": 229.8,
         "text": "That is correct.",
@@ -1434,7 +1434,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 77,
+        "orderIndex": 78,
         "startTime": 232.8,
         "endTime": 235.0,
         "text": "The Irish jig guy?",
@@ -1450,7 +1450,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 78,
+        "orderIndex": 79,
         "startTime": 235.2,
         "endTime": 239.5,
         "text": "His legs flail about as if independent from his body!",
@@ -1465,7 +1465,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 79,
+        "orderIndex": 80,
         "startTime": 240.8,
         "endTime": 243.0,
         "text": "Gentlemen, your pick.",
@@ -1479,7 +1479,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 80,
+        "orderIndex": 81,
         "startTime": 243.2,
         "endTime": 244.8,
         "text": "It's All Relative.",
@@ -1493,7 +1493,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 81,
+        "orderIndex": 82,
         "startTime": 245.0,
         "endTime": 248.0,
         "text": "Monica and I had a grandmother who died.",
@@ -1509,7 +1509,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 82,
+        "orderIndex": 83,
         "startTime": 248.2,
         "endTime": 250.0,
         "text": "You both went to her funeral.",
@@ -1523,7 +1523,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 83,
+        "orderIndex": 84,
         "startTime": 250.2,
         "endTime": 252.8,
         "text": "Name that grandmother.",
@@ -1537,7 +1537,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 84,
+        "orderIndex": 85,
         "startTime": 254.8,
         "endTime": 256.0,
         "text": "Nana?",
@@ -1554,7 +1554,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 85,
+        "orderIndex": 86,
         "startTime": 256.2,
         "endTime": 258.5,
         "text": "She has a real name.",
@@ -1568,7 +1568,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 86,
+        "orderIndex": 87,
         "startTime": 259.0,
         "endTime": 260.2,
         "text": "Althea.",
@@ -1584,7 +1584,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 87,
+        "orderIndex": 88,
         "startTime": 260.4,
         "endTime": 261.5,
         "text": "Althea?! What are you doing?!",
@@ -1600,7 +1600,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 88,
+        "orderIndex": 89,
         "startTime": 261.6,
         "endTime": 262.5,
         "text": "I took a shot.",
@@ -1615,7 +1615,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 89,
+        "orderIndex": 90,
         "startTime": 262.6,
         "endTime": 263.5,
         "text": "You're shooting with Althea?!",
@@ -1631,7 +1631,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 90,
+        "orderIndex": 91,
         "startTime": 263.6,
         "endTime": 264.8,
         "text": "Althea is correct.",
@@ -1647,7 +1647,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 91,
+        "orderIndex": 92,
         "startTime": 264.9,
         "endTime": 266.0,
         "text": "Nice shooting!",
@@ -1661,7 +1661,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 92,
+        "orderIndex": 93,
         "startTime": 268.8,
         "endTime": 270.5,
         "text": "We'll take Literature!",
@@ -1675,7 +1675,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 93,
+        "orderIndex": 94,
         "startTime": 271.0,
         "endTime": 275.5,
         "text": "Every week, the TV Guide comes to Chandler and Joey's apartment.",
@@ -1694,7 +1694,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 94,
+        "orderIndex": 95,
         "startTime": 275.8,
         "endTime": 279.0,
         "text": "What name appears on the address label?",
@@ -1709,7 +1709,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 95,
+        "orderIndex": 96,
         "startTime": 279.2,
         "endTime": 281.8,
         "text": "Well, Chandler gets it! It's Chandler's name!",
@@ -1725,7 +1725,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 96,
+        "orderIndex": 97,
         "startTime": 282.0,
         "endTime": 283.0,
         "text": "No!",
@@ -1739,7 +1739,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 97,
+        "orderIndex": 98,
         "startTime": 283.2,
         "endTime": 287.5,
         "text": "I'm afraid the TV Guide comes to...",
@@ -1755,7 +1755,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 98,
+        "orderIndex": 99,
         "startTime": 287.8,
         "endTime": 290.0,
         "text": "Chanandler Bong.",
@@ -1771,7 +1771,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 99,
+        "orderIndex": 100,
         "startTime": 290.2,
         "endTime": 292.0,
         "text": "I knew that!",
@@ -1785,7 +1785,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 100,
+        "orderIndex": 101,
         "startTime": 292.2,
         "endTime": 294.8,
         "text": "Rachel, use your head!",
@@ -1802,7 +1802,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 101,
+        "orderIndex": 102,
         "startTime": 295.0,
         "endTime": 298.5,
         "text": "Actually, it's Miss Chanandler Bong.",
@@ -1819,7 +1819,7 @@ export const LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 102,
+        "orderIndex": 103,
         "startTime": 299.0,
         "endTime": 313.0,
         "text": "Monica screams in anguish as Chandler and Joey celebrate their historic victory with high-fives and victory cheers.",

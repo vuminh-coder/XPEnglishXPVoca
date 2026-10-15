@@ -44,13 +44,13 @@ export const QUIZ_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: VideoQuizData = {
         "Anh thúc ép cô mở ngay một tiệm bánh ngọt trực tuyến."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 3, Patrick says: 'You can't just mope around. All the best entrepreneurs, they fight their way back from rock bottom. Look at me!'",
-      "explanationEn": "In Segment 3, Patrick says: 'You can't just mope around. All the best entrepreneurs, they fight their way back from rock bottom. Look at me!'",
-      "explanationVi": "Trong Phân đoạn 3, Patrick khuyên: 'Em không thể cứ ủ rũ mãi thế được. Mọi doanh nhân cừ khôi nhất đều tự lực vươn lên từ đáy vực sâu đấy thôi. Nhìn anh mà xem!'",
+      "explanation": "In Segment 4, Patrick says: 'You can't just mope around. All the best entrepreneurs, they fight their way back from rock bottom. Look at me!'",
+      "explanationEn": "In Segment 4, Patrick says: 'You can't just mope around. All the best entrepreneurs, they fight their way back from rock bottom. Look at me!'",
+      "explanationVi": "Trong Phân đoạn 4, Patrick khuyên: 'Em không thể cứ ủ rũ mãi thế được. Mọi doanh nhân cừ khôi nhất đều tự lực vươn lên từ đáy vực sâu đấy thôi. Nhìn anh mà xem!'",
       "targetedConcept": "Character contrast and pragmatic motivation vs realistic struggle",
       "targetedConceptEn": "Character contrast and pragmatic motivation vs realistic struggle",
       "targetedConceptVi": "Sự đối lập tính cách và động lực thực tế so với khó khăn đời thực",
-      "referenceSegmentIndex": 3
+      "referenceSegmentIndex": 4
     },
     {
       "id": "mov_rom_06_q2",
@@ -76,13 +76,13 @@ export const QUIZ_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: VideoQuizData = {
         "Cô là họ hàng thân thiết của điều dưỡng Nathan chăm sóc anh."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 18, Louisa stands her ground: 'I'm not employed by you, I'm employed by your mother. So unless she says she doesn't want me here anymore, I'm staying.'",
-      "explanationEn": "In Segment 18, Louisa stands her ground: 'I'm not employed by you, I'm employed by your mother. So unless she says she doesn't want me here anymore, I'm staying.'",
-      "explanationVi": "Trong Phân đoạn 18, Louisa khẳng định: 'Tôi không làm thuê cho anh, tôi làm thuê cho mẹ anh. Cho nên trừ khi bà ấy bảo không cần tôi ở đây nữa, tôi vẫn sẽ ở lại.'",
+      "explanation": "In Segment 19, Louisa stands her ground: 'I'm not employed by you, I'm employed by your mother. So unless she says she doesn't want me here anymore, I'm staying.'",
+      "explanationEn": "In Segment 19, Louisa stands her ground: 'I'm not employed by you, I'm employed by your mother. So unless she says she doesn't want me here anymore, I'm staying.'",
+      "explanationVi": "Trong Phân đoạn 19, Louisa khẳng định: 'Tôi không làm thuê cho anh, tôi làm thuê cho mẹ anh. Cho nên trừ khi bà ấy bảo không cần tôi ở đây nữa, tôi vẫn sẽ ở lại.'",
       "targetedConcept": "Independence and resilience against emotional hostility",
       "targetedConceptEn": "Independence and resilience against emotional hostility",
       "targetedConceptVi": "Sự độc lập và kiên cường trước thái độ thù địch phòng thủ",
-      "referenceSegmentIndex": 18
+      "referenceSegmentIndex": 19
     },
     {
       "id": "mov_rom_06_q3",
@@ -108,13 +108,13 @@ export const QUIZ_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: VideoQuizData = {
         "Bằng cách phàn nàn rằng cổng lâu đài đóng vào lúc hoàng hôn mỗi chiều."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 30, Will quips: 'People here think excitement is a new \"please be quiet\" sign going up in the library.'",
-      "explanationEn": "In Segment 30, Will quips: 'People here think excitement is a new \"please be quiet\" sign going up in the library.'",
-      "explanationVi": "Trong Phân đoạn 30, Will châm biếm: 'Mọi người ở đây cứ ngỡ sự phấn khích tột cùng là việc thư viện dựng thêm một tấm biển mới ghi \"xin hãy giữ im lặng\".'",
+      "explanation": "In Segment 31, Will quips: 'People here think excitement is a new \"please be quiet\" sign going up in the library.'",
+      "explanationEn": "In Segment 31, Will quips: 'People here think excitement is a new \"please be quiet\" sign going up in the library.'",
+      "explanationVi": "Trong Phân đoạn 31, Will châm biếm: 'Mọi người ở đây cứ ngỡ sự phấn khích tột cùng là việc thư viện dựng thêm một tấm biển mới ghi \"xin hãy giữ im lặng\".'",
       "targetedConcept": "British irony and social satire of provincial stagnation",
       "targetedConceptEn": "British irony and social satire of provincial stagnation",
       "targetedConceptVi": "Sự châm biếm thâm thúy đậm chất Anh về cuộc sống buồn tẻ nơi tỉnh lẻ",
-      "referenceSegmentIndex": 30
+      "referenceSegmentIndex": 31
     },
     {
       "id": "mov_rom_06_q4",
@@ -140,13 +140,13 @@ export const QUIZ_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: VideoQuizData = {
         "Sự thoải mái và quen thuộc luôn tốt hơn những chuyến phiêu lưu bất định ở xứ người."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 43, Will delivers the film's core moral: 'You only get one life. It's actually your duty to live it as fully as possible.'",
-      "explanationEn": "In Segment 43, Will delivers the film's core moral: 'You only get one life. It's actually your duty to live it as fully as possible.'",
-      "explanationVi": "Trong Phân đoạn 43, Will nhắn nhủ thông điệp cốt lõi: 'Cô chỉ có một cuộc đời để sống thôi. Bổn phận của cô là phải sống nó một cách trọn vẹn nhất có thể.'",
+      "explanation": "In Segment 44, Will delivers the film's core moral: 'You only get one life. It's actually your duty to live it as fully as possible.'",
+      "explanationEn": "In Segment 44, Will delivers the film's core moral: 'You only get one life. It's actually your duty to live it as fully as possible.'",
+      "explanationVi": "Trong Phân đoạn 44, Will nhắn nhủ thông điệp cốt lõi: 'Cô chỉ có một cuộc đời để sống thôi. Bổn phận của cô là phải sống nó một cách trọn vẹn nhất có thể.'",
       "targetedConcept": "Existential empowerment and philosophical thematic core",
       "targetedConceptEn": "Existential empowerment and philosophical thematic core",
       "targetedConceptVi": "Triết lý trao quyền sống trọn vẹn và thông điệp nhân văn cốt lõi",
-      "referenceSegmentIndex": 43
+      "referenceSegmentIndex": 44
     },
     {
       "id": "mov_rom_06_q5",
@@ -172,13 +172,13 @@ export const QUIZ_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: VideoQuizData = {
         "Đôi giày yêu tinh tự làm được đan bởi bà ngoại cô."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 49 and 51, Louisa explains: 'My favorite outfit was the glittery boots and my bumblebee tights... Black and yellow stripes. Big horizontal stripes.'",
-      "explanationEn": "In Segments 49 and 51, Louisa explains: 'My favorite outfit was the glittery boots and my bumblebee tights... Black and yellow stripes. Big horizontal stripes.'",
-      "explanationVi": "Trong Phân đoạn 49 và 51, Louisa chia sẻ: 'Bộ đồ yêu thích nhất của em là đôi bốt lấp lánh ấy cùng chiếc quần tất sọc ong vò vẽ... Sọc vàng đen. Những đường sọc ngang bản to ấy.'",
+      "explanation": "In Segments 50 and 52, Louisa explains: 'My favorite outfit was the glittery boots and my bumblebee tights... Black and yellow stripes. Big horizontal stripes.'",
+      "explanationEn": "In Segments 50 and 52, Louisa explains: 'My favorite outfit was the glittery boots and my bumblebee tights... Black and yellow stripes. Big horizontal stripes.'",
+      "explanationVi": "Trong Phân đoạn 50 và 52, Louisa chia sẻ: 'Bộ đồ yêu thích nhất của em là đôi bốt lấp lánh ấy cùng chiếc quần tất sọc ong vò vẽ... Sọc vàng đen. Những đường sọc ngang bản to ấy.'",
       "targetedConcept": "Iconic narrative motif of authentic joy and innocence",
       "targetedConceptEn": "Iconic narrative motif of authentic joy and innocence",
       "targetedConceptVi": "Biểu tượng hình tượng quần tất ong vò vẽ đại diện cho niềm vui thuần khiết",
-      "referenceSegmentIndex": 49
+      "referenceSegmentIndex": 50
     },
     {
       "id": "mov_rom_06_q6",
@@ -204,13 +204,13 @@ export const QUIZ_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: VideoQuizData = {
         "Bác sĩ Nathan đã cảnh báo nghiêm ngặt về việc cấm các chuyến bay quốc tế."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 65 and 68, Will explains he wants to remember Paris 'as me, the old me' and not have those memories 'erased by the struggle to fit behind the table' and wheelchair issues.",
-      "explanationEn": "In Segments 65 and 68, Will explains he wants to remember Paris 'as me, the old me' and not have those memories 'erased by the struggle to fit behind the table' and wheelchair issues.",
-      "explanationVi": "Trong Phân đoạn 65 và 68, Will giải thích anh muốn đến Paris với tư cách 'con người cũ của tôi ngày trước', không muốn ký ức bị xóa nhòa bởi những bất tiện tủi hổ của chiếc xe lăn.",
+      "explanation": "In Segments 66 and 69, Will explains he wants to remember Paris 'as me, the old me' and not have those memories 'erased by the struggle to fit behind the table' and wheelchair issues.",
+      "explanationEn": "In Segments 66 and 69, Will explains he wants to remember Paris 'as me, the old me' and not have those memories 'erased by the struggle to fit behind the table' and wheelchair issues.",
+      "explanationVi": "Trong Phân đoạn 66 và 69, Will giải thích anh muốn đến Paris với tư cách 'con người cũ của tôi ngày trước', không muốn ký ức bị xóa nhòa bởi những bất tiện tủi hổ của chiếc xe lăn.",
       "targetedConcept": "Personal dignity, bodily autonomy, and psychological coping with disability",
       "targetedConceptEn": "Personal dignity, bodily autonomy, and psychological coping with disability",
       "targetedConceptVi": "Phẩm giá cá nhân, sự tự chủ thể xác và tâm lý đối diện với thương tật",
-      "referenceSegmentIndex": 65
+      "referenceSegmentIndex": 66
     },
     {
       "id": "mov_rom_06_q7",
@@ -236,13 +236,13 @@ export const QUIZ_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: VideoQuizData = {
         "Anh ước rằng hai người đã không bao giờ tham dự buổi tiệc cưới này."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 107, Will reveals his profound emotional dependence and devotion: 'You know, Clark... you are pretty much the only thing that makes me want to get up in the morning.'",
-      "explanationEn": "In Segment 107, Will reveals his profound emotional dependence and devotion: 'You know, Clark... you are pretty much the only thing that makes me want to get up in the morning.'",
-      "explanationVi": "Trong Phân đoạn 107, Will thổ lộ tình cảm chân thành: 'Em biết không, Clark... em gần như là điều duy nhất khiến anh muốn thức dậy vào mỗi buổi sáng.'",
+      "explanation": "In Segment 108, Will reveals his profound emotional dependence and devotion: 'You know, Clark... you are pretty much the only thing that makes me want to get up in the morning.'",
+      "explanationEn": "In Segment 108, Will reveals his profound emotional dependence and devotion: 'You know, Clark... you are pretty much the only thing that makes me want to get up in the morning.'",
+      "explanationVi": "Trong Phân đoạn 108, Will thổ lộ tình cảm chân thành: 'Em biết không, Clark... em gần như là điều duy nhất khiến anh muốn thức dậy vào mỗi buổi sáng.'",
       "targetedConcept": "Emotional climax on the dance floor and transformative romantic devotion",
       "targetedConceptEn": "Emotional climax on the dance floor and transformative romantic devotion",
       "targetedConceptVi": "Đỉnh cao cảm xúc trên sàn khiêu vũ và sự tận tụy biến chuyển tâm hồn của tình yêu",
-      "referenceSegmentIndex": 107
+      "referenceSegmentIndex": 108
     },
     {
       "id": "mov_rom_06_q8",
@@ -268,13 +268,13 @@ export const QUIZ_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: VideoQuizData = {
         "Anh muốn tránh chạm mặt mẹ mình ở hành lang lâu đài."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 124, Will reveals his deepest romantic longing: 'I just want to be a man who's been to a concert with a girl in a red dress. Just a few minutes more.'",
-      "explanationEn": "In Segment 124, Will reveals his deepest romantic longing: 'I just want to be a man who's been to a concert with a girl in a red dress. Just a few minutes more.'",
-      "explanationVi": "Trong Phân đoạn 124, Will thổ lộ: 'Tôi chỉ muốn được làm một người đàn ông vừa đi xem hòa nhạc về cùng một cô gái mặc chiếc váy đỏ. Chỉ vài phút nữa thôi.'",
+      "explanation": "In Segment 125, Will reveals his deepest romantic longing: 'I just want to be a man who's been to a concert with a girl in a red dress. Just a few minutes more.'",
+      "explanationEn": "In Segment 125, Will reveals his deepest romantic longing: 'I just want to be a man who's been to a concert with a girl in a red dress. Just a few minutes more.'",
+      "explanationVi": "Trong Phân đoạn 125, Will thổ lộ: 'Tôi chỉ muốn được làm một người đàn ông vừa đi xem hòa nhạc về cùng một cô gái mặc chiếc váy đỏ. Chỉ vài phút nữa thôi.'",
       "targetedConcept": "Climactic romantic poignancy and emotional transformation through love",
       "targetedConceptEn": "Climactic romantic poignancy and emotional transformation through love",
       "targetedConceptVi": "Đỉnh cao cảm xúc lãng mạn và sự biến chuyển tâm hồn kỳ diệu qua tình yêu",
-      "referenceSegmentIndex": 124
+      "referenceSegmentIndex": 125
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "Hành trình tình yêu đầy xúc cảm giữa Louisa Clark hồn nhiên và Will Traynor kiêu hãnh: những màn đối đáp dí dỏm, bài học sống trọn vẹn, chiếc quần tất ong vò vẽ, điệu khiêu vũ xe lăn đám cưới huyền thoại, và giây phút lắng đọng bên cô gái mặc váy đỏ sau đêm hòa nhạc Mozart.",
   segments: [
   {
-    "orderIndex": 0,
+    "orderIndex": 1,
     "startTime": 1.5,
     "endTime": 7.5,
     "text": "Come on, only got two miles left! That's the girl!",
@@ -317,7 +317,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 1,
+    "orderIndex": 2,
     "startTime": 7.8,
     "endTime": 14.2,
     "text": "You've just gotta get back out there, think what you want to do. Estate agent maybe? Shop assistant?",
@@ -333,7 +333,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 18
   },
   {
-    "orderIndex": 2,
+    "orderIndex": 3,
     "startTime": 14.4,
     "endTime": 16.5,
     "text": "Patrick, do we have to discuss this again?",
@@ -350,7 +350,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 3,
+    "orderIndex": 4,
     "startTime": 16.7,
     "endTime": 22.3,
     "text": "You can't just mope around. All the best entrepreneurs, they fight their way back from rock bottom. Look at me!",
@@ -366,7 +366,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 4,
+    "orderIndex": 5,
     "startTime": 22.4,
     "endTime": 29.5,
     "text": "I'm not you! A toasted teacake flaked on you! Slow down, I'm wearing the wrong bra!",
@@ -382,7 +382,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 16
   },
   {
-    "orderIndex": 5,
+    "orderIndex": 6,
     "startTime": 33.4,
     "endTime": 40.5,
     "text": "Oh, I'm just saying... Smile! Pop in, head back to the Jobcentre. Don't worry about holiday, poppet.",
@@ -400,7 +400,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 6,
+    "orderIndex": 7,
     "startTime": 42,
     "endTime": 47.5,
     "text": "Morning, Will. It's Louisa.",
@@ -418,7 +418,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 7,
+    "orderIndex": 8,
     "startTime": 49.2,
     "endTime": 57.5,
     "text": "I just thought I'd see if I could fix some of these. Or, you know, if you want to get new ones, I could go into town at lunchtime, or we could both go...",
@@ -434,7 +434,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 34
   },
   {
-    "orderIndex": 8,
+    "orderIndex": 9,
     "startTime": 57.8,
     "endTime": 61.5,
     "text": "You know what, Louisa? Me smashing those photographs was not an accident.",
@@ -452,7 +452,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 9,
+    "orderIndex": 10,
     "startTime": 62.4,
     "endTime": 64.7,
     "text": "Sorry, I didn't... I didn't think...",
@@ -467,7 +467,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 10,
+    "orderIndex": 11,
     "startTime": 64.8,
     "endTime": 66.2,
     "text": "You thought you knew best.",
@@ -481,7 +481,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 11,
+    "orderIndex": 12,
     "startTime": 66.4,
     "endTime": 72.3,
     "text": "Well, I don't want those pictures staring at me every time I'm stuck in bed waiting for someone to bloody get me out again.",
@@ -497,7 +497,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 24
   },
   {
-    "orderIndex": 12,
+    "orderIndex": 13,
     "startTime": 72.5,
     "endTime": 75.8,
     "text": "Okay. I wasn't gonna fix the one of Alicia and Rupert anyway. And look at that.",
@@ -515,7 +515,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 16
   },
   {
-    "orderIndex": 13,
+    "orderIndex": 14,
     "startTime": 76,
     "endTime": 82.5,
     "text": "Spare me the cod psychology. Just go and raid your grandma's wardrobe, or whatever it is you do when you're not making tea.",
@@ -531,7 +531,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 14,
+    "orderIndex": 15,
     "startTime": 84.2,
     "endTime": 86.5,
     "text": "You don't have to be an ass.",
@@ -546,7 +546,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 15,
+    "orderIndex": 16,
     "startTime": 86.8,
     "endTime": 88.6,
     "text": "Your French friend deserved it.",
@@ -563,7 +563,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 16,
+    "orderIndex": 17,
     "startTime": 88.7,
     "endTime": 96,
     "text": "I'm just trying to do my job as best I can. So it would be really nice if you didn't try and make my life as miserable as you apparently make everyone else's.",
@@ -579,7 +579,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 33
   },
   {
-    "orderIndex": 17,
+    "orderIndex": 18,
     "startTime": 96.1,
     "endTime": 97.8,
     "text": "And what if I said I didn't want you here?",
@@ -594,7 +594,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 18,
+    "orderIndex": 19,
     "startTime": 97.8,
     "endTime": 104,
     "text": "I'm not employed by you, I'm employed by your mother. So unless she says she doesn't want me here anymore, I'm staying.",
@@ -610,7 +610,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 22
   },
   {
-    "orderIndex": 19,
+    "orderIndex": 20,
     "startTime": 104.1,
     "endTime": 109.5,
     "text": "Not because I care about you, or particularly enjoy your company, but because I need the money.",
@@ -626,7 +626,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 20,
+    "orderIndex": 21,
     "startTime": 110.5,
     "endTime": 113,
     "text": "I really need the money.",
@@ -640,7 +640,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 21,
+    "orderIndex": 22,
     "startTime": 116.3,
     "endTime": 118.5,
     "text": "Just put them in the drawer.",
@@ -655,7 +655,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 22,
+    "orderIndex": 23,
     "startTime": 120.9,
     "endTime": 122.6,
     "text": "Don't smile at me like that.",
@@ -670,7 +670,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 23,
+    "orderIndex": 24,
     "startTime": 122.9,
     "endTime": 123.9,
     "text": "Why not?",
@@ -684,7 +684,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 24,
+    "orderIndex": 25,
     "startTime": 124.1,
     "endTime": 125.8,
     "text": "Because I don't know what it means.",
@@ -699,7 +699,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 25,
+    "orderIndex": 26,
     "startTime": 126.1,
     "endTime": 128.2,
     "text": "Where did you pick up your exotic tastes?",
@@ -714,7 +714,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 26,
+    "orderIndex": 27,
     "startTime": 128.3,
     "endTime": 129.5,
     "text": "What do you mean by that?",
@@ -728,7 +728,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 27,
+    "orderIndex": 28,
     "startTime": 129.7,
     "endTime": 130.4,
     "text": "You can't be from around here.",
@@ -742,7 +742,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 28,
+    "orderIndex": 29,
     "startTime": 130.5,
     "endTime": 130.9,
     "text": "Why?",
@@ -756,7 +756,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 29,
+    "orderIndex": 30,
     "startTime": 131,
     "endTime": 134.5,
     "text": "Because this is the kind of place people come to when they've got tired of actually living.",
@@ -772,7 +772,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 30,
+    "orderIndex": 31,
     "startTime": 134.9,
     "endTime": 139.8,
     "text": "People here think excitement is a new 'please be quiet' sign going up in the library.",
@@ -788,7 +788,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 16
   },
   {
-    "orderIndex": 31,
+    "orderIndex": 32,
     "startTime": 140.2,
     "endTime": 145.6,
     "text": "You should be out there, claiming the world as your own, showing your leprechaun shoes to dodgy men.",
@@ -804,7 +804,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 18
   },
   {
-    "orderIndex": 32,
+    "orderIndex": 33,
     "startTime": 145.8,
     "endTime": 146.5,
     "text": "I like...",
@@ -818,7 +818,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 33,
+    "orderIndex": 34,
     "startTime": 146.8,
     "endTime": 147.9,
     "text": "You like everything.",
@@ -832,7 +832,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 34,
+    "orderIndex": 35,
     "startTime": 148.1,
     "endTime": 148.9,
     "text": "I'm happy here.",
@@ -846,7 +846,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 35,
+    "orderIndex": 36,
     "startTime": 149.1,
     "endTime": 150.2,
     "text": "Well, you shouldn't be.",
@@ -860,7 +860,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 36,
+    "orderIndex": 37,
     "startTime": 150.7,
     "endTime": 153.6,
     "text": "Strictly speaking, I had a place at Manchester.",
@@ -877,7 +877,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 37,
+    "orderIndex": 38,
     "startTime": 153.8,
     "endTime": 154.8,
     "text": "What were you going to study?",
@@ -891,7 +891,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 38,
+    "orderIndex": 39,
     "startTime": 155,
     "endTime": 155.8,
     "text": "Fashion.",
@@ -905,7 +905,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 39,
+    "orderIndex": 40,
     "startTime": 157.5,
     "endTime": 159.2,
     "text": "So why didn't you go?",
@@ -919,7 +919,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 40,
+    "orderIndex": 41,
     "startTime": 162.9,
     "endTime": 165,
     "text": "You know what I see when I look at you?",
@@ -934,7 +934,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 41,
+    "orderIndex": 42,
     "startTime": 165.1,
     "endTime": 166,
     "text": "Don't say potential.",
@@ -949,7 +949,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 42,
+    "orderIndex": 43,
     "startTime": 166.4,
     "endTime": 170.1,
     "text": "Potential. You need to widen your horizons, Clark.",
@@ -966,7 +966,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 43,
+    "orderIndex": 44,
     "startTime": 170.3,
     "endTime": 175.2,
     "text": "You only get one life. It's actually your duty to live it as fully as possible.",
@@ -982,7 +982,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 16
   },
   {
-    "orderIndex": 44,
+    "orderIndex": 45,
     "startTime": 178.9,
     "endTime": 180.1,
     "text": "Tell me something.",
@@ -996,7 +996,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 45,
+    "orderIndex": 46,
     "startTime": 180.3,
     "endTime": 180.8,
     "text": "About what?",
@@ -1010,7 +1010,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 46,
+    "orderIndex": 47,
     "startTime": 181,
     "endTime": 181.6,
     "text": "Anything.",
@@ -1024,7 +1024,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 47,
+    "orderIndex": 48,
     "startTime": 184.9,
     "endTime": 193.9,
     "text": "When I was little, my mum got me a pair of glittery wellies, and I refused to take them off.",
@@ -1039,7 +1039,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 48,
+    "orderIndex": 49,
     "startTime": 194,
     "endTime": 198.8,
     "text": "I wore them in bed, in the bath, all summer long.",
@@ -1055,7 +1055,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 49,
+    "orderIndex": 50,
     "startTime": 198.8,
     "endTime": 204,
     "text": "My favorite outfit was the glittery boots and my bumblebee tights.",
@@ -1070,7 +1070,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 50,
+    "orderIndex": 51,
     "startTime": 204.2,
     "endTime": 205.4,
     "text": "Bumblebee tights?",
@@ -1084,7 +1084,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 51,
+    "orderIndex": 52,
     "startTime": 205.5,
     "endTime": 207.8,
     "text": "Bumblebee tights. Black and yellow stripes. Big horizontal stripes.",
@@ -1099,7 +1099,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 52,
+    "orderIndex": 53,
     "startTime": 208,
     "endTime": 211,
     "text": "I just... I really, really liked having stripy legs.",
@@ -1113,7 +1113,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 53,
+    "orderIndex": 54,
     "startTime": 211,
     "endTime": 214.2,
     "text": "So what happened to these gorgeous wellies and stripy tights?",
@@ -1128,7 +1128,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 54,
+    "orderIndex": 55,
     "startTime": 214.5,
     "endTime": 216.2,
     "text": "I outgrew them.",
@@ -1142,7 +1142,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 55,
+    "orderIndex": 56,
     "startTime": 216.3,
     "endTime": 220.5,
     "text": "It broke my heart. And they don't make those tights anymore, not for grown women anyway.",
@@ -1157,7 +1157,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 16
   },
   {
-    "orderIndex": 56,
+    "orderIndex": 57,
     "startTime": 220.8,
     "endTime": 221.6,
     "text": "Strange woman.",
@@ -1171,7 +1171,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 57,
+    "orderIndex": 58,
     "startTime": 221.7,
     "endTime": 224.5,
     "text": "Oh, you can mock. Didn't you ever love anything that much?",
@@ -1186,7 +1186,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 58,
+    "orderIndex": 59,
     "startTime": 226.7,
     "endTime": 231,
     "text": "Yes. Yes, I did.",
@@ -1200,7 +1200,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 59,
+    "orderIndex": 60,
     "startTime": 232,
     "endTime": 235.3,
     "text": "Oh, I think this would still be my favorite spot.",
@@ -1214,7 +1214,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 60,
+    "orderIndex": 61,
     "startTime": 235.5,
     "endTime": 236.6,
     "text": "That's because you haven't been anywhere.",
@@ -1228,7 +1228,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 61,
+    "orderIndex": 62,
     "startTime": 236.7,
     "endTime": 239.5,
     "text": "Oh. So where's better than this then?",
@@ -1242,7 +1242,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 62,
+    "orderIndex": 63,
     "startTime": 240.5,
     "endTime": 245.2,
     "text": "Paris. Place Dauphine, right on the edge.",
@@ -1261,7 +1261,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 63,
+    "orderIndex": 64,
     "startTime": 246.4,
     "endTime": 250,
     "text": "So let's go! We could get on the Eurostar right now.",
@@ -1279,7 +1279,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 64,
+    "orderIndex": 65,
     "startTime": 250.1,
     "endTime": 253,
     "text": "Yeah, but you just said... You don't get it, Clark.",
@@ -1296,7 +1296,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 65,
+    "orderIndex": 66,
     "startTime": 253.1,
     "endTime": 261.4,
     "text": "I want to be in Paris as me, the old me, with pretty French girls giving me the eye.",
@@ -1314,7 +1314,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 66,
+    "orderIndex": 67,
     "startTime": 261.5,
     "endTime": 263.2,
     "text": "It could be something to look forward to.",
@@ -1328,7 +1328,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 67,
+    "orderIndex": 68,
     "startTime": 264.4,
     "endTime": 274,
     "text": "If I shut my eyes now, I know exactly how it feels to be in that little square. I remember every sensation.",
@@ -1344,7 +1344,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 22
   },
   {
-    "orderIndex": 68,
+    "orderIndex": 69,
     "startTime": 276,
     "endTime": 287.5,
     "text": "I don't want those memories erased by the struggle to fit behind the table, the taxi drivers who refuse to take me, and my wheelchair power pack that won't charge in a French socket.",
@@ -1364,7 +1364,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 34
   },
   {
-    "orderIndex": 69,
+    "orderIndex": 70,
     "startTime": 294.1,
     "endTime": 295.8,
     "text": "I'll tell you where we ought to go.",
@@ -1378,7 +1378,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 70,
+    "orderIndex": 71,
     "startTime": 296,
     "endTime": 296.6,
     "text": "Where?",
@@ -1392,7 +1392,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 71,
+    "orderIndex": 72,
     "startTime": 297.8,
     "endTime": 299.3,
     "text": "Alicia's wedding.",
@@ -1408,7 +1408,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 72,
+    "orderIndex": 73,
     "startTime": 299.6,
     "endTime": 304.8,
     "text": "Really? Will you come with me?",
@@ -1422,7 +1422,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 73,
+    "orderIndex": 74,
     "startTime": 305.2,
     "endTime": 307,
     "text": "If you want me to.",
@@ -1436,7 +1436,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 74,
+    "orderIndex": 75,
     "startTime": 310,
     "endTime": 314.1,
     "text": "So couldn't you go back to it, Will? I mean, clearly you're still sharp as a tack.",
@@ -1453,7 +1453,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 17
   },
   {
-    "orderIndex": 75,
+    "orderIndex": 76,
     "startTime": 314.2,
     "endTime": 314.5,
     "text": "Dad...",
@@ -1467,7 +1467,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 76,
+    "orderIndex": 77,
     "startTime": 314.6,
     "endTime": 322.5,
     "text": "No, it's fine. Truth is, I thought I could crack this and then go back as if nothing had changed. I was wrong.",
@@ -1484,7 +1484,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 77,
+    "orderIndex": 78,
     "startTime": 323,
     "endTime": 326.2,
     "text": "So Patrick, Louisa tells me you're a personal trainer.",
@@ -1501,7 +1501,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 78,
+    "orderIndex": 79,
     "startTime": 327.1,
     "endTime": 333,
     "text": "Life coaching, physical training, motivation. Local Young Entrepreneur of the Year, two years running.",
@@ -1520,7 +1520,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 79,
+    "orderIndex": 80,
     "startTime": 333.3,
     "endTime": 335.2,
     "text": "Lou tells me you're a bit of an...",
@@ -1536,7 +1536,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 80,
+    "orderIndex": 81,
     "startTime": 335.2,
     "endTime": 336.2,
     "text": "Actually, Mum, before that...",
@@ -1551,7 +1551,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 81,
+    "orderIndex": 82,
     "startTime": 336.3,
     "endTime": 342.2,
     "text": "I bet if we got you on a really good fitness regime... You know, there's actually a Swedish study about how you can train muscles to remember...",
@@ -1569,7 +1569,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 27
   },
   {
-    "orderIndex": 82,
+    "orderIndex": 83,
     "startTime": 342.5,
     "endTime": 344.2,
     "text": "Patrick, what are you doing?",
@@ -1585,7 +1585,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 83,
+    "orderIndex": 84,
     "startTime": 344.4,
     "endTime": 345,
     "text": "I'm just trying...",
@@ -1599,7 +1599,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 84,
+    "orderIndex": 85,
     "startTime": 345.5,
     "endTime": 346.2,
     "text": "Yeah, well, don't.",
@@ -1613,7 +1613,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 85,
+    "orderIndex": 86,
     "startTime": 346.8,
     "endTime": 349.2,
     "text": "Oh, yeah. Bear it in mind.",
@@ -1627,7 +1627,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 86,
+    "orderIndex": 87,
     "startTime": 352.1,
     "endTime": 353.4,
     "text": "Bride or groom?",
@@ -1642,7 +1642,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 87,
+    "orderIndex": 88,
     "startTime": 353.5,
     "endTime": 354.5,
     "text": "Oh, neither.",
@@ -1656,7 +1656,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 88,
+    "orderIndex": 89,
     "startTime": 355.6,
     "endTime": 363.2,
     "text": "Actually, godmother to the bride, which makes me morally responsible for her. Not one of my finer acts.",
@@ -1672,7 +1672,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 18
   },
   {
-    "orderIndex": 89,
+    "orderIndex": 90,
     "startTime": 363.4,
     "endTime": 365.5,
     "text": "Oh, you don't think much of her then?",
@@ -1686,7 +1686,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 90,
+    "orderIndex": 91,
     "startTime": 365.7,
     "endTime": 370.8,
     "text": "This is a bit depressing. Still, one can't do these things sober.",
@@ -1701,7 +1701,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 91,
+    "orderIndex": 92,
     "startTime": 371,
     "endTime": 373.8,
     "text": "I don't know, is there alcohol in this?",
@@ -1715,7 +1715,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 92,
+    "orderIndex": 93,
     "startTime": 374.3,
     "endTime": 383.8,
     "text": "Absolutely, darling. And I firmly encourage you to get as drunk as possible. I hear rumors that the father of the bride is going to inflict another speech on us.",
@@ -1731,7 +1731,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 30
   },
   {
-    "orderIndex": 93,
+    "orderIndex": 94,
     "startTime": 384,
     "endTime": 386.6,
     "text": "No, no, I'm supposed to be driving the wheelchair...",
@@ -1745,7 +1745,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 94,
+    "orderIndex": 95,
     "startTime": 386.7,
     "endTime": 395.2,
     "text": "Oh, oh yes. Young Will. He was her chance, you know. Only one of that lot that was worth a damn. Terrible shame.",
@@ -1764,7 +1764,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 95,
+    "orderIndex": 96,
     "startTime": 396,
     "endTime": 397,
     "text": "He's not dead.",
@@ -1778,7 +1778,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 96,
+    "orderIndex": 97,
     "startTime": 397,
     "endTime": 400.8,
     "text": "No, and for her, not him. Rupert's an ass.",
@@ -1794,7 +1794,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 97,
+    "orderIndex": 98,
     "startTime": 401,
     "endTime": 409,
     "text": "You take care of him. He's a good one, take it from one who knows. Four marriages and counting.",
@@ -1810,7 +1810,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 98,
+    "orderIndex": 99,
     "startTime": 410.5,
     "endTime": 412.5,
     "text": "And what do you say?",
@@ -1824,7 +1824,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 99,
+    "orderIndex": 100,
     "startTime": 413.5,
     "endTime": 418,
     "text": "Whoa! God, there ought to be a law against Englishmen on dance floors.",
@@ -1842,7 +1842,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 100,
+    "orderIndex": 101,
     "startTime": 418.5,
     "endTime": 421.5,
     "text": "What do you say, Clark? Dance with me.",
@@ -1859,7 +1859,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 101,
+    "orderIndex": 102,
     "startTime": 422,
     "endTime": 426,
     "text": "What are you doing? I can't dance with you, you're in a wheelchair!",
@@ -1874,7 +1874,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 102,
+    "orderIndex": 103,
     "startTime": 426.5,
     "endTime": 429.5,
     "text": "Why not? Sit on my lap.",
@@ -1888,7 +1888,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 103,
+    "orderIndex": 104,
     "startTime": 430,
     "endTime": 432,
     "text": "Are you serious?",
@@ -1902,7 +1902,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 104,
+    "orderIndex": 105,
     "startTime": 432.5,
     "endTime": 434.5,
     "text": "Get on.",
@@ -1916,7 +1916,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 105,
+    "orderIndex": 106,
     "startTime": 435,
     "endTime": 439.5,
     "text": "Careful! Oh, don't worry, everyone is staring at us!",
@@ -1931,7 +1931,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 106,
+    "orderIndex": 107,
     "startTime": 440,
     "endTime": 444,
     "text": "Let them stare. We're doing brilliantly.",
@@ -1946,7 +1946,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 107,
+    "orderIndex": 108,
     "startTime": 445,
     "endTime": 452.5,
     "text": "You know, Clark... you are pretty much the only thing that makes me want to get up in the morning.",
@@ -1964,7 +1964,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 108,
+    "orderIndex": 109,
     "startTime": 453,
     "endTime": 456,
     "text": "Is that supposed to be a compliment?",
@@ -1979,7 +1979,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 109,
+    "orderIndex": 110,
     "startTime": 456.5,
     "endTime": 460,
     "text": "Take it however you want. But it's the truth.",
@@ -1994,7 +1994,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 110,
+    "orderIndex": 111,
     "startTime": 460.5,
     "endTime": 464.5,
     "text": "Well... then maybe we should do something about it.",
@@ -2008,7 +2008,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 111,
+    "orderIndex": 112,
     "startTime": 465,
     "endTime": 467,
     "text": "Like what?",
@@ -2022,7 +2022,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 112,
+    "orderIndex": 113,
     "startTime": 467.5,
     "endTime": 471.5,
     "text": "Like going somewhere. Traveling. Just the two of us.",
@@ -2038,7 +2038,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 113,
+    "orderIndex": 114,
     "startTime": 472,
     "endTime": 474.5,
     "text": "Clark...",
@@ -2054,7 +2054,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 114,
+    "orderIndex": 115,
     "startTime": 475.2,
     "endTime": 477.6,
     "text": "So, you're not a classical music person then?",
@@ -2068,7 +2068,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 115,
+    "orderIndex": 116,
     "startTime": 477.7,
     "endTime": 480,
     "text": "Hated every minute of it, could you tell?",
@@ -2083,7 +2083,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 116,
+    "orderIndex": 117,
     "startTime": 480,
     "endTime": 482.6,
     "text": "Especially during that oboe sonata.",
@@ -2097,7 +2097,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 117,
+    "orderIndex": 118,
     "startTime": 482.8,
     "endTime": 485.6,
     "text": "There was something in my eye.",
@@ -2111,7 +2111,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 118,
+    "orderIndex": 119,
     "startTime": 486.2,
     "endTime": 488,
     "text": "I loved it.",
@@ -2125,7 +2125,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 119,
+    "orderIndex": 120,
     "startTime": 488.3,
     "endTime": 489.6,
     "text": "Did you?",
@@ -2139,7 +2139,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 120,
+    "orderIndex": 121,
     "startTime": 495.7,
     "endTime": 497.5,
     "text": "Right, we'd better get you in.",
@@ -2153,7 +2153,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 121,
+    "orderIndex": 122,
     "startTime": 497.6,
     "endTime": 498.2,
     "text": "Right.",
@@ -2167,7 +2167,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 122,
+    "orderIndex": 123,
     "startTime": 498.3,
     "endTime": 499.8,
     "text": "Clark, you okay?",
@@ -2183,7 +2183,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 123,
+    "orderIndex": 124,
     "startTime": 500.4,
     "endTime": 503.8,
     "text": "I don't... I don't want to go in yet.",
@@ -2197,7 +2197,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 124,
+    "orderIndex": 125,
     "startTime": 506.7,
     "endTime": 510.6,
     "text": "I just want to be a man who's been to a concert with a girl in a red dress.",
@@ -2212,7 +2212,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 125,
+    "orderIndex": 126,
     "startTime": 514.1,
     "endTime": 516.8,
     "text": "Just a few minutes more.",
@@ -2226,7 +2226,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 126,
+    "orderIndex": 127,
     "startTime": 521.8,
     "endTime": 531,
     "text": "Did you know that filming on The Hunger Games: Catching Fire left Jennifer Lawrence temporarily deaf in one ear?",
@@ -2248,7 +2248,7 @@ export const LESSON_ME_BEFORE_YOU_THE_FINAL_LETTER_IN_PARIS: MockVideoLesson = {
     "tokenCount": 19
   },
   {
-    "orderIndex": 127,
+    "orderIndex": 128,
     "startTime": 532,
     "endTime": 541,
     "text": "Click on more videos, but if you want something else, click on the playlist!",

@@ -8,9 +8,9 @@ import { MockVideoLesson, VideoQuizData } from "../../../types";
  * YouTube ID: AS47hWRO0bw (10:24 - 624s)
  * Views: 189,663 | Likes: High Engagement
  * 
- * BÁM SÁT 100% TIMELINE, TẤT CẢ 56 PHÂN ĐOẠN NGUYÊN BẢN CỦA TOÀN BỘ VIDEO (KHÔNG BỎ SÓT)
+ * BÁM SÁT 100% TIMELINE, TẤT CẢ 62 PHÂN ĐOẠN NGUYÊN BẢN CỦA TOÀN BỘ VIDEO (KHÔNG BỎ SÓT)
  * ZERO MERGED UTTERANCES - TÁCH ĐỘC LẬP TỪNG LƯỢT THOẠI CỦA MỖI NHÂN VẬT
- * PHỦ KÍN 56 MASTER SEGMENTS TỪ GIÂY 00:00 ĐẾN 10:24 (624 GIÂY)
+ * PHỦ KÍN 62 MASTER SEGMENTS TỪ GIÂY 00:00 ĐẾN 10:24 (624 GIÂY)
  * ============================================================================
  */
 
@@ -45,13 +45,13 @@ export const QUIZ_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: VideoQuizData = {
         "Rằng các sự kiện đã được hư cấu để bảo vệ các công ty thiệp chúc mừng."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 6 and Segment 9, the narrator warns: '500 Days of Summer is not in fact a love story... you should know upfront, this is not a love story.'",
-      "explanationEn": "In Segment 6 and Segment 9, the narrator warns: '500 Days of Summer is not in fact a love story... you should know upfront, this is not a love story.'",
-      "explanationVi": "Trong Phân đoạn 6 và 9, người dẫn chuyện cảnh báo: '500 Days of Summer trên thực tế không phải là một câu chuyện tình yêu... bạn nên biết ngay từ đầu, đây không phải là chuyện tình.'",
+      "explanation": "In Segment 7 and Segment 10, the narrator warns: '500 Days of Summer is not in fact a love story... you should know upfront, this is not a love story.'",
+      "explanationEn": "In Segment 7 and Segment 10, the narrator warns: '500 Days of Summer is not in fact a love story... you should know upfront, this is not a love story.'",
+      "explanationVi": "Trong Phân đoạn 7 và 10, người dẫn chuyện cảnh báo: '500 Days of Summer trên thực tế không phải là một câu chuyện tình yêu... bạn nên biết ngay từ đầu, đây không phải là chuyện tình.'",
       "targetedConcept": "Anti-romcom premise and realistic narrative framing",
       "targetedConceptEn": "Anti-romcom premise and realistic narrative framing",
       "targetedConceptVi": "Tiền đề chống mô-típ romcom và định hướng tự sự hiện thực",
-      "referenceSegmentIndex": 6
+      "referenceSegmentIndex": 7
     },
     {
       "id": "mov_rom_08_q2",
@@ -77,13 +77,13 @@ export const QUIZ_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: VideoQuizData = {
         "Thông qua các đoạn hoạt hình ca nhạc cho thấy cô nói chuyện với chim chóc."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 10 and Segment 12, the film describes her in black-and-white as 'empirically attractive and magnetic, with her appearance causing double takes.'",
-      "explanationEn": "In Segment 10 and Segment 12, the film describes her in black-and-white as 'empirically attractive and magnetic, with her appearance causing double takes.'",
-      "explanationVi": "Trong các Phân đoạn 10 và 12, bộ phim miêu tả cô bằng hình ảnh đen trắng: 'đẹp một cách có thể kiểm chứng bằng mắt và đầy cuốn hút, khiến ai đi ngang cũng phải ngoái nhìn lại.'",
+      "explanation": "In Segment 11 and Segment 13, the film describes her in black-and-white as 'empirically attractive and magnetic, with her appearance causing double takes.'",
+      "explanationEn": "In Segment 11 and Segment 13, the film describes her in black-and-white as 'empirically attractive and magnetic, with her appearance causing double takes.'",
+      "explanationVi": "Trong các Phân đoạn 11 và 13, bộ phim miêu tả cô bằng hình ảnh đen trắng: 'đẹp một cách có thể kiểm chứng bằng mắt và đầy cuốn hút, khiến ai đi ngang cũng phải ngoái nhìn lại.'",
       "targetedConcept": "Subjective romantic projection and idealized allure",
       "targetedConceptEn": "Subjective romantic projection and idealized allure",
       "targetedConceptVi": "Sự phóng chiếu lãng mạn chủ quan và sức hút lý tưởng hóa",
-      "referenceSegmentIndex": 10
+      "referenceSegmentIndex": 11
     },
     {
       "id": "mov_rom_08_q3",
@@ -109,13 +109,13 @@ export const QUIZ_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: VideoQuizData = {
         "Cô đang cố tình khiêu khích cảnh sát địa phương để bắt giữ Tom."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 17 and 19, when Tom timidly backs out, Summer boldly 'concludes the scene by shouting at the top of her lungs.'",
-      "explanationEn": "In Segments 17 and 19, when Tom timidly backs out, Summer boldly 'concludes the scene by shouting at the top of her lungs.'",
-      "explanationVi": "Trong các Phân đoạn 17 và 19, khi Tom rụt rè thoái lui, Summer vẫn tự tin hét to hết sức bình sinh, phá tan sự ngượng ngùng.",
+      "explanation": "In Segments 18 and 20, when Tom timidly backs out, Summer boldly 'concludes the scene by shouting at the top of her lungs.'",
+      "explanationEn": "In Segments 18 and 20, when Tom timidly backs out, Summer boldly 'concludes the scene by shouting at the top of her lungs.'",
+      "explanationVi": "Trong các Phân đoạn 18 và 20, khi Tom rụt rè thoái lui, Summer vẫn tự tin hét to hết sức bình sinh, phá tan sự ngượng ngùng.",
       "targetedConcept": "Uninhibited personality breaking social conventions",
       "targetedConceptEn": "Uninhibited personality breaking social conventions",
       "targetedConceptVi": "Cá tính phóng khoáng phá vỡ những quy ước xã hội",
-      "referenceSegmentIndex": 17
+      "referenceSegmentIndex": 18
     },
     {
       "id": "mov_rom_08_q4",
@@ -141,13 +141,13 @@ export const QUIZ_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: VideoQuizData = {
         "Công ty kiến trúc lập tức từ chối hồ sơ năng lực của cả hai người."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 23 to 26, after connecting over Angel's Plaza, she introduces herself as Autumn, bringing Day 500 to a close and starting Day 1.",
-      "explanationEn": "In Segments 23 to 26, after connecting over Angel's Plaza, she introduces herself as Autumn, bringing Day 500 to a close and starting Day 1.",
-      "explanationVi": "Trong các Phân đoạn 23 đến 26, sau khi tìm thấy điểm chung tại quảng trường Angel's Plaza, cô gái tự giới thiệu mình là Autumn, khép lại 500 ngày của Summer và mở ra Ngày thứ 1 tươi sáng.",
+      "explanation": "In Segments 24 to 27, after connecting over Angel's Plaza, she introduces herself as Autumn, bringing Day 500 to a close and starting Day 1.",
+      "explanationEn": "In Segments 24 to 27, after connecting over Angel's Plaza, she introduces herself as Autumn, bringing Day 500 to a close and starting Day 1.",
+      "explanationVi": "Trong các Phân đoạn 24 đến 27, sau khi tìm thấy điểm chung tại quảng trường Angel's Plaza, cô gái tự giới thiệu mình là Autumn, khép lại 500 ngày của Summer và mở ra Ngày thứ 1 tươi sáng.",
       "targetedConcept": "Emotional rebirth and the cyclical nature of seasons",
       "targetedConceptEn": "Emotional rebirth and the cyclical nature of seasons",
       "targetedConceptVi": "Sự tái sinh cảm xúc và quy luật luân chuyển tự nhiên của thời gian",
-      "referenceSegmentIndex": 26
+      "referenceSegmentIndex": 27
     },
     {
       "id": "mov_rom_08_q5",
@@ -173,13 +173,13 @@ export const QUIZ_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: VideoQuizData = {
         "Anh trả đũa bằng cách bôi bẩn các tấm thiệp chúc mừng tại công ty."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 28 to 31, Tom directly shifts from 'I love her crooked teeth' to 'I hate her crooked teeth, her 1960s haircut', illustrating how emotional wounds invert perception.",
-      "explanationEn": "In Segments 28 to 31, Tom directly shifts from 'I love her crooked teeth' to 'I hate her crooked teeth, her 1960s haircut', illustrating how emotional wounds invert perception.",
-      "explanationVi": "Trong các Phân đoạn 28 đến 31, Tom chuyển ngoắt từ 'Tôi yêu hàm răng khấp khểnh' sang 'Tôi ghét hàm răng khấp khểnh, kiểu tóc thập niên 60', cho thấy vết thương lòng làm đảo lộn lăng kính nhìn nhận đối phương.",
+      "explanation": "In Segments 29 to 32, Tom directly shifts from 'I love her crooked teeth' to 'I hate her crooked teeth, her 1960s haircut', illustrating how emotional wounds invert perception.",
+      "explanationEn": "In Segments 29 to 32, Tom directly shifts from 'I love her crooked teeth' to 'I hate her crooked teeth, her 1960s haircut', illustrating how emotional wounds invert perception.",
+      "explanationVi": "Trong các Phân đoạn 29 đến 32, Tom chuyển ngoắt từ 'Tôi yêu hàm răng khấp khểnh' sang 'Tôi ghét hàm răng khấp khểnh, kiểu tóc thập niên 60', cho thấy vết thương lòng làm đảo lộn lăng kính nhìn nhận đối phương.",
       "targetedConcept": "Psychological duality and the fine line between love and resentment",
       "targetedConceptEn": "Psychological duality and the fine line between love and resentment",
       "targetedConceptVi": "Tính hai mặt trong tâm lý và ranh giới mong manh giữa tình yêu và nỗi oán hờn",
-      "referenceSegmentIndex": 31
+      "referenceSegmentIndex": 32
     },
     {
       "id": "mov_rom_08_q6",
@@ -205,13 +205,13 @@ export const QUIZ_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: VideoQuizData = {
         "Summer khen ngợi bộ vest hàng hiệu phong cách Ý đắt tiền của Tom."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 34 to 37, Summer sings: 'To die by your side is such a heavenly way to die. I love The Smiths', which completely stuns Tom.",
-      "explanationEn": "In Segments 34 to 37, Summer sings: 'To die by your side is such a heavenly way to die. I love The Smiths', which completely stuns Tom.",
-      "explanationVi": "Trong các Phân đoạn 34 đến 37, Summer hát: 'Được chết bên cạnh em là một cách chết tuyệt vời tựa thiên đường. Tôi mê nhóm The Smiths lắm', khiến Tom hoàn toàn choáng váng vì ngỡ đã tìm thấy định mệnh.",
+      "explanation": "In Segments 35 to 38, Summer sings: 'To die by your side is such a heavenly way to die. I love The Smiths', which completely stuns Tom.",
+      "explanationEn": "In Segments 35 to 38, Summer sings: 'To die by your side is such a heavenly way to die. I love The Smiths', which completely stuns Tom.",
+      "explanationVi": "Trong các Phân đoạn 35 đến 38, Summer hát: 'Được chết bên cạnh em là một cách chết tuyệt vời tựa thiên đường. Tôi mê nhóm The Smiths lắm', khiến Tom hoàn toàn choáng váng vì ngỡ đã tìm thấy định mệnh.",
       "targetedConcept": "Pop culture commonality as an initial romantic catalyst",
       "targetedConceptEn": "Pop culture commonality as an initial romantic catalyst",
       "targetedConceptVi": "Sự đồng điệu trong văn hóa đại chúng làm chất xúc tác ban đầu cho tình yêu",
-      "referenceSegmentIndex": 34
+      "referenceSegmentIndex": 35
     },
     {
       "id": "mov_rom_08_q7",
@@ -237,13 +237,13 @@ export const QUIZ_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: VideoQuizData = {
         "Rằng cô đã bí mật đính hôn với một kiến trúc sư khác."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 41 to 43, Summer clearly says: 'I just want to tell you, I'm not really looking for anything serious', though Tom internally rationalizes that she will change her mind.",
-      "explanationEn": "In Segments 41 to 43, Summer clearly says: 'I just want to tell you, I'm not really looking for anything serious', though Tom internally rationalizes that she will change her mind.",
-      "explanationVi": "Trong các Phân đoạn 41 đến 43, Summer khẳng định rành mạch: 'Em chỉ muốn nói cho anh biết, em thực sự không tìm kiếm điều gì nghiêm túc đâu', dẫu Tom vẫn tự huyễn hoặc rằng cô sẽ thay đổi.",
+      "explanation": "In Segments 42 to 44, Summer clearly says: 'I just want to tell you, I'm not really looking for anything serious', though Tom internally rationalizes that she will change her mind.",
+      "explanationEn": "In Segments 42 to 44, Summer clearly says: 'I just want to tell you, I'm not really looking for anything serious', though Tom internally rationalizes that she will change her mind.",
+      "explanationVi": "Trong các Phân đoạn 42 đến 44, Summer khẳng định rành mạch: 'Em chỉ muốn nói cho anh biết, em thực sự không tìm kiếm điều gì nghiêm túc đâu', dẫu Tom vẫn tự huyễn hoặc rằng cô sẽ thay đổi.",
       "targetedConcept": "Divergent relationship expectations and fear of commitment",
       "targetedConceptEn": "Divergent relationship expectations and fear of commitment",
       "targetedConceptVi": "Kỳ vọng bất đồng trong mối quan hệ và rào cản cam kết",
-      "referenceSegmentIndex": 43
+      "referenceSegmentIndex": 44
     },
     {
       "id": "mov_rom_08_q8",
@@ -269,13 +269,13 @@ export const QUIZ_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: VideoQuizData = {
         "Nó cho thấy hai cái kết khác nhau mà đạo diễn cho phép khán giả rạp bình chọn."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 59 and 60, the split screen contrasts Tom's hopeful expectations with the shattering reality of seeing Summer's engagement ring, causing his romantic fantasy to collapse.",
-      "explanationEn": "In Segments 59 and 60, the split screen contrasts Tom's hopeful expectations with the shattering reality of seeing Summer's engagement ring, causing his romantic fantasy to collapse.",
-      "explanationVi": "Trong các Phân đoạn 59 và 60, màn hình chia đôi đối chiếu kỳ vọng ấm áp với thực tại phũ phàng khi nhìn thấy chiếc nhẫn đính hôn trên tay Summer, thiêu rụi hoàn toàn ảo tưởng của Tom.",
+      "explanation": "In Segments 60 and 61, the split screen contrasts Tom's hopeful expectations with the shattering reality of seeing Summer's engagement ring, causing his romantic fantasy to collapse.",
+      "explanationEn": "In Segments 60 and 61, the split screen contrasts Tom's hopeful expectations with the shattering reality of seeing Summer's engagement ring, causing his romantic fantasy to collapse.",
+      "explanationVi": "Trong các Phân đoạn 60 và 61, màn hình chia đôi đối chiếu kỳ vọng ấm áp với thực tại phũ phàng khi nhìn thấy chiếc nhẫn đính hôn trên tay Summer, thiêu rụi hoàn toàn ảo tưởng của Tom.",
       "targetedConcept": "Inevitable friction between subjective expectation and harsh reality",
       "targetedConceptEn": "Inevitable friction between subjective expectation and harsh reality",
       "targetedConceptVi": "Khoảng cách nghiệt ngã giữa kỳ vọng chủ quan và hiện thực phũ phàng",
-      "referenceSegmentIndex": 60
+      "referenceSegmentIndex": 61
     }
   ]
 };
@@ -302,7 +302,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "Tuyển tập 10 phân cảnh kinh điển trong 500 Days of Summer: từ cuộc chạm mặt thang máy yêu thích nhóm The Smiths, buổi hẹn tại IKEA, màn đối lập Love vs. Hate, phân cảnh màn hình chia đôi Expectations vs. Reality, cho đến bài học trưởng thành sâu sắc về tình yêu và định mệnh.",
   segments: [
   {
-    "orderIndex": 0,
+    "orderIndex": 1,
     "startTime": 1,
     "endTime": 9,
     "text": "It's a comedy with romance, but don't call it a romantic comedy.",
@@ -317,7 +317,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 12
   },
   {
-    "orderIndex": 1,
+    "orderIndex": 2,
     "startTime": 9,
     "endTime": 17,
     "text": "Welcome to MsMojo, and today we're counting down our picks for the top ten 500 Days of Summer moments.",
@@ -335,7 +335,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 19
   },
   {
-    "orderIndex": 2,
+    "orderIndex": 3,
     "startTime": 17,
     "endTime": 33,
     "text": "We're looking at some of the best moments from this genre-bending modern classic.",
@@ -350,7 +350,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 13
   },
   {
-    "orderIndex": 3,
+    "orderIndex": 4,
     "startTime": 68,
     "endTime": 74,
     "text": "Number ten: The Introduction.",
@@ -365,7 +365,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 4
   },
   {
-    "orderIndex": 4,
+    "orderIndex": 5,
     "startTime": 74,
     "endTime": 79,
     "text": "This is a story of boy meets girl.",
@@ -379,7 +379,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 8
   },
   {
-    "orderIndex": 5,
+    "orderIndex": 6,
     "startTime": 79,
     "endTime": 87,
     "text": "The introduction is narrated by an unseen omniscient narrator who describes the two main characters' backstories.",
@@ -394,7 +394,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 16
   },
   {
-    "orderIndex": 6,
+    "orderIndex": 7,
     "startTime": 87,
     "endTime": 94,
     "text": "500 Days of Summer is not in fact a love story.",
@@ -411,7 +411,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 11
   },
   {
-    "orderIndex": 7,
+    "orderIndex": 8,
     "startTime": 94,
     "endTime": 101,
     "text": "A similar warning is echoed to Tom by Summer herself later in the film.",
@@ -429,7 +429,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 14
   },
   {
-    "orderIndex": 8,
+    "orderIndex": 9,
     "startTime": 101,
     "endTime": 108,
     "text": "She's not looking for a relationship, but Tom ignores this warning.",
@@ -446,7 +446,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 11
   },
   {
-    "orderIndex": 9,
+    "orderIndex": 10,
     "startTime": 108,
     "endTime": 117,
     "text": "You should know upfront, this is not a love story.",
@@ -461,7 +461,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 10
   },
   {
-    "orderIndex": 10,
+    "orderIndex": 11,
     "startTime": 117,
     "endTime": 124,
     "text": "Number nine: The Summer Effect.",
@@ -478,7 +478,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 5
   },
   {
-    "orderIndex": 11,
+    "orderIndex": 12,
     "startTime": 124,
     "endTime": 131,
     "text": "Summer, everyone. Everyone, Summer.",
@@ -495,7 +495,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 4
   },
   {
-    "orderIndex": 12,
+    "orderIndex": 13,
     "startTime": 131,
     "endTime": 140,
     "text": "Displayed in black and white, this scene features the narrator explaining Summer herself in a clinical manner.",
@@ -512,7 +512,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 17
   },
   {
-    "orderIndex": 13,
+    "orderIndex": 14,
     "startTime": 140,
     "endTime": 148,
     "text": "She's empirically attractive and magnetic, with her appearance causing double takes.",
@@ -527,7 +527,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 11
   },
   {
-    "orderIndex": 14,
+    "orderIndex": 15,
     "startTime": 148,
     "endTime": 158,
     "text": "The audience, like Tom, finds it completely natural to fall for Summer.",
@@ -545,7 +545,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 12
   },
   {
-    "orderIndex": 15,
+    "orderIndex": 16,
     "startTime": 158,
     "endTime": 166,
     "text": "It could only be explained by one thing: fate.",
@@ -560,7 +560,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 9
   },
   {
-    "orderIndex": 16,
+    "orderIndex": 17,
     "startTime": 166,
     "endTime": 174,
     "text": "Number eight: The Game.",
@@ -575,7 +575,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 4
   },
   {
-    "orderIndex": 17,
+    "orderIndex": 18,
     "startTime": 174,
     "endTime": 182,
     "text": "Tom and Summer are in the park, and Summer challenges Tom to a daring shouting game.",
@@ -593,7 +593,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 16
   },
   {
-    "orderIndex": 18,
+    "orderIndex": 19,
     "startTime": 182,
     "endTime": 190,
     "text": "They say the word progressively louder until one of them gets too embarrassed to continue.",
@@ -608,7 +608,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 15
   },
   {
-    "orderIndex": 19,
+    "orderIndex": 20,
     "startTime": 190,
     "endTime": 198,
     "text": "Although Tom backs out, she concludes the scene by shouting at the top of her lungs.",
@@ -625,7 +625,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 16
   },
   {
-    "orderIndex": 20,
+    "orderIndex": 21,
     "startTime": 207,
     "endTime": 213,
     "text": "Number seven: Autumn.",
@@ -642,7 +642,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 3
   },
   {
-    "orderIndex": 21,
+    "orderIndex": 22,
     "startTime": 213,
     "endTime": 221,
     "text": "The film's ending sees Tom trying to turn his life around after his breakup with Summer.",
@@ -660,7 +660,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 16
   },
   {
-    "orderIndex": 22,
+    "orderIndex": 23,
     "startTime": 221,
     "endTime": 229,
     "text": "At one architecture interview, he meets a woman who shares his love for a spot in the city.",
@@ -677,7 +677,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 18
   },
   {
-    "orderIndex": 23,
+    "orderIndex": 24,
     "startTime": 229,
     "endTime": 232,
     "text": "Do you go to Angel's Plaza?",
@@ -693,7 +693,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 6
   },
   {
-    "orderIndex": 24,
+    "orderIndex": 25,
     "startTime": 232,
     "endTime": 235,
     "text": "Yes, that's like my favorite spot.",
@@ -707,7 +707,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 6
   },
   {
-    "orderIndex": 25,
+    "orderIndex": 26,
     "startTime": 235,
     "endTime": 238,
     "text": "My name is Tom.",
@@ -723,7 +723,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 4
   },
   {
-    "orderIndex": 26,
+    "orderIndex": 27,
     "startTime": 238,
     "endTime": 242,
     "text": "Nice to meet you, I'm Autumn.",
@@ -740,7 +740,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 6
   },
   {
-    "orderIndex": 27,
+    "orderIndex": 28,
     "startTime": 259,
     "endTime": 266,
     "text": "Number six: Love versus Hate.",
@@ -755,7 +755,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 5
   },
   {
-    "orderIndex": 28,
+    "orderIndex": 29,
     "startTime": 266,
     "endTime": 274,
     "text": "I'm in love with Summer. I love her smile, her hair, her knees.",
@@ -773,7 +773,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 13
   },
   {
-    "orderIndex": 29,
+    "orderIndex": 30,
     "startTime": 274,
     "endTime": 282,
     "text": "I love this heart-shaped birthmark she has on her neck.",
@@ -788,7 +788,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 10
   },
   {
-    "orderIndex": 30,
+    "orderIndex": 31,
     "startTime": 282,
     "endTime": 290,
     "text": "Later, after they've broken up, Tom lists the exact same things as the things he now hates.",
@@ -806,7 +806,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 17
   },
   {
-    "orderIndex": 31,
+    "orderIndex": 32,
     "startTime": 290,
     "endTime": 298,
     "text": "I hate Summer. I hate her crooked teeth, her 1960s haircut, her knobby knees.",
@@ -823,7 +823,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 14
   },
   {
-    "orderIndex": 32,
+    "orderIndex": 33,
     "startTime": 298,
     "endTime": 314,
     "text": "The fine line between love and hate has rarely been so well illustrated.",
@@ -838,7 +838,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 13
   },
   {
-    "orderIndex": 33,
+    "orderIndex": 34,
     "startTime": 322,
     "endTime": 328,
     "text": "Number five: Talking in the Elevator.",
@@ -853,7 +853,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 6
   },
   {
-    "orderIndex": 34,
+    "orderIndex": 35,
     "startTime": 328,
     "endTime": 330,
     "text": "I love The Smiths.",
@@ -869,7 +869,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 4
   },
   {
-    "orderIndex": 35,
+    "orderIndex": 36,
     "startTime": 330,
     "endTime": 332,
     "text": "Sorry?",
@@ -883,7 +883,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 1
   },
   {
-    "orderIndex": 36,
+    "orderIndex": 37,
     "startTime": 332,
     "endTime": 334,
     "text": "I said, I love The Smiths.",
@@ -899,7 +899,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 6
   },
   {
-    "orderIndex": 37,
+    "orderIndex": 38,
     "startTime": 334,
     "endTime": 344,
     "text": "To die by your side is such a heavenly way to die. I love them.",
@@ -914,7 +914,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 15
   },
   {
-    "orderIndex": 38,
+    "orderIndex": 39,
     "startTime": 344,
     "endTime": 353,
     "text": "While riding in an elevator together, Summer comments that she loves the band Tom is listening to.",
@@ -932,7 +932,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 17
   },
   {
-    "orderIndex": 39,
+    "orderIndex": 40,
     "startTime": 353,
     "endTime": 369,
     "text": "Something so simple sparks Tom's love, capturing our interest and his stunned reaction: Holy shit.",
@@ -949,7 +949,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 15
   },
   {
-    "orderIndex": 40,
+    "orderIndex": 41,
     "startTime": 369,
     "endTime": 375,
     "text": "Number four: IKEA.",
@@ -966,7 +966,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 3
   },
   {
-    "orderIndex": 41,
+    "orderIndex": 42,
     "startTime": 375,
     "endTime": 384,
     "text": "The pair of them play an exaggerated game of pretend, acting as a stereotypical couple.",
@@ -981,7 +981,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 15
   },
   {
-    "orderIndex": 42,
+    "orderIndex": 43,
     "startTime": 384,
     "endTime": 394,
     "text": "The scene is also important plot-wise, since Summer tells Tom she isn't looking for anything serious.",
@@ -999,7 +999,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 16
   },
   {
-    "orderIndex": 43,
+    "orderIndex": 44,
     "startTime": 394,
     "endTime": 404,
     "text": "I just want to tell you, I'm not really looking for anything serious.",
@@ -1014,7 +1014,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 13
   },
   {
-    "orderIndex": 44,
+    "orderIndex": 45,
     "startTime": 404,
     "endTime": 417,
     "text": "Although Tom tries to play it off like he doesn't mind, he's much more serious about her than she is.",
@@ -1031,7 +1031,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 20
   },
   {
-    "orderIndex": 45,
+    "orderIndex": 46,
     "startTime": 426,
     "endTime": 432,
     "text": "Number three: The Dance Number.",
@@ -1046,7 +1046,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 5
   },
   {
-    "orderIndex": 46,
+    "orderIndex": 47,
     "startTime": 432,
     "endTime": 442,
     "text": "After spending the night with Summer, Tom walks to work the next day strutting his stuff to a catchy beat.",
@@ -1064,7 +1064,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 20
   },
   {
-    "orderIndex": 47,
+    "orderIndex": 48,
     "startTime": 442,
     "endTime": 451,
     "text": "Strangers shake his hand and join him in elaborate choreographed dances, accompanied by a cartoon bird.",
@@ -1079,7 +1079,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 16
   },
   {
-    "orderIndex": 48,
+    "orderIndex": 49,
     "startTime": 451,
     "endTime": 464,
     "text": "The scene visualizes the high our feelings can bring, while setting the stage for Tom's delusions to be shattered.",
@@ -1096,7 +1096,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 19
   },
   {
-    "orderIndex": 49,
+    "orderIndex": 50,
     "startTime": 464,
     "endTime": 470,
     "text": "Number two: Day 488.",
@@ -1111,7 +1111,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 4
   },
   {
-    "orderIndex": 50,
+    "orderIndex": 51,
     "startTime": 470,
     "endTime": 479,
     "text": "Hey, Tom. Following Summer's wedding to another man, the pair reunites at Tom's favorite spot in the city.",
@@ -1129,7 +1129,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 18
   },
   {
-    "orderIndex": 51,
+    "orderIndex": 52,
     "startTime": 479,
     "endTime": 488,
     "text": "Summer tells Tom that he was right about love and destiny, just not about her being the one for him.",
@@ -1147,7 +1147,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 20
   },
   {
-    "orderIndex": 52,
+    "orderIndex": 53,
     "startTime": 488,
     "endTime": 491,
     "text": "I just woke up one day and I knew.",
@@ -1162,7 +1162,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 9
   },
   {
-    "orderIndex": 53,
+    "orderIndex": 54,
     "startTime": 491,
     "endTime": 493,
     "text": "Knew what?",
@@ -1176,7 +1176,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 2
   },
   {
-    "orderIndex": 54,
+    "orderIndex": 55,
     "startTime": 493,
     "endTime": 496,
     "text": "What I was never sure of with you.",
@@ -1190,7 +1190,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 8
   },
   {
-    "orderIndex": 55,
+    "orderIndex": 56,
     "startTime": 496,
     "endTime": 509,
     "text": "The scene acts as a melancholy bit of closure for both of them: Summer, I really do hope that you're happy.",
@@ -1207,7 +1207,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 21
   },
   {
-    "orderIndex": 56,
+    "orderIndex": 57,
     "startTime": 570,
     "endTime": 576,
     "text": "Number one: Expectations versus Reality.",
@@ -1222,7 +1222,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 5
   },
   {
-    "orderIndex": 57,
+    "orderIndex": 58,
     "startTime": 576,
     "endTime": 584,
     "text": "If there's one scene that epitomizes 500 Days of Summer, it's this one.",
@@ -1239,7 +1239,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 13
   },
   {
-    "orderIndex": 58,
+    "orderIndex": 59,
     "startTime": 584,
     "endTime": 593,
     "text": "Tom attends a rooftop party that Summer invited him to, depicted on a brilliant split screen.",
@@ -1257,7 +1257,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 16
   },
   {
-    "orderIndex": 59,
+    "orderIndex": 60,
     "startTime": 593,
     "endTime": 602,
     "text": "In Expectations, Tom grows closer to Summer; in Reality, he spends the party drinking and alone.",
@@ -1275,7 +1275,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 16
   },
   {
-    "orderIndex": 60,
+    "orderIndex": 61,
     "startTime": 602,
     "endTime": 612,
     "text": "Everything comes to a crashing halt when he sees Summer's engagement ring.",
@@ -1292,7 +1292,7 @@ export const LESSON_500_DAYS_OF_SUMMER_EXPECTATIONS_VS_REALITY: MockVideoLesson 
     "tokenCount": 12
   },
   {
-    "orderIndex": 61,
+    "orderIndex": 62,
     "startTime": 612,
     "endTime": 624,
     "text": "While we expect a romantic movie ending, real life rarely works out the way we wish it could.",

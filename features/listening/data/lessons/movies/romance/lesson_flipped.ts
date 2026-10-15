@@ -45,19 +45,19 @@ export const QUIZ_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS_EXTENDED: VideoQuizD
         "Cậu mời cô đến một bữa tối Pháp đắt đỏ."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 48-52, Bryce digs the ground in Juli's front yard and plants a young sycamore sapling, replacing the beloved tree that was cut down and demonstrating that he finally sees and values what truly matters to her.",
-      "explanationEn": "In Segments 48-52, Bryce digs the ground in Juli's front yard and plants a young sycamore sapling, replacing the beloved tree that was cut down and demonstrating that he finally sees and values what truly matters to her.",
-      "explanationVi": "Trong các Phân đoạn 48-52, Bryce đào đất trong sân trước nhà Juli và trồng một cây ngô đồng non, thay thế cho cây cổ thụ thân thương từng bị đốn hạ và chứng minh rằng cậu đã thực sự thấu hiểu điều quý giá nhất trong tâm hồn cô.",
+      "explanation": "In Segments 49-53, Bryce digs the ground in Juli's front yard and plants a young sycamore sapling, replacing the beloved tree that was cut down and demonstrating that he finally sees and values what truly matters to her.",
+      "explanationEn": "In Segments 49-53, Bryce digs the ground in Juli's front yard and plants a young sycamore sapling, replacing the beloved tree that was cut down and demonstrating that he finally sees and values what truly matters to her.",
+      "explanationVi": "Trong các Phân đoạn 49-53, Bryce đào đất trong sân trước nhà Juli và trồng một cây ngô đồng non, thay thế cho cây cổ thụ thân thương từng bị đốn hạ và chứng minh rằng cậu đã thực sự thấu hiểu điều quý giá nhất trong tâm hồn cô.",
       "targetedConcept": "Symbolic gesture of growth, healing, and romantic redemption",
       "targetedConceptEn": "Symbolic gesture of growth, healing, and romantic redemption",
       "targetedConceptVi": "Hành động biểu tượng của sự chuộc lỗi, hàn gắn và cùng nhau trưởng thành",
-      "referenceSegmentIndex": 51
+      "referenceSegmentIndex": 52
     },
     {
       "id": "mov_rom_12_q2",
-      "question": "What does the English idiom 'take a hint' mean when Bryce complains about young Juli in Segment 5?",
-      "questionEn": "What does the English idiom 'take a hint' mean when Bryce complains about young Juli in Segment 5?",
-      "questionVi": "Thành ngữ tiếng Anh 'take a hint' có nghĩa là gì khi Bryce phàn nàn về cô bé Juli trong Phân đoạn 5?",
+      "question": "What does the English idiom 'take a hint' mean when Bryce complains about young Juli in Segment 6?",
+      "questionEn": "What does the English idiom 'take a hint' mean when Bryce complains about young Juli in Segment 6?",
+      "questionVi": "Thành ngữ tiếng Anh 'take a hint' có nghĩa là gì khi Bryce phàn nàn về cô bé Juli trong Phân đoạn 6?",
       "options": [
         "To ask someone for help carrying luggage",
         "To understand what someone wants or means without them stating it directly",
@@ -77,13 +77,13 @@ export const QUIZ_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS_EXTENDED: VideoQuizD
         "Viết thư bí mật giấu trên ngọn cây"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 5, 'This girl could not take a hint' means Juli was oblivious to the subtle social cues and hints that Bryce wanted to be left alone.",
-      "explanationEn": "In Segment 5, 'This girl could not take a hint' means Juli was oblivious to the subtle social cues and hints that Bryce wanted to be left alone.",
-      "explanationVi": "Trong Phân đoạn 5, câu 'This girl could not take a hint' mang ý nghĩa Juli hoàn toàn không nhận ra các tín hiệu và ý tứ gián tiếp mà Bryce đưa ra khi muốn được yên tĩnh.",
+      "explanation": "In Segment 6, 'This girl could not take a hint' means Juli was oblivious to the subtle social cues and hints that Bryce wanted to be left alone.",
+      "explanationEn": "In Segment 6, 'This girl could not take a hint' means Juli was oblivious to the subtle social cues and hints that Bryce wanted to be left alone.",
+      "explanationVi": "Trong Phân đoạn 6, câu 'This girl could not take a hint' mang ý nghĩa Juli hoàn toàn không nhận ra các tín hiệu và ý tứ gián tiếp mà Bryce đưa ra khi muốn được yên tĩnh.",
       "targetedConcept": "Idiomatic expression 'take a hint'",
       "targetedConceptEn": "Idiomatic expression 'take a hint'",
       "targetedConceptVi": "Thành ngữ tiếng Anh 'take a hint' (hiểu ý tứ)",
-      "referenceSegmentIndex": 5
+      "referenceSegmentIndex": 6
     },
     {
       "id": "mov_rom_12_q3",
@@ -109,13 +109,13 @@ export const QUIZ_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS_EXTENDED: VideoQuizD
         "Đôi bàn tay của cậu thơm mùi sơn dầu và dầu thông."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 23-24, Juli lovingly reflects: 'And his hair, it smelled like watermelon... I spent the whole year secretly sniffing watermelon.'",
-      "explanationEn": "In Segments 23-24, Juli lovingly reflects: 'And his hair, it smelled like watermelon... I spent the whole year secretly sniffing watermelon.'",
-      "explanationVi": "Trong các Phân đoạn 23-24, Juli bồi hồi nhớ lại: 'Và mái tóc của cậu ấy, nó thơm ngát mùi dưa hấu... Tôi đã dành cả năm trời lén hít hà hương dưa hấu ấy.'",
+      "explanation": "In Segments 24-25, Juli lovingly reflects: 'And his hair, it smelled like watermelon... I spent the whole year secretly sniffing watermelon.'",
+      "explanationEn": "In Segments 24-25, Juli lovingly reflects: 'And his hair, it smelled like watermelon... I spent the whole year secretly sniffing watermelon.'",
+      "explanationVi": "Trong các Phân đoạn 24-25, Juli bồi hồi nhớ lại: 'Và mái tóc của cậu ấy, nó thơm ngát mùi dưa hấu... Tôi đã dành cả năm trời lén hít hà hương dưa hấu ấy.'",
       "targetedConcept": "Sensory imagery in childhood romance narratives",
       "targetedConceptEn": "Sensory imagery in childhood romance narratives",
       "targetedConceptVi": "Hình tượng cảm giác (sensory imagery) trong câu chuyện tình cảm tuổi học trò",
-      "referenceSegmentIndex": 23
+      "referenceSegmentIndex": 24
     },
     {
       "id": "mov_rom_12_q4",
@@ -141,13 +141,13 @@ export const QUIZ_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS_EXTENDED: VideoQuizD
         "'Cậu đang bị chóng mặt độ cao đấy.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 27, Juli playfully chides him: 'You're just visually challenged. I feel sorry for you.' She uses the phrase to criticize his inability to perceive the natural wonder of the world.",
-      "explanationEn": "In Segment 27, Juli playfully chides him: 'You're just visually challenged. I feel sorry for you.' She uses the phrase to criticize his inability to perceive the natural wonder of the world.",
-      "explanationVi": "Trong Phân đoạn 27, Juli hóm hỉnh trêu: 'Cậu chỉ là người bị khiếm khuyết về mặt thị giác thôi. Tớ thấy tội nghiệp cho cậu ghê.' Cô dùng cụm này để chê sự thiếu nhạy cảm trước vẻ đẹp thiên nhiên của Bryce.",
+      "explanation": "In Segment 28, Juli playfully chides him: 'You're just visually challenged. I feel sorry for you.' She uses the phrase to criticize his inability to perceive the natural wonder of the world.",
+      "explanationEn": "In Segment 28, Juli playfully chides him: 'You're just visually challenged. I feel sorry for you.' She uses the phrase to criticize his inability to perceive the natural wonder of the world.",
+      "explanationVi": "Trong Phân đoạn 28, Juli hóm hỉnh trêu: 'Cậu chỉ là người bị khiếm khuyết về mặt thị giác thôi. Tớ thấy tội nghiệp cho cậu ghê.' Cô dùng cụm này để chê sự thiếu nhạy cảm trước vẻ đẹp thiên nhiên của Bryce.",
       "targetedConcept": "Playful euphemistic idiom 'visually challenged'",
       "targetedConceptEn": "Playful euphemistic idiom 'visually challenged'",
       "targetedConceptVi": "Cách nói giảm nói tránh dí dỏm 'visually challenged'",
-      "referenceSegmentIndex": 27
+      "referenceSegmentIndex": 28
     },
     {
       "id": "mov_rom_12_q5",
@@ -173,13 +173,13 @@ export const QUIZ_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS_EXTENDED: VideoQuizD
         "Viết cho cô một bức thư tình giấu tên"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 34, Garrett tells him: 'You got to nip this in the bud... these aren't real emotions. You just feel guilty because of the whole egg thing.'",
-      "explanationEn": "In Segment 34, Garrett tells him: 'You got to nip this in the bud... these aren't real emotions. You just feel guilty because of the whole egg thing.'",
-      "explanationVi": "Trong Phân đoạn 34, Garrett khuyên: 'Cậu phải dập tắt nó ngay từ trong trứng nước đi... đây chẳng phải cảm xúc thật đâu. Cậu chỉ đang áy náy vì vụ vứt trứng thôi.'",
+      "explanation": "In Segment 35, Garrett tells him: 'You got to nip this in the bud... these aren't real emotions. You just feel guilty because of the whole egg thing.'",
+      "explanationEn": "In Segment 35, Garrett tells him: 'You got to nip this in the bud... these aren't real emotions. You just feel guilty because of the whole egg thing.'",
+      "explanationVi": "Trong Phân đoạn 35, Garrett khuyên: 'Cậu phải dập tắt nó ngay từ trong trứng nước đi... đây chẳng phải cảm xúc thật đâu. Cậu chỉ đang áy náy vì vụ vứt trứng thôi.'",
       "targetedConcept": "Idiom 'nip in the bud' & peer pressure",
       "targetedConceptEn": "Idiom 'nip in the bud' & peer pressure",
       "targetedConceptVi": "Thành ngữ 'nip in the bud' (ngăn chặn từ trong trứng nước) và áp lực bạn bè",
-      "referenceSegmentIndex": 34
+      "referenceSegmentIndex": 35
     },
     {
       "id": "mov_rom_12_q6",
@@ -205,13 +205,13 @@ export const QUIZ_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS_EXTENDED: VideoQuizD
         "Cậu báo cáo Garrett với thầy hiệu trưởng."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 38-39, Bryce feels intense self-loathing: 'I wanted to yell at him, tell him that he didn't know Juli like I did. All that came out was... Yeah, right.' This moment propels Bryce's emotional transformation.",
-      "explanationEn": "In Segments 38-39, Bryce feels intense self-loathing: 'I wanted to yell at him, tell him that he didn't know Juli like I did. All that came out was... Yeah, right.' This moment propels Bryce's emotional transformation.",
-      "explanationVi": "Trong các Phân đoạn 38-39, Bryce cảm thấy cắn rứt lương tâm tột cùng: 'Tôi muốn hét vào mặt cậu ta, bảo cậu ta rằng cậu ta chẳng hiểu gì về Juli như tôi hiểu. Nhưng tất cả những gì thốt ra chỉ là... Ừ, phải rồi.' Khoảnh khắc này thúc đẩy sự thức tỉnh lương tri của Bryce.",
+      "explanation": "In Segments 39-40, Bryce feels intense self-loathing: 'I wanted to yell at him, tell him that he didn't know Juli like I did. All that came out was... Yeah, right.' This moment propels Bryce's emotional transformation.",
+      "explanationEn": "In Segments 39-40, Bryce feels intense self-loathing: 'I wanted to yell at him, tell him that he didn't know Juli like I did. All that came out was... Yeah, right.' This moment propels Bryce's emotional transformation.",
+      "explanationVi": "Trong các Phân đoạn 39-40, Bryce cảm thấy cắn rứt lương tâm tột cùng: 'Tôi muốn hét vào mặt cậu ta, bảo cậu ta rằng cậu ta chẳng hiểu gì về Juli như tôi hiểu. Nhưng tất cả những gì thốt ra chỉ là... Ừ, phải rồi.' Khoảnh khắc này thúc đẩy sự thức tỉnh lương tri của Bryce.",
       "targetedConcept": "Internal conflict and moral awakening",
       "targetedConceptEn": "Internal conflict and moral awakening",
       "targetedConceptVi": "Xung đột nội tâm và sự thức tỉnh lương tri",
-      "referenceSegmentIndex": 38
+      "referenceSegmentIndex": 39
     },
     {
       "id": "mov_rom_12_q7",
@@ -237,13 +237,13 @@ export const QUIZ_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS_EXTENDED: VideoQuizD
         "Garrett đấu giá giỏ thức ăn do Juli làm."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 42-44, Juli outbids others for Eddie Trulock with eight dollars. Bryce is crushed: 'How could she bid on Eddie Trulock? How could she bid on anyone? That was miserable.'",
-      "explanationEn": "In Segments 42-44, Juli outbids others for Eddie Trulock with eight dollars. Bryce is crushed: 'How could she bid on Eddie Trulock? How could she bid on anyone? That was miserable.'",
-      "explanationVi": "Trong các Phân đoạn 42-44, Juli trả giá tám đô-la để mua Eddie Trulock. Bryce sụp đổ trong ghen tuông: 'Sao cô ấy có thể đấu giá Eddie Trulock cơ chứ? Sao cô ấy có thể đấu giá bất kỳ ai khác ngoài tôi? Thật là đau khổ khốn cùng.'",
+      "explanation": "In Segments 43-45, Juli outbids others for Eddie Trulock with eight dollars. Bryce is crushed: 'How could she bid on Eddie Trulock? How could she bid on anyone? That was miserable.'",
+      "explanationEn": "In Segments 43-45, Juli outbids others for Eddie Trulock with eight dollars. Bryce is crushed: 'How could she bid on Eddie Trulock? How could she bid on anyone? That was miserable.'",
+      "explanationVi": "Trong các Phân đoạn 43-45, Juli trả giá tám đô-la để mua Eddie Trulock. Bryce sụp đổ trong ghen tuông: 'Sao cô ấy có thể đấu giá Eddie Trulock cơ chứ? Sao cô ấy có thể đấu giá bất kỳ ai khác ngoài tôi? Thật là đau khổ khốn cùng.'",
       "targetedConcept": "Dramatic role-reversal (the 'Flipped' paradigm)",
       "targetedConceptEn": "Dramatic role-reversal (the 'Flipped' paradigm)",
       "targetedConceptVi": "Nghệ thuật đảo ngược tình huống kịch tính (cốt lõi ý niệm 'Flipped')",
-      "referenceSegmentIndex": 43
+      "referenceSegmentIndex": 44
     },
     {
       "id": "mov_rom_12_q8",
@@ -275,7 +275,7 @@ export const QUIZ_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS_EXTENDED: VideoQuizD
       "targetedConcept": "Overarching thematic metaphor: 'More than the sum of its parts'",
       "targetedConceptEn": "Overarching thematic metaphor: 'More than the sum of its parts'",
       "targetedConceptVi": "Ẩn dụ chủ đề xuyên suốt: 'Lớn hơn tổng thể các bộ phận cộng lại'",
-      "referenceSegmentIndex": 52
+      "referenceSegmentIndex": 53
     }
   ]
 };
@@ -303,7 +303,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
     "Trường đoạn tổng hòa giàu cảm xúc nhất của kiệt tác học trò Flipped: Từ ngày đầu dọn nhà nắm tay lúng túng, kế hoạch hẹn hò giả với Shelly Stalls, mùi tóc dưa hấu, góc nhìn từ ngọn cây ngô đồng cổ thụ, cuộc đấu giá Basket Boys nghẹt thở, cho đến khoảnh khắc Bryce tự tay vun trồng cây ngô đồng non trong sân nhà Juli để hai trái tim cùng hòa chung một nhịp đập.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.0,
         "endTime": 4.3,
         "text": "All I ever wanted was for Juli Baker to leave me alone.",
@@ -320,7 +320,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 12
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 4.3,
         "endTime": 7.3,
         "text": "Hi, I'm Juli Baker.",
@@ -336,7 +336,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 4
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 7.3,
         "endTime": 8.8,
         "text": "Hey, what are you doing?",
@@ -350,7 +350,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 5
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 8.8,
         "endTime": 10.3,
         "text": "You want some help?",
@@ -364,7 +364,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 4
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 10.3,
         "endTime": 11.5,
         "text": "No.",
@@ -378,7 +378,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 1
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 11.5,
         "endTime": 14.5,
         "text": "This girl could not take a hint.",
@@ -393,7 +393,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 7
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 14.5,
         "endTime": 18.0,
         "text": "It's awfully crowded in here with three people.",
@@ -407,7 +407,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 8
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 18.0,
         "endTime": 19.5,
         "text": "I don't mind.",
@@ -421,7 +421,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 3
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 19.5,
         "endTime": 21.0,
         "text": "Of any kind.",
@@ -435,7 +435,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 3
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 21.0,
         "endTime": 24.0,
         "text": "You want to push this one together?",
@@ -449,7 +449,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 7
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 24.0,
         "endTime": 27.0,
         "text": "Bryce, isn't it time for you to go help your mother?",
@@ -465,7 +465,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 11
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 27.0,
         "endTime": 30.5,
         "text": "Huh? Oh, yeah! I mean, nothing would stop her.",
@@ -479,7 +479,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 9
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 30.5,
         "endTime": 33.1,
         "text": "I was about to tell her to get lost when the weirdest thing happened.",
@@ -494,7 +494,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 14
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 33.1,
         "endTime": 40.8,
         "text": "I couldn't believe it. There I was holding hands with this strange girl.",
@@ -509,7 +509,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 13
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 40.8,
         "endTime": 45.9,
         "text": "How did I get into this mess?",
@@ -523,7 +523,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 7
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 45.9,
         "endTime": 49.6,
         "text": "Well, hello! You're in here!",
@@ -538,7 +538,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 5
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 49.6,
         "endTime": 55.1,
         "text": "It was clear. School would not be a sanctuary.",
@@ -553,7 +553,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 9
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 55.1,
         "endTime": 58.3,
         "text": "I asked out Shelly Stalls. I was wondering if you wanted to go see a movie.",
@@ -570,7 +570,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 16
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 58.3,
         "endTime": 64.2,
         "text": "To fully appreciate the brilliance of this plan, you have to understand that Juli had always hated Shelly Stalls.",
@@ -588,7 +588,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 19
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 64.2,
         "endTime": 68.2,
         "text": "Elbow? Yeah. And she got grounded.",
@@ -603,7 +603,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 6
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 68.2,
         "endTime": 72.8,
         "text": "Now she can't come to my pajamas sleepover party. Things were unfolding quite nicely.",
@@ -618,7 +618,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 14
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 72.8,
         "endTime": 77.0,
         "text": "It took all of a week. They broke up at recess.",
@@ -632,7 +632,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 11
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 77.0,
         "endTime": 81.6,
         "text": "She didn't take it well.",
@@ -646,7 +646,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 5
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 81.6,
         "endTime": 85.6,
         "text": "Now that Bryce was out of Shelly's evil clutches, he started being nicer to me.",
@@ -664,7 +664,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 15
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 85.6,
         "endTime": 87.6,
         "text": "Hi, Juli.",
@@ -680,7 +680,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 2
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 87.6,
         "endTime": 91.0,
         "text": "Hi, Bryce. He was so shy and so cute.",
@@ -696,7 +696,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 9
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 91.0,
         "endTime": 95.7,
         "text": "And his hair, it smelled like watermelon. I couldn't get enough of it.",
@@ -711,7 +711,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 13
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 95.7,
         "endTime": 102.1,
         "text": "I spent the whole year secretly sniffing watermelon, wondering if I was ever going to get my kiss.",
@@ -726,7 +726,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 18
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 102.1,
         "endTime": 106.1,
         "text": "I think the tree looks particularly beautiful today, don't you?",
@@ -741,7 +741,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 10
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 106.1,
         "endTime": 109.1,
         "text": "Well, if by beautiful you mean unbelievably ugly, then yes, I would agree.",
@@ -756,7 +756,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 13
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 109.1,
         "endTime": 117.5,
         "text": "You're just visually challenged. I feel sorry for you.",
@@ -771,7 +771,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 9
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 117.5,
         "endTime": 125.4,
         "text": "Visually challenged? Visually challenged? This from the girl who lived in a house that was the joke of the neighborhood!",
@@ -786,7 +786,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 20
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 125.4,
         "endTime": 128.4,
         "text": "Hey, guys! Right on schedule!",
@@ -800,7 +800,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 5
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 128.4,
         "endTime": 135.6,
         "text": "Yeah, neither rain nor sleet... You know, the mailman thing?",
@@ -814,7 +814,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 10
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 140.1,
         "endTime": 145.6,
         "text": "Maybe Bryce was right. Maybe it was time I started riding the bus again.",
@@ -830,7 +830,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 14
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 145.6,
         "endTime": 153.5,
         "text": "After all, didn't he just tell me he wanted me to? Could it be that Bryce Loski actually misses me?",
@@ -846,7 +846,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 20
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 161.7,
         "endTime": 169.5,
         "text": "Staring at her in class. The way her hair fell back over her shoulders... she looked just like the picture in the newspaper.",
@@ -861,7 +861,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 23
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 169.5,
         "endTime": 172.5,
         "text": "Are you freaking mental? Juli Baker? You hate her!",
@@ -879,7 +879,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 9
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 172.5,
         "endTime": 175.3,
         "text": "Well, that's what's so weird, I don't think I do. I can't stop thinking about her.",
@@ -893,7 +893,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 16
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 175.3,
         "endTime": 180.0,
         "text": "You got it bad, man. What do I do? Well, you got to nip this in the bud. Think about it. These aren't real emotions.",
@@ -908,7 +908,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 25
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 180.0,
         "endTime": 184.0,
         "text": "No, you just feel guilty because of the whole egg thing.",
@@ -923,7 +923,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 11
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 184.0,
         "endTime": 187.7,
         "text": "Yeah, and I insulted her yard. Exactly. Of course, the place is a dump anyways.",
@@ -938,7 +938,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 15
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 187.7,
         "endTime": 192.5,
         "text": "Yeah, but it's not her fault. Her dad's got a retarded brother and all their money goes to helping him.",
@@ -953,7 +953,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 20
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 192.5,
         "endTime": 201.7,
         "text": "A retard? Well, shoot, that ought to tell you something. The apple doesn't fall far from the tree, my friend.",
@@ -968,7 +968,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 20
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 201.7,
         "endTime": 210.9,
         "text": "I couldn't believe it. I wanted to yell at him, tell him that he didn't know Juli like I did.",
@@ -985,7 +985,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 20
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 210.9,
         "endTime": 223.3,
         "text": "All that came out was... 'Yeah, right. Um, I'll talk to you later.' I didn't care what they thought. I liked Juli Baker.",
@@ -999,10 +999,10 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "properNouns": [
             "Juli Baker"
         ],
-        "tokenCount": 24
+        "tokenCount": 23
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 234.3,
         "endTime": 243.7,
         "text": "A dollar. Anybody? Anybody at all? No bidders?",
@@ -1017,7 +1017,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 8
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 243.7,
         "endTime": 246.7,
         "text": "All I could think of was Juli. What if she didn't bid on me? I was contemplating the horrors of this scenario when...",
@@ -1034,7 +1034,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 23
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 246.7,
         "endTime": 251.7,
         "text": "Eight dollars!",
@@ -1049,7 +1049,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 2
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 251.7,
         "endTime": 254.9,
         "text": "Juli Baker was bidding on Eddie Trulock!",
@@ -1067,7 +1067,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 7
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 254.9,
         "endTime": 259.9,
         "text": "How could she bid on Eddie Trulock? How could she bid on anyone? That was miserable.",
@@ -1085,7 +1085,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 16
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 259.9,
         "endTime": 267.3,
         "text": "We're going up to the lake. My dad has a cabin there and you get the most outrageous tan, and I mean...",
@@ -1100,7 +1100,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 22
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 267.3,
         "endTime": 272.5,
         "text": "Because less than twenty feet away from me was Juli. My Juli, with Eddie Trulock.",
@@ -1118,7 +1118,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 15
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 272.5,
         "endTime": 280.5,
         "text": "She was laughing. What was she laughing about? How could she sit there and laugh and look so beautiful?",
@@ -1133,7 +1133,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 19
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 280.5,
         "endTime": 289.9,
         "text": "I could say I didn't care all I wanted. But seeing Bryce walk out on that stage in his jacket and tie holding that picnic basket set my head spinning again.",
@@ -1150,7 +1150,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 31
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 289.9,
         "endTime": 303.9,
         "text": "I tried to give Eddie my full attention, but it was difficult because Bryce was right behind him. Bryce stood up and marched straight towards me.",
@@ -1168,7 +1168,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 26
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 303.9,
         "endTime": 310.9,
         "text": "A tree? He's planting a tree?",
@@ -1183,7 +1183,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 6
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 310.9,
         "endTime": 317.9,
         "text": "Is it a...",
@@ -1197,7 +1197,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 3
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 317.9,
         "endTime": 322.9,
         "text": "I didn't really need to ask. I could tell from the shape of the leaves...",
@@ -1211,7 +1211,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 15
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 322.9,
         "endTime": 326.9,
         "text": "...and the texture of the trunk. It was a sycamore tree.",
@@ -1226,7 +1226,7 @@ export const LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS: MockVideoLesson =
         "tokenCount": 11
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 326.9,
         "endTime": 335.0,
         "text": "Juli steps into the front yard and places her hands alongside Bryce's on the young sapling, smiling gently as their hearts finally connect.",

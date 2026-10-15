@@ -50,7 +50,7 @@ export const QUIZ_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES_EXTENDED: VideoQuizDat
       "targetedConcept": "Eggcorn / Idiom Misinterpretation",
       "targetedConceptEn": "Eggcorn / Idiom Misinterpretation",
       "targetedConceptVi": "Hiện tượng nghe nhầm thành ngữ (Eggcorn)",
-      "referenceSegmentIndex": 15
+      "referenceSegmentIndex": 16
     },
     {
       "id": "q_mov_sit_04_2",
@@ -82,7 +82,7 @@ export const QUIZ_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES_EXTENDED: VideoQuizDat
       "targetedConcept": "Consonant Contrast /dʒ/ vs /tʃ/",
       "targetedConceptEn": "Consonant Contrast /dʒ/ vs /tʃ/",
       "targetedConceptVi": "Cặp phụ âm đối lập /dʒ/ và /tʃ/",
-      "referenceSegmentIndex": 44
+      "referenceSegmentIndex": 45
     },
     {
       "id": "q_mov_sit_04_3",
@@ -114,7 +114,7 @@ export const QUIZ_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES_EXTENDED: VideoQuizDat
       "targetedConcept": "Medical Terminology vs Everyday Homophones",
       "targetedConceptEn": "Medical Terminology vs Everyday Homophones",
       "targetedConceptVi": "Thuật ngữ y khoa và từ đồng âm",
-      "referenceSegmentIndex": 42
+      "referenceSegmentIndex": 43
     },
     {
       "id": "q_mov_sit_04_4",
@@ -146,7 +146,7 @@ export const QUIZ_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES_EXTENDED: VideoQuizDat
       "targetedConcept": "Second Language Acquisition Empathy",
       "targetedConceptEn": "Second Language Acquisition Empathy",
       "targetedConceptVi": "Sự thấu cảm với người học ngoại ngữ thứ hai",
-      "referenceSegmentIndex": 50
+      "referenceSegmentIndex": 51
     },
     {
       "id": "q_mov_sit_04_5",
@@ -178,7 +178,7 @@ export const QUIZ_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES_EXTENDED: VideoQuizDat
       "targetedConcept": "Idiom Blending and Empathy Expressions",
       "targetedConceptEn": "Idiom Blending and Empathy Expressions",
       "targetedConceptVi": "Nhầm lẫn thành ngữ và cách diễn đạt thấu cảm",
-      "referenceSegmentIndex": 48
+      "referenceSegmentIndex": 49
     },
     {
       "id": "q_mov_sit_04_6",
@@ -210,7 +210,7 @@ export const QUIZ_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES_EXTENDED: VideoQuizDat
       "targetedConcept": "Contextual Idiom Meaning",
       "targetedConceptEn": "Contextual Idiom Meaning",
       "targetedConceptVi": "Ngữ nghĩa thành ngữ theo ngữ cảnh",
-      "referenceSegmentIndex": 40
+      "referenceSegmentIndex": 41
     },
     {
       "id": "q_mov_sit_04_7",
@@ -242,7 +242,7 @@ export const QUIZ_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES_EXTENDED: VideoQuizDat
       "targetedConcept": "Palatal Assimilation in Connected Speech",
       "targetedConceptEn": "Palatal Assimilation in Connected Speech",
       "targetedConceptVi": "Đồng hóa âm vòm trong chuỗi lời nói nối",
-      "referenceSegmentIndex": 24
+      "referenceSegmentIndex": 25
     },
     {
       "id": "q_mov_sit_04_8",
@@ -274,7 +274,7 @@ export const QUIZ_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES_EXTENDED: VideoQuizDat
       "targetedConcept": "Near-Homophone Vocabulary Confusion",
       "targetedConceptEn": "Near-Homophone Vocabulary Confusion",
       "targetedConceptVi": "Nhầm lẫn từ vựng gần đồng âm",
-      "referenceSegmentIndex": 26
+      "referenceSegmentIndex": 27
     }
   ]
 };
@@ -314,7 +314,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Manny"
         ],
-        "orderIndex": 0,
+        "orderIndex": 1,
         "tokenCount": 8
     },
     {
@@ -331,7 +331,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Jay"
         ],
-        "orderIndex": 1,
+        "orderIndex": 2,
         "tokenCount": 10
     },
     {
@@ -345,7 +345,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "'Second language' (ngôn ngữ thứ hai) chỉ thứ tiếng học sau tiếng mẹ đẻ.",
         "properNouns": [],
-        "orderIndex": 2,
+        "orderIndex": 3,
         "tokenCount": 7
     },
     {
@@ -359,8 +359,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Jay an ủi vợ để xoa dịu nỗi tự ti về rào cản ngôn ngữ.",
         "properNouns": [],
-        "orderIndex": 3,
-        "tokenCount": 5
+        "orderIndex": 4,
+        "tokenCount": 4
     },
     {
         "startTime": 12.4,
@@ -376,7 +376,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Learn English with TV Series"
         ],
-        "orderIndex": 4,
+        "orderIndex": 5,
         "tokenCount": 7
     },
     {
@@ -395,8 +395,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
             "Gloria",
             "Colombia"
         ],
-        "orderIndex": 5,
-        "tokenCount": 18
+        "orderIndex": 6,
+        "tokenCount": 17
     },
     {
         "startTime": 23.0,
@@ -411,8 +411,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "'Check it out' là cụm từ kêu gọi hành động thông dụng để xem hoặc khám phá nội dung.",
         "properNouns": [],
-        "orderIndex": 6,
-        "tokenCount": 13
+        "orderIndex": 7,
+        "tokenCount": 12
     },
     {
         "startTime": 28.7,
@@ -428,7 +428,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Jay"
         ],
-        "orderIndex": 7,
+        "orderIndex": 8,
         "tokenCount": 11
     },
     {
@@ -444,7 +444,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "'Crackers' là bánh quy giòn mặn thường ăn kèm phô mai.",
         "properNouns": [],
-        "orderIndex": 8,
+        "orderIndex": 9,
         "tokenCount": 12
     },
     {
@@ -459,7 +459,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria mở đầu cho sự nhầm lẫn giữa 'cheeses' (phô mai) và 'Jesus' (Chúa).",
         "properNouns": [],
-        "orderIndex": 9,
+        "orderIndex": 10,
         "tokenCount": 11
     },
     {
@@ -474,8 +474,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria nhầm tượng quái vật đá 'gargoyle' thành hành động súc miệng 'gargle'.",
         "properNouns": [],
-        "orderIndex": 10,
-        "tokenCount": 14
+        "orderIndex": 11,
+        "tokenCount": 13
     },
     {
         "startTime": 43.3,
@@ -488,7 +488,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Cụm 'honest with me' nghĩa là thành thật, không giấu giếm khuyết điểm.",
         "properNouns": [],
-        "orderIndex": 11,
+        "orderIndex": 12,
         "tokenCount": 10
     },
     {
@@ -503,7 +503,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Jay ngập ngừng lựa lời nhẹ nhàng nhất để không làm tổn thương lòng tự ái của Gloria.",
         "properNouns": [],
-        "orderIndex": 12,
+        "orderIndex": 13,
         "tokenCount": 17
     },
     {
@@ -518,7 +518,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "'Mispronunciation' là lỗi phát âm sai từ vựng.",
         "properNouns": [],
-        "orderIndex": 13,
+        "orderIndex": 14,
         "tokenCount": 12
     },
     {
@@ -532,8 +532,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Lỗi nghe nhầm thành ngữ kinh điển của Gloria biến thế giới tàn khốc thành thế giới cún con.",
         "properNouns": [],
-        "orderIndex": 14,
-        "tokenCount": 8
+        "orderIndex": 15,
+        "tokenCount": 7
     },
     {
         "startTime": 56.2,
@@ -547,8 +547,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria phản bác logic của thành ngữ tiếng Anh theo lối suy nghĩ ngây thơ.",
         "properNouns": [],
-        "orderIndex": 15,
-        "tokenCount": 15
+        "orderIndex": 16,
+        "tokenCount": 11
     },
     {
         "startTime": 61.7,
@@ -561,7 +561,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Lập luận hài hước về mặt nghĩa đen (literal interpretation) của thành ngữ.",
         "properNouns": [],
-        "orderIndex": 16,
+        "orderIndex": 17,
         "tokenCount": 12
     },
     {
@@ -576,8 +576,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria kiên quyết bảo vệ định nghĩa ngọt ngào của mình cho 'doggy-dog world'.",
         "properNouns": [],
-        "orderIndex": 17,
-        "tokenCount": 11
+        "orderIndex": 18,
+        "tokenCount": 10
     },
     {
         "startTime": 69.9,
@@ -591,7 +591,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria gặng hỏi Jay với sự hiếu thắng và đôi chút tự ái.",
         "properNouns": [],
-        "orderIndex": 18,
+        "orderIndex": 19,
         "tokenCount": 6
     },
     {
@@ -605,7 +605,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Bài học từ vựng về từ xưng hô âu yếm (term of endearment) trong tiếng Anh.",
         "properNouns": [],
-        "orderIndex": 19,
+        "orderIndex": 20,
         "tokenCount": 13
     },
     {
@@ -619,7 +619,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "'Affectionate relationship' nghĩa là mối quan hệ tràn đầy tình cảm yêu thương.",
         "properNouns": [],
-        "orderIndex": 20,
+        "orderIndex": 21,
         "tokenCount": 15
     },
     {
@@ -636,7 +636,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Jay"
         ],
-        "orderIndex": 21,
+        "orderIndex": 22,
         "tokenCount": 15
     },
     {
@@ -651,7 +651,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Quy tắc Flap T trong tiếng Anh Mỹ: khi /t/ đứng giữa hai nguyên âm, nó biến thành âm [ɾ] giống chữ 'đ' nhẹ.",
         "properNouns": [],
-        "orderIndex": 22,
+        "orderIndex": 23,
         "tokenCount": 17
     },
     {
@@ -666,7 +666,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Minh họa nối âm flap T tự nhiên trong giao tiếp hàng ngày.",
         "properNouns": [],
-        "orderIndex": 23,
+        "orderIndex": 24,
         "tokenCount": 4
     },
     {
@@ -681,7 +681,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Âm /z/ nối sang nguyên âm /ɪ/ tạo thành chuỗi âm liên tục: [wɑː.ɾɪ.zɪt].",
         "properNouns": [],
-        "orderIndex": 24,
+        "orderIndex": 25,
         "tokenCount": 16
     },
     {
@@ -695,7 +695,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Luyện tập lặp lại cụm câu hoàn chỉnh theo ngữ điệu tự nhiên của người Mỹ.",
         "properNouns": [],
-        "orderIndex": 25,
+        "orderIndex": 26,
         "tokenCount": 10
     },
     {
@@ -711,7 +711,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Phân biệt từ vựng ẩm thực: 'cracker' thường mặn và giòn rụm, còn 'cookie' thường ngọt xốp.",
         "properNouns": [],
-        "orderIndex": 26,
+        "orderIndex": 27,
         "tokenCount": 17
     },
     {
@@ -726,7 +726,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Cụm 'tiny little' là cách kết hợp từ tăng sắc thái biểu cảm: 'bé xíu xiu'.",
         "properNouns": [],
-        "orderIndex": 27,
+        "orderIndex": 28,
         "tokenCount": 19
     },
     {
@@ -741,7 +741,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Quy tắc đồng hóa âm (Assimilation): /d/ + /j/ hòa trộn thành âm tắc xát /dʒ/.",
         "properNouns": [],
-        "orderIndex": 28,
+        "orderIndex": 29,
         "tokenCount": 15
     },
     {
@@ -756,8 +756,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Ví dụ kinh điển về hiện tượng nuốt và biến âm trong khẩu ngữ bản xứ.",
         "properNouns": [],
-        "orderIndex": 29,
-        "tokenCount": 19
+        "orderIndex": 30,
+        "tokenCount": 18
     },
     {
         "startTime": 196.0,
@@ -773,8 +773,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Friends"
         ],
-        "orderIndex": 30,
-        "tokenCount": 15
+        "orderIndex": 31,
+        "tokenCount": 14
     },
     {
         "startTime": 211.9,
@@ -788,8 +788,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Lời khuyên phương pháp học nghe hiểu chủ động cho học viên tiếng Anh.",
         "properNouns": [],
-        "orderIndex": 31,
-        "tokenCount": 16
+        "orderIndex": 32,
+        "tokenCount": 15
     },
     {
         "startTime": 243.6,
@@ -803,7 +803,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Cụm động từ 'pick up' thông dụng trong đời sống Mỹ (tiện đường ghé lấy đồ).",
         "properNouns": [],
-        "orderIndex": 32,
+        "orderIndex": 33,
         "tokenCount": 21
     },
     {
@@ -819,7 +819,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "'Gargoyle' (tượng máng xối quái thú) bị Gloria phát âm nhầm thành 'gargle' (súc miệng).",
         "properNouns": [],
-        "orderIndex": 33,
+        "orderIndex": 34,
         "tokenCount": 14
     },
     {
@@ -837,7 +837,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Halloween"
         ],
-        "orderIndex": 34,
+        "orderIndex": 35,
         "tokenCount": 21
     },
     {
@@ -854,8 +854,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Claire"
         ],
-        "orderIndex": 35,
-        "tokenCount": 22
+        "orderIndex": 36,
+        "tokenCount": 20
     },
     {
         "startTime": 292.2,
@@ -871,8 +871,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "bruja"
         ],
-        "orderIndex": 36,
-        "tokenCount": 27
+        "orderIndex": 37,
+        "tokenCount": 25
     },
     {
         "startTime": 298.2,
@@ -889,8 +889,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Manny"
         ],
-        "orderIndex": 37,
-        "tokenCount": 25
+        "orderIndex": 38,
+        "tokenCount": 23
     },
     {
         "startTime": 308.8,
@@ -904,8 +904,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Hiện tượng nhược hóa (reduction) trong ngữ âm tiếng Anh đối với giới từ chức năng.",
         "properNouns": [],
-        "orderIndex": 38,
-        "tokenCount": 16
+        "orderIndex": 39,
+        "tokenCount": 15
     },
     {
         "startTime": 334.6,
@@ -921,8 +921,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Jay"
         ],
-        "orderIndex": 39,
-        "tokenCount": 19
+        "orderIndex": 40,
+        "tokenCount": 18
     },
     {
         "startTime": 365.3,
@@ -937,7 +937,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Cụm thành ngữ 'take a look at' mang sắc thái lịch sự, tế nhị khi đưa ra lời khuyên sửa lỗi.",
         "properNouns": [],
-        "orderIndex": 40,
+        "orderIndex": 41,
         "tokenCount": 17
     },
     {
@@ -953,8 +953,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Nguồn gốc thành ngữ tiếng Latinh 'homo homini lupus' (con người là chó sói với con người).",
         "properNouns": [],
-        "orderIndex": 41,
-        "tokenCount": 19
+        "orderIndex": 42,
+        "tokenCount": 17
     },
     {
         "startTime": 408.3,
@@ -970,8 +970,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Gloria"
         ],
-        "orderIndex": 42,
-        "tokenCount": 20
+        "orderIndex": 43,
+        "tokenCount": 17
     },
     {
         "startTime": 417.9,
@@ -986,8 +986,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Quy chuẩn phát âm ngữ âm học ứng dụng cho kỹ năng nghe nói.",
         "properNouns": [],
-        "orderIndex": 43,
-        "tokenCount": 21
+        "orderIndex": 44,
+        "tokenCount": 20
     },
     {
         "startTime": 435.8,
@@ -1001,8 +1001,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Thực hành bài tập so sánh cặp từ tương phản âm thanh.",
         "properNouns": [],
-        "orderIndex": 44,
-        "tokenCount": 16
+        "orderIndex": 45,
+        "tokenCount": 13
     },
     {
         "startTime": 448.1,
@@ -1016,8 +1016,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Cụm 'doesn't make sense' chỉ sự thiếu tính logic hoặc không thể hiểu nổi.",
         "properNouns": [],
-        "orderIndex": 45,
-        "tokenCount": 18
+        "orderIndex": 46,
+        "tokenCount": 17
     },
     {
         "startTime": 452.8,
@@ -1032,8 +1032,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Gloria"
         ],
-        "orderIndex": 46,
-        "tokenCount": 20
+        "orderIndex": 47,
+        "tokenCount": 18
     },
     {
         "startTime": 473.6,
@@ -1047,8 +1047,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Sự nhầm lẫn ngây thơ đáng yêu tạo nên nét duyên dáng độc nhất vô nhị của Gloria.",
         "properNouns": [],
-        "orderIndex": 47,
-        "tokenCount": 11
+        "orderIndex": 48,
+        "tokenCount": 10
     },
     {
         "startTime": 478.4,
@@ -1063,7 +1063,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Từ vựng 'puppy' đối lập hoàn toàn với ý nghĩa tàn khốc của thành ngữ gốc 'dog-eat-dog'.",
         "properNouns": [],
-        "orderIndex": 48,
+        "orderIndex": 49,
         "tokenCount": 12
     },
     {
@@ -1080,8 +1080,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Gloria"
         ],
-        "orderIndex": 49,
-        "tokenCount": 16
+        "orderIndex": 50,
+        "tokenCount": 15
     },
     {
         "startTime": 508.6,
@@ -1094,7 +1094,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Bài tập luyện ngữ điệu và phản xạ phát âm chuẩn theo phương pháp Shadowing.",
         "properNouns": [],
-        "orderIndex": 50,
+        "orderIndex": 51,
         "tokenCount": 15
     },
     {
@@ -1109,8 +1109,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Lỗi nghe nhầm đồng âm: 'in disguise' (ngụy trang) nghe nhầm thành 'in the skies' (trên bầu trời).",
         "properNouns": [],
-        "orderIndex": 51,
-        "tokenCount": 13
+        "orderIndex": 52,
+        "tokenCount": 11
     },
     {
         "startTime": 540.3,
@@ -1124,7 +1124,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria nhầm thuật ngữ y khoa 'Carpal' (thuộc cổ tay) thành 'carpool' (đi chung xe ô tô).",
         "properNouns": [],
-        "orderIndex": 52,
+        "orderIndex": 53,
         "tokenCount": 10
     },
     {
@@ -1139,8 +1139,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria tự chế thêm phụ âm 'm' vào tính từ miêu tả vóc dáng quyến rũ 'voluptuous'.",
         "properNouns": [],
-        "orderIndex": 53,
-        "tokenCount": 12
+        "orderIndex": 54,
+        "tokenCount": 10
     },
     {
         "startTime": 550.9,
@@ -1154,7 +1154,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria tự ái bảo vệ khả năng giao tiếp của mình trước sự săm soi của Jay.",
         "properNouns": [],
-        "orderIndex": 54,
+        "orderIndex": 55,
         "tokenCount": 13
     },
     {
@@ -1171,7 +1171,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Jay"
         ],
-        "orderIndex": 55,
+        "orderIndex": 56,
         "tokenCount": 24
     },
     {
@@ -1185,7 +1185,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria phản ứng bùng nổ khi thấy sự cố mua sắm bắt nguồn từ chính phát âm của mình.",
         "properNouns": [],
-        "orderIndex": 56,
+        "orderIndex": 57,
         "tokenCount": 8
     },
     {
@@ -1201,7 +1201,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Thành ngữ tương đương trong tiếng Việt: 'Tái ông thất mã' hoặc 'Trong cái rủi có cái may'.",
         "properNouns": [],
-        "orderIndex": 57,
+        "orderIndex": 58,
         "tokenCount": 20
     },
     {
@@ -1216,7 +1216,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Minh họa câu ví dụ thực tế giúp người học ghi nhớ ngữ cảnh sử dụng.",
         "properNouns": [],
-        "orderIndex": 58,
+        "orderIndex": 59,
         "tokenCount": 16
     },
     {
@@ -1234,7 +1234,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Carpal Tunnel Syndrome"
         ],
-        "orderIndex": 59,
+        "orderIndex": 60,
         "tokenCount": 17
     },
     {
@@ -1251,7 +1251,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Gloria"
         ],
-        "orderIndex": 60,
+        "orderIndex": 61,
         "tokenCount": 16
     },
     {
@@ -1269,8 +1269,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Jesus"
         ],
-        "orderIndex": 61,
-        "tokenCount": 18
+        "orderIndex": 62,
+        "tokenCount": 17
     },
     {
         "startTime": 726.3,
@@ -1284,7 +1284,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Câu hỏi tương tác rèn luyện thói quen tư duy ngữ âm cho học viên.",
         "properNouns": [],
-        "orderIndex": 62,
+        "orderIndex": 63,
         "tokenCount": 16
     },
     {
@@ -1299,8 +1299,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria mong muốn nhận được sự chỉ dẫn chân thật thay vì những lời an ủi khách sáo.",
         "properNouns": [],
-        "orderIndex": 63,
-        "tokenCount": 20
+        "orderIndex": 64,
+        "tokenCount": 18
     },
     {
         "startTime": 782.5,
@@ -1314,8 +1314,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "'Connotation' là sắc thái cảm xúc hoặc hàm ý đi kèm của một từ ngữ.",
         "properNouns": [],
-        "orderIndex": 64,
-        "tokenCount": 18
+        "orderIndex": 65,
+        "tokenCount": 16
     },
     {
         "startTime": 838.8,
@@ -1332,7 +1332,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Jay"
         ],
-        "orderIndex": 65,
+        "orderIndex": 66,
         "tokenCount": 16
     },
     {
@@ -1349,7 +1349,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "properNouns": [
             "Jay"
         ],
-        "orderIndex": 66,
+        "orderIndex": 67,
         "tokenCount": 24
     },
     {
@@ -1364,7 +1364,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "'Frustrating' miêu tả cảm giác thất vọng, bất lực và tức giận khi nỗ lực bị rào cản cản trở.",
         "properNouns": [],
-        "orderIndex": 67,
+        "orderIndex": 68,
         "tokenCount": 15
     },
     {
@@ -1379,7 +1379,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Nỗi niềm chung của hàng triệu người học ngoại ngữ trên thế giới: bộ não phải xử lý hai tầng dịch thuật liên tục.",
         "properNouns": [],
-        "orderIndex": 68,
+        "orderIndex": 69,
         "tokenCount": 19
     },
     {
@@ -1394,8 +1394,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "'Struggling to find the words' là rào cản tìm từ vựng trong giao tiếp đa văn hóa.",
         "properNouns": [],
-        "orderIndex": 69,
-        "tokenCount": 15
+        "orderIndex": 70,
+        "tokenCount": 14
     },
     {
         "startTime": 869.1,
@@ -1409,7 +1409,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Gloria trộn lẫn hai câu: 'talking' và thành ngữ 'walk a mile in someone's shoes' (thấu hiểu hoàn cảnh của người khác).",
         "properNouns": [],
-        "orderIndex": 70,
+        "orderIndex": 71,
         "tokenCount": 18
     },
     {
@@ -1423,7 +1423,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Câu cãi bướng siêu đáng yêu của Gloria: 'I know what I meant to mean!'.",
         "properNouns": [],
-        "orderIndex": 71,
+        "orderIndex": 72,
         "tokenCount": 7
     },
     {
@@ -1438,8 +1438,8 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Tuyên ngôn kinh điển của Modern Family: Sự chênh lệch giữa trí tuệ thực sự và hạn chế biểu đạt trong ngôn ngữ thứ hai.",
         "properNouns": [],
-        "orderIndex": 72,
-        "tokenCount": 16
+        "orderIndex": 73,
+        "tokenCount": 15
     },
     {
         "startTime": 879.3,
@@ -1454,7 +1454,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         ],
         "explanationAi": "Nỗi cô đơn sâu lắng của người sống xa quê hương khi khao khát được cất lên tiếng mẹ đẻ.",
         "properNouns": [],
-        "orderIndex": 73,
+        "orderIndex": 74,
         "tokenCount": 18
     }
 ],

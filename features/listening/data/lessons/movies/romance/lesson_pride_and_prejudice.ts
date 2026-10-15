@@ -44,13 +44,13 @@ export const QUIZ_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: VideoQuizData = {
         "Nàng đang luyện tập dáng đi theo tiêu chuẩn của Darcy."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 3-7, Elizabeth arrives on foot to care for her sister Jane who is unwell upstairs, defying Regency high-society vanity.",
-      "explanationEn": "In Segments 3-7, Elizabeth arrives on foot to care for her sister Jane who is unwell upstairs, defying Regency high-society vanity.",
-      "explanationVi": "Trong các Phân đoạn 3-7, Elizabeth giải thích nàng đã đi bộ tới Netherfield vì lo lắng cho người chị gái Jane bị sốt trên lầu, bất chấp lễ nghi hình thức xã giao.",
+      "explanation": "In Segments 4-8, Elizabeth arrives on foot to care for her sister Jane who is unwell upstairs, defying Regency high-society vanity.",
+      "explanationEn": "In Segments 4-8, Elizabeth arrives on foot to care for her sister Jane who is unwell upstairs, defying Regency high-society vanity.",
+      "explanationVi": "Trong các Phân đoạn 4-8, Elizabeth giải thích nàng đã đi bộ tới Netherfield vì lo lắng cho người chị gái Jane bị sốt trên lầu, bất chấp lễ nghi hình thức xã giao.",
       "targetedConcept": "Character motivation and sisterly devotion over Regency social conventions",
       "targetedConceptEn": "Character motivation and sisterly devotion over Regency social conventions",
       "targetedConceptVi": "Động cơ nhân vật và tình chị em vượt lên trên các khuôn mẫu xã giao thời Regency",
-      "referenceSegmentIndex": 5
+      "referenceSegmentIndex": 6
     },
     {
       "id": "mov_rom_05_q2",
@@ -76,13 +76,13 @@ export const QUIZ_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: VideoQuizData = {
         "Khả năng khiêu vũ mọi điệu nhảy mà không hề mỏi mệt."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 14, Mr. Darcy gazes at Elizabeth and remarks: 'And something in her air and manner of walking...', subtly referencing her spirited walk through the mud.",
-      "explanationEn": "In Segment 14, Mr. Darcy gazes at Elizabeth and remarks: 'And something in her air and manner of walking...', subtly referencing her spirited walk through the mud.",
-      "explanationVi": "Trong Phân đoạn 14, ngài Darcy nhìn chăm chú vào Elizabeth và nhận xét: 'Và còn phải có một nét gì đó trong thần thái cùng dáng điệu bước đi của nàng...', kín đáo nhắc đến bước chân tràn đầy sức sống của cô qua bùn lầy.",
+      "explanation": "In Segment 15, Mr. Darcy gazes at Elizabeth and remarks: 'And something in her air and manner of walking...', subtly referencing her spirited walk through the mud.",
+      "explanationEn": "In Segment 15, Mr. Darcy gazes at Elizabeth and remarks: 'And something in her air and manner of walking...', subtly referencing her spirited walk through the mud.",
+      "explanationVi": "Trong Phân đoạn 15, ngài Darcy nhìn chăm chú vào Elizabeth và nhận xét: 'Và còn phải có một nét gì đó trong thần thái cùng dáng điệu bước đi của nàng...', kín đáo nhắc đến bước chân tràn đầy sức sống của cô qua bùn lầy.",
       "targetedConcept": "Subtle romantic admiration and poetic character appreciation",
       "targetedConceptEn": "Subtle romantic admiration and poetic character appreciation",
       "targetedConceptVi": "Sự ngưỡng mộ lãng mạn tinh tế và nhận định thẩm mỹ về nhân vật",
-      "referenceSegmentIndex": 14
+      "referenceSegmentIndex": 15
     },
     {
       "id": "mov_rom_05_q3",
@@ -108,13 +108,13 @@ export const QUIZ_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: VideoQuizData = {
         "Ngài công bố đính hôn với con gái của Lady Catherine."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 16, Mr. Darcy breaks his usual aristocratic standoffishness to ask: 'May I have the next dance, Miss Elizabeth?'",
-      "explanationEn": "In Segment 16, Mr. Darcy breaks his usual aristocratic standoffishness to ask: 'May I have the next dance, Miss Elizabeth?'",
-      "explanationVi": "Trong Phân đoạn 16, ngài Darcy phá vỡ khoảng cách quý tộc thường lệ để ngỏ lời: 'Tôi có thể xin vinh hạnh được khiêu vũ điệu tiếp theo cùng tiểu thư Elizabeth không?'",
+      "explanation": "In Segment 17, Mr. Darcy breaks his usual aristocratic standoffishness to ask: 'May I have the next dance, Miss Elizabeth?'",
+      "explanationEn": "In Segment 17, Mr. Darcy breaks his usual aristocratic standoffishness to ask: 'May I have the next dance, Miss Elizabeth?'",
+      "explanationVi": "Trong Phân đoạn 17, ngài Darcy phá vỡ khoảng cách quý tộc thường lệ để ngỏ lời: 'Tôi có thể xin vinh hạnh được khiêu vũ điệu tiếp theo cùng tiểu thư Elizabeth không?'",
       "targetedConcept": "Overcoming aristocratic pride through romantic initiative",
       "targetedConceptEn": "Overcoming aristocratic pride through romantic initiative",
       "targetedConceptVi": "Vượt qua định kiến quý tộc bằng chủ động tình cảm",
-      "referenceSegmentIndex": 16
+      "referenceSegmentIndex": 17
     },
     {
       "id": "mov_rom_05_q4",
@@ -140,13 +140,13 @@ export const QUIZ_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: VideoQuizData = {
         "Ngài ghét bỏ miền thôn dã và xã hội Hertfordshire."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 28, Mr. Darcy candidly admits: 'I do not have the talent of conversing easily with people I have never met before.'",
-      "explanationEn": "In Segment 28, Mr. Darcy candidly admits: 'I do not have the talent of conversing easily with people I have never met before.'",
-      "explanationVi": "Trong Phân đoạn 28, ngài Darcy chân thành thú nhận: 'Tôi không có khiếu trò chuyện một cách dễ dàng với những người mà tôi chưa từng gặp trước đây.'",
+      "explanation": "In Segment 29, Mr. Darcy candidly admits: 'I do not have the talent of conversing easily with people I have never met before.'",
+      "explanationEn": "In Segment 29, Mr. Darcy candidly admits: 'I do not have the talent of conversing easily with people I have never met before.'",
+      "explanationVi": "Trong Phân đoạn 29, ngài Darcy chân thành thú nhận: 'Tôi không có khiếu trò chuyện một cách dễ dàng với những người mà tôi chưa từng gặp trước đây.'",
       "targetedConcept": "Psychological depth and social anxiety underlying aloof aristocratic exterior",
       "targetedConceptEn": "Psychological depth and social anxiety underlying aloof aristocratic exterior",
       "targetedConceptVi": "Chiều sâu tâm lý và sự lúng túng xã hội ẩn sau vẻ ngoài quý tộc lạnh lùng",
-      "referenceSegmentIndex": 28
+      "referenceSegmentIndex": 29
     },
     {
       "id": "mov_rom_05_q5",
@@ -172,13 +172,13 @@ export const QUIZ_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: VideoQuizData = {
         "'Tôi tha thứ cho sự thiếu thốn gia sản của nàng.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 41, Mr. Darcy passionately declares: 'I love you. Most ardently.'",
-      "explanationEn": "In Segment 41, Mr. Darcy passionately declares: 'I love you. Most ardently.'",
-      "explanationVi": "Trong Phân đoạn 41, ngài Darcy bày tỏ sâu sắc: 'Tôi yêu nàng. Tha thiết và nồng cháy khôn cùng.'",
+      "explanation": "In Segment 42, Mr. Darcy passionately declares: 'I love you. Most ardently.'",
+      "explanationEn": "In Segment 42, Mr. Darcy passionately declares: 'I love you. Most ardently.'",
+      "explanationVi": "Trong Phân đoạn 42, ngài Darcy bày tỏ sâu sắc: 'Tôi yêu nàng. Tha thiết và nồng cháy khôn cùng.'",
       "targetedConcept": "Iconic romantic quote and dramatic passion in classical cinema",
       "targetedConceptEn": "Iconic romantic quote and dramatic passion in classical cinema",
       "targetedConceptVi": "Trích dẫn lãng mạn kinh điển và đam mê kịch tính trong điện ảnh cổ điển",
-      "referenceSegmentIndex": 41
+      "referenceSegmentIndex": 42
     },
     {
       "id": "mov_rom_05_q6",
@@ -204,13 +204,13 @@ export const QUIZ_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: VideoQuizData = {
         "Ngài giả vờ như không hề nhận ra nàng."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 43-52, Darcy exhibits complete humility, polite warmth, attentive memory of her walking habit, and welcomes her into his family circle.",
-      "explanationEn": "In Segments 43-52, Darcy exhibits complete humility, polite warmth, attentive memory of her walking habit, and welcomes her into his family circle.",
-      "explanationVi": "Trong các Phân đoạn 43-52, Darcy thể hiện sự khiêm nhường tột bậc, ấm áp ân cần, ghi nhớ thói quen đi bộ của cô và đưa cô vào vòng tay gia đình chàng.",
+      "explanation": "In Segments 44-53, Darcy exhibits complete humility, polite warmth, attentive memory of her walking habit, and welcomes her into his family circle.",
+      "explanationEn": "In Segments 44-53, Darcy exhibits complete humility, polite warmth, attentive memory of her walking habit, and welcomes her into his family circle.",
+      "explanationVi": "Trong các Phân đoạn 44-53, Darcy thể hiện sự khiêm nhường tột bậc, ấm áp ân cần, ghi nhớ thói quen đi bộ của cô và đưa cô vào vòng tay gia đình chàng.",
       "targetedConcept": "Character growth from aristocratic pride to genuine humility and devotion",
       "targetedConceptEn": "Character growth from aristocratic pride to genuine humility and devotion",
       "targetedConceptVi": "Sự trưởng thành nhân vật từ kiêu hãnh quý tộc sang lòng khiêm nhường và tận tụy chân thành",
-      "referenceSegmentIndex": 52
+      "referenceSegmentIndex": 53
     },
     {
       "id": "mov_rom_05_q7",
@@ -236,13 +236,13 @@ export const QUIZ_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: VideoQuizData = {
         "'Chúng ta hãy cùng nhau trở về London ngay lập tức.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 76-77, Mr. Darcy whispers the immortal climax: 'You have bewitched me, body and soul, and I love, I love, I love you. I never wish to be parted from you from this day on.'",
-      "explanationEn": "In Segments 76-77, Mr. Darcy whispers the immortal climax: 'You have bewitched me, body and soul, and I love, I love, I love you. I never wish to be parted from you from this day on.'",
-      "explanationVi": "Trong các Phân đoạn 76-77, ngài Darcy thốt lên cao trào bất hủ: 'Nàng đã bỏ bùa mê tôi, cả thể xác lẫn tâm hồn, và tôi yêu, tôi yêu, tôi yêu nàng tha thiết. Tôi không bao giờ muốn phải rời xa nàng kể từ ngày hôm nay trở đi nữa.'",
+      "explanation": "In Segments 77-78, Mr. Darcy whispers the immortal climax: 'You have bewitched me, body and soul, and I love, I love, I love you. I never wish to be parted from you from this day on.'",
+      "explanationEn": "In Segments 77-78, Mr. Darcy whispers the immortal climax: 'You have bewitched me, body and soul, and I love, I love, I love you. I never wish to be parted from you from this day on.'",
+      "explanationVi": "Trong các Phân đoạn 77-78, ngài Darcy thốt lên cao trào bất hủ: 'Nàng đã bỏ bùa mê tôi, cả thể xác lẫn tâm hồn, và tôi yêu, tôi yêu, tôi yêu nàng tha thiết. Tôi không bao giờ muốn phải rời xa nàng kể từ ngày hôm nay trở đi nữa.'",
       "targetedConcept": "Immortal romantic climax of English literature and cinema",
       "targetedConceptEn": "Immortal romantic climax of English literature and cinema",
       "targetedConceptVi": "Đỉnh cao lãng mạn bất hủ của nền văn học và điện ảnh Anh quốc",
-      "referenceSegmentIndex": 76
+      "referenceSegmentIndex": 77
     },
     {
       "id": "mov_rom_05_q8",
@@ -268,13 +268,13 @@ export const QUIZ_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: VideoQuizData = {
         "'Con phải hứa là sẽ không bao giờ về thăm chúng ta nữa đấy nhé.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 80, Mr. Bennet tears up and blesses Elizabeth: 'I could not have parted with you, my dear Lizzy, to anyone less worthy.'",
-      "explanationEn": "In Segment 80, Mr. Bennet tears up and blesses Elizabeth: 'I could not have parted with you, my dear Lizzy, to anyone less worthy.'",
-      "explanationVi": "Trong Phân đoạn 80, ông Bennet rưng rưng xúc động trao lời chúc phúc: 'Cha không thể nào gả con gái cưng Lizzy của cha cho bất kỳ ai kém xứng đáng hơn ngài ấy.'",
+      "explanation": "In Segment 81, Mr. Bennet tears up and blesses Elizabeth: 'I could not have parted with you, my dear Lizzy, to anyone less worthy.'",
+      "explanationEn": "In Segment 81, Mr. Bennet tears up and blesses Elizabeth: 'I could not have parted with you, my dear Lizzy, to anyone less worthy.'",
+      "explanationVi": "Trong Phân đoạn 81, ông Bennet rưng rưng xúc động trao lời chúc phúc: 'Cha không thể nào gả con gái cưng Lizzy của cha cho bất kỳ ai kém xứng đáng hơn ngài ấy.'",
       "targetedConcept": "Paternal emotional blessing and profound validation of equal minds",
       "targetedConceptEn": "Paternal emotional blessing and profound validation of equal minds",
       "targetedConceptVi": "Lời chúc phúc của người cha và sự công nhận tuyệt đối về hai tâm hồn môn đăng hộ đối",
-      "referenceSegmentIndex": 80
+      "referenceSegmentIndex": 81
     }
   ]
 };
@@ -313,7 +313,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Lời mở đầu câu chuyện phiếm xã giao hài hước tại phòng khách Netherfield về những thương nhân địa phương.",
         "properNouns": [],
-        "orderIndex": 0,
+        "orderIndex": 1,
         "tokenCount": 14
     },
     {
@@ -333,7 +333,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
             "Lady Bathurst",
             "French"
         ],
-        "orderIndex": 1,
+        "orderIndex": 2,
         "tokenCount": 17
     },
     {
@@ -349,7 +349,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Elizabeth Bennet"
         ],
-        "orderIndex": 2,
+        "orderIndex": 3,
         "tokenCount": 3
     },
     {
@@ -366,7 +366,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Elizabeth"
         ],
-        "orderIndex": 3,
+        "orderIndex": 4,
         "tokenCount": 8
     },
     {
@@ -381,7 +381,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth tự nhiên, thẳng thắn thừa nhận việc cuốc bộ và xin lỗi vì trang phục lấm lem.",
         "properNouns": [],
-        "orderIndex": 4,
+        "orderIndex": 5,
         "tokenCount": 5
     },
     {
@@ -395,7 +395,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Nỗi lo lắng chân thành của Elizabeth dành cho sức khỏe của người chị ruột Jane Bennet.",
         "properNouns": [],
-        "orderIndex": 5,
+        "orderIndex": 6,
         "tokenCount": 4
     },
     {
@@ -409,7 +409,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Charles Bingley ân cần chỉ dẫn phòng của Jane cho Elizabeth.",
         "properNouns": [],
-        "orderIndex": 6,
+        "orderIndex": 7,
         "tokenCount": 2
     },
     {
@@ -423,7 +423,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth vội vã cảm ơn rồi tiến thẳng lên cầu thang để thăm chị.",
         "properNouns": [],
-        "orderIndex": 7,
+        "orderIndex": 8,
         "tokenCount": 2
     },
     {
@@ -439,7 +439,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Caroline Bingley châm biếm ngoại hình lấm lem bùn đất của Elizabeth hòng hạ thấp cô, nhưng Darcy lại nhìn thấy nét khỏe khoắn rạng ngời.",
         "properNouns": [],
-        "orderIndex": 8,
+        "orderIndex": 9,
         "tokenCount": 16
     },
     {
@@ -455,7 +455,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Bàn luận về tiêu chuẩn 'người phụ nữ hoàn hảo' (an accomplished woman) - thước đo chuẩn mực giáo dục quý tộc khắt khe thế kỷ 19.",
         "properNouns": [],
-        "orderIndex": 9,
+        "orderIndex": 10,
         "tokenCount": 19
     },
     {
@@ -470,7 +470,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Charles Bingley đồng tình với em gái về sự hiếm hoi của những tiêu chuẩn hoàn mỹ thời bấy giờ.",
         "properNouns": [],
-        "orderIndex": 10,
+        "orderIndex": 11,
         "tokenCount": 5
     },
     {
@@ -485,7 +485,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth lên tiếng chất vấn sự áp đặt khuôn mẫu bất khả thi đối với phụ nữ xã hội thượng lưu.",
         "properNouns": [],
-        "orderIndex": 11,
+        "orderIndex": 12,
         "tokenCount": 10
     },
     {
@@ -500,7 +500,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Ngài Darcy nghiêm nghị khẳng định chàng thực sự đòi hỏi những tiêu chuẩn rất cao ở một người phụ nữ.",
         "properNouns": [],
-        "orderIndex": 12,
+        "orderIndex": 13,
         "tokenCount": 3
     },
     {
@@ -516,7 +516,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Danh sách các môn nghệ thuật và tài khéo mà các thiếu nữ thượng lưu bắt buộc phải thụ đắc để được coi là môn đăng hộ đối.",
         "properNouns": [],
-        "orderIndex": 13,
+        "orderIndex": 14,
         "tokenCount": 19
     },
     {
@@ -531,7 +531,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Darcy bất ngờ thêm vào tiêu chuẩn thần thái tự nhiên và dáng đi - ngầm ám chỉ bước chân kiên cường băng qua bùn lầy của Elizabeth.",
         "properNouns": [],
-        "orderIndex": 14,
+        "orderIndex": 15,
         "tokenCount": 9
     },
     {
@@ -546,7 +546,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Caroline Bingley vội vàng bổ sung điều kiện đọc sách khi nhìn thấy sự say mê của Darcy dành cho trí tuệ và sách vở.",
         "properNouns": [],
-        "orderIndex": 15,
+        "orderIndex": 16,
         "tokenCount": 11
     },
     {
@@ -563,7 +563,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Elizabeth"
         ],
-        "orderIndex": 16,
+        "orderIndex": 17,
         "tokenCount": 8
     },
     {
@@ -577,7 +577,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth sững sờ trong giây lát rồi theo phản xạ xã giao chấp thuận lời mời khiêu vũ của Darcy.",
         "properNouns": [],
-        "orderIndex": 17,
+        "orderIndex": 18,
         "tokenCount": 2
     },
     {
@@ -593,7 +593,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Darcy"
         ],
-        "orderIndex": 18,
+        "orderIndex": 19,
         "tokenCount": 7
     },
     {
@@ -610,7 +610,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Darcy"
         ],
-        "orderIndex": 19,
+        "orderIndex": 20,
         "tokenCount": 10
     },
     {
@@ -626,7 +626,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Elizabeth"
         ],
-        "orderIndex": 20,
+        "orderIndex": 21,
         "tokenCount": 6
     },
     {
@@ -644,7 +644,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Rosings"
         ],
-        "orderIndex": 21,
+        "orderIndex": 22,
         "tokenCount": 24
     },
     {
@@ -658,7 +658,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth đáp lễ lịch sự nhưng giữ khoảng cách tự trọng trước sự trịch thượng của Lady Catherine.",
         "properNouns": [],
-        "orderIndex": 22,
+        "orderIndex": 23,
         "tokenCount": 2
     },
     {
@@ -673,7 +673,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Lady Catherine tiếp tục nhắc nhở ranh giới quý tộc một cách vô cảm.",
         "properNouns": [],
-        "orderIndex": 23,
+        "orderIndex": 24,
         "tokenCount": 11
     },
     {
@@ -691,7 +691,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Darcy"
         ],
-        "orderIndex": 24,
+        "orderIndex": 25,
         "tokenCount": 29
     },
     {
@@ -709,7 +709,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Elizabeth"
         ],
-        "orderIndex": 25,
+        "orderIndex": 26,
         "tokenCount": 21
     },
     {
@@ -726,7 +726,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
             "Hertfordshire",
             "Fitzwilliam"
         ],
-        "orderIndex": 26,
+        "orderIndex": 27,
         "tokenCount": 7
     },
     {
@@ -742,7 +742,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth nắm lấy cơ hội để hóm hỉnh bóc mẽ sự kiêu ngạo của Darcy trong quá khứ.",
         "properNouns": [],
-        "orderIndex": 27,
+        "orderIndex": 28,
         "tokenCount": 11
     },
     {
@@ -758,7 +758,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Nhắc lại khởi nguồn của Định kiến: thái độ lạnh lùng xa cách của Darcy khi chê Elizabeth 'tạm được nhưng chưa đủ đẹp để cám dỗ tôi'.",
         "properNouns": [],
-        "orderIndex": 28,
+        "orderIndex": 29,
         "tokenCount": 33
     },
     {
@@ -772,7 +772,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Lời bào chữa vụng về của Darcy về việc chàng không quen biết ai ở vùng nông thôn.",
         "properNouns": [],
-        "orderIndex": 29,
+        "orderIndex": 30,
         "tokenCount": 7
     },
     {
@@ -786,7 +786,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth mỉa mai sắc sảo quy ước xã giao: phòng khiêu vũ chính là nơi để mọi người làm quen giới thiệu nhau.",
         "properNouns": [],
-        "orderIndex": 30,
+        "orderIndex": 31,
         "tokenCount": 9
     },
     {
@@ -803,7 +803,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Fitzwilliam"
         ],
-        "orderIndex": 31,
+        "orderIndex": 32,
         "tokenCount": 4
     },
     {
@@ -818,7 +818,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Darcy lần đầu tiên bộc lộ sự tổn thương và điểm yếu xã hội: chàng không phải kiêu ngạo vì coi khinh người khác, mà vì sự vụng về nhút nhát bẩm sinh.",
         "properNouns": [],
-        "orderIndex": 32,
+        "orderIndex": 33,
         "tokenCount": 16
     },
     {
@@ -833,7 +833,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth đối đáp đầy tinh nghịch, tạo nên một trong những khoảng khắc giao cảm ánh mắt sâu sắc nhất giữa hai nhân vật.",
         "properNouns": [],
-        "orderIndex": 33,
+        "orderIndex": 34,
         "tokenCount": 9
     },
     {
@@ -852,7 +852,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
             "Darcy",
             "Collins"
         ],
-        "orderIndex": 34,
+        "orderIndex": 35,
         "tokenCount": 19
     },
     {
@@ -869,7 +869,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Collins"
         ],
-        "orderIndex": 35,
+        "orderIndex": 36,
         "tokenCount": 20
     },
     {
@@ -884,7 +884,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth mỉa mai ngầm tính xu nịnh bợ đỡ quá mức của ông mục sư Collins đối với phu nhân Catherine de Bourgh.",
         "properNouns": [],
-        "orderIndex": 36,
+        "orderIndex": 37,
         "tokenCount": 15
     },
     {
@@ -898,7 +898,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth cố gắng phá vỡ sự im lặng bối rối ngột ngạt trong căn phòng.",
         "properNouns": [],
-        "orderIndex": 37,
+        "orderIndex": 38,
         "tokenCount": 6
     },
     {
@@ -915,7 +915,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Elizabeth"
         ],
-        "orderIndex": 38,
+        "orderIndex": 39,
         "tokenCount": 11
     },
     {
@@ -932,7 +932,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Darcy"
         ],
-        "orderIndex": 39,
+        "orderIndex": 40,
         "tokenCount": 10
     },
     {
@@ -946,7 +946,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth hoàn toàn bối rối, chưa hề nhận ra Darcy đang yêu nàng đến phát điên.",
         "properNouns": [],
-        "orderIndex": 40,
+        "orderIndex": 41,
         "tokenCount": 4
     },
     {
@@ -964,7 +964,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Elizabeth"
         ],
-        "orderIndex": 41,
+        "orderIndex": 42,
         "tokenCount": 21
     },
     {
@@ -982,7 +982,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Rosings"
         ],
-        "orderIndex": 42,
+        "orderIndex": 43,
         "tokenCount": 16
     },
     {
@@ -999,7 +999,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Sai lầm chí mạng trong lời cầu hôn: Darcy xúc phạm gia thế của Elizabeth trong khi nghĩ rằng sự hạ mình của mình là một ân huệ.",
         "properNouns": [],
-        "orderIndex": 43,
+        "orderIndex": 44,
         "tokenCount": 37
     },
     {
@@ -1013,7 +1013,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth sững sờ, tổn thương và choáng ngợp trước lời cầu hôn đầy vẻ trịch thượng của Darcy.",
         "properNouns": [],
-        "orderIndex": 44,
+        "orderIndex": 45,
         "tokenCount": 3
     },
     {
@@ -1028,7 +1028,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Câu thoại bất hủ của điện ảnh lãng mạn thế giới: trạng từ 'ardently' thể hiện ngọn lửa si tình cháy bỏng ẩn dưới lớp băng giá quý tộc.",
         "properNouns": [],
-        "orderIndex": 45,
+        "orderIndex": 46,
         "tokenCount": 5
     },
     {
@@ -1044,7 +1044,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "London"
         ],
-        "orderIndex": 46,
+        "orderIndex": 47,
         "tokenCount": 6
     },
     {
@@ -1059,7 +1059,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Darcy bối rối ngượng ngùng trong bộ trang phục ướt vừa bơi hồ lên, vội vã phân bua sự hiện diện của mình.",
         "properNouns": [],
-        "orderIndex": 47,
+        "orderIndex": 48,
         "tokenCount": 12
     },
     {
@@ -1076,7 +1076,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Derbyshire"
         ],
-        "orderIndex": 48,
+        "orderIndex": 49,
         "tokenCount": 8
     },
     {
@@ -1090,7 +1090,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Darcy chủ động hỏi han đầy vẻ ân cần, khác hẳn thái độ kiêu ngạo lạnh lùng trước đây.",
         "properNouns": [],
-        "orderIndex": 49,
+        "orderIndex": 50,
         "tokenCount": 7
     },
     {
@@ -1107,7 +1107,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Matlock"
         ],
-        "orderIndex": 50,
+        "orderIndex": 51,
         "tokenCount": 7
     },
     {
@@ -1123,7 +1123,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Lambton"
         ],
-        "orderIndex": 51,
+        "orderIndex": 52,
         "tokenCount": 6
     },
     {
@@ -1139,7 +1139,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Rose and Crown"
         ],
-        "orderIndex": 52,
+        "orderIndex": 53,
         "tokenCount": 6
     },
     {
@@ -1155,7 +1155,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth ngượng ngùng thanh minh vì e sợ Darcy hiểu lầm cô cố tình theo dõi hoặc tìm kiếm chàng.",
         "properNouns": [],
-        "orderIndex": 53,
+        "orderIndex": 54,
         "tokenCount": 20
     },
     {
@@ -1170,7 +1170,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Darcy lịch thiệp ngỏ ý muốn làm người dẫn đường bảo vệ Elizabeth.",
         "properNouns": [],
-        "orderIndex": 54,
+        "orderIndex": 55,
         "tokenCount": 8
     },
     {
@@ -1184,7 +1184,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth từ chối khéo léo nhưng dịu dàng.",
         "properNouns": [],
-        "orderIndex": 55,
+        "orderIndex": 56,
         "tokenCount": 6
     },
     {
@@ -1201,7 +1201,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Elizabeth"
         ],
-        "orderIndex": 56,
+        "orderIndex": 57,
         "tokenCount": 8
     },
     {
@@ -1216,7 +1216,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Georgiana Darcy bày tỏ sự quý mến chân thành, chứng minh Darcy đã nói về Elizabeth bằng tất cả sự trân trọng và say đắm.",
         "properNouns": [],
-        "orderIndex": 57,
+        "orderIndex": 58,
         "tokenCount": 17
     },
     {
@@ -1230,7 +1230,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth cảm động trước sự hồn nhiên và nồng hậu của cô em gái Georgiana.",
         "properNouns": [],
-        "orderIndex": 58,
+        "orderIndex": 59,
         "tokenCount": 3
     },
     {
@@ -1245,7 +1245,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Georgiana khoe cây đàn quà tặng, thể hiện tình yêu thương vô bờ của Darcy dành cho em gái.",
         "properNouns": [],
-        "orderIndex": 59,
+        "orderIndex": 60,
         "tokenCount": 13
     },
     {
@@ -1259,7 +1259,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Darcy mỉm cười trìu mến khẳng định niềm vui khi được chăm sóc em gái.",
         "properNouns": [],
-        "orderIndex": 60,
+        "orderIndex": 61,
         "tokenCount": 3
     },
     {
@@ -1274,7 +1274,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth mỉm cười trêu đùa sự hòa thuận đáng yêu giữa hai anh em.",
         "properNouns": [],
-        "orderIndex": 61,
+        "orderIndex": 62,
         "tokenCount": 9
     },
     {
@@ -1289,7 +1289,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Georgiana ngây thơ bộc bạch việc Darcy muốn mời Elizabeth ở lại nghe đàn cả tối.",
         "properNouns": [],
-        "orderIndex": 62,
+        "orderIndex": 63,
         "tokenCount": 15
     },
     {
@@ -1303,7 +1303,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Georgiana vô tình tiết lộ lời khen ngợi nồng hậu mà Darcy luôn dành cho ngón đàn của Elizabeth.",
         "properNouns": [],
-        "orderIndex": 63,
+        "orderIndex": 64,
         "tokenCount": 7
     },
     {
@@ -1318,7 +1318,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth hóm hỉnh dùng thuật ngữ tòa án 'perjured' (khai man) để trêu chọc Darcy.",
         "properNouns": [],
-        "orderIndex": 64,
+        "orderIndex": 65,
         "tokenCount": 7
     },
     {
@@ -1332,7 +1332,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Darcy vội vã đính chính để chữa ngượng trong tiếng cười rạng rỡ.",
         "properNouns": [],
-        "orderIndex": 65,
+        "orderIndex": 66,
         "tokenCount": 6
     },
     {
@@ -1347,7 +1347,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth thỏa mãn với màn đối đáp thông minh, bầu không khí ngập tràn hạnh phúc gắn kết.",
         "properNouns": [],
-        "orderIndex": 66,
+        "orderIndex": 67,
         "tokenCount": 9
     },
     {
@@ -1361,7 +1361,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth bộc bạch nỗi trằn trọc suốt đêm khi bất ngờ gặp Darcy bước qua màn sương sớm.",
         "properNouns": [],
-        "orderIndex": 67,
+        "orderIndex": 68,
         "tokenCount": 3
     },
     {
@@ -1376,7 +1376,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Darcy nghẹn ngào mở lời, chàng biết Lady Catherine đã đến Longbourn gây khó dễ cho Elizabeth.",
         "properNouns": [],
-        "orderIndex": 68,
+        "orderIndex": 69,
         "tokenCount": 4
     },
     {
@@ -1390,7 +1390,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Elizabeth xác nhận cuộc viếng thăm đầy đe dọa của phu nhân de Bourgh.",
         "properNouns": [],
-        "orderIndex": 69,
+        "orderIndex": 70,
         "tokenCount": 4
     },
     {
@@ -1405,7 +1405,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Thành ngữ 'make amends' (chuộc lỗi, đền bù): Darcy xấu hổ sâu sắc trước sự thô bạo và trịch thượng của gia tộc mình.",
         "properNouns": [],
-        "orderIndex": 70,
+        "orderIndex": 71,
         "tokenCount": 9
     },
     {
@@ -1424,7 +1424,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
             "Lydia",
             "Jane"
         ],
-        "orderIndex": 71,
+        "orderIndex": 72,
         "tokenCount": 21
     },
     {
@@ -1440,7 +1440,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Darcy bước lại gần giãi bày sự tận tụy thầm lặng: chàng không hành động vì sĩ diện quý tộc, mà thuần túy vì tình yêu cao thượng dành cho Elizabeth.",
         "properNouns": [],
-        "orderIndex": 72,
+        "orderIndex": 73,
         "tokenCount": 12
     },
     {
@@ -1456,7 +1456,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Thành ngữ 'trifle with' (đùa cợt tình cảm): Darcy nhận ra việc Elizabeth kiên quyết từ chối khuất phục Lady Catherine chính là dấu hiệu của tình cảm.",
         "properNouns": [],
-        "orderIndex": 73,
+        "orderIndex": 74,
         "tokenCount": 31
     },
     {
@@ -1474,7 +1474,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "April"
         ],
-        "orderIndex": 74,
+        "orderIndex": 75,
         "tokenCount": 15
     },
     {
@@ -1489,7 +1489,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Sự tôn trọng tuyệt đối của Darcy dành cho tự do ý chí và cảm xúc của người phụ nữ chàng tôn thờ.",
         "properNouns": [],
-        "orderIndex": 75,
+        "orderIndex": 76,
         "tokenCount": 19
     },
     {
@@ -1506,7 +1506,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Đỉnh cao lãng mạn vĩ đại của văn học và điện ảnh: lời thú nhận 'bewitched me body and soul' phá tan mọi định kiến và rào cản giai cấp.",
         "properNouns": [],
-        "orderIndex": 76,
+        "orderIndex": 77,
         "tokenCount": 27
     },
     {
@@ -1522,7 +1522,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Lời nguyện thề gắn bó trọn đời đánh dấu cái kết viên mãn cho hành trình từ kiêu hãnh và định kiến đến tình yêu đích thực.",
         "properNouns": [],
-        "orderIndex": 77,
+        "orderIndex": 78,
         "tokenCount": 12
     },
     {
@@ -1537,7 +1537,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         ],
         "explanationAi": "Cử chỉ dịu dàng tột bậc khi Elizabeth cầm lấy đôi tay lạnh buốt vì sương sớm của Darcy và hôn lên trán cùng mu bàn tay chàng.",
         "properNouns": [],
-        "orderIndex": 78,
+        "orderIndex": 79,
         "tokenCount": 6
     },
     {
@@ -1554,7 +1554,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Elizabeth"
         ],
-        "orderIndex": 79,
+        "orderIndex": 80,
         "tokenCount": 5
     },
     {
@@ -1572,7 +1572,7 @@ export const LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN: MockVideoLesson = {
         "properNouns": [
             "Lizzy"
         ],
-        "orderIndex": 80,
+        "orderIndex": 81,
         "tokenCount": 14
     }
   ],

@@ -35,7 +35,7 @@ describe("Video #11 (mov_rom_11): Notting Hill Complete Data Coverage & Timeline
     const segments = LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL.segments;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -76,6 +76,8 @@ describe("Video #11 (mov_rom_11): Notting Hill Complete Data Coverage & Timeline
       expect(q.targetedConceptEn?.length).toBeGreaterThan(5);
       expect(q.targetedConceptVi?.length).toBeGreaterThan(5);
       expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL.segments.length);
     }
   });
 

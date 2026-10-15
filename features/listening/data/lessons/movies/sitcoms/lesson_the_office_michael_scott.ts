@@ -50,7 +50,7 @@ export const QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED: VideoQu
       "targetedConcept": "Dramatic Irony & Workplace Distraction Satire",
       "targetedConceptEn": "Dramatic Irony & Workplace Distraction Satire",
       "targetedConceptVi": "Nghệ thuật kịch tính tương phản và châm biếm xao nhãng công sở",
-      "referenceSegmentIndex": 18
+      "referenceSegmentIndex": 19
     },
     {
       "id": "q_mov_sit_06_2",
@@ -82,7 +82,7 @@ export const QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED: VideoQu
       "targetedConcept": "Corporate Moonlighting & Boundary Conflicts",
       "targetedConceptEn": "Corporate Moonlighting & Boundary Conflicts",
       "targetedConceptVi": "Làm thêm ngoài giờ và xung đột quy chế doanh nghiệp",
-      "referenceSegmentIndex": 38
+      "referenceSegmentIndex": 39
     },
     {
       "id": "q_mov_sit_06_3",
@@ -114,7 +114,7 @@ export const QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED: VideoQu
       "targetedConcept": "Grammatical Pedantry vs Folk Linguistics",
       "targetedConceptEn": "Grammatical Pedantry vs Folk Linguistics",
       "targetedConceptVi": "Bắt bẻ ngữ pháp bác học và ngôn ngữ học dân gian",
-      "referenceSegmentIndex": 49
+      "referenceSegmentIndex": 50
     },
     {
       "id": "q_mov_sit_06_4",
@@ -146,7 +146,7 @@ export const QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED: VideoQu
       "targetedConcept": "Workplace Bullying Parody & HR Antagonism",
       "targetedConceptEn": "Workplace Bullying Parody & HR Antagonism",
       "targetedConceptVi": "Châm biếm xung đột nội bộ và mối thù ghét phòng nhân sự",
-      "referenceSegmentIndex": 56
+      "referenceSegmentIndex": 57
     },
     {
       "id": "q_mov_sit_06_5",
@@ -178,7 +178,7 @@ export const QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED: VideoQu
       "targetedConcept": "Absurdist Character Roleplay & Pop Fiction Blending",
       "targetedConceptEn": "Absurdist Character Roleplay & Pop Fiction Blending",
       "targetedConceptVi": "Hóa thân nhân vật phi lý và pha trộn văn hóa viễn tưởng",
-      "referenceSegmentIndex": 73
+      "referenceSegmentIndex": 74
     },
     {
       "id": "q_mov_sit_06_6",
@@ -210,7 +210,7 @@ export const QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED: VideoQu
       "targetedConcept": "Power Dynamics & Subordinate Rebellion",
       "targetedConceptEn": "Power Dynamics & Subordinate Rebellion",
       "targetedConceptVi": "Động lực quyền lực và sự phản kháng của cấp dưới",
-      "referenceSegmentIndex": 84
+      "referenceSegmentIndex": 85
     },
     {
       "id": "q_mov_sit_06_7",
@@ -242,7 +242,7 @@ export const QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED: VideoQu
       "targetedConcept": "Corporate Parody & Musical Satire",
       "targetedConceptEn": "Corporate Parody & Musical Satire",
       "targetedConceptVi": "Nhại video doanh nghiệp và châm biếm âm nhạc",
-      "referenceSegmentIndex": 88
+      "referenceSegmentIndex": 89
     },
     {
       "id": "q_mov_sit_06_8",
@@ -274,7 +274,7 @@ export const QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED: VideoQu
       "targetedConcept": "Anticlimactic Resolutions & Escapist Humor",
       "targetedConceptEn": "Anticlimactic Resolutions & Escapist Humor",
       "targetedConceptVi": "Kết thúc phản cao trào và hài hước thoát ly thực tế",
-      "referenceSegmentIndex": 94
+      "referenceSegmentIndex": 95
     }
   ]
 };
@@ -314,7 +314,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 0,
+        "orderIndex": 1,
         "tokenCount": 11
     },
     {
@@ -331,8 +331,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 1,
-        "tokenCount": 8
+        "orderIndex": 2,
+        "tokenCount": 7
     },
     {
         "startTime": 7.6,
@@ -347,7 +347,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 2,
+        "orderIndex": 3,
         "tokenCount": 15
     },
     {
@@ -364,7 +364,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 3,
+        "orderIndex": 4,
         "tokenCount": 12
     },
     {
@@ -382,7 +382,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 4,
+        "orderIndex": 5,
         "tokenCount": 12
     },
     {
@@ -398,8 +398,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 5,
-        "tokenCount": 12
+        "orderIndex": 6,
+        "tokenCount": 11
     },
     {
         "startTime": 26.6,
@@ -415,8 +415,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 6,
-        "tokenCount": 12
+        "orderIndex": 7,
+        "tokenCount": 11
     },
     {
         "startTime": 33.1,
@@ -431,8 +431,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 7,
-        "tokenCount": 15
+        "orderIndex": 8,
+        "tokenCount": 14
     },
     {
         "startTime": 39.1,
@@ -448,7 +448,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 8,
+        "orderIndex": 9,
         "tokenCount": 27
     },
     {
@@ -466,7 +466,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Pam",
             "Jim"
         ],
-        "orderIndex": 9,
+        "orderIndex": 10,
         "tokenCount": 16
     },
     {
@@ -483,7 +483,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Jim",
             "Pam"
         ],
-        "orderIndex": 10,
+        "orderIndex": 11,
         "tokenCount": 8
     },
     {
@@ -500,7 +500,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Pam"
         ],
-        "orderIndex": 11,
+        "orderIndex": 12,
         "tokenCount": 10
     },
     {
@@ -517,8 +517,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Pam",
             "Jim"
         ],
-        "orderIndex": 12,
-        "tokenCount": 19
+        "orderIndex": 13,
+        "tokenCount": 17
     },
     {
         "startTime": 58.6,
@@ -534,7 +534,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 13,
+        "orderIndex": 14,
         "tokenCount": 16
     },
     {
@@ -550,8 +550,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 14,
-        "tokenCount": 10
+        "orderIndex": 15,
+        "tokenCount": 9
     },
     {
         "startTime": 68.5,
@@ -566,8 +566,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Kevin"
         ],
-        "orderIndex": 15,
-        "tokenCount": 5
+        "orderIndex": 16,
+        "tokenCount": 4
     },
     {
         "startTime": 71.6,
@@ -582,7 +582,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 16,
+        "orderIndex": 17,
         "tokenCount": 3
     },
     {
@@ -600,8 +600,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Where's Waldo"
         ],
-        "orderIndex": 17,
-        "tokenCount": 22
+        "orderIndex": 18,
+        "tokenCount": 21
     },
     {
         "startTime": 83.9,
@@ -617,8 +617,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 18,
-        "tokenCount": 13
+        "orderIndex": 19,
+        "tokenCount": 11
     },
     {
         "startTime": 88.1,
@@ -634,7 +634,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 19,
+        "orderIndex": 20,
         "tokenCount": 5
     },
     {
@@ -650,7 +650,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 20,
+        "orderIndex": 21,
         "tokenCount": 7
     },
     {
@@ -667,8 +667,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Ryan",
             "Michael"
         ],
-        "orderIndex": 21,
-        "tokenCount": 8
+        "orderIndex": 22,
+        "tokenCount": 7
     },
     {
         "startTime": 103.6,
@@ -683,8 +683,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 22,
-        "tokenCount": 7
+        "orderIndex": 23,
+        "tokenCount": 6
     },
     {
         "startTime": 107.6,
@@ -700,7 +700,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Ryan",
             "Michael Scott"
         ],
-        "orderIndex": 23,
+        "orderIndex": 24,
         "tokenCount": 7
     },
     {
@@ -716,7 +716,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 24,
+        "orderIndex": 25,
         "tokenCount": 3
     },
     {
@@ -733,7 +733,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Ryan"
         ],
-        "orderIndex": 25,
+        "orderIndex": 26,
         "tokenCount": 7
     },
     {
@@ -750,8 +750,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "PowerPoint"
         ],
-        "orderIndex": 26,
-        "tokenCount": 9
+        "orderIndex": 27,
+        "tokenCount": 8
     },
     {
         "startTime": 122.6,
@@ -766,7 +766,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 27,
+        "orderIndex": 28,
         "tokenCount": 3
     },
     {
@@ -783,8 +783,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Ryan"
         ],
-        "orderIndex": 28,
-        "tokenCount": 7
+        "orderIndex": 29,
+        "tokenCount": 6
     },
     {
         "startTime": 136.1,
@@ -799,8 +799,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 29,
-        "tokenCount": 19
+        "orderIndex": 30,
+        "tokenCount": 18
     },
     {
         "startTime": 142.1,
@@ -815,7 +815,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 30,
+        "orderIndex": 31,
         "tokenCount": 12
     },
     {
@@ -832,7 +832,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 31,
+        "orderIndex": 32,
         "tokenCount": 14
     },
     {
@@ -848,8 +848,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 32,
-        "tokenCount": 5
+        "orderIndex": 33,
+        "tokenCount": 4
     },
     {
         "startTime": 155.1,
@@ -865,7 +865,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 33,
+        "orderIndex": 34,
         "tokenCount": 21
     },
     {
@@ -881,7 +881,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 34,
+        "orderIndex": 35,
         "tokenCount": 8
     },
     {
@@ -898,7 +898,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 35,
+        "orderIndex": 36,
         "tokenCount": 9
     },
     {
@@ -914,7 +914,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 36,
+        "orderIndex": 37,
         "tokenCount": 9
     },
     {
@@ -930,8 +930,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Ryan"
         ],
-        "orderIndex": 37,
-        "tokenCount": 12
+        "orderIndex": 38,
+        "tokenCount": 9
     },
     {
         "startTime": 182.6,
@@ -946,8 +946,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Ryan"
         ],
-        "orderIndex": 38,
-        "tokenCount": 10
+        "orderIndex": 39,
+        "tokenCount": 9
     },
     {
         "startTime": 186.1,
@@ -963,7 +963,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 39,
+        "orderIndex": 40,
         "tokenCount": 18
     },
     {
@@ -979,8 +979,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Ryan"
         ],
-        "orderIndex": 40,
-        "tokenCount": 4
+        "orderIndex": 41,
+        "tokenCount": 3
     },
     {
         "startTime": 193.1,
@@ -997,7 +997,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Figueroa"
         ],
-        "orderIndex": 41,
+        "orderIndex": 42,
         "tokenCount": 5
     },
     {
@@ -1013,7 +1013,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Ryan"
         ],
-        "orderIndex": 42,
+        "orderIndex": 43,
         "tokenCount": 4
     },
     {
@@ -1029,8 +1029,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 43,
-        "tokenCount": 21
+        "orderIndex": 44,
+        "tokenCount": 18
     },
     {
         "startTime": 204.1,
@@ -1046,7 +1046,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Ryan"
         ],
-        "orderIndex": 44,
+        "orderIndex": 45,
         "tokenCount": 12
     },
     {
@@ -1062,8 +1062,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 45,
-        "tokenCount": 3
+        "orderIndex": 46,
+        "tokenCount": 2
     },
     {
         "startTime": 210.6,
@@ -1078,7 +1078,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Ryan"
         ],
-        "orderIndex": 46,
+        "orderIndex": 47,
         "tokenCount": 3
     },
     {
@@ -1095,7 +1095,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 47,
+        "orderIndex": 48,
         "tokenCount": 12
     },
     {
@@ -1112,7 +1112,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Ryan",
             "Darryl"
         ],
-        "orderIndex": 48,
+        "orderIndex": 49,
         "tokenCount": 9
     },
     {
@@ -1128,7 +1128,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 49,
+        "orderIndex": 50,
         "tokenCount": 3
     },
     {
@@ -1146,8 +1146,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Ryan",
             "Darryl"
         ],
-        "orderIndex": 50,
-        "tokenCount": 14
+        "orderIndex": 51,
+        "tokenCount": 12
     },
     {
         "startTime": 251.0,
@@ -1164,7 +1164,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Ryan",
             "Michael"
         ],
-        "orderIndex": 51,
+        "orderIndex": 52,
         "tokenCount": 26
     },
     {
@@ -1180,8 +1180,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 52,
-        "tokenCount": 5
+        "orderIndex": 53,
+        "tokenCount": 4
     },
     {
         "startTime": 259.6,
@@ -1196,7 +1196,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Ryan"
         ],
-        "orderIndex": 53,
+        "orderIndex": 54,
         "tokenCount": 4
     },
     {
@@ -1212,7 +1212,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 54,
+        "orderIndex": 55,
         "tokenCount": 5
     },
     {
@@ -1228,8 +1228,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 55,
-        "tokenCount": 4
+        "orderIndex": 56,
+        "tokenCount": 3
     },
     {
         "startTime": 266.6,
@@ -1246,8 +1246,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Kevin",
             "Michael"
         ],
-        "orderIndex": 56,
-        "tokenCount": 13
+        "orderIndex": 57,
+        "tokenCount": 11
     },
     {
         "startTime": 270.6,
@@ -1262,7 +1262,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Oscar"
         ],
-        "orderIndex": 57,
+        "orderIndex": 58,
         "tokenCount": 9
     },
     {
@@ -1279,8 +1279,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Oscar"
         ],
-        "orderIndex": 58,
-        "tokenCount": 16
+        "orderIndex": 59,
+        "tokenCount": 14
     },
     {
         "startTime": 277.6,
@@ -1296,8 +1296,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Kelly"
         ],
-        "orderIndex": 59,
-        "tokenCount": 25
+        "orderIndex": 60,
+        "tokenCount": 21
     },
     {
         "startTime": 283.1,
@@ -1313,7 +1313,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Jim",
             "Kelly"
         ],
-        "orderIndex": 60,
+        "orderIndex": 61,
         "tokenCount": 8
     },
     {
@@ -1329,8 +1329,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Kelly"
         ],
-        "orderIndex": 61,
-        "tokenCount": 4
+        "orderIndex": 62,
+        "tokenCount": 3
     },
     {
         "startTime": 288.1,
@@ -1346,8 +1346,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Phyllis"
         ],
-        "orderIndex": 62,
-        "tokenCount": 18
+        "orderIndex": 63,
+        "tokenCount": 15
     },
     {
         "startTime": 293.1,
@@ -1362,7 +1362,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Angela"
         ],
-        "orderIndex": 63,
+        "orderIndex": 64,
         "tokenCount": 3
     },
     {
@@ -1378,7 +1378,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 64,
+        "orderIndex": 65,
         "tokenCount": 6
     },
     {
@@ -1397,7 +1397,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Ryan",
             "Michael"
         ],
-        "orderIndex": 65,
+        "orderIndex": 66,
         "tokenCount": 22
     },
     {
@@ -1415,8 +1415,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Toby"
         ],
-        "orderIndex": 66,
-        "tokenCount": 26
+        "orderIndex": 67,
+        "tokenCount": 24
     },
     {
         "startTime": 328.0,
@@ -1431,7 +1431,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Oscar"
         ],
-        "orderIndex": 67,
+        "orderIndex": 68,
         "tokenCount": 17
     },
     {
@@ -1447,7 +1447,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Phyllis"
         ],
-        "orderIndex": 68,
+        "orderIndex": 69,
         "tokenCount": 4
     },
     {
@@ -1464,8 +1464,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 69,
-        "tokenCount": 14
+        "orderIndex": 70,
+        "tokenCount": 13
     },
     {
         "startTime": 344.1,
@@ -1481,8 +1481,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Oscar"
         ],
-        "orderIndex": 70,
-        "tokenCount": 17
+        "orderIndex": 71,
+        "tokenCount": 16
     },
     {
         "startTime": 368.0,
@@ -1499,7 +1499,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Savannah"
         ],
-        "orderIndex": 71,
+        "orderIndex": 72,
         "tokenCount": 12
     },
     {
@@ -1517,8 +1517,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Beatrix Bourbon"
         ],
-        "orderIndex": 72,
-        "tokenCount": 13
+        "orderIndex": 73,
+        "tokenCount": 12
     },
     {
         "startTime": 388.0,
@@ -1535,8 +1535,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 73,
-        "tokenCount": 15
+        "orderIndex": 74,
+        "tokenCount": 14
     },
     {
         "startTime": 395.1,
@@ -1551,7 +1551,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 74,
+        "orderIndex": 75,
         "tokenCount": 16
     },
     {
@@ -1568,7 +1568,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 75,
+        "orderIndex": 76,
         "tokenCount": 16
     },
     {
@@ -1584,8 +1584,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 76,
-        "tokenCount": 17
+        "orderIndex": 77,
+        "tokenCount": 15
     },
     {
         "startTime": 414.1,
@@ -1600,8 +1600,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 77,
-        "tokenCount": 12
+        "orderIndex": 78,
+        "tokenCount": 11
     },
     {
         "startTime": 421.1,
@@ -1616,8 +1616,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 78,
-        "tokenCount": 11
+        "orderIndex": 79,
+        "tokenCount": 10
     },
     {
         "startTime": 427.1,
@@ -1632,7 +1632,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 79,
+        "orderIndex": 80,
         "tokenCount": 14
     },
     {
@@ -1648,8 +1648,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 80,
-        "tokenCount": 11
+        "orderIndex": 81,
+        "tokenCount": 10
     },
     {
         "startTime": 440.1,
@@ -1664,8 +1664,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 81,
-        "tokenCount": 15
+        "orderIndex": 82,
+        "tokenCount": 12
     },
     {
         "startTime": 447.6,
@@ -1682,8 +1682,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Prison Mike",
             "Ryan"
         ],
-        "orderIndex": 82,
-        "tokenCount": 21
+        "orderIndex": 83,
+        "tokenCount": 19
     },
     {
         "startTime": 454.1,
@@ -1699,7 +1699,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Pam",
             "Michael"
         ],
-        "orderIndex": 83,
+        "orderIndex": 84,
         "tokenCount": 9
     },
     {
@@ -1716,8 +1716,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 84,
-        "tokenCount": 6
+        "orderIndex": 85,
+        "tokenCount": 5
     },
     {
         "startTime": 466.1,
@@ -1733,8 +1733,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 85,
-        "tokenCount": 20
+        "orderIndex": 86,
+        "tokenCount": 18
     },
     {
         "startTime": 472.6,
@@ -1750,7 +1750,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Ryan",
             "Prison Mike"
         ],
-        "orderIndex": 86,
+        "orderIndex": 87,
         "tokenCount": 6
     },
     {
@@ -1767,8 +1767,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 87,
-        "tokenCount": 17
+        "orderIndex": 88,
+        "tokenCount": 16
     },
     {
         "startTime": 486.6,
@@ -1784,7 +1784,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Jim",
             "Prison Mike"
         ],
-        "orderIndex": 88,
+        "orderIndex": 89,
         "tokenCount": 8
     },
     {
@@ -1800,7 +1800,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 89,
+        "orderIndex": 90,
         "tokenCount": 6
     },
     {
@@ -1817,7 +1817,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Pam",
             "Prison Mike"
         ],
-        "orderIndex": 90,
+        "orderIndex": 91,
         "tokenCount": 9
     },
     {
@@ -1835,7 +1835,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 91,
+        "orderIndex": 92,
         "tokenCount": 14
     },
     {
@@ -1851,8 +1851,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 92,
-        "tokenCount": 9
+        "orderIndex": 93,
+        "tokenCount": 8
     },
     {
         "startTime": 518.1,
@@ -1868,7 +1868,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Prison Mike",
             "Dementors"
         ],
-        "orderIndex": 93,
+        "orderIndex": 94,
         "tokenCount": 8
     },
     {
@@ -1885,8 +1885,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 94,
-        "tokenCount": 28
+        "orderIndex": 95,
+        "tokenCount": 27
     },
     {
         "startTime": 531.1,
@@ -1902,7 +1902,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Karen",
             "Harry Potter"
         ],
-        "orderIndex": 95,
+        "orderIndex": 96,
         "tokenCount": 5
     },
     {
@@ -1918,7 +1918,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 96,
+        "orderIndex": 97,
         "tokenCount": 10
     },
     {
@@ -1936,7 +1936,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Prison Mike"
         ],
-        "orderIndex": 97,
+        "orderIndex": 98,
         "tokenCount": 18
     },
     {
@@ -1955,7 +1955,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Pamela Morgan Beesly",
             "Michael"
         ],
-        "orderIndex": 98,
+        "orderIndex": 99,
         "tokenCount": 16
     },
     {
@@ -1972,8 +1972,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 99,
-        "tokenCount": 26
+        "orderIndex": 100,
+        "tokenCount": 24
     },
     {
         "startTime": 584.1,
@@ -1989,7 +1989,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 100,
+        "orderIndex": 101,
         "tokenCount": 17
     },
     {
@@ -2006,7 +2006,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Andy"
         ],
-        "orderIndex": 101,
+        "orderIndex": 102,
         "tokenCount": 23
     },
     {
@@ -2023,8 +2023,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Jim",
             "Michael"
         ],
-        "orderIndex": 102,
-        "tokenCount": 17
+        "orderIndex": 103,
+        "tokenCount": 16
     },
     {
         "startTime": 605.1,
@@ -2041,7 +2041,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Stanley"
         ],
-        "orderIndex": 103,
+        "orderIndex": 104,
         "tokenCount": 10
     },
     {
@@ -2057,7 +2057,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Stanley"
         ],
-        "orderIndex": 104,
+        "orderIndex": 105,
         "tokenCount": 1
     },
     {
@@ -2074,8 +2074,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Stanley"
         ],
-        "orderIndex": 105,
-        "tokenCount": 7
+        "orderIndex": 106,
+        "tokenCount": 6
     },
     {
         "startTime": 620.1,
@@ -2090,7 +2090,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Stanley"
         ],
-        "orderIndex": 106,
+        "orderIndex": 107,
         "tokenCount": 3
     },
     {
@@ -2106,8 +2106,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 107,
-        "tokenCount": 13
+        "orderIndex": 108,
+        "tokenCount": 12
     },
     {
         "startTime": 665.0,
@@ -2124,7 +2124,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 108,
+        "orderIndex": 109,
         "tokenCount": 17
     },
     {
@@ -2141,7 +2141,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 109,
+        "orderIndex": 110,
         "tokenCount": 20
     },
     {
@@ -2158,8 +2158,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "Lazy Scranton"
         ],
-        "orderIndex": 110,
-        "tokenCount": 24
+        "orderIndex": 111,
+        "tokenCount": 21
     },
     {
         "startTime": 735.0,
@@ -2177,8 +2177,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Dwight",
             "Michael"
         ],
-        "orderIndex": 111,
-        "tokenCount": 15
+        "orderIndex": 112,
+        "tokenCount": 13
     },
     {
         "startTime": 745.1,
@@ -2195,8 +2195,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Dwight",
             "Michael"
         ],
-        "orderIndex": 112,
-        "tokenCount": 20
+        "orderIndex": 113,
+        "tokenCount": 18
     },
     {
         "startTime": 752.1,
@@ -2213,7 +2213,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Michael",
             "The Scranton Witch Project"
         ],
-        "orderIndex": 113,
+        "orderIndex": 114,
         "tokenCount": 17
     },
     {
@@ -2230,8 +2230,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 114,
-        "tokenCount": 18
+        "orderIndex": 115,
+        "tokenCount": 17
     },
     {
         "startTime": 806.6,
@@ -2246,7 +2246,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 115,
+        "orderIndex": 116,
         "tokenCount": 3
     },
     {
@@ -2263,8 +2263,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 116,
-        "tokenCount": 16
+        "orderIndex": 117,
+        "tokenCount": 15
     },
     {
         "startTime": 820.0,
@@ -2281,7 +2281,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Andy",
             "Dwight"
         ],
-        "orderIndex": 117,
+        "orderIndex": 118,
         "tokenCount": 22
     },
     {
@@ -2299,8 +2299,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Jim",
             "Michael"
         ],
-        "orderIndex": 118,
-        "tokenCount": 14
+        "orderIndex": 119,
+        "tokenCount": 12
     },
     {
         "startTime": 845.0,
@@ -2317,8 +2317,8 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Pam",
             "Jim"
         ],
-        "orderIndex": 119,
-        "tokenCount": 17
+        "orderIndex": 120,
+        "tokenCount": 14
     },
     {
         "startTime": 850.1,
@@ -2335,7 +2335,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
             "Pam",
             "Jim"
         ],
-        "orderIndex": 120,
+        "orderIndex": 121,
         "tokenCount": 15
     }
 ],

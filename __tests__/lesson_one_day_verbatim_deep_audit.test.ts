@@ -64,7 +64,7 @@ describe("Senior 50-Year QA Deep Audit: One Day - Emma & Dexter Across Decades (
     let prevStart = -1;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStart);
@@ -117,8 +117,8 @@ describe("Senior 50-Year QA Deep Audit: One Day - Emma & Dexter Across Decades (
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY.segments.length);
     });
   });
 

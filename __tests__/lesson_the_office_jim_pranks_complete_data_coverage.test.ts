@@ -37,7 +37,7 @@ describe("The Office: Jim's Best Pranks - Complete Data Coverage Test Suite", ()
       expect(seg.ipaUs?.length).toBeGreaterThan(0);
       expect(seg.keywords?.length).toBeGreaterThan(0);
       expect(seg.explanationAi?.length).toBeGreaterThan(0);
-      expect(seg.orderIndex).toBeDefined();
+      expect(seg.orderIndex).toBe(i + 1);
     }
   });
 

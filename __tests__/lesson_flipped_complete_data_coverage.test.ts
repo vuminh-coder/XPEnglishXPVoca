@@ -35,7 +35,7 @@ describe("Video #12 (mov_rom_12): Flipped Complete Data Coverage & Timeline Prec
     const segments = LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS.segments;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -76,6 +76,8 @@ describe("Video #12 (mov_rom_12): Flipped Complete Data Coverage & Timeline Prec
       expect(q.targetedConceptEn?.length).toBeGreaterThan(5);
       expect(q.targetedConceptVi?.length).toBeGreaterThan(5);
       expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_FLIPPED_THE_SYCAMORE_TREE_AND_BASKET_BOYS.segments.length);
     }
   });
 

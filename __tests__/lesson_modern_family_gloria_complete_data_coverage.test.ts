@@ -38,7 +38,7 @@ describe("Video #16 (mov_sit_04): Modern Family Gloria Complete Data Coverage & 
     const segments = LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES.segments;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -79,6 +79,9 @@ describe("Video #16 (mov_sit_04): Modern Family Gloria Complete Data Coverage & 
       expect(q.explanationVi!.trim().length).toBeGreaterThan(15);
       expect(q.targetedConceptEn?.trim().length).toBeGreaterThan(5);
       expect(q.targetedConceptVi?.trim().length).toBeGreaterThan(5);
+      expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES.segments.length);
     }
   });
 

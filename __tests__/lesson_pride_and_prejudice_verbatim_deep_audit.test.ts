@@ -53,7 +53,7 @@ describe("Senior 50-Year QA Deep Audit: Pride & Prejudice - Mr. Darcy's Longing 
     let prevStart = -1;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeGreaterThan(seg.startTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(prevStart);
@@ -106,8 +106,8 @@ describe("Senior 50-Year QA Deep Audit: Pride & Prejudice - Mr. Darcy's Longing 
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_PRIDE_AND_PREJUDICE_RAIN_PROPOSAL_DAWN.segments.length);
     });
   });
 

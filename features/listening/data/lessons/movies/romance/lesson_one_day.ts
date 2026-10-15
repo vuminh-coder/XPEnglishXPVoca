@@ -44,19 +44,19 @@ export const QUIZ_ONE_DAY_EMMA_DEXTER_LOVE_STORY: VideoQuizData = {
         "Cô muốn ngụy trang danh tính khỏi những du khách xung quanh."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 7, Emma jokes: 'No, the masonry paint. Factor 30, I burn,' referring to her pale British skin needing heavy sunblock.",
-      "explanationEn": "In Segment 7, Emma jokes: 'No, the masonry paint. Factor 30, I burn,' referring to her pale British skin needing heavy sunblock.",
-      "explanationVi": "Trong Phân đoạn 7, Emma nói đùa: 'Không, đấy là sơn trát tường đấy. Chỉ số 30, em dễ bị cháy nắng lắm', tự giễu làn da trắng xanh nhạy cảm của mình.",
+      "explanation": "In Segment 8, Emma jokes: 'No, the masonry paint. Factor 30, I burn,' referring to her pale British skin needing heavy sunblock.",
+      "explanationEn": "In Segment 8, Emma jokes: 'No, the masonry paint. Factor 30, I burn,' referring to her pale British skin needing heavy sunblock.",
+      "explanationVi": "Trong Phân đoạn 8, Emma nói đùa: 'Không, đấy là sơn trát tường đấy. Chỉ số 30, em dễ bị cháy nắng lắm', tự giễu làn da trắng xanh nhạy cảm của mình.",
       "targetedConcept": "Self-deprecating British humor and sun protection idioms",
       "targetedConceptEn": "Self-deprecating British humor and sun protection idioms",
       "targetedConceptVi": "Tính hài hước tự trào của người Anh và thành ngữ về chống nắng",
-      "referenceSegmentIndex": 7
+      "referenceSegmentIndex": 8
     },
     {
       "id": "mov_rom_07_q2",
-      "question": "What deeper philosophical meaning does Emma attribute to her yin-yang tattoo in Segment 12?",
-      "questionEn": "What deeper philosophical meaning does Emma attribute to her yin-yang tattoo in Segment 12?",
-      "questionVi": "Emma đã gán ý nghĩa triết lý sâu sắc nào cho hình xăm âm dương của mình trong Phân đoạn 12?",
+      "question": "What deeper philosophical meaning does Emma attribute to her yin-yang tattoo in Segment 13?",
+      "questionEn": "What deeper philosophical meaning does Emma attribute to her yin-yang tattoo in Segment 13?",
+      "questionVi": "Emma đã gán ý nghĩa triết lý sâu sắc nào cho hình xăm âm dương của mình trong Phân đoạn 13?",
       "options": [
         "It symbolizes directions on British road traffic signs.",
         "It represents a perfect union of opposites, subtly reflecting her and Dexter's contrasting personalities.",
@@ -76,13 +76,13 @@ export const QUIZ_ONE_DAY_EMMA_DEXTER_LOVE_STORY: VideoQuizData = {
         "Nó đánh dấu ngày lễ tốt nghiệp đại học của cô tại Edinburgh."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 12, Emma explains: 'Yeah, well, it means a perfect union of opposites,' foreshadowing the complementary dynamic between her grounded intellect and Dexter's carefree spirit.",
-      "explanationEn": "In Segment 12, Emma explains: 'Yeah, well, it means a perfect union of opposites,' foreshadowing the complementary dynamic between her grounded intellect and Dexter's carefree spirit.",
-      "explanationVi": "Trong Phân đoạn 12, Emma giải thích: 'Vâng, nhưng nó có nghĩa là sự kết hợp hoàn hảo giữa hai mặt đối lập đấy', ngụ ý về sự bổ trợ giữa tính cách nghiêm túc của cô và tâm hồn tự do của Dexter.",
+      "explanation": "In Segment 13, Emma explains: 'Yeah, well, it means a perfect union of opposites,' foreshadowing the complementary dynamic between her grounded intellect and Dexter's carefree spirit.",
+      "explanationEn": "In Segment 13, Emma explains: 'Yeah, well, it means a perfect union of opposites,' foreshadowing the complementary dynamic between her grounded intellect and Dexter's carefree spirit.",
+      "explanationVi": "Trong Phân đoạn 13, Emma giải thích: 'Vâng, nhưng nó có nghĩa là sự kết hợp hoàn hảo giữa hai mặt đối lập đấy', ngụ ý về sự bổ trợ giữa tính cách nghiêm túc của cô và tâm hồn tự do của Dexter.",
       "targetedConcept": "Symbolic motifs and the complementary nature of opposites in love",
       "targetedConceptEn": "Symbolic motifs and the complementary nature of opposites in love",
       "targetedConceptVi": "Mô-típ biểu tượng và bản chất bù trừ của các mặt đối lập trong tình yêu",
-      "referenceSegmentIndex": 12
+      "referenceSegmentIndex": 13
     },
     {
       "id": "mov_rom_07_q3",
@@ -108,19 +108,19 @@ export const QUIZ_ONE_DAY_EMMA_DEXTER_LOVE_STORY: VideoQuizData = {
         "Gọi điện cho bố mẹ cô, đọc trộm nhật ký, và hút thuốc lá."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 21, Emma warns: 'I swear, if you lead me on, or let me down, or go behind my back, I will murder you.'",
-      "explanationEn": "In Segment 21, Emma warns: 'I swear, if you lead me on, or let me down, or go behind my back, I will murder you.'",
-      "explanationVi": "Trong Phân đoạn 21, Emma cảnh báo quyết liệt: 'Em thề, nếu anh gieo hy vọng rồi làm em thất vọng, hoặc đâm sau lưng em, em sẽ giết anh đấy.'",
+      "explanation": "In Segment 22, Emma warns: 'I swear, if you lead me on, or let me down, or go behind my back, I will murder you.'",
+      "explanationEn": "In Segment 22, Emma warns: 'I swear, if you lead me on, or let me down, or go behind my back, I will murder you.'",
+      "explanationVi": "Trong Phân đoạn 22, Emma cảnh báo quyết liệt: 'Em thề, nếu anh gieo hy vọng rồi làm em thất vọng, hoặc đâm sau lưng em, em sẽ giết anh đấy.'",
       "targetedConcept": "Emotional boundaries and phrasal verbs of interpersonal betrayal",
       "targetedConceptEn": "Emotional boundaries and phrasal verbs of interpersonal betrayal",
       "targetedConceptVi": "Ranh giới cảm xúc và cụm động từ chỉ sự phản bội trong tình cảm",
-      "referenceSegmentIndex": 21
+      "referenceSegmentIndex": 22
     },
     {
       "id": "mov_rom_07_q4",
-      "question": "How does Emma playfully yet profoundly confess her deepest desire for domestic commitment to Dexter in Segment 30?",
-      "questionEn": "How does Emma playfully yet profoundly confess her deepest desire for domestic commitment to Dexter in Segment 30?",
-      "questionVi": "Emma đã thổ lộ ước muốn gắn bó gia đình thiêng liêng nhất với Dexter một cách dí dỏm mà sâu sắc như thế nào trong Phân đoạn 30?",
+      "question": "How does Emma playfully yet profoundly confess her deepest desire for domestic commitment to Dexter in Segment 31?",
+      "questionEn": "How does Emma playfully yet profoundly confess her deepest desire for domestic commitment to Dexter in Segment 31?",
+      "questionVi": "Emma đã thổ lộ ước muốn gắn bó gia đình thiêng liêng nhất với Dexter một cách dí dỏm mà sâu sắc như thế nào trong Phân đoạn 31?",
       "options": [
         "She asks him to finance a publishing house for her poetry collection.",
         "She states that she wants a child with the man she loves, and if he won't do it, then she wants one with Dexter.",
@@ -140,13 +140,13 @@ export const QUIZ_ONE_DAY_EMMA_DEXTER_LOVE_STORY: VideoQuizData = {
         "Cô đề xuất mua một căn nhà nghỉ dưỡng tại vùng cao nguyên Scotland."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 29-30, Emma expresses: 'I want a child with the man I love. And if he won't do it, then I want one with you,' acknowledging Dexter as the true love of her life.",
-      "explanationEn": "In Segments 29-30, Emma expresses: 'I want a child with the man I love. And if he won't do it, then I want one with you,' acknowledging Dexter as the true love of her life.",
-      "explanationVi": "Trong Phân đoạn 29-30, Emma chia sẻ: 'Em muốn có con với người đàn ông em yêu. Và nếu anh ấy không chịu, thì em muốn có con với anh', khẳng định Dexter chính là người đàn ông duy nhất trong tim cô.",
+      "explanation": "In Segments 30-31, Emma expresses: 'I want a child with the man I love. And if he won't do it, then I want one with you,' acknowledging Dexter as the true love of her life.",
+      "explanationEn": "In Segments 30-31, Emma expresses: 'I want a child with the man I love. And if he won't do it, then I want one with you,' acknowledging Dexter as the true love of her life.",
+      "explanationVi": "Trong Phân đoạn 31-31, Emma chia sẻ: 'Em muốn có con với người đàn ông em yêu. Và nếu anh ấy không chịu, thì em muốn có con với anh', khẳng định Dexter chính là người đàn ông duy nhất trong tim cô.",
       "targetedConcept": "Vulnerable emotional disclosures and long-term romantic commitment",
       "targetedConceptEn": "Vulnerable emotional disclosures and long-term romantic commitment",
       "targetedConceptVi": "Sự thổ lộ cảm xúc chân thành và cam kết gắn bó lâu dài trong tình yêu",
-      "referenceSegmentIndex": 30
+      "referenceSegmentIndex": 31
     },
     {
       "id": "mov_rom_07_q5",
@@ -172,13 +172,13 @@ export const QUIZ_ONE_DAY_EMMA_DEXTER_LOVE_STORY: VideoQuizData = {
         "Anh than phiền bị ngộ độc rượu sâm-panh sau tiệc tốt nghiệp."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 38-42, Dexter hesitates with excuses about his parents arriving, but stops before leaving and invites Emma: 'So if you wanted to, we could go for a walk or something.'",
-      "explanationEn": "In Segments 38-42, Dexter hesitates with excuses about his parents arriving, but stops before leaving and invites Emma: 'So if you wanted to, we could go for a walk or something.'",
-      "explanationVi": "Trong Phân đoạn 38-42, Dexter ngập ngừng tìm cớ bố mẹ lên thăm, nhưng trước khi bước ra cửa anh đã đổi ý: 'Nên nếu cô muốn, chúng ta có thể đi dạo một vòng hay gì đó.'",
+      "explanation": "In Segments 39-43, Dexter hesitates with excuses about his parents arriving, but stops before leaving and invites Emma: 'So if you wanted to, we could go for a walk or something.'",
+      "explanationEn": "In Segments 39-43, Dexter hesitates with excuses about his parents arriving, but stops before leaving and invites Emma: 'So if you wanted to, we could go for a walk or something.'",
+      "explanationVi": "Trong Phân đoạn 39-43, Dexter ngập ngừng tìm cớ bố mẹ lên thăm, nhưng trước khi bước ra cửa anh đã đổi ý: 'Nên nếu cô muốn, chúng ta có thể đi dạo một vòng hay gì đó.'",
       "targetedConcept": "Polite hesitation turning into spontaneous attraction",
       "targetedConceptEn": "Polite hesitation turning into spontaneous attraction",
       "targetedConceptVi": "Sự ngập ngừng thoái thác chuyển hóa thành sức hút tự nhiên ngẫu hứng",
-      "referenceSegmentIndex": 42
+      "referenceSegmentIndex": 43
     },
     {
       "id": "mov_rom_07_q6",
@@ -204,19 +204,19 @@ export const QUIZ_ONE_DAY_EMMA_DEXTER_LOVE_STORY: VideoQuizData = {
         "Emma than say độ cao, và Dexter đưa bi-đông nước cho cô uống."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 45-46, Emma protests: 'It's these shoes! I can't go mountain climbing in brogues!' to which Dexter replies: 'It's not K2, it's just a big hill, all right? A child could do it.'",
-      "explanationEn": "In Segments 45-46, Emma protests: 'It's these shoes! I can't go mountain climbing in brogues!' to which Dexter replies: 'It's not K2, it's just a big hill, all right? A child could do it.'",
-      "explanationVi": "Trong Phân đoạn 45-46, Emma càu nhàu về đôi giày brogues không hợp leo núi, và Dexter trêu chọc đây chẳng phải ngọn K2 hiểm trở.",
+      "explanation": "In Segments 46-47, Emma protests: 'It's these shoes! I can't go mountain climbing in brogues!' to which Dexter replies: 'It's not K2, it's just a big hill, all right? A child could do it.'",
+      "explanationEn": "In Segments 46-47, Emma protests: 'It's these shoes! I can't go mountain climbing in brogues!' to which Dexter replies: 'It's not K2, it's just a big hill, all right? A child could do it.'",
+      "explanationVi": "Trong Phân đoạn 46-47, Emma càu nhàu về đôi giày brogues không hợp leo núi, và Dexter trêu chọc đây chẳng phải ngọn K2 hiểm trở.",
       "targetedConcept": "British comedic banter and footwear hyperbole",
       "targetedConceptEn": "British comedic banter and footwear hyperbole",
       "targetedConceptVi": "Lối đối đáp hài hước của Anh và phóng đại hình tượng trang phục",
-      "referenceSegmentIndex": 46
+      "referenceSegmentIndex": 47
     },
     {
       "id": "mov_rom_07_q7",
-      "question": "What core thematic motto of the novel and film 'One Day' does Emma declare on Arthur's Seat in Segment 50?",
-      "questionEn": "What core thematic motto of the novel and film 'One Day' does Emma declare on Arthur's Seat in Segment 50?",
-      "questionVi": "Châm ngôn cốt lõi xuyên suốt tiểu thuyết và bộ phim 'One Day' mà Emma tuyên bố trên đồi Arthur's Seat trong Phân đoạn 50 là gì?",
+      "question": "What core thematic motto of the novel and film 'One Day' does Emma declare on Arthur's Seat in Segment 51?",
+      "questionEn": "What core thematic motto of the novel and film 'One Day' does Emma declare on Arthur's Seat in Segment 51?",
+      "questionVi": "Châm ngôn cốt lõi xuyên suốt tiểu thuyết và bộ phim 'One Day' mà Emma tuyên bố trên đồi Arthur's Seat trong Phân đoạn 51 là gì?",
       "options": [
         "'Never leave for tomorrow what you can achieve today.'",
         "'Whatever happens tomorrow, we had today.'",
@@ -236,13 +236,13 @@ export const QUIZ_ONE_DAY_EMMA_DEXTER_LOVE_STORY: VideoQuizData = {
         "'Khoảng cách thời gian chỉ làm cho tình yêu thêm sâu đậm.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 50, Emma delivers the immortal thematic thesis of the story: 'Whatever happens tomorrow, we had today,' establishing their lifetime bond regardless of what fate brings.",
-      "explanationEn": "In Segment 50, Emma delivers the immortal thematic thesis of the story: 'Whatever happens tomorrow, we had today,' establishing their lifetime bond regardless of what fate brings.",
-      "explanationVi": "Trong Phân đoạn 50, Emma thốt lên câu nói bất hủ định hình toàn bộ tác phẩm: 'Dù ngày mai có ra sao đi nữa, chúng ta đã có trọn vẹn ngày hôm nay', thiết lập sợi dây gắn kết vĩnh cửu giữa hai người.",
+      "explanation": "In Segment 51, Emma delivers the immortal thematic thesis of the story: 'Whatever happens tomorrow, we had today,' establishing their lifetime bond regardless of what fate brings.",
+      "explanationEn": "In Segment 51, Emma delivers the immortal thematic thesis of the story: 'Whatever happens tomorrow, we had today,' establishing their lifetime bond regardless of what fate brings.",
+      "explanationVi": "Trong Phân đoạn 51, Emma thốt lên câu nói bất hủ định hình toàn bộ tác phẩm: 'Dù ngày mai có ra sao đi nữa, chúng ta đã có trọn vẹn ngày hôm nay', thiết lập sợi dây gắn kết vĩnh cửu giữa hai người.",
       "targetedConcept": "The overarching existential and romantic philosophy of One Day",
       "targetedConceptEn": "The overarching existential and romantic philosophy of One Day",
       "targetedConceptVi": "Triết lý nhân sinh và tình yêu bao trùm của tác phẩm One Day",
-      "referenceSegmentIndex": 50
+      "referenceSegmentIndex": 51
     },
     {
       "id": "mov_rom_07_q8",
@@ -268,13 +268,13 @@ export const QUIZ_ONE_DAY_EMMA_DEXTER_LOVE_STORY: VideoQuizData = {
         "Anh thề sẽ mua tặng bố mẹ cô một chiếc máy fax mới tinh cho gia đình."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 81, as Emma says goodbye, Dexter reassures her with heartfelt conviction: 'I know. But we will see each other again,' sealing their destiny.",
-      "explanationEn": "In Segment 81, as Emma says goodbye, Dexter reassures her with heartfelt conviction: 'I know. But we will see each other again,' sealing their destiny.",
-      "explanationVi": "Trong Phân đoạn 81, khi Emma chuẩn bị bước đi, Dexter trấn an cô bằng niềm tin mãnh liệt từ đáy lòng: 'Anh biết. Nhưng chắc chắn chúng ta sẽ gặp lại nhau mà', gắn kết số phận của họ suốt 20 năm.",
+      "explanation": "In Segment 82, as Emma says goodbye, Dexter reassures her with heartfelt conviction: 'I know. But we will see each other again,' sealing their destiny.",
+      "explanationEn": "In Segment 82, as Emma says goodbye, Dexter reassures her with heartfelt conviction: 'I know. But we will see each other again,' sealing their destiny.",
+      "explanationVi": "Trong Phân đoạn 82, khi Emma chuẩn bị bước đi, Dexter trấn an cô bằng niềm tin mãnh liệt từ đáy lòng: 'Anh biết. Nhưng chắc chắn chúng ta sẽ gặp lại nhau mà', gắn kết số phận của họ suốt 20 năm.",
       "targetedConcept": "Faith in romantic destiny and the enduring promise of reunion",
       "targetedConceptEn": "Faith in romantic destiny and the enduring promise of reunion",
       "targetedConceptVi": "Niềm tin vào định mệnh tình yêu và lời hứa hẹn gặp lại bất diệt",
-      "referenceSegmentIndex": 81
+      "referenceSegmentIndex": 82
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "Bản tình ca bất hủ chuyển thể từ tiểu thuyết One Day của David Nicholls: Emma Morley và Dexter Mayhew qua từng mốc ngày 15 tháng 7, những lời hẹn ước dang dở và tình yêu khắc cốt ghi tâm kéo dài suốt hai thập kỷ.",
   segments: [
   {
-    "orderIndex": 0,
+    "orderIndex": 1,
     "startTime": 0,
     "endTime": 4.5,
     "text": "So this is me.",
@@ -315,7 +315,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 1,
+    "orderIndex": 2,
     "startTime": 4.6,
     "endTime": 8.5,
     "text": "'Faffing' is fine, but anyone can talk.",
@@ -330,7 +330,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 2,
+    "orderIndex": 3,
     "startTime": 8.6,
     "endTime": 12,
     "text": "Just... sometimes action is what's needed.",
@@ -345,7 +345,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 3,
+    "orderIndex": 4,
     "startTime": 12.1,
     "endTime": 14.5,
     "text": "God, you need to change the world.",
@@ -359,7 +359,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 4,
+    "orderIndex": 5,
     "startTime": 14.6,
     "endTime": 16.5,
     "text": "I completely agree.",
@@ -373,7 +373,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 5,
+    "orderIndex": 6,
     "startTime": 16.6,
     "endTime": 20,
     "text": "So what is that, a swimming costume?",
@@ -387,7 +387,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 6,
+    "orderIndex": 7,
     "startTime": 20.1,
     "endTime": 22.5,
     "text": "It's called Edwardian.",
@@ -403,7 +403,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 7,
+    "orderIndex": 8,
     "startTime": 22.6,
     "endTime": 32,
     "text": "No, the masonry paint. Factor 30, I burn.",
@@ -419,7 +419,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 8,
+    "orderIndex": 9,
     "startTime": 33,
     "endTime": 43,
     "text": "Here, let me.",
@@ -433,7 +433,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 9,
+    "orderIndex": 10,
     "startTime": 43.5,
     "endTime": 46.5,
     "text": "I've not seen this before.",
@@ -447,7 +447,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 10,
+    "orderIndex": 11,
     "startTime": 47,
     "endTime": 53,
     "text": "What, that? I got that in Thailand. It's a yin-yang.",
@@ -464,7 +464,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 11,
+    "orderIndex": 12,
     "startTime": 53.5,
     "endTime": 56.5,
     "text": "Looks like a road sign.",
@@ -478,7 +478,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 12,
+    "orderIndex": 13,
     "startTime": 57,
     "endTime": 61.5,
     "text": "Yeah, well, it means a perfect union of opposites.",
@@ -493,7 +493,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 13,
+    "orderIndex": 14,
     "startTime": 62,
     "endTime": 65,
     "text": "It means wear some socks.",
@@ -507,7 +507,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 14,
+    "orderIndex": 15,
     "startTime": 65.5,
     "endTime": 70,
     "text": "This is scooped a bit low, isn't it?",
@@ -521,7 +521,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 15,
+    "orderIndex": 16,
     "startTime": 70.5,
     "endTime": 85,
     "text": "Good job I didn't put it on backwards.",
@@ -536,7 +536,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 16,
+    "orderIndex": 17,
     "startTime": 86,
     "endTime": 98,
     "text": "Dex, we should go.",
@@ -553,7 +553,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 17,
+    "orderIndex": 18,
     "startTime": 99,
     "endTime": 105,
     "text": "Absolutely, let's go.",
@@ -568,7 +568,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 18,
+    "orderIndex": 19,
     "startTime": 106,
     "endTime": 115,
     "text": "Wait!",
@@ -582,7 +582,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 19,
+    "orderIndex": 20,
     "startTime": 116,
     "endTime": 131,
     "text": "Dexter! I thought I got rid of you.",
@@ -599,7 +599,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 20,
+    "orderIndex": 21,
     "startTime": 131.5,
     "endTime": 135.5,
     "text": "If you muck me about, Dexter, and I swear...",
@@ -617,7 +617,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 21,
+    "orderIndex": 22,
     "startTime": 136,
     "endTime": 141,
     "text": "I swear, if you lead me on, or let me down, or go behind my back, I will murder you.",
@@ -634,7 +634,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 22,
+    "orderIndex": 23,
     "startTime": 141.5,
     "endTime": 144,
     "text": "Do you swear?",
@@ -648,7 +648,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 23,
+    "orderIndex": 24,
     "startTime": 144.5,
     "endTime": 152,
     "text": "Yeah, I swear. I swear.",
@@ -662,7 +662,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 24,
+    "orderIndex": 25,
     "startTime": 152.5,
     "endTime": 169,
     "text": "I won't lead you on, or let you down, or go behind your back.",
@@ -677,7 +677,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 14
   },
   {
-    "orderIndex": 25,
+    "orderIndex": 26,
     "startTime": 170,
     "endTime": 173,
     "text": "Dexter...",
@@ -693,7 +693,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 26,
+    "orderIndex": 27,
     "startTime": 173.5,
     "endTime": 175,
     "text": "Yeah?",
@@ -707,7 +707,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 1
   },
   {
-    "orderIndex": 27,
+    "orderIndex": 28,
     "startTime": 175.5,
     "endTime": 178,
     "text": "I've been thinking.",
@@ -721,7 +721,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 28,
+    "orderIndex": 29,
     "startTime": 178.5,
     "endTime": 181,
     "text": "What's that?",
@@ -735,7 +735,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 29,
+    "orderIndex": 30,
     "startTime": 181.5,
     "endTime": 190.5,
     "text": "I want a child with the man I love.",
@@ -750,7 +750,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 30,
+    "orderIndex": 31,
     "startTime": 191,
     "endTime": 199.5,
     "text": "And if he won't do it, then I want one with you.",
@@ -764,7 +764,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 31,
+    "orderIndex": 32,
     "startTime": 200,
     "endTime": 212,
     "text": "Well then, we'd better get started.",
@@ -778,7 +778,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 32,
+    "orderIndex": 33,
     "startTime": 212.5,
     "endTime": 246,
     "text": "Come here.",
@@ -792,7 +792,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 33,
+    "orderIndex": 34,
     "startTime": 247,
     "endTime": 251.5,
     "text": "It's all right, don't panic! It's only me.",
@@ -807,7 +807,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 34,
+    "orderIndex": 35,
     "startTime": 252,
     "endTime": 255,
     "text": "Emma. Emma Morley.",
@@ -825,7 +825,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 35,
+    "orderIndex": 36,
     "startTime": 255.5,
     "endTime": 257,
     "text": "Yes, hello.",
@@ -839,7 +839,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 36,
+    "orderIndex": 37,
     "startTime": 257.5,
     "endTime": 263,
     "text": "So what do you suggest we do? We can stay in touch...",
@@ -854,7 +854,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 37,
+    "orderIndex": 38,
     "startTime": 263.5,
     "endTime": 267.5,
     "text": "Today. We're meant to be doing something today, right?",
@@ -869,7 +869,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 38,
+    "orderIndex": 39,
     "startTime": 268,
     "endTime": 273.5,
     "text": "Right, right. Look, today's a bit tricky for me, really.",
@@ -883,7 +883,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 39,
+    "orderIndex": 40,
     "startTime": 274,
     "endTime": 282,
     "text": "No, it's not that, it's just my parents... and then I've got to get back, do all these things before I head back.",
@@ -898,7 +898,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 23
   },
   {
-    "orderIndex": 40,
+    "orderIndex": 41,
     "startTime": 282.5,
     "endTime": 288,
     "text": "It was lovely to meet you. Bye.",
@@ -913,7 +913,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 41,
+    "orderIndex": 42,
     "startTime": 288.5,
     "endTime": 295,
     "text": "Now, look, that's not until later.",
@@ -927,7 +927,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 42,
+    "orderIndex": 43,
     "startTime": 295.5,
     "endTime": 308,
     "text": "So if you wanted to, we could go for a walk or something.",
@@ -941,7 +941,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 13
   },
   {
-    "orderIndex": 43,
+    "orderIndex": 44,
     "startTime": 308.5,
     "endTime": 318,
     "text": "Let's go.",
@@ -955,7 +955,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 44,
+    "orderIndex": 45,
     "startTime": 319,
     "endTime": 322,
     "text": "Okay, come on, keep up!",
@@ -969,7 +969,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 45,
+    "orderIndex": 46,
     "startTime": 322.5,
     "endTime": 326.5,
     "text": "It's these shoes! I can't go mountain climbing in brogues!",
@@ -984,7 +984,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 46,
+    "orderIndex": 47,
     "startTime": 327,
     "endTime": 334.5,
     "text": "It's not K2, it's just a big hill, all right? A child could do it.",
@@ -1002,7 +1002,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 15
   },
   {
-    "orderIndex": 47,
+    "orderIndex": 48,
     "startTime": 335,
     "endTime": 340,
     "text": "I don't want you thinking I'm bothered or anything about last night.",
@@ -1017,7 +1017,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 48,
+    "orderIndex": 49,
     "startTime": 340.5,
     "endTime": 344.5,
     "text": "I don't want your phone number, or letters, or postcards.",
@@ -1033,7 +1033,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 49,
+    "orderIndex": 50,
     "startTime": 345,
     "endTime": 350,
     "text": "I don't want to get married to you, definitely don't want to have your babies.",
@@ -1048,7 +1048,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 15
   },
   {
-    "orderIndex": 50,
+    "orderIndex": 51,
     "startTime": 350.5,
     "endTime": 355,
     "text": "Whatever happens tomorrow, we had today.",
@@ -1063,7 +1063,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 51,
+    "orderIndex": 52,
     "startTime": 355.5,
     "endTime": 363,
     "text": "And if we should bump into each other sometime in the future, well that's fine too.",
@@ -1078,7 +1078,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 16
   },
   {
-    "orderIndex": 52,
+    "orderIndex": 53,
     "startTime": 363.5,
     "endTime": 367,
     "text": "We'll be friends.",
@@ -1092,7 +1092,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 53,
+    "orderIndex": 54,
     "startTime": 367.5,
     "endTime": 373,
     "text": "Yeah, all right.",
@@ -1106,7 +1106,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 3
   },
   {
-    "orderIndex": 54,
+    "orderIndex": 55,
     "startTime": 373.5,
     "endTime": 378,
     "text": "Oh, on the other hand...",
@@ -1120,7 +1120,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 55,
+    "orderIndex": 56,
     "startTime": 378.5,
     "endTime": 380.5,
     "text": "Go on.",
@@ -1134,7 +1134,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 56,
+    "orderIndex": 57,
     "startTime": 381,
     "endTime": 388,
     "text": "Well, my parents don't arrive until later, so...",
@@ -1148,7 +1148,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 57,
+    "orderIndex": 58,
     "startTime": 388.5,
     "endTime": 396,
     "text": "So the flat's empty, if you wanted to finish what we started...",
@@ -1163,7 +1163,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 12
   },
   {
-    "orderIndex": 58,
+    "orderIndex": 59,
     "startTime": 396.5,
     "endTime": 406,
     "text": "Sober and in daylight?",
@@ -1178,7 +1178,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 4
   },
   {
-    "orderIndex": 59,
+    "orderIndex": 60,
     "startTime": 406.5,
     "endTime": 415,
     "text": "Race you!",
@@ -1192,7 +1192,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 60,
+    "orderIndex": 61,
     "startTime": 415.5,
     "endTime": 432,
     "text": "Come on! You can't beat me!",
@@ -1206,7 +1206,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 61,
+    "orderIndex": 62,
     "startTime": 433,
     "endTime": 437,
     "text": "Just around the corner, this way...",
@@ -1220,7 +1220,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 62,
+    "orderIndex": 63,
     "startTime": 437.5,
     "endTime": 442,
     "text": "Oh, goddamn it, they're early!",
@@ -1235,7 +1235,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 63,
+    "orderIndex": 64,
     "startTime": 442.5,
     "endTime": 445,
     "text": "You're early!",
@@ -1249,7 +1249,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 64,
+    "orderIndex": 65,
     "startTime": 445.5,
     "endTime": 451,
     "text": "We thought we'd surprise you. Clearly we have.",
@@ -1264,7 +1264,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 65,
+    "orderIndex": 66,
     "startTime": 451.5,
     "endTime": 455,
     "text": "Uh, Mom, Dad, this is Emma Morley.",
@@ -1280,7 +1280,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 66,
+    "orderIndex": 67,
     "startTime": 455.5,
     "endTime": 460,
     "text": "Pleasure to meet you, Emma. You'll join us for tea, yes?",
@@ -1297,7 +1297,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 11
   },
   {
-    "orderIndex": 67,
+    "orderIndex": 68,
     "startTime": 460.5,
     "endTime": 465,
     "text": "Oh, no, thanks. I should leave you to it.",
@@ -1311,7 +1311,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 68,
+    "orderIndex": 69,
     "startTime": 465.5,
     "endTime": 470,
     "text": "You're going to go? Yeah, well, pleasure to meet you.",
@@ -1325,7 +1325,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 10
   },
   {
-    "orderIndex": 69,
+    "orderIndex": 70,
     "startTime": 470.5,
     "endTime": 476,
     "text": "Well, right. Have a nice life!",
@@ -1339,7 +1339,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 70,
+    "orderIndex": 71,
     "startTime": 476.5,
     "endTime": 482,
     "text": "I'm sorry, did we just interrupt something?",
@@ -1353,7 +1353,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 71,
+    "orderIndex": 72,
     "startTime": 482.5,
     "endTime": 486,
     "text": "No, no, Em's just a good friend.",
@@ -1369,7 +1369,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 7
   },
   {
-    "orderIndex": 72,
+    "orderIndex": 73,
     "startTime": 486.5,
     "endTime": 493,
     "text": "Weren't you wearing this yesterday? You're a rascal.",
@@ -1384,7 +1384,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 73,
+    "orderIndex": 74,
     "startTime": 494,
     "endTime": 502,
     "text": "Wait! Wait! Look, I need your phone number!",
@@ -1398,7 +1398,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 74,
+    "orderIndex": 75,
     "startTime": 502.5,
     "endTime": 506,
     "text": "A number? Right, of course.",
@@ -1412,7 +1412,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 75,
+    "orderIndex": 76,
     "startTime": 506.5,
     "endTime": 514,
     "text": "Look, I'm so sorry about all of that, you know. I wasn't expecting them until after we... well, you know.",
@@ -1427,7 +1427,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 20
   },
   {
-    "orderIndex": 76,
+    "orderIndex": 77,
     "startTime": 514.5,
     "endTime": 518.5,
     "text": "Right, this is me in Edinburgh.",
@@ -1443,7 +1443,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 77,
+    "orderIndex": 78,
     "startTime": 519,
     "endTime": 525,
     "text": "My parents' number, and their address just in case.",
@@ -1458,7 +1458,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 78,
+    "orderIndex": 79,
     "startTime": 525.5,
     "endTime": 530,
     "text": "Oh, Dad's got a fax machine at work...",
@@ -1472,7 +1472,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 8
   },
   {
-    "orderIndex": 79,
+    "orderIndex": 80,
     "startTime": 530.5,
     "endTime": 540,
     "text": "Just... just a phone number is fine, thank you.",
@@ -1486,7 +1486,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 80,
+    "orderIndex": 81,
     "startTime": 560,
     "endTime": 564,
     "text": "Look, I've got to go.",
@@ -1500,7 +1500,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 5
   },
   {
-    "orderIndex": 81,
+    "orderIndex": 82,
     "startTime": 564.5,
     "endTime": 570,
     "text": "I know. But we will see each other again.",
@@ -1514,7 +1514,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 9
   },
   {
-    "orderIndex": 82,
+    "orderIndex": 83,
     "startTime": 570.5,
     "endTime": 575,
     "text": "I know we will. Goodbye, Dex.",
@@ -1531,7 +1531,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 6
   },
   {
-    "orderIndex": 83,
+    "orderIndex": 84,
     "startTime": 575.5,
     "endTime": 582,
     "text": "Goodbye, Emma.",
@@ -1548,7 +1548,7 @@ export const LESSON_ONE_DAY_EMMA_DEXTER_LOVE_STORY: MockVideoLesson = {
     "tokenCount": 2
   },
   {
-    "orderIndex": 84,
+    "orderIndex": 85,
     "startTime": 582.5,
     "endTime": 604,
     "text": "Whatever happens tomorrow, we had today.",

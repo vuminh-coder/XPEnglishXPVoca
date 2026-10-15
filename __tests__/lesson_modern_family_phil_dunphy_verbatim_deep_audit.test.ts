@@ -4,6 +4,28 @@ import {
   QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED,
 } from "../features/listening/data/lessons/movies/sitcoms/lesson_modern_family_phil_dunphy";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        cleanText: clean,
+        isProperNoun: isPN,
+        isPunctuation: /^[^\w\s]+$/.test(w),
+      };
+    })
+    .filter((t) => t.cleanText.length > 0 || t.isPunctuation);
+}
+
 describe("Video #15 (mov_sit_03): Modern Family Phil Dunphy Verbatim Deep Audit & Pedagogical Rigor", () => {
   const segments = LESSON_MODERN_FAMILY_PHIL_DUNPHY.segments;
 
@@ -29,10 +51,10 @@ describe("Video #15 (mov_sit_03): Modern Family Phil Dunphy Verbatim Deep Audit 
     expect(fullTranscript).toContain("When life gives you lemonade, make lemons");
   });
 
-  it("2. Word Count Precision: tokenCount matches regex word count for all segments", () => {
+  it("2. Word Count Precision: tokenCount matches tokenizeSentence for all segments", () => {
     for (const seg of segments) {
-      const actualWords = (seg.text.match(/\b\w+\b/g) || []).length;
-      expect(seg.tokenCount).toBe(actualWords);
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
@@ -64,11 +86,11 @@ describe("Video #15 (mov_sit_03): Modern Family Phil Dunphy Verbatim Deep Audit 
     }
   });
 
-  it("6. Quiz Reference Segments: All referenceSegmentIndices point to valid segments", () => {
+  it("6. Quiz Reference Segments: All referenceSegmentIndices within 1..N (1-indexed)", () => {
     for (const q of QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED.questions) {
       if (q.referenceSegmentIndex !== undefined) {
-        expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-        expect(q.referenceSegmentIndex).toBeLessThan(segments.length);
+        expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+        expect(q.referenceSegmentIndex).toBeLessThanOrEqual(segments.length);
       }
     }
   });

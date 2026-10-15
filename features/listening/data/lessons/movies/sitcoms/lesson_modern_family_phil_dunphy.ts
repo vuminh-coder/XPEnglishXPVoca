@@ -50,7 +50,7 @@ export const QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED: VideoQuizData = {
       "targetedConcept": "Humorous Slang Misinterpretation",
       "targetedConceptEn": "Humorous Slang Misinterpretation",
       "targetedConceptVi": "Hiểu nhầm từ lóng hài hước",
-      "referenceSegmentIndex": 3
+      "referenceSegmentIndex": 4
     },
     {
       "id": "q_mov_sit_03_2",
@@ -82,7 +82,7 @@ export const QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED: VideoQuizData = {
       "targetedConcept": "Informal Idiom for Financial Payment",
       "targetedConceptEn": "Informal Idiom for Financial Payment",
       "targetedConceptVi": "Thành ngữ tiếng lóng thanh toán tài chính",
-      "referenceSegmentIndex": 13
+      "referenceSegmentIndex": 16
     },
     {
       "id": "q_mov_sit_03_3",
@@ -114,7 +114,7 @@ export const QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED: VideoQuizData = {
       "targetedConcept": "Metaphorical Expression for Confrontation",
       "targetedConceptEn": "Metaphorical Expression for Confrontation",
       "targetedConceptVi": "Ẩn dụ về cuộc đối đầu tâm lý",
-      "referenceSegmentIndex": 17
+      "referenceSegmentIndex": 21
     },
     {
       "id": "q_mov_sit_03_4",
@@ -146,7 +146,7 @@ export const QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED: VideoQuizData = {
       "targetedConcept": "Conversational Phrasal Verb / Idiom",
       "targetedConceptEn": "Conversational Phrasal Verb / Idiom",
       "targetedConceptVi": "Cụm động từ thành ngữ giao tiếp",
-      "referenceSegmentIndex": 36
+      "referenceSegmentIndex": 46
     },
     {
       "id": "q_mov_sit_03_5",
@@ -178,7 +178,7 @@ export const QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED: VideoQuizData = {
       "targetedConcept": "Humorous Contrast of Social Registers",
       "targetedConceptEn": "Humorous Contrast of Social Registers",
       "targetedConceptVi": "Sự tương phản hài hước về phong cách xã hội",
-      "referenceSegmentIndex": 46
+      "referenceSegmentIndex": 73
     },
     {
       "id": "q_mov_sit_03_6",
@@ -210,7 +210,7 @@ export const QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED: VideoQuizData = {
       "targetedConcept": "Temporal Idiomatic Expression",
       "targetedConceptEn": "Temporal Idiomatic Expression",
       "targetedConceptVi": "Thành ngữ thời gian đền bù",
-      "referenceSegmentIndex": 60
+      "referenceSegmentIndex": 99
     },
     {
       "id": "q_mov_sit_03_7",
@@ -242,7 +242,7 @@ export const QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED: VideoQuizData = {
       "targetedConcept": "Irony and Satirical Wordplay",
       "targetedConceptEn": "Irony and Satirical Wordplay",
       "targetedConceptVi": "Nghịch lý mỉa mai và chơi chữ trào phúng",
-      "referenceSegmentIndex": 71
+      "referenceSegmentIndex": 123
     },
     {
       "id": "q_mov_sit_03_8",
@@ -274,7 +274,7 @@ export const QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED: VideoQuizData = {
       "targetedConcept": "Proverb Subversion for Comedic Effect",
       "targetedConceptEn": "Proverb Subversion for Comedic Effect",
       "targetedConceptVi": "Biến tấu tục ngữ để tạo hiệu ứng hài hước",
-      "referenceSegmentIndex": 74
+      "referenceSegmentIndex": 128
     }
   ]
 };
@@ -312,8 +312,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cụm 'that's my thing' chỉ đặc điểm nhận dạng, sở thích hoặc phong cách cá nhân đặc trưng.",
         "properNouns": [],
-        "orderIndex": 0,
-        "tokenCount": 9
+        "orderIndex": 1,
+        "tokenCount": 7
     },
     {
         "startTime": 3.5,
@@ -328,8 +328,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Hip' mang nghĩa sành điệu, bắt kịp xu hướng giới trẻ (thường đối lập với sự già cỗi).",
         "properNouns": [],
-        "orderIndex": 1,
-        "tokenCount": 9
+        "orderIndex": 2,
+        "tokenCount": 8
     },
     {
         "startTime": 6.3,
@@ -343,7 +343,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil khoe việc hiểu các từ viết tắt nhắn tin của giới trẻ thời kỳ đầu Internet.",
         "properNouns": [],
-        "orderIndex": 2,
+        "orderIndex": 3,
         "tokenCount": 8
     },
     {
@@ -358,7 +358,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cú hiểu nhầm tiếng lóng bất hủ của Phil khi biến từ chửi thề thành câu hỏi ngây thơ 'Why the face?'.",
         "properNouns": [],
-        "orderIndex": 3,
+        "orderIndex": 4,
         "tokenCount": 4
     },
     {
@@ -375,7 +375,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "High School Musical"
         ],
-        "orderIndex": 4,
+        "orderIndex": 5,
         "tokenCount": 12
     },
     {
@@ -389,8 +389,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil vừa hát vừa nhảy bài hát chủ đề nổi tiếng của bộ phim High School Musical.",
         "properNouns": [],
-        "orderIndex": 5,
-        "tokenCount": 9
+        "orderIndex": 6,
+        "tokenCount": 8
     },
     {
         "startTime": 19.6,
@@ -403,8 +403,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Năng lượng tích cực và sự hồn nhiên đặc trưng của nhân vật Phil Dunphy.",
         "properNouns": [],
-        "orderIndex": 6,
-        "tokenCount": 9
+        "orderIndex": 7,
+        "tokenCount": 7
     },
     {
         "startTime": 29.2,
@@ -420,7 +420,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Kenny"
         ],
-        "orderIndex": 7,
+        "orderIndex": 8,
         "tokenCount": 13
     },
     {
@@ -437,7 +437,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Phil"
         ],
-        "orderIndex": 8,
+        "orderIndex": 9,
         "tokenCount": 11
     },
     {
@@ -454,8 +454,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Kenny"
         ],
-        "orderIndex": 9,
-        "tokenCount": 17
+        "orderIndex": 10,
+        "tokenCount": 15
     },
     {
         "startTime": 41.8,
@@ -468,7 +468,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley ngạc nhiên hoài nghi trước phản ứng quá hào phóng bất thường của bố mẹ.",
         "properNouns": [],
-        "orderIndex": 10,
+        "orderIndex": 11,
         "tokenCount": 3
     },
     {
@@ -484,7 +484,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Phil"
         ],
-        "orderIndex": 11,
+        "orderIndex": 12,
         "tokenCount": 7
     },
     {
@@ -499,7 +499,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley tiếp tục thăm dò giới hạn chịu đựng và sự kiên nhẫn của bố mẹ.",
         "properNouns": [],
-        "orderIndex": 12,
+        "orderIndex": 13,
         "tokenCount": 13
     },
     {
@@ -514,8 +514,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Thành ngữ 'you're only young once' (hãy tận hưởng khi còn trẻ) được dùng đầy châm biếm.",
         "properNouns": [],
-        "orderIndex": 13,
-        "tokenCount": 7
+        "orderIndex": 14,
+        "tokenCount": 6
     },
     {
         "startTime": 52.9,
@@ -529,7 +529,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley đẩy mức độ thách thức lên đỉnh điểm khi gợi ý việc ở lại khách sạn qua đêm với Kenny.",
         "properNouns": [],
-        "orderIndex": 14,
+        "orderIndex": 15,
         "tokenCount": 11
     },
     {
@@ -543,7 +543,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Put it on the plastic' là tiếng lóng nói về việc thanh toán bằng thẻ tín dụng (plastic card).",
         "properNouns": [],
-        "orderIndex": 15,
+        "orderIndex": 16,
         "tokenCount": 6
     },
     {
@@ -557,7 +557,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley buột miệng mắng thầm anh chàng bạn trai sau khi thấy bố mẹ quá bình thản ủng hộ.",
         "properNouns": [],
-        "orderIndex": 16,
+        "orderIndex": 17,
         "tokenCount": 1
     },
     {
@@ -571,8 +571,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley đành chào tạm biệt và bước ra ngoài trong sự ngỡ ngàng.",
         "properNouns": [],
-        "orderIndex": 17,
-        "tokenCount": 6
+        "orderIndex": 18,
+        "tokenCount": 5
     },
     {
         "startTime": 63.8,
@@ -585,8 +585,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Câu đùa của Kenny qua điện thoại cho thấy anh ta từng ly hôn nhiều lần.",
         "properNouns": [],
-        "orderIndex": 18,
-        "tokenCount": 9
+        "orderIndex": 19,
+        "tokenCount": 7
     },
     {
         "startTime": 66.6,
@@ -599,7 +599,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Giọng điệu cộc cằn của Kenny khiến Phil càng thêm sôi ruột.",
         "properNouns": [],
-        "orderIndex": 19,
+        "orderIndex": 20,
         "tokenCount": 4
     },
     {
@@ -616,8 +616,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Claire"
         ],
-        "orderIndex": 20,
-        "tokenCount": 8
+        "orderIndex": 21,
+        "tokenCount": 7
     },
     {
         "startTime": 71.1,
@@ -630,8 +630,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Almost positive' nghĩa là gần như chắc chắn 100%.",
         "properNouns": [],
-        "orderIndex": 21,
-        "tokenCount": 8
+        "orderIndex": 22,
+        "tokenCount": 7
     },
     {
         "startTime": 72.9,
@@ -644,7 +644,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil hoảng hốt bộc lộ sự thiếu kiên nhẫn khi thấy con gái thực sự rời đi.",
         "properNouns": [],
-        "orderIndex": 22,
+        "orderIndex": 23,
         "tokenCount": 7
     },
     {
@@ -662,7 +662,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "iPod"
         ],
-        "orderIndex": 23,
+        "orderIndex": 24,
         "tokenCount": 17
     },
     {
@@ -679,8 +679,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Pluto"
         ],
-        "orderIndex": 24,
-        "tokenCount": 13
+        "orderIndex": 25,
+        "tokenCount": 12
     },
     {
         "startTime": 82.2,
@@ -697,8 +697,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
             "The View",
             "Demi"
         ],
-        "orderIndex": 25,
-        "tokenCount": 18
+        "orderIndex": 26,
+        "tokenCount": 16
     },
     {
         "startTime": 89.8,
@@ -712,8 +712,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley quay lại chất vấn mẹ Claire ngoài hiên nhà.",
         "properNouns": [],
-        "orderIndex": 26,
-        "tokenCount": 16
+        "orderIndex": 27,
+        "tokenCount": 14
     },
     {
         "startTime": 93.7,
@@ -727,8 +727,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley bộc bạch sự bối rối khi thấy thái độ của bố mẹ thay đổi sau khi cô rời trường đại học.",
         "properNouns": [],
-        "orderIndex": 27,
-        "tokenCount": 17
+        "orderIndex": 28,
+        "tokenCount": 15
     },
     {
         "startTime": 97.6,
@@ -742,8 +742,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'For the record' là cụm từ nhấn mạnh sự thật chính xác cần được ghi nhận công khai.",
         "properNouns": [],
-        "orderIndex": 28,
-        "tokenCount": 11
+        "orderIndex": 29,
+        "tokenCount": 10
     },
     {
         "startTime": 100.7,
@@ -757,7 +757,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley cảm nhận thấy sự thất vọng sâu sắc trong mắt bố Phil.",
         "properNouns": [],
-        "orderIndex": 29,
+        "orderIndex": 30,
         "tokenCount": 9
     },
     {
@@ -771,8 +771,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley ngắt lời Claire vì cảm thấy mặc cảm tội lỗi.",
         "properNouns": [],
-        "orderIndex": 30,
-        "tokenCount": 15
+        "orderIndex": 31,
+        "tokenCount": 14
     },
     {
         "startTime": 107.4,
@@ -786,8 +786,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'A huge disappointment' thể hiện cảm xúc tự ti sâu sắc của người con đối với kỳ vọng của cha mẹ.",
         "properNouns": [],
-        "orderIndex": 31,
-        "tokenCount": 15
+        "orderIndex": 32,
+        "tokenCount": 14
     },
     {
         "startTime": 110.6,
@@ -801,8 +801,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cấu trúc 'acts as if' diễn tả hành vi giả định mang sắc thái chạnh lòng.",
         "properNouns": [],
-        "orderIndex": 32,
-        "tokenCount": 11
+        "orderIndex": 33,
+        "tokenCount": 10
     },
     {
         "startTime": 113.9,
@@ -816,8 +816,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil không thể tiếp tục đứng nhìn con gái tổn thương và quyết định xông ra bảo vệ con.",
         "properNouns": [],
-        "orderIndex": 33,
-        "tokenCount": 20
+        "orderIndex": 34,
+        "tokenCount": 18
     },
     {
         "startTime": 117.6,
@@ -831,8 +831,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Bản năng của người cha bùng nổ: tình yêu thương vô điều kiện của Phil dành cho con gái.",
         "properNouns": [],
-        "orderIndex": 34,
-        "tokenCount": 20
+        "orderIndex": 35,
+        "tokenCount": 19
     },
     {
         "startTime": 121.1,
@@ -847,8 +847,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cụm 'let alone' có nghĩa là 'chưa kể đến, huống chi là'. 'Slimy' miêu tả kẻ giả tạo, nhớp nhúa.",
         "properNouns": [],
-        "orderIndex": 35,
-        "tokenCount": 8
+        "orderIndex": 36,
+        "tokenCount": 7
     },
     {
         "startTime": 127.1,
@@ -861,8 +861,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Claire mỉm cười hài lòng khi chứng kiến hành động yêu thương dứt khoát của Phil dành cho Haley.",
         "properNouns": [],
-        "orderIndex": 36,
-        "tokenCount": 6
+        "orderIndex": 37,
+        "tokenCount": 5
     },
     {
         "startTime": 130.2,
@@ -876,7 +876,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Luke phấn khích kể lại trải nghiệm trên chuyến tàu lượn siêu tốc tại công viên Disneyland.",
         "properNouns": [],
-        "orderIndex": 37,
+        "orderIndex": 38,
         "tokenCount": 15
     },
     {
@@ -890,8 +890,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil cố gắng giữ thể diện trước mặt các con dù cả người đang lảo đảo chóng mặt.",
         "properNouns": [],
-        "orderIndex": 38,
-        "tokenCount": 10
+        "orderIndex": 39,
+        "tokenCount": 8
     },
     {
         "startTime": 137.3,
@@ -905,8 +905,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil chữa thẹn hài hước bằng định nghĩa về hôn nhân khi phải vịn vào vai Claire.",
         "properNouns": [],
-        "orderIndex": 39,
-        "tokenCount": 15
+        "orderIndex": 40,
+        "tokenCount": 13
     },
     {
         "startTime": 140.5,
@@ -921,7 +921,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Alex"
         ],
-        "orderIndex": 40,
+        "orderIndex": 41,
         "tokenCount": 9
     },
     {
@@ -938,8 +938,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Jay"
         ],
-        "orderIndex": 41,
-        "tokenCount": 18
+        "orderIndex": 42,
+        "tokenCount": 17
     },
     {
         "startTime": 150.5,
@@ -954,8 +954,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Can't take the motion' nghĩa là cơ thể không còn chịu được cảm giác rung lắc dữ dội.",
         "properNouns": [],
-        "orderIndex": 42,
-        "tokenCount": 20
+        "orderIndex": 43,
+        "tokenCount": 17
     },
     {
         "startTime": 154.4,
@@ -971,7 +971,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Dramamine"
         ],
-        "orderIndex": 43,
+        "orderIndex": 44,
         "tokenCount": 13
     },
     {
@@ -986,8 +986,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil kiên quyết phủ nhận sự lão hóa bằng lý do trẻ con: do ăn quá nhiều kem tươi vẽ mặt cười.",
         "properNouns": [],
-        "orderIndex": 44,
-        "tokenCount": 28
+        "orderIndex": 45,
+        "tokenCount": 27
     },
     {
         "startTime": 163.4,
@@ -1005,7 +1005,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
             "Luke",
             "Jay"
         ],
-        "orderIndex": 45,
+        "orderIndex": 46,
         "tokenCount": 28
     },
     {
@@ -1022,8 +1022,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Jay"
         ],
-        "orderIndex": 46,
-        "tokenCount": 22
+        "orderIndex": 47,
+        "tokenCount": 21
     },
     {
         "startTime": 173.6,
@@ -1039,8 +1039,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Luke"
         ],
-        "orderIndex": 47,
-        "tokenCount": 14
+        "orderIndex": 48,
+        "tokenCount": 12
     },
     {
         "startTime": 190.6,
@@ -1054,7 +1054,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Luke phấn khích kể lại những chi tiết điên rồ trên đường ray tàu lượn.",
         "properNouns": [],
-        "orderIndex": 48,
+        "orderIndex": 49,
         "tokenCount": 16
     },
     {
@@ -1069,7 +1069,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Luke vừa đạt đủ chiều cao tiêu chuẩn để được phép vào các trò chơi cảm giác mạnh.",
         "properNouns": [],
-        "orderIndex": 49,
+        "orderIndex": 50,
         "tokenCount": 15
     },
     {
@@ -1084,8 +1084,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil lảo đảo kéo con trai ngồi xuống ghế đá khi không thể gượng thêm được nữa.",
         "properNouns": [],
-        "orderIndex": 50,
-        "tokenCount": 14
+        "orderIndex": 51,
+        "tokenCount": 13
     },
     {
         "startTime": 203.8,
@@ -1098,8 +1098,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil lần đầu tiên thẳng thắn thú nhận sự yếu đuối và giới hạn thể lực với con trai.",
         "properNouns": [],
-        "orderIndex": 51,
-        "tokenCount": 9
+        "orderIndex": 52,
+        "tokenCount": 8
     },
     {
         "startTime": 207.1,
@@ -1113,8 +1113,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Thành ngữ 'these rides are killing me' nhấn mạnh cảm giác kiệt sức, say xẩm mặt mày.",
         "properNouns": [],
-        "orderIndex": 52,
-        "tokenCount": 21
+        "orderIndex": 53,
+        "tokenCount": 20
     },
     {
         "startTime": 213.2,
@@ -1128,8 +1128,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Sự thừa nhận quy luật tự nhiên của thời gian một cách chân thành.",
         "properNouns": [],
-        "orderIndex": 53,
-        "tokenCount": 13
+        "orderIndex": 54,
+        "tokenCount": 12
     },
     {
         "startTime": 218.4,
@@ -1143,7 +1143,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil bày tỏ tình cảm thiêng liêng: tình bạn tri kỷ giữa hai bố con qua những trò chơi tinh nghịch.",
         "properNouns": [],
-        "orderIndex": 54,
+        "orderIndex": 55,
         "tokenCount": 15
     },
     {
@@ -1159,7 +1159,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Những trò nghịch ngợm đặc trưng của cặp đôi Phil & Luke trong các mùa phim Modern Family.",
         "properNouns": [],
-        "orderIndex": 55,
+        "orderIndex": 56,
         "tokenCount": 16
     },
     {
@@ -1176,7 +1176,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Mentos"
         ],
-        "orderIndex": 56,
+        "orderIndex": 57,
         "tokenCount": 17
     },
     {
@@ -1191,8 +1191,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Nỗi buồn sâu lắng của người bố khi nhận ra tuổi trẻ đang dần qua đi.",
         "properNouns": [],
-        "orderIndex": 57,
-        "tokenCount": 22
+        "orderIndex": 58,
+        "tokenCount": 19
     },
     {
         "startTime": 236.2,
@@ -1206,8 +1206,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Luke an ủi bố bằng góc nhìn ngây thơ nhưng đầy tình yêu thương vô bờ bến.",
         "properNouns": [],
-        "orderIndex": 58,
-        "tokenCount": 18
+        "orderIndex": 59,
+        "tokenCount": 17
     },
     {
         "startTime": 242.0,
@@ -1221,8 +1221,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Khoảnh khắc gắn kết cảm động giữa hai thế hệ trong gia đình Dunphy.",
         "properNouns": [],
-        "orderIndex": 59,
-        "tokenCount": 21
+        "orderIndex": 60,
+        "tokenCount": 19
     },
     {
         "startTime": 247.6,
@@ -1236,8 +1236,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Pop wheelies' là tiếng lóng chỉ hành động bốc đầu xe (nhấc bánh trước lên không trung).",
         "properNouns": [],
-        "orderIndex": 60,
-        "tokenCount": 11
+        "orderIndex": 61,
+        "tokenCount": 10
     },
     {
         "startTime": 251.1,
@@ -1251,8 +1251,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cú cua xe hài hước đặc trưng phong cách của cậu bé ngốc nghếch Luke Dunphy.",
         "properNouns": [],
-        "orderIndex": 61,
-        "tokenCount": 16
+        "orderIndex": 62,
+        "tokenCount": 15
     },
     {
         "startTime": 254.6,
@@ -1266,8 +1266,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Thành ngữ 'nail down the specifics' nghĩa là thống nhất/chốt lại các chi tiết cụ thể.",
         "properNouns": [],
-        "orderIndex": 62,
-        "tokenCount": 13
+        "orderIndex": 63,
+        "tokenCount": 11
     },
     {
         "startTime": 259.5,
@@ -1283,7 +1283,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Space Mountain"
         ],
-        "orderIndex": 63,
+        "orderIndex": 64,
         "tokenCount": 12
     },
     {
@@ -1298,8 +1298,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'You're going to die' ở đây mang nghĩa bóng: 'bố sẽ cười vỡ bụng/cười chết mất'.",
         "properNouns": [],
-        "orderIndex": 64,
-        "tokenCount": 21
+        "orderIndex": 65,
+        "tokenCount": 20
     },
     {
         "startTime": 268.6,
@@ -1312,8 +1312,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Luke nhanh nhảu đính chính để bố không bị tủi thân vì tuổi tác.",
         "properNouns": [],
-        "orderIndex": 65,
-        "tokenCount": 10
+        "orderIndex": 66,
+        "tokenCount": 9
     },
     {
         "startTime": 274.3,
@@ -1330,8 +1330,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Dr. Stiglitz"
         ],
-        "orderIndex": 66,
-        "tokenCount": 12
+        "orderIndex": 67,
+        "tokenCount": 11
     },
     {
         "startTime": 277.6,
@@ -1345,8 +1345,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cấu trúc 'impossible to impress' miêu tả người có tiêu chuẩn quá khắt khe, khó chiều.",
         "properNouns": [],
-        "orderIndex": 67,
-        "tokenCount": 8
+        "orderIndex": 68,
+        "tokenCount": 7
     },
     {
         "startTime": 280.4,
@@ -1359,8 +1359,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil khích lệ sự tự tin của cô con gái học giỏi Alex bằng những lời khen chân thành nhất.",
         "properNouns": [],
-        "orderIndex": 68,
-        "tokenCount": 18
+        "orderIndex": 69,
+        "tokenCount": 17
     },
     {
         "startTime": 286.3,
@@ -1373,8 +1373,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Make an appearance' có nghĩa là chỉ ghé qua mặt cho có lệ rồi nhanh chóng rời đi.",
         "properNouns": [],
-        "orderIndex": 69,
-        "tokenCount": 15
+        "orderIndex": 70,
+        "tokenCount": 14
     },
     {
         "startTime": 289.7,
@@ -1390,8 +1390,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Alex"
         ],
-        "orderIndex": 70,
-        "tokenCount": 17
+        "orderIndex": 71,
+        "tokenCount": 16
     },
     {
         "startTime": 294.1,
@@ -1406,7 +1406,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Trò đùa mỉa mai kinh điển: đội tranh biện học thuật vốn không bao giờ cần đội hoạt náo viên cổ vũ.",
         "properNouns": [],
-        "orderIndex": 71,
+        "orderIndex": 72,
         "tokenCount": 19
     },
     {
@@ -1421,8 +1421,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil đánh vần sai điệu hô cổ động khiến cảnh phim trở nên ngượng ngùng hài hước.",
         "properNouns": [],
-        "orderIndex": 72,
-        "tokenCount": 10
+        "orderIndex": 73,
+        "tokenCount": 5
     },
     {
         "startTime": 320.5,
@@ -1438,7 +1438,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Alex"
         ],
-        "orderIndex": 73,
+        "orderIndex": 74,
         "tokenCount": 12
     },
     {
@@ -1453,7 +1453,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Quantum mechanics' (cơ học lượng tử) là đề tài học thuật hàn lâm phức tạp.",
         "properNouns": [],
-        "orderIndex": 74,
+        "orderIndex": 75,
         "tokenCount": 6
     },
     {
@@ -1468,7 +1468,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil chen vào cuộc thảo luận vật lý lượng tử bằng câu chào hỏi xã giao thông thường.",
         "properNouns": [],
-        "orderIndex": 75,
+        "orderIndex": 76,
         "tokenCount": 9
     },
     {
@@ -1485,7 +1485,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Professor Stiglitz"
         ],
-        "orderIndex": 76,
+        "orderIndex": 77,
         "tokenCount": 9
     },
     {
@@ -1501,8 +1501,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Fall for' nghĩa là bị lừa gạt hoặc tin sái cổ vào điều gì giả dối.",
         "properNouns": [],
-        "orderIndex": 77,
-        "tokenCount": 19
+        "orderIndex": 78,
+        "tokenCount": 18
     },
     {
         "startTime": 345.8,
@@ -1516,8 +1516,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Touché' là từ mượn tiếng Pháp dùng khi thừa nhận đối phương vừa tung ra đòn lập luận chuẩn xác.",
         "properNouns": [],
-        "orderIndex": 78,
-        "tokenCount": 16
+        "orderIndex": 79,
+        "tokenCount": 15
     },
     {
         "startTime": 351.7,
@@ -1532,7 +1532,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil đưa ra câu hỏi khoa học ngây ngô và ngớ ngẩn trước vị giáo sư đoạt giải.",
         "properNouns": [],
-        "orderIndex": 79,
+        "orderIndex": 80,
         "tokenCount": 16
     },
     {
@@ -1547,8 +1547,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Sự ngây ngô hài hước khiến các học giả chết lặng.",
         "properNouns": [],
-        "orderIndex": 80,
-        "tokenCount": 24
+        "orderIndex": 81,
+        "tokenCount": 23
     },
     {
         "startTime": 367.3,
@@ -1563,8 +1563,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Alex nói dối để khéo léo đuổi bố về ký túc xá nhằm tránh bị xấu hổ trước các giáo sư.",
         "properNouns": [],
-        "orderIndex": 81,
-        "tokenCount": 26
+        "orderIndex": 82,
+        "tokenCount": 25
     },
     {
         "startTime": 372.7,
@@ -1580,8 +1580,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Arkansas"
         ],
-        "orderIndex": 82,
-        "tokenCount": 16
+        "orderIndex": 83,
+        "tokenCount": 15
     },
     {
         "startTime": 376.8,
@@ -1598,8 +1598,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
             "Beth",
             "Alan"
         ],
-        "orderIndex": 83,
-        "tokenCount": 18
+        "orderIndex": 84,
+        "tokenCount": 17
     },
     {
         "startTime": 383.2,
@@ -1612,7 +1612,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil nhận ra ngay con gái đang xấu hổ vì sự hiện diện của mình.",
         "properNouns": [],
-        "orderIndex": 84,
+        "orderIndex": 85,
         "tokenCount": 19
     },
     {
@@ -1627,7 +1627,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil tế nhị giả vờ bận việc để rút lui trong danh dự, không muốn làm con gái khó xử.",
         "properNouns": [],
-        "orderIndex": 85,
+        "orderIndex": 86,
         "tokenCount": 17
     },
     {
@@ -1641,8 +1641,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Lời chúc phúc dịu dàng của người cha dù lòng đang chùng xuống vì tổn thương.",
         "properNouns": [],
-        "orderIndex": 86,
-        "tokenCount": 15
+        "orderIndex": 87,
+        "tokenCount": 14
     },
     {
         "startTime": 410.7,
@@ -1656,7 +1656,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'How in the world' là cách diễn đạt nhấn mạnh sự sửng sốt: 'làm thế quái nào mà...'.",
         "properNouns": [],
-        "orderIndex": 87,
+        "orderIndex": 88,
         "tokenCount": 22
     },
     {
@@ -1670,8 +1670,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Alex chạy đến quán rượu tìm bố trong sự ân hận tột cùng.",
         "properNouns": [],
-        "orderIndex": 88,
-        "tokenCount": 21
+        "orderIndex": 89,
+        "tokenCount": 20
     },
     {
         "startTime": 420.6,
@@ -1686,8 +1686,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Alex thấy chiếc cúp danh giá trở nên vô nghĩa khi đã làm tổn thương người bố luôn yêu thương mình.",
         "properNouns": [],
-        "orderIndex": 89,
-        "tokenCount": 18
+        "orderIndex": 90,
+        "tokenCount": 16
     },
     {
         "startTime": 425.1,
@@ -1701,7 +1701,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Sự thấu hiểu và bao dung tuyệt đối của người cha đối với tâm lý tuổi mới lớn của con.",
         "properNouns": [],
-        "orderIndex": 90,
+        "orderIndex": 91,
         "tokenCount": 17
     },
     {
@@ -1715,7 +1715,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil bộc bạch nỗi tự ti thầm kín của bản thân trước giới học thuật.",
         "properNouns": [],
-        "orderIndex": 91,
+        "orderIndex": 92,
         "tokenCount": 17
     },
     {
@@ -1730,7 +1730,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Kỷ niệm tuổi thơ xúc động cho thấy Alex thông minh vượt bậc từ nhỏ khiến bố luôn ngưỡng mộ.",
         "properNouns": [],
-        "orderIndex": 92,
+        "orderIndex": 93,
         "tokenCount": 18
     },
     {
@@ -1745,7 +1745,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Alex chuẩn bị thổ lộ tâm tư thật sự của mình dành cho bố.",
         "properNouns": [],
-        "orderIndex": 93,
+        "orderIndex": 94,
         "tokenCount": 16
     },
     {
@@ -1760,8 +1760,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Lời thổ lộ quý giá nhất của Alex: ngưỡng mộ tâm hồn lạc quan và tình yêu đời của bố.",
         "properNouns": [],
-        "orderIndex": 94,
-        "tokenCount": 17
+        "orderIndex": 95,
+        "tokenCount": 16
     },
     {
         "startTime": 460.4,
@@ -1775,8 +1775,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil nhắc về người cha quá cố Frank Dunphy, nguồn cảm hứng cho sự lạc quan vô tận của anh.",
         "properNouns": [],
-        "orderIndex": 95,
-        "tokenCount": 19
+        "orderIndex": 96,
+        "tokenCount": 18
     },
     {
         "startTime": 464.5,
@@ -1791,8 +1791,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Alex tiếc nuối vì đã vùi đầu học hành mà bỏ lỡ những niềm vui thời sinh viên.",
         "properNouns": [],
-        "orderIndex": 96,
-        "tokenCount": 23
+        "orderIndex": 97,
+        "tokenCount": 21
     },
     {
         "startTime": 473.8,
@@ -1806,7 +1806,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Câu thoại sâu sắc đọng lại nhiều suy ngẫm về sự cân bằng giữa học vấn và trải nghiệm sống của tuổi trẻ.",
         "properNouns": [],
-        "orderIndex": 97,
+        "orderIndex": 98,
         "tokenCount": 28
     },
     {
@@ -1820,8 +1820,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Make up for lost time' là thành ngữ chỉ việc đền bù, tận hưởng những gì từng bỏ lỡ.",
         "properNouns": [],
-        "orderIndex": 98,
-        "tokenCount": 21
+        "orderIndex": 99,
+        "tokenCount": 20
     },
     {
         "startTime": 487.5,
@@ -1838,7 +1838,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
             "Pub Trivia",
             "The Dunphys"
         ],
-        "orderIndex": 99,
+        "orderIndex": 100,
         "tokenCount": 14
     },
     {
@@ -1853,8 +1853,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cú lội ngược dòng thông minh chứng minh Phil hiểu con gái Alex hơn bất kỳ ai.",
         "properNouns": [],
-        "orderIndex": 100,
-        "tokenCount": 16
+        "orderIndex": 101,
+        "tokenCount": 15
     },
     {
         "startTime": 497.5,
@@ -1870,8 +1870,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "MacDunphys"
         ],
-        "orderIndex": 101,
-        "tokenCount": 11
+        "orderIndex": 102,
+        "tokenCount": 9
     },
     {
         "startTime": 505.4,
@@ -1887,7 +1887,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Triangle Shirtwaist"
         ],
-        "orderIndex": 102,
+        "orderIndex": 103,
         "tokenCount": 14
     },
     {
@@ -1904,8 +1904,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Kareem Abdul-Jabbar"
         ],
-        "orderIndex": 103,
-        "tokenCount": 15
+        "orderIndex": 104,
+        "tokenCount": 14
     },
     {
         "startTime": 517.5,
@@ -1921,7 +1921,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Millard Fillmore"
         ],
-        "orderIndex": 104,
+        "orderIndex": 105,
         "tokenCount": 9
     },
     {
@@ -1938,7 +1938,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Scottish"
         ],
-        "orderIndex": 105,
+        "orderIndex": 106,
         "tokenCount": 9
     },
     {
@@ -1953,8 +1953,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Alex đùa khi hai bố con ẵm luôn giải nhất cuộc thi đố vui quán rượu trong niềm vui ngập tràn.",
         "properNouns": [],
-        "orderIndex": 106,
-        "tokenCount": 15
+        "orderIndex": 107,
+        "tokenCount": 14
     },
     {
         "startTime": 552.2,
@@ -1967,7 +1967,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Haley ngồi thẫn thờ sau khi chia tay mối tình đầu Dylan.",
         "properNouns": [],
-        "orderIndex": 107,
+        "orderIndex": 108,
         "tokenCount": 5
     },
     {
@@ -1982,7 +1982,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cảm giác trống trải đau đớn khó phai sau mối tình đầu tan vỡ.",
         "properNouns": [],
-        "orderIndex": 108,
+        "orderIndex": 109,
         "tokenCount": 13
     },
     {
@@ -1997,8 +1997,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Sneak out' nghĩa là lẻn trốn ra ngoài vào ban đêm.",
         "properNouns": [],
-        "orderIndex": 109,
-        "tokenCount": 20
+        "orderIndex": 110,
+        "tokenCount": 19
     },
     {
         "startTime": 569.0,
@@ -2012,8 +2012,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Muffler' là ống pô/bộ giảm thanh của ô tô. Chiếc xe cà tàng của Dylan kêu ầm ĩ khắp xóm.",
         "properNouns": [],
-        "orderIndex": 110,
-        "tokenCount": 15
+        "orderIndex": 111,
+        "tokenCount": 14
     },
     {
         "startTime": 575.9,
@@ -2027,7 +2027,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil từng đồng hành cùng Dylan trong những kỷ niệm dở khóc dở cười của gia đình.",
         "properNouns": [],
-        "orderIndex": 111,
+        "orderIndex": 112,
         "tokenCount": 12
     },
     {
@@ -2042,8 +2042,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Một trong những câu nói đắt giá và cảm động nhất về tình yêu và sự trưởng thành của Modern Family.",
         "properNouns": [],
-        "orderIndex": 112,
-        "tokenCount": 17
+        "orderIndex": 113,
+        "tokenCount": 16
     },
     {
         "startTime": 605.0,
@@ -2056,7 +2056,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cái ôm ấm áp và lời tri ân ngọt ngào của cô con gái dành cho người cha tuyệt vời.",
         "properNouns": [],
-        "orderIndex": 113,
+        "orderIndex": 114,
         "tokenCount": 2
     },
     {
@@ -2071,8 +2071,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Phil nghẹn ngào tiễn con gái bước vào ngưỡng cửa tự lập thời sinh viên.",
         "properNouns": [],
-        "orderIndex": 114,
-        "tokenCount": 23
+        "orderIndex": 115,
+        "tokenCount": 21
     },
     {
         "startTime": 620.2,
@@ -2086,8 +2086,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Món quà tâm huyết của người cha dành cho con gái cưng.",
         "properNouns": [],
-        "orderIndex": 115,
-        "tokenCount": 20
+        "orderIndex": 116,
+        "tokenCount": 19
     },
     {
         "startTime": 627.9,
@@ -2104,8 +2104,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         "properNouns": [
             "Phil's-osophy"
         ],
-        "orderIndex": 116,
-        "tokenCount": 16
+        "orderIndex": 117,
+        "tokenCount": 13
     },
     {
         "startTime": 635.9,
@@ -2119,8 +2119,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Lời khuyên giao tiếp lịch sự được biến tấu đầy ngây ngô và phi lý.",
         "properNouns": [],
-        "orderIndex": 117,
-        "tokenCount": 11
+        "orderIndex": 118,
+        "tokenCount": 10
     },
     {
         "startTime": 644.9,
@@ -2133,8 +2133,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Giải pháp giao tiếp 'chữa cháy' buồn cười không tưởng của Phil.",
         "properNouns": [],
-        "orderIndex": 118,
-        "tokenCount": 9
+        "orderIndex": 119,
+        "tokenCount": 8
     },
     {
         "startTime": 650.7,
@@ -2149,7 +2149,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'Get pulled over' là cụm từ chỉ việc bị cảnh sát giao thông tuýt còi yêu cầu dừng xe bên lề đường.",
         "properNouns": [],
-        "orderIndex": 119,
+        "orderIndex": 120,
         "tokenCount": 14
     },
     {
@@ -2164,7 +2164,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Ám chỉ hài hước đến bà vợ Claire Dunphy, người luôn phải cau mày thở dài vì những trò ngốc nghếch của Phil.",
         "properNouns": [],
-        "orderIndex": 120,
+        "orderIndex": 121,
         "tokenCount": 7
     },
     {
@@ -2179,7 +2179,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Nét văn hóa ẩm thực truyền thống miền Nam nước Mỹ về món trà đá ngọt (Southern sweet tea).",
         "properNouns": [],
-        "orderIndex": 121,
+        "orderIndex": 122,
         "tokenCount": 9
     },
     {
@@ -2195,7 +2195,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Biến tấu danh ngôn của Thomas Edison, nhưng điều trớ trêu là 1 + 98 + 2 = 101%, chứng minh Phil thiếu 'chú ý đến chi tiết'!",
         "properNouns": [],
-        "orderIndex": 122,
+        "orderIndex": 123,
         "tokenCount": 11
     },
     {
@@ -2210,7 +2210,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Câu khẳng định hiển nhiên đến mức ngớ ngẩn (tautology humor) đặc trưng của Phil.",
         "properNouns": [],
-        "orderIndex": 123,
+        "orderIndex": 124,
         "tokenCount": 11
     },
     {
@@ -2225,7 +2225,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Một ngày trên Trái Đất hiển nhiên chỉ có một lần bình minh duy nhất, tạo nên nét hài hước ngộ nghĩnh.",
         "properNouns": [],
-        "orderIndex": 124,
+        "orderIndex": 125,
         "tokenCount": 8
     },
     {
@@ -2240,8 +2240,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Biến tấu danh ngôn cổ điển 'If you love something, set it free' bằng cú bẻ lái thực tế đầy hóm hỉnh.",
         "properNouns": [],
-        "orderIndex": 125,
-        "tokenCount": 12
+        "orderIndex": 126,
+        "tokenCount": 11
     },
     {
         "startTime": 697.1,
@@ -2256,8 +2256,8 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "'In a jam' là thành ngữ chỉ việc rơi vào tình huống khó khăn, kẹt cạn cần giải cứu.",
         "properNouns": [],
-        "orderIndex": 126,
-        "tokenCount": 19
+        "orderIndex": 127,
+        "tokenCount": 18
     },
     {
         "startTime": 702.8,
@@ -2271,7 +2271,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Đảo ngược câu châm ngôn kinh điển 'When life gives you lemons, make lemonade' để gây bất ngờ cho số phận.",
         "properNouns": [],
-        "orderIndex": 127,
+        "orderIndex": 128,
         "tokenCount": 7
     },
     {
@@ -2286,7 +2286,7 @@ export const LESSON_MODERN_FAMILY_PHIL_DUNPHY: MockVideoLesson = {
         ],
         "explanationAi": "Cú chốt hạ bất hủ của Phil Dunphy về cách sống chủ động làm cuộc đời phải ngỡ ngàng.",
         "properNouns": [],
-        "orderIndex": 128,
+        "orderIndex": 129,
         "tokenCount": 6
     }
 ],

@@ -45,13 +45,13 @@ export const QUIZ_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK_EXTENDED: VideoQuizData = 
         "'Hãy nhớ màu tóc của em nhé.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 71, Clementine whispers the immortal line: 'Meet me in Montauk.' This key phrase stays buried in Joel's subconscious, subconsciously driving him to skip work and take the early Valentine's Day train to Montauk.",
-      "explanationEn": "In Segment 71, Clementine whispers the immortal line: 'Meet me in Montauk.' This key phrase stays buried in Joel's subconscious, subconsciously driving him to skip work and take the early Valentine's Day train to Montauk.",
-      "explanationVi": "Trong Phân đoạn 71, Clementine thì thầm câu thoại kinh điển: 'Hãy gặp em ở Montauk nhé.' Chi tiết này trở thành mã khóa tiềm thức thôi thúc Joel bỏ làm để bắt chuyến tàu sớm tới bãi biển Montauk vào ngày lễ Tình nhân.",
+      "explanation": "In Segment 72, Clementine whispers the immortal line: 'Meet me in Montauk.' This key phrase stays buried in Joel's subconscious, subconsciously driving him to skip work and take the early Valentine's Day train to Montauk.",
+      "explanationEn": "In Segment 72, Clementine whispers the immortal line: 'Meet me in Montauk.' This key phrase stays buried in Joel's subconscious, subconsciously driving him to skip work and take the early Valentine's Day train to Montauk.",
+      "explanationVi": "Trong Phân đoạn 72, Clementine thì thầm câu thoại kinh điển: 'Hãy gặp em ở Montauk nhé.' Chi tiết này trở thành mã khóa tiềm thức thôi thúc Joel bỏ làm để bắt chuyến tàu sớm tới bãi biển Montauk vào ngày lễ Tình nhân.",
       "targetedConcept": "Pivotal narrative hook & subconscious anchoring",
       "targetedConceptEn": "Pivotal narrative hook & subconscious anchoring",
       "targetedConceptVi": "Chi tiết mấu chốt dẫn dắt cốt truyện & neo giữ tiềm thức",
-      "referenceSegmentIndex": 71
+      "referenceSegmentIndex": 72
     },
     {
       "id": "mov_rom_10_q2",
@@ -77,13 +77,13 @@ export const QUIZ_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK_EXTENDED: VideoQuizData = 
         "Should + V nguyên mẫu ('Should stay')"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 45-50, Joel repeatedly laments: 'I wish I had stayed... Now I wish I had stayed. I wish I had done a lot of things.' In English, 'wish + past perfect' is the standard grammatical structure for unfulfilled past desires and remorse.",
-      "explanationEn": "In Segments 45-50, Joel repeatedly laments: 'I wish I had stayed... Now I wish I had stayed. I wish I had done a lot of things.' In English, 'wish + past perfect' is the standard grammatical structure for unfulfilled past desires and remorse.",
-      "explanationVi": "Trong các Phân đoạn 45-50, Joel liên tục thốt lên: 'I wish I had stayed... Now I wish I had stayed. I wish I had done a lot of things.' Trong ngữ pháp tiếng Anh, 'wish + quá khứ hoàn thành' là cấu trúc chuẩn mực để diễn đạt nỗi hối tiếc về một việc đã không làm trong quá khứ.",
+      "explanation": "In Segments 46-51, Joel repeatedly laments: 'I wish I had stayed... Now I wish I had stayed. I wish I had done a lot of things.' In English, 'wish + past perfect' is the standard grammatical structure for unfulfilled past desires and remorse.",
+      "explanationEn": "In Segments 46-51, Joel repeatedly laments: 'I wish I had stayed... Now I wish I had stayed. I wish I had done a lot of things.' In English, 'wish + past perfect' is the standard grammatical structure for unfulfilled past desires and remorse.",
+      "explanationVi": "Trong các Phân đoạn 46-51, Joel liên tục thốt lên: 'I wish I had stayed... Now I wish I had stayed. I wish I had done a lot of things.' Trong ngữ pháp tiếng Anh, 'wish + quá khứ hoàn thành' là cấu trúc chuẩn mực để diễn đạt nỗi hối tiếc về một việc đã không làm trong quá khứ.",
       "targetedConcept": "Grammar of past regrets using wish + past perfect",
       "targetedConceptEn": "Grammar of past regrets using wish + past perfect",
       "targetedConceptVi": "Ngữ pháp diễn đạt sự tiếc nuối quá khứ với mệnh đề wish + past perfect",
-      "referenceSegmentIndex": 45
+      "referenceSegmentIndex": 46
     },
     {
       "id": "mov_rom_10_q3",
@@ -109,13 +109,13 @@ export const QUIZ_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK_EXTENDED: VideoQuizData = 
         "Cô ấy cảnh báo Joel không được gây ồn ào ngoài trời lạnh."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 16, after confirming that Joel is not married and previously lived with a female, Clementine uses 'barking up the wrong tree' (pursuing a mistaken line of thought) to playfully celebrate that she is pursuing someone who is romantically available.",
-      "explanationEn": "In Segment 16, after confirming that Joel is not married and previously lived with a female, Clementine uses 'barking up the wrong tree' (pursuing a mistaken line of thought) to playfully celebrate that she is pursuing someone who is romantically available.",
-      "explanationVi": "Trong Phân đoạn 16, sau khi xác nhận Joel chưa kết hôn và từng sống chung với phụ nữ, Clementine dùng thành ngữ 'barking up the wrong tree' (nhầm đối tượng / nhầm hướng) để hóm hỉnh ăn mừng rằng mình không tán tỉnh nhầm người.",
+      "explanation": "In Segment 17, after confirming that Joel is not married and previously lived with a female, Clementine uses 'barking up the wrong tree' (pursuing a mistaken line of thought) to playfully celebrate that she is pursuing someone who is romantically available.",
+      "explanationEn": "In Segment 17, after confirming that Joel is not married and previously lived with a female, Clementine uses 'barking up the wrong tree' (pursuing a mistaken line of thought) to playfully celebrate that she is pursuing someone who is romantically available.",
+      "explanationVi": "Trong Phân đoạn 17, sau khi xác nhận Joel chưa kết hôn và từng sống chung với phụ nữ, Clementine dùng thành ngữ 'barking up the wrong tree' (nhầm đối tượng / nhầm hướng) để hóm hỉnh ăn mừng rằng mình không tán tỉnh nhầm người.",
       "targetedConcept": "Idiomatic expression 'barking up the wrong tree'",
       "targetedConceptEn": "Idiomatic expression 'barking up the wrong tree'",
       "targetedConceptVi": "Thành ngữ tiếng Anh 'barking up the wrong tree'",
-      "referenceSegmentIndex": 16
+      "referenceSegmentIndex": 17
     },
     {
       "id": "mov_rom_10_q4",
@@ -141,19 +141,19 @@ export const QUIZ_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK_EXTENDED: VideoQuizData = 
         "Cô ấy đùa rằng Ruth là một nữ hoàng cổ xưa của nước Anh."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 38-39, when Joel calls her 'Ruth' (the female name on the mail), Clementine cleverly puns: 'I'm ruthless at the moment', playfully exploiting the homophonic connection between the proper name Ruth and the adjective ruthless (merciless/reckless).",
-      "explanationEn": "In Segments 38-39, when Joel calls her 'Ruth' (the female name on the mail), Clementine cleverly puns: 'I'm ruthless at the moment', playfully exploiting the homophonic connection between the proper name Ruth and the adjective ruthless (merciless/reckless).",
-      "explanationVi": "Trong Phân đoạn 38-39, khi Joel gọi cô là 'Ruth' (tên chủ nhà), Clementine chơi chữ cực kỳ sắc sảo: 'I'm ruthless at the moment', tận dụng sự đồng âm giữa tên riêng Ruth và tính từ ruthless (tàn nhẫn, không khoan nhượng, liều lĩnh).",
+      "explanation": "In Segments 39-40, when Joel calls her 'Ruth' (the female name on the mail), Clementine cleverly puns: 'I'm ruthless at the moment', playfully exploiting the homophonic connection between the proper name Ruth and the adjective ruthless (merciless/reckless).",
+      "explanationEn": "In Segments 39-40, when Joel calls her 'Ruth' (the female name on the mail), Clementine cleverly puns: 'I'm ruthless at the moment', playfully exploiting the homophonic connection between the proper name Ruth and the adjective ruthless (merciless/reckless).",
+      "explanationVi": "Trong Phân đoạn 39-40, khi Joel gọi cô là 'Ruth' (tên chủ nhà), Clementine chơi chữ cực kỳ sắc sảo: 'I'm ruthless at the moment', tận dụng sự đồng âm giữa tên riêng Ruth và tính từ ruthless (tàn nhẫn, không khoan nhượng, liều lĩnh).",
       "targetedConcept": "Linguistic wordplay and puns in screenwriting",
       "targetedConceptEn": "Linguistic wordplay and puns in screenwriting",
       "targetedConceptVi": "Nghệ thuật chơi chữ và sáng tạo ngôn ngữ trong kịch bản phim",
-      "referenceSegmentIndex": 39
+      "referenceSegmentIndex": 40
     },
     {
       "id": "mov_rom_10_q5",
-      "question": "Why does the dialogue between Joel and Clementine repeat in Segments 8-15 (00:16 - 00:30)?",
-      "questionEn": "Why does the dialogue between Joel and Clementine repeat in Segments 8-15 (00:16 - 00:30)?",
-      "questionVi": "Vì sao đoạn đối thoại giữa Joel và Clementine lại bị lặp lại từng chữ trong các Phân đoạn 8-15 (00:16 - 00:30)?",
+      "question": "Why does the dialogue between Joel and Clementine repeat in Segments 9-16 (00:16 - 00:30)?",
+      "questionEn": "Why does the dialogue between Joel and Clementine repeat in Segments 9-16 (00:16 - 00:30)?",
+      "questionVi": "Vì sao đoạn đối thoại giữa Joel và Clementine lại bị lặp lại từng chữ trong các Phân đoạn 9-16 (00:16 - 00:30)?",
       "options": [
         "Because Joel has a severe hearing impairment.",
         "Because Lacuna Inc.'s memory erasure device is rewinding and glitching Joel's brain tape.",
@@ -179,7 +179,7 @@ export const QUIZ_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK_EXTENDED: VideoQuizData = 
       "targetedConcept": "Surreal narrative structure & visual memory glitches",
       "targetedConceptEn": "Surreal narrative structure & visual memory glitches",
       "targetedConceptVi": "Cấu trúc dẫn truyện siêu thực & hiện tượng lỗi ký ức thị giác",
-      "referenceSegmentIndex": 8
+      "referenceSegmentIndex": 9
     },
     {
       "id": "mov_rom_10_q6",
@@ -205,19 +205,19 @@ export const QUIZ_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK_EXTENDED: VideoQuizData = 
         "Clementine muốn anh đi mua thêm rượu vang."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 60, Clementine confesses: 'I was going to say stay with me.' Both lovers desperately wanted to be together, but emotional defensiveness and fear of vulnerability led to an avoidable separation.",
-      "explanationEn": "In Segment 60, Clementine confesses: 'I was going to say stay with me.' Both lovers desperately wanted to be together, but emotional defensiveness and fear of vulnerability led to an avoidable separation.",
-      "explanationVi": "Trong Phân đoạn 60, Clementine thú nhận: 'I was going to say stay with me' (Lúc đó em đã định bảo hãy ở lại bên em). Cả hai đều khao khát được ở bên nhau nhưng sự phòng thủ cảm xúc và nỗi sợ bị tổn thương đã dẫn đến một cuộc chia ly đáng tiếc.",
+      "explanation": "In Segment 61, Clementine confesses: 'I was going to say stay with me.' Both lovers desperately wanted to be together, but emotional defensiveness and fear of vulnerability led to an avoidable separation.",
+      "explanationEn": "In Segment 61, Clementine confesses: 'I was going to say stay with me.' Both lovers desperately wanted to be together, but emotional defensiveness and fear of vulnerability led to an avoidable separation.",
+      "explanationVi": "Trong Phân đoạn 61, Clementine thú nhận: 'I was going to say stay with me' (Lúc đó em đã định bảo hãy ở lại bên em). Cả hai đều khao khát được ở bên nhau nhưng sự phòng thủ cảm xúc và nỗi sợ bị tổn thương đã dẫn đến một cuộc chia ly đáng tiếc.",
       "targetedConcept": "Emotional vulnerability vs defensiveness in relationships",
       "targetedConceptEn": "Emotional vulnerability vs defensiveness in relationships",
       "targetedConceptVi": "Sự mở lòng dễ bị tổn thương đối lập với cơ chế phòng thủ tâm lý trong tình yêu",
-      "referenceSegmentIndex": 60
+      "referenceSegmentIndex": 61
     },
     {
       "id": "mov_rom_10_q7",
-      "question": "What does Clementine suggest to Joel in Segment 68 when he says 'There's no memory left'?",
-      "questionEn": "What does Clementine suggest to Joel in Segment 68 when he says 'There's no memory left'?",
-      "questionVi": "Clementine gợi ý điều gì với Joel trong Phân đoạn 68 khi anh thốt lên 'Ký ức chẳng còn lại gì nữa rồi'?",
+      "question": "What does Clementine suggest to Joel in Segment 69 when he says 'There's no memory left'?",
+      "questionEn": "What does Clementine suggest to Joel in Segment 69 when he says 'There's no memory left'?",
+      "questionVi": "Clementine gợi ý điều gì với Joel trong Phân đoạn 69 khi anh thốt lên 'Ký ức chẳng còn lại gì nữa rồi'?",
       "options": [
         "'Run as fast as you can to the beach.'",
         "'Come back and make up a goodbye at least. Let's pretend we had one.'",
@@ -237,19 +237,19 @@ export const QUIZ_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK_EXTENDED: VideoQuizData = 
         "'Hãy trốn xuống dưới sàn nhà đi anh.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 67-68, Clementine says: 'Come back and make up a goodbye at least. Let's pretend we had one.' She invites Joel to create emotional closure in imagination before their real-world memory completely vanishes.",
-      "explanationEn": "In Segments 67-68, Clementine says: 'Come back and make up a goodbye at least. Let's pretend we had one.' She invites Joel to create emotional closure in imagination before their real-world memory completely vanishes.",
-      "explanationVi": "Trong các Phân đoạn 67-68, Clementine khuyên: 'Ít nhất hãy quay lại đây và cùng nói một lời tạm biệt tử tế. Hãy giả vờ như chúng mình đã từng có một lời chia tay.' Cô rủ Joel cùng tạo nên một kết thúc trọn vẹn trong tâm tưởng trước khi ký ức bị xóa bỏ vĩnh viễn.",
+      "explanation": "In Segments 68-69, Clementine says: 'Come back and make up a goodbye at least. Let's pretend we had one.' She invites Joel to create emotional closure in imagination before their real-world memory completely vanishes.",
+      "explanationEn": "In Segments 68-69, Clementine says: 'Come back and make up a goodbye at least. Let's pretend we had one.' She invites Joel to create emotional closure in imagination before their real-world memory completely vanishes.",
+      "explanationVi": "Trong các Phân đoạn 68-69, Clementine khuyên: 'Ít nhất hãy quay lại đây và cùng nói một lời tạm biệt tử tế. Hãy giả vờ như chúng mình đã từng có một lời chia tay.' Cô rủ Joel cùng tạo nên một kết thúc trọn vẹn trong tâm tưởng trước khi ký ức bị xóa bỏ vĩnh viễn.",
       "targetedConcept": "Psychological closure and symbolic farewell",
       "targetedConceptEn": "Psychological closure and symbolic farewell",
       "targetedConceptVi": "Sự khép lại tâm lý (closure) và nghi thức tiễn biệt mang tính biểu tượng",
-      "referenceSegmentIndex": 67
+      "referenceSegmentIndex": 68
     },
     {
       "id": "mov_rom_10_q8",
-      "question": "How does Stan casually describe Clementine to Mary in the closing scene (Segment 78), creating a stark emotional contrast with Joel's profound tragedy?",
-      "questionEn": "How does Stan casually describe Clementine to Mary in the closing scene (Segment 78), creating a stark emotional contrast with Joel's profound tragedy?",
-      "questionVi": "Stan nhận xét một cách dửng dưng thế nào về Clementine với Mary trong cảnh kết (Phân đoạn 78), tạo nên sự tương phản nghiệt ngã với bi kịch sâu sắc của Joel?",
+      "question": "How does Stan casually describe Clementine to Mary in the closing scene (Segment 79), creating a stark emotional contrast with Joel's profound tragedy?",
+      "questionEn": "How does Stan casually describe Clementine to Mary in the closing scene (Segment 79), creating a stark emotional contrast with Joel's profound tragedy?",
+      "questionVi": "Stan nhận xét một cách dửng dưng thế nào về Clementine với Mary trong cảnh kết (Phân đoạn 79), tạo nên sự tương phản nghiệt ngã với bi kịch sâu sắc của Joel?",
       "options": [
         "'She was the love of his entire life.'",
         "'She was just a girl.'",
@@ -269,13 +269,13 @@ export const QUIZ_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK_EXTENDED: VideoQuizData = 
         "'Cô ấy là một nghệ sĩ đến từ Manhattan.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 78, Stan shrugs off Joel's monumental heartbreak with: 'She was just a girl.' This callous, mundane remark powerfully highlights how a stranger's life-defining romance is treated as mere routine paperwork by the technicians.",
-      "explanationEn": "In Segment 78, Stan shrugs off Joel's monumental heartbreak with: 'She was just a girl.' This callous, mundane remark powerfully highlights how a stranger's life-defining romance is treated as mere routine paperwork by the technicians.",
-      "explanationVi": "Trong Phân đoạn 78, Stan nhún vai nhận xét thờ ơ: 'She was just a girl' (Cô ấy cũng chỉ là một cô gái bình thường thôi mà). Câu nói tầm thường này làm nổi bật sự mỉa mai cay đắng khi mối tình định mệnh của một con người chỉ là một mớ hồ sơ giấy tờ thường nhật đối với những kẻ làm dịch vụ xóa não.",
+      "explanation": "In Segment 79, Stan shrugs off Joel's monumental heartbreak with: 'She was just a girl.' This callous, mundane remark powerfully highlights how a stranger's life-defining romance is treated as mere routine paperwork by the technicians.",
+      "explanationEn": "In Segment 79, Stan shrugs off Joel's monumental heartbreak with: 'She was just a girl.' This callous, mundane remark powerfully highlights how a stranger's life-defining romance is treated as mere routine paperwork by the technicians.",
+      "explanationVi": "Trong Phân đoạn 79, Stan nhún vai nhận xét thờ ơ: 'She was just a girl' (Cô ấy cũng chỉ là một cô gái bình thường thôi mà). Câu nói tầm thường này làm nổi bật sự mỉa mai cay đắng khi mối tình định mệnh của một con người chỉ là một mớ hồ sơ giấy tờ thường nhật đối với những kẻ làm dịch vụ xóa não.",
       "targetedConcept": "Dramatic irony and thematic contrast between sublime love and mundane reality",
       "targetedConceptEn": "Dramatic irony and thematic contrast between sublime love and mundane reality",
       "targetedConceptVi": "Nghệ thuật tương phản kịch tính giữa tình yêu vĩ đại và thực tại tầm thường",
-      "referenceSegmentIndex": 78
+      "referenceSegmentIndex": 79
     }
   ]
 };
@@ -303,7 +303,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
     "Trường đoạn cao trào kinh điển của kiệt tác điện ảnh Eternal Sunshine of the Spotless Mind: Joel và Clementine trú ẩn trong ngôi biệt thự ven biển Montauk đang sụp đổ trong tâm trí khi cỗ máy Lacuna tẩy xóa ký ức, nơi lời thì thầm định mệnh 'Meet me in Montauk' trở thành hạt giống đưa họ tìm lại nhau.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.0,
         "endTime": 2.0,
         "text": "You married?",
@@ -318,7 +318,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 2.0,
         "endTime": 4.0,
         "text": "No.",
@@ -333,7 +333,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 4.0,
         "endTime": 6.0,
         "text": "Let's move into this neighborhood.",
@@ -348,7 +348,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 6.0,
         "endTime": 9.0,
         "text": "I used to live with someone though.",
@@ -363,7 +363,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 9.0,
         "endTime": 11.0,
         "text": "Male or female?",
@@ -378,7 +378,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 11.0,
         "endTime": 12.0,
         "text": "What?",
@@ -393,7 +393,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 12.0,
         "endTime": 13.0,
         "text": "Female.",
@@ -407,7 +407,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 13.0,
         "endTime": 15.0,
         "text": "Female.",
@@ -422,7 +422,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 16.0,
         "endTime": 17.0,
         "text": "You married?",
@@ -437,7 +437,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 17.0,
         "endTime": 18.0,
         "text": "No.",
@@ -451,7 +451,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 18.0,
         "endTime": 21.0,
         "text": "Let's move into this neighborhood.",
@@ -466,7 +466,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 21.0,
         "endTime": 24.0,
         "text": "I used to live with someone though.",
@@ -480,7 +480,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 24.0,
         "endTime": 25.0,
         "text": "Male or female?",
@@ -494,7 +494,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 25.0,
         "endTime": 27.0,
         "text": "What?",
@@ -508,7 +508,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 27.0,
         "endTime": 28.0,
         "text": "Female.",
@@ -522,7 +522,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 28.0,
         "endTime": 30.0,
         "text": "Female.",
@@ -536,7 +536,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 30.0,
         "endTime": 35.0,
         "text": "At least I'm not barking up the wrong tree.",
@@ -551,7 +551,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 37.0,
         "endTime": 39.0,
         "text": "You know these people?",
@@ -565,7 +565,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 39.0,
         "endTime": 41.0,
         "text": "No, of course not. It's breaking and entering!",
@@ -580,7 +580,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 41.0,
         "endTime": 43.0,
         "text": "Come on.",
@@ -595,7 +595,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 44.0,
         "endTime": 46.0,
         "text": "They might have a dog.",
@@ -610,7 +610,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 46.0,
         "endTime": 48.0,
         "text": "There's no dog.",
@@ -624,7 +624,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 48.0,
         "endTime": 51.0,
         "text": "What are you doing? It's freezing out here. I'm leaving.",
@@ -639,7 +639,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 55.0,
         "endTime": 57.0,
         "text": "What?",
@@ -653,7 +653,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 57.0,
         "endTime": 60.0,
         "text": "I'm inside. There you go.",
@@ -668,7 +668,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 67.0,
         "endTime": 69.0,
         "text": "Come on in. The water's fine.",
@@ -683,7 +683,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 71.0,
         "endTime": 74.0,
         "text": "Nobody comes here in the winter, believe me.",
@@ -698,7 +698,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 78.0,
         "endTime": 83.0,
         "text": "So, what's your girlfriend's name?",
@@ -712,7 +712,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 83.0,
         "endTime": 86.0,
         "text": "Naomi, but we're not really...",
@@ -728,7 +728,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 86.0,
         "endTime": 88.0,
         "text": "We're... whatever.",
@@ -743,7 +743,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 88.0,
         "endTime": 91.0,
         "text": "So this is great. Now I can look for, um...",
@@ -757,7 +757,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 91.0,
         "endTime": 95.0,
         "text": "...candles, matches, and the liquor cabinet.",
@@ -773,7 +773,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 95.0,
         "endTime": 97.0,
         "text": "Oh, God.",
@@ -788,7 +788,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 102.0,
         "endTime": 104.0,
         "text": "I think we should go.",
@@ -803,7 +803,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 104.0,
         "endTime": 106.0,
         "text": "There's no phone line.",
@@ -817,7 +817,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 106.0,
         "endTime": 107.0,
         "text": "What?",
@@ -831,7 +831,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 107.0,
         "endTime": 108.0,
         "text": "I think we should go.",
@@ -845,7 +845,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 108.0,
         "endTime": 109.0,
         "text": "Why? It's our house.",
@@ -860,7 +860,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 111.0,
         "endTime": 112.0,
         "text": "Just for tonight.",
@@ -874,7 +874,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 112.0,
         "endTime": 116.0,
         "text": "We are David and Ruth Laskin.",
@@ -892,7 +892,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 116.0,
         "endTime": 118.0,
         "text": "Which one do you want to be?",
@@ -907,7 +907,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 118.0,
         "endTime": 123.0,
         "text": "I'd prefer it if you were Ruth, but I'm flexible.",
@@ -924,7 +924,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 123.0,
         "endTime": 125.0,
         "text": "What are you doing?",
@@ -938,7 +938,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 127.0,
         "endTime": 130.0,
         "text": "Oh, boy.",
@@ -952,7 +952,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 130.0,
         "endTime": 132.0,
         "text": "So, are you okay with wine?",
@@ -966,7 +966,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 132.0,
         "endTime": 133.0,
         "text": "I don't know.",
@@ -980,7 +980,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 133.0,
         "endTime": 135.0,
         "text": "Well, you choose the wine.",
@@ -994,7 +994,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 135.0,
         "endTime": 137.0,
         "text": "I'm gonna go find a bedroom.",
@@ -1008,7 +1008,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 137.0,
         "endTime": 140.0,
         "text": "You're... Ruth.",
@@ -1025,7 +1025,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 142.0,
         "endTime": 144.0,
         "text": "I'm ruthless at the moment.",
@@ -1040,7 +1040,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 144.0,
         "endTime": 146.0,
         "text": "I really should go.",
@@ -1054,7 +1054,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 148.0,
         "endTime": 151.0,
         "text": "I'm gonna catch my train.",
@@ -1070,7 +1070,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 151.0,
         "endTime": 154.0,
         "text": "So go.",
@@ -1085,7 +1085,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 154.0,
         "endTime": 156.0,
         "text": "I did.",
@@ -1100,7 +1100,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 157.0,
         "endTime": 159.0,
         "text": "I thought maybe you were a nut.",
@@ -1115,7 +1115,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 159.0,
         "endTime": 162.0,
         "text": "But you were exciting.",
@@ -1129,7 +1129,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 163.0,
         "endTime": 165.0,
         "text": "I wish I had stayed.",
@@ -1144,7 +1144,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 165.0,
         "endTime": 167.0,
         "text": "I wish I had stayed too.",
@@ -1158,7 +1158,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 167.0,
         "endTime": 168.0,
         "text": "Now I wish I had stayed.",
@@ -1172,7 +1172,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 168.0,
         "endTime": 171.0,
         "text": "I wish I had done a lot of things.",
@@ -1186,7 +1186,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 171.0,
         "endTime": 174.0,
         "text": "I wish I had...",
@@ -1200,7 +1200,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 177.0,
         "endTime": 180.0,
         "text": "I wish I had stayed. I do.",
@@ -1215,7 +1215,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 62,
+        "orderIndex": 63,
         "startTime": 181.0,
         "endTime": 183.0,
         "text": "Well, I came back downstairs and you were gone.",
@@ -1230,7 +1230,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 63,
+        "orderIndex": 64,
         "startTime": 183.0,
         "endTime": 185.0,
         "text": "I walked out. I walked out the door.",
@@ -1244,7 +1244,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 64,
+        "orderIndex": 65,
         "startTime": 185.0,
         "endTime": 186.0,
         "text": "Why?",
@@ -1258,7 +1258,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 65,
+        "orderIndex": 66,
         "startTime": 186.0,
         "endTime": 188.0,
         "text": "I don't know. I felt like a scared little kid.",
@@ -1273,7 +1273,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 66,
+        "orderIndex": 67,
         "startTime": 188.0,
         "endTime": 192.0,
         "text": "It was over my head. I don't know.",
@@ -1288,7 +1288,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 67,
+        "orderIndex": 68,
         "startTime": 192.0,
         "endTime": 193.0,
         "text": "You were scared?",
@@ -1302,7 +1302,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 68,
+        "orderIndex": 69,
         "startTime": 193.0,
         "endTime": 194.0,
         "text": "Yeah.",
@@ -1316,7 +1316,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 69,
+        "orderIndex": 70,
         "startTime": 196.0,
         "endTime": 199.0,
         "text": "I thought you knew that about me.",
@@ -1330,7 +1330,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 70,
+        "orderIndex": 71,
         "startTime": 199.0,
         "endTime": 204.0,
         "text": "I ran back to the bonfire trying to outrun my humiliation, I think.",
@@ -1347,7 +1347,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 71,
+        "orderIndex": 72,
         "startTime": 204.0,
         "endTime": 206.0,
         "text": "Was it something I said?",
@@ -1361,7 +1361,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 72,
+        "orderIndex": 73,
         "startTime": 206.0,
         "endTime": 209.0,
         "text": "Yeah.",
@@ -1375,7 +1375,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 73,
+        "orderIndex": 74,
         "startTime": 209.0,
         "endTime": 213.0,
         "text": "You said 'So go.'",
@@ -1386,10 +1386,10 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         ],
         "explanationAi": "Câu nói buông xuôi đầy hờ hững đã đẩy anh rời xa cô trong đêm hôm ấy.",
         "properNouns": [],
-        "tokenCount": 5
+        "tokenCount": 4
     },
     {
-        "orderIndex": 74,
+        "orderIndex": 75,
         "startTime": 213.0,
         "endTime": 215.0,
         "text": "I was going to say 'stay with me.'",
@@ -1401,10 +1401,10 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         ],
         "explanationAi": "Sự thật bi kịch và xót xa nhất: cả hai đều khao khát ở bên nhau nhưng cái tôi và sự tự ti đã ngăn họ thốt nên lời.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 75,
+        "orderIndex": 76,
         "startTime": 215.0,
         "endTime": 217.0,
         "text": "Oh, sorry.",
@@ -1418,7 +1418,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 76,
+        "orderIndex": 77,
         "startTime": 217.0,
         "endTime": 220.0,
         "text": "Okay.",
@@ -1432,7 +1432,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 77,
+        "orderIndex": 78,
         "startTime": 220.0,
         "endTime": 223.0,
         "text": "Joel?",
@@ -1449,7 +1449,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 78,
+        "orderIndex": 79,
         "startTime": 223.0,
         "endTime": 227.0,
         "text": "What if you stayed this time?",
@@ -1464,7 +1464,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 79,
+        "orderIndex": 80,
         "startTime": 230.0,
         "endTime": 233.0,
         "text": "I walked out the door.",
@@ -1478,7 +1478,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 80,
+        "orderIndex": 81,
         "startTime": 233.0,
         "endTime": 235.0,
         "text": "There's no memory left.",
@@ -1492,7 +1492,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 81,
+        "orderIndex": 82,
         "startTime": 235.0,
         "endTime": 238.0,
         "text": "Come back and make up a goodbye at least.",
@@ -1507,7 +1507,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 82,
+        "orderIndex": 83,
         "startTime": 238.0,
         "endTime": 241.0,
         "text": "Let's pretend we had one.",
@@ -1522,7 +1522,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 83,
+        "orderIndex": 84,
         "startTime": 251.0,
         "endTime": 253.0,
         "text": "Bye, Joel.",
@@ -1538,7 +1538,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 84,
+        "orderIndex": 85,
         "startTime": 253.0,
         "endTime": 256.0,
         "text": "I love you.",
@@ -1552,7 +1552,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 85,
+        "orderIndex": 86,
         "startTime": 256.0,
         "endTime": 260.0,
         "text": "Meet me in Montauk.",
@@ -1569,7 +1569,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 86,
+        "orderIndex": 87,
         "startTime": 260.0,
         "endTime": 274.0,
         "text": "The wooden frame of the beach house collapses into the freezing ocean waves as the memory dissolves.",
@@ -1585,7 +1585,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 87,
+        "orderIndex": 88,
         "startTime": 274.0,
         "endTime": 278.0,
         "text": "You're stoned and you're trying to get the pot down. Pop brings it back up.",
@@ -1603,7 +1603,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 88,
+        "orderIndex": 89,
         "startTime": 278.0,
         "endTime": 283.0,
         "text": "That's why it's so important for me to be drinking that while I smoke.",
@@ -1618,7 +1618,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 89,
+        "orderIndex": 90,
         "startTime": 283.0,
         "endTime": 285.0,
         "text": "It does?",
@@ -1634,7 +1634,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 90,
+        "orderIndex": 91,
         "startTime": 285.0,
         "endTime": 287.0,
         "text": "That's a medical fact and stuff.",
@@ -1648,7 +1648,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 91,
+        "orderIndex": 92,
         "startTime": 287.0,
         "endTime": 289.0,
         "text": "That's proven scientific work.",
@@ -1662,7 +1662,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 92,
+        "orderIndex": 93,
         "startTime": 289.0,
         "endTime": 291.0,
         "text": "Honey, just watching a movie. I can't hear you.",
@@ -1677,7 +1677,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 93,
+        "orderIndex": 94,
         "startTime": 291.0,
         "endTime": 295.0,
         "text": "I thought you were talking to me.",
@@ -1691,7 +1691,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 94,
+        "orderIndex": 95,
         "startTime": 295.0,
         "endTime": 297.0,
         "text": "Is she pretty?",
@@ -1705,7 +1705,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 95,
+        "orderIndex": 96,
         "startTime": 297.0,
         "endTime": 299.0,
         "text": "She was nice.",
@@ -1719,7 +1719,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 96,
+        "orderIndex": 97,
         "startTime": 299.0,
         "endTime": 301.0,
         "text": "Yeah, man.",
@@ -1735,7 +1735,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 97,
+        "orderIndex": 98,
         "startTime": 301.0,
         "endTime": 304.0,
         "text": "She was just a girl.",
@@ -1749,7 +1749,7 @@ export const LESSON_ETERNAL_SUNSHINE_MEET_ME_IN_MONTAUK: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 98,
+        "orderIndex": 99,
         "startTime": 312.0,
         "endTime": 315.0,
         "text": "Okay.",

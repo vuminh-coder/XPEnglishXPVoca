@@ -33,7 +33,7 @@ describe("Senior Deep Audit: Pride & Prejudice Video 5 - 100% Comprehensive Pure
     // Continuous monotonic progression across the entire timeline
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -167,8 +167,8 @@ describe("Senior Deep Audit: Pride & Prejudice Video 5 - 100% Comprehensive Pure
       expect(q.targetedConceptEn!.length).toBeGreaterThan(5);
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.targetedConceptVi!.length).toBeGreaterThan(5);
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(lesson.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(lesson.segments.length);
     });
   });
 });

@@ -45,13 +45,13 @@ export const QUIZ_NOTTING_HILL_IM_ALSO_JUST_A_GIRL_EXTENDED: VideoQuizData = {
         "Tạp chí Vogue UK"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 37, William dryly quips: 'The readers of Horse & Hound will be absolutely delighted.' This pays homage to his original interview cover story earlier in the film.",
-      "explanationEn": "In Segment 37, William dryly quips: 'The readers of Horse & Hound will be absolutely delighted.' This pays homage to his original interview cover story earlier in the film.",
-      "explanationVi": "Trong Phân đoạn 37, William dí dỏm bảo: 'Độc giả của tạp chí Horse & Hound hẳn sẽ vô cùng vui mừng khôn xiết.' Đây là chi tiết hài hước lặp lại từ lần phỏng vấn giả mạo trước đó của anh tại khách sạn.",
+      "explanation": "In Segment 38, William dryly quips: 'The readers of Horse & Hound will be absolutely delighted.' This pays homage to his original interview cover story earlier in the film.",
+      "explanationEn": "In Segment 38, William dryly quips: 'The readers of Horse & Hound will be absolutely delighted.' This pays homage to his original interview cover story earlier in the film.",
+      "explanationVi": "Trong Phân đoạn 38, William dí dỏm bảo: 'Độc giả của tạp chí Horse & Hound hẳn sẽ vô cùng vui mừng khôn xiết.' Đây là chi tiết hài hước lặp lại từ lần phỏng vấn giả mạo trước đó của anh tại khách sạn.",
       "targetedConcept": "Humorous running gag & narrative callbacks in romantic comedy",
       "targetedConceptEn": "Humorous running gag & narrative callbacks in romantic comedy",
       "targetedConceptVi": "Miếng hài lặp lại (running gag) và nghệ thuật gợi nhắc chi tiết trong phim hài lãng mạn",
-      "referenceSegmentIndex": 37
+      "referenceSegmentIndex": 38
     },
     {
       "id": "mov_rom_11_q2",
@@ -77,13 +77,13 @@ export const QUIZ_NOTTING_HILL_IM_ALSO_JUST_A_GIRL_EXTENDED: VideoQuizData = {
         "'Sẽ vắng mặt vĩnh viễn.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 40, Anna answers: 'Indefinitely.' This single word signifies that she has decided to cancel her flight back to America and stay forever with William in London.",
-      "explanationEn": "In Segment 40, Anna answers: 'Indefinitely.' This single word signifies that she has decided to cancel her flight back to America and stay forever with William in London.",
-      "explanationVi": "Trong Phân đoạn 40, Anna trả lời dứt khoát: 'Indefinitely' (Vô thời hạn). Từ duy nhất này mang ý nghĩa cô quyết định hủy chuyến bay về Mỹ để trọn đời ở lại bên William tại London.",
+      "explanation": "In Segment 41, Anna answers: 'Indefinitely.' This single word signifies that she has decided to cancel her flight back to America and stay forever with William in London.",
+      "explanationEn": "In Segment 41, Anna answers: 'Indefinitely.' This single word signifies that she has decided to cancel her flight back to America and stay forever with William in London.",
+      "explanationVi": "Trong Phân đoạn 41, Anna trả lời dứt khoát: 'Indefinitely' (Vô thời hạn). Từ duy nhất này mang ý nghĩa cô quyết định hủy chuyến bay về Mỹ để trọn đời ở lại bên William tại London.",
       "targetedConcept": "Climactic romantic resolution and vocabulary 'indefinitely'",
       "targetedConceptEn": "Climactic romantic resolution and vocabulary 'indefinitely'",
       "targetedConceptVi": "Đoạn kết giải tỏa viên mãn và từ vựng mang tính quyết định 'indefinitely'",
-      "referenceSegmentIndex": 40
+      "referenceSegmentIndex": 41
     },
     {
       "id": "mov_rom_11_q3",
@@ -109,19 +109,19 @@ export const QUIZ_NOTTING_HILL_IM_ALSO_JUST_A_GIRL_EXTENDED: VideoQuizData = {
         "Một anh chàng thông minh (clever chap)"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 32, William asks whether she would reconsider if Mr. Thacker realised he'd been 'a daft prick' and begged on his knees.",
-      "explanationEn": "In Segment 32, William asks whether she would reconsider if Mr. Thacker realised he'd been 'a daft prick' and begged on his knees.",
-      "explanationVi": "Trong Phân đoạn 32, William tự nhận mình là 'a daft prick' (kẻ ngốc nghếch dại khờ) và hỏi liệu cô có suy nghĩ lại nếu anh quỳ gối van xin.",
+      "explanation": "In Segment 33, William asks whether she would reconsider if Mr. Thacker realised he'd been 'a daft prick' and begged on his knees.",
+      "explanationEn": "In Segment 33, William asks whether she would reconsider if Mr. Thacker realised he'd been 'a daft prick' and begged on his knees.",
+      "explanationVi": "Trong Phân đoạn 33, William tự nhận mình là 'a daft prick' (kẻ ngốc nghếch dại khờ) và hỏi liệu cô có suy nghĩ lại nếu anh quỳ gối van xin.",
       "targetedConcept": "British informal self-deprecating slang",
       "targetedConceptEn": "British informal self-deprecating slang",
       "targetedConceptVi": "Tiếng lóng tự trào thân mật trong tiếng Anh-Anh",
-      "referenceSegmentIndex": 32
+      "referenceSegmentIndex": 33
     },
     {
       "id": "mov_rom_11_q4",
-      "question": "What does the phrasal verb 'abiding by' mean when Jeremy explains Anna's upcoming schedule in Segment 2?",
-      "questionEn": "What does the phrasal verb 'abiding by' mean when Jeremy explains Anna's upcoming schedule in Segment 2?",
-      "questionVi": "Cụm động từ 'abiding by' có nghĩa là gì khi Jeremy giải thích lịch trình sắp tới của Anna trong Phân đoạn 2?",
+      "question": "What does the phrasal verb 'abiding by' mean when Jeremy explains Anna's upcoming schedule in Segment 3?",
+      "questionEn": "What does the phrasal verb 'abiding by' mean when Jeremy explains Anna's upcoming schedule in Segment 3?",
+      "questionVi": "Cụm động từ 'abiding by' có nghĩa là gì khi Jeremy giải thích lịch trình sắp tới của Anna trong Phân đoạn 3?",
       "options": [
         "Cancelling immediately without notice",
         "Complying with or strictly adhering to agreed commitments",
@@ -141,19 +141,19 @@ export const QUIZ_NOTTING_HILL_IM_ALSO_JUST_A_GIRL_EXTENDED: VideoQuizData = {
         "Đàm phán lại các điều khoản tài chính của hợp đồng"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 2, 'She'll be abiding by all her present commitments' means she will honor and fulfill all existing contractual promises.",
-      "explanationEn": "In Segment 2, 'She'll be abiding by all her present commitments' means she will honor and fulfill all existing contractual promises.",
-      "explanationVi": "Trong Phân đoạn 2, 'abide by' có nghĩa là tôn trọng và thực hiện đầy đủ mọi cam kết hợp đồng đã ký kết.",
+      "explanation": "In Segment 3, 'She'll be abiding by all her present commitments' means she will honor and fulfill all existing contractual promises.",
+      "explanationEn": "In Segment 3, 'She'll be abiding by all her present commitments' means she will honor and fulfill all existing contractual promises.",
+      "explanationVi": "Trong Phân đoạn 3, 'abide by' có nghĩa là tôn trọng và thực hiện đầy đủ mọi cam kết hợp đồng đã ký kết.",
       "targetedConcept": "Phrasal verb 'abide by' in formal contexts",
       "targetedConceptEn": "Phrasal verb 'abide by' in formal contexts",
       "targetedConceptVi": "Cụm động từ 'abide by' trong ngữ cảnh trang trọng",
-      "referenceSegmentIndex": 2
+      "referenceSegmentIndex": 3
     },
     {
       "id": "mov_rom_11_q5",
-      "question": "Who comically whispers William's surname to him from the back of the press room in Segment 30?",
-      "questionEn": "Who comically whispers William's surname to him from the back of the press room in Segment 30?",
-      "questionVi": "Nhân vật nào đã thì thầm họ của William từ phía cuối phòng họp báo một cách đầy hài hước trong Phân đoạn 30?",
+      "question": "Who comically whispers William's surname to him from the back of the press room in Segment 31?",
+      "questionEn": "Who comically whispers William's surname to him from the back of the press room in Segment 31?",
+      "questionVi": "Nhân vật nào đã thì thầm họ của William từ phía cuối phòng họp báo một cách đầy hài hước trong Phân đoạn 31?",
       "options": [
         "Max, the lawyer",
         "Spike, William's eccentric Welsh flatmate",
@@ -173,19 +173,19 @@ export const QUIZ_NOTTING_HILL_IM_ALSO_JUST_A_GIRL_EXTENDED: VideoQuizData = {
         "Honey, em gái của William"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 30, Spike whispers: 'Thacker. His name is Thacker.' Spike's comedic presence provides laughter right in the middle of a high-stakes romantic confrontation.",
-      "explanationEn": "In Segment 30, Spike whispers: 'Thacker. His name is Thacker.' Spike's comedic presence provides laughter right in the middle of a high-stakes romantic confrontation.",
-      "explanationVi": "Trong Phân đoạn 30, Spike đứng ở cuối phòng thì thầm: 'Thacker. Tên anh ta là Thacker đấy.' Sự xuất hiện hài hước của Spike đem lại tiếng cười sảng khoái ngay giữa thời khắc căng thẳng.",
+      "explanation": "In Segment 31, Spike whispers: 'Thacker. His name is Thacker.' Spike's comedic presence provides laughter right in the middle of a high-stakes romantic confrontation.",
+      "explanationEn": "In Segment 31, Spike whispers: 'Thacker. His name is Thacker.' Spike's comedic presence provides laughter right in the middle of a high-stakes romantic confrontation.",
+      "explanationVi": "Trong Phân đoạn 31, Spike đứng ở cuối phòng thì thầm: 'Thacker. Tên anh ta là Thacker đấy.' Sự xuất hiện hài hước của Spike đem lại tiếng cười sảng khoái ngay giữa thời khắc căng thẳng.",
       "targetedConcept": "Comedic relief in high-stakes romance scenes",
       "targetedConceptEn": "Comedic relief in high-stakes romance scenes",
       "targetedConceptVi": "Yếu tố giải tỏa căng thẳng (comic relief) trong phân cảnh lãng mạn cao trào",
-      "referenceSegmentIndex": 30
+      "referenceSegmentIndex": 31
     },
     {
       "id": "mov_rom_11_q6",
-      "question": "What is the meaning of the idiomatic phrase 'the why and wherefore' in Elvis Costello's song 'She' (Segment 59)?",
-      "questionEn": "What is the meaning of the idiomatic phrase 'the why and wherefore' in Elvis Costello's song 'She' (Segment 59)?",
-      "questionVi": "Ý nghĩa của thành ngữ 'the why and wherefore' trong ca khúc 'She' của Elvis Costello (Phân đoạn 59) là gì?",
+      "question": "What is the meaning of the idiomatic phrase 'the why and wherefore' in Elvis Costello's song 'She' (Segment 60)?",
+      "questionEn": "What is the meaning of the idiomatic phrase 'the why and wherefore' in Elvis Costello's song 'She' (Segment 60)?",
+      "questionVi": "Ý nghĩa của thành ngữ 'the why and wherefore' trong ca khúc 'She' của Elvis Costello (Phân đoạn 60) là gì?",
       "options": [
         "An unsolvable philosophical dilemma",
         "The complete reason, purpose, or explanation for something",
@@ -211,13 +211,13 @@ export const QUIZ_NOTTING_HILL_IM_ALSO_JUST_A_GIRL_EXTENDED: VideoQuizData = {
       "targetedConcept": "Idiomatic expression 'the why and wherefore'",
       "targetedConceptEn": "Idiomatic expression 'the why and wherefore'",
       "targetedConceptVi": "Thành ngữ tiếng Anh 'the why and wherefore'",
-      "referenceSegmentIndex": 59
+      "referenceSegmentIndex": 60
     },
     {
       "id": "mov_rom_11_q7",
-      "question": "What does the phrasal verb 'round things up' mean when Jeremy announces the final questions in Segment 10?",
-      "questionEn": "What does the phrasal verb 'round things up' mean when Jeremy announces the final questions in Segment 10?",
-      "questionVi": "Cụm động từ 'round things up' mang ý nghĩa gì khi Jeremy thông báo về các câu hỏi cuối cùng trong Phân đoạn 10?",
+      "question": "What does the phrasal verb 'round things up' mean when Jeremy announces the final questions in Segment 11?",
+      "questionEn": "What does the phrasal verb 'round things up' mean when Jeremy announces the final questions in Segment 11?",
+      "questionVi": "Cụm động từ 'round things up' mang ý nghĩa gì khi Jeremy thông báo về các câu hỏi cuối cùng trong Phân đoạn 11?",
       "options": [
         "To gather people into a circle for photos",
         "To bring an event or meeting to a conclusion or finish",
@@ -237,13 +237,13 @@ export const QUIZ_NOTTING_HILL_IM_ALSO_JUST_A_GIRL_EXTENDED: VideoQuizData = {
         "Phát thông cáo báo chí cho toàn bộ phóng viên"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 10, 'round things up' is used to indicate bringing the press conference to an end because of Anna's impending departure.",
-      "explanationEn": "In Segment 10, 'round things up' is used to indicate bringing the press conference to an end because of Anna's impending departure.",
-      "explanationVi": "Trong Phân đoạn 10, 'round things up' được dùng để biểu thị việc hoàn tất và khép lại buổi họp báo do Anna sắp phải lên đường ra sân bay.",
+      "explanation": "In Segment 11, 'round things up' is used to indicate bringing the press conference to an end because of Anna's impending departure.",
+      "explanationEn": "In Segment 11, 'round things up' is used to indicate bringing the press conference to an end because of Anna's impending departure.",
+      "explanationVi": "Trong Phân đoạn 11, 'round things up' được dùng để biểu thị việc hoàn tất và khép lại buổi họp báo do Anna sắp phải lên đường ra sân bay.",
       "targetedConcept": "Phrasal verb 'round up' meaning to conclude",
       "targetedConceptEn": "Phrasal verb 'round up' meaning to conclude",
       "targetedConceptVi": "Cụm động từ 'round up' mang nghĩa kết thúc, hoàn tất",
-      "referenceSegmentIndex": 10
+      "referenceSegmentIndex": 11
     },
     {
       "id": "mov_rom_11_q8",
@@ -269,13 +269,13 @@ export const QUIZ_NOTTING_HILL_IM_ALSO_JUST_A_GIRL_EXTENDED: VideoQuizData = {
         "Bên trong hiệu sách du lịch của William trên đường Portobello"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 67, the closing shot shows William reading on the private Notting Hill garden bench with pregnant Anna resting on his lap, mirroring the garden they secretly climbed into earlier in the film.",
-      "explanationEn": "In Segment 67, the closing shot shows William reading on the private Notting Hill garden bench with pregnant Anna resting on his lap, mirroring the garden they secretly climbed into earlier in the film.",
-      "explanationVi": "Trong Phân đoạn 67, khung hình kết phim thể hiện William đọc sách trên chiếc ghế gỗ trong công viên riêng Notting Hill với Anna đang mang thai gối đầu trên đùi anh, gợi nhắc lại khu vườn bí mật mà họ từng trèo tường vào hẹn hò đầu phim.",
+      "explanation": "In Segment 68, the closing shot shows William reading on the private Notting Hill garden bench with pregnant Anna resting on his lap, mirroring the garden they secretly climbed into earlier in the film.",
+      "explanationEn": "In Segment 68, the closing shot shows William reading on the private Notting Hill garden bench with pregnant Anna resting on his lap, mirroring the garden they secretly climbed into earlier in the film.",
+      "explanationVi": "Trong Phân đoạn 68, khung hình kết phim thể hiện William đọc sách trên chiếc ghế gỗ trong công viên riêng Notting Hill với Anna đang mang thai gối đầu trên đùi anh, gợi nhắc lại khu vườn bí mật mà họ từng trèo tường vào hẹn hò đầu phim.",
       "targetedConcept": "Visual motif and circular narrative resolution",
       "targetedConceptEn": "Visual motif and circular narrative resolution",
       "targetedConceptVi": "Mô-típ thị giác và cấu trúc dẫn truyện vòng tròn (circular narrative)",
-      "referenceSegmentIndex": 67
+      "referenceSegmentIndex": 68
     }
   ]
 };
@@ -303,7 +303,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
     "Trường đoạn kết thúc kinh điển của kiệt tác Notting Hill: William Thacker lao vào buổi họp báo tại khách sạn The Ritz London dưới danh nghĩa phóng viên tạp chí Horse & Hound để hỏi Anna Scott câu hỏi định mệnh đời mình. Câu trả lời 'Indefinitely' mở ra lễ cưới ngọt ngào và bản tình ca 'She' của Elvis Costello trong công viên Notting Hill.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.0,
         "endTime": 7.0,
         "text": "Does this mean that Miss Scott will not be publicising the next film?",
@@ -321,7 +321,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 7.0,
         "endTime": 9.5,
         "text": "No, it absolutely does not mean that.",
@@ -337,7 +337,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 9.5,
         "endTime": 11.5,
         "text": "She'll be abiding by all her present commitments.",
@@ -352,7 +352,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 11.5,
         "endTime": 14.5,
         "text": "She just won't be making any more for the next year.",
@@ -367,7 +367,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 14.5,
         "endTime": 17.0,
         "text": "When will the film be released?",
@@ -382,7 +382,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 17.0,
         "endTime": 21.0,
         "text": "At the moment the plan is to release in America towards the end of the autumn...",
@@ -399,7 +399,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 21.0,
         "endTime": 24.5,
         "text": "...and over here around Christmas or early in the new year.",
@@ -416,7 +416,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 24.5,
         "endTime": 27.0,
         "text": "Right, Dominic!",
@@ -433,7 +433,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 27.0,
         "endTime": 30.0,
         "text": "Anna, how much longer are you staying in the UK then?",
@@ -451,7 +451,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 30.0,
         "endTime": 32.5,
         "text": "No time at all. I leave tonight.",
@@ -466,7 +466,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 32.5,
         "endTime": 36.5,
         "text": "Which is why we have to round things up now. So final questions, please.",
@@ -481,7 +481,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 36.5,
         "endTime": 39.0,
         "text": "Yes, lady in the front.",
@@ -495,7 +495,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 39.0,
         "endTime": 43.0,
         "text": "Is your decision to take a year off anything to do with the rumours about Jeff...",
@@ -512,7 +512,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 43.0,
         "endTime": 45.5,
         "text": "...and his present leading lady?",
@@ -526,7 +526,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 45.5,
         "endTime": 48.0,
         "text": "Absolutely not.",
@@ -540,7 +540,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 48.0,
         "endTime": 49.0,
         "text": "Do you believe the rumours?",
@@ -554,7 +554,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 49.0,
         "endTime": 54.0,
         "text": "Well, it's really not my business anymore...",
@@ -568,7 +568,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 54.0,
         "endTime": 57.5,
         "text": "...though I will say from my experience with Jeff, they do tend to be true.",
@@ -584,7 +584,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 59.0,
         "endTime": 64.0,
         "text": "Yeah, the last time you were here there were some fairly graphic photographs taken of you...",
@@ -598,7 +598,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 64.0,
         "endTime": 67.0,
         "text": "...with a young English guy.",
@@ -614,7 +614,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 67.0,
         "endTime": 69.0,
         "text": "So what happened there?",
@@ -628,7 +628,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 69.0,
         "endTime": 73.0,
         "text": "He was just a friend. We're still friends, I think.",
@@ -643,7 +643,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 74.0,
         "endTime": 79.0,
         "text": "Right! The gentleman in the pink shirt.",
@@ -658,7 +658,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 79.0,
         "endTime": 83.0,
         "text": "Yes, Miss Scott...",
@@ -674,7 +674,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 83.0,
         "endTime": 92.0,
         "text": "Are there any circumstances in which the two of you...",
@@ -688,7 +688,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 92.0,
         "endTime": 96.0,
         "text": "...might be more than just good friends?",
@@ -702,7 +702,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 96.0,
         "endTime": 102.0,
         "text": "I hoped there would be, but no, I'm assured there aren't.",
@@ -717,7 +717,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 102.0,
         "endTime": 106.0,
         "text": "But what would you say if...",
@@ -731,7 +731,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 106.0,
         "endTime": 110.0,
         "text": "I'm sorry, just the one question, please.",
@@ -747,7 +747,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 110.0,
         "endTime": 111.5,
         "text": "No, it's all right. You were saying?",
@@ -761,7 +761,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 111.5,
         "endTime": 119.0,
         "text": "I was just wondering if it turned out that this person...",
@@ -776,7 +776,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 119.0,
         "endTime": 120.5,
         "text": "Thacker. His name is Thacker.",
@@ -794,7 +794,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 120.5,
         "endTime": 121.8,
         "text": "Thanks. Thanks.",
@@ -808,7 +808,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 121.8,
         "endTime": 129.0,
         "text": "I just wondered whether, if Mr. Thacker realised he'd been a daft prick...",
@@ -825,7 +825,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 129.0,
         "endTime": 135.0,
         "text": "...and got down on his knees and begged you to reconsider...",
@@ -840,7 +840,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 135.0,
         "endTime": 139.0,
         "text": "...whether you would in fact then reconsider?",
@@ -855,7 +855,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 147.0,
         "endTime": 151.5,
         "text": "Yes. I believe I would.",
@@ -870,7 +870,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 152.0,
         "endTime": 156.0,
         "text": "That's very good news.",
@@ -884,7 +884,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 156.0,
         "endTime": 161.5,
         "text": "The readers of Horse & Hound will be absolutely delighted.",
@@ -898,10 +898,10 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "properNouns": [
             "Horse & Hound"
         ],
-        "tokenCount": 9
+        "tokenCount": 10
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 166.0,
         "endTime": 170.0,
         "text": "Right, Dominic, if you'd like to ask your question again.",
@@ -917,7 +917,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 170.0,
         "endTime": 175.0,
         "text": "Yeah? Anna, how long are you intending to stay here in Britain?",
@@ -935,7 +935,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 176.0,
         "endTime": 182.0,
         "text": "Indefinitely.",
@@ -950,7 +950,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 182.0,
         "endTime": 186.0,
         "text": "Flashbulbs erupt across the press room as journalists gasp and scribble frantically.",
@@ -965,7 +965,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 186.0,
         "endTime": 189.0,
         "text": "What happened?",
@@ -981,7 +981,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 189.0,
         "endTime": 192.0,
         "text": "It was good!",
@@ -997,7 +997,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 192.0,
         "endTime": 196.0,
         "text": "She may be the face I can't forget...",
@@ -1012,7 +1012,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 196.0,
         "endTime": 200.5,
         "text": "...the trace of pleasure or regret...",
@@ -1026,7 +1026,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 200.5,
         "endTime": 207.0,
         "text": "...may be my treasure or the price I have to pay.",
@@ -1041,7 +1041,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 207.0,
         "endTime": 218.0,
         "text": "She may be the song that summer sings, may be the chill that autumn brings...",
@@ -1058,7 +1058,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 218.0,
         "endTime": 225.0,
         "text": "...may be a hundred different things within the measure of a day.",
@@ -1072,7 +1072,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 225.0,
         "endTime": 230.0,
         "text": "She may be the beauty or the beast, may be the famine or the feast...",
@@ -1087,7 +1087,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 230.0,
         "endTime": 237.0,
         "text": "...may turn each day into a heaven or a hell.",
@@ -1101,7 +1101,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 237.0,
         "endTime": 242.0,
         "text": "She may be the mirror of my dreams, a smile reflected in a stream...",
@@ -1116,7 +1116,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 242.0,
         "endTime": 247.0,
         "text": "She may not be what she may seem inside her shell.",
@@ -1130,7 +1130,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 247.0,
         "endTime": 273.0,
         "text": "William and Anna attend the glamorous London film premiere together on the red carpet under flashing cameras.",
@@ -1149,7 +1149,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 273.0,
         "endTime": 277.0,
         "text": "She who always seems so happy in a crowd...",
@@ -1163,7 +1163,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 277.0,
         "endTime": 282.0,
         "text": "...whose eyes can be so private and so proud...",
@@ -1177,7 +1177,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 282.0,
         "endTime": 287.0,
         "text": "...no one's allowed to see them when they cry.",
@@ -1191,7 +1191,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 287.0,
         "endTime": 292.0,
         "text": "Surrounded by their closest friends, William and Anna celebrate their joyful wedding ceremony in England.",
@@ -1210,7 +1210,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 292.0,
         "endTime": 297.0,
         "text": "She may be the love that cannot hope to last...",
@@ -1224,7 +1224,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 297.0,
         "endTime": 304.0,
         "text": "...may come to me from shadows of the past, that I'll remember till the day I die.",
@@ -1238,7 +1238,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 304.0,
         "endTime": 309.0,
         "text": "She may be the reason I survive...",
@@ -1252,7 +1252,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 62,
+        "orderIndex": 63,
         "startTime": 309.0,
         "endTime": 315.0,
         "text": "...the why and wherefore I'm alive...",
@@ -1267,7 +1267,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 63,
+        "orderIndex": 64,
         "startTime": 315.0,
         "endTime": 320.0,
         "text": "...the one I'll care for through the rough and rainy years.",
@@ -1281,7 +1281,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 64,
+        "orderIndex": 65,
         "startTime": 320.0,
         "endTime": 325.0,
         "text": "Me, I'll take her laughter and her tears...",
@@ -1295,7 +1295,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 65,
+        "orderIndex": 66,
         "startTime": 325.0,
         "endTime": 329.0,
         "text": "...and make them all my souvenirs...",
@@ -1310,7 +1310,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 66,
+        "orderIndex": 67,
         "startTime": 329.0,
         "endTime": 335.0,
         "text": "...for where she goes I've got to be...",
@@ -1324,7 +1324,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 67,
+        "orderIndex": 68,
         "startTime": 335.0,
         "endTime": 341.0,
         "text": "...the meaning of my life is she.",
@@ -1338,7 +1338,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 68,
+        "orderIndex": 69,
         "startTime": 341.0,
         "endTime": 346.0,
         "text": "She...",
@@ -1352,7 +1352,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 69,
+        "orderIndex": 70,
         "startTime": 346.0,
         "endTime": 352.0,
         "text": "She...",
@@ -1366,7 +1366,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 70,
+        "orderIndex": 71,
         "startTime": 352.0,
         "endTime": 365.0,
         "text": "The meaning of my life is she.",
@@ -1380,7 +1380,7 @@ export const LESSON_NOTTING_HILL_IM_ALSO_JUST_A_GIRL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 71,
+        "orderIndex": 72,
         "startTime": 365.0,
         "endTime": 377.0,
         "text": "William sits quietly on the Notting Hill garden bench reading a book, while Anna, now pregnant, rests her head peacefully in his lap under the warm summer sun.",

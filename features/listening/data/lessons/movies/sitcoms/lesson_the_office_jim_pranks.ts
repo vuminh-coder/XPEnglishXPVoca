@@ -50,7 +50,7 @@ export const QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED: VideoQuizData = {
       "targetedConcept": "Office Pop Culture & Character Alliteration",
       "targetedConceptEn": "Office Pop Culture & Character Alliteration",
       "targetedConceptVi": "Văn hóa đại chúng và biện pháp điệp âm",
-      "referenceSegmentIndex": 21
+      "referenceSegmentIndex": 22
     },
     {
       "id": "q_mov_sit_05_2",
@@ -82,7 +82,7 @@ export const QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED: VideoQuizData = {
       "targetedConcept": "Physical Comedy & Structural Pranks",
       "targetedConceptEn": "Physical Comedy & Structural Pranks",
       "targetedConceptVi": "Hài hình thể và các trò chơi khăm kết cấu",
-      "referenceSegmentIndex": 14
+      "referenceSegmentIndex": 15
     },
     {
       "id": "q_mov_sit_05_3",
@@ -114,7 +114,7 @@ export const QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED: VideoQuizData = {
       "targetedConcept": "Sales Roleplay Satire & Dramatic Irony",
       "targetedConceptEn": "Sales Roleplay Satire & Dramatic Irony",
       "targetedConceptVi": "Châm biếm kỹ năng bán hàng và mâu thuẫn kịch tính",
-      "referenceSegmentIndex": 50
+      "referenceSegmentIndex": 51
     },
     {
       "id": "q_mov_sit_05_4",
@@ -146,7 +146,7 @@ export const QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED: VideoQuizData = {
       "targetedConcept": "Paranoia Exploitation & Office Espionage Parody",
       "targetedConceptEn": "Paranoia Exploitation & Office Espionage Parody",
       "targetedConceptVi": "Khai thác tâm lý hoang tưởng và nhại gián điệp",
-      "referenceSegmentIndex": 56
+      "referenceSegmentIndex": 57
     },
     {
       "id": "q_mov_sit_05_5",
@@ -178,7 +178,7 @@ export const QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED: VideoQuizData = {
       "targetedConcept": "Spatial Relocation Humor & Workplace Banter",
       "targetedConceptEn": "Spatial Relocation Humor & Workplace Banter",
       "targetedConceptVi": "Hài hước hoán đổi không gian và đối đáp nơi làm việc",
-      "referenceSegmentIndex": 69
+      "referenceSegmentIndex": 70
     },
     {
       "id": "q_mov_sit_05_6",
@@ -210,7 +210,7 @@ export const QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED: VideoQuizData = {
       "targetedConcept": "Gaslighting Manipulation & Circular Logic",
       "targetedConceptEn": "Gaslighting Manipulation & Circular Logic",
       "targetedConceptVi": "Thao túng tâm lý và ngụy biện logic vòng tròn",
-      "referenceSegmentIndex": 81
+      "referenceSegmentIndex": 82
     },
     {
       "id": "q_mov_sit_05_7",
@@ -242,7 +242,7 @@ export const QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED: VideoQuizData = {
       "targetedConcept": "Gaslighting Mastery & Elaborate Identity Swaps",
       "targetedConceptEn": "Gaslighting Mastery & Elaborate Identity Swaps",
       "targetedConceptVi": "Nghệ thuật hoán đổi danh tính và dàn dựng kịch bản",
-      "referenceSegmentIndex": 105
+      "referenceSegmentIndex": 106
     },
     {
       "id": "q_mov_sit_05_8",
@@ -274,7 +274,7 @@ export const QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED: VideoQuizData = {
       "targetedConcept": "Partner-in-Crime Dynamics & Stage Magic Illusion",
       "targetedConceptEn": "Partner-in-Crime Dynamics & Stage Magic Illusion",
       "targetedConceptVi": "Sự phối hợp ăn ý giữa đồng phạm và ảo thuật sân khấu",
-      "referenceSegmentIndex": 121
+      "referenceSegmentIndex": 122
     }
   ]
 };
@@ -313,7 +313,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 0,
+        "orderIndex": 1,
         "tokenCount": 3
     },
     {
@@ -330,7 +330,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Dwight"
         ],
-        "orderIndex": 1,
+        "orderIndex": 2,
         "tokenCount": 3
     },
     {
@@ -347,8 +347,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 2,
-        "tokenCount": 7
+        "orderIndex": 3,
+        "tokenCount": 6
     },
     {
         "startTime": 13.0,
@@ -364,8 +364,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 3,
-        "tokenCount": 10
+        "orderIndex": 4,
+        "tokenCount": 9
     },
     {
         "startTime": 14.6,
@@ -380,7 +380,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 4,
+        "orderIndex": 5,
         "tokenCount": 2
     },
     {
@@ -397,7 +397,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 5,
+        "orderIndex": 6,
         "tokenCount": 3
     },
     {
@@ -414,7 +414,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 6,
+        "orderIndex": 7,
         "tokenCount": 8
     },
     {
@@ -430,7 +430,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 7,
+        "orderIndex": 8,
         "tokenCount": 4
     },
     {
@@ -448,8 +448,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 8,
-        "tokenCount": 12
+        "orderIndex": 9,
+        "tokenCount": 11
     },
     {
         "startTime": 23.7,
@@ -464,7 +464,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 9,
+        "orderIndex": 10,
         "tokenCount": 7
     },
     {
@@ -481,8 +481,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 10,
-        "tokenCount": 11
+        "orderIndex": 11,
+        "tokenCount": 10
     },
     {
         "startTime": 27.9,
@@ -497,8 +497,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 11,
-        "tokenCount": 12
+        "orderIndex": 12,
+        "tokenCount": 11
     },
     {
         "startTime": 29.8,
@@ -513,7 +513,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 12,
+        "orderIndex": 13,
         "tokenCount": 1
     },
     {
@@ -530,7 +530,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 13,
+        "orderIndex": 14,
         "tokenCount": 12
     },
     {
@@ -547,7 +547,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 14,
+        "orderIndex": 15,
         "tokenCount": 12
     },
     {
@@ -563,8 +563,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 15,
-        "tokenCount": 4
+        "orderIndex": 16,
+        "tokenCount": 3
     },
     {
         "startTime": 59.5,
@@ -579,8 +579,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 16,
-        "tokenCount": 3
+        "orderIndex": 17,
+        "tokenCount": 2
     },
     {
         "startTime": 67.2,
@@ -596,7 +596,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 17,
+        "orderIndex": 18,
         "tokenCount": 7
     },
     {
@@ -612,8 +612,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 18,
-        "tokenCount": 5
+        "orderIndex": 19,
+        "tokenCount": 4
     },
     {
         "startTime": 72.9,
@@ -629,7 +629,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 19,
+        "orderIndex": 20,
         "tokenCount": 3
     },
     {
@@ -646,8 +646,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 20,
-        "tokenCount": 11
+        "orderIndex": 21,
+        "tokenCount": 10
     },
     {
         "startTime": 77.8,
@@ -663,7 +663,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 21,
+        "orderIndex": 22,
         "tokenCount": 4
     },
     {
@@ -682,7 +682,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Battlestar Galactica"
         ],
-        "orderIndex": 22,
+        "orderIndex": 23,
         "tokenCount": 4
     },
     {
@@ -699,7 +699,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 23,
+        "orderIndex": 24,
         "tokenCount": 11
     },
     {
@@ -717,7 +717,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 24,
+        "orderIndex": 25,
         "tokenCount": 14
     },
     {
@@ -734,7 +734,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 25,
+        "orderIndex": 26,
         "tokenCount": 14
     },
     {
@@ -751,7 +751,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 26,
+        "orderIndex": 27,
         "tokenCount": 9
     },
     {
@@ -768,8 +768,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 27,
-        "tokenCount": 20
+        "orderIndex": 28,
+        "tokenCount": 18
     },
     {
         "startTime": 110.0,
@@ -786,7 +786,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Michael",
             "Jim"
         ],
-        "orderIndex": 28,
+        "orderIndex": 29,
         "tokenCount": 11
     },
     {
@@ -802,7 +802,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 29,
+        "orderIndex": 30,
         "tokenCount": 1
     },
     {
@@ -819,7 +819,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 30,
+        "orderIndex": 31,
         "tokenCount": 2
     },
     {
@@ -840,7 +840,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Dwight"
         ],
-        "orderIndex": 31,
+        "orderIndex": 32,
         "tokenCount": 21
     },
     {
@@ -856,7 +856,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 32,
+        "orderIndex": 33,
         "tokenCount": 4
     },
     {
@@ -872,7 +872,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 33,
+        "orderIndex": 34,
         "tokenCount": 1
     },
     {
@@ -890,7 +890,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Dunder Mifflin"
         ],
-        "orderIndex": 34,
+        "orderIndex": 35,
         "tokenCount": 11
     },
     {
@@ -906,8 +906,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 35,
-        "tokenCount": 8
+        "orderIndex": 36,
+        "tokenCount": 7
     },
     {
         "startTime": 134.9,
@@ -923,7 +923,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 36,
+        "orderIndex": 37,
         "tokenCount": 15
     },
     {
@@ -939,7 +939,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 37,
+        "orderIndex": 38,
         "tokenCount": 6
     },
     {
@@ -955,7 +955,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 38,
+        "orderIndex": 39,
         "tokenCount": 4
     },
     {
@@ -971,7 +971,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 39,
+        "orderIndex": 40,
         "tokenCount": 5
     },
     {
@@ -988,7 +988,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 40,
+        "orderIndex": 41,
         "tokenCount": 4
     },
     {
@@ -1004,8 +1004,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 41,
-        "tokenCount": 6
+        "orderIndex": 42,
+        "tokenCount": 5
     },
     {
         "startTime": 147.6,
@@ -1023,7 +1023,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 42,
+        "orderIndex": 43,
         "tokenCount": 11
     },
     {
@@ -1040,7 +1040,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Michael",
             "Dwight"
         ],
-        "orderIndex": 43,
+        "orderIndex": 44,
         "tokenCount": 4
     },
     {
@@ -1057,7 +1057,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Michael"
         ],
-        "orderIndex": 44,
+        "orderIndex": 45,
         "tokenCount": 2
     },
     {
@@ -1074,7 +1074,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 45,
+        "orderIndex": 46,
         "tokenCount": 15
     },
     {
@@ -1093,7 +1093,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Jim"
         ],
-        "orderIndex": 46,
+        "orderIndex": 47,
         "tokenCount": 13
     },
     {
@@ -1110,7 +1110,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Michael"
         ],
-        "orderIndex": 47,
+        "orderIndex": 48,
         "tokenCount": 1
     },
     {
@@ -1128,8 +1128,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Michael"
         ],
-        "orderIndex": 48,
-        "tokenCount": 5
+        "orderIndex": 49,
+        "tokenCount": 4
     },
     {
         "startTime": 167.8,
@@ -1146,8 +1146,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 49,
-        "tokenCount": 9
+        "orderIndex": 50,
+        "tokenCount": 8
     },
     {
         "startTime": 170.1,
@@ -1162,7 +1162,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 50,
+        "orderIndex": 51,
         "tokenCount": 4
     },
     {
@@ -1181,8 +1181,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 51,
-        "tokenCount": 17
+        "orderIndex": 52,
+        "tokenCount": 16
     },
     {
         "startTime": 177.2,
@@ -1199,7 +1199,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 52,
+        "orderIndex": 53,
         "tokenCount": 12
     },
     {
@@ -1216,8 +1216,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 53,
-        "tokenCount": 9
+        "orderIndex": 54,
+        "tokenCount": 8
     },
     {
         "startTime": 184.2,
@@ -1233,7 +1233,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 54,
+        "orderIndex": 55,
         "tokenCount": 6
     },
     {
@@ -1249,8 +1249,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 55,
-        "tokenCount": 5
+        "orderIndex": 56,
+        "tokenCount": 4
     },
     {
         "startTime": 187.9,
@@ -1266,8 +1266,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 56,
-        "tokenCount": 6
+        "orderIndex": 57,
+        "tokenCount": 5
     },
     {
         "startTime": 189.6,
@@ -1283,7 +1283,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Michael",
             "Dwight"
         ],
-        "orderIndex": 57,
+        "orderIndex": 58,
         "tokenCount": 4
     },
     {
@@ -1301,7 +1301,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Karen",
             "Jim"
         ],
-        "orderIndex": 58,
+        "orderIndex": 59,
         "tokenCount": 10
     },
     {
@@ -1317,7 +1317,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 59,
+        "orderIndex": 60,
         "tokenCount": 5
     },
     {
@@ -1336,8 +1336,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Scranton"
         ],
-        "orderIndex": 60,
-        "tokenCount": 24
+        "orderIndex": 61,
+        "tokenCount": 22
     },
     {
         "startTime": 208.0,
@@ -1355,7 +1355,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Dwight"
         ],
-        "orderIndex": 61,
+        "orderIndex": 62,
         "tokenCount": 14
     },
     {
@@ -1373,7 +1373,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 62,
+        "orderIndex": 63,
         "tokenCount": 21
     },
     {
@@ -1389,7 +1389,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 63,
+        "orderIndex": 64,
         "tokenCount": 1
     },
     {
@@ -1406,8 +1406,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Stanley"
         ],
-        "orderIndex": 64,
-        "tokenCount": 5
+        "orderIndex": 65,
+        "tokenCount": 4
     },
     {
         "startTime": 234.8,
@@ -1422,8 +1422,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 65,
-        "tokenCount": 9
+        "orderIndex": 66,
+        "tokenCount": 8
     },
     {
         "startTime": 236.6,
@@ -1440,8 +1440,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 66,
-        "tokenCount": 15
+        "orderIndex": 67,
+        "tokenCount": 13
     },
     {
         "startTime": 239.6,
@@ -1456,8 +1456,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 67,
-        "tokenCount": 7
+        "orderIndex": 68,
+        "tokenCount": 6
     },
     {
         "startTime": 240.9,
@@ -1472,7 +1472,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 68,
+        "orderIndex": 69,
         "tokenCount": 7
     },
     {
@@ -1489,7 +1489,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 69,
+        "orderIndex": 70,
         "tokenCount": 3
     },
     {
@@ -1505,7 +1505,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 70,
+        "orderIndex": 71,
         "tokenCount": 6
     },
     {
@@ -1523,7 +1523,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 71,
+        "orderIndex": 72,
         "tokenCount": 6
     },
     {
@@ -1539,7 +1539,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 72,
+        "orderIndex": 73,
         "tokenCount": 3
     },
     {
@@ -1556,7 +1556,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 73,
+        "orderIndex": 74,
         "tokenCount": 2
     },
     {
@@ -1574,7 +1574,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Buttlicker"
         ],
-        "orderIndex": 74,
+        "orderIndex": 75,
         "tokenCount": 7
     },
     {
@@ -1591,7 +1591,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 75,
+        "orderIndex": 76,
         "tokenCount": 8
     },
     {
@@ -1607,7 +1607,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 76,
+        "orderIndex": 77,
         "tokenCount": 12
     },
     {
@@ -1626,7 +1626,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 77,
+        "orderIndex": 78,
         "tokenCount": 14
     },
     {
@@ -1643,7 +1643,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Buttlicker"
         ],
-        "orderIndex": 78,
+        "orderIndex": 79,
         "tokenCount": 7
     },
     {
@@ -1660,8 +1660,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 79,
-        "tokenCount": 5
+        "orderIndex": 80,
+        "tokenCount": 4
     },
     {
         "startTime": 269.6,
@@ -1676,7 +1676,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 80,
+        "orderIndex": 81,
         "tokenCount": 4
     },
     {
@@ -1692,7 +1692,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 81,
+        "orderIndex": 82,
         "tokenCount": 9
     },
     {
@@ -1709,7 +1709,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 82,
+        "orderIndex": 83,
         "tokenCount": 5
     },
     {
@@ -1726,7 +1726,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Bill Buttlicker",
             "Jim"
         ],
-        "orderIndex": 83,
+        "orderIndex": 84,
         "tokenCount": 3
     },
     {
@@ -1743,7 +1743,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael Scott"
         ],
-        "orderIndex": 84,
+        "orderIndex": 85,
         "tokenCount": 7
     },
     {
@@ -1760,7 +1760,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "William M. Buttlicker",
             "Jim"
         ],
-        "orderIndex": 85,
+        "orderIndex": 86,
         "tokenCount": 6
     },
     {
@@ -1777,7 +1777,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Michael",
             "Buttlicker"
         ],
-        "orderIndex": 86,
+        "orderIndex": 87,
         "tokenCount": 8
     },
     {
@@ -1796,8 +1796,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Michael"
         ],
-        "orderIndex": 87,
-        "tokenCount": 20
+        "orderIndex": 88,
+        "tokenCount": 19
     },
     {
         "startTime": 288.6,
@@ -1813,8 +1813,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 88,
-        "tokenCount": 18
+        "orderIndex": 89,
+        "tokenCount": 15
     },
     {
         "startTime": 293.6,
@@ -1829,7 +1829,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 89,
+        "orderIndex": 90,
         "tokenCount": 4
     },
     {
@@ -1849,7 +1849,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Michael"
         ],
-        "orderIndex": 90,
+        "orderIndex": 91,
         "tokenCount": 16
     },
     {
@@ -1866,8 +1866,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Michael"
         ],
-        "orderIndex": 91,
-        "tokenCount": 5
+        "orderIndex": 92,
+        "tokenCount": 4
     },
     {
         "startTime": 300.9,
@@ -1882,8 +1882,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Michael"
         ],
-        "orderIndex": 92,
-        "tokenCount": 6
+        "orderIndex": 93,
+        "tokenCount": 5
     },
     {
         "startTime": 306.2,
@@ -1898,7 +1898,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 93,
+        "orderIndex": 94,
         "tokenCount": 4
     },
     {
@@ -1914,7 +1914,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 94,
+        "orderIndex": 95,
         "tokenCount": 3
     },
     {
@@ -1931,7 +1931,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 95,
+        "orderIndex": 96,
         "tokenCount": 8
     },
     {
@@ -1947,8 +1947,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 96,
-        "tokenCount": 10
+        "orderIndex": 97,
+        "tokenCount": 9
     },
     {
         "startTime": 316.6,
@@ -1963,8 +1963,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 97,
-        "tokenCount": 6
+        "orderIndex": 98,
+        "tokenCount": 5
     },
     {
         "startTime": 318.1,
@@ -1980,7 +1980,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 98,
+        "orderIndex": 99,
         "tokenCount": 11
     },
     {
@@ -1996,7 +1996,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 99,
+        "orderIndex": 100,
         "tokenCount": 5
     },
     {
@@ -2012,7 +2012,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 100,
+        "orderIndex": 101,
         "tokenCount": 7
     },
     {
@@ -2031,7 +2031,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Michael"
         ],
-        "orderIndex": 101,
+        "orderIndex": 102,
         "tokenCount": 13
     },
     {
@@ -2048,7 +2048,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 102,
+        "orderIndex": 103,
         "tokenCount": 8
     },
     {
@@ -2065,7 +2065,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 103,
+        "orderIndex": 104,
         "tokenCount": 12
     },
     {
@@ -2081,7 +2081,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 104,
+        "orderIndex": 105,
         "tokenCount": 2
     },
     {
@@ -2099,8 +2099,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Dwight"
         ],
-        "orderIndex": 105,
-        "tokenCount": 15
+        "orderIndex": 106,
+        "tokenCount": 14
     },
     {
         "startTime": 376.0,
@@ -2115,8 +2115,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 106,
-        "tokenCount": 9
+        "orderIndex": 107,
+        "tokenCount": 8
     },
     {
         "startTime": 379.0,
@@ -2131,7 +2131,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 107,
+        "orderIndex": 108,
         "tokenCount": 10
     },
     {
@@ -2151,7 +2151,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Jim Halpert"
         ],
-        "orderIndex": 108,
+        "orderIndex": 109,
         "tokenCount": 20
     },
     {
@@ -2171,7 +2171,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwayne",
             "Jim Halpert"
         ],
-        "orderIndex": 109,
+        "orderIndex": 110,
         "tokenCount": 14
     },
     {
@@ -2188,7 +2188,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 110,
+        "orderIndex": 111,
         "tokenCount": 9
     },
     {
@@ -2205,7 +2205,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Dwight"
         ],
-        "orderIndex": 111,
+        "orderIndex": 112,
         "tokenCount": 5
     },
     {
@@ -2221,7 +2221,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 112,
+        "orderIndex": 113,
         "tokenCount": 2
     },
     {
@@ -2240,7 +2240,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Dwight"
         ],
-        "orderIndex": 113,
+        "orderIndex": 114,
         "tokenCount": 25
     },
     {
@@ -2256,8 +2256,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 114,
-        "tokenCount": 14
+        "orderIndex": 115,
+        "tokenCount": 11
     },
     {
         "startTime": 429.1,
@@ -2273,8 +2273,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 115,
-        "tokenCount": 9
+        "orderIndex": 116,
+        "tokenCount": 7
     },
     {
         "startTime": 431.1,
@@ -2291,8 +2291,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 116,
-        "tokenCount": 13
+        "orderIndex": 117,
+        "tokenCount": 12
     },
     {
         "startTime": 434.3,
@@ -2307,7 +2307,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 117,
+        "orderIndex": 118,
         "tokenCount": 3
     },
     {
@@ -2324,7 +2324,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 118,
+        "orderIndex": 119,
         "tokenCount": 10
     },
     {
@@ -2340,8 +2340,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 119,
-        "tokenCount": 6
+        "orderIndex": 120,
+        "tokenCount": 5
     },
     {
         "startTime": 438.6,
@@ -2356,7 +2356,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 120,
+        "orderIndex": 121,
         "tokenCount": 8
     },
     {
@@ -2373,8 +2373,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 121,
-        "tokenCount": 8
+        "orderIndex": 122,
+        "tokenCount": 7
     },
     {
         "startTime": 443.0,
@@ -2390,8 +2390,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 122,
-        "tokenCount": 23
+        "orderIndex": 123,
+        "tokenCount": 22
     },
     {
         "startTime": 449.1,
@@ -2410,7 +2410,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Jim Halpert"
         ],
-        "orderIndex": 123,
+        "orderIndex": 124,
         "tokenCount": 29
     },
     {
@@ -2430,8 +2430,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim Halpert",
             "Meredith"
         ],
-        "orderIndex": 124,
-        "tokenCount": 26
+        "orderIndex": 125,
+        "tokenCount": 25
     },
     {
         "startTime": 467.3,
@@ -2448,8 +2448,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 125,
-        "tokenCount": 33
+        "orderIndex": 126,
+        "tokenCount": 32
     },
     {
         "startTime": 481.4,
@@ -2464,7 +2464,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 126,
+        "orderIndex": 127,
         "tokenCount": 8
     },
     {
@@ -2482,7 +2482,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 127,
+        "orderIndex": 128,
         "tokenCount": 18
     },
     {
@@ -2498,7 +2498,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 128,
+        "orderIndex": 129,
         "tokenCount": 4
     },
     {
@@ -2516,7 +2516,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Michael",
             "Dwight"
         ],
-        "orderIndex": 129,
+        "orderIndex": 130,
         "tokenCount": 11
     },
     {
@@ -2535,7 +2535,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 130,
+        "orderIndex": 131,
         "tokenCount": 31
     },
     {
@@ -2553,7 +2553,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Michael",
             "Dwight"
         ],
-        "orderIndex": 131,
+        "orderIndex": 132,
         "tokenCount": 9
     },
     {
@@ -2569,7 +2569,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 132,
+        "orderIndex": 133,
         "tokenCount": 4
     },
     {
@@ -2586,7 +2586,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Steve",
             "Dwight"
         ],
-        "orderIndex": 133,
+        "orderIndex": 134,
         "tokenCount": 2
     },
     {
@@ -2602,7 +2602,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 134,
+        "orderIndex": 135,
         "tokenCount": 3
     },
     {
@@ -2622,8 +2622,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Dwight"
         ],
-        "orderIndex": 135,
-        "tokenCount": 17
+        "orderIndex": 136,
+        "tokenCount": 15
     },
     {
         "startTime": 540.8,
@@ -2639,8 +2639,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Jim"
         ],
-        "orderIndex": 136,
-        "tokenCount": 8
+        "orderIndex": 137,
+        "tokenCount": 6
     },
     {
         "startTime": 543.3,
@@ -2657,7 +2657,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Steve"
         ],
-        "orderIndex": 137,
+        "orderIndex": 138,
         "tokenCount": 13
     },
     {
@@ -2674,8 +2674,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Jim"
         ],
-        "orderIndex": 138,
-        "tokenCount": 16
+        "orderIndex": 139,
+        "tokenCount": 15
     },
     {
         "startTime": 555.6,
@@ -2692,8 +2692,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Steve",
             "Wellington Systems"
         ],
-        "orderIndex": 139,
-        "tokenCount": 12
+        "orderIndex": 140,
+        "tokenCount": 10
     },
     {
         "startTime": 560.6,
@@ -2712,8 +2712,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Creeker Murphy",
             "Paul Creeker"
         ],
-        "orderIndex": 140,
-        "tokenCount": 30
+        "orderIndex": 141,
+        "tokenCount": 27
     },
     {
         "startTime": 577.0,
@@ -2728,7 +2728,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 141,
+        "orderIndex": 142,
         "tokenCount": 6
     },
     {
@@ -2746,7 +2746,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 142,
+        "orderIndex": 143,
         "tokenCount": 10
     },
     {
@@ -2764,8 +2764,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Steve",
             "Dwight"
         ],
-        "orderIndex": 143,
-        "tokenCount": 9
+        "orderIndex": 144,
+        "tokenCount": 8
     },
     {
         "startTime": 585.6,
@@ -2782,8 +2782,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Jim"
         ],
-        "orderIndex": 144,
-        "tokenCount": 9
+        "orderIndex": 145,
+        "tokenCount": 7
     },
     {
         "startTime": 588.0,
@@ -2800,8 +2800,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Pam",
             "Jim"
         ],
-        "orderIndex": 145,
-        "tokenCount": 11
+        "orderIndex": 146,
+        "tokenCount": 10
     },
     {
         "startTime": 591.6,
@@ -2816,8 +2816,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Steve"
         ],
-        "orderIndex": 146,
-        "tokenCount": 5
+        "orderIndex": 147,
+        "tokenCount": 4
     },
     {
         "startTime": 595.2,
@@ -2835,8 +2835,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Jim",
             "Steve"
         ],
-        "orderIndex": 147,
-        "tokenCount": 15
+        "orderIndex": 148,
+        "tokenCount": 14
     },
     {
         "startTime": 599.3,
@@ -2852,8 +2852,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Jim"
         ],
-        "orderIndex": 148,
-        "tokenCount": 15
+        "orderIndex": 149,
+        "tokenCount": 14
     },
     {
         "startTime": 604.6,
@@ -2868,7 +2868,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Steve"
         ],
-        "orderIndex": 149,
+        "orderIndex": 150,
         "tokenCount": 3
     },
     {
@@ -2884,7 +2884,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 150,
+        "orderIndex": 151,
         "tokenCount": 9
     },
     {
@@ -2902,8 +2902,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Roy"
         ],
-        "orderIndex": 151,
-        "tokenCount": 16
+        "orderIndex": 152,
+        "tokenCount": 14
     },
     {
         "startTime": 616.3,
@@ -2918,8 +2918,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Pam"
         ],
-        "orderIndex": 152,
-        "tokenCount": 13
+        "orderIndex": 153,
+        "tokenCount": 11
     },
     {
         "startTime": 619.1,
@@ -2935,7 +2935,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 153,
+        "orderIndex": 154,
         "tokenCount": 14
     },
     {
@@ -2951,7 +2951,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 154,
+        "orderIndex": 155,
         "tokenCount": 7
     },
     {
@@ -2967,7 +2967,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 155,
+        "orderIndex": 156,
         "tokenCount": 7
     },
     {
@@ -2983,7 +2983,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 156,
+        "orderIndex": 157,
         "tokenCount": 2
     },
     {
@@ -3000,8 +3000,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 157,
-        "tokenCount": 8
+        "orderIndex": 158,
+        "tokenCount": 7
     },
     {
         "startTime": 636.5,
@@ -3017,7 +3017,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 158,
+        "orderIndex": 159,
         "tokenCount": 19
     },
     {
@@ -3034,8 +3034,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 159,
-        "tokenCount": 6
+        "orderIndex": 160,
+        "tokenCount": 5
     },
     {
         "startTime": 645.1,
@@ -3051,7 +3051,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 160,
+        "orderIndex": 161,
         "tokenCount": 19
     },
     {
@@ -3068,8 +3068,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 161,
-        "tokenCount": 11
+        "orderIndex": 162,
+        "tokenCount": 9
     },
     {
         "startTime": 658.1,
@@ -3087,7 +3087,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Dwight",
             "Jim"
         ],
-        "orderIndex": 162,
+        "orderIndex": 163,
         "tokenCount": 21
     },
     {
@@ -3103,7 +3103,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 163,
+        "orderIndex": 164,
         "tokenCount": 2
     },
     {
@@ -3119,8 +3119,8 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 164,
-        "tokenCount": 4
+        "orderIndex": 165,
+        "tokenCount": 3
     },
     {
         "startTime": 675.0,
@@ -3136,7 +3136,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Jim"
         ],
-        "orderIndex": 165,
+        "orderIndex": 166,
         "tokenCount": 12
     },
     {
@@ -3154,7 +3154,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
             "Pam",
             "Jim"
         ],
-        "orderIndex": 166,
+        "orderIndex": 167,
         "tokenCount": 9
     },
     {
@@ -3170,7 +3170,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
         "properNouns": [
             "Dwight"
         ],
-        "orderIndex": 167,
+        "orderIndex": 168,
         "tokenCount": 3
     }
 ],

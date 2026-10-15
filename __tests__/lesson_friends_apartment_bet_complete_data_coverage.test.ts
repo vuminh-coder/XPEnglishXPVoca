@@ -36,7 +36,7 @@ describe("Video #13 (mov_sit_01): Friends Apartment Bet Complete Data Coverage &
     const segments = LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA.segments;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -77,6 +77,8 @@ describe("Video #13 (mov_sit_01): Friends Apartment Bet Complete Data Coverage &
       expect(q.targetedConceptEn?.length).toBeGreaterThan(5);
       expect(q.targetedConceptVi?.length).toBeGreaterThan(5);
       expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_FRIENDS_THE_ICONIC_APARTMENT_BET_TRIVIA.segments.length);
     }
   });
 

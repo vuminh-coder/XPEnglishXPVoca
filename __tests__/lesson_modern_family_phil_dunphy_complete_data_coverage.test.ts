@@ -34,11 +34,11 @@ describe("Video #15 (mov_sit_03): Modern Family Phil Dunphy Complete Data Covera
     }
   });
 
-  it("4. Chronological Integrity: startTime < endTime and strictly non-decreasing sequence", () => {
+  it("4. Chronological Integrity: startTime < endTime and strictly non-decreasing sequence (1-indexed)", () => {
     const segments = LESSON_MODERN_FAMILY_PHIL_DUNPHY.segments;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -62,7 +62,7 @@ describe("Video #15 (mov_sit_03): Modern Family Phil Dunphy Complete Data Covera
     }
   });
 
-  it("6. Quiz Extended: 8 comprehensive bilingual questions with CEFR targeted concepts", () => {
+  it("6. Quiz Extended: 8 comprehensive bilingual questions with valid 1-indexed references", () => {
     expect(QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED.lessonId).toBe("mov_sit_03");
     expect(QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED.totalQuestions).toBe(8);
     expect(QUIZ_MODERN_FAMILY_PHIL_DUNPHY_EXTENDED.questions.length).toBe(8);
@@ -79,6 +79,9 @@ describe("Video #15 (mov_sit_03): Modern Family Phil Dunphy Complete Data Covera
       expect(q.explanationVi!.trim().length).toBeGreaterThan(15);
       expect(q.targetedConceptEn?.trim().length).toBeGreaterThan(5);
       expect(q.targetedConceptVi?.trim().length).toBeGreaterThan(5);
+      expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_MODERN_FAMILY_PHIL_DUNPHY.segments.length);
     }
   });
 

@@ -32,11 +32,11 @@ describe("Video #14 (mov_sit_02): Friends Chandler Sarcasm Complete Data Coverag
     }
   });
 
-  it("4. Chronological Integrity: startTime < endTime and strictly non-decreasing sequence", () => {
+  it("4. Chronological Integrity: startTime < endTime and strictly non-decreasing sequence (1-indexed)", () => {
     const segments = LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM.segments;
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -60,7 +60,7 @@ describe("Video #14 (mov_sit_02): Friends Chandler Sarcasm Complete Data Coverag
     }
   });
 
-  it("6. Quiz Extended: 8 comprehensive bilingual questions with CEFR targeted concepts", () => {
+  it("6. Quiz Extended: 8 comprehensive bilingual questions with CEFR targeted concepts & valid 1-indexed references", () => {
     expect(QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED.lessonId).toBe("mov_sit_02");
     expect(QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED.totalQuestions).toBe(8);
     expect(QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED.questions.length).toBe(8);
@@ -77,6 +77,8 @@ describe("Video #14 (mov_sit_02): Friends Chandler Sarcasm Complete Data Coverag
       expect(q.targetedConceptEn?.length).toBeGreaterThan(5);
       expect(q.targetedConceptVi?.length).toBeGreaterThan(5);
       expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM.segments.length);
     }
   });
 

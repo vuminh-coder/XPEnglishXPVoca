@@ -28,13 +28,18 @@ describe("Video #16 (mov_sit_04): Modern Family Gloria Verbatim Deep Audit & Ped
     expect(fullTranscript).toContain("own language, in my own home");
   });
 
-  it("2. Word Count Precision: tokenCount matches regex word count for all segments", () => {
+  it("2. Word Count Precision: tokenCount matches tokenizeSentence for all segments", () => {
+    function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+      if (!sentence) return [];
+      const words = sentence.trim().split(/\s+/);
+      return words.map((w) => {
+        const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+        return { cleanText: clean, isPunctuation: /^[^\w\s]+$/.test(w) };
+      }).filter((t) => t.cleanText.length > 0 || t.isPunctuation);
+    }
     for (const seg of segments) {
-      const actualWords = (seg.text.match(/\b\w+\b/g) || []).length;
-      if (seg.tokenCount !== actualWords) {
-        console.log(`MISMATCH at seg ${seg.orderIndex}: tokenCount=${seg.tokenCount}, actualWords=${actualWords}, text="${seg.text}"`);
-      }
-      expect(seg.tokenCount).toBe(actualWords);
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
@@ -68,11 +73,11 @@ describe("Video #16 (mov_sit_04): Modern Family Gloria Verbatim Deep Audit & Ped
     }
   });
 
-  it("6. Quiz Reference Segments: All referenceSegmentIndices point to valid segments", () => {
+  it("6. Quiz Reference Segments: All referenceSegmentIndices within 1..N (1-indexed)", () => {
     for (const q of QUIZ_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES_EXTENDED.questions) {
       if (q.referenceSegmentIndex !== undefined) {
-        expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-        expect(q.referenceSegmentIndex).toBeLessThan(segments.length);
+        expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+        expect(q.referenceSegmentIndex).toBeLessThanOrEqual(segments.length);
       }
     }
   });

@@ -51,13 +51,13 @@ export const QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED: VideoQuizData 
       "targetedConcept": "Self-deprecating humor & comedic coping mechanisms",
       "targetedConceptEn": "Self-deprecating humor & comedic coping mechanisms",
       "targetedConceptVi": "Hài hước tự trào và cơ chế đối phó bằng sự châm biếm",
-      "referenceSegmentIndex": 7
+      "referenceSegmentIndex": 8
     },
     {
       "id": "mov_sit_02_q2",
-      "question": "Why does Chandler insist he never dances at weddings in Segment 34?",
-      "questionEn": "Why does Chandler insist he never dances at weddings in Segment 34?",
-      "questionVi": "Vì sao Chandler khăng khăng rằng anh không bao giờ khiêu vũ ở các đám cưới trong Phân đoạn 34?",
+      "question": "Why does Chandler insist he never dances at weddings in Segment 35?",
+      "questionEn": "Why does Chandler insist he never dances at weddings in Segment 35?",
+      "questionVi": "Vì sao Chandler khăng khăng rằng anh không bao giờ khiêu vũ ở các đám cưới trong Phân đoạn 35?",
       "options": [
         "He suffers from chronic sprained ankle pain.",
         "Because weddings are a great place to meet women, and his dance moves look ridiculously goofy.",
@@ -77,19 +77,19 @@ export const QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED: VideoQuizData 
         "Monica cấm tiệt anh không bao giờ được bước lên sàn khiêu vũ."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 34, Chandler explains: 'Because weddings are a great place to meet women, and when I dance, I look like this!' before demonstrating his chaotic, uncoordinated flailing dance.",
-      "explanationEn": "In Segment 34, Chandler explains: 'Because weddings are a great place to meet women, and when I dance, I look like this!' before demonstrating his chaotic, uncoordinated flailing dance.",
-      "explanationVi": "Trong Phân đoạn 34, Chandler giải thích: 'Bởi vì tiệc cưới là nơi tuyệt vời để làm quen phụ nữ, mà hễ tớ nhảy, trông tớ lại kinh dị thế này đây!' rồi diễn tả lại điệu nhảy co giật huyền thoại của mình.",
+      "explanation": "In Segment 35, Chandler explains: 'Because weddings are a great place to meet women, and when I dance, I look like this!' before demonstrating his chaotic, uncoordinated flailing dance.",
+      "explanationEn": "In Segment 35, Chandler explains: 'Because weddings are a great place to meet women, and when I dance, I look like this!' before demonstrating his chaotic, uncoordinated flailing dance.",
+      "explanationVi": "Trong Phân đoạn 35, Chandler giải thích: 'Bởi vì tiệc cưới là nơi tuyệt vời để làm quen phụ nữ, mà hễ tớ nhảy, trông tớ lại kinh dị thế này đây!' rồi diễn tả lại điệu nhảy co giật huyền thoại của mình.",
       "targetedConcept": "Physical comedy & romantic self-sabotage",
       "targetedConceptEn": "Physical comedy & romantic self-sabotage",
       "targetedConceptVi": "Hài hình thể và sự vụng về trong hẹn hò",
-      "referenceSegmentIndex": 34
+      "referenceSegmentIndex": 35
     },
     {
       "id": "mov_sit_02_q3",
-      "question": "What biting sarcastic comment does Chandler deliver when Jack Geller overshares his intimate conception history in Segment 52?",
-      "questionEn": "What biting sarcastic comment does Chandler deliver when Jack Geller overshares his intimate conception history in Segment 52?",
-      "questionVi": "Lời mỉa mai cay độc nào được Chandler thốt ra khi bố của Monica (Jack Geller) kể chi tiết nhạy cảm về chuyện sinh con trong Phân đoạn 52?",
+      "question": "What biting sarcastic comment does Chandler deliver when Jack Geller overshares his intimate conception history in Segment 53?",
+      "questionEn": "What biting sarcastic comment does Chandler deliver when Jack Geller overshares his intimate conception history in Segment 53?",
+      "questionVi": "Lời mỉa mai cay độc nào được Chandler thốt ra khi bố của Monica (Jack Geller) kể chi tiết nhạy cảm về chuyện sinh con trong Phân đoạn 53?",
       "options": [
         "He asks Jack for private orthopedic surgery recommendations.",
         "'This conversation is how I got the bullet hole in my head.'",
@@ -109,19 +109,19 @@ export const QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED: VideoQuizData 
         "'Con sẽ không bao giờ ăn gà tây Lễ Tạ Ơn cùng bố nữa đâu.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 52, Chandler reacts to Jack Geller's TMI (Too Much Information) story about conceiving Monica by deadpanning: 'It's fine. This conversation is how I got the bullet hole in my head.'",
-      "explanationEn": "In Segment 52, Chandler reacts to Jack Geller's TMI (Too Much Information) story about conceiving Monica by deadpanning: 'It's fine. This conversation is how I got the bullet hole in my head.'",
-      "explanationVi": "Trong Phân đoạn 52, Chandler phản ứng trước câu chuyện chia sẻ quá đà của bố vợ bằng một câu mỉa mai lạnh lùng: 'Không sao đâu bố. Cuộc trò chuyện này chính là lý do vì sao con có cái lỗ đạn xuyên qua đầu này đây.'",
+      "explanation": "In Segment 53, Chandler reacts to Jack Geller's TMI (Too Much Information) story about conceiving Monica by deadpanning: 'It's fine. This conversation is how I got the bullet hole in my head.'",
+      "explanationEn": "In Segment 53, Chandler reacts to Jack Geller's TMI (Too Much Information) story about conceiving Monica by deadpanning: 'It's fine. This conversation is how I got the bullet hole in my head.'",
+      "explanationVi": "Trong Phân đoạn 53, Chandler phản ứng trước câu chuyện chia sẻ quá đà của bố vợ bằng một câu mỉa mai lạnh lùng: 'Không sao đâu bố. Cuộc trò chuyện này chính là lý do vì sao con có cái lỗ đạn xuyên qua đầu này đây.'",
       "targetedConcept": "Deadpan sarcasm in response to awkward family TMI",
       "targetedConceptEn": "Deadpan sarcasm in response to awkward family TMI",
       "targetedConceptVi": "Phong cách châm biếm lạnh lùng (deadpan) trước tình huống gia đình ngượng ngùng",
-      "referenceSegmentIndex": 52
+      "referenceSegmentIndex": 53
     },
     {
       "id": "mov_sit_02_q4",
-      "question": "How does Chandler mock Joey's attempt to disguise his embarrassment while working as a waiter at Central Perk in Segment 58?",
-      "questionEn": "How does Chandler mock Joey's attempt to disguise his embarrassment while working as a waiter at Central Perk in Segment 58?",
-      "questionVi": "Chandler đã chế giễu việc Joey cố che giấu sự ngượng ngùng khi làm bồi bàn tại quán Central Perk trong Phân đoạn 58 như thế nào?",
+      "question": "How does Chandler mock Joey's attempt to disguise his embarrassment while working as a waiter at Central Perk in Segment 56?",
+      "questionEn": "How does Chandler mock Joey's attempt to disguise his embarrassment while working as a waiter at Central Perk in Segment 56?",
+      "questionVi": "Chandler đã chế giễu việc Joey cố che giấu sự ngượng ngùng khi làm bồi bàn tại quán Central Perk trong Phân đoạn 56 như thế nào?",
       "options": [
         "By pointing out that Joey is wearing his waiter's apron like a superhero cape.",
         "By refusing to drink any coffee poured by an amateur actor.",
@@ -141,19 +141,19 @@ export const QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED: VideoQuizData 
         "Bằng cách nhờ Gunther tịch thu sổ ghi món của Joey."
       ],
       "correctAnswer": 0,
-      "explanation": "In Segment 58, Chandler observes Joey trying to act casual about his new job and quips: 'So, your apron. You're wearing it like a cape.'",
-      "explanationEn": "In Segment 58, Chandler observes Joey trying to act casual about his new job and quips: 'So, your apron. You're wearing it like a cape.'",
-      "explanationVi": "Trong Phân đoạn 58, Chandler quan sát thấy Joey cố tỏ ra không quan tâm đến công việc mới và buông câu nhận xét: 'Thế nên cái tạp dề của cậu... cậu mới khoác nó như áo choàng siêu nhân đấy à.'",
+      "explanation": "In Segment 56, Chandler observes Joey trying to act casual about his new job and quips: 'So, your apron. You're wearing it like a cape.'",
+      "explanationEn": "In Segment 56, Chandler observes Joey trying to act casual about his new job and quips: 'So, your apron. You're wearing it like a cape.'",
+      "explanationVi": "Trong Phân đoạn 56, Chandler quan sát thấy Joey cố tỏ ra không quan tâm đến công việc mới và buông câu nhận xét: 'Thế nên cái tạp dề của cậu... cậu mới khoác nó như áo choàng siêu nhân đấy à.'",
       "targetedConcept": "Visual observation and sarcastic character mockery",
       "targetedConceptEn": "Visual observation and sarcastic character mockery",
       "targetedConceptVi": "Khả năng quan sát chi tiết hình thể và châm biếm tính cách nhân vật",
-      "referenceSegmentIndex": 58
+      "referenceSegmentIndex": 56
     },
     {
       "id": "mov_sit_02_q5",
-      "question": "What is Chandler doing when the entire gang gradually barged into the bathroom in Segments 76-115?",
-      "questionEn": "What is Chandler doing when the entire gang gradually barged into the bathroom in Segments 76-115?",
-      "questionVi": "Chandler đang làm gì khi cả nhóm bạn lần lượt ùa vào phòng tắm trong các Phân đoạn 76-115?",
+      "question": "What is Chandler doing when the entire gang gradually barged into the bathroom in Segment 78?",
+      "questionEn": "What is Chandler doing when the entire gang gradually barged into the bathroom in Segment 78?",
+      "questionVi": "Chandler đang làm gì khi cả nhóm bạn lần lượt ùa vào phòng tắm trong các Phân đoạn 78?",
       "options": [
         "He is practicing a Broadway tap dance routine in front of the mirror.",
         "He is enjoying a relaxing bubble bath with a toy boat.",
@@ -173,19 +173,19 @@ export const QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED: VideoQuizData 
         "Anh ấy đang thông đường ống thoát nước bồn rửa."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 76-115, Chandler is discovered indulging in a bubble bath with a toy boat, leading to a crowded bathroom conference where he sarcastically welcomes everyone: 'Yes, we're all in here and we'd love for you to join us.'",
-      "explanationEn": "In Segments 76-115, Chandler is discovered indulging in a bubble bath with a toy boat, leading to a crowded bathroom conference where he sarcastically welcomes everyone: 'Yes, we're all in here and we'd love for you to join us.'",
-      "explanationVi": "Trong các Phân đoạn 76-115, Chandler bị phát hiện đang ngâm bồn tắm bọt với chiếc thuyền đồ chơi, biến phòng tắm thành phòng họp bất đắc dĩ nơi anh mỉa mai: 'Vâng, tất cả bọn tôi đều ở trong này và rất mong cậu cùng tham gia.'",
+      "explanation": "In Segment 78, Chandler is discovered indulging in a bubble bath with a toy boat, leading to a crowded bathroom conference where he sarcastically welcomes everyone: 'Yes, we're all in here and we'd love for you to join us.'",
+      "explanationEn": "In Segment 78, Chandler is discovered indulging in a bubble bath with a toy boat, leading to a crowded bathroom conference where he sarcastically welcomes everyone: 'Yes, we're all in here and we'd love for you to join us.'",
+      "explanationVi": "Trong các Phân đoạn 78, Chandler bị phát hiện đang ngâm bồn tắm bọt với chiếc thuyền đồ chơi, biến phòng tắm thành phòng họp bất đắc dĩ nơi anh mỉa mai: 'Vâng, tất cả bọn tôi đều ở trong này và rất mong cậu cùng tham gia.'",
       "targetedConcept": "Sitcom farce & bathroom invasion trope",
       "targetedConceptEn": "Sitcom farce & bathroom invasion trope",
       "targetedConceptVi": "Thủ pháp kịch hề (farce) và sự xâm nhập không gian riêng tư hài hước",
-      "referenceSegmentIndex": 112
+      "referenceSegmentIndex": 78
     },
     {
       "id": "mov_sit_02_q6",
-      "question": "What sinister sarcastic remark does Chandler make when Ross explains how he trapped a woman on the train so she'd have to talk to him in Segment 132?",
-      "questionEn": "What sinister sarcastic remark does Chandler make when Ross explains how he trapped a woman on the train so she'd have to talk to him in Segment 132?",
-      "questionVi": "Lời châm chọc rùng rợn nào được Chandler thốt ra khi Ross kể việc ngồi chặn cửa tàu để cô gái không thể chuyển toa trong Phân đoạn 132?",
+      "question": "What sinister sarcastic remark does Chandler make when Ross explains how he trapped a woman on the train so she'd have to talk to him in Segment 85?",
+      "questionEn": "What sinister sarcastic remark does Chandler make when Ross explains how he trapped a woman on the train so she'd have to talk to him in Segment 85?",
+      "questionVi": "Lời châm chọc rùng rợn nào được Chandler thốt ra khi Ross kể việc ngồi chặn cửa tàu để cô gái không thể chuyển toa trong Phân đoạn 85?",
       "options": [
         "'Did the conductor call the Transit Police on you?'",
         "'Were you so late because you were burying this woman?'",
@@ -205,19 +205,19 @@ export const QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED: VideoQuizData 
         "'Nghe cứ như một tập phim Kinh Hoàng Twilight Zone ấy nhỉ.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 132, after Ross boasts that the woman on the train was 'totally at my mercy', Chandler deadpans: 'Were you so late because you were burying this woman?'",
-      "explanationEn": "In Segment 132, after Ross boasts that the woman on the train was 'totally at my mercy', Chandler deadpans: 'Were you so late because you were burying this woman?'",
-      "explanationVi": "Trong Phân đoạn 132, sau khi Ross khoe rằng cô gái trên tàu 'hoàn toàn nằm trong tầm khống chế của tớ', Chandler thản nhiên hỏi xoáy: 'Cậu đến muộn thế này là vì mải đào hố chôn người phụ nữ đó đấy à?'",
+      "explanation": "In Segment 85, after Ross boasts that the woman on the train was 'totally at my mercy', Chandler deadpans: 'Were you so late because you were burying this woman?'",
+      "explanationEn": "In Segment 85, after Ross boasts that the woman on the train was 'totally at my mercy', Chandler deadpans: 'Were you so late because you were burying this woman?'",
+      "explanationVi": "Trong Phân đoạn 85, sau khi Ross khoe rằng cô gái trên tàu 'hoàn toàn nằm trong tầm khống chế của tớ', Chandler thản nhiên hỏi xoáy: 'Cậu đến muộn thế này là vì mải đào hố chôn người phụ nữ đó đấy à?'",
       "targetedConcept": "Dark comedy reframing of creepy romantic behaviors",
       "targetedConceptEn": "Dark comedy reframing of creepy romantic behaviors",
       "targetedConceptVi": "Hài kịch đen lật ngược tình huống tán tỉnh kỳ quặc",
-      "referenceSegmentIndex": 132
+      "referenceSegmentIndex": 85
     },
     {
       "id": "mov_sit_02_q7",
-      "question": "When Joey promises to owe Chandler 'so much' if he secures an audition for the Al Pacino movie, how does Chandler instantly reply in Segment 147?",
-      "questionEn": "When Joey promises to owe Chandler 'so much' if he secures an audition for the Al Pacino movie, how does Chandler instantly reply in Segment 147?",
-      "questionVi": "Khi Joey hứa sẽ nợ Chandler 'rất nhiều' nếu xin được suất thử vai phim Al Pacino, Chandler lập tức đáp trả thế nào trong Phân đoạn 147?",
+      "question": "When Joey promises to owe Chandler 'so much' if he secures an audition for the Al Pacino movie, how does Chandler instantly reply in Segment 97?",
+      "questionEn": "When Joey promises to owe Chandler 'so much' if he secures an audition for the Al Pacino movie, how does Chandler instantly reply in Segment 97?",
+      "questionVi": "Khi Joey hứa sẽ nợ Chandler 'rất nhiều' nếu xin được suất thử vai phim Al Pacino, Chandler lập tức đáp trả thế nào trong Phân đoạn 97?",
       "options": [
         "'You can pay me back with homemade lasagna.'",
         "'You do owe me so much. You owe me $3,000!'",
@@ -237,19 +237,19 @@ export const QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED: VideoQuizData 
         "'Chỉ khi cậu chịu giặt hết áo sơ mi công sở cho tớ trong một tháng.'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 147, Chandler shuts down Joey's emotional plea by bringing up harsh financial reality: 'You do owe me so much. You owe me $3,000!'",
-      "explanationEn": "In Segment 147, Chandler shuts down Joey's emotional plea by bringing up harsh financial reality: 'You do owe me so much. You owe me $3,000!'",
-      "explanationVi": "Trong Phân đoạn 147, Chandler dập tắt lời thề thốt cảm xúc của Joey bằng hiện thực tài chính cay đắng: 'Cậu đang nợ tớ nhiều lắm rồi đấy. Cậu đang nợ tớ 3.000 đô-la kia kìa!'",
+      "explanation": "In Segment 97, Chandler shuts down Joey's emotional plea by bringing up harsh financial reality: 'You do owe me so much. You owe me $3,000!'",
+      "explanationEn": "In Segment 97, Chandler shuts down Joey's emotional plea by bringing up harsh financial reality: 'You do owe me so much. You owe me $3,000!'",
+      "explanationVi": "Trong Phân đoạn 97, Chandler dập tắt lời thề thốt cảm xúc của Joey bằng hiện thực tài chính cay đắng: 'Cậu đang nợ tớ nhiều lắm rồi đấy. Cậu đang nợ tớ 3.000 đô-la kia kìa!'",
       "targetedConcept": "Roommate dynamics & financial reality checks in comedy",
       "targetedConceptEn": "Roommate dynamics & financial reality checks in comedy",
       "targetedConceptVi": "Mối quan hệ bạn cùng phòng và sự nhắc nhở tài chính hài hước",
-      "referenceSegmentIndex": 147
+      "referenceSegmentIndex": 97
     },
     {
       "id": "mov_sit_02_q8",
-      "question": "What immortal one-word question does Chandler ask as the final line of dialogue in the entire 10-season run of Friends in Segment 181?",
-      "questionEn": "What immortal one-word question does Chandler ask as the final line of dialogue in the entire 10-season run of Friends in Segment 181?",
-      "questionVi": "Câu hỏi bất hủ đúng một từ nào được Chandler thốt ra như câu thoại kết thúc toàn bộ 10 mùa phát sóng của phim Friends trong Phân đoạn 181?",
+      "question": "What immortal one-word question does Chandler ask as the final line of dialogue in the entire 10-season run of Friends in Segment 117?",
+      "questionEn": "What immortal one-word question does Chandler ask as the final line of dialogue in the entire 10-season run of Friends in Segment 117?",
+      "questionVi": "Câu hỏi bất hủ đúng một từ nào được Chandler thốt ra như câu thoại kết thúc toàn bộ 10 mùa phát sóng của phim Friends trong Phân đoạn 117?",
       "options": [
         "'When?'",
         "'Where?'",
@@ -269,13 +269,13 @@ export const QUIZ_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM_EXTENDED: VideoQuizData 
         "'Là ai cơ?'"
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 181, when Rachel asks 'should we get some coffee?' Chandler delivers the very last line of the entire series: 'Where?'—a perfect sarcastic callback since Central Perk was the only place they ever went for 10 years.",
-      "explanationEn": "In Segment 181, when Rachel asks 'should we get some coffee?' Chandler delivers the very last line of the entire series: 'Where?'—a perfect sarcastic callback since Central Perk was the only place they ever went for 10 years.",
-      "explanationVi": "Trong Phân đoạn 181, khi Rachel rủ 'bọn mình đi làm tách cà phê nhé?', Chandler tung câu thoại cuối cùng của cả loạt phim: 'Ở đâu cơ?'—một câu châm biếm hoàn hảo vì suốt 10 năm trời, Central Perk là quán duy nhất họ lui tới.",
+      "explanation": "In Segment 117, when Rachel asks 'should we get some coffee?' Chandler delivers the very last line of the entire series: 'Where?'—a perfect sarcastic callback since Central Perk was the only place they ever went for 10 years.",
+      "explanationEn": "In Segment 117, when Rachel asks 'should we get some coffee?' Chandler delivers the very last line of the entire series: 'Where?'—a perfect sarcastic callback since Central Perk was the only place they ever went for 10 years.",
+      "explanationVi": "Trong Phân đoạn 117, khi Rachel rủ 'bọn mình đi làm tách cà phê nhé?', Chandler tung câu thoại cuối cùng của cả loạt phim: 'Ở đâu cơ?'—một câu châm biếm hoàn hảo vì suốt 10 năm trời, Central Perk là quán duy nhất họ lui tới.",
       "targetedConcept": "Television finale callbacks & legendary closing punchlines",
       "targetedConceptEn": "Television finale callbacks & legendary closing punchlines",
       "targetedConceptVi": "Nghệ thuật câu thoại kết thúc tập cuối (finale callback) kinh điển truyền hình",
-      "referenceSegmentIndex": 181
+      "referenceSegmentIndex": 117
     }
   ]
 };
@@ -303,7 +303,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
     "Tuyển tập những câu mỉa mai, chơi chữ châm biếm và phản xạ ngôn ngữ thông minh nhất của Chandler Bing (Matthew Perry): Từ lời khuyên mỉa mai 'sarcastic comment & cheese', điệu nhảy đám cưới dở khóc dở cười, cuộc trò chuyện tế nhị với Jack Geller 'bullet hole in my head', Joey làm bồi bàn mặc tạp dề siêu nhân, bồn tắm bọt thư giãn 'cool boat', chuyện hẹn hò trên tàu Poughkeepsie, ngày thứ Năm 'Thursday / The third day', cho đến câu hỏi kinh điển khép lại 10 năm lịch sử Friends: 'Where?'.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.0,
         "endTime": 4.0,
         "text": "I thought Joey and I would be okay once we hung out,",
@@ -320,7 +320,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 4.1,
         "endTime": 7.0,
         "text": "but it's like we don't even know how to be with each other anymore.",
@@ -335,7 +335,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 7.1,
         "endTime": 9.2,
         "text": "I know it's tough now, but things will get better.",
@@ -350,7 +350,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 9.3,
         "endTime": 11.0,
         "text": "How do you know that?",
@@ -364,7 +364,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 11.1,
         "endTime": 13.2,
         "text": "What if it just gets worse and worse and worse,",
@@ -379,7 +379,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 13.3,
         "endTime": 17.0,
         "text": "to the point where we can't even be in the same room with each other?",
@@ -394,7 +394,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 17.2,
         "endTime": 20.0,
         "text": "I'm not great at the advice.",
@@ -408,7 +408,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 20.1,
         "endTime": 23.0,
         "text": "Can I interest you in a sarcastic comment?",
@@ -423,7 +423,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 23.1,
         "endTime": 26.0,
         "text": "Some cheese?",
@@ -438,7 +438,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 26.2,
         "endTime": 29.5,
         "text": "Funny.",
@@ -452,7 +452,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 30.0,
         "endTime": 34.0,
         "text": "Funny, why is the Bruce Springsteen CD in the Cat Stevens case?",
@@ -471,7 +471,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 34.2,
         "endTime": 36.5,
         "text": "Let's just say if I can't find the right CD case,",
@@ -485,7 +485,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 36.6,
         "endTime": 38.5,
         "text": "I just put it in the nearest one.",
@@ -499,7 +499,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 38.6,
         "endTime": 41.0,
         "text": "Okay, well, where is the Cat Stevens CD?",
@@ -515,7 +515,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 41.1,
         "endTime": 42.5,
         "text": "In the James Taylor case.",
@@ -531,7 +531,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 42.6,
         "endTime": 44.5,
         "text": "Where is the James Taylor CD?",
@@ -547,7 +547,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 44.6,
         "endTime": 46.5,
         "text": "I'm going to say it's in the car.",
@@ -561,7 +561,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 46.6,
         "endTime": 50.0,
         "text": "200 CDs, not one of them in the right case!",
@@ -576,7 +576,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 50.2,
         "endTime": 53.0,
         "text": "Hey, I hear that you and Josh were going out to dinner with Ross and Emily,",
@@ -594,7 +594,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 53.1,
         "endTime": 55.5,
         "text": "and I think that's... I think it's really cool.",
@@ -608,7 +608,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 55.6,
         "endTime": 58.2,
         "text": "Yeah, Rachel, I think you're handling that really well.",
@@ -624,7 +624,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 58.4,
         "endTime": 60.5,
         "text": "Handling it?",
@@ -638,7 +638,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 60.6,
         "endTime": 62.5,
         "text": "There's nothing to handle.",
@@ -652,7 +652,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 62.6,
         "endTime": 66.0,
         "text": "You know, maybe I would have a problem with this if it wasn't for me and Joshua.",
@@ -668,7 +668,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 66.2,
         "endTime": 69.0,
         "text": "You know, they're not going to get married anyway.",
@@ -682,7 +682,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 69.2,
         "endTime": 71.0,
         "text": "What?",
@@ -696,7 +696,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 71.1,
         "endTime": 74.0,
         "text": "Come on. They rushed into this thing so fast, it's ridiculous.",
@@ -711,7 +711,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 74.1,
         "endTime": 76.2,
         "text": "I mean, they're going to be engaged for like what? A year?",
@@ -725,7 +725,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 76.5,
         "endTime": 80.0,
         "text": "Somewhere along the way, one of them is going to realize what they've done,",
@@ -740,7 +740,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 80.1,
         "endTime": 83.0,
         "text": "and they're going to call the whole thing off.",
@@ -754,7 +754,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 83.1,
         "endTime": 86.2,
         "text": "I'm telling you, you're going to be dancing at my wedding before you're dancing at theirs.",
@@ -768,7 +768,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 86.4,
         "endTime": 88.8,
         "text": "You know, I don't dance at weddings.",
@@ -782,7 +782,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 89.0,
         "endTime": 90.2,
         "text": "Why not?",
@@ -796,7 +796,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 90.3,
         "endTime": 95.0,
         "text": "Because weddings are a great place to meet women, and when I dance, I look like this!",
@@ -812,7 +812,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 105.0,
         "endTime": 107.5,
         "text": "Hey, man.",
@@ -826,7 +826,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 108.0,
         "endTime": 112.0,
         "text": "I just don't want you to think that we're animals who do it whenever we want.",
@@ -840,7 +840,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 112.2,
         "endTime": 114.2,
         "text": "Well, I don't think that.",
@@ -854,7 +854,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 114.3,
         "endTime": 118.5,
         "text": "Before today, I never thought of you two having sex at all.",
@@ -868,7 +868,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 118.6,
         "endTime": 121.5,
         "text": "It was a simpler time.",
@@ -882,7 +882,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 122.0,
         "endTime": 125.2,
         "text": "The truth is, Dad, we're trying.",
@@ -897,7 +897,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 125.3,
         "endTime": 126.5,
         "text": "What?",
@@ -911,7 +911,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 126.6,
         "endTime": 128.5,
         "text": "We're trying to get pregnant.",
@@ -925,7 +925,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 128.6,
         "endTime": 130.5,
         "text": "Oh, my God, this is so exciting!",
@@ -939,7 +939,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 130.6,
         "endTime": 133.2,
         "text": "Well, get back in there! I'll guard the door!",
@@ -953,7 +953,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 133.3,
         "endTime": 136.2,
         "text": "That's okay. We can wait until later.",
@@ -967,7 +967,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 136.3,
         "endTime": 139.2,
         "text": "Whoa, whoa, whoa. I don't think so! Aren't you ovulating?",
@@ -981,7 +981,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 139.3,
         "endTime": 141.2,
         "text": "Yeah!",
@@ -995,7 +995,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 141.3,
         "endTime": 143.2,
         "text": "Well, you got to get at it, Princess!",
@@ -1010,7 +1010,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 143.3,
         "endTime": 145.5,
         "text": "When your mother and I were trying to conceive you,",
@@ -1024,7 +1024,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 145.6,
         "endTime": 148.2,
         "text": "whenever she was ovulating, bam, we did it!",
@@ -1038,7 +1038,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 148.3,
         "endTime": 150.5,
         "text": "That's how I got my bad hip.",
@@ -1052,7 +1052,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 150.6,
         "endTime": 154.5,
         "text": "It's fine. This conversation is how I got the bullet hole in my head.",
@@ -1067,7 +1067,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 154.8,
         "endTime": 157.5,
         "text": "Tell me, what's going on? Why didn't you tell us you work here?",
@@ -1081,7 +1081,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 157.8,
         "endTime": 162.0,
         "text": "Well, it's kind of embarrassing. I mean, I was an actor. Now I'm a waiter.",
@@ -1096,7 +1096,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 162.2,
         "endTime": 165.5,
         "text": "I'm supposed to go in the other direction.",
@@ -1110,7 +1110,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 166.0,
         "endTime": 171.0,
         "text": "So, your apron. You're wearing it like a cape.",
@@ -1124,7 +1124,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 172.0,
         "endTime": 175.2,
         "text": "I mean, the job's easy and the money's good, you know?",
@@ -1139,7 +1139,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 175.5,
         "endTime": 179.5,
         "text": "I guess I'm going to be hanging out here anyway. I might as well get paid for it, right?",
@@ -1153,7 +1153,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 19
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 179.8,
         "endTime": 183.5,
         "text": "It's just, you know, kind of weird serving you guys, you know?",
@@ -1167,7 +1167,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 184.0,
         "endTime": 188.0,
         "text": "Joey, come on. I did it and it was fine. Why would it be weird?",
@@ -1183,7 +1183,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 188.2,
         "endTime": 192.5,
         "text": "Hey, Joey, uh, could I get some coffee?",
@@ -1199,7 +1199,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 193.0,
         "endTime": 195.2,
         "text": "Okay, I guess it doesn't seem that weird.",
@@ -1213,7 +1213,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 62,
+        "orderIndex": 63,
         "startTime": 195.5,
         "endTime": 198.8,
         "text": "Seriously, I asked before and you still haven't gotten it.",
@@ -1227,7 +1227,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 63,
+        "orderIndex": 64,
         "startTime": 199.0,
         "endTime": 201.5,
         "text": "It's weird again.",
@@ -1241,7 +1241,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 64,
+        "orderIndex": 65,
         "startTime": 202.0,
         "endTime": 207.0,
         "text": "I think it's great that you work here. You're going to make a lot of money and here's your first tip.",
@@ -1255,7 +1255,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 21
     },
     {
-        "orderIndex": 65,
+        "orderIndex": 66,
         "startTime": 207.2,
         "endTime": 210.0,
         "text": "Don't eat yellow snow.",
@@ -1269,7 +1269,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 66,
+        "orderIndex": 67,
         "startTime": 215.0,
         "endTime": 218.5,
         "text": "Hi, Bubbles. Manly.",
@@ -1284,7 +1284,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 67,
+        "orderIndex": 68,
         "startTime": 222.0,
         "endTime": 224.0,
         "text": "You told her?",
@@ -1298,7 +1298,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 68,
+        "orderIndex": 69,
         "startTime": 225.0,
         "endTime": 227.0,
         "text": "She pulled it out of me.",
@@ -1312,7 +1312,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 69,
+        "orderIndex": 70,
         "startTime": 227.2,
         "endTime": 230.0,
         "text": "She's like a conversational wizard.",
@@ -1326,7 +1326,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 70,
+        "orderIndex": 71,
         "startTime": 251.0,
         "endTime": 254.0,
         "text": "Whoa! We're in the bathroom!",
@@ -1340,7 +1340,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 71,
+        "orderIndex": 72,
         "startTime": 255.0,
         "endTime": 258.5,
         "text": "Because it's a relaxing and enjoyable time.",
@@ -1354,7 +1354,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 72,
+        "orderIndex": 73,
         "startTime": 262.0,
         "endTime": 264.5,
         "text": "What are you guys doing in here?",
@@ -1368,7 +1368,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 73,
+        "orderIndex": 74,
         "startTime": 270.0,
         "endTime": 272.5,
         "text": "It's Rachel. You like Rachel?",
@@ -1384,7 +1384,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 74,
+        "orderIndex": 75,
         "startTime": 272.6,
         "endTime": 277.0,
         "text": "Look, it's no big deal. Phoebe and I talked about it. It's just a crush.",
@@ -1401,7 +1401,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 75,
+        "orderIndex": 76,
         "startTime": 277.2,
         "endTime": 280.5,
         "text": "It's going to go away, dude. You got to rearrange your bubbles.",
@@ -1415,7 +1415,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 76,
+        "orderIndex": 77,
         "startTime": 296.0,
         "endTime": 298.5,
         "text": "Honey, open up with the boat.",
@@ -1429,7 +1429,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 77,
+        "orderIndex": 78,
         "startTime": 301.0,
         "endTime": 305.5,
         "text": "Hello? Yes, we're all in here and we'd love for you to join us.",
@@ -1444,7 +1444,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 78,
+        "orderIndex": 79,
         "startTime": 310.5,
         "endTime": 313.0,
         "text": "Ooh, cool boat.",
@@ -1458,7 +1458,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 79,
+        "orderIndex": 80,
         "startTime": 320.0,
         "endTime": 323.5,
         "text": "We're having a girl!",
@@ -1472,7 +1472,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 80,
+        "orderIndex": 81,
         "startTime": 330.0,
         "endTime": 334.0,
         "text": "Yeah, I met this girl on the train going to a museum upstate.",
@@ -1487,7 +1487,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 81,
+        "orderIndex": 82,
         "startTime": 339.0,
         "endTime": 342.5,
         "text": "Okay, it was just me and her at the back of the train.",
@@ -1501,7 +1501,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 82,
+        "orderIndex": 83,
         "startTime": 342.6,
         "endTime": 346.0,
         "text": "And I sat near the door, so she'd have to pass by me.",
@@ -1515,7 +1515,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 83,
+        "orderIndex": 84,
         "startTime": 346.1,
         "endTime": 349.0,
         "text": "If she wanted to switch cars, she was totally at my mercy.",
@@ -1529,7 +1529,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 84,
+        "orderIndex": 85,
         "startTime": 349.2,
         "endTime": 353.0,
         "text": "Were you so late because you were burying this woman?",
@@ -1544,7 +1544,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 85,
+        "orderIndex": 86,
         "startTime": 353.2,
         "endTime": 356.0,
         "text": "I'm getting back now because she lives in Poughkeepsie.",
@@ -1560,7 +1560,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 86,
+        "orderIndex": 87,
         "startTime": 356.1,
         "endTime": 359.5,
         "text": "She seems really great, but she's like two and a half hours away.",
@@ -1574,7 +1574,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 87,
+        "orderIndex": 88,
         "startTime": 359.6,
         "endTime": 363.0,
         "text": "How can she be great if she's from Poughkeepsie?",
@@ -1590,7 +1590,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 88,
+        "orderIndex": 89,
         "startTime": 364.0,
         "endTime": 366.5,
         "text": "Okay, that joke would have killed in Albany.",
@@ -1607,7 +1607,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 89,
+        "orderIndex": 90,
         "startTime": 367.0,
         "endTime": 370.5,
         "text": "You know that girl you went to college with who became a movie director?",
@@ -1621,7 +1621,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 90,
+        "orderIndex": 91,
         "startTime": 370.6,
         "endTime": 374.0,
         "text": "Oh yeah, Dana Keystone. She was in my movement class.",
@@ -1638,7 +1638,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 91,
+        "orderIndex": 92,
         "startTime": 374.2,
         "endTime": 375.5,
         "text": "What's a movement class?",
@@ -1652,7 +1652,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 92,
+        "orderIndex": 93,
         "startTime": 375.6,
         "endTime": 379.0,
         "text": "It's Chandler's way of pretending he didn't take mime.",
@@ -1668,7 +1668,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 93,
+        "orderIndex": 94,
         "startTime": 379.2,
         "endTime": 383.5,
         "text": "Oh, listen, anyway, she's directing the new Al Pacino movie. You got to get me an audition!",
@@ -1685,7 +1685,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 94,
+        "orderIndex": 95,
         "startTime": 384.0,
         "endTime": 387.5,
         "text": "Oh, I don't know, man. I haven't talked to her in like ten years.",
@@ -1699,7 +1699,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 95,
+        "orderIndex": 96,
         "startTime": 387.6,
         "endTime": 390.5,
         "text": "No, please, Chandler, I would owe you so much!",
@@ -1715,7 +1715,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 96,
+        "orderIndex": 97,
         "startTime": 390.6,
         "endTime": 393.5,
         "text": "You do owe me so much. You owe me $3,000!",
@@ -1726,10 +1726,10 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         ],
         "explanationAi": "Cú phản đòn thực tế phũ phàng của Chandler nhắc nhở về khoản nợ tiền nhà mà Joey chưa bao giờ trả.",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 97,
+        "orderIndex": 98,
         "startTime": 393.6,
         "endTime": 397.0,
         "text": "Hey, why are you changing the subject? Will you make the call or what?",
@@ -1743,7 +1743,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 98,
+        "orderIndex": 99,
         "startTime": 399.0,
         "endTime": 400.8,
         "text": "Okay, I'll try.",
@@ -1757,7 +1757,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 99,
+        "orderIndex": 100,
         "startTime": 400.9,
         "endTime": 402.5,
         "text": "All right, thanks, you're the best!",
@@ -1771,7 +1771,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 100,
+        "orderIndex": 101,
         "startTime": 402.6,
         "endTime": 406.5,
         "text": "Now listen, the last day of auditions is Thursday, so I got to get in there by Thursday, okay?",
@@ -1788,7 +1788,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 19
     },
     {
-        "orderIndex": 101,
+        "orderIndex": 102,
         "startTime": 407.0,
         "endTime": 410.0,
         "text": "Just remember Thursday. Thursday. Can you remember Thursday?",
@@ -1804,7 +1804,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 102,
+        "orderIndex": 103,
         "startTime": 410.2,
         "endTime": 412.0,
         "text": "Yeah, so Tuesday?",
@@ -1821,7 +1821,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 103,
+        "orderIndex": 104,
         "startTime": 413.0,
         "endTime": 414.5,
         "text": "Thursday!",
@@ -1837,7 +1837,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 104,
+        "orderIndex": 105,
         "startTime": 415.0,
         "endTime": 418.5,
         "text": "Look, if you need help remembering, just think of it like this: the third day, all right?",
@@ -1852,7 +1852,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 105,
+        "orderIndex": 106,
         "startTime": 418.6,
         "endTime": 421.0,
         "text": "Monday: one-day. Tuesday: two-day.",
@@ -1870,7 +1870,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 106,
+        "orderIndex": 107,
         "startTime": 421.2,
         "endTime": 425.5,
         "text": "Wednesday: when? huh? what day? Thursday: the third day, okay?!",
@@ -1888,7 +1888,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 107,
+        "orderIndex": 108,
         "startTime": 429.5,
         "endTime": 431.5,
         "text": "Thank you.",
@@ -1902,7 +1902,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 108,
+        "orderIndex": 109,
         "startTime": 440.0,
         "endTime": 442.5,
         "text": "I guess this is it.",
@@ -1917,7 +1917,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 109,
+        "orderIndex": 110,
         "startTime": 445.0,
         "endTime": 447.0,
         "text": "I guess so.",
@@ -1931,7 +1931,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 110,
+        "orderIndex": 111,
         "startTime": 448.0,
         "endTime": 451.0,
         "text": "This is harder than I thought it would be.",
@@ -1945,7 +1945,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 111,
+        "orderIndex": 112,
         "startTime": 451.2,
         "endTime": 454.0,
         "text": "No, it's going to be okay.",
@@ -1959,7 +1959,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 112,
+        "orderIndex": 113,
         "startTime": 464.0,
         "endTime": 469.0,
         "text": "Well, do you guys have to go to the new house right away? Do you have some time?",
@@ -1974,7 +1974,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 113,
+        "orderIndex": 114,
         "startTime": 472.0,
         "endTime": 473.8,
         "text": "We got some time.",
@@ -1988,7 +1988,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 114,
+        "orderIndex": 115,
         "startTime": 474.0,
         "endTime": 476.5,
         "text": "Okay, should we get some coffee?",
@@ -2002,7 +2002,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 115,
+        "orderIndex": 116,
         "startTime": 476.6,
         "endTime": 478.0,
         "text": "Sure.",
@@ -2016,7 +2016,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 116,
+        "orderIndex": 117,
         "startTime": 478.5,
         "endTime": 483.0,
         "text": "Where?",
@@ -2031,7 +2031,7 @@ export const LESSON_FRIENDS_BEST_OF_CHANDLER_BING_SARCASM: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 117,
+        "orderIndex": 118,
         "startTime": 483.5,
         "endTime": 492.0,
         "text": "The camera pans across the empty purple apartment with the iconic yellow frame on the door as the Friends theme song swells.",

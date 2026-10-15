@@ -35,7 +35,7 @@ describe("Senior Deep Audit: 500 Days of Summer Video 8 - 100% Comprehensive Pur
     // Continuous monotonic progression across the entire timeline
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -177,9 +177,9 @@ describe("Senior Deep Audit: 500 Days of Summer Video 8 - 100% Comprehensive Pur
 
       // Reference segment verification
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex!).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex!).toBeLessThan(lesson.segments.length);
-      const refSeg = lesson.segments[q.referenceSegmentIndex!];
+      expect(q.referenceSegmentIndex!).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex!).toBeLessThanOrEqual(lesson.segments.length);
+      const refSeg = lesson.segments.find((s) => s.orderIndex === q.referenceSegmentIndex);
       expect(refSeg).toBeDefined();
     }
   });

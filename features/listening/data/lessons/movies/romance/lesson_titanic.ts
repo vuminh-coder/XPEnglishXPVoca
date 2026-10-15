@@ -45,13 +45,13 @@ export const QUIZ_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: VideoQuizData = {
         "Một cơn bão bất ngờ bắt đầu làm lật các thuyền cứu sinh bằng gỗ."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 3, Officer Lowe realizes the devastating delay: 'We waited too long', as the frozen passengers in the water are unresponsive.",
-      "explanationEn": "In Segment 3, Officer Lowe realizes the devastating delay: 'We waited too long', as the frozen passengers in the water are unresponsive.",
-      "explanationVi": "Trong Phân đoạn 3, Sĩ quan Lowe nhận ra sự chậm trễ đau xót: 'Chúng ta đã chờ đợi quá lâu mất rồi', khi hầu hết nạn nhân đều đã chết cóng.",
+      "explanation": "In Segment 4, Officer Lowe realizes the devastating delay: 'We waited too long', as the frozen passengers in the water are unresponsive.",
+      "explanationEn": "In Segment 4, Officer Lowe realizes the devastating delay: 'We waited too long', as the frozen passengers in the water are unresponsive.",
+      "explanationVi": "Trong Phân đoạn 4, Sĩ quan Lowe nhận ra sự chậm trễ đau xót: 'Chúng ta đã chờ đợi quá lâu mất rồi', khi hầu hết nạn nhân đều đã chết cóng.",
       "targetedConcept": "Tragic consequence of delayed lifeboat rescue response",
       "targetedConceptEn": "Tragic consequence of delayed lifeboat rescue response",
       "targetedConceptVi": "Hậu quả bi thảm của sự chậm trễ cứu hộ thuyền cứu sinh",
-      "referenceSegmentIndex": 3
+      "referenceSegmentIndex": 4
     },
     {
       "id": "mov_rom_09_q2",
@@ -77,13 +77,13 @@ export const QUIZ_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: VideoQuizData = {
         "Cô nghe thấy bài hát phát ra từ điện đài vô tuyến của con tàu."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 9 and 10, Rose sings 'Come, Josephine, in my flying machine', referencing the carefree song Jack taught her on the ship's bow.",
-      "explanationEn": "In Segments 9 and 10, Rose sings 'Come, Josephine, in my flying machine', referencing the carefree song Jack taught her on the ship's bow.",
-      "explanationVi": "Trong các Phân đoạn 9 và 10, Rose hát khúc ca 'Come, Josephine, in my flying machine' để gợi nhớ bài hát vô tư Jack từng dạy cô trên mũi tàu.",
+      "explanation": "In Segments 10 and 11, Rose sings 'Come, Josephine, in my flying machine', referencing the carefree song Jack taught her on the ship's bow.",
+      "explanationEn": "In Segments 10 and 11, Rose sings 'Come, Josephine, in my flying machine', referencing the carefree song Jack taught her on the ship's bow.",
+      "explanationVi": "Trong các Phân đoạn 10 và 11, Rose hát khúc ca 'Come, Josephine, in my flying machine' để gợi nhớ bài hát vô tư Jack từng dạy cô trên mũi tàu.",
       "targetedConcept": "Emotional callback to joyful shared memories sustaining hope",
       "targetedConceptEn": "Emotional callback to joyful shared memories sustaining hope",
       "targetedConceptVi": "Ký ức đồng điệu tươi đẹp làm điểm tựa nuôi dưỡng hy vọng sống",
-      "referenceSegmentIndex": 9
+      "referenceSegmentIndex": 10
     },
     {
       "id": "mov_rom_09_q3",
@@ -109,13 +109,13 @@ export const QUIZ_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: VideoQuizData = {
         "Jack chỉ đang giả vờ ngủ để thử thách lòng chung thủy của cô."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 18 to 21, Rose realizes Jack's hands are stiff and cold, frost covering his eyelashes: he sacrificed his life for hers.",
-      "explanationEn": "In Segments 18 to 21, Rose realizes Jack's hands are stiff and cold, frost covering his eyelashes: he sacrificed his life for hers.",
-      "explanationVi": "Trong các Phân đoạn 18 đến 21, Rose nhận ra đôi tay Jack đã cứng đờ, băng tuyết phủ bờ mi: anh đã hy sinh tính mạng vì cô.",
+      "explanation": "In Segments 19 to 22, Rose realizes Jack's hands are stiff and cold, frost covering his eyelashes: he sacrificed his life for hers.",
+      "explanationEn": "In Segments 19 to 22, Rose realizes Jack's hands are stiff and cold, frost covering his eyelashes: he sacrificed his life for hers.",
+      "explanationVi": "Trong các Phân đoạn 19 đến 22, Rose nhận ra đôi tay Jack đã cứng đờ, băng tuyết phủ bờ mi: anh đã hy sinh tính mạng vì cô.",
       "targetedConcept": "Ultimate sacrificial love and tragic loss",
       "targetedConceptEn": "Ultimate sacrificial love and tragic loss",
       "targetedConceptVi": "Tình yêu hy sinh cao cả và sự mất mát bi tráng",
-      "referenceSegmentIndex": 18
+      "referenceSegmentIndex": 19
     },
     {
       "id": "mov_rom_09_q4",
@@ -141,13 +141,13 @@ export const QUIZ_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: VideoQuizData = {
         "Một quả pháo hiệu ra lệnh cho họ phải lên tàu Carpathia ngay lập tức."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 24 and 25, Lowe orders 'Pull ahead! Give way together!' believing everyone in that sector had perished.",
-      "explanationEn": "In Segments 24 and 25, Lowe orders 'Pull ahead! Give way together!' believing everyone in that sector had perished.",
-      "explanationVi": "Trong các Phân đoạn 24 và 25, Lowe ra lệnh 'Tiến về phía trước! Đồng loạt chèo!' vì tin rằng không còn ai sống sót ở khu vực này.",
+      "explanation": "In Segments 25 and 26, Lowe orders 'Pull ahead! Give way together!' believing everyone in that sector had perished.",
+      "explanationEn": "In Segments 25 and 26, Lowe orders 'Pull ahead! Give way together!' believing everyone in that sector had perished.",
+      "explanationVi": "Trong các Phân đoạn 25 và 26, Lowe ra lệnh 'Tiến về phía trước! Đồng loạt chèo!' vì tin rằng không còn ai sống sót ở khu vực này.",
       "targetedConcept": "Perception limits and the tension of missing rescue",
       "targetedConceptEn": "Perception limits and the tension of missing rescue",
       "targetedConceptVi": "Giới hạn quan sát và sự căng thẳng khi suýt bị bỏ lỡ cơ hội cứu hộ",
-      "referenceSegmentIndex": 24
+      "referenceSegmentIndex": 25
     },
     {
       "id": "mov_rom_09_q5",
@@ -173,13 +173,13 @@ export const QUIZ_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: VideoQuizData = {
         "Một bức tường băng biển dày đặc đã cản trở mọi sóng âm thanh."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 30, her voice is too weak from hypothermia to carry across the water to the rowing boat.",
-      "explanationEn": "In Segment 30, her voice is too weak from hypothermia to carry across the water to the rowing boat.",
-      "explanationVi": "Trong Phân đoạn 30, giọng của Rose quá yếu ớt do nhiễm lạnh hạ thân nhiệt để có thể vọng xa tới mạn thuyền.",
+      "explanation": "In Segment 31, her voice is too weak from hypothermia to carry across the water to the rowing boat.",
+      "explanationEn": "In Segment 31, her voice is too weak from hypothermia to carry across the water to the rowing boat.",
+      "explanationVi": "Trong Phân đoạn 31, giọng của Rose quá yếu ớt do nhiễm lạnh hạ thân nhiệt để có thể vọng xa tới mạn thuyền.",
       "targetedConcept": "Physiological impact of freezing ocean hypothermia",
       "targetedConceptEn": "Physiological impact of freezing ocean hypothermia",
       "targetedConceptVi": "Tác động sinh lý của chứng hạ thân nhiệt trong nước biển giá rét",
-      "referenceSegmentIndex": 30
+      "referenceSegmentIndex": 31
     },
     {
       "id": "mov_rom_09_q6",
@@ -205,13 +205,13 @@ export const QUIZ_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: VideoQuizData = {
         "Cô thề sẽ không bao giờ đi tàu thủy hơi nước thêm một lần nào nữa."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 31 to 36, Rose releases Jack's physical hand so she can honor her promise to fight for life.",
-      "explanationEn": "In Segments 31 to 36, Rose releases Jack's physical hand so she can honor her promise to fight for life.",
-      "explanationVi": "Trong các Phân đoạn 31 đến 36, Rose buông tay Jack để hoàn thành trọn vẹn lời hứa tiếp tục chiến đấu cho sự sống.",
+      "explanation": "In Segments 32 to 37, Rose releases Jack's physical hand so she can honor her promise to fight for life.",
+      "explanationEn": "In Segments 32 to 37, Rose releases Jack's physical hand so she can honor her promise to fight for life.",
+      "explanationVi": "Trong các Phân đoạn 32 đến 37, Rose buông tay Jack để hoàn thành trọn vẹn lời hứa tiếp tục chiến đấu cho sự sống.",
       "targetedConcept": "Transcendent promise of resilience and living forward",
       "targetedConceptEn": "Transcendent promise of resilience and living forward",
       "targetedConceptVi": "Lời hẹn ước kiên cường và tinh thần tiếp tục vươn lên sống tiếp",
-      "referenceSegmentIndex": 32
+      "referenceSegmentIndex": 33
     },
     {
       "id": "mov_rom_09_q7",
@@ -237,13 +237,13 @@ export const QUIZ_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: VideoQuizData = {
         "Cô bắn một khẩu súng lục tìm thấy trong bao súng của sĩ quan."
       ],
       "correctAnswer": 1,
-      "explanation": "In Segments 40 to 45, Rose swims to Chief Officer Wilde's whistle and blows it repeatedly until the crew hears the shrill echo.",
-      "explanationEn": "In Segments 40 to 45, Rose swims to Chief Officer Wilde's whistle and blows it repeatedly until the crew hears the shrill echo.",
-      "explanationVi": "Trong các Phân đoạn 40 đến 45, Rose bơi đến lấy chiếc còi của Sĩ quan Wilde và thổi liên tục cho đến khi đội cứu hộ nghe thấy tiếng còi chói tai.",
+      "explanation": "In Segments 41 to 46, Rose swims to Chief Officer Wilde's whistle and blows it repeatedly until the crew hears the shrill echo.",
+      "explanationEn": "In Segments 41 to 46, Rose swims to Chief Officer Wilde's whistle and blows it repeatedly until the crew hears the shrill echo.",
+      "explanationVi": "Trong các Phân đoạn 41 đến 46, Rose bơi đến lấy chiếc còi của Sĩ quan Wilde và thổi liên tục cho đến khi đội cứu hộ nghe thấy tiếng còi chói tai.",
       "targetedConcept": "Resourceful survival action turning despair into rescue",
       "targetedConceptEn": "Resourceful survival action turning despair into rescue",
       "targetedConceptVi": "Hành động sinh tồn tháo vát biến tuyệt vọng thành kỳ tích cứu rỗi",
-      "referenceSegmentIndex": 43
+      "referenceSegmentIndex": 44
     },
     {
       "id": "mov_rom_09_q8",
@@ -269,13 +269,13 @@ export const QUIZ_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: VideoQuizData = {
         "\"Chèo nhanh lên, con tàu sắp chìm xuống rồi!\""
       ],
       "correctAnswer": 1,
-      "explanation": "In Segment 54, Officer Lowe comforts her gently as they lift her from the freezing sea: 'I've got you. You're safe now.'",
-      "explanationEn": "In Segment 54, Officer Lowe comforts her gently as they lift her from the freezing sea: 'I've got you. You're safe now.'",
-      "explanationVi": "Trong Phân đoạn 54, Sĩ quan Lowe nhẹ nhàng vỗ về khi nhấc cô khỏi làn nước băng: 'Tôi giữ được cô rồi. Giờ thì cô đã an toàn rồi.'",
+      "explanation": "In Segment 55, Officer Lowe comforts her gently as they lift her from the freezing sea: 'I've got you. You're safe now.'",
+      "explanationEn": "In Segment 55, Officer Lowe comforts her gently as they lift her from the freezing sea: 'I've got you. You're safe now.'",
+      "explanationVi": "Trong Phân đoạn 55, Sĩ quan Lowe nhẹ nhàng vỗ về khi nhấc cô khỏi làn nước băng: 'Tôi giữ được cô rồi. Giờ thì cô đã an toàn rồi.'",
       "targetedConcept": "Climactic resolution and comforting safety after tragedy",
       "targetedConceptEn": "Climactic resolution and comforting safety after tragedy",
       "targetedConceptVi": "Giải tỏa cảm xúc đỉnh điểm và sự an ủi bình yên sau biến cố kinh hoàng",
-      "referenceSegmentIndex": 54
+      "referenceSegmentIndex": 55
     }
   ]
 };
@@ -313,7 +313,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Tiếng gọi xé toạc màn đêm của Sĩ quan Harold Lowe khi thuyền số 14 quay lại vùng biển chìm tàu.",
     "properNouns": [],
-    "orderIndex": 0,
+    "orderIndex": 1,
     "tokenCount": 6
   },
   {
@@ -327,7 +327,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Lowe cố gắng lắng nghe hồi âm giữa đại dương tĩnh mịch như tờ.",
     "properNouns": [],
-    "orderIndex": 1,
+    "orderIndex": 2,
     "tokenCount": 4
   },
   {
@@ -341,7 +341,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Tiếng gọi khẩn thiết lặp lại trong tuyệt vọng của người sĩ quan dũng cảm.",
     "properNouns": [],
-    "orderIndex": 2,
+    "orderIndex": 3,
     "tokenCount": 6
   },
   {
@@ -355,7 +355,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Nỗi ân hận tột cùng của viên sĩ quan khi nhận ra đa số nạn nhân đã chết cóng vì thuyền quay lại quá trễ.",
     "properNouns": [],
-    "orderIndex": 3,
+    "orderIndex": 4,
     "tokenCount": 4
   },
   {
@@ -369,7 +369,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Người thủy thủ chèo thuyền an ủi viên sĩ quan trước cảnh tượng kinh hoàng.",
     "properNouns": [],
-    "orderIndex": 4,
+    "orderIndex": 5,
     "tokenCount": 5
   },
   {
@@ -384,7 +384,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Mệnh lệnh dứt khoát không chịu từ bỏ hy vọng tìm kiếm người sống sót của Lowe.",
     "properNouns": [],
-    "orderIndex": 5,
+    "orderIndex": 6,
     "tokenCount": 5
   },
   {
@@ -398,7 +398,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Ánh đèn pin quét qua mặt biển băng giá tìm kiếm từng cử động nhỏ nhất.",
     "properNouns": [],
-    "orderIndex": 6,
+    "orderIndex": 7,
     "tokenCount": 6
   },
   {
@@ -414,7 +414,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Khung cảnh vừa bi thương vừa diễm lệ đối lập sự mong manh của mạng sống con người với vũ trụ.",
     "properNouns": [],
-    "orderIndex": 7,
+    "orderIndex": 8,
     "tokenCount": 12
   },
   {
@@ -431,7 +431,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Rose"
     ],
-    "orderIndex": 8,
+    "orderIndex": 9,
     "tokenCount": 10
   },
   {
@@ -448,7 +448,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Josephine"
     ],
-    "orderIndex": 9,
+    "orderIndex": 10,
     "tokenCount": 6
   },
   {
@@ -463,7 +463,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Lời hát như lời ru giữ cho tâm trí Rose không chìm sâu vào giấc ngủ vĩnh hằng.",
     "properNouns": [],
-    "orderIndex": 10,
+    "orderIndex": 11,
     "tokenCount": 7
   },
   {
@@ -478,7 +478,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Tia hy vọng cứu sinh xuất hiện giữa màn đêm u tối mịt mùng.",
     "properNouns": [],
-    "orderIndex": 11,
+    "orderIndex": 12,
     "tokenCount": 12
   },
   {
@@ -495,7 +495,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Rose"
     ],
-    "orderIndex": 12,
+    "orderIndex": 13,
     "tokenCount": 10
   },
   {
@@ -511,7 +511,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Jack"
     ],
-    "orderIndex": 13,
+    "orderIndex": 14,
     "tokenCount": 1
   },
   {
@@ -527,7 +527,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Jack"
     ],
-    "orderIndex": 14,
+    "orderIndex": 15,
     "tokenCount": 4
   },
   {
@@ -543,7 +543,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Jack"
     ],
-    "orderIndex": 15,
+    "orderIndex": 16,
     "tokenCount": 3
   },
   {
@@ -559,7 +559,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Jack"
     ],
-    "orderIndex": 16,
+    "orderIndex": 17,
     "tokenCount": 4
   },
   {
@@ -575,7 +575,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Jack"
     ],
-    "orderIndex": 17,
+    "orderIndex": 18,
     "tokenCount": 3
   },
   {
@@ -590,7 +590,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Sự thật nghiệt ngã: Jack đã hy sinh mạng sống để giữ trọn vẹn sự sống cho Rose trên cánh cửa.",
     "properNouns": [],
-    "orderIndex": 18,
+    "orderIndex": 19,
     "tokenCount": 12
   },
   {
@@ -605,7 +605,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Chi tiết điện ảnh ám ảnh biểu trưng cho cái chết yên bình đầy hy sinh của Jack Dawson.",
     "properNouns": [],
-    "orderIndex": 19,
+    "orderIndex": 20,
     "tokenCount": 6
   },
   {
@@ -622,7 +622,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Jack"
     ],
-    "orderIndex": 20,
+    "orderIndex": 21,
     "tokenCount": 2
   },
   {
@@ -637,7 +637,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Khoảnh khắc tan vỡ con tim sâu sắc nhất trong lịch sử điện ảnh thế giới.",
     "properNouns": [],
-    "orderIndex": 21,
+    "orderIndex": 22,
     "tokenCount": 12
   },
   {
@@ -651,7 +651,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Mệnh lệnh của Sĩ quan Lowe khi chiếc thuyền số 14 chuẩn bị chuyển hướng chèo đi nơi khác.",
     "properNouns": [],
-    "orderIndex": 22,
+    "orderIndex": 23,
     "tokenCount": 2
   },
   {
@@ -665,7 +665,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Tiếng gọi vọng lại lần cuối của viên sĩ quan trước khi từ bỏ khu vực này.",
     "properNouns": [],
-    "orderIndex": 23,
+    "orderIndex": 24,
     "tokenCount": 4
   },
   {
@@ -679,7 +679,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Nhận định đau xót của đoàn cứu hộ vì chỉ nhìn thấy những thi thể bất động.",
     "properNouns": [],
-    "orderIndex": 24,
+    "orderIndex": 25,
     "tokenCount": 5
   },
   {
@@ -694,7 +694,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Mệnh lệnh chèo thuyền đưa chiếc thuyền cứu sinh rời xa dần vị trí của Rose.",
     "properNouns": [],
-    "orderIndex": 25,
+    "orderIndex": 26,
     "tokenCount": 5
   },
   {
@@ -709,7 +709,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Cơ hội sống sót duy nhất dường như đang vụt trôi qua trước mắt cô gái trẻ.",
     "properNouns": [],
-    "orderIndex": 26,
+    "orderIndex": 27,
     "tokenCount": 10
   },
   {
@@ -723,7 +723,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Rose cố gắng cất tiếng gọi nhưng thanh quản bị đông cứng vì nhiễm lạnh.",
     "properNouns": [],
-    "orderIndex": 27,
+    "orderIndex": 28,
     "tokenCount": 2
   },
   {
@@ -737,7 +737,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Tiếng gọi khản đặc chỉ vang lên như một lời thì thào thều thào bất lực.",
     "properNouns": [],
-    "orderIndex": 28,
+    "orderIndex": 29,
     "tokenCount": 4
   },
   {
@@ -751,7 +751,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Sự bất lực cùng cực khi nhìn thấy ánh đèn dần mờ nhạt giữa biển cả.",
     "properNouns": [],
-    "orderIndex": 29,
+    "orderIndex": 30,
     "tokenCount": 2
   },
   {
@@ -766,7 +766,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Chứng hạ thân nhiệt làm tê liệt dây thanh đới, đe dọa tước đi hy vọng sống cuối cùng.",
     "properNouns": [],
-    "orderIndex": 30,
+    "orderIndex": 31,
     "tokenCount": 12
   },
   {
@@ -783,7 +783,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Jack"
     ],
-    "orderIndex": 31,
+    "orderIndex": 32,
     "tokenCount": 10
   },
   {
@@ -797,7 +797,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Câu thoại bất hủ: Không phải là níu giữ thể xác, mà là không bao giờ từ bỏ lời hứa sinh tồn.",
     "properNouns": [],
-    "orderIndex": 32,
+    "orderIndex": 33,
     "tokenCount": 4
   },
   {
@@ -811,7 +811,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Lời đính ước thiêng liêng danh dự giữa sự sống và cái chết.",
     "properNouns": [],
-    "orderIndex": 33,
+    "orderIndex": 34,
     "tokenCount": 2
   },
   {
@@ -825,7 +825,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Rose lặp lại lời khẳng định với tất cả ý chí quật cường của một linh hồn tự do.",
     "properNouns": [],
-    "orderIndex": 34,
+    "orderIndex": 35,
     "tokenCount": 4
   },
   {
@@ -841,7 +841,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Cử chỉ tình yêu đẹp đẽ và xót xa nhất, khép lại câu chuyện tình ngắn ngủi nhưng vĩnh cửu.",
     "properNouns": [],
-    "orderIndex": 35,
+    "orderIndex": 36,
     "tokenCount": 8
   },
   {
@@ -856,7 +856,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Sự buông bỏ đau đớn để tiếp tục sống đúng như tâm nguyện của Jack.",
     "properNouns": [],
-    "orderIndex": 36,
+    "orderIndex": 37,
     "tokenCount": 9
   },
   {
@@ -873,7 +873,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Jack"
     ],
-    "orderIndex": 37,
+    "orderIndex": 38,
     "tokenCount": 11
   },
   {
@@ -890,7 +890,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Rose"
     ],
-    "orderIndex": 38,
+    "orderIndex": 39,
     "tokenCount": 10
   },
   {
@@ -905,7 +905,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Sức mạnh phi thường của bản năng sinh tồn và lời hứa với tình yêu.",
     "properNouns": [],
-    "orderIndex": 39,
+    "orderIndex": 40,
     "tokenCount": 10
   },
   {
@@ -921,7 +921,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Wilde"
     ],
-    "orderIndex": 40,
+    "orderIndex": 41,
     "tokenCount": 10
   },
   {
@@ -935,7 +935,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Chiếc còi đồng định mệnh mở ra cơ hội phát tín hiệu âm thanh xuyên thấu màn đêm.",
     "properNouns": [],
-    "orderIndex": 41,
+    "orderIndex": 42,
     "tokenCount": 8
   },
   {
@@ -952,7 +952,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Rose"
     ],
-    "orderIndex": 42,
+    "orderIndex": 43,
     "tokenCount": 11
   },
   {
@@ -967,7 +967,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Hơi thở mãnh liệt thắp sáng lại ngọn lửa sinh mệnh giữa bóng đêm.",
     "properNouns": [],
-    "orderIndex": 43,
+    "orderIndex": 44,
     "tokenCount": 13
   },
   {
@@ -985,7 +985,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Atlantic"
     ],
-    "orderIndex": 44,
+    "orderIndex": 45,
     "tokenCount": 10
   },
   {
@@ -1002,7 +1002,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Rose"
     ],
-    "orderIndex": 45,
+    "orderIndex": 46,
     "tokenCount": 7
   },
   {
@@ -1017,7 +1017,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Mệnh lệnh hàng hải khẩn cấp của Sĩ quan Lowe khi nghe thấy âm thanh bất thường.",
     "properNouns": [],
-    "orderIndex": 46,
+    "orderIndex": 47,
     "tokenCount": 3
   },
   {
@@ -1031,7 +1031,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Sĩ quan Lowe lắng tai nghe tiếng còi giữa màn đêm.",
     "properNouns": [],
-    "orderIndex": 47,
+    "orderIndex": 48,
     "tokenCount": 4
   },
   {
@@ -1045,7 +1045,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Người thủy thủ nhìn thấy bóng dáng và chỉ tay về phía Rose.",
     "properNouns": [],
-    "orderIndex": 48,
+    "orderIndex": 49,
     "tokenCount": 4
   },
   {
@@ -1060,7 +1060,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Toàn bộ thuyền viên dồn lực chèo nhanh về phía tiếng còi.",
     "properNouns": [],
-    "orderIndex": 49,
+    "orderIndex": 50,
     "tokenCount": 6
   },
   {
@@ -1074,7 +1074,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Thủy thủ xác nhận chính xác vị trí của cô gái đang trôi dạt.",
     "properNouns": [],
-    "orderIndex": 50,
+    "orderIndex": 51,
     "tokenCount": 5
   },
   {
@@ -1091,7 +1091,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     "properNouns": [
       "Rose"
     ],
-    "orderIndex": 51,
+    "orderIndex": 52,
     "tokenCount": 9
   },
   {
@@ -1106,7 +1106,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Sĩ quan Lowe cẩn trọng chỉ đạo để không làm tổn thương nạn nhân bị tê cóng.",
     "properNouns": [],
-    "orderIndex": 52,
+    "orderIndex": 53,
     "tokenCount": 6
   },
   {
@@ -1121,7 +1121,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Những đôi bàn tay rắn rỏi kéo Rose thoát khỏi nanh vuốt của tử thần.",
     "properNouns": [],
-    "orderIndex": 53,
+    "orderIndex": 54,
     "tokenCount": 6
   },
   {
@@ -1136,7 +1136,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
     ],
     "explanationAi": "Lời trấn an nhân văn ấm áp khép lại cuộc chiến sinh tồn khốc liệt.",
     "properNouns": [],
-    "orderIndex": 54,
+    "orderIndex": 55,
     "tokenCount": 6
   },
   {
@@ -1155,7 +1155,7 @@ export const LESSON_TITANIC_FLYING_FIRST_CLASS_DINNER_EXTENDED: MockVideoLesson 
       "Rose",
       "Jack"
     ],
-    "orderIndex": 55,
+    "orderIndex": 56,
     "tokenCount": 16
   }
 ],
