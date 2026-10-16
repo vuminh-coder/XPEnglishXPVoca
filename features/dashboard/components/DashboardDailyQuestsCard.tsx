@@ -38,7 +38,7 @@ interface QuestMeta {
   href: string;
   actionLabel: string;
   barGradient: string;
-  iconBg: string;
+  iconColor: string;
   icon: React.ReactNode;
 }
 
@@ -47,36 +47,36 @@ const QUEST_CONFIG: Record<string, QuestMeta> = {
     href: "/vocabulary",
     actionLabel: "Học từ mới",
     barGradient: "bg-emerald-500",
-    iconBg: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400",
-    icon: <BookOpen className="w-4 h-4 stroke-[2]" />,
+    iconColor: "text-emerald-600 dark:text-emerald-400",
+    icon: <BookOpen className="w-4.5 h-4.5 stroke-[2]" />,
   },
   review_cards: {
     href: "/review",
     actionLabel: "Ôn tập ngay",
     barGradient: "bg-blue-500",
-    iconBg: "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400",
-    icon: <RotateCcw className="w-4 h-4 stroke-[2]" />,
+    iconColor: "text-[#0059bb] dark:text-sky-400",
+    icon: <RotateCcw className="w-4.5 h-4.5 stroke-[2]" />,
   },
   win_pvp: {
     href: "/study/pvp",
     actionLabel: "Vào đấu trường",
     barGradient: "bg-rose-500",
-    iconBg: "bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400",
-    icon: <Swords className="w-4 h-4 stroke-[2]" />,
+    iconColor: "text-rose-600 dark:text-rose-400",
+    icon: <Swords className="w-4.5 h-4.5 stroke-[2]" />,
   },
   write_essay: {
     href: "/study/dictation",
     actionLabel: "Luyện chính tả",
     barGradient: "bg-amber-500",
-    iconBg: "bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400",
-    icon: <PenLine className="w-4 h-4 stroke-[2]" />,
+    iconColor: "text-amber-600 dark:text-amber-400",
+    icon: <PenLine className="w-4.5 h-4.5 stroke-[2]" />,
   },
   speak_practice: {
     href: "/study/shadowing",
     actionLabel: "Luyện phát âm",
     barGradient: "bg-purple-500",
-    iconBg: "bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400",
-    icon: <Mic className="w-4 h-4 stroke-[2]" />,
+    iconColor: "text-purple-600 dark:text-purple-400",
+    icon: <Mic className="w-4.5 h-4.5 stroke-[2]" />,
   },
 };
 
@@ -84,8 +84,8 @@ const DEFAULT_QUEST_META: QuestMeta = {
   href: "/study/practice",
   actionLabel: "Luyện tập ngay",
   barGradient: "bg-blue-500",
-  iconBg: "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400",
-  icon: <Sparkles className="w-4 h-4 stroke-[2]" />,
+  iconColor: "text-[#0059bb] dark:text-sky-400",
+  icon: <Sparkles className="w-4.5 h-4.5 stroke-[2]" />,
 };
 
 export function DashboardDailyQuestsCard({
@@ -140,8 +140,8 @@ export function DashboardDailyQuestsCard({
     <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
       {/* 1. Header with dynamic achievement status */}
       <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 flex items-center justify-center shrink-0 text-[#0059bb] dark:text-sky-400">
             <Target className="w-5 h-5 stroke-[2.3]" />
           </div>
           <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
@@ -225,10 +225,10 @@ export function DashboardDailyQuestsCard({
                   {/* Left: Icon & Title + Mini Progress Bar */}
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     <span
-                      className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                      className={`w-8 h-8 flex items-center justify-center shrink-0 transition-colors ${
                         isTaskFullyCompleted
-                          ? "bg-slate-100 dark:bg-slate-800 text-slate-400"
-                          : meta.iconBg
+                          ? "text-slate-400 dark:text-slate-500"
+                          : meta.iconColor
                       }`}
                     >
                       {meta.icon}
