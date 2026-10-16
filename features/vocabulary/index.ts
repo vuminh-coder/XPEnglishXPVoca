@@ -1,6 +1,7 @@
 // Utils
 export * from "./utils/themeSemanticIcons";
 export * from "./utils/themeImageMapper";
+export * from "./utils/wordImageMapper";
 export * from "./utils/vietnameseSearchUtils";
 
 // Shared Reusable Components

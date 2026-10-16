@@ -448,7 +448,68 @@ export default function ThemeDetailPage({
           progressPercent={progressPercent}
         />
 
-        {/* 2. MODE CONTENT PANELS */}
+        {/* 2. PROMINENT SEGMENTED STUDIO BAR (Mode Switcher) */}
+        <div className="flex items-center justify-between gap-3 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full sm:w-auto">
+            <button
+              type="button"
+              onClick={() => handleSwitchViewMode("flashcard")}
+              className={`h-10 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
+                viewMode === "flashcard"
+                  ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20 font-display"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <Layers className="w-4 h-4" />
+              <span>Flashcard 2 Cột</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleSwitchViewMode("list")}
+              className={`h-10 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
+                viewMode === "list"
+                  ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20 font-display"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <List className="w-4 h-4" />
+              <span>Danh Sách Tra Cứu ({vocabs.length})</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleSwitchViewMode("quiz")}
+              className={`h-10 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
+                viewMode === "quiz"
+                  ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20 font-display"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <Zap className="w-4 h-4 text-amber-500" />
+              <span>Đấu Trường Quiz</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleSwitchViewMode("ai")}
+              className={`h-10 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
+                viewMode === "ai"
+                  ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20 font-display"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <Bot className="w-4 h-4 text-purple-500" />
+              <span>Cố Vấn AI Tutor</span>
+            </button>
+          </div>
+
+          <div className="hidden sm:flex items-center gap-2 text-xs font-mono font-bold text-slate-400 pr-2">
+            <span>XP English Studio</span>
+          </div>
+        </div>
+
+        {/* 3. MODE CONTENT PANELS */}
         {/* MODE 1: FLASHCARD 3D */}
         {viewMode === "flashcard" && activeVocab && (
           <FlashcardStudioPane
@@ -460,6 +521,10 @@ export default function ThemeDetailPage({
             isWordMasked={isWordMasked}
             setIsWordMasked={setIsWordMasked}
             isFavorite={isCurrentFav}
+            theme={theme}
+            vocabs={vocabs}
+            onSelectWord={setCurrentIndex}
+            learnedVocabIds={new Set(learned.filter((l) => l.isLearned).map((l) => l.vocabId))}
             onToggleFavorite={(vocabId) => {
               toggleFavorite(vocabId);
               showToastMsg(
