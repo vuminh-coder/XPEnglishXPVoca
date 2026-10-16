@@ -143,8 +143,10 @@ export function DashboardDailyQuestsCard({
     });
   }, [displayChallenges]);
 
-  return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
+    <div
+      id="dashboard-daily-quests-card"
+      className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3"
+    >
       {/* 1. Header with dynamic achievement status */}
       <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
         <div className="flex items-center gap-2">

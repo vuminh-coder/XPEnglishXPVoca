@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bot, Send, Loader2, Volume2 } from "lucide-react";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
@@ -22,11 +22,66 @@ export function DashboardAiTutorWidget({
   handleQuickAskSubmit,
 }: DashboardAiTutorWidgetProps) {
   const hasActiveResponse = Boolean(aiAnswer || isAiLoading);
+  const [syncedHeight, setSyncedHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!hasActiveResponse) {
+      setSyncedHeight(null);
+      return;
+    }
+
+    const updateHeight = () => {
+      // Chỉ căn chỉnh khớp đáy khi màn hình desktop dạng 2 cột (lg >= 1024px)
+      if (typeof window === "undefined" || window.innerWidth < 1024) {
+        setSyncedHeight(null);
+        return;
+      }
+
+      const questEl = document.getElementById("dashboard-daily-quests-card");
+      const aiEl = document.getElementById("dashboard-ai-tutor-widget");
+
+      if (questEl && aiEl) {
+        const questBottom = questEl.getBoundingClientRect().bottom;
+        const aiTop = aiEl.getBoundingClientRect().top;
+        const targetHeight = Math.round(questBottom - aiTop);
+
+        // Bảo đảm targetHeight hợp lệ, lấp đầy hoàn hảo tới đáy của khối nhiệm vụ
+        if (targetHeight > 200) {
+          setSyncedHeight(targetHeight);
+        }
+      }
+    };
+
+    const rafId = requestAnimationFrame(updateHeight);
+    const timer = setTimeout(updateHeight, 50);
+    const timer2 = setTimeout(updateHeight, 200);
+
+    window.addEventListener("resize", updateHeight);
+
+    const questEl = document.getElementById("dashboard-daily-quests-card");
+    let observer: ResizeObserver | null = null;
+    if (questEl && typeof ResizeObserver !== "undefined") {
+      observer = new ResizeObserver(() => {
+        updateHeight();
+      });
+      observer.observe(questEl);
+    }
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timer);
+      clearTimeout(timer2);
+      window.removeEventListener("resize", updateHeight);
+      if (observer) observer.disconnect();
+    };
+  }, [hasActiveResponse, aiAnswer, isAiLoading]);
 
   return (
     <div
-      className={`p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3 flex flex-col transition-all duration-300 ${
-        hasActiveResponse ? "lg:flex-1" : ""
+      id="dashboard-ai-tutor-widget"
+      style={syncedHeight ? { height: `${syncedHeight}px`, minHeight: `${syncedHeight}px` } : undefined}
+      className={`p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 flex flex-col justify-between transition-[height] duration-200 ${
+        hasActiveResponse ? "gap-2.5" : "space-y-3"
       }`}
     >
       {/* Header */}
@@ -78,7 +133,7 @@ export function DashboardAiTutorWidget({
         </div>
       </form>
 
-      {/* Loading & Answer Area (Dạng lướt cuộn khớp 100% bằng đáy khối nhiệm vụ bên cạnh) */}
+      {/* Loading & Answer Area: Toàn bộ chiều cao chênh lệch đẩy hết vào khung lướt câu trả lời */}
       <AnimatePresence>
         {isAiLoading && (
           <motion.div
@@ -106,7 +161,7 @@ export function DashboardAiTutorWidget({
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}
-            className="p-4 rounded-xl bg-slate-50/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed shadow-inner flex-1 min-h-0 flex flex-col overflow-hidden min-h-[200px]"
+            className="p-4 rounded-xl bg-slate-50/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed shadow-inner flex-1 min-h-0 flex flex-col overflow-hidden"
           >
             <div className="flex items-center justify-between border-b border-slate-200/70 dark:border-slate-800/80 pb-2 shrink-0 sticky top-0 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-xs z-10 -mx-1 px-1">
               <span className="font-extrabold text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5 text-xs font-display">
@@ -123,6 +178,7 @@ export function DashboardAiTutorWidget({
                 <span>Nghe</span>
               </button>
             </div>
+            {/* Vùng lướt câu trả lời: chiếm trọn 100% phần chiều cao còn lại */}
             <div className="flex-1 min-h-0 overflow-y-auto pr-1 select-text pt-2 space-y-1">
               <FormattedAiText content={aiAnswer} />
             </div>
