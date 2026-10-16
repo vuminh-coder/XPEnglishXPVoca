@@ -23,8 +23,6 @@ export function DashboardStreakStudio({
   isCheckingIn,
   handleCheckIn,
 }: DashboardStreakStudioProps) {
-  const learnedCount = weekDays.filter((w) => w.status === "learned" || w.status === "current").length;
-
   return (
     <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3 relative overflow-hidden">
       {/* 1. Speech Bubble */}
@@ -50,7 +48,7 @@ export function DashboardStreakStudio({
         </div>
       </div>
 
-      {/* 3. 7-Day Circle Stepper */}
+      {/* 3. 7-Day Circle Stepper with Smart Milestone Gift on Sunday */}
       {isLoadingCheckin ? (
         <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center pt-1">
           {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((label, i) => (
@@ -67,15 +65,26 @@ export function DashboardStreakStudio({
           {weekDays.map((wd, i) => {
             const isToday = wd.status === "current";
             const isLearned = wd.status === "learned";
+            const isMilestoneDay = i === 6 || wd.day === "CN";
 
             return (
-              <div key={i} className="flex flex-col items-center gap-1.5">
+              <div
+                key={i}
+                className="flex flex-col items-center gap-1.5 relative group/day cursor-pointer"
+                title={
+                  isMilestoneDay
+                    ? "Mốc tuần: Học đủ 7 ngày nhận ngay +100 Vàng!"
+                    : `${wd.day}: ${isLearned ? "Đã học" : isToday ? "Hôm nay" : "Chưa học"}`
+                }
+              >
                 <span
-                  className={`text-[11px] font-mono font-bold ${
+                  className={`text-[11px] font-mono font-bold transition-colors ${
                     isToday
                       ? "text-amber-600 dark:text-amber-400 font-black"
                       : isLearned
                       ? "text-slate-800 dark:text-slate-200"
+                      : isMilestoneDay
+                      ? "text-amber-600 dark:text-amber-400 font-bold"
                       : "text-slate-500 dark:text-slate-400 font-semibold"
                   }`}
                 >
@@ -88,13 +97,21 @@ export function DashboardStreakStudio({
                       ? "bg-gradient-to-tr from-amber-500 to-orange-400 text-white shadow-xs shadow-orange-500/25 ring-1 ring-amber-400/20"
                       : isToday
                       ? "bg-gradient-to-tr from-amber-500 to-orange-500 text-white ring-4 ring-amber-400/35 shadow-md shadow-amber-500/35 animate-pulse"
+                      : isMilestoneDay
+                      ? "bg-amber-500/10 dark:bg-amber-500/15 border border-dashed border-amber-400/70 dark:border-amber-500/50 hover:bg-amber-500/20 transition-colors"
                       : "bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80"
                   }`}
                 >
                   {isLearned ? (
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   ) : isToday ? (
-                    <Flame className="w-3.5 h-3.5 fill-white stroke-none" />
+                    isMilestoneDay ? (
+                      <Gift className="w-3.5 h-3.5 text-white" />
+                    ) : (
+                      <Flame className="w-3.5 h-3.5 fill-white stroke-none" />
+                    )
+                  ) : isMilestoneDay ? (
+                    <Gift className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                   ) : null}
                 </div>
               </div>
@@ -103,33 +120,8 @@ export function DashboardStreakStudio({
         </div>
       )}
 
-      {/* 4. Milestone Reward Banner */}
-      <div className="p-3 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/40 flex items-center justify-between gap-3 shadow-2xs">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-amber-500/15 dark:bg-amber-500/25 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-            <Gift className="w-4 h-4" />
-          </div>
-          <div className="min-w-0">
-            <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
-              Đủ 7 ngày nhận ngay <span className="text-amber-600 dark:text-amber-400 font-mono font-black">+100 Vàng</span>
-            </p>
-            <div className="w-32 h-1.5 bg-slate-200/80 dark:bg-slate-700 rounded-full mt-1 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-500 transition-all duration-500"
-                style={{
-                  width: `${(learnedCount / 7) * 100}%`,
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <span className="shrink-0 px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 font-mono text-[11px] font-bold">
-          {learnedCount}/7 ngày
-        </span>
-      </div>
-
-      {/* 5. Checkin Button CTA */}
-      <div className="pt-0.5">
+      {/* 4. Checkin Button CTA */}
+      <div className="pt-1.5 sm:pt-2">
         {isCheckedInToday ? (
           <button
             type="button"

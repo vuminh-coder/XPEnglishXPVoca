@@ -6259,7 +6259,7 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
           2. **Kinetic Micro-Sparks System (Tối Giản & Tinh Tế)**: Loại bỏ toàn bộ các vòng tròn và đốm halo thừa; tinh giản thành đúng 3 tia lửa li ti sắc nét được cân chỉnh kích thước vừa vặn (2 tia lửa kim cương 4 cánh vàng óng 10-13px ở góc trên hai bên và 1 chấm tàn lửa 4px bay bốc lên nhẹ nhàng bên sườn trái), tạo sự chuyển động sống động tự nhiên mà không gây rối mắt.
           3. **Breathing Hover Micro-Interaction**: Hiệu ứng nhấp nhô nhẹ nhàng tự nhiên và phản hồi khi di chuột / chạm.
       - **Tích Hợp Đồng Bộ Trên Toàn Bộ Nền Tảng**:
-        * `DashboardStreakStudio.tsx`: Đốm lửa mascot 3D trung tâm `<StreakFlame3D size="lg" />`, tạo điểm nhấn thu hút và ấm áp.
+        * `DashboardStreakStudio.tsx`: Đốm lửa mascot 3D trung tâm `<StreakFlame3D size="lg" />`, loại bỏ hoàn toàn khối banner trùng lặp "Đủ 7 ngày nhận +100 Vàng" để giảm tải tầng thị giác, đồng thời tích hợp biểu tượng hộp quà mốc tuần (`Gift`) trực tiếp vào vòng tròn Chủ Nhật (CN) chuẩn Duolingo, giúp bố cục card thoáng đạt và thanh lịch vượt bậc.
         * `DashboardHeroGreeting.tsx`: Nhúng `<StreakFlame3D size="sm" showHalo={false} showSparks={false} />` vào thẻ chỉ số Streak 40x40.
         * `IpaHeroGreeting.tsx`: Tự động đồng bộ asset 3D mới tại thẻ Chuỗi luyện phát âm.
       - **Bộ Kiểm Thử & Kiểm Định Kiểu Dữ Liệu 100% PASS**:
