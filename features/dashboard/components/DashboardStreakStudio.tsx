@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Flame, Check, Gift, CheckCircle2, Loader2 } from "lucide-react";
+import { Flame, Check, Gift, CheckCircle2, Loader2, CalendarCheck } from "lucide-react";
 import { ShimmerCircle } from "@/shared/components/feedback/ShimmerSkeleton";
 import { StreakFlame3D } from "@/shared/components/feedback/StreakFlame3D";
 
@@ -134,12 +134,12 @@ export function DashboardStreakStudio({
             type="button"
             onClick={handleCheckIn}
             disabled={isCheckingIn || isLoadingCheckin}
-            className="w-full py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#0059bb] to-blue-600 hover:from-[#004fba] hover:to-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm shadow-blue-500/25 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer border-t border-white/20 disabled:opacity-60"
+            className="w-full py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs sm:text-sm shadow-sm shadow-emerald-500/25 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer border-t border-white/20 disabled:opacity-60"
           >
             {isCheckingIn ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              <Flame className="w-4 h-4 fill-amber-300 text-amber-300" />
+              <CalendarCheck className="w-4 h-4 stroke-[2.2] text-white" />
             )}
             <span>{isCheckingIn ? "Đang điểm danh..." : "Điểm danh ngay"}</span>
           </button>

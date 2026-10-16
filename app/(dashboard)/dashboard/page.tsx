@@ -16,6 +16,7 @@ import {
   ListOrdered,
   CheckCircle2,
   Loader2,
+  CalendarCheck,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
 import { useUserStore, DEFAULT_LEARNER_USER } from "@/stores/userStore";
@@ -674,11 +675,13 @@ export default function DashboardPage() {
                 type="button"
                 onClick={handleCheckIn}
                 disabled={isCheckingIn || isLoadingCheckin}
-                className="h-9 px-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-orange-500/20 active:scale-95 transition-all cursor-pointer disabled:opacity-60 font-display"
+                className="h-9 px-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-emerald-500/20 active:scale-95 transition-all cursor-pointer disabled:opacity-60 font-display"
                 title="Điểm danh hôm nay"
               >
-                {isCheckingIn && (
+                {isCheckingIn ? (
                   <Loader2 className="w-4 h-4 animate-spin text-white" />
+                ) : (
+                  <CalendarCheck className="w-4 h-4 stroke-[2.2] text-white" />
                 )}
                 <span>{isCheckingIn ? "Đang điểm danh..." : "Điểm danh"}</span>
               </button>
