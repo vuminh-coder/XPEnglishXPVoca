@@ -20,85 +20,37 @@ const SIZE_MAP = {
 };
 
 /**
- * 4-Pointed Sparkle Star with pure SVG radial glow (Zero square clipping / zero box artifact)
+ * Micro Spark Diamond (Crisp 4-point tiny fire spark, NO circle background, NO box clipping)
  */
-function SparkleStar({
-  size = 14,
-  variant = "amber",
+function MicroSpark({
+  size = 7,
   uid = "s1",
   className = "",
 }: {
   size?: number;
-  variant?: "amber" | "blue" | "white";
   uid?: string;
   className?: string;
 }) {
-  const gradId = `star-grad-${variant}-${uid}`;
-  const glowId = `star-glow-${variant}-${uid}`;
-
+  const gradId = `spark-grad-${uid}`;
   return (
     <svg
       width={size}
       height={size}
-      viewBox="-6 -6 36 36"
+      viewBox="0 0 16 16"
       fill="none"
-      style={{ overflow: "visible" }}
       className={`select-none pointer-events-none shrink-0 overflow-visible ${className}`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        {variant === "amber" && (
-          <>
-            <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="30%" stopColor="#fef08a" />
-              <stop offset="70%" stopColor="#f59e0b" />
-              <stop offset="100%" stopColor="#d97706" />
-            </linearGradient>
-            <radialGradient id={glowId} cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#fde047" stopOpacity="0.85" />
-              <stop offset="50%" stopColor="#f59e0b" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
-            </radialGradient>
-          </>
-        )}
-        {variant === "blue" && (
-          <>
-            <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="35%" stopColor="#93c5fd" />
-              <stop offset="75%" stopColor="#2563eb" />
-              <stop offset="100%" stopColor="#0059bb" />
-            </linearGradient>
-            <radialGradient id={glowId} cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.85" />
-              <stop offset="50%" stopColor="#0059bb" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#0059bb" stopOpacity="0" />
-            </radialGradient>
-          </>
-        )}
-        {variant === "white" && (
-          <>
-            <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="60%" stopColor="#fef08a" />
-              <stop offset="100%" stopColor="#fde047" />
-            </linearGradient>
-            <radialGradient id={glowId} cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-              <stop offset="50%" stopColor="#fef08a" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#fef08a" stopOpacity="0" />
-            </radialGradient>
-          </>
-        )}
+        <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="45%" stopColor="#fef08a" />
+          <stop offset="100%" stopColor="#f59e0b" />
+        </linearGradient>
       </defs>
-
-      {/* 1. Pure Circular SVG Radial Glow (Eliminates CSS drop-shadow square edges) */}
-      <circle cx="12" cy="12" r="13" fill={`url(#${glowId})`} />
-
-      {/* 2. Crisp Center Spark Diamond */}
+      {/* 4-pointed diamond star: crisp, tiny, NO background circles */}
       <path
-        d="M12 0C12 7 7 12 0 12C7 12 12 17 12 24C12 17 17 12 24 12C17 12 12 7 12 0Z"
+        d="M8 0C8 4.4 4.4 8 0 8C4.4 8 8 11.6 8 16C8 11.6 11.6 8 16 8C11.6 8 8 4.4 8 0Z"
         fill={`url(#${gradId})`}
       />
     </svg>
@@ -106,41 +58,8 @@ function SparkleStar({
 }
 
 /**
- * Glowing Micro Fire Ember using pure CSS radial gradient (Zero box-shadow / zero square artifact)
- */
-function FloatingEmber({
-  size = 6,
-  color = "amber",
-  className = "",
-}: {
-  size?: number;
-  color?: "amber" | "orange" | "gold";
-  className?: string;
-}) {
-  const gradient =
-    color === "amber"
-      ? "radial-gradient(circle, #ffffff 0%, #fde047 35%, #f59e0b 70%, rgba(245,158,11,0) 100%)"
-      : color === "orange"
-      ? "radial-gradient(circle, #ffffff 0%, #fb923c 40%, #ea580c 70%, rgba(234,88,12,0) 100%)"
-      : "radial-gradient(circle, #ffffff 0%, #fef08a 45%, #eab308 75%, rgba(234,179,8,0) 100%)";
-
-  return (
-    <div
-      style={{
-        width: size * 2.2,
-        height: size * 2.2,
-        background: gradient,
-      }}
-      className={`rounded-full select-none pointer-events-none shrink-0 overflow-visible ${className}`}
-    />
-  );
-}
-
-/**
  * 3D Stylized Streak Flame Mascot Component (Duolingo & Apple Tier)
- * Features smooth organic curving flame tongues, glossy enamel luster,
- * glowing white-hot core, amber-gold fire, royal blue brand harmony rim,
- * pure circular radial ambient glow, and kinetic floating sparkles & embers.
+ * Minimalist, elegant design with organic 3D flame and 3 tiny subtle ambient sparks.
  */
 export function StreakFlame3D({
   size = "lg",
@@ -152,20 +71,19 @@ export function StreakFlame3D({
   const baseId = useId().replace(/:/g, "_");
   const sizeClasses = SIZE_MAP[size] || SIZE_MAP.lg;
   const isLarge = size === "lg" || size === "xl";
-  const isMedium = size === "md";
 
   return (
     <div
-      className={`relative inline-flex items-center justify-center select-none overflow-visible ${sizeClasses} ${className}`}
+      className={`relative inline-flex items-center justify-center select-none ${sizeClasses} ${className}`}
     >
-      {/* 1. Luminous Pure Circular Radial Ambient Glow (Zero square blur artifacts) */}
+      {/* 1. Subtle Ambient Backlight Glow (Soft ellipse, tapered naturally to 0) */}
       {showHalo && (
         <motion.div
           animate={
             animate
               ? {
-                  scale: [0.95, 1.08, 0.95],
-                  opacity: [0.35, 0.6, 0.35],
+                  scale: [0.96, 1.05, 0.96],
+                  opacity: [0.25, 0.45, 0.25],
                 }
               : undefined
           }
@@ -176,167 +94,78 @@ export function StreakFlame3D({
           }}
           style={{
             background:
-              "radial-gradient(circle, rgba(245,158,11,0.28) 0%, rgba(249,115,22,0.18) 42%, rgba(0,89,187,0.1) 70%, rgba(0,0,0,0) 100%)",
+              "radial-gradient(ellipse at center, rgba(245,158,11,0.2) 0%, rgba(249,115,22,0.12) 40%, rgba(0,0,0,0) 70%)",
           }}
-          className="absolute inset-[-15%] rounded-full pointer-events-none overflow-visible"
+          className="absolute inset-[-12%] pointer-events-none"
         />
       )}
 
-      {/* 2. Kinetic Floating Stars & Thermal Fire Embers (Zero square boundaries) */}
-      {showSparks && animate && (
+      {/* 2. Exactly 3 Tiny Subtle Flying Sparks (Chỉ mấy cái nhỏ nhỏ bay, không hình tròn thừa) */}
+      {showSparks && isLarge && animate && (
         <>
-          {/* A. Top-Right Main Golden Sparkle Star */}
-          {(isLarge || isMedium) && (
-            <motion.div
-              className="absolute -top-1 -right-2 sm:-right-3 pointer-events-none z-20 overflow-visible"
-              animate={{
-                y: [0, -7, 0],
-                x: [0, 2, 0],
-                rotate: [0, 20, -10, 0],
-                scale: [0.85, 1.25, 0.85],
-                opacity: [0.45, 1, 0.45],
-              }}
-              transition={{
-                duration: 3.2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <SparkleStar size={isLarge ? 16 : 12} variant="amber" uid={`${baseId}-tr`} />
-            </motion.div>
-          )}
+          {/* Spark 1 - Upper Right (Tia lửa nhỏ 7px phía trên bên phải) */}
+          <motion.div
+            className="absolute top-1 -right-1 sm:-right-2 pointer-events-none z-20"
+            animate={{
+              y: [0, -6, 0],
+              x: [0, 2, 0],
+              rotate: [0, 15, -10, 0],
+              scale: [0.85, 1.15, 0.85],
+              opacity: [0.4, 0.95, 0.4],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <MicroSpark size={7} uid={`${baseId}-tr`} />
+          </motion.div>
 
-          {/* B. Top-Left Golden Sparkle Star */}
-          {isLarge && (
-            <motion.div
-              className="absolute top-1 -left-2 sm:-left-3 pointer-events-none z-20 overflow-visible"
-              animate={{
-                y: [0, -6, 0],
-                x: [0, -2, 0],
-                rotate: [0, -15, 10, 0],
-                scale: [0.75, 1.15, 0.75],
-                opacity: [0.35, 0.95, 0.35],
-              }}
-              transition={{
-                duration: 2.8,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.4,
-              }}
-            >
-              <SparkleStar size={13} variant="amber" uid={`${baseId}-tl`} />
-            </motion.div>
-          )}
+          {/* Spark 2 - Upper Left (Tia lửa nhỏ 5px phía trên bên trái) */}
+          <motion.div
+            className="absolute top-3 -left-1 sm:-left-2 pointer-events-none z-20"
+            animate={{
+              y: [0, -5, 0],
+              x: [0, -2, 0],
+              rotate: [0, -15, 10, 0],
+              scale: [0.8, 1.1, 0.8],
+              opacity: [0.35, 0.85, 0.35],
+            }}
+            transition={{
+              duration: 2.6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.5,
+            }}
+          >
+            <MicroSpark size={5} uid={`${baseId}-tl`} />
+          </motion.div>
 
-          {/* C. Apex Peak White-Hot Sparkle */}
-          {isLarge && (
-            <motion.div
-              className="absolute -top-3 left-1/2 -translate-x-1/2 pointer-events-none z-20 overflow-visible"
-              animate={{
-                y: [0, -4, 0],
-                scale: [0.65, 1.15, 0.65],
-                opacity: [0.3, 0.9, 0.3],
-              }}
-              transition={{
-                duration: 2.3,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.9,
-              }}
-            >
-              <SparkleStar size={10} variant="white" uid={`${baseId}-top`} />
-            </motion.div>
-          )}
-
-          {/* D. Left Flank Rising Thermal Ember (Drifts up and fades out) */}
-          {(isLarge || isMedium) && (
-            <motion.div
-              className="absolute bottom-6 -left-1 sm:-left-2 pointer-events-none z-20 overflow-visible"
-              animate={{
-                y: [0, -16, -30],
-                x: [0, -3, -1],
-                scale: [0.5, 1.1, 0.4],
-                opacity: [0, 0.85, 0],
-              }}
-              transition={{
-                duration: 2.9,
-                repeat: Infinity,
-                ease: "easeOut",
-                delay: 0.2,
-              }}
-            >
-              <FloatingEmber size={isLarge ? 6 : 4} color="amber" />
-            </motion.div>
-          )}
-
-          {/* E. Right Flank Rising Thermal Ember */}
-          {isLarge && (
-            <motion.div
-              className="absolute bottom-8 -right-1 sm:-right-2 pointer-events-none z-20 overflow-visible"
-              animate={{
-                y: [0, -18, -34],
-                x: [0, 3, 1],
-                scale: [0.6, 1.2, 0.4],
-                opacity: [0, 0.9, 0],
-              }}
-              transition={{
-                duration: 3.3,
-                repeat: Infinity,
-                ease: "easeOut",
-                delay: 1.1,
-              }}
-            >
-              <FloatingEmber size={5} color="orange" />
-            </motion.div>
-          )}
-
-          {/* F. Base Royal Blue Brand Sparkle (Harmonizes with brand color #0059bb) */}
-          {isLarge && (
-            <motion.div
-              className="absolute bottom-0 -left-1 sm:left-0 pointer-events-none z-20 overflow-visible"
-              animate={{
-                y: [0, -4, 0],
-                rotate: [0, 30, 0],
-                scale: [0.7, 1.1, 0.7],
-                opacity: [0.25, 0.8, 0.25],
-              }}
-              transition={{
-                duration: 3.6,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.6,
-              }}
-            >
-              <SparkleStar size={11} variant="blue" uid={`${baseId}-blue`} />
-            </motion.div>
-          )}
-
-          {/* G. Mid-Right Golden Micro-Orb */}
-          {isLarge && (
-            <motion.div
-              className="absolute top-1/2 -right-2.5 -translate-y-1/2 pointer-events-none z-20 overflow-visible"
-              animate={{
-                y: [0, -8, 0],
-                x: [0, 2, 0],
-                opacity: [0.25, 0.85, 0.25],
-                scale: [0.8, 1.15, 0.8],
-              }}
-              transition={{
-                duration: 2.6,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1.4,
-              }}
-            >
-              <FloatingEmber size={4} color="gold" />
-            </motion.div>
-          )}
+          {/* Spark 3 - Left Drift (1 chấm tàn lửa li ti 2px bay nhẹ bốc lên rồi tan biến) */}
+          <motion.div
+            className="absolute bottom-7 left-0 pointer-events-none z-20"
+            animate={{
+              y: [0, -14, -24],
+              x: [0, -3, -1],
+              opacity: [0, 0.8, 0],
+              scale: [0.6, 1, 0.4],
+            }}
+            transition={{
+              duration: 2.8,
+              repeat: Infinity,
+              ease: "easeOut",
+              delay: 0.3,
+            }}
+          >
+            <div className="w-1 h-1 rounded-full bg-amber-300" />
+          </motion.div>
         </>
       )}
 
-      {/* 3. Master 3D Stylized Flame Asset */}
+      {/* 3. Master 3D Stylized Flame Mascot (Mấy cái khác giữ nguyên 100%) */}
       <motion.div
-        className="w-full h-full relative z-10 flex items-center justify-center overflow-visible"
+        className="w-full h-full relative z-10 flex items-center justify-center"
         animate={
           animate
             ? {
@@ -356,7 +185,7 @@ export function StreakFlame3D({
           alt="3D Stylized Streak Flame Mascot"
           className="w-full h-full object-contain select-none pointer-events-none transition-transform duration-300 hover:scale-105 active:scale-95"
           style={{
-            filter: "drop-shadow(0px 6px 14px rgba(245, 158, 11, 0.35))",
+            filter: "drop-shadow(0px 6px 14px rgba(245, 158, 11, 0.32))",
           }}
           loading="eager"
           decoding="async"
