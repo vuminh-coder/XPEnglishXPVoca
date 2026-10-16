@@ -256,12 +256,9 @@ export function FlashcardStudioPane({
                     </button>
 
                     {/* Flip Card Cue */}
-                    <div className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                    <div className="h-7 px-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 text-xs font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 transition-colors">
                       <RotateCcw className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                      <span className="hidden sm:inline">Lật thẻ</span>
-                      <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[10px] font-mono text-slate-500 border border-slate-200 dark:border-slate-700">
-                        Space
-                      </kbd>
+                      <span>Lật thẻ</span>
                     </div>
                   </div>
                 </div>
@@ -286,24 +283,12 @@ export function FlashcardStudioPane({
                         e.stopPropagation();
                         onSpeak(activeVocab.word);
                       }}
-                      className="h-8 px-3 rounded-lg bg-blue-50 hover:bg-[#0059bb] text-[#0059bb] hover:text-white dark:bg-blue-950/60 dark:text-sky-300 dark:hover:text-white font-bold text-xs border border-blue-200/80 dark:border-blue-800/80 transition-all inline-flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-2xs"
-                      title="Phát âm từ vựng (P)"
+                      className="h-8 px-3.5 rounded-lg bg-blue-50 hover:bg-[#0059bb] text-[#0059bb] hover:text-white dark:bg-blue-950/60 dark:text-sky-300 dark:hover:text-white font-bold text-xs border border-blue-200/80 dark:border-blue-800/80 transition-all inline-flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-2xs"
+                      title="Phát âm từ vựng"
                     >
                       <Volume2 className="w-3.5 h-3.5 fill-current" />
                       <span>Phát âm</span>
-                      <kbd className="hidden sm:inline-block px-1 py-0.2 rounded bg-white/70 dark:bg-blue-900/40 text-[9px] font-mono">
-                        P
-                      </kbd>
                     </button>
-                  </div>
-
-                  {/* Active Recall Callout: Encourages learner to test memory before flipping */}
-                  <div className="pt-2 flex items-center justify-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
-                    <span>Chạm thẻ hoặc nhấn</span>
-                    <kbd className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[10px] font-mono border border-slate-200 dark:border-slate-700">
-                      Space
-                    </kbd>
-                    <span>để xem nghĩa & ví dụ song ngữ</span>
                   </div>
                 </div>
 
@@ -317,7 +302,7 @@ export function FlashcardStudioPane({
                       &quot;{activeVocab.examples[0]}&quot;
                     </span>
                   ) : (
-                    <span>Lật thẻ để xem định nghĩa chi tiết</span>
+                    <span>Chạm thẻ để xem định nghĩa chi tiết</span>
                   )}
                 </div>
               </div>
@@ -354,12 +339,9 @@ export function FlashcardStudioPane({
                       <span className="text-[11px]">{isFavorite ? "Đã Lưu" : "Lưu"}</span>
                     </button>
 
-                    <div className="text-xs text-slate-400 flex items-center gap-1 cursor-pointer hover:text-slate-600 dark:hover:text-slate-200">
+                    <div className="h-7 px-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 transition-colors">
                       <RotateCcw className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                      <span className="hidden sm:inline">Lật lại</span>
-                      <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 text-[10px] font-mono text-slate-500 border border-slate-200 dark:border-slate-700">
-                        Space
-                      </kbd>
+                      <span>Lật lại</span>
                     </div>
                   </div>
                 </div>
@@ -429,12 +411,10 @@ export function FlashcardStudioPane({
                       onSpeak(activeVocab.word);
                     }}
                     className="h-9 px-3.5 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 text-xs font-bold transition-colors border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 cursor-pointer shadow-2xs active:scale-95"
+                    title="Phát âm từ vựng"
                   >
                     <Volume2 className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
                     <span>Nghe lại</span>
-                    <kbd className="hidden sm:inline-block px-1 py-0.2 rounded bg-slate-100 dark:bg-slate-700 text-[9px] font-mono text-slate-500">
-                      P
-                    </kbd>
                   </button>
 
                   <button
