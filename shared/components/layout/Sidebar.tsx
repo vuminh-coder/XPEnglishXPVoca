@@ -351,7 +351,7 @@ function SidebarNavInner({
                         }`}
                       >
                         <div
-                          className={`flex items-center gap-3 min-w-0 ${
+                          className={`flex items-center gap-3 min-w-0 overflow-visible ${
                             sidebarCollapsed ? "lg:justify-center" : ""
                           }`}
                         >
@@ -359,7 +359,7 @@ function SidebarNavInner({
                             {link.icon}
                           </span>
                           <span
-                            className={`font-bold text-[13px] whitespace-nowrap pr-0.5 inline-block ${
+                            className={`font-bold text-[13px] whitespace-nowrap overflow-visible select-none inline-block pr-1 ${
                               sidebarCollapsed ? "lg:hidden" : "lg:inline-block"
                             }`}
                           >
@@ -388,11 +388,11 @@ function SidebarNavInner({
                               : "text-[#0059bb] dark:text-sky-400 hover:bg-blue-50/70 dark:hover:bg-blue-950/40"
                           }`}
                         >
-                          <div className="flex items-center gap-3 min-w-0">
+                          <div className="flex items-center gap-3 min-w-0 overflow-visible">
                             <span className="sidebar-link-icon shrink-0">
                               <Crown className="w-[21px] h-[21px] text-amber-500" strokeWidth={1.8} />
                             </span>
-                            <span className="font-bold text-[13px] whitespace-nowrap pr-0.5">
+                            <span className="font-bold text-[13px] whitespace-nowrap overflow-visible select-none pr-1">
                               {user?.isPremium ? "Hội viên PRO VIP" : "Nâng cấp Premium"}
                             </span>
                           </div>

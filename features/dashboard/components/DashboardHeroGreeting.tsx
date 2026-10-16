@@ -178,7 +178,7 @@ export function DashboardHeroGreeting({
                 </div>
               )}
               <span className="px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300 font-mono font-bold text-[9px] shrink-0 leading-none">
-                {formatPercent(xpPercent)}
+                {formatPercent(xpPercent, { decimals: 0 })}
               </span>
             </div>
             <div className="w-full mt-1">

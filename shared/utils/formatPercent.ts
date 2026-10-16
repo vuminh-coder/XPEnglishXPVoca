@@ -18,9 +18,9 @@ export function formatPercent(
   if (typeof value !== "number" || isNaN(value) || !isFinite(value)) {
     return "0%";
   }
-  const decimals = options?.decimals ?? 0;
+  const decimals = options?.decimals ?? 2;
   const trimZero = options?.trimZero ?? true;
-  const mode = options?.mode ?? "floor";
+  const mode = options?.mode ?? (decimals === 0 ? "floor" : "round");
   const clamped = Math.min(100, Math.max(0, value));
 
   if (decimals === 0) {
