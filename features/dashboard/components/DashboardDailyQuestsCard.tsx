@@ -176,8 +176,8 @@ export function DashboardDailyQuestsCard({
                 key={idx}
                 className="flex items-center justify-between gap-2.5 p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800 shadow-2xs"
               >
-                <div className="flex items-center gap-2 min-w-0 flex-1">
-                  <ShimmerBox className="w-5 h-5 rounded shrink-0" />
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                  <ShimmerBox className="w-8 h-8 rounded-lg shrink-0" />
                   <div className="space-y-1.5 flex-1">
                     <ShimmerBox className="h-3.5 w-32 sm:w-44 rounded" />
                     <ShimmerBox className="h-1 w-20 rounded-full" />
@@ -223,11 +223,11 @@ export function DashboardDailyQuestsCard({
                   }`}
                 >
                   {/* Left: Icon & Title + Mini Progress Bar */}
-                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     <span
-                      className={`w-5 h-5 flex items-center justify-center shrink-0 transition-colors ${
+                      className={`w-8 h-8 rounded-lg bg-white dark:bg-slate-900 flex items-center justify-center shrink-0 shadow-2xs transition-colors ${
                         isTaskFullyCompleted
-                          ? "text-slate-400 dark:text-slate-500"
+                          ? "text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800"
                           : meta.iconColor
                       }`}
                     >
