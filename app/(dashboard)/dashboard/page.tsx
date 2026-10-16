@@ -772,9 +772,9 @@ export default function DashboardPage() {
         />
 
         {/* 3. BENTO 2-COLUMN MAIN CANVAS (Left: 7/12, Right: 5/12 - 0px CLS Standard) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
           {/* ─── LEFT COLUMN (7/12) ─── */}
-          <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+          <div className="lg:col-span-7 flex flex-col space-y-5 sm:space-y-6">
             {/* 3.1. Today's Mission Deck */}
             <DashboardMissionDeck
               currentTask={currentTask}
@@ -797,7 +797,7 @@ export default function DashboardPage() {
               isLoadingChart={isLoadingChart}
             />
 
-            {/* 3.3. AI Tutor Workspace & Vocabulary Sub-Action */}
+            {/* 3.3. AI Tutor Workspace */}
             <DashboardAiTutorWidget
               aiQuestion={aiQuestion}
               setAiQuestion={setAiQuestion}
@@ -808,7 +808,7 @@ export default function DashboardPage() {
           </div>
 
           {/* ─── RIGHT COLUMN (5/12) ─── */}
-          <div className="lg:col-span-5 space-y-5 sm:space-y-6">
+          <div className="lg:col-span-5 flex flex-col space-y-5 sm:space-y-6">
             {/* 3.4. Duolingo Gamified Streak Studio */}
             <DashboardStreakStudio
               user={user}
