@@ -20,9 +20,10 @@ const SIZE_MAP = {
 };
 
 /**
- * 3D Crystal Streak Flame Component (Duolingo & Apple Fitness Tier)
- * Features jewel-cut glass facets, blazing golden fire core, ambient halo glow,
- * and kinetic floating spark particles.
+ * 3D Stylized Streak Flame Mascot Component (Duolingo & Apple Tier)
+ * Features smooth organic curving flame tongues, glossy enamel luster,
+ * glowing white-hot core, amber-gold fire, royal blue brand harmony rim,
+ * ambient backlight halo, and kinetic floating sparks.
  */
 export function StreakFlame3D({
   size = "lg",
@@ -38,14 +39,14 @@ export function StreakFlame3D({
     <div
       className={`relative inline-flex items-center justify-center select-none ${sizeClasses} ${className}`}
     >
-      {/* 1. Luminous Radial Ambient Backlight Halo */}
+      {/* 1. Luminous Radial Ambient Backlight Halo (Harmonized with Royal Blue #0059bb & Amber #f59e0b) */}
       {showHalo && (
         <motion.div
           animate={
             animate
               ? {
-                  scale: [0.95, 1.1, 0.95],
-                  opacity: [0.35, 0.65, 0.35],
+                  scale: [0.95, 1.08, 0.95],
+                  opacity: [0.3, 0.55, 0.3],
                 }
               : undefined
           }
@@ -54,7 +55,7 @@ export function StreakFlame3D({
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute inset-[-12%] rounded-full bg-gradient-to-t from-amber-500/30 via-orange-500/25 to-yellow-400/10 blur-xl pointer-events-none"
+          className="absolute inset-[-10%] rounded-full bg-gradient-to-t from-[#0059bb]/15 via-amber-500/25 to-yellow-400/10 blur-xl pointer-events-none"
         />
       )}
 
@@ -131,8 +132,8 @@ export function StreakFlame3D({
       >
         <img
           src="/images/streak-flame-crystal.png"
-          alt="3D Crystal Streak Flame"
-          className="w-full h-full object-contain drop-shadow-[0_8px_18px_rgba(245,158,11,0.4)] select-none pointer-events-none transition-transform duration-300 hover:scale-105 active:scale-95"
+          alt="3D Stylized Streak Flame Mascot"
+          className="w-full h-full object-contain drop-shadow-[0_6px_16px_rgba(245,158,11,0.32)] select-none pointer-events-none transition-transform duration-300 hover:scale-105 active:scale-95"
           loading="eager"
           decoding="async"
         />
