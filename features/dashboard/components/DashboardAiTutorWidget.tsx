@@ -25,10 +25,8 @@ export function DashboardAiTutorWidget({
 
   return (
     <div
-      className={`p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3 transition-all duration-300 ${
-        hasActiveResponse
-          ? "lg:flex-1 lg:min-h-[300px] flex flex-col justify-between"
-          : ""
+      className={`p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3 flex flex-col transition-all duration-300 ${
+        hasActiveResponse ? "lg:flex-1" : ""
       }`}
     >
       {/* Header */}
@@ -80,13 +78,13 @@ export function DashboardAiTutorWidget({
         </div>
       </form>
 
-      {/* Loading & Answer Area: Tự động kéo dài xuống đúng đáy của khối nhiệm vụ */}
+      {/* Loading & Answer Area (Dạng lướt cuộn khớp 100% bằng đáy khối nhiệm vụ bên cạnh) */}
       <AnimatePresence>
         {isAiLoading && (
           <motion.div
-            initial={{ opacity: 0, y: 4 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 4 }}
+            exit={{ opacity: 0, y: 6 }}
             className="p-4 rounded-xl bg-slate-50/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800 space-y-2.5 shadow-inner flex-1 flex flex-col justify-center min-h-[160px]"
           >
             <div className="flex items-center gap-2">
@@ -108,9 +106,9 @@ export function DashboardAiTutorWidget({
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}
-            className="p-4 rounded-xl bg-slate-50/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed shadow-inner flex-1 min-h-[180px] flex flex-col overflow-hidden"
+            className="p-4 rounded-xl bg-slate-50/90 dark:bg-slate-950/90 border border-slate-200/90 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed shadow-inner flex-1 min-h-0 flex flex-col overflow-hidden min-h-[200px]"
           >
-            <div className="flex items-center justify-between border-b border-slate-200/70 dark:border-slate-800/80 pb-2 shrink-0">
+            <div className="flex items-center justify-between border-b border-slate-200/70 dark:border-slate-800/80 pb-2 shrink-0 sticky top-0 bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-xs z-10 -mx-1 px-1">
               <span className="font-extrabold text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5 text-xs font-display">
                 <Bot className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
                 <span>Phản hồi từ AI Tutor</span>
@@ -125,7 +123,7 @@ export function DashboardAiTutorWidget({
                 <span>Nghe</span>
               </button>
             </div>
-            <div className="flex-1 min-h-0 overflow-y-auto pr-1 pt-2 space-y-1">
+            <div className="flex-1 min-h-0 overflow-y-auto pr-1 select-text pt-2 space-y-1">
               <FormattedAiText content={aiAnswer} />
             </div>
           </motion.div>
