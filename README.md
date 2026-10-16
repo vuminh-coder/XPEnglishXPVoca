@@ -6256,7 +6256,7 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Hỗ trợ 5 kích thước chuẩn hóa: `xs` (24px), `sm` (32px), `md` (48-56px), `lg` (80-96px), `xl` (112-128px).
         * Tích hợp 3 lớp hiệu ứng điện ảnh:
           1. **Ambient Backlight Halo**: Vầng sáng tỏa tròn hổ phách kết hợp chân đế xanh hoàng gia nhịp nhàng (`scale` & `opacity` breathing).
-          2. **Kinetic Spark Embers**: 3 hạt tia lửa kim cương mini bay bổng tự do với độ trễ và biên độ chuyển động so le.
+          2. **Kinetic Spark Stars & Thermal Embers Particle System**: Hệ thống 6 hạt chuyển động bay bổng đa tầng quanh ngọn lửa gồm 3 ngôi sao lấp lánh kim cương 4 cánh (`SparkleStar` sắc vàng hổ phách, trắng sáng đỉnh ngọn lửa và xanh hoàng gia ở chân đế), 2 đốm lửa nhiệt (`FloatingEmber`) bay bốc lên theo dòng khí đối lưu tự nhiên rồi tan biến êm dịu, và 1 vi hạt phát quang chuyển động so le.
           3. **Breathing Hover Micro-Interaction**: Hiệu ứng nhấp nhô nhẹ nhàng tự nhiên và phản hồi khi di chuột / chạm.
       - **Tích Hợp Đồng Bộ Trên Toàn Bộ Nền Tảng**:
         * `DashboardStreakStudio.tsx`: Đốm lửa mascot 3D trung tâm `<StreakFlame3D size="lg" />`, tạo điểm nhấn thu hút và ấm áp.
