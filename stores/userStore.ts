@@ -18,7 +18,7 @@ interface UserState {
   buyDoubleXp: () => Promise<boolean>;
   syncStreak: (hasCompletedActivity: boolean) => void;
   activateSubscription: (planKey: "monthly" | "yearly" | "lifetime", data?: any) => Promise<boolean>;
-  logout: () => void;
+  logout: () => void | Promise<void>;
 }
 
 export const DEFAULT_LEARNER_USER: User = {
@@ -697,18 +697,17 @@ export const useUserStore = create<UserState>((set, get) => ({
     }
     return true;
   },
-  logout: () => {
+  logout: async () => {
     set({ user: null });
     if (typeof window !== "undefined") {
       localStorage.removeItem("xp_voca_active_userId");
-      document.cookie = "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-      document.cookie = "local-user-id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-      document.cookie = "xp_voca_session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-      
-      fetch("/api/auth/logout", { method: "POST" })
-        .finally(() => {
-          window.location.href = "/login";
-        });
+      try {
+        await fetch("/api/auth/logout", { method: "POST" });
+      } catch (err) {
+        console.warn("Logout request failed:", err);
+      } finally {
+        window.location.href = "/login";
+      }
     }
   },
 }));

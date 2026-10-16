@@ -6219,6 +6219,17 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * `__tests__/data_uniqueness.test.ts`: **Zero duplicate sentences** trên toàn bộ 123 bài học và 1283 câu thoại.
         * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
 
+  20. **Kiến Trúc Bảo Mật Edge Proxy Next.js 16, Bảo Vệ Tuyến Đường Thông Minh & Chuẩn Hóa Xác Thực (`proxy.ts`, `redirectTarget`, Logout Lifecycle)**:
+      - **Chuẩn hóa Next.js 16 Edge Proxy (`proxy.ts`)**: Áp dụng file convention mới nhất của Next.js 16 thay thế cho middleware cũ, thiết lập hàm `proxy(request: NextRequest)` tại root project để bảo vệ các tuyến đường nhạy cảm (`/settings`, `/admin`) và ngăn chặn người dùng chưa xác thực truy cập trái phép.
+      - **Tự động chuyển hướng thông minh & Chống tấn công Open Redirect**: Tự động lưu trữ tuyến đường gốc qua tham số `?redirect=...`. Hỗ trợ người dùng sau khi đăng nhập hoặc đăng ký thành công tại `/login` hoặc `/register` được điều hướng lập tức về đúng trang mong muốn thay vì luôn rơi vào `/dashboard`. Kiểm soát nghiêm ngặt `target.startsWith("/") && !target.startsWith("//")` ngăn chặn 100% rủi ro Open Redirect URL độc hại.
+      - **Điều hướng người dùng đã xác thực (Reverse Auth Guard)**: Người dùng đã sở hữu session cookie hợp lệ (`xp_voca_session`) khi truy cập `/login`, `/register`, `/forgot-password` sẽ được tự động chuyển hướng an toàn về `/dashboard` hoặc `redirectTarget`.
+      - **Chuẩn hóa Chu trình Đăng Xuất (Logout Lifecycle)**: Cập nhật `stores/userStore.ts` gọi trực tiếp `POST /api/auth/logout` để server xóa hoàn toàn HTTP-only cookie `xp_voca_session` qua chỉ thị `Set-Cookie` với `maxAge: 0`, đồng thời xóa sạch các cookie di sản (`auth-token`, `local-user-id`) và localStorage `xp_voca_active_userId` an toàn tuyệt đối.
+      - **Bộ Kiểm Thử & Kiểm Định Kiểu Dữ Liệu 100% PASS**:
+        * `__tests__/proxy_route_protection.test.ts`: **8/8 tests PASS 100%** (Kiểm tra chặn unauthenticated access, bảo toàn query params, redirect authenticated user, chặn open redirect attacks, và giữ nguyên tính mở cho các trang học tập vãng lai).
+        * `__tests__/security.test.ts`: **27/27 tests PASS 100%**.
+        * `__tests__/auth_exam_standards.test.ts`: **5/5 tests PASS 100%**.
+        * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

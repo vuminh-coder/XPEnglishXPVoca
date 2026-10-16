@@ -15,5 +15,9 @@ export async function POST() {
     path: "/",
   });
 
+  // Clear legacy cookies if any exist
+  response.cookies.set("auth-token", "", { path: "/", maxAge: 0 });
+  response.cookies.set("local-user-id", "", { path: "/", maxAge: 0 });
+
   return response;
 }

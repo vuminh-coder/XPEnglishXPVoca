@@ -44,6 +44,16 @@ export default function RegisterPage() {
   const [isCapsLockOn, setIsCapsLockOn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [redirectTarget] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const target = params.get("redirect");
+      if (target && target.startsWith("/") && !target.startsWith("//")) {
+        return target;
+      }
+    }
+    return "/dashboard";
+  });
   const [currentLang, setCurrentLang] = useState<"vi" | "en">("vi");
   const [isLangOpen, setIsLangOpen] = useState(false);
   const langRef = React.useRef<HTMLDivElement>(null);
@@ -141,7 +151,7 @@ export default function RegisterPage() {
 
       setUserPayload(data.user);
       setIsLoading(false);
-      router.push("/dashboard");
+      router.push(redirectTarget);
     } catch (err: any) {
       setErrorMsg("Đã xảy ra lỗi kết nối máy chủ. Vui lòng thử lại sau.");
       setIsLoading(false);
@@ -750,7 +760,11 @@ export default function RegisterPage() {
               <div className="mt-6 text-center text-xs font-medium text-slate-500 dark:text-slate-400">
                 Đã có tài khoản?{" "}
                 <Link
-                  href="/login"
+                  href={
+                    redirectTarget !== "/dashboard"
+                      ? `/login?redirect=${encodeURIComponent(redirectTarget)}`
+                      : "/login"
+                  }
                   className="font-bold text-[#0059bb] dark:text-sky-400 hover:underline ml-1"
                 >
                   Đăng nhập tại đây

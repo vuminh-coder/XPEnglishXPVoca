@@ -54,6 +54,17 @@ export default function LoginPage() {
     }
     return "";
   });
+
+  const [redirectTarget] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const target = params.get("redirect");
+      if (target && target.startsWith("/") && !target.startsWith("//")) {
+        return target;
+      }
+    }
+    return "/dashboard";
+  });
   const [currentLang, setCurrentLang] = useState<"vi" | "en">("vi");
   const [isLangOpen, setIsLangOpen] = useState(false);
   const langRef = React.useRef<HTMLDivElement>(null);
@@ -112,7 +123,7 @@ export default function LoginPage() {
 
       setUserPayload(data.user);
       setIsLoading(false);
-      router.push("/dashboard");
+      router.push(redirectTarget);
     } catch (err: any) {
       setErrorMsg("Đã xảy ra lỗi kết nối máy chủ. Vui lòng thử lại sau.");
       setIsLoading(false);
@@ -610,7 +621,7 @@ export default function LoginPage() {
               <div className="mt-6 text-center text-xs font-medium text-slate-500 dark:text-slate-400">
                 Chưa có tài khoản?{" "}
                 <Link
-                  href="/register"
+                  href={redirectTarget !== "/dashboard" ? `/register?redirect=${encodeURIComponent(redirectTarget)}` : "/register"}
                   className="font-bold text-[#0059bb] dark:text-sky-400 hover:underline ml-1"
                 >
                   Đăng ký tài khoản ngay
