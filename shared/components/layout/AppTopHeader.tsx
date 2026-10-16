@@ -289,21 +289,21 @@ export function AppTopHeader({
           <button
             type="button"
             onClick={onBack}
-            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
+            className="w-10 h-10 rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
             aria-label="Quay lại"
             title="Quay lại"
           >
-            <ArrowLeft className="w-4 h-4 stroke-[2.2]" />
+            <ArrowLeft className="w-5 h-5 stroke-[2]" />
           </button>
         ) : (
           <button
             type="button"
             onClick={toggleSidebar}
-            className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
+            className="lg:hidden w-10 h-10 rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
             aria-label="Mở danh mục thanh bên"
             title="Mở thanh bên"
           >
-            <Menu className="w-4 h-4 stroke-[2.2]" />
+            <Menu className="w-5 h-5 stroke-[2]" />
           </button>
         )}
 
@@ -345,11 +345,11 @@ export function AppTopHeader({
           <button
             type="button"
             onClick={() => setIsMobileSearchOpen(true)}
-            className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
+            className="lg:hidden w-10 h-10 rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
             title="Mở tìm kiếm"
             aria-label="Mở tìm kiếm"
           >
-            <Search className="w-4 h-4 stroke-[2.2]" />
+            <Search className="w-4.5 h-4.5 stroke-[2]" />
           </button>
         )}
 
@@ -438,7 +438,7 @@ export function AppTopHeader({
               setShowUserMenu(!showUserMenu);
               setShowThemeSubmenu(false);
             }}
-            className={`flex items-center gap-1.5 p-0.5 rounded-full hover:ring-2 hover:ring-[#0059bb]/30 transition-all cursor-pointer active:scale-95 shrink-0 ${
+            className={`flex items-center justify-center w-10 h-10 rounded-full hover:ring-2 hover:ring-[#0059bb]/30 transition-all cursor-pointer active:scale-95 shrink-0 ${
               showUserMenu ? "ring-2 ring-[#0059bb]" : ""
             }`}
             title="Menu tài khoản"

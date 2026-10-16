@@ -406,7 +406,7 @@ export default function ThemeDetailPage({
       >
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           {/* Theme Title */}
-          <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate max-w-[160px] sm:max-w-[240px] md:max-w-[320px]">
+          <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate max-w-[110px] xs:max-w-[160px] sm:max-w-[240px] md:max-w-[320px]">
             {theme.name}
           </h1>
 

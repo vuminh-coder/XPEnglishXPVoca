@@ -434,20 +434,21 @@ export function FlashcardStudioPane({
           </div>
 
           {/* Bottom Action Bar */}
-          <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex items-center justify-between gap-3">
+          <div className="p-2 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex items-center justify-between gap-1.5 sm:gap-3">
             <button
               type="button"
               onClick={onPrev}
-              className="h-10 px-4 sm:px-5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer text-xs sm:text-sm font-bold flex items-center gap-1.5 active:scale-95 shadow-2xs shrink-0"
+              className="h-10 px-3 sm:px-5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer text-xs sm:text-sm font-bold flex items-center gap-1.5 active:scale-95 shadow-2xs shrink-0"
+              title="Từ Trước"
             >
               <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
-              <span>Từ Trước</span>
+              <span className="hidden xs:inline">Từ Trước</span>
             </button>
 
             <button
               type="button"
               onClick={() => onMarkLearned(activeVocab.id)}
-              className={`h-10 px-5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95 ${
+              className={`h-10 px-3 sm:px-5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95 flex-1 max-w-[220px] ${
                 isLearned
                   ? "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700/60"
                   : "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20"
@@ -460,9 +461,10 @@ export function FlashcardStudioPane({
             <button
               type="button"
               onClick={onNext}
-              className="h-10 px-5 sm:px-6 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white transition-all cursor-pointer text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-md shadow-[#0059bb]/20 font-display active:scale-95 shrink-0"
+              className="h-10 px-3 sm:px-6 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white transition-all cursor-pointer text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-md shadow-[#0059bb]/20 font-display active:scale-95 shrink-0"
+              title="Từ Tiếp Theo"
             >
-              <span>Từ Tiếp Theo</span>
+              <span className="hidden xs:inline">Tiếp Theo</span>
               <ChevronRight className="w-4 h-4 stroke-[2.5]" />
             </button>
           </div>
@@ -474,7 +476,7 @@ export function FlashcardStudioPane({
         <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-between">
           <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between h-full">
             {/* Visual Canvas: Pure Photography, No Cluttered Badges */}
-            <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[420px] rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950 group">
+            <div className="relative w-full h-[240px] sm:h-[340px] lg:h-[420px] rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950 group">
               <Image
                 src={imageError ? "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80" : illustrationUrl}
                 alt={activeVocab.word}

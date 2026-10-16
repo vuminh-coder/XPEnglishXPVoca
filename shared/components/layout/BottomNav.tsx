@@ -72,7 +72,7 @@ export default function BottomNav() {
             aria-current={isActive ? "page" : undefined}
             onMouseEnter={() => prefetchRouteData(tab.path)}
             onTouchStart={() => prefetchRouteData(tab.path)}
-            className="relative flex flex-col items-center justify-center flex-1 h-12 max-w-[66px] rounded-xl transition-all duration-200 select-none group"
+            className="relative flex flex-col items-center justify-center flex-1 h-[52px] max-w-[68px] rounded-xl transition-all duration-150 select-none group active:scale-90"
           >
             {/* Active Dashboard-style Pill Indicator */}
             {isActive && (
@@ -84,15 +84,23 @@ export default function BottomNav() {
             )}
 
             <div className="relative z-10 flex flex-col items-center justify-center gap-0.5">
-              <Icon
-                className={`w-[19px] h-[19px] transition-transform duration-200 ${
-                  isActive
-                    ? "text-[#0059bb] dark:text-sky-400 stroke-[2.3] scale-105"
-                    : "text-slate-400 dark:text-slate-500 stroke-[1.8] group-hover:text-slate-600 dark:group-hover:text-slate-300"
-                }`}
-              />
+              <div className="relative">
+                <Icon
+                  className={`w-[19px] h-[19px] transition-transform duration-200 ${
+                    isActive
+                      ? "text-[#0059bb] dark:text-sky-400 stroke-[2.3] scale-105"
+                      : "text-slate-400 dark:text-slate-500 stroke-[1.8] group-hover:text-slate-600 dark:group-hover:text-slate-300"
+                  }`}
+                />
+                {/* Facebook-style Red Notification Accent Badge */}
+                {tab.path === "/community" && (
+                  <span className="absolute -top-1 -right-2 min-w-[14px] h-[14px] px-0.5 rounded-full bg-[#f43f5e] text-white text-[8.5px] font-bold font-mono flex items-center justify-center border border-white dark:border-slate-900 shadow-2xs pointer-events-none">
+                    1
+                  </span>
+                )}
+              </div>
               <span
-                className={`text-[9.5px] leading-tight tracking-tight whitespace-nowrap transition-colors duration-200 ${
+                className={`text-[9.5px] leading-tight tracking-tight whitespace-nowrap transition-colors duration-200 font-sans ${
                   isActive
                     ? "text-[#0059bb] dark:text-sky-400 font-black"
                     : "text-slate-500 dark:text-slate-400 font-bold group-hover:text-slate-700 dark:group-hover:text-slate-200"
