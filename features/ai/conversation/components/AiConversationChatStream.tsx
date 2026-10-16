@@ -160,14 +160,14 @@ export function AiConversationChatStream({
 
       {/* Scrollable Chat Stream Box */}
       <div className="flex-1 min-h-[260px] lg:min-h-0 overflow-y-auto space-y-3 p-1 pr-1.5 scrollbar-thin">
-        {messages.map((msg) => {
+        {messages.map((msg, idx) => {
           const isAi = msg.role === "ai";
           const isTranslated = showTranslations[msg.id];
           const isCurrentSpeaking = speakingMsgId === msg.id && isSpeaking;
 
           return (
             <div
-              key={msg.id}
+              key={`${msg.id || "msg"}_${idx}`}
               className={`flex items-start gap-2.5 ${isAi ? "justify-start" : "justify-end"}`}
             >
               {isAi && (

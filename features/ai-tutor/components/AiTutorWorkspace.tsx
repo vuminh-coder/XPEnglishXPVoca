@@ -103,6 +103,18 @@ const PERSONAS: Persona[] = [
   },
 ];
 
+function ensureUniqueMessageIds(msgs: ChatMessage[]): ChatMessage[] {
+  const seenIds = new Set<string>();
+  return msgs.map((m, index) => {
+    let id = m.id;
+    if (!id || seenIds.has(id)) {
+      id = `${m.role || "msg"}_${Date.now()}_${index}_${Math.random().toString(36).slice(2, 7)}`;
+    }
+    seenIds.add(id);
+    return id === m.id ? m : { ...m, id };
+  });
+}
+
 export default function AiTutorWorkspace() {
   const { user, awardXp } = useAuthStore();
   const { addToast } = useNotificationStore();
@@ -171,7 +183,7 @@ export default function AiTutorWorkspace() {
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     const probe = getInitialTutorSessionProbe();
     if (probe?.messages && probe.messages.length > 0) {
-      return probe.messages as ChatMessage[];
+      return ensureUniqueMessageIds(probe.messages as ChatMessage[]);
     }
     return [initialWelcome];
   });
@@ -230,6 +242,8 @@ export default function AiTutorWorkspace() {
   const currentPersonaRef = useRef(currentPersona);
   const hasUserInteractedRef = useRef(false);
   const msgCounterRef = useRef(0);
+  const generateMsgId = (prefix: "user" | "ai") =>
+    `${prefix}_${Date.now()}_${msgCounterRef.current++}_${Math.random().toString(36).slice(2, 7)}`;
   const activeTimeRef = useRef(0);
   const chatBottomRef = useRef<HTMLDivElement>(null);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -327,7 +341,7 @@ export default function AiTutorWorkspace() {
           const parsed = JSON.parse(localStr);
           if (parsed.sessionId && Array.isArray(parsed.messages) && parsed.messages.length > 1) {
             setSessionId(parsed.sessionId);
-            setMessages(parsed.messages);
+            setMessages(ensureUniqueMessageIds(parsed.messages));
             if (parsed.personaId === "emma" || parsed.personaId === "alex" || parsed.personaId === "chloe") {
               setCurrentPersona(parsed.personaId);
             }
@@ -357,7 +371,7 @@ export default function AiTutorWorkspace() {
           const currentCount = useAiSessionStore.getState().tutorSession?.messages?.length || 0;
           if (act.messages.length > currentCount) {
             setSessionId(act.sessionId);
-            setMessages(act.messages);
+            setMessages(ensureUniqueMessageIds(act.messages));
             if (act.personaId === "emma" || act.personaId === "alex" || act.personaId === "chloe") {
               setCurrentPersona(act.personaId);
             }
@@ -723,7 +737,7 @@ export default function AiTutorWorkspace() {
     accumulatedTextRef.current = "";
     setSpokenText("");
 
-    const userMsgId = `user_${msgCounterRef.current++}`;
+    const userMsgId = generateMsgId("user");
     const userMessage: ChatMessage = {
       id: userMsgId,
       role: "user",
@@ -771,7 +785,7 @@ export default function AiTutorWorkspace() {
 
       if (data.reply) {
         const aiMsg: ChatMessage = {
-          id: `ai_${msgCounterRef.current++}`,
+          id: generateMsgId("ai"),
           role: "ai",
           text: data.reply,
           vietnameseTranslation: data.vietnameseTranslation,
@@ -799,7 +813,7 @@ export default function AiTutorWorkspace() {
       const fallbackVi = `Nghe thật thú vị! Hãy kể thêm cho tôi nghe về suy nghĩ của bạn nhé.`;
 
       const aiMsg: ChatMessage = {
-        id: `ai_${msgCounterRef.current++}`,
+        id: generateMsgId("ai"),
         role: "ai",
         text: fallbackReply,
         vietnameseTranslation: fallbackVi,
@@ -1194,13 +1208,13 @@ export default function AiTutorWorkspace() {
 
                 {/* Scrollable Chat Stream Box */}
                 <div className="flex-1 min-h-[280px] lg:min-h-0 overflow-y-auto space-y-3 p-1 pr-1.5 scrollbar-thin">
-                  {messages.map((msg) => {
+                  {messages.map((msg, idx) => {
                     const isAi = msg.role === "ai";
                     const isTranslated = showTranslations[msg.id];
 
                     return (
                       <div
-                        key={msg.id}
+                        key={`${msg.id || "msg"}_${idx}`}
                         className={`flex items-start gap-2.5 ${
                           isAi ? "justify-start" : "justify-end"
                         }`}
