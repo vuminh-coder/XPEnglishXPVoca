@@ -1,12 +1,14 @@
 export interface FormatPercentOptions {
-  /** Số chữ số thập phân tối đa (mặc định: 2) */
+  /** Số chữ số thập phân tối đa (mặc định: 0 - lấy phần nguyên) */
   decimals?: number;
   /** Lược bỏ số 0 thừa ở cuối hay không (mặc định: true -> 50%, 12.5%; false -> 50.00%, 12.50%) */
   trimZero?: boolean;
+  /** Phương thức lấy giá trị: 'floor' (lấy phần nguyên) hoặc 'round' (làm tròn số nguyên) (mặc định: 'floor') */
+  mode?: "floor" | "round";
 }
 
 /**
- * Định dạng phần trăm hiển thị với tối đa 2 chữ số thập phân.
+ * Định dạng phần trăm hiển thị. Mặc định chỉ lấy phần nguyên (0 chữ số thập phân).
  * An toàn tuyệt đối với NaN, Infinity, số âm và giá trị vượt 100.
  */
 export function formatPercent(
@@ -16,13 +18,19 @@ export function formatPercent(
   if (typeof value !== "number" || isNaN(value) || !isFinite(value)) {
     return "0%";
   }
-  const decimals = options?.decimals ?? 2;
+  const decimals = options?.decimals ?? 0;
   const trimZero = options?.trimZero ?? true;
+  const mode = options?.mode ?? "floor";
   const clamped = Math.min(100, Math.max(0, value));
+
+  if (decimals === 0) {
+    const intVal = mode === "round" ? Math.round(clamped) : Math.floor(clamped);
+    return `${intVal}%`;
+  }
 
   if (trimZero) {
     const factor = Math.pow(10, decimals);
-    const rounded = Math.round(clamped * factor) / factor;
+    const rounded = (mode === "floor" ? Math.floor(clamped * factor) : Math.round(clamped * factor)) / factor;
     return `${rounded}%`;
   }
 
