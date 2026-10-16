@@ -47,35 +47,35 @@ const QUEST_CONFIG: Record<string, QuestMeta> = {
     href: "/vocabulary",
     actionLabel: "Học từ mới",
     barGradient: "bg-emerald-500",
-    iconBg: "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border-emerald-200/80 dark:border-emerald-800/50",
+    iconBg: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400",
     icon: <BookOpen className="w-4 h-4 stroke-[2]" />,
   },
   review_cards: {
     href: "/review",
     actionLabel: "Ôn tập ngay",
     barGradient: "bg-blue-500",
-    iconBg: "bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 border-blue-200/80 dark:border-blue-800/50",
+    iconBg: "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400",
     icon: <RotateCcw className="w-4 h-4 stroke-[2]" />,
   },
   win_pvp: {
     href: "/study/pvp",
     actionLabel: "Vào đấu trường",
     barGradient: "bg-rose-500",
-    iconBg: "bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border-rose-200/80 dark:border-rose-800/50",
+    iconBg: "bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400",
     icon: <Swords className="w-4 h-4 stroke-[2]" />,
   },
   write_essay: {
     href: "/study/dictation",
     actionLabel: "Luyện chính tả",
     barGradient: "bg-amber-500",
-    iconBg: "bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border-amber-200/80 dark:border-amber-800/50",
+    iconBg: "bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400",
     icon: <PenLine className="w-4 h-4 stroke-[2]" />,
   },
   speak_practice: {
     href: "/study/shadowing",
     actionLabel: "Luyện phát âm",
     barGradient: "bg-purple-500",
-    iconBg: "bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 border-purple-200/80 dark:border-purple-800/50",
+    iconBg: "bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400",
     icon: <Mic className="w-4 h-4 stroke-[2]" />,
   },
 };
@@ -84,7 +84,7 @@ const DEFAULT_QUEST_META: QuestMeta = {
   href: "/study/practice",
   actionLabel: "Luyện tập ngay",
   barGradient: "bg-blue-500",
-  iconBg: "bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 border-blue-200/80 dark:border-blue-800/50",
+  iconBg: "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400",
   icon: <Sparkles className="w-4 h-4 stroke-[2]" />,
 };
 
@@ -141,7 +141,7 @@ export function DashboardDailyQuestsCard({
       {/* 1. Header with dynamic achievement status */}
       <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-blue-500/10 dark:bg-blue-500/15 text-[#0059bb] dark:text-sky-400 border border-blue-500/20 flex items-center justify-center shrink-0 shadow-2xs">
+          <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
             <Target className="w-5 h-5 stroke-[2.3]" />
           </div>
           <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
@@ -225,9 +225,9 @@ export function DashboardDailyQuestsCard({
                   {/* Left: Icon & Title + Mini Progress Bar */}
                   <div className="flex items-center gap-2.5 min-w-0 flex-1">
                     <span
-                      className={`w-8 h-8 rounded-lg border flex items-center justify-center shrink-0 shadow-2xs transition-colors ${
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                         isTaskFullyCompleted
-                          ? "bg-slate-100 dark:bg-slate-800 text-slate-400 border-slate-200 dark:border-slate-700"
+                          ? "bg-slate-100 dark:bg-slate-800 text-slate-400"
                           : meta.iconBg
                       }`}
                     >
