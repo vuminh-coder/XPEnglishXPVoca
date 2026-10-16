@@ -22,7 +22,6 @@ import {
 
 // Modular Feature Components & Hooks
 import {
-  ThemeDetailHeaderBanner,
   FlashcardStudioPane,
   VocabularyListPane,
   QuizArenaPane,
@@ -385,7 +384,7 @@ export default function ThemeDetailPage({
         )}
       </AnimatePresence>
 
-      {/* 0. BRAND TOP HEADER (Unified 56px Baseline with 4 Mode Switcher Pills) */}
+      {/* 0. BRAND TOP HEADER (Unified 56px Baseline with Theme Title + Mode Switcher Pills) */}
       <AppTopHeader
         onBack={() => router.push("/vocabulary")}
         rightDesktopContent={
@@ -405,111 +404,56 @@ export default function ThemeDetailPage({
           </button>
         }
       >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            active={viewMode === "flashcard"}
-            onClick={() => handleSwitchViewMode("flashcard")}
-            icon={<Layers className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
-            label="Flashcard"
-            layoutId="vocabDetailViewModePill"
-          />
-          <HeaderPillItem
-            active={viewMode === "list"}
-            onClick={() => handleSwitchViewMode("list")}
-            icon={<List className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />}
-            label="Danh Sách"
-            layoutId="vocabDetailViewModePill"
-          />
-          <HeaderPillItem
-            active={viewMode === "quiz"}
-            onClick={() => handleSwitchViewMode("quiz")}
-            icon={<Zap className="w-3.5 h-3.5 text-amber-500" />}
-            label="Kiểm Tra"
-            layoutId="vocabDetailViewModePill"
-          />
-          <HeaderPillItem
-            active={viewMode === "ai"}
-            onClick={() => handleSwitchViewMode("ai")}
-            icon={<Bot className="w-3.5 h-3.5 text-purple-500" />}
-            label="AI Coach"
-            layoutId="vocabDetailViewModePill"
-          />
-        </HeaderPillContainer>
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          {/* Theme Title & Word Count Badge */}
+          <div className="flex items-center gap-2 min-w-0">
+            <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate max-w-[140px] sm:max-w-[220px] md:max-w-[280px]">
+              {theme.name}
+            </h1>
+            <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/40 shrink-0">
+              {vocabs.length} từ
+            </span>
+          </div>
+
+          <div className="h-4 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block shrink-0" />
+
+          {/* Clean Unified Mode Switcher */}
+          <HeaderPillContainer>
+            <HeaderPillItem
+              active={viewMode === "flashcard"}
+              onClick={() => handleSwitchViewMode("flashcard")}
+              icon={<Layers className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+              label="Flashcard"
+              layoutId="vocabDetailViewModePill"
+            />
+            <HeaderPillItem
+              active={viewMode === "list"}
+              onClick={() => handleSwitchViewMode("list")}
+              icon={<List className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />}
+              label={`Danh Sách (${vocabs.length})`}
+              layoutId="vocabDetailViewModePill"
+            />
+            <HeaderPillItem
+              active={viewMode === "quiz"}
+              onClick={() => handleSwitchViewMode("quiz")}
+              icon={<Zap className="w-3.5 h-3.5 text-amber-500" />}
+              label="Kiểm Tra"
+              layoutId="vocabDetailViewModePill"
+            />
+            <HeaderPillItem
+              active={viewMode === "ai"}
+              onClick={() => handleSwitchViewMode("ai")}
+              icon={<Bot className="w-3.5 h-3.5 text-purple-500" />}
+              label="AI Coach"
+              layoutId="vocabDetailViewModePill"
+            />
+          </HeaderPillContainer>
+        </div>
       </AppTopHeader>
 
       {/* MAIN CONTAINER */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
-        {/* 1. COMPACT HERO STUDIO BANNER & 4 INLINE METRIC PILLS */}
-        <ThemeDetailHeaderBanner
-          theme={theme}
-          totalVocabs={vocabs.length}
-          learnedCount={learnedCount}
-          favoriteCount={favoriteCount}
-          progressPercent={progressPercent}
-        />
-
-        {/* 2. PROMINENT SEGMENTED STUDIO BAR (Mode Switcher) */}
-        <div className="flex items-center justify-between gap-3 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs">
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar w-full sm:w-auto">
-            <button
-              type="button"
-              onClick={() => handleSwitchViewMode("flashcard")}
-              className={`h-10 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
-                viewMode === "flashcard"
-                  ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20 font-display"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <Layers className="w-4 h-4" />
-              <span>Flashcard 2 Cột</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleSwitchViewMode("list")}
-              className={`h-10 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
-                viewMode === "list"
-                  ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20 font-display"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <List className="w-4 h-4" />
-              <span>Danh Sách Tra Cứu ({vocabs.length})</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleSwitchViewMode("quiz")}
-              className={`h-10 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
-                viewMode === "quiz"
-                  ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20 font-display"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <Zap className="w-4 h-4 text-amber-500" />
-              <span>Đấu Trường Quiz</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleSwitchViewMode("ai")}
-              className={`h-10 px-4 sm:px-5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap active:scale-95 ${
-                viewMode === "ai"
-                  ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20 font-display"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <Bot className="w-4 h-4 text-purple-500" />
-              <span>Cố Vấn AI Tutor</span>
-            </button>
-          </div>
-
-          <div className="hidden sm:flex items-center gap-2 text-xs font-mono font-bold text-slate-400 pr-2">
-            <span>XP English Studio</span>
-          </div>
-        </div>
-
-        {/* 3. MODE CONTENT PANELS */}
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-4">
+        {/* MODE CONTENT PANELS */}
         {/* MODE 1: FLASHCARD 3D */}
         {viewMode === "flashcard" && activeVocab && (
           <FlashcardStudioPane

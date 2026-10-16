@@ -37,7 +37,28 @@ import {
 export function getSemanticThemeIcon(theme: { id: string; name: string; nameEn?: string }) {
   const text = `${theme.name} ${theme.nameEn || ""}`.toLowerCase();
 
-  if (text.includes("cntt") || text.includes("ai") || text.includes("lập trình") || text.includes("it")) {
+  // 1. Chào hỏi & Giao tiếp (Greetings, Polite Words, Daily Conversation)
+  if (
+    text.includes("chào hỏi") ||
+    text.includes("giao tiếp") ||
+    text.includes("greeting") ||
+    text.includes("conversation") ||
+    text.includes("polite") ||
+    text.includes("nói chuyện")
+  ) {
+    return <MessageSquare className="w-5 h-5 text-[#0059bb]" />;
+  }
+
+  // 2. Công nghệ thông tin & Lập trình (Strict word boundaries to prevent false positives like 'polite' or 'thương mại')
+  if (
+    text.includes("cntt") ||
+    text.includes("lập trình") ||
+    text.includes("phần mềm") ||
+    text.includes("công nghệ thông tin") ||
+    text.includes("computer") ||
+    text.includes("software") ||
+    /\b(it|ai|tech|coding|developer)\b/i.test(text)
+  ) {
     return <Cpu className="w-5 h-5 text-sky-500" />;
   }
   if (text.includes("y tế") || text.includes("healthcare") || text.includes("bệnh") || text.includes("dược")) {

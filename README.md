@@ -1805,16 +1805,17 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - Bộ chuyển đổi 2 chế độ cấp độ trực quan dạng Segmented Control với con nhộng trượt `layoutId="vocabThemesLevelPill"`: `[ 📗 60 Cơ Bản ]` vs `[ 📘 155 Nâng Cao ]`.
   - **Khung Xương Tải Trang Đồng Bộ Hình Học 100% (`loading.tsx`)**: Tái hiện toàn bộ cấu trúc Header, Toolbar, 4 Metric Cards Double-Bezel và lưới Theme Cards 16 ô, triệt tiêu 100% hiện tượng giật nhảy layout.
 
-- **`/vocabulary/[id]`**: Phòng Học & Khám Phá Từ Vựng Tương Tác 4 Chế Độ (Tái Thiết Kế & Module Hóa Chuyên Sâu Chuẩn Agency Dashboard Tier — Tuyệt Đối Bảo Toàn 100% Giao Diện 0px Visual Deviation).
+- **`/vocabulary/[id]`**: Phòng Học & Khám Phá Từ Vựng Tương Tác 4 Chế Độ (Tái Thiết Kế Chuẩn Apple / Quizlet Workspace — Tối Giản, Hiện Đại, Không Gian Học Rộng Mở).
+  - **Tối Ưu Header & Loại Bỏ Khối Thừa Gây Ô Nhiễm Thị Giác**:
+    - **Header Hợp Nhất 56px (`AppTopHeader`)**: Tích hợp trực tiếp Tiêu đề chủ đề, huy hiệu số lượng từ (`${vocabs.length} từ`), và thanh chuyển đổi 4 chế độ mượt mà dạng Pill Indicator (`[ 🎴 Flashcard ]`, `[ 📋 Danh Sách ]`, `[ ⚡ Kiểm Tra ]`, `[ 🤖 AI Coach ]`) ngay cạnh nút Quay lại, đi kèm nút Primary Action `[ ⚡ Luyện Ngay +15 XP ]`.
+    - **Triệt Tiêu Khối Rườm Rà**: Loại bỏ hoàn toàn khối banner pastel và thanh segmented control trùng lặp bên dưới, giải phóng hơn 220px chiều cao màn hình, giúp sân khấu học tập 2 cột hiển thị ngay trên cùng (above-the-fold) mà không cần cuộn trang.
+    - **Sửa Lỗi Khớp Icon Ngữ Nghĩa (`themeSemanticIcons.tsx`)**: Áp dụng kiểm tra biên từ nguyên vẹn (`\b(it|ai|tech)\b`) và ưu tiên nhóm từ giao tiếp, chào hỏi (`MessageSquare`), triệt tiêu 100% hiện tượng các chủ đề như "Chào hỏi & Giao tiếp (Greetings & Polite Words)" bị gán nhầm icon Chip CPU do dính chuỗi con "it" trong từ "polite".
   - **Kiến Trúc Module Hóa Chuẩn Atomic & Sub-Panes (`features/vocabulary/`)**:
-    - **Tối Ưu Hóa Tệp Điều Phối Chính**: Rút gọn file trang chính `app/(dashboard)/vocabulary/[id]/page.tsx` từ **1.343 dòng xuống còn ~350 dòng sạch sẽ**, đóng vai trò thuần túy orchestrator kết nối các sub-panes và custom hooks.
     - **Sub-Panes Chuyên Trách Cho 4 Chế Độ Học Tập (`features/vocabulary/components/theme-detail/`)**:
-      - `ThemeDetailHeaderBanner.tsx`: Khung Hero `rounded-2xl` với ambient blue line, biểu tượng chủ đề `getSemanticThemeIcon`, tiêu đề & mô tả, kết hợp 4 thẻ Micro-Metric bên phải (`Tổng Từ`, `Đã Thuộc`, `Yêu Thích`, `Tiến Độ %`).
       - `FlashcardStudioPane.tsx`: **Bố Cục Sân Khấu 2 Cột Hiện Đại (Master-Detail Visual Showcase)**:
-        * **Cột Trái (35% - Dedicated Visual Showcase)**: Khung viền kép Double-Bezel (`rounded-3xl`), ảnh minh họa độ phân giải cao chuẩn Unsplash Studio (`getVocabIllustration`), badge chủ đề kính mờ, CEFR badge, trạng thái `Đã thuộc ✓` / `Đang học`, nút phóng to lightbox `Maximize2`, và dải Thumbnail Carousel cuộn ngang để chọn nhanh bất kỳ từ vựng nào trong bài.
+        * **Cột Trái (35% - Dedicated Visual Showcase)**: Khung ảnh tối giản, thuần khiết độ phân giải cao chuẩn Unsplash Studio (`getVocabIllustration`), badge loại từ CEFR kính mờ, nút phóng to lightbox `Maximize2`, chú thích ảnh thanh lịch và nhãn trạng thái `Đang học` / `Đã thuộc ✓`.
         * **Cột Phải (65% - Interactive 3D Stage)**: Không gian học thẻ lật 3D Perspective hai mặt (`perspective-[1500px]`, `[transform-style:preserve-3d]`): Mặt trước (POS, từ vựng display font siêu lớn, phiên âm IPA, nút loa phát âm to rõ sóng âm, nghĩa tiếng Việt in đậm `#0059bb`, ví dụ ngữ cảnh preview, nút lật thẻ); Mặt sau (Nghĩa chi tiết, định nghĩa tiếng Anh, các câu ví dụ thực tế song ngữ, nút nghe lại và nút `Đã Thuộc +15 XP`); kèm thanh điều khiển đáy (`Từ Trước (←)`, `Đã Thuộc Từ Này ✓`, `Từ Tiếp Theo (→)`).
       - `wordImageMapper.ts`: Module định vị hình ảnh minh họa độ phân giải cao cho từng từ vựng và chủ đề, triệt tiêu 100% cảm giác đơn điệu khô khan.
-      - `Segmented Studio Bar`: Thanh chuyển 4 chế độ học tập nổi bật đặt ngay dưới Hero Banner (`Flashcard 2 Cột`, `Danh Sách Tra Cứu`, `Đấu Trường Quiz`, `Cố Vấn AI Tutor`).
       - `VocabularyListPane.tsx`: Không gian tra cứu danh sách từ vựng với thanh tìm kiếm tức thì, bộ lọc 4 trạng thái (`Tất cả`, `Chưa thuộc`, `Đã thuộc`, `Yêu thích`), lưới thẻ `VocabCardItem` và Empty state khi không tìm thấy.
       - `QuizArenaPane.tsx`: Không gian trắc nghiệm 4 đáp án A-B-C-D chia 2 cột, phím tắt 1-4, hiệu ứng đổi màu đáp án Đúng (Emerald) / Sai (Rose), thanh điều khiển đáy (`Câu Trước`, Đếm số & Điểm, `Câu Tiếp Theo / Xem Kết Quả`), và màn hình vinh danh hoàn thành cúp 🏆.
       - `AiCoachPane.tsx`: Không gian cố vấn AI Tutor với 3 nút prompt 1-click (`Cho 3 ví dụ thực tế`, `Phân biệt ngữ cảnh`, `Mẹo ghi nhớ nhanh`), form đặt câu hỏi tự do textarea + nút `Gửi Câu Hỏi (+10 XP)`, và hộp phản hồi AI màu tím.
@@ -1825,9 +1826,6 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
       - `useVocabularyQuiz.ts`: Quản lý câu hỏi trắc nghiệm, sinh ngẫu nhiên 4 lựa chọn, kiểm tra đáp án, tính điểm, thưởng XP và cập nhật `dailyChallengeStore` + `userStore`.
       - `useVocabularyAiCoach.ts`: Quản lý hội thoại AI Tutor qua API `/api/ai/chat`, trạng thái nạp và cộng thưởng +10 XP.
     - **Tệp Gom Xuất Tập Trung (`features/vocabulary/index.ts`)**: Xuất toàn bộ components, sub-panes, hooks, utils và data.
-  - **Đồng Bộ Header Đỉnh Thống Nhất (`AppTopHeader` 56px Baseline)**:
-    - Tích hợp nút Back `[ ← Kho Từ Vựng ]`, dải 4 Pill Actions chuyển chế độ tức thì với con nhộng trượt `layoutId="vocabDetailViewModePill"`: `[ 🎴 Flashcard ]`, `[ 📋 Danh Sách ]`, `[ ⚡ Kiểm Tra ]`, `[ 🤖 AI Coach ]`, và nút CTA ôn tập nhanh `[ ⚡ Luyện Ngay +15 XP ]`.
-  - **Khung Xương Tải Trang Đồng Bộ Hình Học 100% (`loading.tsx`)**: Tái hiện toàn bộ bố cục Header 56px, Hero Banner, 4 Metric Cards và khung Flashcard 3D, triệt tiêu hoàn toàn giật nhảy layout.
 
 - **`/review`**: Phòng Ôn Tập Lặp Lại Ngắt Quãng SM-2 (Spaced Repetition Review Studio - Agency Dashboard Tier).
   - **Hệ Thống Icon Chuẩn Ngữ Nghĩa 100% & Triệt Tiêu Icon Xung Đột (Lucide 1.8 - 2.0 Stroke)**:
