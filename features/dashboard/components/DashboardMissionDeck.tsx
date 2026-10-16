@@ -57,28 +57,28 @@ export function DashboardMissionDeck({
       </div>
 
       {/* 3 Frosted Glass Metadata Pods */}
-      <div className="grid grid-cols-3 gap-1.5 sm:gap-3 relative z-10">
-        <div className="p-2 sm:p-3 rounded-xl bg-white/12 backdrop-blur-md border border-white/25 text-center shadow-xs hover:bg-white/18 transition-all">
-          <div className="text-[9.5px] sm:text-[10.5px] font-mono font-bold uppercase tracking-wider text-blue-100">
+      <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 relative z-10">
+        <div className="py-1.5 sm:py-2 px-2 sm:px-3 rounded-xl bg-white/12 backdrop-blur-md border border-white/25 text-center shadow-xs hover:bg-white/18 transition-all">
+          <div className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider text-blue-100 leading-tight">
             Mục tiêu
           </div>
-          <div className="text-[11px] xs:text-xs sm:text-sm font-black font-display text-white font-mono mt-0.5">
+          <div className="text-[11px] xs:text-xs sm:text-sm font-black font-display text-white font-mono mt-0.5 leading-tight">
             {remainingWords} từ mới
           </div>
         </div>
-        <div className="p-2 sm:p-3 rounded-xl bg-white/12 backdrop-blur-md border border-white/25 text-center shadow-xs hover:bg-white/18 transition-all">
-          <div className="text-[9.5px] sm:text-[10.5px] font-mono font-bold uppercase tracking-wider text-blue-100">
+        <div className="py-1.5 sm:py-2 px-2 sm:px-3 rounded-xl bg-white/12 backdrop-blur-md border border-white/25 text-center shadow-xs hover:bg-white/18 transition-all">
+          <div className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider text-blue-100 leading-tight">
             Thời gian
           </div>
-          <div className="text-[11px] xs:text-xs sm:text-sm font-black font-display text-white font-mono mt-0.5">
+          <div className="text-[11px] xs:text-xs sm:text-sm font-black font-display text-white font-mono mt-0.5 leading-tight">
             ~15 phút
           </div>
         </div>
-        <div className="p-2 sm:p-3 rounded-xl bg-white/12 backdrop-blur-md border border-white/25 text-center shadow-xs hover:bg-white/18 transition-all">
-          <div className="text-[9.5px] sm:text-[10.5px] font-mono font-bold uppercase tracking-wider text-amber-200">
+        <div className="py-1.5 sm:py-2 px-2 sm:px-3 rounded-xl bg-white/12 backdrop-blur-md border border-white/25 text-center shadow-xs hover:bg-white/18 transition-all">
+          <div className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider text-amber-200 leading-tight">
             Phần thưởng
           </div>
-          <div className="text-[11px] xs:text-xs sm:text-sm font-black font-display text-amber-300 font-mono mt-0.5">
+          <div className="text-[11px] xs:text-xs sm:text-sm font-black font-display text-amber-300 font-mono mt-0.5 leading-tight">
             +50 XP
           </div>
         </div>
