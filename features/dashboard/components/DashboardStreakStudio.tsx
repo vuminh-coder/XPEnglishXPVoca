@@ -4,27 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Flame, Check, Gift, CheckCircle2, Loader2 } from "lucide-react";
 import { ShimmerCircle } from "@/shared/components/feedback/ShimmerSkeleton";
-
-const Duolingo3DFlame = ({ className = "w-20 h-20 sm:w-24 sm:h-24" }: { className?: string }) => (
-  <motion.div
-    className={`relative flex items-center justify-center ${className}`}
-    animate={{
-      scale: [1, 1.05, 1],
-      y: [0, -3, 0],
-    }}
-    transition={{
-      duration: 2.8,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }}
-  >
-    <img
-      src="/images/streak-flame-crystal.png"
-      alt="Streak Crystal Flame"
-      className="w-full h-full object-contain drop-shadow-[0_8px_16px_rgba(245,158,11,0.25)] relative z-10 select-none pointer-events-none transform hover:scale-105 transition-transform duration-300"
-    />
-  </motion.div>
-);
+import { StreakFlame3D } from "@/shared/components/feedback/StreakFlame3D";
 
 interface DashboardStreakStudioProps {
   user: any;
@@ -58,7 +38,7 @@ export function DashboardStreakStudio({
 
       {/* 2. Hero Mascot 3D Flame & Streak Counter */}
       <div className="flex flex-col items-center justify-center pt-1 text-center">
-        <Duolingo3DFlame className="w-20 h-20 sm:w-24 sm:h-24" />
+        <StreakFlame3D size="lg" />
 
         <div className="mt-1">
           <div className="text-4xl sm:text-5xl font-black font-display bg-gradient-to-b from-amber-400 via-amber-500 to-orange-500 bg-clip-text text-transparent tracking-tight leading-none drop-shadow-[0_4px_12px_rgba(245,158,11,0.35)]">

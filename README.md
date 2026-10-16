@@ -6246,6 +6246,24 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Toàn bộ 4 test suites Bảng điều khiển (`dashboard_state_retention.test.ts`, `dashboard_performance.test.ts`, `dashboard_db_sync.test.ts`, `streak_database_and_xp_level.test.ts`): **37/37 tests PASS 100%**.
         * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
 
+  22. **Nâng Cấp Tạo Hình Mascot Đốm Lửa 3D Crystal Streak Flame & Component Chuyển Động Chuyên Biệt (`StreakFlame3D`)**:
+      - **Tạo hình Mascot Đốm Lửa Pha Lê 3D Chuẩn Gamification Hổ Phách (Amber Gold #f59e0b)**:
+        * Thay thế hoàn toàn asset cũ (bị ám xanh dương/vàng đục, hiệu ứng nhựa rẻ tiền) bằng asset pha lê 3D đa giác giác cắt kim cương chuẩn Apple Fitness / Duolingo Diamond tier (`public/images/streak-flame-crystal.png`).
+        * Bảng màu chuẩn quy tắc 20 (Gamification Accent): Lõi lửa trắng sáng phát quang (`#ffffff`), chuyển sắc qua vàng chanh kim cương (`#fde047`), cam hoàng hôn (`#f97316`) và viền hổ phách rực lửa (`#f59e0b`), khử viền halo đen bằng thuật toán alpha unmulting chuyên sâu.
+      - **Phát triển Component Chuyển Động Chuyên Biệt `StreakFlame3D` (`@/shared/components/feedback/StreakFlame3D.tsx`)**:
+        * Hỗ trợ 5 kích thước chuẩn hóa: `xs` (24px), `sm` (32px), `md` (48-56px), `lg` (80-96px), `xl` (112-128px).
+        * Tích hợp 3 lớp hiệu ứng điện ảnh:
+          1. **Ambient Backlight Halo**: Vầng sáng tỏa tròn phát quang mềm mại nhịp thở (`scale` & `opacity` breathing).
+          2. **Kinetic Spark Embers**: 3 hạt tia lửa kim cương mini bay bổng tự do với độ trễ và biên độ chuyển động so le.
+          3. **Breathing Hover Micro-Interaction**: Hiệu ứng nhấp nhô nhẹ nhàng tự nhiên và phản hồi khi di chuột / chạm.
+      - **Tích Hợp Đồng Bộ Trên Toàn Bộ Nền Tảng**:
+        * `DashboardStreakStudio.tsx`: Thay thế toàn bộ khối flame cũ bằng `<StreakFlame3D size="lg" />`, tạo điểm nhấn trung tâm rực rỡ và chuyên nghiệp.
+        * `DashboardHeroGreeting.tsx`: Nhúng `<StreakFlame3D size="sm" showHalo={false} showSparks={false} />` vào thẻ chỉ số Streak 40x40.
+        * `IpaHeroGreeting.tsx`: Tự động đồng bộ asset 3D pha lê mới tại thẻ Chuỗi luyện phát âm.
+      - **Bộ Kiểm Thử & Kiểm Định Kiểu Dữ Liệu 100% PASS**:
+        * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
+        * Toàn bộ các bộ kiểm thử liên quan (`streak_database_and_xp_level.test.ts`, `analytics_xp_standards.test.ts`): **PASS 100%**.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

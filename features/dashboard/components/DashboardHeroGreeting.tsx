@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Video, MessageSquare, Clock, BookmarkCheck, Target } from "lucide-react";
 import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAvatar";
 import { ShimmerBox, ShimmerCircle } from "@/shared/components/feedback/ShimmerSkeleton";
+import { StreakFlame3D } from "@/shared/components/feedback/StreakFlame3D";
 import { formatPercent } from "@/shared/utils/formatPercent";
 
 interface DashboardHeroGreetingProps {
@@ -96,11 +97,7 @@ export function DashboardHeroGreeting({
         {/* Metric 1: Streak (Amber Gold) */}
         <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-800/60 shadow-2xs group">
           <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform p-1 overflow-hidden">
-            <img
-              src="/images/streak-flame-crystal.png"
-              alt="Streak Flame 3D"
-              className="w-full h-full object-contain filter drop-shadow-[0_2px_6px_rgba(245,158,11,0.35)]"
-            />
+            <StreakFlame3D size="sm" showHalo={false} showSparks={false} />
           </div>
           <div className="min-w-0 flex-1">
             {isActuallyLoading ? (

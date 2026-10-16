@@ -12,6 +12,7 @@ const { mockPrisma, mockAuth } = vi.hoisted(() => ({
       count: vi.fn(),
     },
     dailySkillPractice: {
+      findFirst: vi.fn(),
       upsert: vi.fn(),
     },
     $queryRaw: vi.fn(),
@@ -200,6 +201,12 @@ describe("Analytics & Experience Points Performance Standards", () => {
         level: 5,
         title: "Achiever",
         coins: 700,
+      });
+
+      mockPrisma.dailySkillPractice.findFirst.mockResolvedValueOnce({
+        id: "dsp_today",
+        userId,
+        date: todayStr,
       });
 
       mockPrisma.dailySkillPractice.upsert.mockResolvedValueOnce({
