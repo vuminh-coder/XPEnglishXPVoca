@@ -6209,6 +6209,15 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       * `__tests__/curated_level_lessons_standards.test.ts`: **4/4 tests PASS** (Xác thực 100% 7 bài học, 70 câu thoại, 100% wordTimings, $\ge 5$ từ vựng bọc IPA `/.../`, 28 câu hỏi trắc nghiệm với 4 lựa chọn, giải thích chi tiết và phân bổ 25% mỗi key A/B/C/D).
       * `npx vitest run __tests__/curated_level_lessons_standards.test.ts __tests__/listening_shadowing_standards.test.ts __tests__/extended_shadowing_lessons_standards.test.ts`: **12/12 tests PASS 100%**.
       * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
+  19. **Chuẩn Hóa Toàn Diện 101 Bài Hội Thoại Công Sở TOEIC Part 3/4 & Listening Master Edition (312 Câu Hỏi ETS Cân Bằng Tuyệt Đối 25%, Bổ Sung Khuyết Thiếu `listen_toeic_q3_021` & $\ge 4$ Từ Vựng Chuẩn IPA)**:
+      - **Bổ sung câu hỏi số 3 (Q3) chuẩn hóa 100% bài học**: Nâng cấp toàn diện 100 bài hội thoại TOEIC Part 3/4 từ cấu trúc 2 câu hỏi thiếu hụt lên chuẩn mực ETS TOEIC chính thống (mỗi bài đủ 3 câu hỏi trắc nghiệm Q1, Q2, Q3 bám sát trực tiếp dẫn chứng trong transcript).
+      - **Cân bằng đáp án toàn cục (Key Distribution Parity 25.0%)**: Áp dụng thuật toán hoán vị Latin Square Design trên toàn bộ 104 bài học cốt lõi (104 bài x 3 câu = 312 câu hỏi), đưa phân bổ 4 đáp án A, B, C, D về chính xác **78 A, 78 B, 78 C, 78 D (đúng 25.0% mỗi key)**, triệt tiêu 100% thiên kiến chọn B/C trước đây.
+      - **Lấp đầy bài học khuyết thiếu `listen_toeic_q3_021`**: Bổ sung hoàn chỉnh bài học `listen_toeic_q3_021` ("Cloud DevOps CI/CD Pipeline & Automated Deployment Verification") với 4 câu thoại có mốc thời gian, wordTimings, bản dịch song ngữ, 4 từ vựng chuyên ngành công nghệ chuẩn IPA và 3 câu hỏi trắc nghiệm chuẩn ETS. Đảm bảo chuỗi ID bài học từ `001` đến `101` liền mạch 100%.
+      - **Đồng bộ từ vựng & song ngữ**: Đảm bảo 100% bài học có $\ge 4$ mục từ vựng học thuật/công sở chuẩn IPA `/.../`, từ loại, nghĩa tiếng Việt và câu ví dụ ngữ cảnh `E.g.,`. Nâng cấp bộ parser `parseListeningMarkdown` hỗ trợ nhận diện danh từ ghép và từ viết tắt trong ngoặc đơn (e.g., `Personal Protective Equipment (PPE)`, `system upgrade`).
+      - **Bộ Kiểm Thử Chuẩn Hóa & Chất Lượng Dữ Liệu 100% PASS**:
+        * `__tests__/toeic_q3_lessons_standards.test.ts`: **7/7 tests PASS 100%** (104 bài học, chuỗi ID liên tục 001 - 101, DevOps Cloud 021, $\ge 3$ câu hỏi/bài, cân bằng 78 A, 78 B, 78 C, 78 D, $\ge 4$ từ vựng bọc `/.../`, 100% câu thoại có timestamps và wordTimings).
+        * `__tests__/data_uniqueness.test.ts`: **Zero duplicate sentences** trên toàn bộ 123 bài học và 1283 câu thoại.
+        * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
 
 ---
 

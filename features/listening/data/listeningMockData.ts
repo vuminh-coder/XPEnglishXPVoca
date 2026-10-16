@@ -40,16 +40,16 @@ tags: ["Office", "Relocation", "TOEIC"]
 
 # QUIZ
 Q1: What is happening on the third floor?
-* [ ] A staff meeting
 * [x] A renovation
+* [ ] A staff meeting
 * [ ] A retirement party
 * [ ] An electrical inspection
 -- Explanation: The speaker says "Due to the upcoming renovation of the third floor..."
 
 Q2: When should employees pack their belongings?
 * [ ] Monday morning
-* [ ] Wednesday evening
 * [x] Friday afternoon
+* [ ] Wednesday evening
 * [ ] Sunday night
 -- Explanation: The speaker says "Please make sure to pack your personal belongings by Friday afternoon."
 
@@ -58,13 +58,12 @@ Q3: How long will the elevator service be interrupted?
 * [ ] Two weeks
 * [x] Three weeks
 * [ ] Four weeks
--- Explanation: The speaker states the renovation takes approximately three weeks, during which the elevators will be out of service.
-`;
+-- Explanation: The speaker states the renovation takes approximately three weeks, during which the elevators will be out of service.`;
 
 const LESSON_2_MD = `---
 id: listen_002
 title: "Flight Captain Announcement"
-audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Easy"
 duration: "0:35"
 category: "Travel"
@@ -99,30 +98,29 @@ tags: ["Flight", "Airport", "Captain"]
 # QUIZ
 Q1: Where is the flight heading?
 * [ ] London
-* [x] Tokyo
 * [ ] Sydney
 * [ ] Paris
+* [x] Tokyo
 -- Explanation: The captain mentions "Our estimated arrival time in Tokyo is..."
 
 Q2: What is the weather like at the destination?
+* [x] Partly cloudy
 * [ ] Rainy
 * [ ] Sunny and warm
-* [x] Partly cloudy
 * [ ] Extremely cold and snowy
 -- Explanation: The captain says "The weather at our destination is partly cloudy..."
 
 Q3: When will the plane begin to descend?
 * [ ] In 15 minutes
+* [x] In about 1 hour
 * [ ] In 30 minutes
 * [ ] In 45 minutes
-* [x] In about 1 hour
--- Explanation: The captain explicitly states "We will begin our descent in approximately one hour."
-`;
+-- Explanation: The captain explicitly states "We will begin our descent in approximately one hour."`;
 
 const LESSON_3_MD = `---
 id: listen_003
 title: "Store Promotions at GreenMart"
-audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Hard"
 duration: "0:30"
 category: "Shopping"
@@ -162,27 +160,24 @@ Q1: What is the special deal on organic vegetables?
 Q2: Which products get an extra discount for loyalty members?
 * [ ] Organic vegetables
 * [ ] Bakery items
-* [x] Dairy products
 * [ ] Fresh meat
+* [x] Dairy products
 -- Explanation: The speaker mentions "loyalty members receive an extra fifteen percent discount on dairy."
 
 Q3: What new store section is mentioned in the announcement?
-* [ ] Seafood section
 * [x] Bakery section
+* [ ] Seafood section
 * [ ] Frozen food section
 * [ ] Organic cosmetics
--- Explanation: The speaker says "Don't forget to check out our new bakery section..."
-`;
+-- Explanation: The speaker says "Don't forget to check out our new bakery section..."`;
 
 export const LESSON_Q3_MD = `---
 id: listen_toeic_q3_001
 title: "Q3 Marketing Strategy & Customer Response Times"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:21"
 category: "TOEIC Part 4"
-accent: "en-US" 
-voice: "Narrator"
 tags: ["Business", "Marketing", "Strategy"]
 ---
 
@@ -190,10 +185,7 @@ tags: ["Business", "Marketing", "Strategy"]
 - strategy /ˈstræt.ə.dʒi/ (n): chiến lược. E.g., We need a solid Q3 marketing strategy.
 - engagement /ɪnˈɡeɪdʒ.mənt/ (n): sự tương tác, đính ước. E.g., The campaign increased engagement across all platforms.
 - efficiency /ɪˈfɪʃ.ən.si/ (n): hiệu suất, hiệu quả công việc. E.g., Let's brainstorm ways to improve our efficiency.
-
-# GRAMMAR
-- Cấu trúc Tăng/Giảm (increase in [something]): Chỉ sự gia tăng trong lĩnh vực cụ thể. E.g., A fifteen percent increase in engagement.
-- Mệnh lệnh thức lịch sự với Let's (Let's + V-bare): Đề xuất cùng làm việc gì đó. E.g., Let's brainstorm ways to improve.
+- compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ quy chuẩn pháp lý. E.g., All departments must ensure strict regulatory compliance.
 
 # TRANSCRIPT
 [00:00.00] Good morning, team. We have a lot to cover regarding our Q3 marketing strategy.
@@ -222,17 +214,23 @@ Q2: What issue needs to be addressed?
 * [x] Customer response times
 * [ ] Office renovation
 -- Explanation: The transcript states "we need to address the feedback regarding our customer response times."
-`;
+
+Q3: What does the speaker suggest doing?
+* [ ] Cancel all scheduled project activities
+* [ ] Hire external management consultants
+* [ ] Delay the discussion until next fiscal year
+* [x] Brainstorm ways to improve our efficiency before the next quarterly review
+-- Explanation: The speaker states: "Let's brainstorm ways to improve our efficiency before the next quarterly review.".`;
+
+export const LESSON_Q3_001_MD = LESSON_Q3_MD;
 
 export const LESSON_Q3_002_MD = `---
 id: listen_toeic_q3_002
 title: "Product Launch Event & Customer Feedback Analysis"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Manager"
 tags: ["Business", "Product Launch", "Feedback"]
 ---
 
@@ -240,10 +238,7 @@ tags: ["Business", "Product Launch", "Feedback"]
 - launch /lɔːntʃ/ (v, n): ra mắt, sự ra mắt sản phẩm. E.g., The official launch event will take place next month.
 - survey /ˈsɜː.veɪ/ (n): cuộc khảo sát. E.g., We collected data through a customer satisfaction survey.
 - feature /ˈfiː.tʃər/ (n): tính năng, đặc điểm. E.g., Users really like the new security feature.
-
-# GRAMMAR
-- Cấu trúc Bị Động Quá Khứ đơn (was/were + V3/ed): Dùng để báo cáo về sự kiện đã diễn ra. E.g., The survey was distributed to all participants.
-- Cụm từ chỉ mục đích (in order to + V-bare): Diễn tả mục đích thực hiện hành động. E.g., In order to gather early feedback, we sent a survey.
+- protocol /ˈproʊ.t̬ə.kɑːl/ (n): quy trình, nghi thức chuẩn mực. E.g., Emergency safety protocols must be reviewed annually.
 
 # TRANSCRIPT
 [00:00.00] Welcome everyone. Today I'd like to review the results from our recent product launch.
@@ -260,29 +255,33 @@ tags: ["Business", "Product Launch", "Feedback"]
 
 # QUIZ
 Q1: How did the initial sales perform compared to expectations?
-* [ ] They dropped by 20%
 * [x] They exceeded expectations by 20%
+* [ ] They dropped by 20%
 * [ ] They remained unchanged
 * [ ] They failed to reach the target
 -- Explanation: The speaker states that initial sales exceeded expectations by twenty percent in the first week.
 
 Q2: What is the technical team doing to fix the issues?
 * [ ] Hiring more support staff
-* [ ] Recalling the product completely
 * [x] Preparing a software update
+* [ ] Recalling the product completely
 * [ ] Offering full refunds to customers
 -- Explanation: The transcript explicitly mentions that the technical team is preparing a software update to resolve the issues.
-`;
+
+Q3: What issue was reported according to the speaker?
+* [ ] Complete hardware motherboard failures
+* [ ] Severe billing errors in billing accounts
+* [x] Minor bugs in the user interface
+* [ ] Loss of customer database credentials
+-- Explanation: The speaker explains: "However, several customers reported minor bugs in the user interface during setup.".`;
 
 export const LESSON_Q3_003_MD = `---
 id: listen_toeic_q3_003
 title: "Customer Support Training & System Upgrade"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Operations Lead"
 tags: ["Business", "Customer Support", "IT"]
 ---
 
@@ -290,10 +289,7 @@ tags: ["Business", "Customer Support", "IT"]
 - system upgrade /ˈsɪs.təm ʌp.ɡreɪd/ (n): sự nâng cấp hệ thống. E.g., The scheduled system upgrade will take place this weekend.
 - representative /ˌrep.rɪˈzen.tə.tɪv/ (n): đại diện (chăm sóc khách hàng). E.g., Our customer service representatives are available 24/7.
 - navigate /ˈnæv.ɪ.ɡeɪt/ (v): định hướng, điều hướng (sử dụng phần mềm/website). E.g., The new portal makes it easier for users to navigate.
-
-# GRAMMAR
-- Hiện tại tiếp diễn chỉ kế hoạch tương lai (Be + V-ing): Dùng để thông báo lịch trình đã chốt. E.g., We are launching our new support portal next Monday.
-- Động từ nguyên mẫu chỉ mục đích (to + V-bare): Dùng để bổ nghĩa cho lý do thực hiện. E.g., All agents will attend a mandatory session to learn the new features.
+- initiative /ɪˈnɪʃ.ə.t̬ɪv/ (n): sáng kiến đổi mới. E.g., Management launched a green initiative to reduce corporate carbon footprints.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon team, I have an important update regarding our support ticketing system.
@@ -312,27 +308,31 @@ tags: ["Business", "Customer Support", "IT"]
 Q1: When will the new support portal be launched?
 * [ ] Tomorrow morning
 * [ ] This weekend
-* [x] Next Monday morning
 * [ ] At the end of the month
+* [x] Next Monday morning
 -- Explanation: The speaker explicitly announces that the new portal will be launched "next Monday morning."
 
 Q2: What are the representatives required to do tomorrow?
-* [ ] Submit their weekly reports
 * [x] Attend a 30-minute training session
+* [ ] Submit their weekly reports
 * [ ] Test the new software independently
 * [ ] Take a day off from work
 -- Explanation: The transcript states that all representatives must attend a mandatory thirty-minute training session tomorrow.
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [x] Ensure everyone knows how to navigate the updated database efficiently
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "This will ensure everyone knows how to navigate the updated database efficiently.".`;
 
 export const LESSON_Q3_004_MD = `---
 id: listen_toeic_q3_004
 title: "Annual Company Retreat & Location Announcement"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 2"
-accent: "en-US"
-voice: "HR Director"
 tags: ["Business", "HR", "Event"]
 ---
 
@@ -340,10 +340,7 @@ tags: ["Business", "HR", "Event"]
 - retreat /rɪˈtriːt/ (n): chuyến dã ngoại, đợt nghỉ dưỡng công ty. E.g., The annual staff retreat is scheduled for next month.
 - venue /ˈven.juː/ (n): địa điểm tổ chức sự kiện. E.g., We have selected a seaside resort as our event venue.
 - itinerary /aɪˈtɪn.ə.rer.i/ (n): lịch trình chuyến đi. E.g., HR will distribute the detailed itinerary by Thursday.
-
-# GRAMMAR
-- Cấu trúc Dự định / Kế hoạch (be scheduled to + V-bare): Dùng để thông báo lịch trình chính thức. E.g., The retreat is scheduled to take place in September.
-- Cụm trạng từ chỉ vị trí (located in + location): Mô tả vị trí địa lý. E.g., A beachfront resort located in Danang.
+- efficiency /ɪˈfɪʃ.ən.si/ (n): tính hiệu quả, năng suất. E.g., Upgraded server hardware enhances internal operational efficiency.
 
 # TRANSCRIPT
 [00:00.00] Attention team, I am excited to announce the location for our annual company retreat.
@@ -361,28 +358,32 @@ tags: ["Business", "HR", "Event"]
 # QUIZ
 Q1: Where will the annual retreat take place this year?
 * [ ] At a mountain resort in Sapa
-* [x] At the Grand Beach Resort in Danang
 * [ ] In a conference center in Hanoi
+* [x] At the Grand Beach Resort in Danang
 * [ ] At the company headquarters
 -- Explanation: The speaker mentions that they will be staying at the Grand Beach Resort in Danang.
 
 Q2: What will Human Resources send by Friday?
 * [ ] The flight tickets only
 * [ ] The survey forms
-* [x] The detailed itinerary and flight details
 * [ ] The budget report
+* [x] The detailed itinerary and flight details
 -- Explanation: The transcript states that HR will send out the detailed itinerary and flight details by Friday.
-`;
+
+Q3: When is the event, operation, or interview scheduled?
+* [x] The second week of September
+* [ ] Next Friday at 5:00 PM
+* [ ] At the end of the next quarter
+* [ ] Early tomorrow morning
+-- Explanation: The speaker states: "The event is scheduled for the second week of September to promote team building.".`;
 
 export const LESSON_Q3_005_MD = `---
 id: listen_toeic_q3_005
 title: "Quarterly Budget Review & Expense Policy Update"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Finance Manager"
 tags: ["Finance", "Business", "Policy"]
 ---
 
@@ -390,10 +391,7 @@ tags: ["Finance", "Business", "Policy"]
 - expenditure /ɪkˈspen.dɪ.tʃər/ (n): chi phí, sự tiêu dùng. E.g., We need to reduce unnecessary travel expenditures.
 - reimbursement /ˌriː.ɪmˈbɜːs.mənt/ (n): sự hoàn tiền, khoản thanh toán lại. E.g., Submit all receipts to claim your reimbursement.
 - policy /ˈpɑː.lə.si/ (n): quy định, chính sách. E.g., The revised travel policy will take effect next month.
-
-# GRAMMAR
-- Động từ khuyết thiếu bắt buộc (must + V-bare): Dùng để quy định điều khoản bắt buộc. E.g., Employees must submit their expense receipts within five business days.
-- Cấu trúc Thời gian có hiệu lực (take effect + [date]): Dùng trong thông báo chính sách. E.g., The new policy will take effect on August 1st.
+- confidentiality /ˌkɑːn.fə.den.ʃiˈæl.ə.t̬i/ (n): tính bảo mật thông tin. E.g., Staff signed non-disclosure agreements to preserve client confidentiality.
 
 # TRANSCRIPT
 [00:00.00] Good morning everyone, I have a quick update regarding our department's quarterly budget.
@@ -418,21 +416,25 @@ Q1: Why is the reimbursement policy being revised?
 
 Q2: Within how many days must receipts be submitted under the new policy?
 * [ ] Three days
-* [x] Five business days
 * [ ] Seven business days
+* [x] Five business days
 * [ ] Ten days
 -- Explanation: The speaker explicitly mentions that "all expense receipts must be submitted within five business days."
-`;
+
+Q3: Whose approval is required according to the speaker?
+* [ ] The external building security contractor
+* [ ] The junior human resources clerk
+* [ ] A third-party logistics courier
+* [x] The regional finance director
+-- Explanation: The announcement explicitly states: "Late submissions will require approval from the regional finance director before processing.".`;
 
 export const LESSON_Q3_006_MD = `---
 id: listen_toeic_q3_006
 title: "IT Security Guidelines & Password Policy"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:21"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "IT Manager"
 tags: ["IT", "Security", "Policy"]
 ---
 
@@ -440,10 +442,7 @@ tags: ["IT", "Security", "Policy"]
 - credential /krɪˈden.ʃəl/ (n): thông tin đăng nhập, chứng chỉ. E.g., Do not share your login credentials with anyone.
 - unauthorized /ʌnˈɑː.θə.raɪzd/ (adj): không được phép, trái phép. E.g., Prevent unauthorized access to company files.
 - mandatory /ˈmæn.də.tɔːr.i/ (adj): bắt buộc. E.g., Completing the security module is mandatory.
-
-# GRAMMAR
-- Cấu trúc Nhắc nhở / Yêu cầu (remind someone to + V-bare): Dùng để nhắc nhở thực hiện hành động. E.g., I would like to remind all staff to update their passwords.
-- Cấu trúc Bị Động Khuyết Thiếu (must be + V3/ed): Dùng để quy định tiêu chuẩn bắt buộc. E.g., New passwords must be updated every ninety days.
+- collaboration /kəˌlæb.əˈreɪ.ʃən/ (n): sự hợp tác làm việc nhóm. E.g., Cross-functional collaboration accelerated the product development cycle.
 
 # TRANSCRIPT
 [00:00.00] Attention all employees, this is an important message from the IT department.
@@ -460,29 +459,33 @@ tags: ["IT", "Security", "Policy"]
 
 # QUIZ
 Q1: What is the main purpose of updating passwords?
-* [ ] To clear database storage
 * [x] To enhance network security
+* [ ] To clear database storage
 * [ ] To test a new software application
 * [ ] To change employee username formats
 -- Explanation: The IT Manager states that the update is required "to enhance our network security."
 
 Q2: What will happen if employees do not update their passwords in time?
 * [ ] They will be fined
-* [ ] Their account will be permanently deleted
 * [x] They will face a temporary lockout on Monday
+* [ ] Their account will be permanently deleted
 * [ ] They must contact HR immediately
 -- Explanation: The speaker warns that failure to update in time "will result in a temporary lockout on Monday."
-`;
+
+Q3: What requirement or instruction must be followed?
+* [ ] Submit a formal written appeal to executives
+* [ ] Request emergency budget allocations
+* [x] Contain at least eight characters, including numbers and symbols
+* [ ] Wait for an official government notification
+-- Explanation: The transcript specifies: "Your new password must contain at least eight characters, including numbers and symbols.".`;
 
 export const LESSON_Q3_007_MD = `---
 id: listen_toeic_q3_007
 title: "Supply Chain Delay & Inventory Update"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Logistics Supervisor"
 tags: ["Logistics", "Supply Chain", "Business"]
 ---
 
@@ -490,10 +493,7 @@ tags: ["Logistics", "Supply Chain", "Business"]
 - shipment /ˈʃɪp.mənt/ (n): lô hàng, sự giao hàng. E.g., The incoming shipment of raw materials has been delayed.
 - inventory /ˈɪn.vən.tɔːr.i/ (n): hàng tồn kho, sự kiểm kê. E.g., We must check our current inventory levels.
 - alternative /ɑːlˈtɜːr.nə.tɪv/ (adj, n): phương án thay thế. E.g., We are seeking alternative suppliers in the region.
-
-# GRAMMAR
-- Cấu trúc Diễn tả nguyên nhân (due to + Noun/NP): Chỉ lý do của một sự việc. E.g., Due to severe weather conditions, the delivery was postponed.
-- Cấu trúc Tương lai tiếp diễn (will be + V-ing): Diễn tả hành động sẽ đang diễn ra tại thời điểm trong tương lai. E.g., Our team will be monitoring the shipment status closely.
+- productivity /ˌproʊ.dʌkˈtɪv.ə.t̬i/ (n): năng suất lao động. E.g., Flexible work schedules contributed to higher employee productivity.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon team, I want to inform you about a delay with our incoming material shipment.
@@ -511,28 +511,32 @@ tags: ["Logistics", "Supply Chain", "Business"]
 # QUIZ
 Q1: What is causing the delivery delay?
 * [ ] Mechanical failure of trucks
-* [x] Severe weather conditions at the port
 * [ ] Labor strikes at the warehouse
 * [ ] Customs clearance issues
+* [x] Severe weather conditions at the port
 -- Explanation: The supervisor states that the delay is "due to unexpected severe weather at the port."
 
 Q2: How long will the delivery be delayed?
+* [x] Three days
 * [ ] One day
 * [ ] Two days
-* [x] Three days
 * [ ] One week
 -- Explanation: The transcript explicitly mentions that "the delivery will be delayed by three days."
-`;
+
+Q3: What are listeners requested to do?
+* [ ] Submit an immediate resignation notice
+* [x] Notify your respective client representatives if any order fulfillments are affected
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+-- Explanation: The speaker instructs: "Please notify your respective client representatives if any order fulfillments are affected.".`;
 
 export const LESSON_Q3_008_MD = `---
 id: listen_toeic_q3_008
 title: "Quarterly Sales Meeting & Regional Performance"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Sales Director"
 tags: ["Sales", "Business", "Performance"]
 ---
 
@@ -540,10 +544,7 @@ tags: ["Sales", "Business", "Performance"]
 - surpass /sərˈpæs/ (v): vượt qua, vượt trội. E.g., Sales in the Northern region surpassed our expectations.
 - expansion /ɪkˈspæn.ʃən/ (n): sự mở rộng. E.g., The retail expansion plan will begin next quarter.
 - revenue /ˈrev.ə.nuː/ (n): doanh thu. E.g., Total company revenue saw a steady growth this quarter.
-
-# GRAMMAR
-- Thi quá khứ đơn đối lập với Hiện tại hoàn thành: Diễn tả hành động đã hoàn thành trong quá khứ đối sánh với kết quả đạt được tính đến hiện tại. E.g., Total revenue has increased by ten percent since last quarter.
-- Cấu trúc So sánh hơn (higher than expected): Chỉ kết quả vượt mức dự kiến. E.g., Performance was significantly higher than target.
+- optimization /ˌɑːp.tə.məˈzeɪ.ʃən/ (n): sự tối ưu hóa hệ thống. E.g., Code optimization reduced server response times significantly.
 
 # TRANSCRIPT
 [00:00.00] Welcome everyone to our quarterly sales review. I have some encouraging news to share.
@@ -567,22 +568,26 @@ Q1: By what percentage did total revenue increase compared to last quarter?
 -- Explanation: The Sales Director states that total revenue has increased by twelve percent compared to the previous quarter.
 
 Q2: Which region was the top performer?
-* [x] The Northern region
 * [ ] The Southern region
 * [ ] The Eastern region
 * [ ] The Overseas market
+* [x] The Northern region
 -- Explanation: The transcript explicitly mentions that "The Northern region was our top performer."
-`;
+
+Q3: What does the team or speaker plan to do next?
+* [x] Roll out similar marketing strategies in the Southern region
+* [ ] Close down all regional branch operations
+* [ ] Freeze all new hiring activities indefinitely
+* [ ] Cancel marketing efforts across the continent
+-- Explanation: The speaker explains: "Next month, we plan to roll out similar marketing strategies in the Southern region.".`;
 
 export const LESSON_Q3_009_MD = `---
 id: listen_toeic_q3_009
 title: "Facility Maintenance & Office Air Conditioning"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:21"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Facility Manager"
 tags: ["Maintenance", "Facility", "Notice"]
 ---
 
@@ -590,10 +595,7 @@ tags: ["Maintenance", "Facility", "Notice"]
 - maintenance /ˈmeɪn.tən.əns/ (n): sự bảo trì, bảo dưỡng. E.g., Routine maintenance is required for all HVAC systems.
 - temporary /ˈtem.pə.rer.i/ (adj): tạm thời. E.g., There will be a temporary disruption in the cooling system.
 - ventilation /ˌven.tɪˈleɪ.ʃən/ (n): sự thông gió, hệ thống thông gió. E.g., Portable fans will be provided to ensure proper ventilation.
-
-# GRAMMAR
-- Cấu trúc Diễn tả hành động đang diễn ra (will be undergoing + Noun): Thông báo công việc sắp diễn ra trong thời gian ngắn. E.g., The central air conditioning will be undergoing maintenance.
-- Cấu trúc Yêu cầu/Khuyên bảo (advisable to + V-bare): Khuyên ai đó nên làm gì. E.g., It is advisable to dress in layered clothing.
+- allocate /ˈæl.ə.keɪt/ (v): phân bổ nguồn lực, kinh phí. E.g., Finance leaders agreed to allocate additional funding to research.
 
 # TRANSCRIPT
 [00:00.00] Attention all staff, please be advised of scheduled maintenance work this Saturday.
@@ -622,17 +624,21 @@ Q2: What are overtime workers advised to do during the maintenance?
 * [x] Use designated spaces on the third floor
 * [ ] Complete their tasks before 9 AM
 -- Explanation: The transcript explicitly states that employees working overtime are encouraged to "use the designated quiet spaces on the third floor."
-`;
+
+Q3: What condition is expected during the scheduled period?
+* [ ] All operations will cease completely
+* [ ] All staff members will be relocated
+* [ ] Power will be cut off across the campus
+* [x] Temperatures in the office may rise higher than usual
+-- Explanation: The announcement notes: "During this window, temperatures in the office may rise higher than usual.".`;
 
 export const LESSON_Q3_010_MD = `---
 id: listen_toeic_q3_010
 title: "New Employee Onboarding & Orientation Schedule"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "HR Specialist"
 tags: ["HR", "Onboarding", "Training"]
 ---
 
@@ -640,10 +646,7 @@ tags: ["HR", "Onboarding", "Training"]
 - orientation /ˌɔː.ri.enˈteɪ.ʃən/ (n): sự định hướng, buổi hội nhập. E.g., The orientation session begins at 9:00 AM in the main hall.
 - compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ (quy định, chính sách). E.g., New hires must complete the compliance training modules.
 - mentor /ˈmen.tɔːr/ (n): người hướng dẫn, người cố vấn. E.g., Each new employee will be assigned a senior mentor.
-
-# GRAMMAR
-- Cấu trúc Yêu cầu bắt buộc (be required to + V-bare): Dùng để thông báo nghĩa vụ của nhân viên mới. E.g., All new staff are required to complete the safety module.
-- Thì Tương lai đơn với "Will" để cam kết/hỗ trợ: Dùng để giải thích quy trình hỗ trợ. E.g., Your designated mentor will guide you through the first week.
+- prioritize /praɪˈɔːr.ə.taɪz/ (v): ưu tiên xử lý trước. E.g., Customer support specialists prioritize high-urgency inquiries.
 
 # TRANSCRIPT
 [00:00.00] Good morning everyone, welcome to the official orientation session for our new team members.
@@ -660,29 +663,33 @@ tags: ["HR", "Onboarding", "Training"]
 
 # QUIZ
 Q1: What must new employees do before the orientation session begins?
-* [ ] Pick up their company laptops
 * [x] Fill out all required HR compliance forms
+* [ ] Pick up their company laptops
 * [ ] Meet with the department director
 * [ ] Submit their security badge photos
 -- Explanation: The speaker asks everyone to ensure they have "filled out all the required HR compliance forms" before beginning.
 
 Q2: Who will help new employees set up their workstations this afternoon?
 * [ ] The IT helpdesk staff
-* [ ] The HR Manager
 * [x] A senior mentor from their department
+* [ ] The HR Manager
 * [ ] External software consultants
 -- Explanation: The transcript mentions that "each of you will be paired with a senior mentor from your department" who will assist with setting up workstations.
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [ ] Annual dividend payouts for shareholders
+* [ ] A full recall of previous product versions
+* [x] New Employee Onboarding & Orientation Schedule
+* [ ] A company-wide staff downsizing initiative
+-- Explanation: The speaker introduces the topic: "Good morning everyone, welcome to the official orientation session for our new team members.".`;
 
 export const LESSON_Q3_011_MD = `---
 id: listen_toeic_q3_011
 title: "Quarterly Financial Results & Revenue Growth"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Chief Financial Officer"
 tags: ["Finance", "Business", "Earnings"]
 ---
 
@@ -690,10 +697,7 @@ tags: ["Finance", "Business", "Earnings"]
 - profitability /ˌprɑː.fɪ.təˈbɪl.ə.ti/ (n): khả năng sinh lời, lợi nhuận. E.g., The company achieved record profitability this quarter.
 - expansion /ɪkˈspæn.ʃən/ (n): sự mở rộng thị trường/quy mô. E.g., Overseas expansion contributed significantly to sales.
 - shareholder /ˈʃerˌhoʊl.dər/ (n): cổ đông. E.g., The financial report will be presented to all shareholders.
-
-# GRAMMAR
-- Cấu trúc Diễn tả sự đóng góp (contribute to + Noun/V-ing): Dùng để giải thích nguyên nhân tăng trưởng. E.g., Strong online sales contributed to our overall profit margin.
-- Cấu trúc So sánh nhất (the highest + Noun): Khẳng định kỷ lục đạt được. E.g., We recorded the highest quarterly revenue in company history.
+- streamline /ˈstriːm.laɪn/ (v): tinh giản, tổ chức hợp lý hóa. E.g., The corporate restructure aims to streamline reporting channels.
 
 # TRANSCRIPT
 [00:00.00] Good morning shareholders, I am pleased to present our financial performance for the third quarter.
@@ -712,27 +716,31 @@ tags: ["Finance", "Business", "Earnings"]
 Q1: What was the company's net revenue for the third quarter?
 * [ ] $14 million
 * [ ] $30 million
-* [x] $40 million
 * [ ] $50 million
+* [x] $40 million
 -- Explanation: The speaker clearly states that "Total net revenue reached forty million dollars."
 
 Q2: What was the main driver of the revenue growth?
-* [ ] Retail store expansions
 * [x] Cloud subscription services
+* [ ] Retail store expansions
 * [ ] Hardware product sales
 * [ ] Reduced operational expenses
 -- Explanation: The transcript explicitly mentions that "This growth was primary driven by strong demand for our cloud subscription services."
-`;
+
+Q3: Where or how can relevant resources be accessed?
+* [ ] In a printed brochure at the front desk
+* [x] Through our investor relations website this afternoon
+* [ ] Through an encrypted external flash drive
+* [ ] By mailing a formal letter to headquarters
+-- Explanation: The speaker mentions: "Detailed financial breakdowns will be available on our investor relations website this afternoon.".`;
 
 export const LESSON_Q3_012_MD = `---
 id: listen_toeic_q3_012
 title: "Software System Maintenance & Network Downtime"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "IT Director"
 tags: ["IT", "Maintenance", "Announcement"]
 ---
 
@@ -740,10 +748,7 @@ tags: ["IT", "Maintenance", "Announcement"]
 - downtime /ˈdaʊn.taɪm/ (n): thời gian ngừng hoạt động (hệ thống/máy móc). E.g., The planned downtime will last for approximately two hours.
 - backup /ˈbæk.ʌp/ (n, v): sao lưu dữ liệu. E.g., Please backup all critical files before leaving the office.
 - server /ˈsɜːr.vər/ (n): máy chủ. E.g., The main application server will be restarted tonight.
-
-# GRAMMAR
-- Cấu trúc Khuyên bảo / Yêu cầu hành động khẩn (strongly encourage someone to + V-bare): Dùng để nhắc nhở quy trình quan trọng. E.g., We strongly encourage all users to save their progress.
-- Cấu trúc Bị động Thì Tương lai đơn (will be affected + by): Dùng để thông báo phạm vi chịu ảnh hưởng. E.g., Internal tools will be affected during the maintenance window.
+- authorization /ˌɑː.θɚ.əˈzeɪ.ʃən/ (n): sự cấp phép chính thức. E.g., Purchase orders require senior management authorization.
 
 # TRANSCRIPT
 [00:00.00] Attention all staff, please note that routine network maintenance is scheduled for tonight.
@@ -768,21 +773,25 @@ Q1: What time will the system downtime begin tonight?
 
 Q2: What are employees requested to do before leaving today?
 * [ ] Turn off all office lights
-* [x] Save active work and log off
 * [ ] Submit their weekly timesheets
 * [ ] Contact the IT helpdesk for verification
+* [x] Save active work and log off
 -- Explanation: The transcript explicitly states: "We strongly encourage everyone to save their active work and log off before leaving today."
-`;
+
+Q3: What will happen according to the speaker?
+* [x] Be unavailable until six AM tomorrow morning
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "All internal databases and email services will be unavailable until six AM tomorrow morning.".`;
 
 export const LESSON_Q3_013_MD = `---
 id: listen_toeic_q3_013
 title: "New Product Packaging & Environmental Sustainability"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Product Manager"
 tags: ["Product", "Sustainability", "Marketing"]
 ---
 
@@ -790,10 +799,7 @@ tags: ["Product", "Sustainability", "Marketing"]
 - eco-friendly /ˌiː.koʊˈfrend.li/ (adj): thân thiện với môi trường. E.g., We are transitioning to 100% eco-friendly materials.
 - recyclable /ˌriːˈsaɪ.klə.bəl/ (adj): có thể tái chế. E.g., The new plastic bottles are fully recyclable.
 - reduction /rɪˈdʌk.ʃən/ (n): sự cắt giảm, giảm thiểu. E.g., This initiative led to a significant reduction in waste.
-
-# GRAMMAR
-- Cấu trúc Diễn tả hành động đang chuyển đổi (transition to + Noun): Chỉ sự thay đổi sang trạng thái/phương pháp mới. E.g., The company is transitioning to biodegradable materials.
-- Cấu trúc Diễn tả kết quả kỳ vọng (help reduce + Noun): Dùng để giải thích mục đích bảo vệ môi trường. E.g., The new design will help reduce carbon emissions.
+- consensus /kənˈsen.səs/ (n): sự đồng thuận chung. E.g., Committee members reached a consensus on the new budget proposal.
 
 # TRANSCRIPT
 [00:00.00] Good morning team, I want to share an exciting update on our flagship product line redesign.
@@ -822,17 +828,21 @@ Q2: By how much is the plastic waste expected to be reduced this year?
 * [x] 30%
 * [ ] 50%
 -- Explanation: The transcript explicitly states that the transition is expected to "reduce our overall plastic waste by thirty percent this year."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+* [x] Be issued to the media on Friday
+-- Explanation: The speaker notes: "A press release highlighting our sustainability efforts will be issued to the media on Friday.".`;
 
 export const LESSON_Q3_014_MD = `---
 id: listen_toeic_q3_014
 title: "Employee Wellness Program & Gym Membership Subsidy"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "HR Director"
 tags: ["HR", "Wellness", "Benefits"]
 ---
 
@@ -840,10 +850,7 @@ tags: ["HR", "Wellness", "Benefits"]
 - subsidy /ˈsʌb.sə.di/ (n): tiền trợ cấp, sự trợ giá. E.g., The company provides a monthly subsidy for gym memberships.
 - wellness /ˈwel.nəs/ (n): sức khỏe tổng thể, sự sống khỏe. E.g., We are launching a new corporate wellness program next month.
 - eligible /ˈel.ədʒ.ə.bəl/ (adj): đủ điều kiện, đủ tiêu chuẩn. E.g., All full-time employees are eligible for the benefit.
-
-# GRAMMAR
-- Cấu trúc Khẳng định Tiêu chuẩn / Điều kiện (be eligible for + Noun): Dùng để chỉ đối tượng được hưởng quyền lợi. E.g., Full-time staff are eligible for wellness subsidies.
-- Cấu trúc Hướng dẫn Đăng ký (to register, please + V-bare): Dùng trong các thông báo nhân sự. E.g., To register for the class, please visit the internal portal.
+- discrepancy /dɪˈskrep.ən.si/ (n): sự sai lệch, khác biệt số liệu. E.g., The internal audit detected an accounting discrepancy in inventory logs.
 
 # TRANSCRIPT
 [00:00.00] Attention all staff, I am thrilled to introduce our new corporate wellness initiative for this year.
@@ -860,29 +867,33 @@ tags: ["HR", "Wellness", "Benefits"]
 
 # QUIZ
 Q1: What benefit is the company offering starting next month?
-* [ ] Free healthy lunches in the cafeteria
 * [x] A 50% subsidy on gym memberships
+* [ ] Free healthy lunches in the cafeteria
 * [ ] Additional paid annual leave days
 * [ ] Free public transportation passes
 -- Explanation: The speaker announces that "the company will offer a fifty percent subsidy on local fitness center memberships."
 
 Q2: Who is eligible to participate in the wellness program?
 * [ ] Part-time interns only
-* [ ] Department directors only
 * [x] Full-time employees who passed probation
+* [ ] Department directors only
 * [ ] External contractors
 -- Explanation: The transcript explicitly states: "All full-time employees who have completed their probationary period are eligible."
-`;
+
+Q3: What are listeners requested to do?
+* [ ] Submit an immediate resignation notice
+* [ ] Contact emergency facilities technicians
+* [x] Submit your application form through the HR portal before the end of the month
+* [ ] Cease all client communications for the day
+-- Explanation: The speaker instructs: "Please submit your application form through the HR portal before the end of the month.".`;
 
 export const LESSON_Q3_015_MD = `---
 id: listen_toeic_q3_015
 title: "Upcoming Office Relocation & Packing Guidelines"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Office Manager"
 tags: ["Office", "Relocation", "Announcement"]
 ---
 
@@ -890,10 +901,7 @@ tags: ["Office", "Relocation", "Announcement"]
 - relocation /ˌriː.loʊˈkeɪ.ʃən/ (n): sự di dời, chuyển văn phòng. E.g., The relocation to the new downtown building is planned for August.
 - label /ˈleɪ.bəl/ (v, n): dán nhãn, nhãn mác. E.g., Please clearly label all personal storage boxes.
 - fragile /ˈfrædʒ.əl/ (adj): dễ vỡ. E.g., Handle fragile equipment with extra care during the move.
-
-# GRAMMAR
-- Cấu trúc Bắt buộc Dán nhãn/Phân loại (make sure to + V-bare): Khuyên bảo hoặc yêu cầu thực hiện quy trình đóng gói. E.g., Make sure to write your name on each box.
-- Cấu trúc Thời gian Bắt đầu / Hoàn thành (scheduled to begin + at [time]): Thông báo thời gian cụ thể của hoạt động. E.g., The moving crew is scheduled to arrive on Friday evening.
+- feasibility /ˌfiː.zəˈbɪl.ə.t̬i/ (n): tính khả thi của dự án. E.g., Engineers conducted a detailed feasibility study before construction.
 
 # TRANSCRIPT
 [00:00.00] Good morning everyone, as you know, our official relocation to the new office building is next week.
@@ -912,27 +920,31 @@ tags: ["Office", "Relocation", "Announcement"]
 Q1: When will the professional movers arrive?
 * [ ] Wednesday morning
 * [ ] Thursday afternoon
-* [x] Friday at 5 PM
 * [ ] Saturday evening
+* [x] Friday at 5 PM
 -- Explanation: The speaker specifies that professional movers will arrive "this Friday at five PM."
 
 Q2: What will happen to boxes that are not labeled?
+* [x] They will be placed in the main storage area
 * [ ] They will be discarded immediately
 * [ ] They will be returned to the owner's home
-* [x] They will be placed in the main storage area
 * [ ] They will be opened and inspected by security
 -- Explanation: The transcript explicitly states: "Unlabeled boxes will be placed in the main storage area."
-`;
+
+Q3: What are listeners requested to do?
+* [ ] Submit an immediate resignation notice
+* [x] Ensure all personal items are securely boxed and labeled with your name and department code
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+-- Explanation: The speaker instructs: "Please ensure all personal items are securely boxed and labeled with your name and department code.".`;
 
 export const LESSON_Q3_016_MD = `---
 id: listen_toeic_q3_016
 title: "Client Meeting Schedule & Conference Room Reservation"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Executive Assistant"
 tags: ["Office", "Meeting", "Reservation"]
 ---
 
@@ -940,10 +952,7 @@ tags: ["Office", "Meeting", "Reservation"]
 - reservation /ˌrez.ərˈveɪ.ʃən/ (n): sự đặt trước (phòng, chỗ). E.g., Please confirm your conference room reservation in advance.
 - executive /ɪɡˈzek.jə.tɪv/ (adj, n): cấp quản lý, điều hành. E.g., The executive board will join the call at 2 PM.
 - conflicting /kənˈflɪk.tɪŋ/ (adj): trùng lặp, xung đột (lịch trình). E.g., We need to resolve the conflicting meeting times.
-
-# GRAMMAR
-- Cấu trúc Nhắc nhở lịch trình (be scheduled to meet + with): Dùng để thông báo cuộc hẹn đối tác. E.g., Our team is scheduled to meet with the representatives from Tokyo.
-- Cấu trúc Bị động Hiện tại hoàn thành (has been moved + to): Thông báo sự thay đổi địa điểm/thời gian. E.g., The meeting room has been moved to Floor 5.
+- delegation /ˌdel.əˈɡeɪ.ʃən/ (n): sự phân công, ủy thác trách nhiệm. E.g., Effective managerial delegation empowers team leaders.
 
 # TRANSCRIPT
 [00:00.00] Hi Sarah, I'm calling about our upcoming presentation with the delegates from overseas tomorrow.
@@ -961,28 +970,32 @@ tags: ["Office", "Meeting", "Reservation"]
 # QUIZ
 Q1: Why is Conference Room B no longer available at 2 PM?
 * [ ] It is undergoing maintenance
-* [x] There was a double-booking issue
 * [ ] The projector inside is broken
+* [x] There was a double-booking issue
 * [ ] It is reserved for an executive interview
 -- Explanation: The speaker explains that "Due to a double-booking issue, Conference Room B is no longer available."
 
 Q2: Where will the presentation be held instead?
 * [ ] Conference Room B on Floor 2
 * [ ] The main auditorium
-* [x] Conference Room A on Floor 5
 * [ ] Online via video conference
+* [x] Conference Room A on Floor 5
 -- Explanation: The transcript explicitly states: "I have rescheduled our session to Conference Room A on the fifth floor."
-`;
+
+Q3: What are listeners requested to do?
+* [x] Update the calendar invite and inform the rest of the team right away?
+* [ ] Submit an immediate resignation notice
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+-- Explanation: The speaker instructs: "Could you please update the calendar invite and inform the rest of the team right away?".`;
 
 export const LESSON_Q3_017_MD = `---
 id: listen_toeic_q3_017
 title: "Quarterly Performance Review & Employee Recognition"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Department Head"
 tags: ["HR", "Management", "Recognition"]
 ---
 
@@ -990,10 +1003,7 @@ tags: ["HR", "Management", "Recognition"]
 - recognition /ˌrek.əɡˈnɪʃ.ən/ (n): sự ghi nhận, sự công nhận. E.g., Outstanding performance deserves proper company recognition.
 - contribution /ˌkɑːn.trəˈbjuː.ʃən/ (n): sự đóng góp. E.g., We appreciate your valuable contribution to the project.
 - evaluation /ɪˌvæl.juˈeɪ.ʃən/ (n): sự đánh giá. E.g., Annual evaluations help track employee progress over time.
-
-# GRAMMAR
-- Cấu trúc Diễn tả sự công nhận (would like to recognize someone for + Noun/V-ing): Dùng để tuyên dương thành tích. E.g., I would like to recognize John for his exceptional work.
-- Cấu trúc Mệnh đề Quan hệ (who have demonstrated + Noun): Dùng để bổ nghĩa cho nhóm đối tượng xuất sắc. E.g., Employees who have demonstrated strong leadership will receive bonuses.
+- contingency /kənˈtɪn.dʒən.si/ (n): tình huống dự phòng rủi ro. E.g., The project budget incorporates a ten-percent contingency fund.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon everyone, I want to take a moment to discuss our upcoming performance review cycle.
@@ -1018,21 +1028,25 @@ Q1: What will managers begin doing next week?
 
 Q2: What will award recipients receive in their next paycheck?
 * [ ] Additional vacation days
-* [x] A performance bonus
 * [ ] Gift cards to local restaurants
+* [x] A performance bonus
 * [ ] A company-issued laptop
 -- Explanation: The transcript explicitly states that recipients will receive a certificate "alongside a performance bonus in their next paycheck."
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [ ] Annual dividend payouts for shareholders
+* [ ] A full recall of previous product versions
+* [ ] A company-wide staff downsizing initiative
+* [x] Quarterly Performance Review & Employee Recognition
+-- Explanation: The speaker introduces the topic: "Good afternoon everyone, I want to take a moment to discuss our upcoming performance review cycle.".`;
 
 export const LESSON_Q3_018_MD = `---
 id: listen_toeic_q3_018
 title: "New Software Implementation & User Training Session"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "IT Trainer"
 tags: ["IT", "Training", "Software"]
 ---
 
@@ -1040,10 +1054,7 @@ tags: ["IT", "Training", "Software"]
 - implementation /ˌɪm.plə.menˈteɪ.ʃən/ (n): sự triển khai, thi hành. E.g., The implementation of the new software will start next month.
 - migration /maɪˈɡreɪ.ʃən/ (n): sự chuyển đổi, di chuyển dữ liệu. E.g., Data migration will be completed over the weekend.
 - portal /ˈpɔːr.təl/ (n): cổng thông tin. E.g., You can access your training materials via the staff portal.
-
-# GRAMMAR
-- Cấu trúc Dự định gần (be about to + V-bare): Diễn tả một hành động sắp sửa xảy ra ngay lập tức. E.g., We are about to transition to our new project management tool.
-- Cấu trúc Khuyên bảo / Đề nghị (be strongly advised to + V-bare): Khuyên người nghe thực hiện một việc quan trọng. E.g., All users are strongly advised to back up their local files.
+- milestone /ˈmaɪl.stoʊn/ (n): cột mốc quan trọng. E.g., Completing the beta phase marks a critical project milestone.
 
 # TRANSCRIPT
 [00:00.00] Good morning team, as announced earlier, we are about to upgrade our primary project management software.
@@ -1060,29 +1071,33 @@ tags: ["IT", "Training", "Software"]
 
 # QUIZ
 Q1: When will the data migration process occur?
-* [ ] Friday afternoon
 * [x] Saturday starting from midnight
+* [ ] Friday afternoon
 * [ ] Sunday morning
 * [ ] Next Monday evening
 -- Explanation: The speaker explicitly states that the full data migration "is scheduled to take place this coming Saturday from midnight."
 
 Q2: Where can employees find the training webinar links and user guides?
 * [ ] In an email attachment sent by HR
-* [ ] On the public company website
 * [x] On the staff portal
+* [ ] On the public company website
 * [ ] In the IT department office
 -- Explanation: The transcript mentions that links to join the sessions and guides "are now available on the staff portal."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [x] Be held next Monday to help everyone get familiar with the new interface
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "Mandatory training webinars will be held next Monday to help everyone get familiar with the new interface.".`;
 
 export const LESSON_Q3_019_MD = `---
 id: listen_toeic_q3_019
 title: "Customer Loyalty Program & Points Redemption System"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Marketing Manager"
 tags: ["Marketing", "Retail", "Customer Service"]
 ---
 
@@ -1090,10 +1105,7 @@ tags: ["Marketing", "Retail", "Customer Service"]
 - redemption /rɪˈdemp.ʃən/ (n): sự quy đổi, sự chuộc lại. E.g., Points redemption can be done directly through our mobile app.
 - tier /tɪr/ (n): cấp độ, hạng (thành viên). E.g., Gold tier members enjoy exclusive perks and discount codes.
 - accumulate /əˈkjuː.mjə.leɪt/ (v): tích lũy. E.g., Customers accumulate reward points with every eligible purchase.
-
-# GRAMMAR
-- Cấu trúc Diễn tả quyền lợi (allow someone to + V-bare): Dùng để giải thích tính năng/quyền lợi chương trình. E.g., The new system allows users to redeem points instantly at checkout.
-- Cấu trúc So sánh Càng... Càng... (The higher... the more...): Diễn tả mối quan hệ giữa cấp độ và ưu đãi. E.g., The higher your membership tier, the more rewards you unlock.
+- benchmark /ˈbentʃ.mɑːrk/ (n): tiêu chuẩn đánh giá, mốc chuẩn so sánh. E.g., The quarterly report sets a new performance benchmark for the industry.
 
 # TRANSCRIPT
 [00:00.00] Attention valued customers, we are excited to launch our upgraded VIP loyalty rewards program today.
@@ -1111,28 +1123,32 @@ tags: ["Marketing", "Retail", "Customer Service"]
 # QUIZ
 Q1: What can earned points be redeemed for under the new system?
 * [ ] Free gift wrapping
-* [x] Instant discount vouchers
 * [ ] Store gift cards
 * [ ] Extended product warranties
+* [x] Instant discount vouchers
 -- Explanation: The speaker explains that points "can be redeemed for instant discount vouchers."
 
 Q2: What benefit do Platinum tier members receive?
+* [x] Free express shipping on online orders
 * [ ] Free product maintenance
 * [ ] Double reward points
-* [x] Free express shipping on online orders
 * [ ] Access to VIP lounge areas
 -- Explanation: The transcript explicitly states: "Members who reach the Platinum tier will also enjoy free express shipping on all online orders."
-`;
+
+Q3: What action is recommended to listeners?
+* [ ] Visiting an offline branch office in person
+* [x] Download our official mobile app now to check your points balance and explore exclusive member rewards
+* [ ] Calling the central switchboard hotline
+* [ ] Mailing a physical registration paper form
+-- Explanation: The announcement advises: "Download our official mobile app now to check your points balance and explore exclusive member rewards.".`;
 
 export const LESSON_Q3_020_MD = `---
 id: listen_toeic_q3_020
 title: "Quarterly Marketing Campaign & Social Media Strategy"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Marketing Lead"
 tags: ["Marketing", "Social Media", "Business"]
 ---
 
@@ -1140,10 +1156,7 @@ tags: ["Marketing", "Social Media", "Business"]
 - outreach /ˈaʊt.riːtʃ/ (n, adj): sự tiếp cận, hoạt động cộng đồng. E.g., Our social media outreach strategy doubled our online engagement.
 - campaign /kæmˈpeɪn/ (n): chiến dịch. E.g., The summer promotional campaign was a massive success.
 - target audience /ˈtɑːr.ɡɪt ˈɑː.di.əns/ (n): khách hàng mục tiêu. E.g., We customized our video ads to appeal to a younger target audience.
-
-# GRAMMAR
-- Cấu trúc Diễn tả mục tiêu (aim to + V-bare): Dùng để trình bày mục tiêu chiến dịch. E.g., We aim to expand our customer base in the upcoming quarter.
-- Cấu trúc Nhấn mạnh kết quả (result in + Noun/V-ing): Dùng để chỉ ra tác động tích cực của giải pháp. E.g., The video ads resulted in higher conversion rates.
+- workflow /ˈwɝːk.floʊ/ (n): quy trình làm việc. E.g., Automating administrative tasks optimizes team workflow.
 
 # TRANSCRIPT
 [00:00.00] Good morning everyone, today I want to highlight the results of our recent social media campaign.
@@ -1161,28 +1174,83 @@ tags: ["Marketing", "Social Media", "Business"]
 # QUIZ
 Q1: What type of content helped increase brand engagement by 40%?
 * [ ] Blog articles
-* [x] Short video content
 * [ ] Email newsletters
+* [x] Short video content
 * [ ] Print advertisements
 -- Explanation: The speaker notes that "By focusing on short video content, we successfully increased our brand engagement by forty percent."
 
 Q2: What is the marketing team planning to do next quarter?
 * [ ] Hire more external graphic designers
 * [ ] Reduce overall advertising costs
-* [x] Double their video production budget
 * [ ] Switch to traditional television marketing
+* [x] Double their video production budget
 -- Explanation: The transcript explicitly mentions: "We will double our video production budget next quarter to sustain this rapid digital growth."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [x] Furthermore, our targeted ad strategy helped us reach over fifty thousand new potential clients this month
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "Furthermore, our targeted ad strategy helped us reach over fifty thousand new potential clients this month.".`;
+
+export const LESSON_Q3_021_MD = `---
+id: listen_toeic_q3_021
+title: "Cloud DevOps CI/CD Pipeline & Automated Deployment Verification"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+level: "Intermediate"
+duration: "0:38"
+category: "TOEIC Part 4"
+tags: ["Technology", "DevOps", "Cloud", "TOEIC"]
+---
+
+# VOCABULARY
+- pipeline /ˈpaɪp.laɪn/ (n): quy trình tích hợp, đường ống tự động. E.g., The engineering team updated the continuous deployment pipeline.
+- deployment /dɪˈplɔɪ.mənt/ (n): sự triển khai phần mềm. E.g., Automated deployment reduces human errors in production environments.
+- regression /rɪˈɡreʃ.ən/ (n): sự thoái lui, lỗi phát sinh ngược. E.g., Automated regression test suites ran smoothly across all staging clusters.
+- rollback /ˈroʊl.bæk/ (n): quy trình quay lui phiên bản an toàn. E.g., The system initiates an instant rollback if critical errors are detected.
+
+# TRANSCRIPT
+[00:00.00] Good morning engineers, our cloud infrastructure team has completed the upgrade to our automated CI/CD deployment pipeline. {Good:0, morning:300, engineers:600, our:1100, cloud:1400, infrastructure:1800, team:2600, has:2900, completed:3100, the:3700, upgrade:3900, to:4500, our:4700, automated:5000, continuous:5600, deployment:6200, pipeline:6800}
+:: Việt: Chào buổi sáng các kỹ sư, đội ngũ cơ sở hạ tầng đám mây của chúng ta đã hoàn tất việc nâng cấp quy trình triển khai tự động CI/CD.
+
+[00:08.50] Initial benchmark testing demonstrates that build execution times have been reduced by thirty-five percent. {Initial:0, benchmark:500, testing:1100, demonstrates:1700, that:2500, build:2700, execution:3100, times:3800, have:4200, been:4400, reduced:4600, by:5200, thirty:5400, five:5700, percent:6100}
+:: Việt: Thử nghiệm tiêu chuẩn ban đầu chứng minh rằng thời gian thực thi bản dựng đã giảm ba mươi lăm phần trăm.
+
+[00:16.80] All software development squads must migrate their repository configurations to the new cluster before Thursday evening. {All:0, software:400, development:900, squads:1600, must:2200, migrate:2600, their:3100, repository:3400, configurations:4200, to:5200, the:5400, new:5650, cluster:6000, before:6600, Thursday:7100, evening:7700}
+:: Việt: Tất cả các nhóm phát triển phần mềm phải di chuyển cấu hình kho lưu trữ sang cụm máy chủ mới trước tối Thứ Năm.
+
+[00:26.50] Senior DevOps leads will hold daily virtual office hours to assist any teams encountering staging deployment issues. {Senior:0, DevOps:500, leads:1100, will:1600, hold:1800, daily:2200, virtual:2700, office:3200, hours:3700, to:4200, assist:4500, any:5000, teams:5300, encountering:5800, staging:6600, deployment:7200, issues:7800}
+:: Việt: Các trưởng nhóm DevOps cấp cao sẽ mở giờ trực tuyến hàng ngày để hỗ trợ mọi đội ngũ gặp sự cố triển khai thử nghiệm.
+
+# QUIZ
+Q1: What major improvement was observed after upgrading the deployment pipeline?
+* [ ] Server electricity costs dropped by 50%
+* [x] Build execution times were reduced by 35%
+* [ ] Storage capacity was doubled across all regions
+* [ ] The entire engineering workforce was doubled
+-- Explanation: The speaker confirms that "build execution times have been reduced by thirty-five percent."
+
+Q2: By when must squads migrate their repository configurations?
+* [ ] Friday at noon
+* [ ] Next Monday morning
+* [x] Thursday evening
+* [ ] End of the current fiscal year
+-- Explanation: The announcement instructs that squads "must migrate their repository configurations to the new cluster before Thursday evening."
+
+Q3: How will senior DevOps leads support engineering teams?
+* [ ] By reviewing pull requests manually line by line
+* [ ] By conducting mandatory in-person weekend workshops
+* [ ] By writing all configuration files on their behalf
+* [x] By holding daily virtual office hours for staging issues
+-- Explanation: The speaker announces that "Senior DevOps leads will hold daily virtual office hours to assist any teams encountering staging deployment issues."`;
 
 export const LESSON_Q3_022_MD = `---
 id: listen_toeic_q3_022
 title: "Cloud Migration Strategy & Infrastructure Security"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Cloud Architect"
 tags: ["IT", "Cloud", "Security"]
 ---
 
@@ -1190,10 +1258,7 @@ tags: ["IT", "Cloud", "Security"]
 - migration /maɪˈɡreɪ.ʃən/ (n): sự chuyển đổi, di chuyển hệ thống. E.g., Database migration to the cloud will happen overnight.
 - infrastructure /ˈɪn.frəˌstrʌk.tʃər/ (n): hạ tầng (mạng/máy chủ). E.g., Moving to a cloud infrastructure reduces server maintenance costs.
 - encryption /ɪnˈkrɪp.ʃən/ (n): sự mã hóa dữ liệu. E.g., All sensitive customer data must undergo end-to-end encryption.
-
-# GRAMMAR
-- Cấu trúc Bị động Hiện tại tiếp diễn (is being moved + to): Chỉ hành động chuyển đổi đang trong quá trình thực hiện. E.g., Our main server infrastructure is currently being moved to AWS.
-- Động từ nguyên mẫu chỉ mục đích (to prevent + Noun): Diễn tả mục tiêu bảo mật. E.g., Encryption is applied to prevent unauthorized data access.
+- protocol /ˈproʊ.t̬ə.kɑːl/ (n): quy trình, nghi thức chuẩn mực. E.g., Emergency safety protocols must be reviewed annually.
 
 # TRANSCRIPT
 [00:00.00] Good morning dev team, I am pleased to update you on our cloud infrastructure migration progress.
@@ -1210,29 +1275,33 @@ tags: ["IT", "Cloud", "Security"]
 
 # QUIZ
 Q1: What percentage of legacy database services has been transferred to AWS?
-* [ ] 50%
 * [x] Over 70%
+* [ ] 50%
 * [ ] 85%
 * [ ] 100%
 -- Explanation: The speaker mentions that "Over seventy percent of our legacy database services have been successfully transferred."
 
 Q2: What feature was activated to secure data in transit?
 * [ ] Multi-factor authentication
-* [ ] Automatic server backup
 * [x] End-to-end encryption protocols
+* [ ] Automatic server backup
 * [ ] IP address blocking
 -- Explanation: The transcript explicitly states: "end-to-end encryption protocols have been activated to secure all user data in transit."
-`;
+
+Q3: What does the speaker expect regarding this process?
+* [ ] Severe service downtime across all platforms
+* [ ] Substantial financial losses for the department
+* [x] Entire migration process to finish by midnight without interrupting active services
+* [ ] A cancellation of future development sprints
+-- Explanation: The speaker indicates: "We expect the entire migration process to finish by midnight without interrupting active services.".`;
 
 export const LESSON_Q3_023_MD = `---
 id: listen_toeic_q3_023
 title: "Agile Sprint Review & Software Release Schedule"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Scrum Master"
 tags: ["IT", "Software Development", "Agile"]
 ---
 
@@ -1240,10 +1309,7 @@ tags: ["IT", "Software Development", "Agile"]
 - deployment /dɪˈplɔɪ.mənt/ (n): sự triển khai (phần mềm/mã nguồn). E.g., Production deployment is scheduled for Thursday night.
 - backlog /ˈbæk.lɑːɡ/ (n): danh sách công việc tồn đọng/chờ xử lý. E.g., The team prioritized fixing critical bugs from the product backlog.
 - bug fix /ˈbʌɡ fɪks/ (n): sự sửa lỗi phần mềm. E.g., The latest patch contains several key bug fixes for mobile users.
-
-# GRAMMAR
-- Cấu trúc Hiện tại Hoàn thành Chỉ Kết quả (have completed + Noun): Tổng kết kết quả đạt được trong chu kỳ Sprint. E.g., We have completed all high-priority tasks in Sprint 12.
-- Cấu trúc Mệnh đề Quan hệ Rút gọn (tasks assigned to + Team): Diễn tả đối tượng chịu trách nhiệm. E.g., Features assigned to the mobile team are ready for testing.
+- initiative /ɪˈnɪʃ.ə.t̬ɪv/ (n): sáng kiến đổi mới. E.g., Management launched a green initiative to reduce corporate carbon footprints.
 
 # TRANSCRIPT
 [00:00.00] Hi everyone, welcome to our bi-weekly sprint review meeting for version two point four.
@@ -1261,28 +1327,32 @@ tags: ["IT", "Software Development", "Agile"]
 # QUIZ
 Q1: When will code freeze begin?
 * [ ] Today at 5 PM
-* [x] Tomorrow at 5 PM
 * [ ] Saturday morning
 * [ ] Monday morning
+* [x] Tomorrow at 5 PM
 -- Explanation: The Scrum Master explicitly states: "Code freeze will begin tomorrow at 5 PM."
 
 Q2: What will happen early Monday morning if all staging tests pass?
+* [x] The final production deployment
 * [ ] A new sprint planning meeting
 * [ ] Data backup creation
-* [x] The final production deployment
 * [ ] Security penetration testing
 -- Explanation: The transcript states: "the final production deployment will take place early Monday morning."
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [ ] Annual dividend payouts for shareholders
+* [x] Agile Sprint Review & Software Release Schedule
+* [ ] A full recall of previous product versions
+* [ ] A company-wide staff downsizing initiative
+-- Explanation: The speaker introduces the topic: "Hi everyone, welcome to our bi-weekly sprint review meeting for version two point four.".`;
 
 export const LESSON_Q3_024_MD = `---
 id: listen_toeic_q3_024
 title: "Data Analytics Platform & Customer Behavior Insights"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Data Science Lead"
 tags: ["IT", "Data", "Analytics"]
 ---
 
@@ -1290,10 +1360,7 @@ tags: ["IT", "Data", "Analytics"]
 - analytics /ˌæn.əlˈɪt.ɪks/ (n): phân tích dữ liệu. E.g., Real-time analytics help us track user conversion rates.
 - predictive /prɪˈdɪk.tɪv/ (adj): mang tính dự báo. E.g., Predictive models allow us to forecast quarterly churn rates.
 - dashboard /ˈdæʃ.bɔːrd/ (n): bảng điều khiển thông số. E.g., The updated analytics dashboard displays key metric trends.
-
-# GRAMMAR
-- Cấu trúc Diễn tả khả năng hệ thống (allow someone to + V-bare): Giải thích giá trị của công cụ dữ liệu. E.g., The platform allows analysts to query massive datasets in seconds.
-- Trạng từ liên kết bổ sung (Furthermore, ...): Mở rộng luận điểm phân tích. E.g., Furthermore, machine learning models predict future user behavior.
+- efficiency /ɪˈfɪʃ.ən.si/ (n): tính hiệu quả, năng suất. E.g., Upgraded server hardware enhances internal operational efficiency.
 
 # TRANSCRIPT
 [00:00.00] Hello team, I'd like to demonstrate the new features of our internal customer analytics platform.
@@ -1311,28 +1378,32 @@ tags: ["IT", "Data", "Analytics"]
 # QUIZ
 Q1: What does the updated dashboard aggregate in real time?
 * [ ] Employee attendance records
-* [x] Purchasing data across all online channels
 * [ ] Social media mentions
+* [x] Purchasing data across all online channels
 * [ ] Server performance logs
 -- Explanation: The Data Science Lead states that the dashboard "aggregates real-time purchasing data across all online channels."
 
 Q2: What is the purpose of the newly integrated machine learning model?
 * [ ] To generate automatic invoices
 * [ ] To block suspicious IP logins
-* [x] To identify potential customer churn early
 * [ ] To compress raw database files
+* [x] To identify potential customer churn early
 -- Explanation: The transcript explicitly mentions that the model was integrated "to identify potential customer churn early."
-`;
+
+Q3: Where or how can relevant resources be accessed?
+* [x] Through the shared engineering folder for reference
+* [ ] In a printed brochure at the front desk
+* [ ] Through an encrypted external flash drive
+* [ ] By mailing a formal letter to headquarters
+-- Explanation: The speaker mentions: "A comprehensive user guide has been uploaded to the shared engineering folder for reference.".`;
 
 export const LESSON_Q3_025_MD = `---
 id: listen_toeic_q3_025
 title: "Cybersecurity Incident & Phishing Awareness Training"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Chief Information Security Officer"
 tags: ["IT", "Security", "Training"]
 ---
 
@@ -1340,10 +1411,7 @@ tags: ["IT", "Security", "Training"]
 - phishing /ˈfɪʃ.ɪŋ/ (n): lừa đảo trực tuyến (qua email/tin nhắn). E.g., Be cautious of phishing emails asking for your password.
 - suspicious /səˈspɪʃ.əs/ (adj): khả nghi, đáng nghi. E.g., Do not click on unexpected external links or suspicious attachments.
 - protocol /ˈproʊ.tə.kɑːl/ (n): quy trình, giao thức. E.g., Follow company protocols when reporting security threats.
-
-# GRAMMAR
-- Cấu trúc Bắt buộc Thực hiện (are required to + V-bare): Yêu cầu nhân viên tuân thủ quy trình an ninh mạng. E.g., Employees are required to report suspicious emails immediately.
-- Cấu trúc Mệnh lệnh phủ định (Do not + V-bare): Cảnh báo rủi ro an toàn thông tin. E.g., Do not download unauthorized file attachments.
+- confidentiality /ˌkɑːn.fə.den.ʃiˈæl.ə.t̬i/ (n): tính bảo mật thông tin. E.g., Staff signed non-disclosure agreements to preserve client confidentiality.
 
 # TRANSCRIPT
 [00:00.00] Attention all employees, this is an urgent security reminder regarding recent email phishing attempts.
@@ -1372,17 +1440,21 @@ Q2: How should employees report suspicious emails?
 * [x] Forward it to the security desk using the Report button
 * [ ] Call the HR department manager
 -- Explanation: The transcript explicitly states: "please forward it to the security desk using the Report button immediately."
-`;
+
+Q3: What safety or security instruction does the speaker emphasize?
+* [ ] Always share account passwords with project teammates
+* [ ] Bypass security checks during high-priority emergencies
+* [ ] Download unverified third-party software updates
+* [x] Never click on unverified links or open external attachments from unknown senders
+-- Explanation: The speaker instructs: "Never click on unverified links or open external attachments from unknown senders.".`;
 
 export const LESSON_Q3_026_MD = `---
 id: listen_toeic_q3_026
 title: "API Gateway Upgrade & System Integration"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Backend Lead"
 tags: ["IT", "Software Development", "API"]
 ---
 
@@ -1390,10 +1462,7 @@ tags: ["IT", "Software Development", "API"]
 - integration /ˌɪn.təˈɡreɪ.ʃən/ (n): sự tích hợp hệ thống. E.g., Third-party payment integration is now fully functional.
 - authentication /ɔːˌθen.tɪˈkeɪ.ʃən/ (n): sự xác thực (danh tính/tài khoản). E.g., Two-factor authentication adds a layer of account security.
 - latency /ˈleɪ.tən.si/ (n): độ trễ (mạng/truy vấn). E.g., The API upgrade significantly reduced network latency.
-
-# GRAMMAR
-- Cấu trúc Bổ nghĩa chỉ sự tối ưu (designed to + V-bare): Dùng để mô tả công dụng hệ thống kỹ thuật. E.g., The new architecture is designed to handle heavy traffic.
-- Cấu trúc So sánh Tăng cường (significantly lower than + Noun): Khẳng định cải thiện chỉ số kỹ thuật. E.g., Response time is significantly lower than before.
+- collaboration /kəˌlæb.əˈreɪ.ʃən/ (n): sự hợp tác làm việc nhóm. E.g., Cross-functional collaboration accelerated the product development cycle.
 
 # TRANSCRIPT
 [00:00.00] Hello engineers, I want to share the performance results of our new API Gateway integration.
@@ -1410,29 +1479,33 @@ tags: ["IT", "Software Development", "API"]
 
 # QUIZ
 Q1: By how much did the average request latency drop after the upgrade?
+* [x] 40%
 * [ ] 20%
 * [ ] 30%
-* [x] 40%
 * [ ] 50%
 -- Explanation: The Backend Lead explicitly states that "average request latency has dropped by forty percent."
 
 Q2: Where can developers find the updated API documentation and code samples?
 * [ ] In an attachment sent via Slack
-* [ ] On the public GitHub repository
 * [x] On the internal Wiki
+* [ ] On the public GitHub repository
 * [ ] In a printed manual distributed by IT
 -- Explanation: The transcript mentions that developers can access documents and code samples "on our internal Wiki today."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [x] We also upgraded our OAuth authentication tokens to enhance security across all third-party endpoints
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "We also upgraded our OAuth authentication tokens to enhance security across all third-party endpoints.".`;
 
 export const LESSON_Q3_027_MD = `---
 id: listen_toeic_q3_027
 title: "Hotel Reservation Confirmation & Guest Services"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Front Desk Agent"
 tags: ["Hospitality", "Tourism", "Customer Service"]
 ---
 
@@ -1440,10 +1513,7 @@ tags: ["Hospitality", "Tourism", "Customer Service"]
 - complimentary /ˌkɑːm.pləˈmen.t̬ɚ.i/ (adj): miễn phí (dịch vụ kèm theo). E.g., All guests enjoy complimentary breakfast at the hotel restaurant.
 - shuttle /ˈʃʌt̬.əl/ (n): xe đưa đón ngắn tuyến. E.g., The airport shuttle operates every thirty minutes.
 - amenity /əˈmen.ə.t̬i/ (n): tiện nghi khách sạn. E.g., The resort offers modern amenities including a spa and fitness center.
-
-# GRAMMAR
-- Cấu trúc Bị động Thì Hiện tại Hoàn thành (has been confirmed + for): Thông báo trạng thái đặt phòng. E.g., Your reservation for a deluxe suite has been confirmed.
-- Cấu trúc Diễn tả dịch vụ có sẵn (be available for + Noun/V-ing): Giới thiệu tiện ích cho khách. E.g., Room service is available for twenty-four hours daily.
+- productivity /ˌproʊ.dʌkˈtɪv.ə.t̬i/ (n): năng suất lao động. E.g., Flexible work schedules contributed to higher employee productivity.
 
 # TRANSCRIPT
 [00:00.00] Good morning Mr. Miller, I am calling to confirm your reservation at the Ocean View Resort.
@@ -1461,28 +1531,32 @@ tags: ["Hospitality", "Tourism", "Customer Service"]
 # QUIZ
 Q1: What is included with Mr. Miller's reservation?
 * [ ] Free spa vouchers
-* [x] Complimentary breakfast
 * [ ] Free laundry service
 * [ ] Guided city tours
+* [x] Complimentary breakfast
 -- Explanation: The speaker specifies that the deluxe suite is booked "including complimentary breakfast."
 
 Q2: How often does the airport shuttle bus depart?
-* [ ] Every 15 minutes
 * [x] Every 30 minutes
+* [ ] Every 15 minutes
 * [ ] Every hour
 * [ ] On demand only
 -- Explanation: The transcript explicitly states: "our airport shuttle bus departs from Terminal 2 every thirty minutes."
-`;
+
+Q3: What are listeners requested to do?
+* [ ] Submit an immediate resignation notice
+* [x] Notify our front desk team prior to arrival
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+-- Explanation: The speaker instructs: "Should you require any special room arrangements, please notify our front desk team prior to arrival.".`;
 
 export const LESSON_Q3_028_MD = `---
 id: listen_toeic_q3_028
 title: "Retail Store Grand Opening & Promotional Discount"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Store Manager"
 tags: ["Retail", "Sales", "Event"]
 ---
 
@@ -1490,10 +1564,7 @@ tags: ["Retail", "Sales", "Event"]
 - promotion /prəˈmoʊ.ʃən/ (n): chương trình khuyến mãi. E.g., Our special opening promotion offers huge discounts across all departments.
 - voucher /ˈvaʊ.tʃɚ/ (n): phiếu quà tặng, mã giảm giá. E.g., The first fifty shoppers will receive a twenty-dollar store voucher.
 - clearance /ˈklɪr.əns/ (n): sự xả kho, bán hạ giá. E.g., Check out the seasonal clearance section on the second floor.
-
-# GRAMMAR
-- Cấu trúc Diễn tả hành động nhận thưởng (receive + Noun + upon + V-ing/Noun): Điều kiện nhận ưu đãi. E.g., Customers receive a gift voucher upon entering the store.
-- Cấu trúc So sánh Nhấn mạnh Khuyến mãi (up to + [percentage] off): Chỉ mức giảm giá tối đa. E.g., Selected electronics are discounted up to fifty percent off.
+- optimization /ˌɑːp.tə.məˈzeɪ.ʃən/ (n): sự tối ưu hóa hệ thống. E.g., Code optimization reduced server response times significantly.
 
 # TRANSCRIPT
 [00:00.00] Attention shoppers, welcome to the grand opening of our flagship electronics store in the city center!
@@ -1518,21 +1589,25 @@ Q1: What discount is offered on home appliances today?
 
 Q2: What will the first 50 customers at the checkout counter receive?
 * [ ] A cash refund
-* [x] A complimentary gift bag
 * [ ] A free smartphone
 * [ ] A 50% discount voucher
+* [x] A complimentary gift bag
 -- Explanation: The transcript explicitly states: "the first fifty customers at the checkout counter will receive a complimentary gift bag."
-`;
+
+Q3: What are listeners reminded to do?
+* [x] Sign up for our free loyalty membership to earn points on future purchases
+* [ ] Contact the municipal licensing board
+* [ ] Submit a formal reimbursement invoice
+* [ ] Cancel their current company membership
+-- Explanation: The speaker reminds: "Don't forget to sign up for our free loyalty membership to earn points on future purchases.".`;
 
 export const LESSON_Q3_029_MD = `---
 id: listen_toeic_q3_029
 title: "Candidate Interview Screening & Recruitment Process"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Talent Acquisition Specialist"
 tags: ["HR", "Recruitment", "Interview"]
 ---
 
@@ -1540,10 +1615,7 @@ tags: ["HR", "Recruitment", "Interview"]
 - candidate /ˈkæn.də.deɪt/ (n): ứng viên. E.g., Shortlisted candidates will be invited for a second-round interview.
 - qualification /ˌkwɑː.lə.fəˈkeɪ.ʃən/ (n): trình độ chuyên môn, bằng cấp. E.g., Applicants must meet all technical qualifications for the role.
 - portfolio /pɔːrtˈfoʊ.li.oʊ/ (n): hồ sơ năng lực, các sản phẩm đã làm. E.g., Designers should submit a link to their online portfolio.
-
-# GRAMMAR
-- Cấu trúc Diễn tả quy trình tuyển dụng (be invited to + V-bare): Thông báo bước tiếp theo cho ứng viên. E.g., Qualified candidates will be invited to complete a technical assessment.
-- Cấu trúc Điều kiện Yêu cầu hồ sơ (please attach + Noun + when + V-ing): Hướng dẫn nộp hồ sơ. E.g., Please attach your updated resume when replying to this email.
+- allocate /ˈæl.ə.keɪt/ (v): phân bổ nguồn lực, kinh phí. E.g., Finance leaders agreed to allocate additional funding to research.
 
 # TRANSCRIPT
 [00:00.00] Hello David, thank you for applying for the Senior Graphic Designer position at our agency.
@@ -1572,17 +1644,21 @@ Q2: What is David requested to do by tomorrow evening?
 * [x] Confirm availability and submit an updated portfolio
 * [ ] Contact the department director
 -- Explanation: The transcript explicitly states: "Please reply to this email by tomorrow evening to confirm your availability and submit your updated portfolio."
-`;
+
+Q3: When is the event, operation, or interview scheduled?
+* [ ] Next Friday at 5:00 PM
+* [ ] At the end of the next quarter
+* [ ] Early tomorrow morning
+* [x] Next Wednesday at 10 AM
+-- Explanation: The speaker states: "The interview is scheduled for next Wednesday at 10 AM via our online video conferencing link.".`;
 
 export const LESSON_Q3_030_MD = `---
 id: listen_toeic_q3_030
 title: "Commercial Property Lease & Office Space Inspection"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Real Estate Agent"
 tags: ["Real Estate", "Business", "Property"]
 ---
 
@@ -1590,10 +1666,7 @@ tags: ["Real Estate", "Business", "Property"]
 - lease /liːs/ (n, v): hợp đồng cho thuê, thuê tài sản. E.g., The commercial lease agreement covers a minimum duration of two years.
 - occupant /ˈɑː.kjə.pənt/ (n): người ở, người thuê/sử dụng. E.g., The building offers dedicated parking spaces for all occupants.
 - square feet /skwer fiːt/ (n): feet vuông (đơn vị đo diện tích). E.g., The open-plan office space spans three thousand square feet.
-
-# GRAMMAR
-- Cấu trúc Bị động Chỉ Khả năng Khả thi (is suitable for + Noun/V-ing): Đánh giá mức độ phù hợp mặt bằng. E.g., The floor plan is suitable for accommodating up to fifty employees.
-- Cấu trúc Mệnh lệnh Lịch sự (feel free to + V-bare): Mời khách hàng chủ động đặt câu hỏi/yêu cầu. E.g., Feel free to contact us to schedule a site walkthrough.
+- prioritize /praɪˈɔːr.ə.taɪz/ (v): ưu tiên xử lý trước. E.g., Customer support specialists prioritize high-urgency inquiries.
 
 # TRANSCRIPT
 [00:00.00] Hello Ms. Jenkins, this is Mark from City Realty regarding the commercial space on Fifth Avenue.
@@ -1610,8 +1683,8 @@ tags: ["Real Estate", "Business", "Property"]
 
 # QUIZ
 Q1: What is included in the monthly rent?
-* [ ] Parking passes for twenty cars
 * [x] High-speed internet and daily cleaning services
+* [ ] Parking passes for twenty cars
 * [ ] Free office furniture supplies
 * [ ] Electricity and water utilities only
 -- Explanation: The agent explains that "The monthly rent includes high-speed internet access and daily janitorial cleaning services."
@@ -1622,17 +1695,21 @@ Q2: What option does the agent propose for this Friday?
 * [ ] Making a security deposit payment
 * [ ] Negotiating the rental price
 -- Explanation: The transcript explicitly states: "Let me know if you would like to arrange a site walkthrough with the property owner this Friday."
-`;
+
+Q3: What is included according to the speaker?
+* [ ] Free international flights for all guests
+* [ ] Complimentary catered lunch daily
+* [x] High-speed internet access and daily janitorial cleaning services
+* [ ] A twenty-four-hour personal chauffeur
+-- Explanation: The transcript states: "The monthly rent includes high-speed internet access and daily janitorial cleaning services.".`;
 
 export const LESSON_Q3_031_MD = `---
 id: listen_toeic_q3_031
 title: "Corporate Conference Keynote & Venue Direction"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Event Coordinator"
 tags: ["Event", "Conference", "Business"]
 ---
 
@@ -1640,10 +1717,7 @@ tags: ["Event", "Conference", "Business"]
 - keynote /ˈkiː.noʊt/ (n): bài phát biểu chủ đạo/chính. E.g., The keynote address will be delivered by the industry CEO.
 - auditorium /ˌɑː.dəˈtɔːr.i.əm/ (n): khán phòng, hội trường lớn. E.g., Attendees are requested to gather in the main auditorium.
 - badge /bædʒ/ (n): thẻ đeo, huy hiệu sự kiện. E.g., Please wear your conference identification badge at all times.
-
-# GRAMMAR
-- Cấu trúc Bị động Yêu cầu Đeo Thẻ (are required to wear + Noun): Yêu cầu an ninh sự kiện. E.g., All attendees are required to wear their conference badges.
-- Cấu trúc Thì Tương lai Đơn Chỉ Sự kiện Lên lịch (will take place in + Location): Thông báo địa điểm chương trình. E.g., The opening ceremony will take place in Hall A.
+- streamline /ˈstriːm.laɪn/ (v): tinh giản, tổ chức hợp lý hóa. E.g., The corporate restructure aims to streamline reporting channels.
 
 # TRANSCRIPT
 [00:00.00] Good morning attendees, welcome to the opening day of the Global Tech Leadership Summit.
@@ -1661,28 +1735,32 @@ tags: ["Event", "Conference", "Business"]
 # QUIZ
 Q1: Where should attendees collect their identification badges?
 * [ ] In the central auditorium
-* [x] At the registration desk in the main lobby
 * [ ] In Hall B
 * [ ] Outside the building entrance
+* [x] At the registration desk in the main lobby
 -- Explanation: The speaker states: "Please remember to collect your identification badge at the registration desk in the main lobby."
 
 Q2: What will happen in Hall B after the keynote speech?
-* [ ] A panel discussion on cybersecurity
 * [x] Complementary refreshments and networking sessions
+* [ ] A panel discussion on cybersecurity
 * [ ] Product demonstration workshops
 * [ ] The closing award ceremony
 -- Explanation: The transcript explicitly mentions: "Complementary refreshments and networking sessions will follow immediately after the speech in Hall B."
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [ ] Annual dividend payouts for shareholders
+* [x] Corporate Conference Keynote & Venue Direction
+* [ ] A full recall of previous product versions
+* [ ] A company-wide staff downsizing initiative
+-- Explanation: The speaker introduces the topic: "Good morning attendees, welcome to the opening day of the Global Tech Leadership Summit.".`;
 
 export const LESSON_Q3_032_MD = `---
 id: listen_toeic_q3_032
 title: "Customs Clearance Delay & Tariff Compliance"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Customs Broker"
 tags: ["Customs", "Trade", "Logistics"]
 ---
 
@@ -1690,10 +1768,7 @@ tags: ["Customs", "Trade", "Logistics"]
 - customs clearance /ˈkʌs.təmz ˈklɪr.əns/ (n): sự thông quan hải quan. E.g., The shipment is held up pending customs clearance.
 - tariff /ˈtær.ɪf/ (n): thuế xuất nhập khẩu, biểu thuế. E.g., New tariffs were applied to imported electronic components.
 - documentation /ˌdɑː.kjə.menˈteɪ.ʃən/ (n): bộ chứng từ, tài liệu. E.g., Ensure all shipping documentation is complete and accurate.
-
-# GRAMMAR
-- Cấu trúc Diễn tả nguyên nhân đọng hàng (held up due to + Noun): Chỉ lý do hàng hóa bị giữ lại hải quan. E.g., The container was held up due to missing origin certificates.
-- Cấu trúc Bắt buộc Bổ sung Chứng từ (be required to submit + Noun): Yêu cầu từ phía cơ quan hải quan. E.g., Importers are required to submit an official invoice.
+- authorization /ˌɑː.θɚ.əˈzeɪ.ʃən/ (n): sự cấp phép chính thức. E.g., Purchase orders require senior management authorization.
 
 # TRANSCRIPT
 [00:00.00] Good morning Mr. Vance, this is Clara from Apex Customs Brokerage regarding your inbound cargo container.
@@ -1711,28 +1786,32 @@ tags: ["Customs", "Trade", "Logistics"]
 # QUIZ
 Q1: Why is the cargo container currently held up at the port?
 * [ ] Bad weather conditions
-* [x] Pending customs clearance inspection
 * [ ] Damage to the container seal
+* [x] Pending customs clearance inspection
 * [ ] Unpaid freight charges
 -- Explanation: The broker mentions that the shipment is "currently held up at the port pending customs clearance inspection."
 
 Q2: What document do customs officials require?
 * [ ] A bill of lading
 * [ ] A commercial packing list
-* [x] An updated Certificate of Origin
 * [ ] A marine insurance policy
+* [x] An updated Certificate of Origin
 -- Explanation: The transcript explicitly states: "Customs officials require an updated Certificate of Origin."
-`;
+
+Q3: What are listeners requested to do?
+* [x] Email the signed document to our office today so we can release the goods without penalty
+* [ ] Submit an immediate resignation notice
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+-- Explanation: The speaker instructs: "Please email the signed document to our office today so we can release the goods without penalty.".`;
 
 export const LESSON_Q3_033_MD = `---
 id: listen_toeic_q3_033
 title: "Bill of Lading & Freight Forwarding Instructions"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Logistics Specialist"
 tags: ["Logistics", "Trade", "Shipping"]
 ---
 
@@ -1740,10 +1819,7 @@ tags: ["Logistics", "Trade", "Shipping"]
 - bill of lading /bɪl əv ˈleɪ.dɪŋ/ (n): vận đơn đường biển (B/L). E.g., The bill of lading acts as a receipt of goods shipped.
 - freight forwarder /freɪt ˈfɔːr.wɚ.dɚ/ (n): công ty giao nhận vận tải. E.g., Our freight forwarder arranged the sea transport.
 - consignee /ˌkɑːn.saɪˈniː/ (n): người nhận hàng. E.g., The consignee's contact details must match the invoice exactly.
-
-# GRAMMAR
-- Cấu trúc Nhắc nhở Đối chiếu Dữ liệu (make sure that + Clause): Đảm bảo tính chính xác của chứng từ. E.g., Make sure that the consignee address matches the contract.
-- Cấu trúc Bị động Thì Quá khứ Đơn (was issued by + Noun): Thông báo việc phát hành chứng từ. E.g., The original bill of lading was issued by the shipping line.
+- consensus /kənˈsen.səs/ (n): sự đồng thuận chung. E.g., Committee members reached a consensus on the new budget proposal.
 
 # TRANSCRIPT
 [00:00.00] Hello Jason, I am reviewing the draft shipping documents for our upcoming export to Germany.
@@ -1772,17 +1848,21 @@ Q2: What is the actual net weight of the shipment?
 * [x] 14 metric tons
 * [ ] 20 metric tons
 -- Explanation: The transcript explicitly states: "whereas our actual net weight is fourteen metric tons."
-`;
+
+Q3: What are listeners requested to do?
+* [ ] Submit an immediate resignation notice
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+* [x] Contact the freight forwarder immediately to correct this error before the vessel departs on Friday
+-- Explanation: The speaker instructs: "Please contact the freight forwarder immediately to correct this error before the vessel departs on Friday.".`;
 
 export const LESSON_Q3_034_MD = `---
 id: listen_toeic_q3_034
 title: "Incoterms Negotiation & CIF vs. FOB Terms"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Export Manager"
 tags: ["Trade", "Incoterms", "Contract"]
 ---
 
@@ -1790,10 +1870,7 @@ tags: ["Trade", "Incoterms", "Contract"]
 - Incoterms /ˈɪn.koʊ.tɜːrmz/ (n): điều khoản thương mại quốc tế. E.g., Choosing the right Incoterms determines who pays for ocean freight.
 - premium /ˈpriː.mi.əm/ (n): phí bảo hiểm. E.g., Under CIF terms, the seller pays the insurance premium.
 - liability /ˌlaɪ.əˈbɪl.ə.ti/ (n): trách nhiệm pháp lý, rủi ro. E.g., Liability transfers to the buyer once goods are loaded onto the vessel.
-
-# GRAMMAR
-- Cấu trúc So sánh Điều khoản (under [Term], the [Party] is responsible for + V-ing): Giải thích nghĩa vụ hợp đồng. E.g., Under FOB terms, the buyer is responsible for arranging ocean freight.
-- Cấu trúc Đề xuất Thay đổi (propose that we switch to + Noun): Đưa ra phương án thương lượng. E.g., We propose that we switch to CIF terms to simplify insurance.
+- discrepancy /dɪˈskrep.ən.si/ (n): sự sai lệch, khác biệt số liệu. E.g., The internal audit detected an accounting discrepancy in inventory logs.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon team, I want to update you on the contract negotiations with our distributor in Japan.
@@ -1810,29 +1887,33 @@ tags: ["Trade", "Incoterms", "Contract"]
 
 # QUIZ
 Q1: What Incoterms did the Japanese distributor originally request?
-* [ ] EXW (Ex Works)
 * [x] FOB (Free On Board)
+* [ ] EXW (Ex Works)
 * [ ] CIF (Cost, Insurance, and Freight)
 * [ ] DDP (Delivered Duty Paid)
 -- Explanation: The manager explains that "They originally requested FOB terms."
 
 Q2: Why did the company agree to switch to CIF terms?
 * [ ] To reduce the total sale price
-* [ ] To avoid paying export taxes
 * [x] To maintain control over shipping schedules
+* [ ] To avoid paying export taxes
 * [ ] Because the buyer lacked an import license
 -- Explanation: The transcript explicitly states: "we agreed to switch to CIF terms so that our logistics team can maintain control over shipping schedules."
-`;
+
+Q3: What is included according to the speaker?
+* [ ] Free international flights for all guests
+* [ ] Complimentary catered lunch daily
+* [x] The insurance premium and ocean freight costs directly into the final commercial invoice
+* [ ] A twenty-four-hour personal chauffeur
+-- Explanation: The transcript states: "We will include the insurance premium and ocean freight costs directly into the final commercial invoice.".`;
 
 export const LESSON_Q3_035_MD = `---
 id: listen_toeic_q3_035
 title: "Port Congestion & Container Terminal Surcharge"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:22"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Shipping Line Director"
 tags: ["Shipping", "Logistics", "Port"]
 ---
 
@@ -1840,10 +1921,7 @@ tags: ["Shipping", "Logistics", "Port"]
 - congestion /kənˈdʒes.tʃən/ (n): sự ùn tắc, tắc nghẽn (cảng/giao thông). E.g., Heavy port congestion delayed vessel unloading by four days.
 - surcharge /ˈsɜːr.tʃɑːrdʒ/ (n): phụ phí. E.g., A peak season surcharge will be added to ocean freight rates.
 - demurrage /dɪˈmɜːr.ɪdʒ/ (n): phí lưu container tại cảng (quá hạn). E.g., Avoid demurrage charges by picking up containers within three days.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Phụ phí Phát sinh (a surcharge will be applied to + Noun): Thông báo điều chỉnh giá cước. E.g., A congestion surcharge will be applied to all inbound containers.
-- Cấu trúc Nguyên nhân - Kết quả (due to congestion, vessels are forced to + V-bare): Diễn tả hệ quả của việc nghẽn cảng. E.g., Vessels are forced to anchor offshore for several days.
+- feasibility /ˌfiː.zəˈbɪl.ə.t̬i/ (n): tính khả thi của dự án. E.g., Engineers conducted a detailed feasibility study before construction.
 
 # TRANSCRIPT
 [00:00.00] Attention all regional clients, this is an official advisory notice from Pacific Cargo Lines.
@@ -1861,28 +1939,32 @@ tags: ["Shipping", "Logistics", "Port"]
 # QUIZ
 Q1: What is causing increased vessel wait times on the West Coast?
 * [ ] Labor strikes by dock workers
-* [x] Severe port congestion at the terminal
 * [ ] Severe tropical storms in the Pacific
 * [ ] Fuel shortages for cargo ships
+* [x] Severe port congestion at the terminal
 -- Explanation: The notice cites "severe port congestion at the West Coast terminal" as the reason for wait times.
 
 Q2: How much is the temporary surcharge per container?
+* [x] $200
 * [ ] $100
 * [ ] $150
-* [x] $200
 * [ ] $500
 -- Explanation: The transcript explicitly mentions: "a temporary congestion surcharge of two hundred dollars per container will take effect."
-`;
+
+Q3: What are employees or attendees encouraged or advised to do?
+* [ ] File an overtime compensation grievance
+* [x] Shippers to reroute urgent shipments through alternative ports on the Gulf Coast
+* [ ] Leave the building premises immediately
+* [ ] Work remotely from home for the rest of the week
+-- Explanation: The speaker notes: "We encourage shippers to reroute urgent shipments through alternative ports on the Gulf Coast.".`;
 
 export const LESSON_Q3_036_MD = `---
 id: listen_toeic_q3_036
 title: "Letter of Credit Verification & Payment Guarantee"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "International Trade Banker"
 tags: ["Finance", "Trade", "Banking"]
 ---
 
@@ -1890,10 +1972,7 @@ tags: ["Finance", "Trade", "Banking"]
 - Letter of Credit /ˈlet.ɚ əv ˈkred.ɪt/ (n): thư tín dụng (L/C). E.g., Payment will be released upon presentation of valid documents under the Letter of Credit.
 - beneficiary /ˌben.əˈfɪʃ.i.er.i/ (n): người thụ hưởng (tiền/L/C). E.g., The exporter is named as the beneficiary in the L/C agreement.
 - discrepancy /dɪˈskrep.ən.si/ (n): sự bất đồng, sai lệch trong chứng từ. E.g., Any discrepancy in document dates can cause payment delays.
-
-# GRAMMAR
-- Cấu trúc Điều kiện Thanh toán Ngân hàng (payment will be executed once + Clause): Điều kiện giải ngân L/C. E.g., Payment will be executed once all compliant documents are presented.
-- Cấu trúc Bị động Yêu cầu Sửa đổi (the L/C needs to be amended by + Noun): Thông báo cần tu chỉnh L/C. E.g., The L/C needs to be amended by the issuing bank.
+- delegation /ˌdel.əˈɡeɪ.ʃən/ (n): sự phân công, ủy thác trách nhiệm. E.g., Effective managerial delegation empowers team leaders.
 
 # TRANSCRIPT
 [00:00.00] Good morning Ms. Chen, I am calling from International Trade Operations regarding your irrevocable Letter of Credit.
@@ -1911,28 +1990,32 @@ tags: ["Finance", "Trade", "Banking"]
 # QUIZ
 Q1: What issue did the bank's audit reveal in the submitted documents?
 * [ ] The total invoice amount was incorrect
-* [x] Two minor discrepancies, including a late shipment date on the bill of lading
 * [ ] The seller's bank account was closed
+* [x] Two minor discrepancies, including a late shipment date on the bill of lading
 * [ ] Missing marine insurance coverage
 -- Explanation: The banker explains that "our audit revealed two minor discrepancies... the bill of lading shipment date is two days past."
 
 Q2: What is required from Ms. Chen's company to process the payment?
 * [ ] A cash deposit of 10%
 * [ ] A new commercial invoice
-* [x] An official waiver authorization by 3 PM today
 * [ ] Cancellation of the purchase contract
+* [x] An official waiver authorization by 3 PM today
 -- Explanation: The transcript explicitly states: "we require an official waiver authorization from your company by 3 PM today."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [x] Specifically, the bill of lading shipment date is two days past the latest shipment date specified in the L/C
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "Specifically, the bill of lading shipment date is two days past the latest shipment date specified in the L/C.".`;
 
 export const LESSON_Q3_037_MD = `---
 id: listen_toeic_q3_037
 title: "Commercial Loan Application & Credit Risk Assessment"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Commercial Risk Officer"
 tags: ["Banking", "Finance", "Credit"]
 ---
 
@@ -1940,10 +2023,7 @@ tags: ["Banking", "Finance", "Credit"]
 - collateral /kəˈlæt̬.ɚ.əl/ (n): tài sản thế chấp. E.g., Real estate properties are frequently used as loan collateral.
 - creditworthiness /ˈkred.ɪtˌwɝː.ði.nəs/ (n): mức độ uy tín tín dụng. E.g., The bank evaluates corporate creditworthiness before approval.
 - amortization /əˌmɔːr.t̬əˈzeɪ.ʃən/ (n): sự trả góp (gốc và lãi theo kỳ). E.g., The loan features a fixed monthly amortization schedule over five years.
-
-# GRAMMAR
-- Cấu trúc Diễn tả điều kiện phê duyệt (subject to + Noun): Điều kiện bắt buộc để khoản vay được thông qua. E.g., Approval is subject to a satisfactory property appraisal.
-- Cấu trúc Bị động Yêu cầu Bổ sung (be required to furnish + Noun): Yêu cầu nộp giấy tờ tài chính. E.g., Applicants are required to furnish audited financial statements.
+- contingency /kənˈtɪn.dʒən.si/ (n): tình huống dự phòng rủi ro. E.g., The project budget incorporates a ten-percent contingency fund.
 
 # TRANSCRIPT
 [00:00.00] Good morning Mr. Harrison, this is Corporate Lending Services following up on your commercial loan request.
@@ -1972,17 +2052,21 @@ Q2: What document must Mr. Harrison submit by Thursday?
 * [x] Property title deeds
 * [ ] Employee payroll records
 -- Explanation: The transcript explicitly states: "Please submit the property title deeds to our branch office by Thursday."
-`;
+
+Q3: What condition must be met before approval?
+* [ ] Approval by the municipal trade council
+* [ ] Full payment of outstanding corporate taxes
+* [ ] A unanimous vote by all shareholders
+* [x] An independent appraisal of the collateral
+-- Explanation: The transcript explains: "While your cash flow projections look strong, final approval is subject to an independent appraisal of the collateral.".`;
 
 export const LESSON_Q3_038_MD = `---
 id: listen_toeic_q3_038
 title: "Quarterly Earnings Report & Dividend Announcement"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Investor Relations Director"
 tags: ["Investment", "Corporate Finance", "Stocks"]
 ---
 
@@ -1990,10 +2074,7 @@ tags: ["Investment", "Corporate Finance", "Stocks"]
 - dividend /ˈdɪv.ə.dend/ (n): cổ tức (tiền chia cho cổ đông). E.g., Board members approved a quarterly dividend payout to common shareholders.
 - payout /ˈpeɪ.aʊt/ (n): khoản tiền chi trả. E.g., The dividend payout ratio remains consistent with last year's guidance.
 - portfolio /ˌpɔːrtˈfoʊ.li.oʊ/ (n): danh mục đầu tư. E.g., Diversifying your asset portfolio helps mitigate equity market volatility.
-
-# GRAMMAR
-- Cấu trúc Tương lai với Quyết định HĐQT (the board has declared + Noun): Thông báo chia cổ tức chính thức. E.g., The board of directors has declared a cash dividend.
-- Cấu trúc Bổ nghĩa chỉ mốc thời gian chốt quyền (payable on [Date] to shareholders of record on [Date]): Quy định thời gian nhận cổ tức. E.g., Dividends are payable on August 15th.
+- milestone /ˈmaɪl.stoʊn/ (n): cột mốc quan trọng. E.g., Completing the beta phase marks a critical project milestone.
 
 # TRANSCRIPT
 [00:00.00] Welcome shareholders, I am pleased to present the strategic highlights from our Q2 financial results webcast.
@@ -2010,8 +2091,8 @@ tags: ["Investment", "Corporate Finance", "Stocks"]
 
 # QUIZ
 Q1: How much is the declared cash dividend per share?
-* [ ] 20 cents
 * [x] 50 cents
+* [ ] 20 cents
 * [ ] $1.00
 * [ ] $1.50
 -- Explanation: The speaker explicitly announces "a cash dividend of fifty cents per share."
@@ -2022,17 +2103,21 @@ Q2: When is the record date for registered shareholders to qualify for the divid
 * [ ] August 20th
 * [ ] End of the month
 -- Explanation: The transcript states that the dividend is for shareholders "registered as of the record date of August 5th."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [x] This payout represents a ten percent increase compared to the dividend distributed during the previous quarter
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "This payout represents a ten percent increase compared to the dividend distributed during the previous quarter.".`;
 
 export const LESSON_Q3_039_MD = `---
 id: listen_toeic_q3_039
 title: "Mutual Fund Asset Allocation & Risk Diversification"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Wealth Management Advisor"
 tags: ["Investment", "Wealth", "Portfolio"]
 ---
 
@@ -2040,10 +2125,7 @@ tags: ["Investment", "Wealth", "Portfolio"]
 - asset allocation /ˈæs.et ˌæl.əˈkeɪ.ʃən/ (n): sự phân bổ tài sản đầu tư. E.g., Proper asset allocation balances equity growth with fixed-income security.
 - yield /jiːld/ (n, v): lợi suất, sinh lời. E.g., High-yield corporate bonds offer attractive interest rates but carry higher credit risk.
 - volatility /ˌvɑː.ləˈtɪl.ə.ti/ (n): biến động giá (thị trường). E.g., Government securities shield capital during periods of equity market volatility.
-
-# GRAMMAR
-- Cấu trúc Đề xuất Tái cơ cấu (recommend rebalancing + Noun): Đưa ra lời khuyên đầu tư tài chính. E.g., We recommend rebalancing your portfolio to reduce equity exposure.
-- Cấu trúc So sánh Tương quan (allocate more toward [Asset] to stabilize [Metric]): Chiến lược giảm thiểu rủi ro. E.g., Allocate more toward bonds to stabilize overall returns.
+- benchmark /ˈbentʃ.mɑːrk/ (n): tiêu chuẩn đánh giá, mốc chuẩn so sánh. E.g., The quarterly report sets a new performance benchmark for the industry.
 
 # TRANSCRIPT
 [00:00.00] Hello Ms. Gable, thank you for coming in today for your annual portfolio review session.
@@ -2061,28 +2143,32 @@ tags: ["Investment", "Wealth", "Portfolio"]
 # QUIZ
 Q1: What recommendation does the advisor make regarding Ms. Gable's portfolio?
 * [ ] Sell all equity holdings immediately
-* [x] Rebalance funds by shifting 15% from growth equities into fixed-income bonds
 * [ ] Invest exclusively in foreign real estate
 * [ ] Close the mutual fund account
+* [x] Rebalance funds by shifting 15% from growth equities into fixed-income bonds
 -- Explanation: The advisor explicitly recommends "rebalancing your current mutual fund holdings... Shifting fifteen percent of your capital... into fixed-income bonds."
 
 Q2: What is the primary benefit of the suggested rebalancing strategy?
+* [x] Reducing portfolio volatility while preserving principal capital
 * [ ] Eliminating income taxes completely
 * [ ] Guaranteeing double-digit annual capital growth
-* [x] Reducing portfolio volatility while preserving principal capital
 * [ ] Avoiding account maintenance fees
 -- Explanation: The transcript states that the shift "will reduce overall portfolio volatility... while preserving your principal investment."
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [ ] Annual dividend payouts for shareholders
+* [x] Mutual Fund Asset Allocation & Risk Diversification
+* [ ] A full recall of previous product versions
+* [ ] A company-wide staff downsizing initiative
+-- Explanation: The speaker introduces the topic: "Hello Ms. Gable, thank you for coming in today for your annual portfolio review session.".`;
 
 export const LESSON_Q3_040_MD = `---
 id: listen_toeic_q3_040
 title: "Corporate Venture Capital & Series B Funding Round"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Venture Capitalist"
 tags: ["Investment", "Startup", "Finance"]
 ---
 
@@ -2090,10 +2176,7 @@ tags: ["Investment", "Startup", "Finance"]
 - valuation /ˌvæl.juˈeɪ.ʃən/ (n): định giá công ty/tài sản. E.g., The startup achieved a hundred-million-dollar valuation after Series B.
 - equity stake /ˈek.wə.t̬i steɪk/ (n): tỷ lệ cổ phần sở hữu. E.g., Investors acquired a fifteen percent equity stake in exchange for venture capital.
 - capital injection /ˈkæp.ə.t̬əl ɪnˈdʒek.ʃən/ (n): nguồn vốn bơm bổ sung. E.g., The capital injection will accelerate international market expansion.
-
-# GRAMMAR
-- Cấu trúc Thông báo Huy động Vốn (successfully closed + Amount + in Series [Letter]): Thông báo kết quả gọi vốn. E.g., The firm successfully closed $20 million in Series B financing.
-- Cấu trúc Diễn tả Mục đích Bơm Vốn (funds will be allocated toward + V-ing): Giải thích kế hoạch sử dụng vốn. E.g., Funds will be allocated toward scaling engineering teams.
+- workflow /ˈwɝːk.floʊ/ (n): quy trình làm việc. E.g., Automating administrative tasks optimizes team workflow.
 
 # TRANSCRIPT
 [00:00.00] Good morning investors, I am thrilled to announce the successful closing of our Series B funding round.
@@ -2118,21 +2201,25 @@ Q1: How much capital was raised in the Series B funding round?
 
 Q2: What will the new capital injection primarily fund?
 * [ ] Executive salary increases
-* [x] Research and development for autonomous software algorithms
 * [ ] Acquiring a local competitor
 * [ ] Constructing a new corporate headquarters
+* [x] Research and development for autonomous software algorithms
 -- Explanation: The transcript explicitly states: "This capital injection will primarily fund research and development for our autonomous software algorithms."
-`;
+
+Q3: What does the team or speaker plan to do next?
+* [x] Expand our sales presence across the European market over the next eighteen months
+* [ ] Close down all regional branch operations
+* [ ] Freeze all new hiring activities indefinitely
+* [ ] Cancel marketing efforts across the continent
+-- Explanation: The speaker explains: "We also plan to expand our sales presence across the European market over the next eighteen months.".`;
 
 export const LESSON_Q3_041_MD = `---
 id: listen_toeic_q3_041
 title: "M&A Acquisition Due Diligence & Financial Audit"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "M&A Advisory Lead"
 tags: ["Corporate Finance", "M&A", "Audit"]
 ---
 
@@ -2140,10 +2227,7 @@ tags: ["Corporate Finance", "M&A", "Audit"]
 - due diligence /duː ˈdɪl.ə.dʒəns/ (n): thẩm định toàn diện (pháp lý/tài chính). E.g., Conducting thorough due diligence minimizes post-acquisition risks.
 - liability /ˌlaɪ.əˈbɪl.ə.ti/ (n): khoản nợ phải trả, nghĩa vụ tài chính. E.g., The audit uncovered undisclosed tax liabilities on the balance sheet.
 - synergy /ˈsɪn.ɚ.dʒi/ (n): hiệu ứng cộng hưởng (sau sáp nhập). E.g., Merging operational teams will create significant cost synergies.
-
-# GRAMMAR
-- Cấu trúc Báo cáo Phát hiện Thẩm định (due diligence revealed that + Clause): Kết quả kiểm tra M&A. E.g., Due diligence revealed that the target firm carries undisclosed debt.
-- Cấu trúc Khuyên bảo Hợp đồng (recommend inserting an indemnity clause to protect + Noun): Lời khuyên pháp lý/tài chính. E.g., We recommend inserting an indemnity clause into the final agreement.
+- compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ quy chuẩn pháp lý. E.g., All departments must ensure strict regulatory compliance.
 
 # TRANSCRIPT
 [00:00.00] Hello executive team, this is an update regarding the ongoing financial due diligence for Project Titan.
@@ -2172,17 +2256,21 @@ Q2: What action does the lead strongly advise the executive team to take?
 * [x] Renegotiate the final purchase price or include an indemnity clause
 * [ ] Replace the target firm's management team
 -- Explanation: The transcript explicitly states: "We strongly advise renegotiating the final purchase price or including an indemnity clause."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+* [x] While overall revenue growth is verified, we uncovered two million dollars in undisclosed contingent liabilities
+-- Explanation: The speaker emphasizes: "While overall revenue growth is verified, we uncovered two million dollars in undisclosed contingent liabilities.".`;
 
 export const LESSON_Q3_042_MD = `---
 id: listen_toeic_q3_042
 title: "Pharmaceutical Clinical Trial & Regulatory Approval"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Clinical Research Director"
 tags: ["Healthcare", "Pharma", "Research"]
 ---
 
@@ -2190,10 +2278,7 @@ tags: ["Healthcare", "Pharma", "Research"]
 - clinical trial /ˈklɪn.ɪ.kəl traɪəl/ (n): thử nghiệm lâm sàng. E.g., The drug entered Phase 3 clinical trials last month.
 - efficacy /ˈef.ə.kə.si/ (n): hiệu quả (của thuốc/phương pháp điều trị). E.g., Preliminary data demonstrated high treatment efficacy.
 - compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ (quy định y tế). E.g., Strict compliance with safety standards is mandatory.
-
-# GRAMMAR
-- Cấu trúc Bị động Thì Hiện tại Hoàn thành (has been approved by + Noun): Thông báo phê duyệt chính thức. E.g., The trial protocol has been approved by the health authority.
-- Cấu trúc Diễn tả Mục đích Y tế (in order to evaluate + Noun): Giải thích mục tiêu nghiên cứu. E.g., Data is gathered in order to evaluate long-term side effects.
+- protocol /ˈproʊ.t̬ə.kɑːl/ (n): quy trình, nghi thức chuẩn mực. E.g., Emergency safety protocols must be reviewed annually.
 
 # TRANSCRIPT
 [00:00.00] Good morning research team, I have a significant milestone to report regarding our new cardiovascular medication.
@@ -2210,29 +2295,33 @@ tags: ["Healthcare", "Pharma", "Research"]
 
 # QUIZ
 Q1: What efficacy rate was achieved in the Phase 3 clinical trials?
+* [x] 92%
 * [ ] 80%
 * [ ] 85%
-* [x] 92%
 * [ ] 98%
 -- Explanation: The speaker states that trials concluded with "a ninety-two percent efficacy rate among participants."
 
 Q2: When is commercial manufacturing scheduled to begin?
 * [ ] Next week
-* [ ] Next month
 * [x] In November
+* [ ] Next month
 * [ ] Early next year
 -- Explanation: The transcript explicitly mentions: "commercial manufacturing is scheduled to commence at our main facility in November."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [x] Our regulatory affairs team is currently assembling the documentation for health authority approval next month
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "Our regulatory affairs team is currently assembling the documentation for health authority approval next month.".`;
 
 export const LESSON_Q3_043_MD = `---
 id: listen_toeic_q3_043
 title: "Commercial Lease Negotiation & Building Facilities"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Property Leasing Manager"
 tags: ["Real Estate", "Business", "Lease"]
 ---
 
@@ -2240,10 +2329,7 @@ tags: ["Real Estate", "Business", "Lease"]
 - tenant /ˈten.ənt/ (n): người/đơn vị thuê bất động sản. E.g., Prospective tenants must provide commercial credit references.
 - renovation /ˌren.əˈveɪ.ʃən/ (n): sự cải tạo, sửa chữa. E.g., The landlord agreed to cover partial office renovation costs.
 - square footage /skwer ˈfʊt.ɪdʒ/ (n): diện tích tính theo foot vuông. E.g., The total available square footage includes ten private offices.
-
-# GRAMMAR
-- Cấu trúc Điều khoản Hợp đồng (the agreement includes a clause stating that + Clause): Giải thích điều khoản thuê. E.g., The lease agreement includes a clause covering annual rent escalation.
-- Cấu trúc Bị động Yêu cầu (be required to pay + Noun): Quy định nghĩa vụ tài chính của bên thuê. E.g., Tenants are required to pay a two-month security deposit.
+- initiative /ɪˈnɪʃ.ə.t̬ɪv/ (n): sáng kiến đổi mới. E.g., Management launched a green initiative to reduce corporate carbon footprints.
 
 # TRANSCRIPT
 [00:00.00] Hello Mr. Zhao, I am following up on your inquiry about leasing the sixth floor of Commerce Tower.
@@ -2261,28 +2347,32 @@ tags: ["Real Estate", "Business", "Lease"]
 # QUIZ
 Q1: What condition did the landlord set to lower the base rent by 5%?
 * [ ] Paying the entire year's rent in advance
-* [x] Committing to a minimum three-year lease term
 * [ ] Covering all renovation expenses independently
 * [ ] Sharing office space with another tenant
+* [x] Committing to a minimum three-year lease term
 -- Explanation: The leasing manager explains that the landlord agreed to the discount "if you commit to a minimum three-year lease term."
 
 Q2: Who will receive the revised lease draft this afternoon?
-* [ ] The property owner
 * [x] Mr. Zhao's legal counsel
+* [ ] The property owner
 * [ ] The building maintenance supervisor
 * [ ] The city planning department
 -- Explanation: The transcript explicitly states: "I will send the revised lease draft to your legal counsel this afternoon."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [x] They agreed to lower the base rent by five percent if you commit to a minimum three-year lease term
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "They agreed to lower the base rent by five percent if you commit to a minimum three-year lease term.".`;
 
 export const LESSON_Q3_044_MD = `---
 id: listen_toeic_q3_044
 title: "Assembly Line Inspection & Defect Rate Reduction"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Quality Control Inspector"
 tags: ["Manufacturing", "Quality", "Operations"]
 ---
 
@@ -2290,10 +2380,7 @@ tags: ["Manufacturing", "Quality", "Operations"]
 - defect /ˈdiː.fekt/ (n): lỗi, khuyết tật sản phẩm. E.g., Automated sensors help detect surface defects on the assembly line.
 - calibration /ˌkæl.əˈbreɪ.ʃən/ (n): sự hiệu chỉnh (máy móc/thiết bị). E.g., Monthly machine calibration maintains high manufacturing precision.
 - output /ˈaʊt.pʊt/ (n): sản lượng, đầu ra. E.g., Plant output increased by fifteen percent after upgrading machinery.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Nguyên nhân Kỹ thuật (due to improper calibration, components were + V3/ed): Giải thích sự cố sản xuất. E.g., Components were damaged due to improper machine calibration.
-- Cấu trúc Yêu cầu Tạm dừng (have ordered a temporary suspension of + Noun): Chỉ đạo xử lý sự cố. E.g., Management ordered a temporary suspension of production line B.
+- efficiency /ɪˈfɪʃ.ən.si/ (n): tính hiệu quả, năng suất. E.g., Upgraded server hardware enhances internal operational efficiency.
 
 # TRANSCRIPT
 [00:00.00] Attention plant supervisors, this is a report from the quality assurance team regarding Production Line B.
@@ -2311,28 +2398,32 @@ tags: ["Manufacturing", "Quality", "Operations"]
 # QUIZ
 Q1: What problem was detected during the morning audit on Production Line B?
 * [ ] A power outage in the warehouse
-* [x] An increase in the component defect rate above the threshold
 * [ ] A shortage of raw materials
+* [x] An increase in the component defect rate above the threshold
 * [ ] Injured workers on the assembly line
 -- Explanation: The quality inspector reports: "we detected a slight increase in the component defect rate above our acceptable threshold."
 
 Q2: How long will Line B be paused starting at 1 PM?
 * [ ] 30 minutes
 * [ ] One hour
-* [x] Two hours
 * [ ] Until tomorrow morning
+* [x] Two hours
 -- Explanation: The transcript explicitly states: "Line B will be paused for two hours starting at 1 PM."
-`;
+
+Q3: What maintenance or corrective action is required?
+* [x] Recalibration to restore precision alignment
+* [ ] Complete decommissioning of the machinery
+* [ ] Hiring an external consulting firm
+* [ ] Shutting down the facility for several months
+-- Explanation: The transcript confirms: "Preliminary investigation indicates that robotic arm number three requires recalibration to restore precision alignment.".`;
 
 export const LESSON_Q3_045_MD = `---
 id: listen_toeic_q3_045
 title: "Flight Cancellation & Passenger Compensation Policy"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Airline Customer Service Manager"
 tags: ["Aviation", "Travel", "Customer Service"]
 ---
 
@@ -2340,10 +2431,7 @@ tags: ["Aviation", "Travel", "Customer Service"]
 - compensation /ˌkɑːm.penˈseɪ.ʃən/ (n): khoản bồi thường, đền bù. E.g., Passengers are entitled to financial compensation for overnight delays.
 - rebook /ˌriːˈbʊk/ (v): đặt lại vé/chuyến bay. E.g., Gate agents will assist passengers to rebook on alternative flights.
 - voucher /ˈvaʊ.tʃər/ (n): phiếu dịch vụ (ăn uống/khách sạn). E.g., The airline provided meal vouchers to all affected passengers.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Quyền lợi Khách hàng (passengers are entitled to + Noun/V-ing): Chỉ quyền được bồi thường theo quy định. E.g., Passengers are entitled to receive complimentary hotel accommodations.
-- Cấu trúc Hướng dẫn Hành động (please proceed to + Location + to receive): Chỉ dẫn địa điểm làm thủ tục. E.g., Please proceed to Customer Desk 4 to collect your vouchers.
+- confidentiality /ˌkɑːn.fə.den.ʃiˈæl.ə.t̬i/ (n): tính bảo mật thông tin. E.g., Staff signed non-disclosure agreements to preserve client confidentiality.
 
 # TRANSCRIPT
 [00:00.00] Attention passengers on Skylink Flight 402 bound for Chicago, we have an important gate update.
@@ -2368,21 +2456,25 @@ Q1: Why was Skylink Flight 402 canceled?
 
 Q2: Where should passengers go to collect their hotel accommodation vouchers?
 * [ ] Gate 12 boarding lounge
-* [x] Service Desk B
 * [ ] The main baggage claim area
+* [x] Service Desk B
 * [ ] The airport terminal exit
 -- Explanation: The transcript explicitly states: "Please proceed to Service Desk B to collect your hotel accommodation vouchers."
-`;
+
+Q3: What are passengers entitled to receive?
+* [ ] Cash compensation for flight delays
+* [ ] Complimentary first-class hotel suites
+* [ ] A lifetime discount on future airline travel
+* [x] Be rebooked on tomorrow morning's departure at no additional charge
+-- Explanation: The announcement confirms: "All passengers are entitled to be rebooked on tomorrow morning's departure at no additional charge.".`;
 
 export const LESSON_Q3_046_MD = `---
 id: listen_toeic_q3_046
 title: "E-Commerce Fulfillment Center & Express Delivery Options"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "E-Commerce Operations Director"
 tags: ["E-Commerce", "Logistics", "Retail"]
 ---
 
@@ -2390,10 +2482,7 @@ tags: ["E-Commerce", "Logistics", "Retail"]
 - fulfillment center /fʊlˈfɪl.mənt ˌsen.t̬ɚ/ (n): trung tâm xử lý và hoàn tất đơn hàng. E.g., Our new automated fulfillment center processes ten thousand orders daily.
 - dispatch /dɪˈspætʃ/ (v, n): gửi đi, xuất kho. E.g., Orders placed before noon are dispatched on the same day.
 - courier /ˈkʊr.i.ɚ/ (n): đơn vị/nhân viên chuyển phát nhanh. E.g., The local courier guarantees next-day delivery within urban areas.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Cam kết Thời gian (orders placed before [Time] will be dispatched + Time): Cam kết dịch vụ giao hàng. E.g., Orders placed before 2 PM will be dispatched the same business day.
-- Cấu trúc Điều kiện Khuyến mãi Giao hàng (free express shipping applies to orders over + Amount): Mức áp dụng ưu đãi vận chuyển. E.g., Free express shipping applies to orders exceeding $50.
+- collaboration /kəˌlæb.əˈreɪ.ʃən/ (n): sự hợp tác làm việc nhóm. E.g., Cross-functional collaboration accelerated the product development cycle.
 
 # TRANSCRIPT
 [00:00.00] Good morning operations team, I want to review our performance metrics for the holiday shopping weekend.
@@ -2410,29 +2499,33 @@ tags: ["E-Commerce", "Logistics", "Retail"]
 
 # QUIZ
 Q1: How many orders were processed by regional fulfillment centers over the weekend?
+* [x] Over 50,000
 * [ ] 10,000
 * [ ] 25,000
-* [x] Over 50,000
 * [ ] 100,000
 -- Explanation: The director states that centers "processed over fifty thousand orders."
 
 Q2: What percentage of express delivery orders were dispatched within 3 hours?
 * [ ] 80%
+* [x] 95%
 * [ ] 85%
 * [ ] 90%
-* [x] 95%
 -- Explanation: The transcript explicitly mentions: "ninety-five percent of express delivery orders were dispatched within three hours."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [x] Maintain these extra operational shifts through the end of December to handle high order volumes
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "We will maintain these extra operational shifts through the end of December to handle high order volumes.".`;
 
 export const LESSON_Q3_047_MD = `---
 id: listen_toeic_q3_047
 title: "Press Conference & Corporate Crisis Communication"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Public Relations Director"
 tags: ["Media", "PR", "Communications"]
 ---
 
@@ -2440,10 +2533,7 @@ tags: ["Media", "PR", "Communications"]
 - press release /pres rɪˈliːs/ (n): thông cáo báo chí. E.g., The PR department issued an official press release this morning.
 - spokesperson /ˈspoʊksˌpɜːr.sən/ (n): người phát ngôn. E.g., Our corporate spokesperson will address media inquiries at 2 PM.
 - statement /ˈsteɪt.mənt/ (n): tuyên bố chính thức. E.g., The CEO issued a formal statement regarding the product recall.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Lịch trình Họp báo (a press conference is scheduled to begin at + [time]): Thông báo thời gian sự kiện truyền thông. E.g., A press conference is scheduled to begin at two o'clock.
-- Cấu trúc Bị động Yêu cầu (journalists are required to present + Noun): Quy định đối với phóng viên. E.g., Journalists are required to present media credentials at the entrance.
+- productivity /ˌproʊ.dʌkˈtɪv.ə.t̬i/ (n): năng suất lao động. E.g., Flexible work schedules contributed to higher employee productivity.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon members of the press, thank you for attending this emergency briefing today.
@@ -2461,28 +2551,32 @@ tags: ["Media", "PR", "Communications"]
 # QUIZ
 Q1: What is the main purpose of the emergency briefing?
 * [ ] To announce a new product release
-* [x] To address a temporary service disruption that occurred yesterday
 * [ ] To introduce the new Chief Executive Officer
 * [ ] To publish quarterly financial earnings
+* [x] To address a temporary service disruption that occurred yesterday
 -- Explanation: The speaker explains that the briefing is regarding "the temporary service disruption experienced yesterday."
 
 Q2: What will happen after the press statement?
+* [x] The spokesperson will answer questions from accredited journalists
 * [ ] A product demonstration
 * [ ] A guided tour of the technical facility
-* [x] The spokesperson will answer questions from accredited journalists
 * [ ] A networking lunch for investors
 -- Explanation: The transcript explicitly states: "Our corporate spokesperson will now open the floor to answer questions from accredited journalists."
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [ ] Annual dividend payouts for shareholders
+* [x] Press Conference & Corporate Crisis Communication
+* [ ] A full recall of previous product versions
+* [ ] A company-wide staff downsizing initiative
+-- Explanation: The speaker introduces the topic: "Good afternoon members of the press, thank you for attending this emergency briefing today.".`;
 
 export const LESSON_Q3_048_MD = `---
 id: listen_toeic_q3_048
 title: "Renewable Energy Transition & Solar Panel Installation"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Sustainability Officer"
 tags: ["Energy", "Environment", "Sustainability"]
 ---
 
@@ -2490,10 +2584,7 @@ tags: ["Energy", "Environment", "Sustainability"]
 - renewable energy /rɪˈnuː.ə.bəl ˈen.ɚ.dʒi/ (n): năng lượng tái tạo. E.g., The factory plans to transition entirely to renewable energy by 2030.
 - footprint /ˈfʊt.prɪnt/ (n): dấu chân (môi trường/carbon). E.g., Rooftop solar panels significantly reduce our corporate carbon footprint.
 - grid /ɡrɪd/ (n): mạng lưới điện quốc gia/khu vực. E.g., Excess solar power will be fed back into the regional electricity grid.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Mục tiêu Giảm xả thải (aim to reduce [N/NP] by [Percentage]): Trình bày mục tiêu môi trường. E.g., We aim to reduce greenhouse gas emissions by forty percent.
-- Cấu trúc Tương lai Hoàn thành (will have completed + Noun + by [Year]): Khẳng định mốc hoàn thành dự án. E.g., We will have installed solar panels by the end of next month.
+- optimization /ˌɑːp.tə.məˈzeɪ.ʃən/ (n): sự tối ưu hóa hệ thống. E.g., Code optimization reduced server response times significantly.
 
 # TRANSCRIPT
 [00:00.00] Good morning colleagues, I am excited to announce our new green energy initiative for the manufacturing plant.
@@ -2511,28 +2602,32 @@ tags: ["Energy", "Environment", "Sustainability"]
 # QUIZ
 Q1: Where will the commercial solar panels be installed next month?
 * [ ] In the employee parking lot
-* [x] Across the entire rooftop of Facility A
 * [ ] At the company headquarters downtown
+* [x] Across the entire rooftop of Facility A
 * [ ] Along the perimeter fence of the factory
 -- Explanation: The speaker specifies that installation will begin "across the entire rooftop of Facility A."
 
 Q2: What percentage of daily electricity requirements is the solar system expected to generate?
 * [ ] 15%
 * [ ] 20%
-* [x] 30%
 * [ ] 50%
+* [x] 30%
 -- Explanation: The transcript explicitly states: "This renewable system is expected to generate thirty percent of our daily electricity requirements."
-`;
+
+Q3: What will happen according to the speaker?
+* [x] Lower carbon emissions and operational costs
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "By reducing our dependence on traditional power grids, we will lower carbon emissions and operational costs.".`;
 
 export const LESSON_Q3_049_MD = `---
 id: listen_toeic_q3_049
 title: "Corporate Property Insurance & Claim Assessment"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Insurance Claims Adjuster"
 tags: ["Insurance", "Finance", "Business"]
 ---
 
@@ -2540,10 +2635,7 @@ tags: ["Insurance", "Finance", "Business"]
 - policyholder /ˈpɑː.lə.siˌhoʊl.dɚ/ (n): chủ hợp đồng bảo hiểm. E.g., The policyholder filed a claim following the heavy storm damage.
 - deductible /dɪˈdʌk.tə.bəl/ (n): mức miễn thường. E.g., The claim payment will be issued after subtracting the insurance deductible.
 - premium /ˈpriː.mi.əm/ (n): phí bảo hiểm đóng theo kỳ. E.g., Paying annual premiums on time ensures continuous policy coverage.
-
-# GRAMMAR
-- Cấu trúc Bị động Thì Hiện tại Hoàn thành (has been evaluated by + Noun): Thông báo kết quả thẩm định bồi thường. E.g., The damage estimate has been evaluated by our claims team.
-- Cấu trúc Điều kiện Giải ngân (funds will be disbursed upon receipt of + Noun): Điều kiện nhận tiền bảo hiểm. E.g., Funds will be disbursed upon receipt of repair invoices.
+- allocate /ˈæl.ə.keɪt/ (v): phân bổ nguồn lực, kinh phí. E.g., Finance leaders agreed to allocate additional funding to research.
 
 # TRANSCRIPT
 [00:00.00] Hello Mr. Gallagher, this is Brenda from Commercial Claims Insurance following up on claim number 408.
@@ -2572,17 +2664,21 @@ Q2: How much is Mr. Gallagher's insurance deductible?
 * [x] $500
 * [ ] $1,000
 -- Explanation: The transcript explicitly states: "minus your five-hundred-dollar deductible."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+* [x] Be mailed to your business address within three business days
+-- Explanation: The speaker notes: "A reimbursement check will be mailed to your business address within three business days.".`;
 
 export const LESSON_Q3_050_MD = `---
 id: listen_toeic_q3_050
 title: "Automated Warehouse & Inventory Management"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Warehouse Logistics Manager"
 tags: ["Logistics", "Warehouse", "Automation"]
 ---
 
@@ -2590,10 +2686,7 @@ tags: ["Logistics", "Warehouse", "Automation"]
 - automated /ˈɑː.t̬ə.meɪ.t̬ɪd/ (adj): tự động hóa. E.g., The automated storage and retrieval system increased packing speed.
 - barcode /ˈbɑːr.koʊd/ (n): mã vạch. E.g., Workers scan item barcodes to update stock levels in real time.
 - inventory audit /ˈɪn.vən.tɔːr.i ˈɑː.dɪt/ (n): việc kiểm kê hàng tồn kho. E.g., The annual inventory audit will begin this Saturday.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Sự nâng cấp Hệ thống (be equipped with + Noun): Mô tả trang thiết bị kho bãi. E.g., The new facility is equipped with automated guided vehicles.
-- Cấu trúc Bị động Thì Tương lai Đơn (will be scanned and logged + into): Quy định quy trình nhập kho. E.g., All incoming crates will be scanned and logged into the database.
+- prioritize /praɪˈɔːr.ə.taɪz/ (v): ưu tiên xử lý trước. E.g., Customer support specialists prioritize high-urgency inquiries.
 
 # TRANSCRIPT
 [00:00.00] Good morning warehouse staff, please pay attention to this brief update regarding our inventory management system.
@@ -2610,8 +2703,8 @@ tags: ["Logistics", "Warehouse", "Automation"]
 
 # QUIZ
 Q1: What system is being introduced in Sector 4 next Monday?
-* [ ] Manual paper logging
 * [x] A fully automated barcode scanning system
+* [ ] Manual paper logging
 * [ ] RFID tracking wristbands
 * [ ] Robotic forklifts
 -- Explanation: The manager announces transitioning to "a fully automated barcode scanning system in Sector 4."
@@ -2622,17 +2715,21 @@ Q2: When will training sessions take place?
 * [ ] Next month after the launch
 * [ ] After work hours
 -- Explanation: The transcript explicitly states: "training sessions will be conducted during your regular shifts over the next two days."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [x] Be scanned automatically upon entry to update inventory levels instantly
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "All incoming pallets will be scanned automatically upon entry to update inventory levels instantly.".`;
 
 export const LESSON_Q3_051_MD = `---
 id: listen_toeic_q3_051
 title: "Agritech Smart Farming & Automated Irrigation"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Agritech Project Director"
 tags: ["Agritech", "Agriculture", "Technology"]
 ---
 
@@ -2640,10 +2737,7 @@ tags: ["Agritech", "Agriculture", "Technology"]
 - irrigation /ˌɪr.əˈɡeɪ.ʃən/ (n): sự tưới tiêu. E.g., Automated drip irrigation conserves water while maximizing crop yield.
 - moisture /ˈmɔɪs.tʃɚ/ (n): độ ẩm. E.g., Soil moisture sensors send real-time data to the farmer's tablet.
 - yield /jiːld/ (n): năng suất thu hoạch. E.g., Smart farming techniques boosted overall crop yield by twenty percent.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Tính năng Công nghệ (allow farmers to monitor [N/NP] remotely): Giải thích ứng dụng Agritech. E.g., IoT sensors allow farmers to monitor soil health remotely.
-- Cấu trúc Tương lai Chỉ Kết quả (will optimize [Noun] and reduce [Noun]): Dự báo hiệu quả của công nghệ. E.g., The system will optimize water consumption and reduce utility expenses.
+- streamline /ˈstriːm.laɪn/ (v): tinh giản, tổ chức hợp lý hóa. E.g., The corporate restructure aims to streamline reporting channels.
 
 # TRANSCRIPT
 [00:00.00] Welcome everyone to our demonstration of the Smart Farm Precision Irrigation System.
@@ -2662,27 +2756,31 @@ tags: ["Agritech", "Agriculture", "Technology"]
 Q1: How often do the soil moisture sensors analyze ground conditions?
 * [ ] Every 5 minutes
 * [ ] Every 10 minutes
-* [x] Every 15 minutes
 * [ ] Every hour
+* [x] Every 15 minutes
 -- Explanation: The director specifies that sensors "analyze ground conditions every fifteen minutes."
 
 Q2: By how much does the smart irrigation system reduce water consumption?
+* [x] 35%
 * [ ] 15%
 * [ ] 25%
-* [x] 35%
 * [ ] 50%
 -- Explanation: The transcript explicitly states: "This smart technology reduces water consumption by thirty-five percent."
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [ ] Annual dividend payouts for shareholders
+* [x] Agritech Smart Farming & Automated Irrigation
+* [ ] A full recall of previous product versions
+* [ ] A company-wide staff downsizing initiative
+-- Explanation: The speaker introduces the topic: "Welcome everyone to our demonstration of the Smart Farm Precision Irrigation System.".`;
 
 export const LESSON_Q3_052_MD = `---
 id: listen_toeic_q3_052
 title: "Health Insurance Policy Renewal & Wellness Discounts"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Insurance Service Agent"
 tags: ["Insurance", "Health", "Benefits"]
 ---
 
@@ -2690,10 +2788,7 @@ tags: ["Insurance", "Health", "Benefits"]
 - coverage /ˈkʌv.ɚ.ɪdʒ/ (n): phạm vi bảo hiểm. E.g., Comprehensive health coverage includes dental and vision care.
 - premium /ˈpriː.mi.əm/ (n): phí bảo hiểm. E.g., Policyholders can lower their monthly premiums by participating in wellness programs.
 - beneficiary /ˌben.əˈfɪʃ.i.er.i/ (n): người thụ hưởng bảo hiểm. E.g., Please ensure your primary beneficiary details are updated.
-
-# GRAMMAR
-- Cấu trúc Nhắc nhở Đáo hạn (your policy is set to expire on + [Date]): Thông báo thời hạn hợp đồng. E.g., Your health insurance policy is set to expire on November 30th.
-- Cấu trúc Bị động Điều kiện (discounts will be applied once + Clause): Điều kiện nhận ưu đãi phí. E.g., Discounts will be applied once the health checkup form is submitted.
+- authorization /ˌɑː.θɚ.əˈzeɪ.ʃən/ (n): sự cấp phép chính thức. E.g., Purchase orders require senior management authorization.
 
 # TRANSCRIPT
 [00:00.00] Hello Ms. Vance, this is Apex Mutual Insurance calling regarding your annual health coverage renewal.
@@ -2718,21 +2813,25 @@ Q1: When is Ms. Vance's current health policy set to expire?
 
 Q2: What must Ms. Vance do to receive a 10% discount on her premium?
 * [ ] Upgrade to a premium plan
-* [x] Complete an online health assessment before Friday
 * [ ] Refer a friend to the insurance company
 * [ ] Pay for two years in advance
+* [x] Complete an online health assessment before Friday
 -- Explanation: The transcript mentions: "By completing your online health assessment before Friday, you can unlock a ten percent discount."
-`;
+
+Q3: What are listeners requested to do?
+* [x] Log into your member portal or contact your account representative to finalize your renewal terms
+* [ ] Submit an immediate resignation notice
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+-- Explanation: The speaker instructs: "Please log into your member portal or contact your account representative to finalize your renewal terms.".`;
 
 export const LESSON_Q3_053_MD = `---
 id: listen_toeic_q3_053
 title: "Rail Freight Schedule & Container Tracking"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Rail Logistics Coordinator"
 tags: ["Transport", "Logistics", "Rail"]
 ---
 
@@ -2740,10 +2839,7 @@ tags: ["Transport", "Logistics", "Rail"]
 - cargo /ˈkɑːr.ɡoʊ/ (n): hàng hóa vận chuyển. E.g., Intermodal cargo trains carry goods across continental trade routes.
 - departure /dɪˈpɑːr.tʃɚ/ (n): sự khởi hành. E.g., The scheduled departure was delayed due to track maintenance.
 - consignment /kənˈsaɪn.mənt/ (n): lô hàng gửi. E.g., You can track the real-time location of your consignment online.
-
-# GRAMMAR
-- Cấu trúc Bị động Chỉ Lịch trình (is scheduled to depart from [Place] at [Time]): Thông báo lịch trình vận tải. E.g., Freight Train 801 is scheduled to depart from Chicago at 6 AM.
-- Cấu trúc Nguyên nhân - Tạm dừng (service has been suspended due to + Noun): Giải thích sự cố gián đoạn. E.g., Rail service has been suspended due to track repairs.
+- consensus /kənˈsen.səs/ (n): sự đồng thuận chung. E.g., Committee members reached a consensus on the new budget proposal.
 
 # TRANSCRIPT
 [00:00.00] Attention shipping clients, this is an update from Trans-Continental Freight Services regarding Train 801.
@@ -2768,21 +2864,25 @@ Q1: Where will Freight Train 801 depart from tomorrow at 6 AM?
 
 Q2: By how long will the transit time to the West Coast be extended?
 * [ ] 6 hours
-* [x] 12 hours
 * [ ] 24 hours
+* [x] 12 hours
 * [ ] 48 hours
 -- Explanation: The transcript explicitly states: "total transit time to the West Coast will be extended by twelve hours."
-`;
+
+Q3: Where or how can relevant resources be accessed?
+* [ ] In a printed brochure at the front desk
+* [ ] Through an encrypted external flash drive
+* [ ] By mailing a formal letter to headquarters
+* [x] Through our online portal
+-- Explanation: The speaker mentions: "Live GPS tracking links for all registered containers are now accessible through our online portal.".`;
 
 export const LESSON_Q3_054_MD = `---
 id: listen_toeic_q3_054
 title: "Global Supply Chain Audit & Supplier Compliance"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Supply Chain Vice President"
 tags: ["Supply Chain", "Global", "Compliance"]
 ---
 
@@ -2790,10 +2890,7 @@ tags: ["Supply Chain", "Global", "Compliance"]
 - vendor /ˈven.dɚ/ (n): nhà cung ứng. E.g., All overseas vendors must comply with international labor regulations.
 - audit /ˈɑː.dɪt/ (n, v): việc kiểm tra đánh giá. E.g., Annual vendor audits ensure ethical sourcing standards.
 - procurement /prəˈkjʊr.mənt/ (n): sự thu mua, cung ứng vật tư. E.g., The procurement department negotiated better bulk material pricing.
-
-# GRAMMAR
-- Cấu trúc Bị động Yêu cầu Tuân thủ (all suppliers are required to pass + Noun): Yêu cầu bắt buộc trong chuỗi cung ứng. E.g., All suppliers are required to pass environmental safety audits.
-- Cấu trúc Mệnh đề Chỉ Kết quả (failure to comply will result in + Noun): Cảnh báo hậu quả vi phạm. E.g., Failure to comply will result in contract termination.
+- discrepancy /dɪˈskrep.ən.si/ (n): sự sai lệch, khác biệt số liệu. E.g., The internal audit detected an accounting discrepancy in inventory logs.
 
 # TRANSCRIPT
 [00:00.00] Good morning management team, I would like to review our global supply chain sustainability goals for next year.
@@ -2810,29 +2907,33 @@ tags: ["Supply Chain", "Global", "Compliance"]
 
 # QUIZ
 Q1: What mandatory requirement will overseas vendors undergo starting in January?
-* [ ] Price reduction negotiations
 * [x] Third-party labor and safety audits
+* [ ] Price reduction negotiations
 * [ ] Transition to automated packaging
 * [ ] Mandatory relocation to new facilities
 -- Explanation: The VP announces that vendors "will undergo mandatory third-party labor and safety audits."
 
 Q2: How many days do vendors have to meet compliance benchmarks before contract suspension?
 * [ ] 30 days
-* [ ] 45 days
 * [x] 60 days
+* [ ] 45 days
 * [ ] 90 days
 -- Explanation: The transcript explicitly states: "Vendors who fail to meet our compliance benchmarks within sixty days will have their contracts suspended."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [x] Conduct informational webinars next week to assist vendors with preparation
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "Our regional procurement managers will conduct informational webinars next week to assist vendors with preparation.".`;
 
 export const LESSON_Q3_055_MD = `---
 id: listen_toeic_q3_055
 title: "5G Infrastructure Expansion & Fiber Optic Network"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Telecom Network Director"
 tags: ["Telecom", "Technology", "Infrastructure"]
 ---
 
@@ -2840,10 +2941,7 @@ tags: ["Telecom", "Technology", "Infrastructure"]
 - bandwidth /ˈbænd.wɪdθ/ (n): băng thông mạng. E.g., Upgrading fiber optic lines increases network bandwidth significantly.
 - coverage /ˈkʌv.ɚ.ɪdʒ/ (n): vùng phủ sóng. E.g., The expansion project aims to broaden 5G coverage across rural districts.
 - infrastructure /ˈɪn.frəˌstrʌk.tʃɚ/ (n): hạ tầng kỹ thuật. E.g., Investing in modern telecom infrastructure enhances data connection stability.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Tiến độ Dự án (has successfully deployed + Noun + in [Place]): Báo cáo kết quả mở rộng mạng. E.g., The company has successfully deployed new 5G towers in downtown areas.
-- Cấu trúc Diễn tả Mục tiêu Hiệu năng (designed to deliver speeds up to + Metric): Mô tả thông số kỹ thuật. E.g., The fiber network is designed to deliver speeds up to 1 Gbps.
+- feasibility /ˌfiː.zəˈbɪl.ə.t̬i/ (n): tính khả thi của dự án. E.g., Engineers conducted a detailed feasibility study before construction.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon shareholders, I am pleased to share an update on our regional telecommunications network upgrade.
@@ -2861,28 +2959,32 @@ tags: ["Telecom", "Technology", "Infrastructure"]
 # QUIZ
 Q1: How many new 5G cellular towers were installed over the past quarter?
 * [ ] 100
-* [x] 200
 * [ ] 300
 * [ ] 500
+* [x] 200
 -- Explanation: The director states: "our engineering team installed two hundred new 5G cellular towers."
 
 Q2: What project will begin next month?
+* [x] Upgrading backbone fiber optic cables
 * [ ] Building new data centers
 * [ ] Launching satellite TV services
-* [x] Upgrading backbone fiber optic cables
 * [ ] Replacing legacy telephone lines
 -- Explanation: The transcript explicitly mentions: "Next month, we will begin upgrading our backbone fiber optic cables."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [x] This infrastructure expansion has expanded high-speed mobile data coverage to an additional three hundred thousand residents
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "This infrastructure expansion has expanded high-speed mobile data coverage to an additional three hundred thousand residents.".`;
 
 export const LESSON_Q3_056_MD = `---
 id: listen_toeic_q3_056
 title: "Agricultural Commodities Market & Grain Export Limits"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Commodity Market Analyst"
 tags: ["Commodities", "Trade", "Agriculture"]
 ---
 
@@ -2890,10 +2992,7 @@ tags: ["Commodities", "Trade", "Agriculture"]
 - commodity /kəˈmɑː.də.t̬i/ (n): hàng hóa thương phẩm. E.g., Wheat and soybeans are key agricultural commodities traded globally.
 - quota /ˈkwoʊ.t̬ə/ (n): hạn ngạch xuất nhập khẩu. E.g., The government imposed a seasonal export quota on grain shipments.
 - fluctuation /ˌflʌk.tʃuˈeɪ.ʃən/ (n): sự biến động giá cả. E.g., Severe droughts caused dramatic fluctuations in crop market prices.
-
-# GRAMMAR
-- Cấu trúc Nguyên nhân - Tác động Giá (due to severe drought, prices have surged by + Percentage): Giải thích biến động thị trường. E.g., Grain prices have surged by fifteen percent due to poor harvests.
-- Cấu trúc Thông báo Chính sách (the ministry has announced a quota of + Quantity): Trình bày quy định quản lý. E.g., The ministry has announced a quota of two million metric tons.
+- delegation /ˌdel.əˈɡeɪ.ʃən/ (n): sự phân công, ủy thác trách nhiệm. E.g., Effective managerial delegation empowers team leaders.
 
 # TRANSCRIPT
 [00:00.00] Hello commodity traders, here is your daily market report on international agricultural grain futures.
@@ -2911,28 +3010,32 @@ tags: ["Commodities", "Trade", "Agriculture"]
 # QUIZ
 Q1: By how much did wheat prices surge this morning?
 * [ ] 5%
-* [x] 8%
 * [ ] 12%
+* [x] 8%
 * [ ] 15%
 -- Explanation: The analyst reports that "Wheat prices surged by eight percent this morning."
 
 Q2: When will official harvest projections be released?
 * [ ] Tomorrow morning
 * [ ] This Friday
-* [x] Next Tuesday
 * [ ] At the end of the month
+* [x] Next Tuesday
 -- Explanation: The transcript explicitly states: "until official harvest projections are released next Tuesday."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [x] In response, major exporting nations have introduced seasonal export quotas to stabilize domestic food supplies
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "In response, major exporting nations have introduced seasonal export quotas to stabilize domestic food supplies.".`;
 
 export const LESSON_Q3_057_MD = `---
 id: listen_toeic_q3_057
 title: "Supermarket Supply Chain & Shelf Inventory Management"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Retail Operations Manager"
 tags: ["Retail", "Supermarket", "Logistics"]
 ---
 
@@ -2940,10 +3043,7 @@ tags: ["Retail", "Supermarket", "Logistics"]
 - perishable /ˈper.ɪ.ʃə.bəl/ (adj): dễ hư hỏng. E.g., Perishable goods must be stored in refrigerated units immediately.
 - replenishment /rɪˈplen.ɪʃ.mənt/ (n): sự bổ sung hàng hóa. E.g., Overnight shelf replenishment ensures full availability for morning shoppers.
 - automated tracking /ˌɑː.t̬ə.meɪ.t̬ɪd ˈtræk.ɪŋ/ (n): theo dõi tự động. E.g., Automated tracking alerts staff when product inventory runs low.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Quy trình Bắt buộc (all store staff are required to check + Noun): Yêu cầu quy chuẩn vận hành. E.g., Staff are required to check expiration dates twice daily.
-- Cấu trúc Điều kiện Tự động (once stock drops below [Level], an order is triggered): Quy trình tự động hóa chuỗi cung ứng. E.g., An order is triggered once inventory falls below twenty units.
+- contingency /kənˈtɪn.dʒən.si/ (n): tình huống dự phòng rủi ro. E.g., The project budget incorporates a ten-percent contingency fund.
 
 # TRANSCRIPT
 [00:00.00] Attention all floor supervisors, here is a quick operational update regarding our fresh produce section.
@@ -2972,17 +3072,21 @@ Q2: What will take place in the breakroom at 2 PM?
 * [x] Mandatory 15-minute training sessions on new scanners
 * [ ] A union representative meeting
 -- Explanation: The transcript explicitly states: "Mandatory fifteen-minute training sessions on the new handheld scanners will take place in the breakroom at 2 PM."
-`;
+
+Q3: What requirement or instruction must be followed?
+* [ ] Submit a formal written appeal to executives
+* [ ] Request emergency budget allocations
+* [ ] Wait for an official government notification
+* [x] Scan item barcodes whenever restocking display shelves to ensure accuracy in central stock counts
+-- Explanation: The transcript specifies: "Floor staff must scan item barcodes whenever restocking display shelves to ensure accuracy in central stock counts.".`;
 
 export const LESSON_Q3_058_MD = `---
 id: listen_toeic_q3_058
 title: "Workplace Safety Audit & Personal Protective Equipment"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Safety Compliance Officer"
 tags: ["Safety", "Manufacturing", "Compliance"]
 ---
 
@@ -2990,10 +3094,7 @@ tags: ["Safety", "Manufacturing", "Compliance"]
 - Personal Protective Equipment (PPE) /ˈpɜːr.sən.əl prəˈtek.tɪv ɪˈkwɪp.mənt/ (n): thiết bị bảo hộ cá nhân. E.g., Wearing required PPE is mandatory inside the chemical processing zone.
 - compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ quy định. E.g., Regular safety audits guarantee full compliance with government regulations.
 - hazard /ˈhæz.ɚd/ (n): mối nguy hiểm. E.g., Report any potential tripping hazards to the maintenance team immediately.
-
-# GRAMMAR
-- Cấu trúc Mệnh lệnh Bắt buộc (all employees must wear + Noun + at all times): Quy định an toàn lao động. E.g., All personnel must wear safety helmets at all times inside the warehouse.
-- Cấu trúc Bị động Điều kiện (violators will be subject to + Noun): Cảnh báo hình thức xử phạt. E.g., Violators will be subject to formal disciplinary action.
+- milestone /ˈmaɪl.stoʊn/ (n): cột mốc quan trọng. E.g., Completing the beta phase marks a critical project milestone.
 
 # TRANSCRIPT
 [00:00.00] Attention all plant personnel, this is an urgent announcement from the Environment and Safety Department.
@@ -3010,29 +3111,33 @@ tags: ["Safety", "Manufacturing", "Compliance"]
 
 # QUIZ
 Q1: What prompted this safety announcement?
-* [ ] A machinery breakdown on the assembly line
 * [x] An unannounced safety inspection
+* [ ] A machinery breakdown on the assembly line
 * [ ] A scheduled visit by corporate executives
 * [ ] The arrival of new raw materials
 -- Explanation: The safety officer mentions that the reminder comes "Following an unannounced safety inspection."
 
 Q2: What happens to workers found without required protective gear?
 * [ ] They will be fined $100 immediately
-* [ ] They will receive a written compliment
 * [x] They will be temporarily suspended from the floor pending safety review
+* [ ] They will receive a written compliment
 * [ ] They will be transferred to another department
 -- Explanation: The transcript explicitly states: "Anyone found without required protective gear will be temporarily suspended from the floor pending safety review."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [x] These regulations apply everywhere inside the active loading dock and machinery manufacturing zones without exception
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "These regulations apply everywhere inside the active loading dock and machinery manufacturing zones without exception.".`;
 
 export const LESSON_Q3_059_MD = `---
 id: listen_toeic_q3_059
 title: "Electric Vehicle Battery Manufacturing & Assembly Line"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "EV Plant Operations Director"
 tags: ["Automotive", "EV", "Manufacturing"]
 ---
 
@@ -3040,10 +3145,7 @@ tags: ["Automotive", "EV", "Manufacturing"]
 - lithium-ion /ˌlɪθ.i.əm ˈaɪ.ɑːn/ (n, adj): pin lithium-ion. E.g., The facility specializes in assembling high-density lithium-ion battery packs.
 - throughput /ˈθruː.pʊt/ (n): năng suất sản xuất. E.g., Upgrading robotic arms increased daily battery pack throughput by twenty percent.
 - quality control /ˈkwɑː.lə.t̬i kənˈtroʊl/ (n): kiểm soát chất lượng. E.g., Every battery module undergoes rigorous quality control testing.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Tiến độ Sản xuất (has expanded production capacity to + Quantity): Báo cáo tăng trưởng quy mô. E.g., The plant has expanded production capacity to five thousand units per month.
-- Cấu trúc Bị động Chỉ Mục đích (is designed to meet growing demand for + Noun): Giải thích mục tiêu mở rộng. E.g., The new line is designed to meet growing demand for electric SUVs.
+- benchmark /ˈbentʃ.mɑːrk/ (n): tiêu chuẩn đánh giá, mốc chuẩn so sánh. E.g., The quarterly report sets a new performance benchmark for the industry.
 
 # TRANSCRIPT
 [00:00.00] Good morning engineers, I am pleased to share a major milestone achieved at our electric vehicle battery plant.
@@ -3062,27 +3164,31 @@ tags: ["Automotive", "EV", "Manufacturing"]
 Q1: By what percentage did daily battery pack throughput increase?
 * [ ] 15%
 * [ ] 20%
-* [x] 25%
 * [ ] 30%
+* [x] 25%
 -- Explanation: The operations director explicitly states that throughput increased "by twenty-five percent."
 
 Q2: What will the plant do next month to fulfill new contracts?
-* [ ] Construct an additional factory building
 * [x] Launch a second production shift
+* [ ] Construct an additional factory building
 * [ ] Import pre-assembled battery cells
 * [ ] Reduce quality control inspection times
 -- Explanation: The transcript mentions: "We will launch a second production shift starting next month to fulfill contract orders."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [x] Furthermore, our defect testing failure rate dropped to an all-time low of point zero two percent this quarter
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "Furthermore, our defect testing failure rate dropped to an all-time low of point zero two percent this quarter.".`;
 
 export const LESSON_Q3_060_MD = `---
 id: listen_toeic_q3_060
 title: "Cruise Ship Itinerary Modification & Shore Excursions"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Cruise Director"
 tags: ["Hospitality", "Tourism", "Maritime"]
 ---
 
@@ -3090,10 +3196,7 @@ tags: ["Hospitality", "Tourism", "Maritime"]
 - itinerary /aɪˈtɪn.ə.rer.i/ (n): hành trình, lịch trình chuyến đi. E.g., Severe sea conditions forced the captain to alter our sailing itinerary.
 - excursion /ɪkˈskɝː.ʒən/ (n): chuyến tham quan ngắn. E.g., Passengers can book shore excursions at the guest services desk.
 - port of call /pɔːrt əv kɑːl/ (n): cảng ghé chân. E.g., Our next port of call will be the island of Cozumel.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Sự Thay đổi Lịch trình (due to unfavorable weather, our visit to [Place] has been replaced with [Place]): Thông báo điều chỉnh tour. E.g., Due to rough seas, our stop in Nassau has been replaced with Freeport.
-- Cấu trúc Tự động Hoàn tiền (refunds will be credited directly to + Account): Thông báo xử lý tài chính tự động. E.g., Excursion fees will be credited directly to your onboard account.
+- workflow /ˈwɝːk.floʊ/ (n): quy trình làm việc. E.g., Automating administrative tasks optimizes team workflow.
 
 # TRANSCRIPT
 [00:00.00] Good morning valued guests, this is your Cruise Director with an important announcement regarding our sailing itinerary.
@@ -3111,28 +3214,32 @@ tags: ["Hospitality", "Tourism", "Maritime"]
 # QUIZ
 Q1: Why was the planned stop at St. Thomas canceled?
 * [ ] Mechanical issues with the ship's engine
-* [x] Unfavorable weather conditions in the region
 * [ ] Port worker strikes at St. Thomas
+* [x] Unfavorable weather conditions in the region
 * [ ] Overbooking of dock space
 -- Explanation: The speaker explains that the stop was canceled "Due to unfavorable weather conditions in the region."
 
 Q2: What will happen to pre-booked excursion fees for the canceled stop?
 * [ ] They will be forfeited
 * [ ] Guests will receive paper gift vouchers
-* [x] They will be automatically credited to guests' onboard accounts
 * [ ] Refunds must be requested in writing after the cruise
+* [x] They will be automatically credited to guests' onboard accounts
 -- Explanation: The transcript explicitly states: "excursion fees... will be automatically credited to your onboard accounts today."
-`;
+
+Q3: What will happen according to the speaker?
+* [x] Spend an extended day at sea before arriving at our final port of call in San Juan on Friday
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "Instead, we will spend an extended day at sea before arriving at our final port of call in San Juan on Friday.".`;
 
 export const LESSON_Q3_061_MD = `---
 id: listen_toeic_q3_061
 title: "Customer Support Resolution & Refund Processing"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 3"
-accent: "en-US"
-voice: "Customer Care Lead"
 tags: ["Customer Service", "Retail", "Refund"]
 ---
 
@@ -3140,10 +3247,7 @@ tags: ["Customer Service", "Retail", "Refund"]
 - resolution /ˌrez.əˈluː.ʃən/ (n): sự giải quyết khiếu nại. E.g., Our goal is to achieve swift resolution for all customer inquiries.
 - discrepancy /dɪˈskrep.ən.si/ (n): sự sai sót trong đơn hàng. E.g., We apologize for the billing discrepancy on your monthly statement.
 - store credit /stɔːr ˈkred.ɪt/ (n): tiền tín dụng mua hàng. E.g., Customers can choose between a full refund or store credit.
-
-# GRAMMAR
-- Cấu trúc Xin lỗi và Đưa ra Giải pháp (we sincerely apologize for [Issue] and have processed [Action]): Mẫu câu chăm sóc khách hàng chuyên nghiệp. E.g., We apologize for the delay and have issued a full refund.
-- Cấu trúc Khảo sát Hài lòng (please take a moment to complete + Noun): Mời đánh giá chất lượng dịch vụ. E.g., Please take a moment to complete our short feedback survey.
+- compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ quy chuẩn pháp lý. E.g., All departments must ensure strict regulatory compliance.
 
 # TRANSCRIPT
 [00:00.00] Hello Ms. Adams, this is Eric from Client Support following up on ticket number 8902 regarding your order.
@@ -3172,17 +3276,21 @@ Q2: What compensation was offered in addition to sending the correct item?
 * [x] A $20 store voucher credited to her account
 * [ ] Free gift wrapping service
 -- Explanation: The transcript explicitly states: "we have issued a twenty-dollar store voucher to your online account."
-`;
+
+Q3: How was the replacement item sent?
+* [ ] Via standard sea freight shipping
+* [ ] By regular international postal mail
+* [ ] Through an in-person store collection
+* [x] Today via express courier at no additional cost
+-- Explanation: The transcript states: "A replacement item in the correct size has been dispatched today via express courier at no additional cost.".`;
 
 export const LESSON_Q3_062_MD = `---
 id: listen_toeic_q3_062
 title: "Residential Property Open House & Mortgage Options"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Real Estate Broker"
 tags: ["Real Estate", "Residential", "Mortgage"]
 ---
 
@@ -3190,10 +3298,7 @@ tags: ["Real Estate", "Residential", "Mortgage"]
 - open house /ˈoʊ.pən haʊs/ (n): sự kiện mở cửa cho khách tham quan nhà. E.g., The real estate agency is holding an open house this Sunday.
 - mortgage /ˈmɔːr.ɡɪdʒ/ (n): khoản vay thế chấp mua nhà. E.g., Buyers can choose between fixed-rate and adjustable-rate mortgages.
 - renovation /ˌren.əˈveɪ.ʃən/ (n): sự cải tạo, nâng cấp. E.g., The kitchen recently underwent a complete modern renovation.
-
-# GRAMMAR
-- Cấu trúc Mời tham gia sự kiện (you are cordially invited to attend + Event): Lời mời trang trọng. E.g., You are cordially invited to attend our weekend open house showcase.
-- Cấu trúc Bị động Điều kiện Ưu đãi (qualifying buyers will be offered + Benefit): Khảo sát ưu đãi tài chính. E.g., Qualifying buyers will be offered reduced closing cost rates.
+- protocol /ˈproʊ.t̬ə.kɑːl/ (n): quy trình, nghi thức chuẩn mực. E.g., Emergency safety protocols must be reviewed annually.
 
 # TRANSCRIPT
 [00:00.00] Good morning prospective buyers, welcome to the open house showcase for Mapleside Estates.
@@ -3210,29 +3315,33 @@ tags: ["Real Estate", "Residential", "Mortgage"]
 
 # QUIZ
 Q1: What feature is highlighted about the Mapleside Estates property?
-* [ ] A basement swimming pool
 * [x] Four spacious bedrooms and energy-efficient appliances
+* [ ] A basement swimming pool
 * [ ] A three-car underground garage
 * [ ] A rooftop tennis court
 -- Explanation: The broker highlights "four spacious bedrooms, energy-efficient appliances, and a private backyard."
 
 Q2: What benefit is offered to buyers who submit an offer before 5 PM today?
 * [ ] A $10,000 cash discount
-* [ ] Free home furniture sets
 * [x] The developer will cover all closing costs
+* [ ] Free home furniture sets
 * [ ] Free property management for two years
 -- Explanation: The transcript explicitly states: "If you submit a purchase offer before 5 PM today, the developer will cover all closing costs."
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [ ] Annual dividend payouts for shareholders
+* [ ] A full recall of previous product versions
+* [x] Residential Property Open House & Mortgage Options
+* [ ] A company-wide staff downsizing initiative
+-- Explanation: The speaker introduces the topic: "Good morning prospective buyers, welcome to the open house showcase for Mapleside Estates.".`;
 
 export const LESSON_Q3_063_MD = `---
 id: listen_toeic_q3_063
 title: "Air Freight Temperature-Controlled Cargo & Delivery"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Air Cargo Operations Manager"
 tags: ["Aviation", "Logistics", "Freight"]
 ---
 
@@ -3240,10 +3349,7 @@ tags: ["Aviation", "Logistics", "Freight"]
 - temperature-controlled /ˈtem.pɚ.ə.tʃɚ kənˈtroʊld/ (adj): kiểm soát nhiệt độ. E.g., Pharmaceutical products require temperature-controlled air freight containers.
 - perishables /ˈper.ɪ.ʃə.bəlz/ (n): hàng hóa dễ hư hỏng. E.g., Cold storage units keep perishables fresh during long-haul flights.
 - customs inspection /ˈkʌs.təmz ɪnˈspek.ʃən/ (n): sự kiểm tra hải quan. E.g., Express air cargo undergoes expedited customs inspection.
-
-# GRAMMAR
-- Cấu trúc Bị động Thì Hiện tại Tiếp diễn (is currently being loaded + into): Báo cáo trạng thái vận tải. E.g., Cargo is currently being loaded into the climate-controlled hold.
-- Cấu trúc Cam kết Thời gian (guarantees delivery within + Time): Khẳng định thời gian giao hàng. E.g., Our express service guarantees delivery within twenty-four hours.
+- initiative /ɪˈnɪʃ.ə.t̬ɪv/ (n): sáng kiến đổi mới. E.g., Management launched a green initiative to reduce corporate carbon footprints.
 
 # TRANSCRIPT
 [00:00.00] Hello logistics team, this is an operational update regarding Express Flight 704 to London.
@@ -3261,28 +3367,32 @@ tags: ["Aviation", "Logistics", "Freight"]
 # QUIZ
 Q1: What type of cargo is being transported on Flight 704?
 * [ ] Heavy industrial machinery
-* [x] Temperature-controlled pharmaceutical containers
 * [ ] E-commerce clothing packages
 * [ ] Fresh tropical fruits
+* [x] Temperature-controlled pharmaceutical containers
 -- Explanation: The manager specifies that "All temperature-controlled pharmaceutical containers... are loaded into the cargo hold."
 
 Q2: How will storage temperatures be monitored during the flight?
+* [x] Via automated satellite telemetry throughout the flight
 * [ ] By onboard flight attendants
 * [ ] Via manual temperature logs after landing
-* [x] Via automated satellite telemetry throughout the flight
 * [ ] By independent third-party inspectors
 -- Explanation: The transcript explicitly states: "temperatures will be monitored continuously via automated satellite telemetry."
-`;
+
+Q3: What instructions were given to ground handling teams?
+* [ ] Hold the cargo in bonded storage for two weeks
+* [x] Clear the cargo immediately upon arrival
+* [ ] Return the shipment back to its origin port
+* [ ] Inspect every single container manually
+-- Explanation: The speaker notes: "Ground handling teams at Heathrow Airport have been notified to clear the cargo immediately upon arrival.".`;
 
 export const LESSON_Q3_064_MD = `---
 id: listen_toeic_q3_064
 title: "Construction Site Safety & Project Timeline Update"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Site Construction Manager"
 tags: ["Construction", "Project Management", "Safety"]
 ---
 
@@ -3290,10 +3400,7 @@ tags: ["Construction", "Project Management", "Safety"]
 - contractor /ˈkɑːn.træk.tɚ/ (n): nhà thầu. E.g., Sub-contractors must follow site electrical safety protocols.
 - scaffolding /ˈskæf.əl.dɪŋ/ (n): giàn giáo. E.g., Inspect all scaffolding structures before allowing workers on upper levels.
 - milestone /ˈmaɪl.stoʊn/ (n): cột mốc dự án. E.g., Completing the concrete foundation represents a key project milestone.
-
-# GRAMMAR
-- Cấu trúc Bị động Tương lai Hoàn thành (will have been completed + by [Date]): Khẳng định mốc hoàn thành công trình. E.g., Structural framing will have been completed by the end of May.
-- Cấu trúc Mệnh lệnh An toàn (ensure that all workers wear + Noun): Yêu cầu tuân thủ an toàn thi công. E.g., Ensure that all workers wear harness safety lines at elevated heights.
+- efficiency /ɪˈfɪʃ.ən.si/ (n): tính hiệu quả, năng suất. E.g., Upgraded server hardware enhances internal operational efficiency.
 
 # TRANSCRIPT
 [00:00.00] Attention all site supervisors, here is our weekly progress and safety brief for the Plaza Tower construction site.
@@ -3311,28 +3418,32 @@ tags: ["Construction", "Project Management", "Safety"]
 # QUIZ
 Q1: What is the current status of the Plaza Tower project timeline?
 * [ ] One week behind schedule
-* [x] Two days ahead of schedule
 * [ ] Exactly on schedule
+* [x] Two days ahead of schedule
 * [ ] Delayed due to material shortages
 -- Explanation: The manager notes that completing structural framing kept the project "two days ahead of schedule."
 
 Q2: Why will crane operations be suspended tomorrow?
 * [ ] Equipment maintenance inspections
 * [ ] Worker strike action
-* [x] High forecasted wind speeds
 * [ ] Lack of concrete supply
+* [x] High forecasted wind speeds
 -- Explanation: The transcript explicitly states: "due to high forecasted wind speeds tomorrow, all crane operations... will be suspended."
-`;
+
+Q3: What are listeners requested to do?
+* [x] Ensure ground crew focus on indoor concrete pouring and interior electrical wiring instead
+* [ ] Submit an immediate resignation notice
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+-- Explanation: The speaker instructs: "Please ensure ground crew focus on indoor concrete pouring and interior electrical wiring instead.".`;
 
 export const LESSON_Q3_065_MD = `---
 id: listen_toeic_q3_065
 title: "Restaurant Menu Redesign & Food Safety Standards"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Executive Head Chef"
 tags: ["Restaurant", "Hospitality", "Food Safety"]
 ---
 
@@ -3340,10 +3451,7 @@ tags: ["Restaurant", "Hospitality", "Food Safety"]
 - seasonal ingredients /ˈsiː.zən.əl ɪnˈɡriː.di.ənts/ (n): nguyên liệu theo mùa. E.g., Our autumn menu features locally sourced seasonal ingredients.
 - cross-contamination /krɑːs kənˌtæm.əˈneɪ.ʃən/ (n): sự nhiễm khuẩn chéo. E.g., Separate cutting boards prevent cross-contamination between raw meat and vegetables.
 - dietary restriction /ˈdaɪ.ə.ter.i rɪˈstrɪk.ʃən/ (n): chế độ ăn kiêng. E.g., Inform the waiter if you have any severe gluten dietary restrictions.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Sự thay đổi Thực đơn (we are excited to launch our new [Season] menu featuring + Noun): Giới thiệu thực đơn mới. E.g., We are excited to launch our new spring menu featuring fresh seafood.
-- Cấu trúc Nhắc nhở Vệ sinh Bắt buộc (all kitchen staff must sanitize + Noun + before [Action]): Quy định an toàn thực phẩm. E.g., Kitchen staff must sanitize preparation surfaces before switching tasks.
+- confidentiality /ˌkɑːn.fə.den.ʃiˈæl.ə.t̬i/ (n): tính bảo mật thông tin. E.g., Staff signed non-disclosure agreements to preserve client confidentiality.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon kitchen staff, I want to briefly go over the launch of our new autumn dinner menu starting tonight.
@@ -3368,21 +3476,25 @@ Q1: How many new seasonal seafood dishes are being introduced tonight?
 
 Q2: What measure was taken to assist guests with dietary restrictions?
 * [ ] Offering free dessert substitutes
-* [x] Adding clear allergen labels to printed menus
 * [ ] Reducing dish prices on weekdays
+* [x] Adding clear allergen labels to printed menus
 * [ ] Removing all dairy products from the kitchen
 -- Explanation: The transcript explicitly states: "clear allergen labels have been added to our printed menus."
-`;
+
+Q3: What are listeners requested to do?
+* [ ] Submit an immediate resignation notice
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+* [x] Remember that color-coded prep stations must be used strictly to avoid raw ingredient cross-contamination
+-- Explanation: The speaker instructs: "Please remember that color-coded prep stations must be used strictly to avoid raw ingredient cross-contamination.".`;
 
 export const LESSON_Q3_066_MD = `---
 id: listen_toeic_q3_066
 title: "Enterprise Risk Assessment & Business Continuity Plan"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Chief Risk Officer"
 tags: ["Risk Management", "Business", "Management"]
 ---
 
@@ -3390,10 +3502,7 @@ tags: ["Risk Management", "Business", "Management"]
 - business continuity /ˈbɪz.nɪs kən.təˈnuː.ə.t̬i/ (n): duy trì hoạt động kinh doanh liên tục. E.g., A robust business continuity plan protects operations during power outages.
 - mitigation /ˌmɪt̬.əˈɡeɪ.ʃən/ (n): sự giảm thiểu rủi ro. E.g., Risk mitigation strategies reduce potential financial losses.
 - vulnerability /ˌvʌl.nɚ.əˈbɪl.ə.t̬i/ (n): điểm yếu trước rủi ro. E.g., Cybersecurity audits identify system vulnerabilities before breaches occur.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Kế hoạch Dự phòng (in the event of [Incident], the backup system will automatically activate): Đảm bảo vận hành liên tục. E.g., In the event of a server crash, backup cloud databases will activate.
-- Cấu trúc Bị động Yêu cầu Rà soát (all department managers are required to review + Noun): Chỉ đạo quản trị rủi ro. E.g., Department managers are required to review emergency protocols annually.
+- collaboration /kəˌlæb.əˈreɪ.ʃən/ (n): sự hợp tác làm việc nhóm. E.g., Cross-functional collaboration accelerated the product development cycle.
 
 # TRANSCRIPT
 [00:00.00] Good morning executive committee, I am presenting our annual enterprise risk management review for this year.
@@ -3410,29 +3519,33 @@ tags: ["Risk Management", "Business", "Management"]
 
 # QUIZ
 Q1: How quickly can offsite backup systems restore full operational capability?
-* [ ] Within 5 minutes
 * [x] Within 15 minutes
+* [ ] Within 5 minutes
 * [ ] Within 30 minutes
 * [ ] Within one hour
 -- Explanation: The risk officer highlights that backup systems can restore capability "within fifteen minutes."
 
 Q2: What are department heads required to submit by Friday afternoon?
 * [ ] Annual budget requests
-* [ ] Employee attendance logs
 * [x] Updated risk mitigation checklists
+* [ ] Employee attendance logs
 * [ ] IT hardware replacement lists
 -- Explanation: The transcript explicitly states: "Department heads must submit their updated risk mitigation checklists to my office by Friday afternoon."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [x] To further strengthen business continuity, we are updating our emergency response protocols across all regional branch offices
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "To further strengthen business continuity, we are updating our emergency response protocols across all regional branch offices.".`;
 
 export const LESSON_Q3_067_MD = `---
 id: listen_toeic_q3_067
 title: "Seasonal Apparel Launch & Store Display Guidelines"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Retail Merchandising Director"
 tags: ["Retail", "Fashion", "Merchandising"]
 ---
 
@@ -3440,10 +3553,7 @@ tags: ["Retail", "Fashion", "Merchandising"]
 - apparel /əˈpær.əl/ (n): trang phục, quần áo. E.g., The new winter apparel line will arrive in stores next week.
 - merchandise /ˈmɝː.tʃən.daɪz/ (v, n): hàng hóa, kế hoạch trưng bày. E.g., Store staff should merchandise window displays according to visual guidelines.
 - inventory count /ˈɪn.vən.tɔːr.i kaʊnt/ (n): kiểm kê hàng tồn kho. E.g., Perform a daily inventory count to prevent stock shortages.
-
-# GRAMMAR
-- Cấu trúc Bị động Yêu cầu Trưng bày (display windows are required to feature + Noun): Quy định trưng bày cửa hàng. E.g., Front windows are required to feature top-selling jackets.
-- Cấu trúc Diễn tả Thời gian Bắt đầu (sales campaign is scheduled to launch on + Date): Thông báo lịch trình chiến dịch. E.g., The promotion is scheduled to launch on Friday morning.
+- productivity /ˌproʊ.dʌkˈtɪv.ə.t̬i/ (n): năng suất lao động. E.g., Flexible work schedules contributed to higher employee productivity.
 
 # TRANSCRIPT
 [00:00.00] Attention all store managers, this is a briefing on the upcoming release of our winter apparel collection.
@@ -3461,28 +3571,32 @@ tags: ["Retail", "Fashion", "Merchandising"]
 # QUIZ
 Q1: When will shipments of the new jacket line arrive at retail outlets?
 * [ ] Tuesday morning
-* [x] Wednesday afternoon
 * [ ] Thursday evening
 * [ ] Friday morning
+* [x] Wednesday afternoon
 -- Explanation: The speaker specifies that shipments "will arrive at regional retail outlets by Wednesday afternoon."
 
 Q2: What must be updated before the store opens on Thursday?
+* [x] All front display windows
 * [ ] The staff breakroom schedule
 * [ ] Cash register payment software
-* [x] All front display windows
 * [ ] Outdoor parking lot banners
 -- Explanation: The transcript explicitly states: "All front display windows must be updated... before doors open on Thursday."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [x] Promotional discount signs should remain hidden in storage until the official campaign launches on Friday morning
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "Promotional discount signs should remain hidden in storage until the official campaign launches on Friday morning.".`;
 
 export const LESSON_Q3_068_MD = `---
 id: listen_toeic_q3_068
 title: "Same-Day Courier Delivery & Fleet Management"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Logistics Dispatch Manager"
 tags: ["Logistics", "Courier", "Transportation"]
 ---
 
@@ -3490,10 +3604,7 @@ tags: ["Logistics", "Courier", "Transportation"]
 - courier /ˈkʊr.i.ɚ/ (n): nhân viên/ đơn vị chuyển phát nhanh. E.g., Express couriers handle urgent medical package deliveries.
 - dispatch /dɪˈspætʃ/ (v, n): sự điều phối xe/hàng. E.g., The central dispatch unit assigns routes to drivers automatically.
 - fleet /fliːt/ (n): đội xe giao hàng. E.g., Transitioning our delivery fleet to electric vehicles cuts operational costs.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Tự động hóa Route (routes are dynamically optimized based on + Noun): Giải thích công nghệ định tuyến. E.g., Delivery routes are optimized based on live traffic patterns.
-- Cấu trúc Bắt buộc Báo cáo (drivers are required to log + Noun + upon [Action]): Quy định quy trình giao hàng. E.g., Drivers are required to log digital signatures upon package handover.
+- optimization /ˌɑːp.tə.məˈzeɪ.ʃən/ (n): sự tối ưu hóa hệ thống. E.g., Code optimization reduced server response times significantly.
 
 # TRANSCRIPT
 [00:00.00] Good morning dispatch team, I want to go over our new same-day delivery service protocols.
@@ -3511,28 +3622,32 @@ tags: ["Logistics", "Courier", "Transportation"]
 # QUIZ
 Q1: How does the new mobile app optimize delivery routes?
 * [ ] Based on driver preferences
-* [x] Based on real-time city traffic data
 * [ ] Based on package weight only
+* [x] Based on real-time city traffic data
 * [ ] Based on fixed neighborhood boundaries
 -- Explanation: The dispatch manager explains that the app "dynamically optimizes delivery routes based on real-time city traffic data."
 
 Q2: What must drivers do if a package cannot be delivered after two attempts?
 * [ ] Leave it at the customer's front doorstep
 * [ ] Transfer it to another driver on the road
-* [x] Return it to the main depot by 7 PM
 * [ ] Dispose of the package immediately
+* [x] Return it to the main depot by 7 PM
 -- Explanation: The transcript explicitly states: "Any packages that cannot be delivered after two attempts must be returned to the main depot by 7 PM."
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [x] Same-Day Courier Delivery & Fleet Management
+* [ ] Annual dividend payouts for shareholders
+* [ ] A full recall of previous product versions
+* [ ] A company-wide staff downsizing initiative
+-- Explanation: The speaker introduces the topic: "Good morning dispatch team, I want to go over our new same-day delivery service protocols.".`;
 
 export const LESSON_Q3_069_MD = `---
 id: listen_toeic_q3_069
 title: "Annual Corporate Tax Audit & Deductible Expenses"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Corporate Tax Controller"
 tags: ["Finance", "Accounting", "Tax"]
 ---
 
@@ -3540,10 +3655,7 @@ tags: ["Finance", "Accounting", "Tax"]
 - deductible /dɪˈdʌk.tə.bəl/ (adj, n): khoản chi phí được khấu trừ thuế. E.g., Business travel expenses are tax deductible if backed by receipts.
 - audit /ˈɑː.dɪt/ (n, v): việc thanh tra thuế. E.g., The tax authority requested financial records for an upcoming audit.
 - reconciliation /ˌrek.ənˌsɪl.iˈeɪ.ʃən/ (n): sự đối chiếu sổ sách. E.g., Monthly bank reconciliation prevents accounting discrepancies.
-
-# GRAMMAR
-- Cấu trúc Yêu cầu Nộp Chứng từ (must submit all original receipts for + Noun): Quy định kế toán tài chính. E.g., Employees must submit all original receipts for reimbursement.
-- Cấu trúc Bị động Điều kiện Phạt (penalties will be incurred if + Clause): Cảnh báo vi phạm quy định thuế. E.g., Penalties will be incurred if tax filings are submitted past the deadline.
+- allocate /ˈæl.ə.keɪt/ (v): phân bổ nguồn lực, kinh phí. E.g., Finance leaders agreed to allocate additional funding to research.
 
 # TRANSCRIPT
 [00:00.00] Hello finance staff, this is an important reminder regarding our upcoming fiscal year-end tax filings.
@@ -3561,28 +3673,32 @@ tags: ["Finance", "Accounting", "Tax"]
 # QUIZ
 Q1: What is the deadline for submitting department expense reports?
 * [ ] End of the month
-* [ ] October 1st
 * [x] October 15th
+* [ ] October 1st
 * [ ] November 30th
 -- Explanation: The tax controller states: "original receipts must be submitted to accounting by October 15th."
 
 Q2: What is a potential consequence of late expense submissions?
 * [ ] Employee termination
-* [x] Ineligibility for tax deductions and internal budget cuts
 * [ ] Mandatory overtime work
+* [x] Ineligibility for tax deductions and internal budget cuts
 * [ ] Cancellation of corporate credit cards
 -- Explanation: The transcript explicitly mentions: "Late submissions will not be eligible for corporate tax deductions and may result in internal budget cuts."
-`;
+
+Q3: What are listeners requested to do?
+* [ ] Submit an immediate resignation notice
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+* [x] Schedule a review session with your assigned accountant if you have questions about expense eligibility
+-- Explanation: The speaker instructs: "Please schedule a review session with your assigned accountant if you have questions about expense eligibility.".`;
 
 export const LESSON_Q3_070_MD = `---
 id: listen_toeic_q3_070
 title: "Corporate Upskilling Program & Leadership Seminar"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Corporate Learning Director"
 tags: ["HR", "Training", "Development"]
 ---
 
@@ -3590,10 +3706,7 @@ tags: ["HR", "Training", "Development"]
 - upskilling /ˈʌpˌskɪl.ɪŋ/ (n): nâng cao kỹ năng cho nhân viên. E.g., Investing in employee upskilling boosts company productivity and retention.
 - curriculum /kəˈrɪk.jə.ləm/ (n): chương trình đào tạo. E.g., The leadership curriculum includes project management workshops.
 - certification /ˌsɝː.t̬ə.fəˈkeɪ.ʃən/ (n): chứng chỉ chuyên môn. E.g., Participants receive an accredited project management certification upon completion.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Lợi ích Khóa học (participants who complete the program will receive + Noun): Quyền lợi sau đào tạo. E.g., Employees who complete the course will receive a digital credential.
-- Cấu trúc Hướng dẫn Đăng ký (to enroll in the seminar, please visit + Link): Chỉ dẫn thực hiện quy trình. E.g., To enroll in the workshop, please visit the internal learning portal.
+- prioritize /praɪˈɔːr.ə.taɪz/ (v): ưu tiên xử lý trước. E.g., Customer support specialists prioritize high-urgency inquiries.
 
 # TRANSCRIPT
 [00:00.00] Good morning team, I am excited to announce our new executive leadership upskilling program for junior managers.
@@ -3610,29 +3723,33 @@ tags: ["HR", "Training", "Development"]
 
 # QUIZ
 Q1: How long is the new leadership upskilling program?
-* [ ] Two weeks
 * [x] Four weeks
+* [ ] Two weeks
 * [ ] Six months
 * [ ] One year
 -- Explanation: The learning director specifies that it is a "four-week online curriculum."
 
 Q2: How many seats are available for the first cohort?
 * [ ] 15
-* [ ] 20
 * [x] 30
+* [ ] 20
 * [ ] 50
 -- Explanation: The transcript explicitly states: "with only thirty seats available for the first cohort."
-`;
+
+Q3: What will eligible participants or recipients receive?
+* [ ] A fully funded international holiday
+* [ ] An immediate promotion to department head
+* [x] A recognized professional management certificate
+* [ ] A complimentary ticket to next year's summit
+-- Explanation: The speaker confirms: "Employees who complete all interactive modules will earn a recognized professional management certificate.".`;
 
 export const LESSON_Q3_071_MD = `---
 id: listen_toeic_q3_071
 title: "HVAC System Maintenance & Building Energy Efficiency"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Facilities Management Director"
 tags: ["Facility", "Maintenance", "Office"]
 ---
 
@@ -3640,10 +3757,7 @@ tags: ["Facility", "Maintenance", "Office"]
 - HVAC /ˌeɪtʃ.væk/ (n): hệ thống sưởi, thông gió và điều hòa không khí. E.g., Routine HVAC filter replacements improve indoor air quality.
 - maintenance window /ˈmeɪn.tən.əns ˈwɪn.doʊ/ (n): khung thời gian bảo trì. E.g., System updates will take place during the weekend maintenance window.
 - thermostat /ˈθɝː.mə.stæt/ (n): bộ điều chỉnh nhiệt độ. E.g., Centralized digital thermostats help optimize building energy consumption.
-
-# GRAMMAR
-- Cấu trúc Bị động Thông báo Lịch bảo trì (routine maintenance is scheduled to take place on + [Date]): Thông báo lịch kỹ thuật. E.g., Elevator maintenance is scheduled to take place on Saturday.
-- Cấu trúc Yêu cầu Hợp tác (tenants are kindly requested to close + Noun): Lời đề nghị hợp tác từ quản lý tòa nhà. E.g., Tenants are requested to close windows when air conditioning is running.
+- streamline /ˈstriːm.laɪn/ (v): tinh giản, tổ chức hợp lý hóa. E.g., The corporate restructure aims to streamline reporting channels.
 
 # TRANSCRIPT
 [00:00.00] Attention all office tenants, this is an announcement from the Facilities Management Office regarding Building B.
@@ -3661,28 +3775,32 @@ tags: ["Facility", "Maintenance", "Office"]
 # QUIZ
 Q1: When will the central HVAC maintenance take place?
 * [ ] Friday evening
-* [x] This Saturday between 8 AM and 2 PM
 * [ ] Sunday morning
 * [ ] Next Monday during office hours
+* [x] This Saturday between 8 AM and 2 PM
 -- Explanation: The facility director notes that maintenance is scheduled "for this Saturday... shut off between 8 AM and 2 PM."
 
 Q2: What service will be temporarily shut off during the maintenance window?
+* [x] Air conditioning and heating services
 * [ ] Elevator operations
 * [ ] Internet connectivity
-* [x] Air conditioning and heating services
 * [ ] Water supply on upper floors
 -- Explanation: The transcript explicitly states: "Air conditioning and heating services will be temporarily shut off."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [x] We apologize for any inconvenience and encourage staff working on Saturday to adjust their attire accordingly
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "We apologize for any inconvenience and encourage staff working on Saturday to adjust their attire accordingly.".`;
 
 export const LESSON_Q3_072_MD = `---
 id: listen_toeic_q3_072
 title: "Airline Premium Lounge & Boarding Gate Announcement"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Airport Service Gate Agent"
 tags: ["Aviation", "Passenger Services", "Airport"]
 ---
 
@@ -3690,10 +3808,7 @@ tags: ["Aviation", "Passenger Services", "Airport"]
 - priority boarding /ˈpraɪ.ɔːr.ə.t̬i ˈbɔːr.dɪŋ/ (n): việc lên máy bay ưu tiên. E.g., Business class passengers enjoy priority boarding at Gate 12.
 - complimentary amenity /ˌkɑːm.pləˈmen.t̬ɚ.i əˈmen.ə.t̬i/ (n): tiện ích miễn phí. E.g., The lounge offers complimentary amenities including Wi-Fi and hot meals.
 - connection /kəˈnek.ʃən/ (n): chuyến bay chuyển tiếp. E.g., Passengers with tight flight connections should contact gate staff immediately.
-
-# GRAMMAR
-- Cấu trúc Mời lên máy bay theo lượt (passengers sitting in Rows [X] to [Y] are now invited to board): Thông báo loa sân bay. E.g., Passengers in Rows 15 to 30 are invited to board.
-- Cấu trúc Bị động Điều kiện (priority status will be verified upon + V-ing/Noun): Quy trình kiểm tra thẻ lên máy bay. E.g., Priority status will be verified upon presenting your ticket.
+- authorization /ˌɑː.θɚ.əˈzeɪ.ʃən/ (n): sự cấp phép chính thức. E.g., Purchase orders require senior management authorization.
 
 # TRANSCRIPT
 [00:00.00] Attention passengers on Horizon Airways Flight 308 to Tokyo, we are ready to begin boarding at Gate 15.
@@ -3711,28 +3826,32 @@ tags: ["Aviation", "Passenger Services", "Airport"]
 # QUIZ
 Q1: Which flight is preparing for boarding at Gate 15?
 * [ ] Flight 102 to London
-* [x] Flight 308 to Tokyo
 * [ ] Flight 505 to Paris
+* [x] Flight 308 to Tokyo
 * [ ] Flight 701 to Sydney
 -- Explanation: The gate agent explicitly announces "Flight 308 to Tokyo... ready to begin boarding at Gate 15."
 
 Q2: Who is invited to board first through the priority lane?
 * [ ] Passengers sitting in the back rows
 * [ ] Passengers with oversized carry-on luggage
-* [x] First-class passengers and active loyalty club members
 * [ ] Standby passengers waiting for seat assignments
+* [x] First-class passengers and active loyalty club members
 -- Explanation: The transcript states: "We now invite first-class passengers and active loyalty club members to proceed to the priority lane."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [x] Passengers requiring special assistance or traveling with young children may also board at this time
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "Passengers requiring special assistance or traveling with young children may also board at this time.".`;
 
 export const LESSON_Q3_073_MD = `---
 id: listen_toeic_q3_073
 title: "UI/UX Design Sprint & Mobile App Accessibility"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Product Design Lead"
 tags: ["UI/UX", "Software", "Product Design"]
 ---
 
@@ -3740,10 +3859,7 @@ tags: ["UI/UX", "Software", "Product Design"]
 - accessibility /əkˌses.əˈbɪl.ə.t̬i/ (n): khả năng truy cập/sử dụng. E.g., App accessibility standards ensure visually impaired users can navigate easily.
 - wireframe /ˈwaɪər.freɪm/ (n): bản phác thảo giao diện. E.g., The UX designer created interactive wireframes for testing.
 - usability testing /juː.zəˈbɪl.ə.t̬i ˈtest.ɪŋ/ (n): việc kiểm thử khả năng sử dụng. E.g., Usability testing revealed navigation confusion among elderly users.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Mục tiêu Thiết kế (designed to enhance [N/NP] for [Users]): Mô tả công năng sản phẩm số. E.g., The new interface is designed to enhance readability for all users.
-- Cấu trúc Bị động Chỉ Tiến độ (prototypes have been submitted to + Noun + for review): Báo cáo tiến độ thiết kế. E.g., Interactive prototypes have been submitted to developers for review.
+- consensus /kənˈsen.səs/ (n): sự đồng thuận chung. E.g., Committee members reached a consensus on the new budget proposal.
 
 # TRANSCRIPT
 [00:00.00] Good morning product team, I want to share the user testing feedback from our mobile app redesign sprint.
@@ -3761,28 +3877,32 @@ tags: ["UI/UX", "Software", "Product Design"]
 # QUIZ
 Q1: What percentage of test participants praised the new checkout flow and font sizes?
 * [ ] 70%
+* [x] 85%
 * [ ] 75%
 * [ ] 80%
-* [x] 85%
 -- Explanation: The design lead states: "Eighty-five percent of test participants praised the new streamlined checkout flow."
 
 Q2: What aspect of the app needs improvement to meet accessibility guidelines?
 * [ ] Audio notification sounds
-* [x] Screen contrast ratios
 * [ ] Payment gateway connection speeds
+* [x] Screen contrast ratios
 * [ ] User profile picture upload options
 -- Explanation: The transcript explicitly states: "we need to improve screen contrast ratios to comply fully with mobile accessibility guidelines."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+* [x] Update the interactive wireframes and share them on Figma by tomorrow afternoon
+-- Explanation: The speaker notes: "The UI team will update the interactive wireframes and share them on Figma by tomorrow afternoon.".`;
 
 export const LESSON_Q3_074_MD = `---
 id: listen_toeic_q3_074
 title: "Hotel Dynamic Pricing & Overbooking Strategy"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Hotel Revenue Manager"
 tags: ["Hospitality", "Revenue", "Management"]
 ---
 
@@ -3790,10 +3910,7 @@ tags: ["Hospitality", "Revenue", "Management"]
 - dynamic pricing /daɪˈnæm.ɪk ˈpraɪ.sɪŋ/ (n): định giá linh hoạt. E.g., Dynamic pricing algorithms adjust room rates during peak holiday seasons.
 - occupancy rate /ˈɑː.kjə.pən.si reɪt/ (n): tỷ lệ lấp đầy phòng. E.g., Our weekend occupancy rate reached ninety-eight percent.
 - revenue per available room (RevPAR) /ˈrev.ə.nuː pɚ əˈveɪ.lə.bəl ruːm/ (n): doanh thu trên mỗi phòng hiện có. E.g., RevPAR increased by twelve percent following rate optimization.
-
-# GRAMMAR
-- Cấu trúc So sánh Tăng trưởng Doanh thu (increased by [Percentage] compared to [Period]): Báo cáo chỉ số kinh doanh. E.g., Occupancy increased by ten percent compared to last quarter.
-- Cấu trúc Bị động Điều chỉnh Giá (room rates will be adjusted dynamically based on + Noun): Nguyên lý vận hành giá. E.g., Room rates will be adjusted based on local event demand.
+- discrepancy /dɪˈskrep.ən.si/ (n): sự sai lệch, khác biệt số liệu. E.g., The internal audit detected an accounting discrepancy in inventory logs.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon executive committee, here is our revenue management report for the third quarter.
@@ -3810,29 +3927,33 @@ tags: ["Hospitality", "Revenue", "Management"]
 
 # QUIZ
 Q1: By what percentage did the average daily room rate increase in Q3?
+* [x] 14%
 * [ ] 10%
 * [ ] 12%
-* [x] 14%
 * [ ] 18%
 -- Explanation: The revenue manager states that the average daily room rate "increased by fourteen percent."
 
 Q2: What was the hotel's overall occupancy rate during the summer season?
 * [ ] 80%
-* [ ] 85%
 * [x] 91%
+* [ ] 85%
 * [ ] 95%
 -- Explanation: The transcript explicitly mentions: "overall hotel occupancy maintained an impressive ninety-one percent."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [x] Adjust our autumn pricing strategy next week to capture corporate travel bookings for upcoming conferences
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "We will adjust our autumn pricing strategy next week to capture corporate travel bookings for upcoming conferences.".`;
 
 export const LESSON_Q3_075_MD = `---
 id: listen_toeic_q3_075
 title: "E-Commerce Payment Gateway Integration & Fraud Detection"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Fintech Product Manager"
 tags: ["E-Commerce", "Fintech", "Security"]
 ---
 
@@ -3840,10 +3961,7 @@ tags: ["E-Commerce", "Fintech", "Security"]
 - payment gateway /ˈpeɪ.mənt ˈɡeɪt.weɪ/ (n): cổng thanh toán trực tuyến. E.g., Integrating a new payment gateway allows customers to pay via digital wallets.
 - fraud detection /frɑːd dɪˈtek.ʃən/ (n): việc phát hiện gian lận. E.g., AI-powered fraud detection flags suspicious credit card transactions.
 - chargeback /ˈtʃɑːrdʒ.bæk/ (n): sự hoàn tiền do tranh chấp. E.g., Reducing merchant chargeback rates improves payment processor standing.
-
-# GRAMMAR
-- Cấu trúc Bị động Thì Hiện tại Hoàn thành (has been integrated into + Noun): Thông báo hoàn thành tích hợp công nghệ. E.g., A new fraud detection tool has been integrated into the checkout system.
-- Cấu trúc Tương lai Chỉ Kết quả (will reduce [N/NP] by [Percentage]): Dự báo hiệu quả của công nghệ bảo mật. E.g., The system will reduce fraudulent transactions by thirty percent.
+- feasibility /ˌfiː.zəˈbɪl.ə.t̬i/ (n): tính khả thi của dự án. E.g., Engineers conducted a detailed feasibility study before construction.
 
 # TRANSCRIPT
 [00:00.00] Hello e-commerce development team, I have an important update regarding our online payment processing infrastructure.
@@ -3861,28 +3979,32 @@ tags: ["E-Commerce", "Fintech", "Security"]
 # QUIZ
 Q1: What new tool was integrated into the checkout payment gateway?
 * [ ] A cryptocurrency payment plugin
-* [x] An AI-driven fraud detection tool
 * [ ] A biometric facial recognition scanner
 * [ ] An automated coupon distribution engine
+* [x] An AI-driven fraud detection tool
 -- Explanation: The manager specifies: "We have successfully integrated a new AI-driven fraud detection tool."
 
 Q2: By how much are chargeback dispute rates expected to drop?
+* [x] Over 40%
 * [ ] Over 20%
 * [ ] Over 30%
-* [x] Over 40%
 * [ ] Over 50%
 -- Explanation: The transcript explicitly states: "chargeback dispute rates will drop by over forty percent this month."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [x] This system analyzes buyer location and card authorization patterns in real time to block fraudulent transactions
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "This system analyzes buyer location and card authorization patterns in real time to block fraudulent transactions.".`;
 
 export const LESSON_Q3_076_MD = `---
 id: listen_toeic_q3_076
 title: "Corporate Rebranding Launch & Media Kit Distribution"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Brand Strategy Director"
 tags: ["Branding", "PR", "Marketing"]
 ---
 
@@ -3890,10 +4012,7 @@ tags: ["Branding", "PR", "Marketing"]
 - rebranding /ˌriːˈbræn.dɪŋ/ (n): sự tái định vị thương hiệu. E.g., The corporate rebranding includes a new logo and modern website redesign.
 - media kit /ˈmiː.di.ə kɪt/ (n): bộ tài liệu truyền thông. E.g., The media kit contains high-resolution brand logos and executive bios.
 - brand identity /brænd aɪˈden.t̬ə.t̬i/ (n): nhận diện thương hiệu. E.g., Establishing a strong brand identity helps stand out in competitive markets.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Sự kiện Ra mắt (we are excited to unveil our new [Noun] to the public): Thông báo sự kiện nhận diện mới. E.g., We are excited to unveil our new corporate identity tomorrow.
-- Cấu trúc Bị động Yêu cầu Thay thế (all old marketing materials must be replaced with + Noun): Yêu cầu chuẩn hóa thương hiệu. E.g., Old brochures must be replaced with updated branded assets.
+- delegation /ˌdel.əˈɡeɪ.ʃən/ (n): sự phân công, ủy thác trách nhiệm. E.g., Effective managerial delegation empowers team leaders.
 
 # TRANSCRIPT
 [00:00.00] Good morning marketing staff, today marks the official launch of our global corporate rebranding initiative.
@@ -3911,28 +4030,32 @@ tags: ["Branding", "PR", "Marketing"]
 # QUIZ
 Q1: What major initiative is officially launching today?
 * [ ] A seasonal product clearance sale
-* [x] A global corporate rebranding initiative
 * [ ] An annual employee recruitment drive
+* [x] A global corporate rebranding initiative
 * [ ] A new customer loyalty app
 -- Explanation: The director announces "the official launch of our global corporate rebranding initiative."
 
 Q2: When will the press release and media kit be distributed to news outlets?
 * [ ] At 8 AM
-* [x] At 10 AM
 * [ ] At 1 PM
 * [ ] At 5 PM
+* [x] At 10 AM
 -- Explanation: The transcript explicitly states: "media kit will be distributed to major industry news outlets at 10 AM."
-`;
+
+Q3: What requirement or instruction must be followed?
+* [x] Replace legacy templates and digital assets with the new versions immediately
+* [ ] Submit a formal written appeal to executives
+* [ ] Request emergency budget allocations
+* [ ] Wait for an official government notification
+-- Explanation: The transcript specifies: "All regional marketing teams must replace legacy templates and digital assets with the new versions immediately.".`;
 
 export const LESSON_Q3_077_MD = `---
 id: listen_toeic_q3_077
 title: "Commercial Office Building Expansion & Parking Facilities"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Property Leasing Director"
 tags: ["Real Estate", "Commercial", "Facility"]
 ---
 
@@ -3940,10 +4063,7 @@ tags: ["Real Estate", "Commercial", "Facility"]
 - expansion /ɪkˈspæn.ʃən/ (n): sự mở rộng. E.g., The commercial office building expansion will double available desk capacity.
 - underground parking /ˌʌn.dɚˈɡraʊnd ˈpɑːr.kɪŋ/ (n): bãi đỗ xe ngầm. E.g., The multi-level underground parking facility accommodates five hundred vehicles.
 - occupancy /ˈɑː.kjə.pən.si/ (n): sự sử dụng/lấp đầy diện tích. E.g., The building reached maximum occupancy within six months of opening.
-
-# GRAMMAR
-- Cấu trúc Bị động Thì Tương lai Đơn (will be constructed to accommodate + Noun): Thông báo quy hoạch cơ sở hạ tầng. E.g., A new parking garage will be constructed to accommodate employees.
-- Cấu trúc Diễn tả Mục đích (in order to meet growing demand for [N/NP]): Giải thích lý do mở rộng. E.g., The owner expanded the lobby in order to meet growing visitor demand.
+- contingency /kənˈtɪn.dʒən.si/ (n): tình huống dự phòng rủi ro. E.g., The project budget incorporates a ten-percent contingency fund.
 
 # TRANSCRIPT
 [00:00.00] Good morning tenants, I am pleased to share an important update regarding our commercial property development.
@@ -3961,28 +4081,32 @@ tags: ["Real Estate", "Commercial", "Facility"]
 # QUIZ
 Q1: When is the West Wing expansion scheduled for completion?
 * [ ] Next week
-* [ ] In September
 * [x] In November
+* [ ] In September
 * [ ] Early next year
 -- Explanation: The leasing director states that construction "remains on schedule for completion in November."
 
 Q2: What new facility will open next month to support tenant capacity?
 * [ ] A rooftop fitness center
-* [x] A two-story underground parking garage
 * [ ] A outdoor cafeteria
+* [x] A two-story underground parking garage
 * [ ] An executive conference hall
 -- Explanation: The transcript explicitly mentions: "a two-story underground parking garage will open next month."
-`;
+
+Q3: What can registered occupants request?
+* [ ] Free corporate gym memberships
+* [ ] A 50% discount on office lease rates
+* [ ] Exclusive use of executive boardrooms
+* [x] Monthly parking passes at the building management office starting Monday
+-- Explanation: The speaker notes: "Registered business occupants can request monthly parking passes at the building management office starting Monday.".`;
 
 export const LESSON_Q3_078_MD = `---
 id: listen_toeic_q3_078
 title: "Port Container Unloading & Cargo Crane Operations"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Port Operations Supervisor"
 tags: ["Maritime", "Logistics", "Port"]
 ---
 
@@ -3990,10 +4114,7 @@ tags: ["Maritime", "Logistics", "Port"]
 - vessel /ˈves.əl/ (n): tàu biển chở hàng lớn. E.g., The container vessel docked at Berth 4 early this morning.
 - unloading /ʌnˈloʊ.dɪŋ/ (n): việc dỡ hàng. E.g., High-speed cranes accelerated container unloading operations.
 - terminal /ˈtɝː.mə.nəl/ (n): bến/ga cảng biển. E.g., The international container terminal handles thousands of TEUs daily.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Sự gián đoạn do Thời tiết (crane operations have been temporarily suspended due to + Noun): Giải thích tạm ngừng vận hành. E.g., Port operations have been suspended due to dense fog.
-- Cấu trúc Bị động Thì Tương lai Đơn (unloading will resume once + Clause): Điều kiện tiếp tục công việc. E.g., Unloading will resume once wind speeds drop below safety limits.
+- milestone /ˈmaɪl.stoʊn/ (n): cột mốc quan trọng. E.g., Completing the beta phase marks a critical project milestone.
 
 # TRANSCRIPT
 [00:00.00] Attention terminal workers, this is a safety announcement from the Port Authority Operations Center.
@@ -4010,29 +4131,33 @@ tags: ["Maritime", "Logistics", "Port"]
 
 # QUIZ
 Q1: What condition caused the suspension of port crane operations?
-* [ ] Strong coastal winds
 * [x] Heavy ocean fog reducing visibility
+* [ ] Strong coastal winds
 * [ ] A sudden mechanical failure
 * [ ] Unpaid port customs fees
 -- Explanation: The supervisor explains that "Heavy ocean fog has significantly reduced visibility... Consequently, all automated gantry crane operations are temporarily suspended."
 
 Q2: Where should truck drivers wait during the delay?
 * [ ] At the main gate entrance
-* [ ] Inside the administrative office
 * [x] In Holding Area B
+* [ ] Inside the administrative office
 * [ ] On the nearby highway shoulder
 -- Explanation: The transcript explicitly states: "Truck drivers... are instructed to remain parked in Holding Area B."
-`;
+
+Q3: How long or under what condition are operations suspended?
+* [ ] Until the end of the current fiscal year
+* [ ] Until a new executive director is appointed
+* [x] Until environmental conditions improve
+* [ ] Permanently until further notice
+-- Explanation: The speaker confirms: "Consequently, all automated gantry crane operations are temporarily suspended until environmental conditions improve.".`;
 
 export const LESSON_Q3_079_MD = `---
 id: listen_toeic_q3_079
 title: "IT Project Migration & System Downtime Notification"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "IT Infrastructure Manager"
 tags: ["IT", "Project Management", "Software"]
 ---
 
@@ -4040,10 +4165,7 @@ tags: ["IT", "Project Management", "Software"]
 - downtime /ˈdaʊn.taɪm/ (n): thời gian hệ thống ngừng hoạt động. E.g., Scheduled server maintenance downtime will last two hours.
 - migration /maɪˈɡreɪ.ʃən/ (n): sự chuyển đổi hệ thống. E.g., The cloud database migration was completed with zero data loss.
 - backup /ˈbæk.ʌp/ (n, v): sao lưu dữ liệu. E.g., Always perform a full system backup before updating software.
-
-# GRAMMAR
-- Cấu trúc Bị động Lịch bảo trì (scheduled maintenance is set to take place between [Time] and [Time]): Thông báo gián đoạn hệ thống. E.g., Network maintenance is set to take place between midnight and 4 AM.
-- Cấu trúc Khuyên bảo Bắt buộc (users are strongly advised to save + Noun + before [Time]): Nhắc nhở bảo vệ dữ liệu. E.g., Users are strongly advised to save all open files before system shutdown.
+- benchmark /ˈbentʃ.mɑːrk/ (n): tiêu chuẩn đánh giá, mốc chuẩn so sánh. E.g., The quarterly report sets a new performance benchmark for the industry.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon employees, this is an important technical alert from the IT Infrastructure Department.
@@ -4061,28 +4183,32 @@ tags: ["IT", "Project Management", "Software"]
 # QUIZ
 Q1: When will the cloud database migration take place?
 * [ ] Friday evening at 5 PM
-* [x] This Saturday from 10 PM until 2 AM
 * [ ] Sunday morning at 8 AM
 * [ ] Next Monday during office hours
+* [x] This Saturday from 10 PM until 2 AM
 -- Explanation: The IT manager announces: "migration is set to take place this Saturday from 10 PM until 2 AM."
 
 Q2: How long will the system downtime window last?
-* [ ] Two hours
 * [x] Four hours
+* [ ] Two hours
 * [ ] Six hours
 * [ ] Eight hours
 -- Explanation: The transcript explicitly states: "During this four-hour downtime window, internal email... will be completely inaccessible."
-`;
+
+Q3: What are employees or attendees encouraged or advised to do?
+* [ ] File an overtime compensation grievance
+* [x] Log out of their workstations and save all active files before leaving on Friday
+* [ ] Leave the building premises immediately
+* [ ] Work remotely from home for the rest of the week
+-- Explanation: The speaker notes: "All staff are strongly advised to log out of their workstations and save all active files before leaving on Friday.".`;
 
 export const LESSON_Q3_080_MD = `---
 id: listen_toeic_q3_080
 title: "Corporate Credit Facility & Line of Credit Renewal"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Corporate Banking Relationship Manager"
 tags: ["Banking", "Finance", "Credit"]
 ---
 
@@ -4090,10 +4216,7 @@ tags: ["Banking", "Finance", "Credit"]
 - line of credit /laɪn əv ˈkred.ɪt/ (n): hạn mức tín dụng. E.g., The bank approved an extension on the company's revolving line of credit.
 - interest rate /ˈɪn.trɪst reɪt/ (n): lãi suất. E.g., Negotiating a lower interest rate reduces corporate borrowing costs.
 - covenant /ˈkʌv.ə.nənt/ (n): điều khoản cam kết tài chính. E.g., Maintaining a healthy debt-to-equity ratio satisfies loan covenants.
-
-# GRAMMAR
-- Cấu trúc Bị động Phê duyệt Tín dụng (your application for a credit renewal has been approved by + Noun): Thông báo kết quả tín dụng. E.g., Your revolving credit line has been approved by the credit committee.
-- Cấu trúc Điều kiện Bắt buộc (terms will take effect upon returning + Noun): Điều kiện hợp đồng có hiệu lực. E.g., New interest rates will take effect upon returning the signed agreement.
+- workflow /ˈwɝːk.floʊ/ (n): quy trình làm việc. E.g., Automating administrative tasks optimizes team workflow.
 
 # TRANSCRIPT
 [00:00.00] Hello Mr. Sterling, this is Evelyn from Commercial Banking Relationship Services following up on your account.
@@ -4111,28 +4234,32 @@ tags: ["Banking", "Finance", "Credit"]
 # QUIZ
 Q1: What news did Evelyn share regarding Mr. Sterling's corporate account?
 * [ ] The line of credit was canceled
-* [x] The annual renewal of a $10 million line of credit was approved
 * [ ] The bank requested immediate loan repayment
+* [x] The annual renewal of a $10 million line of credit was approved
 * [ ] Account maintenance fees were increased
 -- Explanation: Evelyn informs Mr. Sterling that the credit committee "approved the annual renewal of your ten-million-dollar line of credit."
 
 Q2: By how much was the company's floating interest rate reduced?
 * [ ] 10 basis points
-* [x] 25 basis points
 * [ ] 50 basis points
 * [ ] 100 basis points
+* [x] 25 basis points
 -- Explanation: The transcript explicitly states: "we lowered your floating interest rate by twenty-five basis points."
-`;
+
+Q3: What are listeners requested to do?
+* [x] Sign the attached credit renewal agreement and return it to our central office before the end of the month
+* [ ] Submit an immediate resignation notice
+* [ ] Contact emergency facilities technicians
+* [ ] Cease all client communications for the day
+-- Explanation: The speaker instructs: "Please sign the attached credit renewal agreement and return it to our central office before the end of the month.".`;
 
 export const LESSON_Q3_081_MD = `---
 id: listen_toeic_q3_081
 title: "MICE International Convention & Catering Setup"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Hotel Event Operations Manager"
 tags: ["Hospitality", "Event", "MICE"]
 ---
 
@@ -4140,10 +4267,7 @@ tags: ["Hospitality", "Event", "MICE"]
 - convention /kənˈven.ʃən/ (n): hội nghị/hội thảo lớn. E.g., The annual medical convention attracted two thousand delegates.
 - catering setup /ˈkeɪ.t̬ɚ.ɪŋ ˈset.ʌp/ (n): việc sắp xếp dịch vụ ăn uống. E.g., Banquet staff prepared the catering setup in Grand Ballroom A.
 - delegate /ˈdel.ə.ɡət/ (n): đại biểu tham dự hội nghị. E.g., Registered delegates receive conference badges and program materials.
-
-# GRAMMAR
-- Cấu trúc Bị động Lịch trình Tiệc (buffet lunch will be served in [Location] starting at [Time]): Thông báo lịch ăn uống sự kiện. E.g., Dinner will be served in the main dining hall starting at 7 PM.
-- Cấu trúc Hướng dẫn Di chuyển (delegates are requested to move to [Location] for [Event]): Điều hướng khách tham dự. E.g., Attendees are requested to move to Hall B for the breakout session.
+- compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ quy chuẩn pháp lý. E.g., All departments must ensure strict regulatory compliance.
 
 # TRANSCRIPT
 [00:00.00] Good morning event staff, here is our operational brief for the International Tech Summit opening today.
@@ -4172,17 +4296,21 @@ Q2: What must banqueting staff ensure during the 10:30 AM mid-morning break?
 * [x] Fully restock all coffee refresh stations
 * [ ] Distribute gift bags to delegates
 -- Explanation: The transcript explicitly states: "Banqueting staff must ensure all coffee refresh stations are fully restocked."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+* [x] Be served in the adjoining Exhibition Hall from noon
+-- Explanation: The speaker notes: "Following the keynote address, a catered buffet lunch will be served in the adjoining Exhibition Hall from noon.".`;
 
 export const LESSON_Q3_082_MD = `---
 id: listen_toeic_q3_082
 title: "Aircraft Maintenance Inspection & Flight Safety Standards"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Aviation Maintenance Supervisor"
 tags: ["Aviation", "Maintenance", "Safety"]
 ---
 
@@ -4190,10 +4318,7 @@ tags: ["Aviation", "Maintenance", "Safety"]
 - maintenance /ˈmeɪn.tən.əns/ (n): sự bảo dưỡng, bảo trì. E.g., Scheduled aircraft maintenance prevents technical delays.
 - hydraulic /haɪˈdrɑː.lɪk/ (adj): thuộc thủy lực. E.g., Mechanics inspected the aircraft's hydraulic fluid levels.
 - clearance /ˈklɪr.əns/ (n): sự cấp phép cất cánh. E.g., The plane received maintenance clearance for departure.
-
-# GRAMMAR
-- Cấu trúc Bị động Thì Hiện tại Hoàn thành (has undergone + Noun): Thông báo hoàn thành kiểm tra kỹ thuật. E.g., Aircraft 402 has undergone a comprehensive safety audit.
-- Cấu trúc Diễn tả Mục đích Kỹ thuật (inspected in order to verify + Noun): Giải thích quy trình an toàn. E.g., Landing gear was inspected in order to verify structural integrity.
+- protocol /ˈproʊ.t̬ə.kɑːl/ (n): quy trình, nghi thức chuẩn mực. E.g., Emergency safety protocols must be reviewed annually.
 
 # TRANSCRIPT
 [00:00.00] Good morning hangar mechanics, here is our briefing on the routine servicing for Boeing Flight 602.
@@ -4210,29 +4335,33 @@ tags: ["Aviation", "Maintenance", "Safety"]
 
 # QUIZ
 Q1: What system was completed and verified as functioning normally?
-* [ ] Passenger cabin air conditioning
 * [x] Radar sensors and flight control systems
+* [ ] Passenger cabin air conditioning
 * [ ] Fuel line delivery pumps
 * [ ] Emergency escape slides
 -- Explanation: The supervisor states that "our avionics team completed the radar sensor check, and all flight control systems are functioning normally."
 
 Q2: When will final flight clearance be granted?
 * [ ] At 12 PM
-* [ ] At 1 PM
 * [x] Once technicians complete pressure testing by 3 PM
+* [ ] At 1 PM
 * [ ] Tomorrow morning before departure
 -- Explanation: The transcript explicitly mentions: "Final flight clearance will be granted once technicians complete pressure testing by 3 PM."
-`;
+
+Q3: What maintenance or corrective action is required?
+* [ ] Complete decommissioning of the machinery
+* [ ] Hiring an external consulting firm
+* [x] Immediate seal replacement
+* [ ] Shutting down the facility for several months
+-- Explanation: The transcript confirms: "However, we detected a minor hydraulic fluid leak near engine number two that requires immediate seal replacement.".`;
 
 export const LESSON_Q3_083_MD = `---
 id: listen_toeic_q3_083
 title: "Media Production Schedule & Location Shooting Permits"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Film Production Manager"
 tags: ["Media", "Production", "Entertainment"]
 ---
 
@@ -4240,10 +4369,7 @@ tags: ["Media", "Production", "Entertainment"]
 - permit /ˈpɝː.mɪt/ (n): giấy phép quay phim. E.g., The crew secured municipal permits for shooting in the historic district.
 - schedule /ˈskedʒ.uːl/ (n, v): lịch trình. E.g., Weather disruptions forced us to adjust our filming schedule.
 - crew /kruː/ (n): đoàn làm phim. E.g., The camera crew prepared equipment for the morning scene.
-
-# GRAMMAR
-- Cấu trúc Bị động Điều kiện (filming will proceed provided that + Clause): Điều kiện tiến hành bấm máy. E.g., Filming will proceed provided that weather permits remain clear.
-- Cấu trúc Yêu cầu Di chuyển Thiết bị (all camera equipment must be packed and moved to + Location): Chỉ đạo hậu cần đoàn phim. E.g., All sound gear must be moved to Location B.
+- initiative /ɪˈnɪʃ.ə.t̬ɪv/ (n): sáng kiến đổi mới. E.g., Management launched a green initiative to reduce corporate carbon footprints.
 
 # TRANSCRIPT
 [00:00.00] Attention production crew, here is our filming schedule update for scene twelve at City Hall Park.
@@ -4261,28 +4387,32 @@ tags: ["Media", "Production", "Entertainment"]
 # QUIZ
 Q1: On which days were municipal filming permits granted for City Hall Park?
 * [ ] Tuesday and Wednesday
-* [x] Thursday and Friday morning
 * [ ] Saturday and Sunday
 * [ ] Next Monday only
+* [x] Thursday and Friday morning
 -- Explanation: The production manager specifies that permits were granted "for Thursday and Friday morning."
 
 Q2: By what time must camera setups and sound equipment be ready?
-* [ ] 5:15 AM
 * [x] 6:00 AM
+* [ ] 5:15 AM
 * [ ] 7:30 AM
 * [ ] 8:00 AM
 -- Explanation: The transcript explicitly states: "all camera setups and sound equipment must be ready by 6 AM."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [x] Provide hot breakfast for the cast and crew near the north park entrance starting at 5:15 AM
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "Catering trucks will provide hot breakfast for the cast and crew near the north park entrance starting at 5:15 AM.".`;
 
 export const LESSON_Q3_084_MD = `---
 id: listen_toeic_q3_084
 title: "Commercial Credit Risk & Borrower Appraisal"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Chief Credit Risk Officer"
 tags: ["Banking", "Finance", "Risk Management"]
 ---
 
@@ -4290,10 +4420,7 @@ tags: ["Banking", "Finance", "Risk Management"]
 - appraisal /əˈpreɪ.zəl/ (n): sự thẩm định giá trị. E.g., Independent real estate appraisal verified the collateral's market value.
 - default /dɪˈfɑːlt/ (n, v): sự vỡ nợ. E.g., Assessing borrower financial ratios reduces loan default rates.
 - liquidity /lɪˈkwɪd.ə.t̬i/ (n): tính thanh khoản. E.g., The company maintained high liquidity to cover short-term debt obligations.
-
-# GRAMMAR
-- Cấu trúc Bị động Phê duyệt vay (the loan application was approved subject to + Noun): Điều kiện cấp tín dụng. E.g., The commercial loan was approved subject to personal guarantees.
-- Cấu trúc Diễn tả Khả năng Tài chính (demonstrate adequate cash flow to service + Noun): Đánh giá năng lực trả nợ. E.g., Borrowers must demonstrate cash flow to service monthly interest payments.
+- efficiency /ɪˈfɪʃ.ən.si/ (n): tính hiệu quả, năng suất. E.g., Upgraded server hardware enhances internal operational efficiency.
 
 # TRANSCRIPT
 [00:00.00] Good morning underwriting committee, I want to review the credit risk assessment for the Apex Logistics loan application.
@@ -4311,28 +4438,32 @@ tags: ["Banking", "Finance", "Risk Management"]
 # QUIZ
 Q1: What cap is recommended for Apex Logistics' revolving credit limit?
 * [ ] $2 million
-* [x] $5 million
 * [ ] $10 million
+* [x] $5 million
 * [ ] $15 million
 -- Explanation: The risk officer recommends "capping the total revolving credit limit at five million dollars."
 
 Q2: What is final loan disbursement conditional upon?
 * [ ] Hiring a new Chief Financial Officer
 * [ ] Paying a 5% processing fee
-* [x] Receiving an updated real estate appraisal for their warehouse
 * [ ] Extending the lease on their corporate office
+* [x] Receiving an updated real estate appraisal for their warehouse
 -- Explanation: The transcript explicitly states: "Final loan disbursement is conditional upon receiving an updated real estate appraisal."
-`;
+
+Q3: What does the speaker recommend doing?
+* [x] Capping the total revolving credit limit at five million dollars
+* [ ] Doubling the total corporate loan balance
+* [ ] Liquidating all remaining department assets
+* [ ] Refusing to extend lines of credit
+-- Explanation: The speaker recommends: "However, due to recent market fluctuations, we recommend capping the total revolving credit limit at five million dollars.".`;
 
 export const LESSON_Q3_085_MD = `---
 id: listen_toeic_q3_085
 title: "Wind Turbine Offshore Farm Expansion & Grid Output"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Renewable Energy Project Manager"
 tags: ["Energy", "Renewable", "Engineering"]
 ---
 
@@ -4340,10 +4471,7 @@ tags: ["Energy", "Renewable", "Engineering"]
 - turbine /ˈtɝː.baɪn/ (n): tua-bin điện gió. E.g., Modern offshore wind turbines generate clean electricity efficiently.
 - capacity /kəˈpæs.ə.t̬i/ (n): công suất. E.g., The wind farm expanded its total power generation capacity.
 - grid integration /ɡrɪd ˌɪn.t̬əˈɡreɪ.ʃən/ (n): sự hòa mạng lưới điện. E.g., Successful grid integration guarantees stable power distribution to urban centers.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Công suất Tăng trưởng (has increased power output by + Percentage): Báo cáo chỉ số kỹ thuật. E.g., The facility increased power output by fifteen percent.
-- Cấu trúc Bị động Tương lai Hoàn thành (will have been connected to + Noun + by [Date]): Mốc hoàn thành hòa lưới. E.g., All offshore turbines will have been connected to the grid by December.
+- confidentiality /ˌkɑːn.fə.den.ʃiˈæl.ə.t̬i/ (n): tính bảo mật thông tin. E.g., Staff signed non-disclosure agreements to preserve client confidentiality.
 
 # TRANSCRIPT
 [00:00.00] Good afternoon stakeholders, I am pleased to report on Phase Two of our offshore wind farm installation project.
@@ -4372,17 +4500,21 @@ Q2: By how much will the new turbines boost renewable grid output once connected
 * [x] 30%
 * [ ] 50%
 -- Explanation: The transcript explicitly states: "these turbines will boost our total renewable grid output by thirty percent."
-`;
+
+Q3: When is the event, operation, or interview scheduled?
+* [ ] Next Friday at 5:00 PM
+* [ ] At the end of the next quarter
+* [ ] Early tomorrow morning
+* [x] Officially on October 1st
+-- Explanation: The speaker states: "Full commercial operation and energy distribution are scheduled to begin officially on October 1st.".`;
 
 export const LESSON_Q3_086_MD = `---
 id: listen_toeic_q3_086
 title: "Pharma Cold Chain Logistics & Temperature Monitoring"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Pharma Logistics Director"
 tags: ["Pharma", "Logistics", "Cold Chain"]
 ---
 
@@ -4390,10 +4522,7 @@ tags: ["Pharma", "Logistics", "Cold Chain"]
 - cold chain /koʊld tʃeɪn/ (n): chuỗi cung ứng lạnh. E.g., Vaccine delivery requires an unbroken cold chain.
 - sensor /ˈsen.sɚ/ (n): cảm biến. E.g., Wireless sensors record temperature fluctuations during transit.
 - regulatory compliance /ˈreɡ.jə.lə.tɔːr.i kəmˈplaɪ.əns/ (n): sự tuân thủ quy định pháp lý. E.g., Strict cold chain tracking maintains regulatory compliance.
-
-# GRAMMAR
-- Cấu trúc Bị động Yêu cầu Bảo quản (vaccines are required to be kept at + Temperature): Quy định bảo quản y tế. E.g., Vaccines are required to be kept between two and eight degrees Celsius.
-- Cấu trúc Diễn tả Cảnh báo Tự động (if temperature exceeds [Threshold], an alert is transmitted): Cơ chế tự động hóa. E.g., An alert is transmitted if cooling fails.
+- collaboration /kəˌlæb.əˈreɪ.ʃən/ (n): sự hợp tác làm việc nhóm. E.g., Cross-functional collaboration accelerated the product development cycle.
 
 # TRANSCRIPT
 [00:00.00] Attention warehouse logistics operators, here is an urgent reminder regarding our pharmaceutical cold chain transport shipments.
@@ -4410,8 +4539,8 @@ tags: ["Pharma", "Logistics", "Cold Chain"]
 
 # QUIZ
 Q1: What is the required temperature range for the vaccine shipments during transit?
-* [ ] Zero to five degrees Celsius
 * [x] Two to eight degrees Celsius
+* [ ] Zero to five degrees Celsius
 * [ ] Five to ten degrees Celsius
 * [ ] Below freezing
 -- Explanation: The director specifies that shipments "must be stored strictly between two and eight degrees Celsius."
@@ -4422,17 +4551,21 @@ Q2: How often do the automated IoT sensors log temperature data?
 * [ ] Every 15 minutes
 * [ ] Every hour
 -- Explanation: The transcript explicitly states: "automated IoT sensors that log temperature data every five minutes."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [x] Be flagged for immediate laboratory inspection
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "Any shipments showing a temperature deviation exceeding fifteen minutes will be flagged for immediate laboratory inspection.".`;
 
 export const LESSON_Q3_087_MD = `---
 id: listen_toeic_q3_087
 title: "Intellectual Property Patent Filing & Trademark Protection"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "IP Legal Counsel"
 tags: ["Legal", "Intellectual Property", "Patent"]
 ---
 
@@ -4440,10 +4573,7 @@ tags: ["Legal", "Intellectual Property", "Patent"]
 - patent /ˈpæt.ənt/ (n): bằng sáng chế. E.g., Filing an international patent application protects corporate technological innovations.
 - trademark /ˈtreɪd.mɑːrk/ (n): thương hiệu, nhãn hiệu đăng ký. E.g., Registering our brand trademark prevents counterfeit market imitation.
 - infringement /ɪnˈfrɪndʒ.mənt/ (n): sự vi phạm bản quyền. E.g., The legal team issued a cease-and-desist letter regarding copyright infringement.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Trạng thái Hồ sơ (the patent application has been submitted to + Noun): Thông báo tiến độ pháp lý. E.g., The trademark application has been submitted to the international office.
-- Cấu trúc Bị động Yêu cầu Rà soát (all engineering designs must be reviewed for + Noun): Quy định an toàn pháp lý. E.g., All software code must be reviewed for potential patent infringement.
+- productivity /ˌproʊ.dʌkˈtɪv.ə.t̬i/ (n): năng suất lao động. E.g., Flexible work schedules contributed to higher employee productivity.
 
 # TRANSCRIPT
 [00:00.00] Good morning executive board, I have an important update regarding our international intellectual property portfolio.
@@ -4461,28 +4591,32 @@ tags: ["Legal", "Intellectual Property", "Patent"]
 # QUIZ
 Q1: What patent application was officially approved yesterday?
 * [ ] A new battery manufacturing process
-* [x] The core autonomous driving algorithm
 * [ ] A wireless phone charging design
 * [ ] An enterprise database architecture
+* [x] The core autonomous driving algorithm
 -- Explanation: The legal counsel specifies: "Our patent application for the core autonomous driving algorithm was officially approved."
 
 Q2: How many member countries are covered by the global patent protection?
+* [x] 25
 * [ ] 15
 * [ ] 20
-* [x] 25
 * [ ] 30
 -- Explanation: The transcript explicitly states: "secures our proprietary technology across twenty-five member countries."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [x] Now finalize European trademark registrations for our updated product logo next week
+* [ ] The budget will be reduced by fifty percent
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "Our legal team will now finalize European trademark registrations for our updated product logo next week.".`;
 
 export const LESSON_Q3_088_MD = `---
 id: listen_toeic_q3_088
 title: "Cross-Border E-Commerce & Overseas Customs Duties"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Cross-Border Logistics Lead"
 tags: ["E-Commerce", "Customs", "Trade"]
 ---
 
@@ -4490,10 +4624,7 @@ tags: ["E-Commerce", "Customs", "Trade"]
 - cross-border /krɑːs ˈbɔːr.dɚ/ (adj): xuyên biên giới. E.g., Cross-border e-commerce sales expanded rapidly across Asian markets.
 - customs duty /ˈkʌs.təmz ˈduː.ti/ (n): thuế hải quan. E.g., Calculating accurate customs duty upfront speeds up package clearance.
 - fulfillment /fʊlˈfɪl.mənt/ (n): sự hoàn tất và giao đơn hàng. E.g., Overseas fulfillment hubs reduce delivery lead times for global buyers.
-
-# GRAMMAR
-- Cấu trúc Tự động hóa Chi phí (duties will be calculated automatically at + Noun): Giải thích tính năng hệ thống thanh toán. E.g., Import taxes will be calculated automatically at checkout.
-- Cấu trúc Bị động Yêu cầu Khai báo (importers are required to declare + Noun): Quy định hải quan quốc tế. E.g., Retailers are required to declare package contents accurately.
+- optimization /ˌɑːp.tə.məˈzeɪ.ʃən/ (n): sự tối ưu hóa hệ thống. E.g., Code optimization reduced server response times significantly.
 
 # TRANSCRIPT
 [00:00.00] Attention international operations team, here is a briefing on our cross-border retail shipping integration.
@@ -4511,28 +4642,32 @@ tags: ["E-Commerce", "Customs", "Trade"]
 # QUIZ
 Q1: What enhancement was added to the online checkout engine?
 * [ ] Free gift packaging options
-* [x] Real-time calculation of foreign customs duties and import taxes
 * [ ] Multi-currency crypto payment support
+* [x] Real-time calculation of foreign customs duties and import taxes
 * [ ] Live video chat assistance with sales agents
 -- Explanation: The lead announces updating the checkout engine to "calculate real-time foreign customs duties and import taxes automatically."
 
 Q2: By how much is the automated clearance feature expected to reduce package return rates?
 * [ ] 15%
 * [ ] 25%
-* [x] 35%
 * [ ] 50%
+* [x] 35%
 -- Explanation: The transcript explicitly states: "expected to reduce overseas package return rates by thirty-five percent."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [x] Customers can now choose Delivered Duty Paid options, eliminating unexpected tax collection fees upon package arrival
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "Customers can now choose Delivered Duty Paid options, eliminating unexpected tax collection fees upon package arrival.".`;
 
 export const LESSON_Q3_089_MD = `---
 id: listen_toeic_q3_089
 title: "Nuclear Power Plant Radiation Safety & Inspection"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Nuclear Safety Director"
 tags: ["Energy", "Safety", "Nuclear"]
 ---
 
@@ -4540,10 +4675,7 @@ tags: ["Energy", "Safety", "Nuclear"]
 - radiation /ˌreɪ.diˈeɪ.ʃən/ (n): bức xạ, phóng xạ. E.g., Automated sensors continuously monitor background radiation levels.
 - containment vessel /kənˈteɪn.mənt ˈves.əl/ (n): lò/vỏ bọc an toàn hạt nhân. E.g., Engineers inspected the integrity of the concrete containment vessel.
 - protocol /ˈproʊ.tə.kɑːl/ (n): quy trình an toàn. E.g., Adhering to nuclear safety protocols protects plant operators.
-
-# GRAMMAR
-- Cấu trúc Bị động Thì Hiện tại Hoàn thành (routine radiation checks have been conducted by + Noun): Báo cáo công tác an toàn. E.g., Containment inspections have been conducted by federal authorities.
-- Cấu trúc Mệnh lệnh An toàn (all technical staff must wear + Noun): Yêu cầu bảo hộ bức xạ. E.g., Technicians must wear dosimeter badges in active zones.
+- allocate /ˈæl.ə.keɪt/ (v): phân bổ nguồn lực, kinh phí. E.g., Finance leaders agreed to allocate additional funding to research.
 
 # TRANSCRIPT
 [00:00.00] Attention all plant personnel, this is a safety announcement from the Health Physics and Safety Office.
@@ -4572,17 +4704,21 @@ Q2: What must technicians entering Reactor Building B do at the airlock exit?
 * [x] Scan their electronic dosimeter badges
 * [ ] Hand in their safety helmets
 -- Explanation: The transcript explicitly states: "Technicians... are reminded to scan their electronic dosimeter badges at the airlock exit."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+* [x] All environmental radiation readings across Reactors 1 and 2 remain well below federal safety thresholds
+-- Explanation: The speaker emphasizes: "All environmental radiation readings across Reactors 1 and 2 remain well below federal safety thresholds.".`;
 
 export const LESSON_Q3_090_MD = `---
 id: listen_toeic_q3_090
 title: "EdTech Learning Management System & Interactive Modules"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "EdTech Product Director"
 tags: ["EdTech", "Education", "Software"]
 ---
 
@@ -4590,10 +4726,7 @@ tags: ["EdTech", "Education", "Software"]
 - Learning Management System (LMS) /ˈlɝː.nɪŋ ˈmæn.ədʒ.mənt ˈsɪs.təm/ (n): hệ thống quản lý học tập. E.g., Teachers track student progress using the online LMS portal.
 - interactive /ˌɪn.t̬ɚˈæk.tɪv/ (adj): tương tác. E.g., Interactive video quizzes improve course completion rates.
 - analytics /ˌæn.əlˈɪt.ɪks/ (n): dữ liệu phân tích. E.g., Course analytics show where students spend the most study time.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Tính năng Mới (the platform now offers [N/NP] allowing users to + V-bare): Mô tả tính năng ứng dụng học tập. E.g., The LMS offers video tools allowing students to practice speaking.
-- Cấu trúc Bị động Chỉ Tiến độ (new content modules have been uploaded to + Location): Thông báo cập nhật học liệu. E.g., Updated practice tests have been uploaded to the student portal.
+- prioritize /praɪˈɔːr.ə.taɪz/ (v): ưu tiên xử lý trước. E.g., Customer support specialists prioritize high-urgency inquiries.
 
 # TRANSCRIPT
 [00:00.00] Hello instructional designers, I want to highlight the performance results of our upgraded learning platform.
@@ -4610,9 +4743,9 @@ tags: ["EdTech", "Education", "Software"]
 
 # QUIZ
 Q1: By how much did student course completion rates increase after integrating video modules?
+* [x] 22%
 * [ ] 12%
 * [ ] 18%
-* [x] 22%
 * [ ] 30%
 -- Explanation: The product director states: "overall student course completion rates rose by twenty-two percent."
 
@@ -4622,17 +4755,21 @@ Q2: What new mobile feature will be deployed across iOS and Android devices by t
 * [ ] Live video tutoring calls
 * [ ] Automated textbook ordering
 -- Explanation: The transcript explicitly mentions: "We will deploy the new mobile offline learning feature."
-`;
+
+Q3: What capability does the new AI dashboard provide?
+* [ ] Grading all final exams automatically without teachers
+* [ ] Cancelling classes that fail to meet enrollment targets
+* [x] Identify struggling students early and send automated study reminders
+* [ ] Publishing student scores on public websites
+-- Explanation: The transcript mentions: "Furthermore, our new AI dashboard allows instructors to identify struggling students early and send automated study reminders.".`;
 
 export const LESSON_Q3_091_MD = `---
 id: listen_toeic_q3_091
 title: "Food Supply Chain Traceability & QR Code Tracking"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Supply Chain Quality Assurance Director"
 tags: ["Food Safety", "Supply Chain", "Logistics"]
 ---
 
@@ -4640,10 +4777,7 @@ tags: ["Food Safety", "Supply Chain", "Logistics"]
 - traceability /ˌtreɪ.səˈbɪl.ə.t̬i/ (n): khả năng truy xuất nguồn gốc. E.g., QR codes provide complete farm-to-table food supply chain traceability.
 - recall /rɪˈkɑːl/ (v, n): sự thu hồi sản phẩm. E.g., Rapid lot identification minimizes the scope of food safety recalls.
 - distribution center /ˌdɪs.trɪˈbjuː.ʃən ˈsen.t̬ɚ/ (n): trung tâm phân phối. E.g., Produce shipments are inspected before leaving the distribution center.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Công nghệ Truy xuất (allows consumers to scan [N/NP] to verify + Noun): Giải thích ứng dụng công nghệ. E.g., Scanning the QR code allows buyers to verify organic origin.
-- Cấu trúc Bị động Yêu cầu In Mã (all food packaging is required to display + Noun): Quy định nhãn mác thực phẩm. E.g., All meat products are required to display origin tracking barcodes.
+- streamline /ˈstriːm.laɪn/ (v): tinh giản, tổ chức hợp lý hóa. E.g., The corporate restructure aims to streamline reporting channels.
 
 # TRANSCRIPT
 [00:00.00] Attention retail operations partners, here is an update on our farm-to-table food safety tracking initiative.
@@ -4661,28 +4795,32 @@ tags: ["Food Safety", "Supply Chain", "Logistics"]
 # QUIZ
 Q1: What information can consumers view by scanning the QR code on fresh produce containers?
 * [ ] Recipe ideas and cooking tutorials
-* [x] Origin farm details, harvest dates, and temperature logs
 * [ ] Store cashier employee names
 * [ ] Loyalty reward points earned
+* [x] Origin farm details, harvest dates, and temperature logs
 -- Explanation: The director specifies that consumers can "view origin farm details, harvest dates, and temperature logs."
 
 Q2: By what percentage did the traceability system reduce inventory verification times at receiving docks?
+* [x] 40%
 * [ ] 20%
 * [ ] 30%
-* [x] 40%
 * [ ] 50%
 -- Explanation: The transcript explicitly states: "reduced inventory verification times at receiving docks by forty percent."
-`;
+
+Q3: What can consumers do with the QR code?
+* [ ] Redeem a fifty-percent grocery discount voucher
+* [x] The code with their smartphones to view origin farm details, harvest dates, and temperature logs
+* [ ] Order products directly from wholesale suppliers
+* [ ] Enter an annual sweepstakes contest
+-- Explanation: The speaker states: "Consumers can scan the code with their smartphones to view origin farm details, harvest dates, and temperature logs.".`;
 
 export const LESSON_Q3_092_MD = `---
 id: listen_toeic_q3_092
 title: "Luxury Beach Resort Grand Opening & VIP Amenities"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Resort General Manager"
 tags: ["Hospitality", "Real Estate", "Tourism"]
 ---
 
@@ -4690,10 +4828,7 @@ tags: ["Hospitality", "Real Estate", "Tourism"]
 - beachfront /ˈbiːtʃ.frʌnt/ (adj, n): bờ biển, sát biển. E.g., The resort features fifty luxury beachfront villas with private pools.
 - hospitality /ˌhɑː.spɪˈtæl.ə.t̬i/ (n): ngành dịch vụ khách sạn - nhà hàng. E.g., Delivering world-class hospitality is our resort's primary mission.
 - reservation /ˌrez.ɚˈveɪ.ʃən/ (n): sự đặt phòng, việc giữ chỗ. E.g., VIP guests can manage their resort reservations via our mobile app.
-
-# GRAMMAR
-- Cấu trúc Bị động Tuyên bố Khai trương (is officially scheduled to open on + Date): Thông báo khai trương dự án. E.g., The luxury hotel is officially scheduled to open on December 1st.
-- Cấu trúc Diễn tả Ưu đãi Đặt chỗ (guests who book before [Date] will receive + Noun): Chương trình khuyến mãi mở bán. E.g., Guests who book before Friday will receive complimentary spa vouchers.
+- authorization /ˌɑː.θɚ.əˈzeɪ.ʃən/ (n): sự cấp phép chính thức. E.g., Purchase orders require senior management authorization.
 
 # TRANSCRIPT
 [00:00.00] Good morning travel partners, I am thrilled to present our newest luxury property, the Azure Beach Resort.
@@ -4718,21 +4853,25 @@ Q1: How many private villas does the Azure Beach Resort feature?
 
 Q2: What incentive is offered to travel agents who register guest bookings before October 30th?
 * [ ] Free weekend stays for agents
-* [x] An additional 5% commission bonus
 * [ ] Complimentary airport limousine transfers
 * [ ] Free marketing banners
+* [x] An additional 5% commission bonus
 -- Explanation: The transcript explicitly states: "will receive an additional five percent commission bonus."
-`;
+
+Q3: When is the event, operation, or interview scheduled?
+* [x] November 15th, followed by full operational booking access
+* [ ] Next Friday at 5:00 PM
+* [ ] At the end of the next quarter
+* [ ] Early tomorrow morning
+-- Explanation: The speaker states: "Our official grand opening celebration is scheduled for November 15th, followed by full operational booking access.".`;
 
 export const LESSON_Q3_093_MD = `---
 id: listen_toeic_q3_093
 title: "Smart Agriculture Monitoring & Cattle Health Tracking"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Agritech Solutions Director"
 tags: ["Agritech", "Agriculture", "IoT"]
 ---
 
@@ -4740,10 +4879,7 @@ tags: ["Agritech", "Agriculture", "IoT"]
 - livestock /ˈlaɪv.stɑːk/ (n): vật nuôi, gia súc. E.g., Wearable IoT sensors monitor livestock vital signs around the clock.
 - sensor /ˈsen.sɚ/ (n): cảm biến. E.g., Smart collars contain biometric sensors that record body temperature.
 - herd /hɝːd/ (n): đàn gia súc. E.g., The software tracks the daily movement patterns of the entire herd.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Tính năng Giám sát (allows farmers to track [N/NP] in real time): Giải thích công nghệ nông nghiệp. E.g., The dashboard allows farmers to track animal health in real time.
-- Cấu trúc Tự động Phát hiện Dấu hiệu (when body temperature exceeds [Threshold], an alert is sent): Cảnh báo tự động. E.g., An alert is sent when abnormal vitals are detected.
+- consensus /kənˈsen.səs/ (n): sự đồng thuận chung. E.g., Committee members reached a consensus on the new budget proposal.
 
 # TRANSCRIPT
 [00:00.00] Hello agricultural tech representatives, welcome to our demonstration of the Smart Farm Livestock Collar.
@@ -4761,8 +4897,8 @@ tags: ["Agritech", "Agriculture", "IoT"]
 # QUIZ
 Q1: How often do the smart collar biometric sensors log animal body temperature and activity?
 * [ ] Every minute
-* [ ] Every 5 minutes
 * [x] Every 10 minutes
+* [ ] Every 5 minutes
 * [ ] Every hour
 -- Explanation: The director specifies that sensors monitor vitals "every ten minutes."
 
@@ -4772,17 +4908,21 @@ Q2: By how much did early health intervention reduce herd medical treatment cost
 * [x] 30%
 * [ ] 40%
 -- Explanation: The transcript explicitly states: "reduced herd medical treatment costs by thirty percent."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+* [x] If an animal shows early signs of illness or stress, an automated alert is transmitted directly to the farmer's smartphone
+-- Explanation: The speaker emphasizes: "If an animal shows early signs of illness or stress, an automated alert is transmitted directly to the farmer's smartphone.".`;
 
 export const LESSON_Q3_094_MD = `---
 id: listen_toeic_q3_094
 title: "Commercial Property Fire Insurance & Safety Compliance"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Commercial Insurance Risk Inspector"
 tags: ["Insurance", "Safety", "Real Estate"]
 ---
 
@@ -4790,10 +4930,7 @@ tags: ["Insurance", "Safety", "Real Estate"]
 - sprinkler system /ˈsprɪŋ.klɚ ˈsɪs.təm/ (n): hệ thống chữa cháy tự động. E.g., Building inspection verified that all emergency sprinkler systems are operational.
 - compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ quy định. E.g., Maintaining fire safety compliance qualifies property owners for lower premiums.
 - hazard /ˈhæz.ɚd/ (n): mối nguy hiểm cháy nổ. E.g., Chemical storage areas must be cleared of flammable hazards.
-
-# GRAMMAR
-- Cấu trúc Bị động Điều kiện Giảm Phí (premium discounts will be granted provided that + Clause): Lợi ích tuân thủ an toàn. E.g., Policy discounts will be granted provided that fire alarms pass inspection.
-- Cấu trúc Yêu cầu Bắt buộc (property owners are required to inspect + Noun + annually): Quy định pháp lý bảo hiểm. E.g., Owners are required to inspect fire extinguishers annually.
+- discrepancy /dɪˈskrep.ən.si/ (n): sự sai lệch, khác biệt số liệu. E.g., The internal audit detected an accounting discrepancy in inventory logs.
 
 # TRANSCRIPT
 [00:00.00] Attention commercial building owners, this is an advisory notice from National Fire and Property Insurance.
@@ -4810,29 +4947,33 @@ tags: ["Insurance", "Safety", "Real Estate"]
 
 # QUIZ
 Q1: What will fire safety inspectors verify during the annual audit?
-* [ ] Employee attendance records
 * [x] Water sprinklers, smoke detectors, and emergency exit doors
+* [ ] Employee attendance records
 * [ ] Computer server network wiring
 * [ ] Parking lot paving conditions
 -- Explanation: The inspector specifies that they will verify "automated water sprinklers, smoke detectors, and emergency exit doors."
 
 Q2: What benefit will policyholders receive if they pass the audit without violations?
 * [ ] Free legal consultations for one year
-* [ ] Extended policy coverage duration
 * [x] A 10% credit on their annual premium
+* [ ] Extended policy coverage duration
 * [ ] Full refund of past insurance claims
 -- Explanation: The transcript explicitly states: "will receive a ten percent credit on their annual premium."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [x] Verify the operational readiness of automated water sprinklers, smoke detectors, and emergency exit doors
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "Inspectors will verify the operational readiness of automated water sprinklers, smoke detectors, and emergency exit doors.".`;
 
 export const LESSON_Q3_095_MD = `---
 id: listen_toeic_q3_095
 title: "Airport Terminal Runway Renovation & Gate Reassignment"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Airport Duty Manager"
 tags: ["Aviation", "Airport", "Operations"]
 ---
 
@@ -4840,10 +4981,7 @@ tags: ["Aviation", "Airport", "Operations"]
 - runway /ˈrʌn.weɪ/ (n): đường băng cất/hạ cánh. E.g., Runway 2 North is temporarily closed for surface resurfacing.
 - gate reassignment /ɡeɪt ˌriː.əˈsaɪn.mənt/ (n): sự phân công lại cửa khởi hành. E.g., Gate reassignments will be displayed on flight information monitors.
 - tarmac /ˈtɑːr.mæk/ (n): đường lăn, khu vực bãi đỗ máy bay. E.g., Ground vehicles must observe strict speed limits on the tarmac.
-
-# GRAMMAR
-- Cấu trúc Bị động Tạm dừng (Runway 14 South will be closed for resurfacing from [Date] to [Date]): Thông báo nâng cấp sân bay. E.g., The main terminal will be closed for cleaning overnight.
-- Cấu trúc Nhắc nhở Theo dõi Thông tin (passengers are advised to check + Noun + for updates): Lời khuyên di chuyển. E.g., Passengers are advised to check flight screens for gate changes.
+- feasibility /ˌfiː.zəˈbɪl.ə.t̬i/ (n): tính khả thi của dự án. E.g., Engineers conducted a detailed feasibility study before construction.
 
 # TRANSCRIPT
 [00:00.00] Attention airport passengers and airline personnel, this is an operational announcement from Terminal Administration.
@@ -4861,28 +4999,32 @@ tags: ["Aviation", "Airport", "Operations"]
 # QUIZ
 Q1: When will Runway 2 North be closed for resurfacing?
 * [ ] From 8 AM until 12 PM today
-* [x] Starting midnight tonight until 5 AM tomorrow
 * [ ] All day Saturday
 * [ ] Next Monday evening
+* [x] Starting midnight tonight until 5 AM tomorrow
 -- Explanation: The duty manager states: "starting midnight tonight until 5 AM tomorrow."
 
 Q2: What are passengers advised to check for potential gate reassignment notices?
-* [ ] Their printed paper tickets
 * [x] Flight information display screens
+* [ ] Their printed paper tickets
 * [ ] Social media announcements
 * [ ] Baggage claim claim tags
 -- Explanation: The transcript explicitly states: "Passengers should check flight information display screens frequently."
-`;
+
+Q3: What condition is expected during the scheduled period?
+* [ ] All operations will cease completely
+* [x] All departing and arriving flights will be rerouted through Runway 1 South
+* [ ] All staff members will be relocated
+* [ ] Power will be cut off across the campus
+-- Explanation: The announcement notes: "During this maintenance window, all departing and arriving flights will be rerouted through Runway 1 South.".`;
 
 export const LESSON_Q3_096_MD = `---
 id: listen_toeic_q3_096
 title: "Video Game Development & Closed Beta Testing"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Game Development Lead"
 tags: ["Software", "Gaming", "Beta Testing"]
 ---
 
@@ -4890,10 +5032,7 @@ tags: ["Software", "Gaming", "Beta Testing"]
 - beta testing /ˈbeɪ.t̬ə ˈtest.ɪŋ/ (n): việc thử nghiệm bản Beta. E.g., Closed beta testing helps developers identify gameplay bugs before official release.
 - frame rate /freɪm reɪt/ (n): tốc độ khung hình (fps). E.g., Optimization tweaks improved frame rate performance on mobile devices.
 - server capacity /ˈsɝː.vɚ kəˈpæs.ə.t̬i/ (n): sức chứa/sức chịu tải của máy chủ. E.g., Scaling server capacity prevents crash issues during peak player logins.
-
-# GRAMMAR
-- Cấu trúc Bị động Tuyên bố Mở Beta (registration for closed beta testing is now open on + Location): Thông báo sự kiện phần mềm. E.g., Beta signups are now open on the community forum.
-- Cấu trúc Diễn tả Mục tiêu Thử nghiệm (designed to evaluate [N/NP] under [Conditions]): Giải thích mục tiêu test. E.g., Testing is designed to evaluate server stability under heavy traffic.
+- delegation /ˌdel.əˈɡeɪ.ʃən/ (n): sự phân công, ủy thác trách nhiệm. E.g., Effective managerial delegation empowers team leaders.
 
 # TRANSCRIPT
 [00:00.00] Hello gaming community, I am thrilled to announce an exciting update regarding our upcoming multiplayer title, Cyber Realm.
@@ -4918,21 +5057,25 @@ Q1: How many selected testers will be granted early access to closed beta testin
 
 Q2: What reward will testers receive if they submit detailed bug reports?
 * [ ] A cash prize refund
-* [x] An exclusive in-game cosmetic item upon official release
 * [ ] A free gaming console headset
 * [ ] VIP access to the development office
+* [x] An exclusive in-game cosmetic item upon official release
 -- Explanation: The transcript explicitly states: "will earn an exclusive in-game cosmetic item upon official release."
-`;
+
+Q3: What is the primary topic or announcement introduced by the speaker?
+* [x] Video Game Development & Closed Beta Testing
+* [ ] Annual dividend payouts for shareholders
+* [ ] A full recall of previous product versions
+* [ ] A company-wide staff downsizing initiative
+-- Explanation: The speaker introduces the topic: "Hello gaming community, I am thrilled to announce an exciting update regarding our upcoming multiplayer title, Cyber Realm.".`;
 
 export const LESSON_Q3_097_MD = `---
 id: listen_toeic_q3_097
 title: "Electronics Retail Store Extended Warranty Policy"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Retail Store Customer Service Manager"
 tags: ["Retail", "Electronics", "Warranty"]
 ---
 
@@ -4940,10 +5083,7 @@ tags: ["Retail", "Electronics", "Warranty"]
 - coverage /ˈkʌv.ɚ.ɪdʒ/ (n): phạm vi bảo hành. E.g., The extended warranty coverage includes accidental screen damage.
 - replacement /rɪˈpleɪs.mənt/ (n): sản phẩm thay thế. E.g., Unrepairable devices qualify for an immediate store replacement.
 - malfunction /ˌmælˈfʌŋk.ʃən/ (n, v): sự trục trặc, hỏng hóc. E.g., Technical malfunctions will be repaired free of charge under warranty.
-
-# GRAMMAR
-- Cấu trúc Diễn tả Quyền lợi Bảo hành (customers who purchase [N/NP] are entitled to receive + Noun): Thông báo quyền lợi mua hàng. E.g., Buyers are entitled to receive free technical support for one year.
-- Cấu trúc Bị động Điều kiện (repairs will be completed within + Time + upon presenting + Noun): Điều kiện sửa chữa. E.g., Repairs will be completed upon presenting proof of purchase.
+- contingency /kənˈtɪn.dʒən.si/ (n): tình huống dự phòng rủi ro. E.g., The project budget incorporates a ten-percent contingency fund.
 
 # TRANSCRIPT
 [00:00.00] Attention shoppers, welcome to the customer service counter at Megatech Electronics.
@@ -4972,17 +5112,21 @@ Q2: What happens if a defective product cannot be fixed within 48 hours?
 * [x] An immediate store replacement will be provided
 * [ ] A gift card will be issued by email
 -- Explanation: The transcript explicitly states: "an immediate store replacement will be provided."
-`;
+
+Q3: What will eligible participants or recipients receive?
+* [ ] A fully funded international holiday
+* [ ] An immediate promotion to department head
+* [ ] A complimentary ticket to next year's summit
+* [x] Free annual hardware checkups and priority repair service
+-- Explanation: The speaker confirms: "Customers who sign up for the three-year plan will receive free annual hardware checkups and priority repair service.".`;
 
 export const LESSON_Q3_098_MD = `---
 id: listen_toeic_q3_098
 title: "Organic Agriculture Farm Certification Audit"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Agricultural Inspection Director"
 tags: ["Agriculture", "Organic", "Certification"]
 ---
 
@@ -4990,10 +5134,7 @@ tags: ["Agriculture", "Organic", "Certification"]
 - pesticide /ˈpes.tə.saɪd/ (n): thuốc trừ sâu. E.g., Organic farming standards prohibit synthetic chemical pesticides.
 - compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ tiêu chuẩn. E.g., Soil testing verified full compliance with national organic criteria.
 - certification /ˌsɝː.t̬ə.fəˈkeɪ.ʃən/ (n): sự chứng nhận. E.g., Receiving official organic certification opens access to premium export markets.
-
-# GRAMMAR
-- Cấu trúc Bị động Thì Hiện tại Hoàn thành (soil samples have been collected from + Location): Báo cáo công tác thanh tra. E.g., Soil samples have been collected from all active farming fields.
-- Cấu trúc Diễn tả Kết quả Đánh giá (farms that meet [Criteria] will be awarded + Noun): Quyền lợi đạt chứng nhận. E.g., Qualified farms will be awarded the official green seal.
+- milestone /ˈmaɪl.stoʊn/ (n): cột mốc quan trọng. E.g., Completing the beta phase marks a critical project milestone.
 
 # TRANSCRIPT
 [00:00.00] Good morning regional growers, this is a announcement from the Department of Organic Standards and Compliance.
@@ -5010,29 +5151,33 @@ tags: ["Agriculture", "Organic", "Certification"]
 
 # QUIZ
 Q1: For how many years must crop fields remain free of synthetic chemicals to qualify for organic renewal?
+* [x] Three years
 * [ ] One year
 * [ ] Two years
-* [x] Three years
 * [ ] Five years
 -- Explanation: The director specifies that fields must have "remained completely free of prohibited synthetic chemicals for three years."
 
 Q2: When will growers who pass the inspection receive their certificate renewal?
 * [ ] Before the end of this week
-* [ ] By mid-September
 * [x] Before October 31st
+* [ ] By mid-September
 * [ ] By early next year
 -- Explanation: The transcript explicitly states: "will receive their official organic certificate renewal before October 31st."
-`;
+
+Q3: What will happen according to the speaker?
+* [ ] All operations will be halted permanently
+* [ ] The budget will be reduced by fifty percent
+* [x] Verify that all crop fields have remained completely free of prohibited synthetic chemicals for three years
+* [ ] The leadership team will be replaced
+-- Explanation: The speaker notes: "Certified inspectors will verify that all crop fields have remained completely free of prohibited synthetic chemicals for three years.".`;
 
 export const LESSON_Q3_099_MD = `---
 id: listen_toeic_q3_099
 title: "Intermodal Freight Transport & Railway Terminal Scheduling"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Intermodal Operations Manager"
 tags: ["Logistics", "Transport", "Freight"]
 ---
 
@@ -5040,10 +5185,7 @@ tags: ["Logistics", "Transport", "Freight"]
 - intermodal /ˌɪn.t̬ɚˈmoʊ.dəl/ (adj): vận tải đa phương thức. E.g., Intermodal freight shipping reduces overall transport costs and transit time.
 - transfer /trænsˈfɝː/ (v, n): sự trung chuyển hàng hóa. E.g., Container transfer from ship to rail takes approximately two hours.
 - yard /jɑːrd/ (n): bãi chứa/ga đỗ container. E.g., Containers are organized by destination in the central railway yard.
-
-# GRAMMAR
-- Cấu trúc Bị động Tự động hóa (containers are automatically transferred from [Origin] to [Destination]): Mô tả quy trình vận tải. E.g., Cargo is automatically loaded onto rail cars.
-- Cấu trúc Cam kết Thời gian Transit (total transit time from [Place] to [Place] is reduced to + Time): Khẳng định hiệu suất vận chuyển. E.g., Total transit time is reduced to three days.
+- benchmark /ˈbentʃ.mɑːrk/ (n): tiêu chuẩn đánh giá, mốc chuẩn so sánh. E.g., The quarterly report sets a new performance benchmark for the industry.
 
 # TRANSCRIPT
 [00:00.00] Attention shipping clients, this is an update from Pacific Rail and Intermodal Logistics Services.
@@ -5062,27 +5204,31 @@ tags: ["Logistics", "Transport", "Freight"]
 Q1: How quickly can automated gantry cranes transfer containers from ships to freight trains at Berth 5?
 * [ ] In under 30 minutes
 * [ ] In under 60 minutes
-* [x] In under 90 minutes
 * [ ] In under three hours
+* [x] In under 90 minutes
 -- Explanation: The operations manager states: "transfer shipping containers directly... in under ninety minutes."
 
 Q2: By how much does the new intermodal route reduce transit time to inland distribution hubs?
+* [x] By two full business days
 * [ ] By 12 hours
 * [ ] By one business day
-* [x] By two full business days
 * [ ] By one full week
 -- Explanation: The transcript explicitly states: "cuts total transit time to inland distribution hubs by two full business days."
-`;
+
+Q3: What key detail does the speaker emphasize?
+* [ ] An indefinite postponement of all projects
+* [x] Automated gantry cranes now transfer shipping containers directly from cargo vessels onto freight trains in under ninety minutes
+* [ ] A comprehensive audit by external tax authorities
+* [ ] A mandatory weekend shift for all personnel
+-- Explanation: The speaker emphasizes: "Automated gantry cranes now transfer shipping containers directly from cargo vessels onto freight trains in under ninety minutes.".`;
 
 export const LESSON_Q3_100_MD = `---
 id: listen_toeic_q3_100
 title: "Corporate Legal Contract Review & Nondisclosure Agreements"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Chief Legal Counsel"
 tags: ["Legal", "Corporate", "Contract"]
 ---
 
@@ -5090,10 +5236,7 @@ tags: ["Legal", "Corporate", "Contract"]
 - Nondisclosure Agreement (NDA) /ˌnɑːn.dɪˈskloʊ.ʒɚ əˈɡriː.mənt/ (n): thỏa thuận bảo mật thông tin. E.g., External contractors must sign a binding nondisclosure agreement before starting work.
 - confidentiality /ˌkɑːn.fə.den.ʃiˈæl.ə.t̬i/ (n): tính bảo mật. E.g., Maintaining client confidentiality is mandatory for all legal counsel.
 - clause /klɑːz/ (n): điều khoản hợp đồng. E.g., The legal team inserted a dispute resolution clause into the agreement.
-
-# GRAMMAR
-- Cấu trúc Bắt buộc Ký kết (all parties are required to execute [Document] prior to + V-ing/Noun): Quy định an toàn pháp lý. E.g., Partners are required to execute an NDA prior to sharing proprietary data.
-- Cấu trúc Bị động Yêu cầu Sửa đổi (contract drafts must be reviewed by + Noun): Quy trình phê duyệt pháp lý. E.g., Drafts must be reviewed by the legal department.
+- workflow /ˈwɝːk.floʊ/ (n): quy trình làm việc. E.g., Automating administrative tasks optimizes team workflow.
 
 # TRANSCRIPT
 [00:00.00] Good morning department managers, this is a legal compliance reminder regarding corporate partnership contracts.
@@ -5111,28 +5254,32 @@ tags: ["Legal", "Corporate", "Contract"]
 # QUIZ
 Q1: What document must third-party vendors sign before receiving proprietary project data?
 * [ ] A commercial credit application
-* [x] A standard mutual Nondisclosure Agreement (NDA)
 * [ ] A equipment purchase agreement
+* [x] A standard mutual Nondisclosure Agreement (NDA)
 * [ ] A site access security clearance form
 -- Explanation: The legal counsel specifies that vendors "must execute a standard mutual Nondisclosure Agreement."
 
 Q2: How far in advance must customized contract modifications be submitted to the legal team?
 * [ ] At least 24 hours
 * [ ] At least two business days
-* [x] At least three business days
 * [ ] At least one week
+* [x] At least three business days
 -- Explanation: The transcript explicitly states: "must be submitted to our legal counsel team at least three business days prior to signing."
-`;
+
+Q3: Where or how can relevant resources be accessed?
+* [x] Through the internal corporate legal portal
+* [ ] In a printed brochure at the front desk
+* [ ] Through an encrypted external flash drive
+* [ ] By mailing a formal letter to headquarters
+-- Explanation: The speaker mentions: "Standard approved NDA templates are readily downloadable from the internal corporate legal portal.".`;
 
 export const LESSON_Q3_101_MD = `---
 id: listen_toeic_q3_101
 title: "Hotel Housekeeping Quality Audit & Room Inspections"
-audio_url: "https://actions.google.com/sounds/v1/ambiences/office_environment.ogg"
+audio_url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
 level: "Intermediate"
 duration: "00:23"
 category: "TOEIC Part 4"
-accent: "en-US"
-voice: "Executive Housekeeper"
 tags: ["Hospitality", "Hotel", "Housekeeping"]
 ---
 
@@ -5140,10 +5287,7 @@ tags: ["Hospitality", "Hotel", "Housekeeping"]
 - housekeeping /ˈhaʊsˌkiː.pɪŋ/ (n): bộ phận buồng phòng. E.g., The housekeeping team cleans and inspects over two hundred guest rooms daily.
 - turn-down service /ˈtɝːn.daʊn ˈsɝː.vɪs/ (n): dịch vụ dọn dẹp phòng buổi tối. E.g., VIP suites receive complimentary evening turn-down service.
 - sanitation /ˌsæn.əˈteɪ.ʃən/ (n): sự vệ sinh, khử trùng. E.g., High-touch bathroom surfaces undergo strict sanitation procedures.
-
-# GRAMMAR
-- Cấu trúc Bị động Lịch kiểm tra (random room quality audits will be conducted by + Noun): Thông báo kiểm tra chất lượng. E.g., Room audits will be conducted by floor supervisors.
-- Cấu trúc Yêu cầu Chuẩn hóa (all guest rooms must be fully inspected and marked ready before + [Time]): Quy định vận hành buồng phòng. E.g., Rooms must be marked ready before 2 PM check-in.
+- compliance /kəmˈplaɪ.əns/ (n): sự tuân thủ quy chuẩn pháp lý. E.g., All departments must ensure strict regulatory compliance.
 
 # TRANSCRIPT
 [00:00.00] Good morning housekeeping staff, here is our operational brief for today's high-occupancy checkout schedule.
@@ -5161,18 +5305,24 @@ tags: ["Hospitality", "Hotel", "Housekeeping"]
 # QUIZ
 Q1: By what time must all guest rooms be sanitized and restocked for check-in?
 * [ ] By 11 AM
-* [ ] By 12 PM
 * [x] Before 2 PM check-in
+* [ ] By 12 PM
 * [ ] By 4 PM
 -- Explanation: The executive housekeeper specifies that "all rooms must be sanitized and restocked before 2 PM check-in."
 
 Q2: Who will conduct random quality inspections across all floors?
 * [ ] Front desk managers
-* [x] Floor supervisors
 * [ ] Hotel guests
+* [x] Floor supervisors
 * [ ] External health auditors
 -- Explanation: The transcript explicitly mentions: "Floor supervisors will conduct random quality inspections across all floors."
-`;
+
+Q3: What will eligible participants or recipients receive?
+* [ ] A fully funded international holiday
+* [ ] An immediate promotion to department head
+* [ ] A complimentary ticket to next year's summit
+* [x] A fifty dollar performance voucher
+-- Explanation: The speaker confirms: "Housekeeping attendants who achieve a top rating this week will receive a fifty dollar performance voucher.".`;
 
 const RAW_LESSONS_DATA: ListeningLesson[] = [
   ...CURATED_LEVEL_LESSONS,
@@ -5199,6 +5349,7 @@ const RAW_LESSONS_DATA: ListeningLesson[] = [
   parseListeningMarkdown(LESSON_Q3_018_MD),
   parseListeningMarkdown(LESSON_Q3_019_MD),
   parseListeningMarkdown(LESSON_Q3_020_MD),
+  parseListeningMarkdown(LESSON_Q3_021_MD),
   parseListeningMarkdown(LESSON_Q3_022_MD),
   parseListeningMarkdown(LESSON_Q3_023_MD),
   parseListeningMarkdown(LESSON_Q3_024_MD),

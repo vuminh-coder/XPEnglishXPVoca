@@ -181,7 +181,7 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
     if (currentSection === "VOCABULARY") {
       if (line.startsWith("-")) {
         // Regex fits: - relocate /ˌriː.loʊˈkeɪt/ (v): chuyển chỗ, di dời. E.g., The staff...
-        const vocReg = /^-\s*([^(/\s:][^(/\s]*?)\s*(?:\/([^/]+)\/)?\s*(?:\(([^)]+)\))?\s*:\s*(.*?)(?:\s*E\.g\.,?\s*(.*))?$/;
+        const vocReg = /^-\s*(.*?)(?:\s+\/([^/]+)\/)?(?:\s+\(([^)]+)\))?\s*:\s*(.*?)(?:\s*E\.g\.,?\s*(.*))?$/;
         const match = line.match(vocReg);
         if (match) {
           vocabularyList.push({

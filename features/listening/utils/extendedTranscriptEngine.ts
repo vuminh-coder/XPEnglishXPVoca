@@ -296,6 +296,7 @@ export function ensureExtendedLesson(lesson: ListeningLesson): ListeningLesson {
     duration: durationStr,
     transcript: normalizedTranscript,
     quizzes,
+    quizList: quizzes,
   };
 }
 
