@@ -405,17 +405,10 @@ export default function ThemeDetailPage({
         }
       >
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          {/* Theme Title & Word Count Badge */}
-          <div className="flex items-center gap-2 min-w-0">
-            <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate max-w-[140px] sm:max-w-[220px] md:max-w-[280px]">
-              {theme.name}
-            </h1>
-            <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/40 shrink-0">
-              {vocabs.length} từ
-            </span>
-          </div>
-
-          <div className="h-4 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block shrink-0" />
+          {/* Theme Title */}
+          <h1 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate max-w-[160px] sm:max-w-[240px] md:max-w-[320px]">
+            {theme.name}
+          </h1>
 
           {/* Clean Unified Mode Switcher */}
           <HeaderPillContainer>
@@ -430,7 +423,7 @@ export default function ThemeDetailPage({
               active={viewMode === "list"}
               onClick={() => handleSwitchViewMode("list")}
               icon={<List className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />}
-              label={`Danh Sách (${vocabs.length})`}
+              label="Danh Sách"
               layoutId="vocabDetailViewModePill"
             />
             <HeaderPillItem

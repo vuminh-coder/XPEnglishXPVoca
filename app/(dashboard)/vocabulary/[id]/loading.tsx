@@ -10,7 +10,6 @@ export default function VocabDetailLoading() {
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <div className="w-9 h-9 rounded-xl bg-slate-200 dark:bg-slate-800 shrink-0" />
           <div className="h-5 w-32 sm:w-44 rounded-lg bg-slate-200 dark:bg-slate-700 shrink-0" />
-          <div className="h-4 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block shrink-0" />
           <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 hidden sm:flex items-center gap-1 shrink-0">
             <div className="h-7 w-20 rounded-lg bg-blue-500/20" />
             <div className="h-7 w-24 rounded-lg bg-slate-200 dark:bg-slate-700" />
