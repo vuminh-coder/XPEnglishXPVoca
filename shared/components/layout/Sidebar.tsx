@@ -359,7 +359,7 @@ function SidebarNavInner({
                             {link.icon}
                           </span>
                           <span
-                            className={`font-bold text-[13px] truncate inline-block ${
+                            className={`font-bold text-[13px] whitespace-nowrap pr-0.5 inline-block ${
                               sidebarCollapsed ? "lg:hidden" : "lg:inline-block"
                             }`}
                           >
@@ -392,7 +392,7 @@ function SidebarNavInner({
                             <span className="sidebar-link-icon shrink-0">
                               <Crown className="w-[21px] h-[21px] text-amber-500" strokeWidth={1.8} />
                             </span>
-                            <span className="font-bold text-[13px] truncate">
+                            <span className="font-bold text-[13px] whitespace-nowrap pr-0.5">
                               {user?.isPremium ? "Hội viên PRO VIP" : "Nâng cấp Premium"}
                             </span>
                           </div>
