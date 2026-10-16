@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Video, MessageSquare, Clock, BookmarkCheck, Target } from "lucide-react";
 import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAvatar";
 import { ShimmerBox, ShimmerCircle } from "@/shared/components/feedback/ShimmerSkeleton";
-import { StreakFlame3D } from "@/shared/components/feedback/StreakFlame3D";
 import { formatPercent } from "@/shared/utils/formatPercent";
 
 interface DashboardHeroGreetingProps {
@@ -96,8 +95,12 @@ export function DashboardHeroGreeting({
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
         {/* Metric 1: Streak (Amber Gold) */}
         <div className="py-2 sm:py-2.5 px-3 sm:px-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5 sm:gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-800/60 shadow-2xs group">
-          <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform p-0.5 overflow-hidden">
-            <StreakFlame3D size="xs" showHalo={false} showSparks={false} />
+          <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 shadow-2xs p-1 overflow-hidden">
+            <img
+              src="/images/streak-flame-crystal.png"
+              alt="Streak Flame"
+              className="w-full h-full object-contain select-none pointer-events-none"
+            />
           </div>
           <div className="min-w-0 flex-1">
             {isActuallyLoading ? (
@@ -185,7 +188,7 @@ export function DashboardHeroGreeting({
                   style={{ width: `${xpPercent}%` }}
                 />
               </div>
-              <div className="text-[9.5px] sm:text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5 leading-tight">
+              <div className="text-[9.5px] sm:text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate mt-1.5 leading-tight">
                 Tiến độ cấp độ Lv.{user?.level || 1}
               </div>
             </div>
