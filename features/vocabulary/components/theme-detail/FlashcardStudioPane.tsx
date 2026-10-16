@@ -313,7 +313,7 @@ export function FlashcardStudioPane({
                     Ngữ cảnh:
                   </span>
                   {activeVocab.examples?.[0] ? (
-                    <span className="text-slate-600 dark:text-slate-300 font-medium italic truncate max-w-[85%] text-right">
+                    <span className="text-slate-600 dark:text-slate-300 font-medium truncate max-w-[85%] text-right">
                       &quot;{activeVocab.examples[0]}&quot;
                     </span>
                   ) : (
@@ -410,7 +410,7 @@ export function FlashcardStudioPane({
                             </button>
                           </div>
                           {activeVocab.exampleTranslations?.[idx] && (
-                            <div className="text-xs text-slate-500 dark:text-slate-400 italic pl-3">
+                            <div className="text-xs text-slate-500 dark:text-slate-400 pl-3">
                               {activeVocab.exampleTranslations[idx]}
                             </div>
                           )}
