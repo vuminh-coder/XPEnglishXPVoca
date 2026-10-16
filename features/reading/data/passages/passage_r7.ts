@@ -7,8 +7,8 @@ export const passage_r7: ReadingPassage = {
   "level": "A2",
   "icon": "💻",
   "coverImage": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&auto=format&fit=crop&q=80",
-  "duration": "4 min",
-  "wordCount": 135,
+  "duration": "3 min",
+  "wordCount": 126,
   "passage": "To: All Sales and Customer Support Representatives\nFrom: IT Training Department\nDate: September 5th\nSubject: Mandatory CRM System Upgrade Workshop\n\nNext month, our company will transition to CloudSphere CRM 4.0. To ensure a seamless migration and help you master the new sales automation tools, we are organizing interactive training workshops.\n\nSchedule Options (Select ONE session):\n- Session A: Tuesday, September 17th (9:30 AM - 12:30 PM)\n- Session B: Thursday, September 19th (1:30 PM - 4:30 PM)\n- Session C: Friday, September 20th (9:30 AM - 12:30 PM)\n\nLocation: Training Room 302 (Laptops with pre-installed software will be provided).\n\nPlease register your preferred session on the internal HR portal by September 12th. Attendance is mandatory for all team members. Refreshments will be served during the break.",
   "translation": "Gửi: Toàn thể nhân viên Bán hàng và Chăm sóc Khách hàng\nTừ: Phòng Đào tạo CNTT\nNgày: 5 tháng 9\nChủ đề: Hội thảo Nâng cấp Hệ thống CRM Bắt buộc\n\nTháng tới, công ty chúng ta sẽ chuyển đổi sang phần mềm CloudSphere CRM 4.0. Để đảm bảo quá trình chuyển đổi suôn sẻ và giúp bạn làm chủ các công cụ tự động hóa bán hàng mới, chúng tôi tổ chức các buổi đào tạo tương tác.\n\nCác tùy chọn lịch học (Chọn 1 buổi):\n- Buổi A: Thứ Ba, 17/9 (9:30 - 12:30)\n- Buổi B: Thứ Năm, 19/9 (13:30 - 16:30)\n- Buổi C: Thứ Sáu, 20/9 (9:30 - 12:30)\n\nĐịa điểm: Phòng Đào tạo 302 (Được cung cấp laptop cài sẵn phần mềm).\n\nVui lòng đăng ký buổi học trên cổng nội bộ trước ngày 12/9. Tham dự là bắt buộc.",
   "vocabularies": [

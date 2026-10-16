@@ -50,7 +50,7 @@ export const QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: VideoQuizData = {
       "targetedConcept": "Idiom: Hook someone up with",
       "targetedConceptEn": "Idiom: Hook someone up with",
       "targetedConceptVi": "Thành ngữ: Giúp đỡ / thu xếp cho ai đó",
-      "referenceSegmentIndex": 19
+      "referenceSegmentIndex": 20
     },
     {
       "id": "q_mov_ani_12_2",
@@ -82,7 +82,7 @@ export const QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: VideoQuizData = {
       "targetedConcept": "Idiom: In the zone",
       "targetedConceptEn": "Idiom: In the zone",
       "targetedConceptVi": "Thành ngữ: Đạt phong độ đỉnh cao",
-      "referenceSegmentIndex": 23
+      "referenceSegmentIndex": 24
     },
     {
       "id": "q_mov_ani_12_3",
@@ -114,7 +114,7 @@ export const QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: VideoQuizData = {
       "targetedConcept": "Slang: Can it!",
       "targetedConceptEn": "Slang: Can it!",
       "targetedConceptVi": "Tiếng lóng: Im miệng lại",
-      "referenceSegmentIndex": 34
+      "referenceSegmentIndex": 35
     },
     {
       "id": "q_mov_ani_12_4",
@@ -146,7 +146,7 @@ export const QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: VideoQuizData = {
       "targetedConcept": "Idiom: Word on the street is",
       "targetedConceptEn": "Idiom: Word on the street is",
       "targetedConceptVi": "Thành ngữ: Tin đồn thiên hạ",
-      "referenceSegmentIndex": 37
+      "referenceSegmentIndex": 38
     },
     {
       "id": "q_mov_ani_12_5",
@@ -178,7 +178,7 @@ export const QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: VideoQuizData = {
       "targetedConcept": "Proverb: Put your money where your mouth is",
       "targetedConceptEn": "Proverb: Put your money where your mouth is",
       "targetedConceptVi": "Thành ngữ: Nói đi đôi với làm",
-      "referenceSegmentIndex": 44
+      "referenceSegmentIndex": 45
     },
     {
       "id": "q_mov_ani_12_6",
@@ -210,7 +210,7 @@ export const QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: VideoQuizData = {
       "targetedConcept": "Vocabulary: Shifty eyes",
       "targetedConceptEn": "Vocabulary: Shifty eyes",
       "targetedConceptVi": "Từ vựng: Ánh mắt gian xảo / khả nghi",
-      "referenceSegmentIndex": 46
+      "referenceSegmentIndex": 47
     },
     {
       "id": "q_mov_ani_12_7",
@@ -242,7 +242,7 @@ export const QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: VideoQuizData = {
       "targetedConcept": "Idiom: Out of someone's hair",
       "targetedConceptEn": "Idiom: Out of someone's hair",
       "targetedConceptVi": "Thành ngữ: Hết quấy rầy / Không còn gây phiền toái",
-      "referenceSegmentIndex": 31
+      "referenceSegmentIndex": 32
     },
     {
       "id": "q_mov_ani_12_8",
@@ -274,7 +274,7 @@ export const QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: VideoQuizData = {
       "targetedConcept": "Idiom: Blow something / Blow it",
       "targetedConceptEn": "Idiom: Blow something / Blow it",
       "targetedConceptVi": "Thành ngữ: Làm hỏng chuyện / Bỏ lỡ cơ hội",
-      "referenceSegmentIndex": 29
+      "referenceSegmentIndex": 30
     }
   ]
 };
@@ -300,8 +300,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
   description:
     "Học tiếng Anh chuyên sâu cùng Monsters, Inc. (2001): Phân tích toàn diện 100% lời thoại kinh điển của Mike Wazowski & Sulley và bài giảng ngôn ngữ học, phủ kín 50 pure master segments từ thành ngữ giao tiếp 'in the zone', 'she's the one', 'hook someone up' đến tiếng lóng 'can it', 'word on the street' và 'shifty eyes'.",
   segments: [
-  {
-    "orderIndex": 0,
+    {
+    "orderIndex": 1,
     "startTime": 28,
     "endTime": 45,
     "text": "Monsters, Inc. has such a crazy concept! A city run by monsters that generates power by scaring little children!",
@@ -318,8 +318,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "tokenCount": 19
   },
-  {
-    "orderIndex": 1,
+    {
+    "orderIndex": 2,
     "startTime": 45,
     "endTime": 52,
     "text": "Still, I had a great time when I watched this movie for the first time.",
@@ -333,8 +333,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 15
   },
-  {
-    "orderIndex": 2,
+    {
+    "orderIndex": 3,
     "startTime": 52,
     "endTime": 70,
     "text": "Today you're going to watch a couple of scenes where Mike and Sulley deal with Randall, a shady monster with evil plans.",
@@ -351,10 +351,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
       "Sulley",
       "Randall"
     ],
-    "tokenCount": 23
+    "tokenCount": 22
   },
-  {
-    "orderIndex": 3,
+    {
+    "orderIndex": 4,
     "startTime": 70,
     "endTime": 87,
     "text": "First, you'll watch the clips with subtitles, then learn vocabulary and pronunciation, and finally test your listening skills without subtitles!",
@@ -367,10 +367,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Phương pháp luyện nghe 3 bước chuyên sâu giúp não bộ xây dựng phản xạ thính giác tự nhiên.",
     "properNouns": [],
-    "tokenCount": 21
+    "tokenCount": 20
   },
-  {
-    "orderIndex": 4,
+    {
+    "orderIndex": 5,
     "startTime": 87,
     "endTime": 92,
     "text": "You know, pal, she's the one! That's it, she is the one.",
@@ -382,10 +382,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Thành ngữ 'she's the one' (người con gái định mệnh của cuộc đời). Mike hào hứng khoe về mối tình với cô tiếp tân Celia.",
     "properNouns": [],
-    "tokenCount": 14
+    "tokenCount": 12
   },
-  {
-    "orderIndex": 5,
+    {
+    "orderIndex": 6,
     "startTime": 92,
     "endTime": 95,
     "text": "I'm happy for you.",
@@ -396,10 +396,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Lời chúc mừng chân thành của người bạn thân Sulley.",
     "properNouns": [],
-    "tokenCount": 5
+    "tokenCount": 4
   },
-  {
-    "orderIndex": 6,
+    {
+    "orderIndex": 7,
     "startTime": 95,
     "endTime": 98,
     "text": "Oh, and thanks for hooking me up with those reservations.",
@@ -413,8 +413,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 10
   },
-  {
-    "orderIndex": 7,
+    {
+    "orderIndex": 8,
     "startTime": 98,
     "endTime": 101,
     "text": "Oh, no problem. They're under the name Googly Bear.",
@@ -429,10 +429,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [
       "Googly Bear"
     ],
-    "tokenCount": 10
+    "tokenCount": 9
   },
-  {
-    "orderIndex": 8,
+    {
+    "orderIndex": 9,
     "startTime": 101,
     "endTime": 103,
     "text": "Oh, good idea!",
@@ -445,8 +445,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 3
   },
-  {
-    "orderIndex": 9,
+    {
+    "orderIndex": 10,
     "startTime": 103,
     "endTime": 114,
     "text": "You know, that wasn't very funny! What the... What do you know! It scares little kids and little monsters!",
@@ -459,10 +459,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Thành ngữ cảm thán: 'What do you know!' (Ai mà ngờ được chứ / Bất ngờ chưa!).",
     "properNouns": [],
-    "tokenCount": 20
+    "tokenCount": 19
   },
-  {
-    "orderIndex": 10,
+    {
+    "orderIndex": 11,
     "startTime": 114,
     "endTime": 117,
     "text": "I wasn't scared, I have allergies.",
@@ -474,10 +474,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Lời chống chế hài hước của Mike khi bị Randall tàng hình dọa giật nảy mình: 'Tôi bị dị ứng'.",
     "properNouns": [],
-    "tokenCount": 7
+    "tokenCount": 6
   },
-  {
-    "orderIndex": 11,
+    {
+    "orderIndex": 12,
     "startTime": 117,
     "endTime": 120,
     "text": "Uh-huh, sure.",
@@ -488,10 +488,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Giọng điệu mỉa mai, hoài nghi 'Uh-huh, sure' (Chắc thế rồi, ai mà tin được).",
     "properNouns": [],
-    "tokenCount": 3
+    "tokenCount": 2
   },
-  {
-    "orderIndex": 12,
+    {
+    "orderIndex": 13,
     "startTime": 120,
     "endTime": 126,
     "text": "Hey Randall, save it for the scare floor, will you?",
@@ -507,8 +507,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "tokenCount": 10
   },
-  {
-    "orderIndex": 13,
+    {
+    "orderIndex": 14,
     "startTime": 126,
     "endTime": 134,
     "text": "I'm in the zone today, Sullivan! Going to be doing some serious scaring, putting up some big numbers!",
@@ -523,10 +523,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [
       "Sullivan"
     ],
-    "tokenCount": 19
+    "tokenCount": 18
   },
-  {
-    "orderIndex": 14,
+    {
+    "orderIndex": 15,
     "startTime": 134,
     "endTime": 142,
     "text": "Wow, Randall, that's great. That should make it even more humiliating when we break the record first!",
@@ -540,10 +540,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [
       "Randall"
     ],
-    "tokenCount": 18
+    "tokenCount": 17
   },
-  {
-    "orderIndex": 15,
+    {
+    "orderIndex": 16,
     "startTime": 142,
     "endTime": 147,
     "text": "Shh! Do you hear that? It's the Winds of Change!",
@@ -556,10 +556,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [
       "Winds of Change"
     ],
-    "tokenCount": 11
+    "tokenCount": 10
   },
-  {
-    "orderIndex": 16,
+    {
+    "orderIndex": 17,
     "startTime": 147,
     "endTime": 152,
     "text": "What a creep! One of these days I'm really going to let you teach that guy a lesson.",
@@ -571,10 +571,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Từ vựng: 'creep' (kẻ quái đản đáng ghét) và thành ngữ 'teach someone a lesson' (dạy cho ai một bài học nhớ đời).",
     "properNouns": [],
-    "tokenCount": 19
+    "tokenCount": 18
   },
-  {
-    "orderIndex": 17,
+    {
+    "orderIndex": 18,
     "startTime": 152,
     "endTime": 177,
     "text": "You can call a friend of yours 'pal'. In British English, you will likely hear two male friends calling each other 'mate'.",
@@ -589,8 +589,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 22
   },
-  {
-    "orderIndex": 18,
+    {
+    "orderIndex": 19,
     "startTime": 177,
     "endTime": 201,
     "text": "When Mike says Celia is 'the one', he means she's the girl he is supposed to be with for the rest of his life.",
@@ -606,10 +606,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
       "Mike",
       "Celia"
     ],
-    "tokenCount": 25
+    "tokenCount": 24
   },
-  {
-    "orderIndex": 19,
+    {
+    "orderIndex": 20,
     "startTime": 201,
     "endTime": 227,
     "text": "When you hook someone up with something, you provide the person with something useful for free or as a favor.",
@@ -624,8 +624,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 20
   },
-  {
-    "orderIndex": 20,
+    {
+    "orderIndex": 21,
     "startTime": 227,
     "endTime": 254,
     "text": "When Mike says: 'What do you know!', 'what do' becomes 'whaddya' and 'you' reduces to 'ya' in natural connected speech.",
@@ -642,8 +642,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "tokenCount": 20
   },
-  {
-    "orderIndex": 21,
+    {
+    "orderIndex": 22,
     "startTime": 254,
     "endTime": 297,
     "text": "When Sulley says 'Save it for the scare floor', he means let's settle our rivalry during work, like boxers saying 'Save it for the ring!'",
@@ -658,10 +658,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [
       "Sulley"
     ],
-    "tokenCount": 26
+    "tokenCount": 25
   },
-  {
-    "orderIndex": 22,
+    {
+    "orderIndex": 23,
     "startTime": 297,
     "endTime": 321,
     "text": "The tag question 'will you?' is used at the end of requests or orders to soften them or make them urgent.",
@@ -677,8 +677,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 21
   },
-  {
-    "orderIndex": 23,
+    {
+    "orderIndex": 24,
     "startTime": 321,
     "endTime": 338,
     "text": "When you say 'I'm in the zone', you mean you are at the top of your game, performing at peak capability.",
@@ -691,10 +691,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Trạng thái dòng chảy tâm lý (flow state): 'in the zone' được các vận động viên và nghệ sĩ sử dụng rất nhiều.",
     "properNouns": [],
-    "tokenCount": 22
+    "tokenCount": 21
   },
-  {
-    "orderIndex": 24,
+    {
+    "orderIndex": 25,
     "startTime": 338,
     "endTime": 353,
     "text": "Calling someone a 'creep' is an insult for someone who acts strangely and makes people feel uncomfortable or scared.",
@@ -709,8 +709,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 19
   },
-  {
-    "orderIndex": 25,
+    {
+    "orderIndex": 26,
     "startTime": 353,
     "endTime": 435,
     "text": "To truly master these expressions and never forget them, regular review and practice with flashcards is essential.",
@@ -725,8 +725,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 17
   },
-  {
-    "orderIndex": 26,
+    {
+    "orderIndex": 27,
     "startTime": 435,
     "endTime": 450,
     "text": "A major crisis occurs when Boo, a human child, accidentally enters the Monster World!",
@@ -744,8 +744,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "tokenCount": 14
   },
-  {
-    "orderIndex": 27,
+    {
+    "orderIndex": 28,
     "startTime": 450,
     "endTime": 465,
     "text": "Hey, where are you going? Please don't blow this, not when we're so close to breaking the record!",
@@ -757,10 +757,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Thành ngữ: 'don't blow this' (đừng làm hỏng chuyện, đừng phá hủy cơ hội).",
     "properNouns": [],
-    "tokenCount": 20
+    "tokenCount": 18
   },
-  {
-    "orderIndex": 28,
+    {
+    "orderIndex": 29,
     "startTime": 465,
     "endTime": 488,
     "text": "Somebody else will find the kid. It'll be their problem, not ours! She's out of our hair!",
@@ -772,10 +772,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Thành ngữ biểu tượng của bài học: 'out of our hair' (không còn làm phiền, đã biến đi nơi khác).",
     "properNouns": [],
-    "tokenCount": 19
+    "tokenCount": 17
   },
-  {
-    "orderIndex": 29,
+    {
+    "orderIndex": 30,
     "startTime": 488,
     "endTime": 513,
     "text": "When you 'blow something', you mess it up or fail to take advantage of a valuable opportunity, as in: 'Man, I blew it!'",
@@ -790,8 +790,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 23
   },
-  {
-    "orderIndex": 30,
+    {
+    "orderIndex": 31,
     "startTime": 513,
     "endTime": 548,
     "text": "Notice the smooth connected speech in: 'It'll be their problem, not ours', where the T in 'not' transforms into a flap T.",
@@ -803,10 +803,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Quy tắc ngữ âm học: Flap T giữa hai nguyên âm trong giao tiếp tự nhiên.",
     "properNouns": [],
-    "tokenCount": 23
+    "tokenCount": 22
   },
-  {
-    "orderIndex": 31,
+    {
+    "orderIndex": 32,
     "startTime": 548,
     "endTime": 580,
     "text": "The idiom 'she's out of our hair' means someone is no longer causing you any trouble, disturbance, or inconvenience.",
@@ -819,10 +819,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Định nghĩa chi tiết của 'get / be out of one's hair'.",
     "properNouns": [],
-    "tokenCount": 20
+    "tokenCount": 19
   },
-  {
-    "orderIndex": 32,
+    {
+    "orderIndex": 33,
     "startTime": 580,
     "endTime": 595,
     "text": "They're rehearsing a play: She's out of our hair!",
@@ -834,10 +834,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Mike nói dối ngớ ngẩn để bao che cho sự biến mất của Sulley.",
     "properNouns": [],
-    "tokenCount": 11
+    "tokenCount": 9
   },
-  {
-    "orderIndex": 33,
+    {
+    "orderIndex": 34,
     "startTime": 595,
     "endTime": 602,
     "text": "Can it!",
@@ -850,8 +850,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 2
   },
-  {
-    "orderIndex": 34,
+    {
+    "orderIndex": 35,
     "startTime": 602,
     "endTime": 621,
     "text": "'Can it' is a slangy, emphatic way to tell someone to shut up or stop talking immediately.",
@@ -867,8 +867,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 17
   },
-  {
-    "orderIndex": 35,
+    {
+    "orderIndex": 36,
     "startTime": 621,
     "endTime": 635,
     "text": "So what do you think of that kid getting out, Sullivan? Pretty crazy, huh?",
@@ -884,8 +884,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "tokenCount": 14
   },
-  {
-    "orderIndex": 36,
+    {
+    "orderIndex": 37,
     "startTime": 635,
     "endTime": 650,
     "text": "Word on the street is the kid's been traced back to this factory. You haven't seen anything, have you?",
@@ -898,10 +898,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Thành ngữ: 'word on the street is' (dân tình đồn thổi rằng) và 'trace back to' (lần ra tung tích xuất phát từ).",
     "properNouns": [],
-    "tokenCount": 21
+    "tokenCount": 19
   },
-  {
-    "orderIndex": 37,
+    {
+    "orderIndex": 38,
     "startTime": 650,
     "endTime": 661,
     "text": "'Word on the street is' means hearing circulating rumors from people in your community or neighborhood.",
@@ -916,8 +916,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 16
   },
-  {
-    "orderIndex": 38,
+    {
+    "orderIndex": 39,
     "startTime": 661,
     "endTime": 670,
     "text": "No, no way!",
@@ -930,8 +930,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 3
   },
-  {
-    "orderIndex": 39,
+    {
+    "orderIndex": 40,
     "startTime": 670,
     "endTime": 685,
     "text": "If you 'trace something back to somewhere', you find evidence connecting it to its original source.",
@@ -946,8 +946,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 16
   },
-  {
-    "orderIndex": 40,
+    {
+    "orderIndex": 41,
     "startTime": 685,
     "endTime": 696,
     "text": "You can use 'no way' to emphatically refuse something, or to express complete shock and surprise!",
@@ -962,8 +962,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 16
   },
-  {
-    "orderIndex": 41,
+    {
+    "orderIndex": 42,
     "startTime": 696,
     "endTime": 715,
     "text": "But if it was an inside job, I'd put my money on Waxford! The one at station six!",
@@ -979,10 +979,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [
       "Waxford"
     ],
-    "tokenCount": 19
+    "tokenCount": 18
   },
-  {
-    "orderIndex": 42,
+    {
+    "orderIndex": 43,
     "startTime": 715,
     "endTime": 736,
     "text": "An 'inside job' means a crime or sabotage committed by someone already working inside the company or facility.",
@@ -997,8 +997,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 18
   },
-  {
-    "orderIndex": 43,
+    {
+    "orderIndex": 44,
     "startTime": 736,
     "endTime": 755,
     "text": "Saying 'I'd put my money on Waxford' means betting or feeling totally confident that Waxford did it.",
@@ -1013,10 +1013,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [
       "Waxford"
     ],
-    "tokenCount": 18
+    "tokenCount": 17
   },
-  {
-    "orderIndex": 44,
+    {
+    "orderIndex": 45,
     "startTime": 755,
     "endTime": 768,
     "text": "English also has the famous expression 'put your money where your mouth is', challenging someone to prove claims with deeds.",
@@ -1030,8 +1030,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 20
   },
-  {
-    "orderIndex": 45,
+    {
+    "orderIndex": 46,
     "startTime": 768,
     "endTime": 778,
     "text": "You know, he got them shifty eyes!",
@@ -1044,8 +1044,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 7
   },
-  {
-    "orderIndex": 46,
+    {
+    "orderIndex": 47,
     "startTime": 778,
     "endTime": 791,
     "text": "Describing someone as 'shifty' means they appear deceitful, evasive, and untrustworthy, like someone whose eyes dart suspiciously.",
@@ -1061,8 +1061,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 17
   },
-  {
-    "orderIndex": 47,
+    {
+    "orderIndex": 48,
     "startTime": 791,
     "endTime": 890,
     "text": "Create your own sentences in the comments using three key expressions: 'In the zone', 'Word on the street is', and 'Shifty'!",
@@ -1078,8 +1078,8 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     "properNouns": [],
     "tokenCount": 21
   },
-  {
-    "orderIndex": 48,
+    {
+    "orderIndex": 49,
     "startTime": 890,
     "endTime": 980,
     "text": "Leave me alone, I'm not kidding! Pop a worm pill and hit the road, I'm busy!",
@@ -1092,10 +1092,10 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Thành ngữ tiếng lóng hài hước của quái vật: 'hit the road' (lên đường / biến đi ngay).",
     "properNouns": [],
-    "tokenCount": 18
+    "tokenCount": 16
   },
-  {
-    "orderIndex": 49,
+    {
+    "orderIndex": 50,
     "startTime": 980,
     "endTime": 1059,
     "text": "You want to play? Fine, you can be the new astronaut. Go jump in the pail and we'll shoot you into outer space!",
@@ -1108,9 +1108,9 @@ export const LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT: MockVideoLesson = {
     ],
     "explanationAi": "Cảnh kết thúc dí dỏm: Mike lừa Boo nhảy vào thùng rác đóng giả phi hành gia để giấu đứa trẻ.",
     "properNouns": [],
-    "tokenCount": 24
+    "tokenCount": 23
   }
-],
+  ],
   quiz: QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT
 };
 

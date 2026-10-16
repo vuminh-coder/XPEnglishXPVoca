@@ -94,14 +94,17 @@ describe("Whiplash: Not My Tempo Masterclass (mov_insp_07) - Verbatim Deep Audit
     expect(segments[58].keywords).toContain("big boy tempo");
   });
 
-  it("Audit 7: Quiz Reference Indices & Semantic Alignment", () => {
+  it("Audit 7: Quiz Reference Indices & Semantic Alignment (1-indexed)", () => {
     const quiz = QUIZ_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL;
     const segments = LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL.segments;
 
     quiz.questions.forEach((q) => {
       expect(q.referenceSegmentIndex).toBeDefined();
-      const targetSeg = segments[q.referenceSegmentIndex!];
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(segments.length);
+      const targetSeg = segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
+      expect(targetSeg.orderIndex).toBe(q.referenceSegmentIndex);
       expect(q.targetedConcept).toBeTruthy();
       expect(q.targetedConceptVi).toBeTruthy();
       expect(q.explanationVi).toBeTruthy();

@@ -50,7 +50,7 @@ export const QUIZ_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES_EXTENDED: Video
       "targetedConcept": "Corporate satire and workplace realism idiom",
       "targetedConceptEn": "Corporate satire and workplace realism idiom",
       "targetedConceptVi": "Thành ngữ châm biếm công sở và góc nhìn thực tế",
-      "referenceSegmentIndex": 2
+      "referenceSegmentIndex": 3
     },
     {
       "id": "mov_sit_07_q2",
@@ -82,7 +82,7 @@ export const QUIZ_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES_EXTENDED: Video
       "targetedConcept": "Absurdist moral justification in sitcom dialogue",
       "targetedConceptEn": "Absurdist moral justification in sitcom dialogue",
       "targetedConceptVi": "Ngụy biện đạo đức phi lý trong đối thoại sitcom",
-      "referenceSegmentIndex": 9
+      "referenceSegmentIndex": 10
     },
     {
       "id": "mov_sit_07_q3",
@@ -114,7 +114,7 @@ export const QUIZ_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES_EXTENDED: Video
       "targetedConcept": "Humorous quantification of emotional recovery",
       "targetedConceptEn": "Humorous quantification of emotional recovery",
       "targetedConceptVi": "Định lượng hài hước về sự hồi phục cảm xúc",
-      "referenceSegmentIndex": 14
+      "referenceSegmentIndex": 15
     },
     {
       "id": "mov_sit_07_q4",
@@ -146,7 +146,7 @@ export const QUIZ_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES_EXTENDED: Video
       "targetedConcept": "Sarcastic punchline delivery in sitcom timing",
       "targetedConceptEn": "Sarcastic punchline delivery in sitcom timing",
       "targetedConceptVi": "Cách tung đòn châm biếm đúng nhịp trong sitcom",
-      "referenceSegmentIndex": 31
+      "referenceSegmentIndex": 32
     },
     {
       "id": "mov_sit_07_q5",
@@ -178,7 +178,7 @@ export const QUIZ_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES_EXTENDED: Video
       "targetedConcept": "Listening comprehension of humorous arbitrary rules",
       "targetedConceptEn": "Listening comprehension of humorous arbitrary rules",
       "targetedConceptVi": "Nghe hiểu các quy tắc ngụy biện tùy tiện hài hước",
-      "referenceSegmentIndex": 42
+      "referenceSegmentIndex": 43
     },
     {
       "id": "mov_sit_07_q6",
@@ -210,7 +210,7 @@ export const QUIZ_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES_EXTENDED: Video
       "targetedConcept": "Identifying recurring sitcom tropes and drunken camaraderie",
       "targetedConceptEn": "Identifying recurring sitcom tropes and drunken camaraderie",
       "targetedConceptVi": "Nhận diện tình huống khuôn mẫu và sự ngẫu hứng trong sitcom",
-      "referenceSegmentIndex": 46
+      "referenceSegmentIndex": 47
     },
     {
       "id": "mov_sit_07_q7",
@@ -242,7 +242,7 @@ export const QUIZ_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES_EXTENDED: Video
       "targetedConcept": "Irony and instant hypocritical reversal for comic effect",
       "targetedConceptEn": "Irony and instant hypocritical reversal for comic effect",
       "targetedConceptVi": "Nghịch lý mỉa mai và sự lật mặt tức thì tạo tiếng cười hài hước",
-      "referenceSegmentIndex": 66
+      "referenceSegmentIndex": 67
     },
     {
       "id": "mov_sit_07_q8",
@@ -274,7 +274,7 @@ export const QUIZ_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES_EXTENDED: Video
       "targetedConcept": "Anatomical pseudo-science humor and character self-aggrandizement",
       "targetedConceptEn": "Anatomical pseudo-science humor and character self-aggrandizement",
       "targetedConceptVi": "Hài hước giải phẫu học giả khoa học và sự tự đề cao bản thân",
-      "referenceSegmentIndex": 78
+      "referenceSegmentIndex": 79
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
     "Tuyển tập những khoảnh khắc huyền thoại kinh điển nhất của Barney Stinson (Neil Patrick Harris): từ các triết lý 'Suit up!', 'Legendary', 'Challenge accepted!' đến những chiêu trò đối đáp hài hước đỉnh cao tại quán bar MacLaren's.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.4,
         "endTime": 3.3,
         "text": "Look, you just need a way to make yourself absolutely essential.",
@@ -316,7 +316,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 11
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 3.4,
         "endTime": 5.4,
         "text": "Well, I work harder than anyone in my division.",
@@ -331,7 +331,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 9
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 5.5,
         "endTime": 7.4,
         "text": "Yeah, keeping your job has nothing to do with hard work.",
@@ -346,7 +346,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 11
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 7.5,
         "endTime": 10.7,
         "text": "Ted's just been through a bad breakup.",
@@ -360,10 +360,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Ted"
         ],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 10.8,
         "endTime": 15.1,
         "text": "Look buddy, tell us everything! Tell us what happened, seriously, spare no details!",
@@ -378,7 +378,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 13
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 15.2,
         "endTime": 19.5,
         "text": "What did she say? What did you say? How did it feel?",
@@ -393,7 +393,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 12
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 19.6,
         "endTime": 22.8,
         "text": "If you were to do it again all over, would you maybe...",
@@ -408,7 +408,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 12
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 22.9,
         "endTime": 26.5,
         "text": "Seriously? You're trying to snake this apartment away from Marshall and Lily?",
@@ -423,10 +423,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
             "Marshall",
             "Lily"
         ],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 26.6,
         "endTime": 29.8,
         "text": "Ted, do you think I have no morals whatsoever?",
@@ -442,7 +442,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 9
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 29.9,
         "endTime": 33.4,
         "text": "I simply want to fool a girl into thinking this is my apartment so I can nail her once...",
@@ -457,7 +457,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 19
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 33.5,
         "endTime": 35.8,
         "text": "...and never have to see her again. I'm not a monster!",
@@ -469,10 +469,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Lời biện hộ nực cười: Barney khẳng định mình không phải quái vật dù vừa thừa nhận ý định lừa gạt.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 35.9,
         "endTime": 39.4,
         "text": "Everyone has an opinion on how long it takes to recover from a breakup.",
@@ -487,7 +487,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 14
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 39.5,
         "endTime": 41.5,
         "text": "Half the length of the relationship.",
@@ -502,7 +502,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 6
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 41.6,
         "endTime": 44.0,
         "text": "One week for every month you were together.",
@@ -517,7 +517,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 8
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 44.1,
         "endTime": 46.8,
         "text": "Exactly 10,000 drinks, however long that takes.",
@@ -529,10 +529,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Barney quy đổi đơn vị thời gian lành vết thương tình cảm thành số ly đồ uống có cồn.",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 46.9,
         "endTime": 49.8,
         "text": "You can't measure something like this in time.",
@@ -543,10 +543,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Barney bác bỏ mọi khái niệm thời gian để đưa ra phương pháp hành động tức thì.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 49.9,
         "endTime": 53.2,
         "text": "There's a series of steps: from her bed to the front door...",
@@ -558,10 +558,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Cách chơi chữ hài hước giữa 'steps' (các giai đoạn tâm lý) và 'steps' (bước chân rời đi).",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 53.3,
         "endTime": 56.5,
         "text": "...bam! Out of there! Next!",
@@ -577,7 +577,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 5
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 56.6,
         "endTime": 58.5,
         "text": "Up there! I don't think they're coming.",
@@ -589,10 +589,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Ted bày tỏ sự nghi ngờ về kế hoạch hẹn hò của Barney.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 7
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 58.6,
         "endTime": 61.2,
         "text": "Of course they're coming, they have to!",
@@ -604,10 +604,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Sự tự tin thái quá đặc trưng của Barney Stinson.",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 61.3,
         "endTime": 65.5,
         "text": "If I can land just one of these girls, I'll have Party School Bingo!",
@@ -619,10 +619,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Khái niệm 'Party School Bingo' - bộ sưu tập hẹn hò các nữ sinh từ những trường đại học tiệc tùng khét tiếng.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 65.6,
         "endTime": 68.8,
         "text": "Ted, you're the only one here.",
@@ -635,10 +635,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Ted"
         ],
-        "tokenCount": 7
+        "tokenCount": 6
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 68.9,
         "endTime": 71.5,
         "text": "Oh sorry, what's Party School Bingo?",
@@ -649,10 +649,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Ted tò mò hỏi về trò chơi tự chế kỳ quặc của Barney.",
         "properNouns": [],
-        "tokenCount": 7
+        "tokenCount": 6
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 71.6,
         "endTime": 77.5,
         "text": "Have you guys ever watched my show? Wow, I've never seen it.",
@@ -664,10 +664,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Robin tra hỏi bạn bè xem có ai theo dõi chương trình tin tức sáng sớm lúc 4h sáng của cô không.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 77.6,
         "endTime": 81.3,
         "text": "Really? What is your favorite segment? The weather?",
@@ -682,7 +682,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 8
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 81.4,
         "endTime": 85.0,
         "text": "You guys have never seen my show! That's what I've been saying, this is nuts!",
@@ -694,10 +694,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Thành ngữ 'this is nuts' diễn tả sự việc vô lý, điên rồ và nực cười.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 15
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 85.1,
         "endTime": 89.2,
         "text": "I am doing just fine, thank you! No, you're not, you need to learn to let this stuff out.",
@@ -709,10 +709,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Lily thúc giục mọi người phải nói ra cảm xúc thật thay vì dồn nén trong lòng.",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 89.3,
         "endTime": 94.2,
         "text": "Like we do in my kindergarten class: Feelings Hour, every Tuesday morning.",
@@ -729,7 +729,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 12
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 94.3,
         "endTime": 100.4,
         "text": "Lily, maybe your kindergartners are upset that their friends are sleeping with each other, but not me.",
@@ -746,7 +746,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 17
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 100.5,
         "endTime": 105.0,
         "text": "She plays bass in a reggae band, they're having a show this Friday, how cool is that?",
@@ -759,10 +759,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Ted hào hứng khoe về cô bạn gái mới với phong cách phóng khoáng.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 105.1,
         "endTime": 108.5,
         "text": "Oh, does she know that one? What's that song called?",
@@ -774,10 +774,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Robin chuẩn bị tung ra câu đùa châm chọc thể loại nhạc reggae.",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 108.6,
         "endTime": 113.5,
         "text": "Oh right, it's called EVERY REGGAE SONG!",
@@ -788,10 +788,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Cú twist mỉa mai kinh điển: Robin cho rằng toàn bộ các bài hát reggae đều có giai điệu y hệt nhau.",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 113.6,
         "endTime": 118.0,
         "text": "Oh good God woman, you're a disgrace! No fries for this guy!",
@@ -803,10 +803,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Barney dùng quyền năng quán bar để tịch thu phần khoai tây chiên của bạn bè.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 118.1,
         "endTime": 124.5,
         "text": "Robin, seriously I love you, but it's like you have squiggly cartoon odor lines coming off of you right now.",
@@ -820,10 +820,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Robin"
         ],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 124.6,
         "endTime": 129.5,
         "text": "Oh that's it, no more books! Ted, I don't like the person you become when you read books.",
@@ -837,10 +837,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Ted"
         ],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 146.0,
         "endTime": 149.8,
         "text": "For some women it was the ashes of my parents, for others it was the trophy from Wimbledon...",
@@ -857,7 +857,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 18
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 149.9,
         "endTime": 154.3,
         "text": "...and believe it or not, for one busty German, it was both!",
@@ -872,7 +872,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 12
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 154.4,
         "endTime": 158.0,
         "text": "Game, enormous set, match!",
@@ -887,7 +887,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 4
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 158.1,
         "endTime": 162.0,
         "text": "This is nice. What is this, Canadian? I want Scotch, American Scotch!",
@@ -905,7 +905,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 12
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 176.5,
         "endTime": 180.2,
         "text": "Ted, you're forcing me to be the voice of reason, and it's not a good look for me.",
@@ -919,10 +919,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Ted"
         ],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 180.3,
         "endTime": 185.0,
         "text": "Okay, I think I gotta lie. No, unacceptable! That is so not Raven!",
@@ -939,7 +939,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 13
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 198.5,
         "endTime": 203.0,
         "text": "I'm KFC baby, you don't mess with the Colonel's recipe!",
@@ -955,10 +955,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
             "KFC",
             "Colonel"
         ],
-        "tokenCount": 13
+        "tokenCount": 10
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 203.1,
         "endTime": 206.2,
         "text": "There's three rules of cheating: it's not cheating if you're not the one who's married...",
@@ -970,10 +970,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Quy tắc đầu tiên trong tam đoạn luận ngụy biện về ngoại tình của Barney.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 15
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 206.3,
         "endTime": 209.8,
         "text": "...it's not cheating if her name has two adjacent vowels...",
@@ -985,10 +985,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Quy tắc ngữ âm học ngớ ngẩn 'adjacent vowels' (hai nguyên âm đứng cạnh nhau trong tên).",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 209.9,
         "endTime": 213.0,
         "text": "...and it's not cheating if she's from a different area code. You're fine on all three counts!",
@@ -1000,10 +1000,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Thuật ngữ pháp lý châm biếm 'fine on all three counts' (trắng án ở cả 3 tội danh).",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 17
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 213.1,
         "endTime": 215.2,
         "text": "How do you know she's from a different area code?",
@@ -1015,10 +1015,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Ted chất vấn độ chính xác về nguồn gốc đối tượng hẹn hò.",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 215.3,
         "endTime": 221.0,
         "text": "516! She might dress like she's 718, act like she's 212, but trust me, she's 516!",
@@ -1035,10 +1035,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
             "Brooklyn",
             "Long Island"
         ],
-        "tokenCount": 19
+        "tokenCount": 16
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 227.6,
         "endTime": 233.9,
         "text": "Raise your hand if earlier today you hit on an engaged woman. Come on Lily, don't hate the player, hate the game!",
@@ -1052,10 +1052,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Lily"
         ],
-        "tokenCount": 23
+        "tokenCount": 22
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 259.5,
         "endTime": 263.2,
         "text": "We should buy a bar! Of course we should buy a bar!",
@@ -1070,7 +1070,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 12
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 263.3,
         "endTime": 269.2,
         "text": "We should totally buy a bar! Totally buy a bar! Our bar would be awesome!",
@@ -1085,7 +1085,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 15
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 272.0,
         "endTime": 278.0,
         "text": "...and so you, and bread, and light, and shadow are you...",
@@ -1102,7 +1102,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 11
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 278.1,
         "endTime": 282.4,
         "text": "That's Pablo Neruda. I don't know what bread was doing in there...",
@@ -1116,10 +1116,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Pablo Neruda"
         ],
-        "tokenCount": 14
+        "tokenCount": 12
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 282.5,
         "endTime": 287.0,
         "text": "...but that touched me here, and here.",
@@ -1133,7 +1133,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 7
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 287.1,
         "endTime": 294.0,
         "text": "Oh Ted, that's so romantic! I want to fill a pillowcase with dead batteries and beat you with it.",
@@ -1149,10 +1149,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
             "Ted",
             "Robin"
         ],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 294.1,
         "endTime": 298.0,
         "text": "Let's do this!",
@@ -1163,10 +1163,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Khẩu hiệu thúc giục hành động dứt khoát quen thuộc của Barney.",
         "properNouns": [],
-        "tokenCount": 4
+        "tokenCount": 3
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 322.5,
         "endTime": 327.1,
         "text": "Robin, there is some pretty tough stuff on that list.",
@@ -1183,7 +1183,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 10
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 327.2,
         "endTime": 331.5,
         "text": "Do you really think Barney's going to get his ear pierced? Ear pierced, check!",
@@ -1197,10 +1197,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Barney"
         ],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 333.8,
         "endTime": 340.3,
         "text": "Nobody's actually moving to Argentina! The Argentine peso has dropped two-thirds in five years...",
@@ -1214,10 +1214,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Argentina"
         ],
-        "tokenCount": 16
+        "tokenCount": 14
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 346.6,
         "endTime": 353.0,
         "text": "I hooked up with an Argentinian exchange student in a porta-john outside Yankee Stadium. Man, she was chatty!",
@@ -1233,10 +1233,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Yankee Stadium"
         ],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 353.1,
         "endTime": 356.6,
         "text": "This test, it's not like the Canadian citizenship test.",
@@ -1249,10 +1249,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Canadian"
         ],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 356.7,
         "endTime": 361.3,
         "text": "How do you know the Canadian test is easy? It's Canada! Question one: Do you want to be Canadian?",
@@ -1266,10 +1266,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Canada"
         ],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 361.4,
         "endTime": 366.3,
         "text": "Question two: REALLY? How did you find me anyway?",
@@ -1284,7 +1284,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 9
     },
     {
-        "orderIndex": 62,
+        "orderIndex": 63,
         "startTime": 366.4,
         "endTime": 370.1,
         "text": "You called me, said you were never coming back, so I jumped on a plane, flew across the Atlantic...",
@@ -1301,7 +1301,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 19
     },
     {
-        "orderIndex": 63,
+        "orderIndex": 64,
         "startTime": 370.2,
         "endTime": 373.5,
         "text": "Canada isn't across the Atlantic! You're talking nonsense.",
@@ -1316,10 +1316,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
             "Canada",
             "Atlantic"
         ],
-        "tokenCount": 10
+        "tokenCount": 8
     },
     {
-        "orderIndex": 64,
+        "orderIndex": 65,
         "startTime": 376.2,
         "endTime": 380.8,
         "text": "I just slept with my best friend's ex-girlfriend.",
@@ -1331,10 +1331,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Khoảnh khắc ân hận và hoang mang tột độ của Barney sau đêm lỡ dại với Robin.",
         "properNouns": [],
-        "tokenCount": 10
+        "tokenCount": 8
     },
     {
-        "orderIndex": 65,
+        "orderIndex": 66,
         "startTime": 380.9,
         "endTime": 383.5,
         "text": "And I just slept with my ex-boyfriend's really good friend.",
@@ -1345,10 +1345,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Robin cố tình dùng từ 'really good friend' thay vì 'best friend'.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 10
     },
     {
-        "orderIndex": 66,
+        "orderIndex": 67,
         "startTime": 383.6,
         "endTime": 386.0,
         "text": "...Best friend!",
@@ -1362,7 +1362,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 2
     },
     {
-        "orderIndex": 67,
+        "orderIndex": 68,
         "startTime": 386.1,
         "endTime": 391.9,
         "text": "That's allowed to have a life outside of the group, we all are! Wait a minute, why are you saying that all of a sudden?",
@@ -1374,10 +1374,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Ted nói lời kỳ lạ khiến Robin nghi ngờ có điều bất thường đang xảy ra.",
         "properNouns": [],
-        "tokenCount": 26
+        "tokenCount": 25
     },
     {
-        "orderIndex": 68,
+        "orderIndex": 69,
         "startTime": 392.0,
         "endTime": 396.0,
         "text": "Oh God, you're pregnant! Oh God, you already had the baby, didn't you?",
@@ -1389,10 +1389,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Suy luận hoang tưởng ngớ ngẩn và phóng đại quá đà của Ted Mosby.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 13
     },
     {
-        "orderIndex": 69,
+        "orderIndex": 70,
         "startTime": 411.5,
         "endTime": 415.0,
         "text": "Huh, I don't know what that is.",
@@ -1403,10 +1403,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Phản ứng ngơ ngác khi trò đùa của Barney không nhận được sự hưởng ứng như mong đợi.",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 70,
+        "orderIndex": 71,
         "startTime": 415.1,
         "endTime": 419.0,
         "text": "I will be spending February 13th with some lovely single ladies from work...",
@@ -1421,7 +1421,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 13
     },
     {
-        "orderIndex": 71,
+        "orderIndex": 72,
         "startTime": 419.1,
         "endTime": 423.4,
         "text": "...trolls who could care less about Valentine's Day. Lying trolls!",
@@ -1436,10 +1436,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Valentine's Day"
         ],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 72,
+        "orderIndex": 73,
         "startTime": 423.5,
         "endTime": 427.1,
         "text": "God, if You help me find the sex tape, I am going to make some changes in my life.",
@@ -1456,7 +1456,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 19
     },
     {
-        "orderIndex": 73,
+        "orderIndex": 74,
         "startTime": 427.2,
         "endTime": 431.3,
         "text": "I am going to stop sleeping around, quit drinking so much, no more shenanigans...",
@@ -1472,7 +1472,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 14
     },
     {
-        "orderIndex": 74,
+        "orderIndex": 75,
         "startTime": 431.4,
         "endTime": 435.5,
         "text": "...I am going to devote my entire life to doing good deeds and praising Your name!",
@@ -1488,7 +1488,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 16
     },
     {
-        "orderIndex": 75,
+        "orderIndex": 76,
         "startTime": 435.6,
         "endTime": 438.4,
         "text": "Is this what you're looking for, Mr. Stinson?",
@@ -1502,10 +1502,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Mr. Stinson"
         ],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 76,
+        "orderIndex": 77,
         "startTime": 438.5,
         "endTime": 441.5,
         "text": "Never mind Bro, found it!",
@@ -1522,7 +1522,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 5
     },
     {
-        "orderIndex": 77,
+        "orderIndex": 78,
         "startTime": 441.6,
         "endTime": 444.6,
         "text": "You guys are right, I'm totally overreacting to this whole Robin thing.",
@@ -1536,10 +1536,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Robin"
         ],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 78,
+        "orderIndex": 79,
         "startTime": 444.7,
         "endTime": 448.0,
         "text": "What's this envelope? This is a wedding invitation, Robin's marrying Don!",
@@ -1554,10 +1554,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
             "Robin",
             "Don"
         ],
-        "tokenCount": 13
+        "tokenCount": 11
     },
     {
-        "orderIndex": 79,
+        "orderIndex": 80,
         "startTime": 448.1,
         "endTime": 451.4,
         "text": "I'm gonna die alone! Ted's getting eaten by cats!",
@@ -1571,10 +1571,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Ted"
         ],
-        "tokenCount": 11
+        "tokenCount": 9
     },
     {
-        "orderIndex": 80,
+        "orderIndex": 81,
         "startTime": 451.5,
         "endTime": 458.3,
         "text": "And we just had our first fight! Oh no, what'd you fight about?",
@@ -1586,10 +1586,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Lily và Marshall lo lắng khi đôi bạn thân xảy ra xung đột.",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 81,
+        "orderIndex": 82,
         "startTime": 458.4,
         "endTime": 462.1,
         "text": "You're not exactly the kind of friend parents want their kid to have.",
@@ -1601,10 +1601,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Lời nhận xét phũ phàng về sự lập dị và lối sống hoang đàng của Barney.",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 82,
+        "orderIndex": 83,
         "startTime": 462.2,
         "endTime": 466.4,
         "text": "Then I guess those shoes aren't the thing you're most wrong about today.",
@@ -1615,10 +1615,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Barney lập tức phản pháo bằng cách chê bai gu giày dép của người đối diện.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 13
     },
     {
-        "orderIndex": 83,
+        "orderIndex": 84,
         "startTime": 466.5,
         "endTime": 469.2,
         "text": "There's a part of my body that she's got a weakness for too.",
@@ -1630,10 +1630,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Barney tự hào khoe khoang về sức hấp dẫn hình thể khó cưỡng của mình.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 13
     },
     {
-        "orderIndex": 84,
+        "orderIndex": 85,
         "startTime": 469.3,
         "endTime": 472.0,
         "text": "Dude, you can't whip that out at brunch!",
@@ -1645,10 +1645,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Ted vội can ngăn vì tưởng bạn mình sắp sửa làm hành động khiếm nhã.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 85,
+        "orderIndex": 86,
         "startTime": 472.1,
         "endTime": 475.4,
         "text": "I'm going to unleash my calves!",
@@ -1659,10 +1659,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Vũ khí bí mật bất ngờ của Barney: bắp chuối chân săn chắc.",
         "properNouns": [],
-        "tokenCount": 7
+        "tokenCount": 6
     },
     {
-        "orderIndex": 86,
+        "orderIndex": 87,
         "startTime": 475.5,
         "endTime": 480.4,
         "text": "That's crazy! Nobody's turned on by men's calves, they're a thoroughly unerotic body part!",
@@ -1675,10 +1675,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Marshall khẳng định bắp chân là bộ phận kém gợi cảm nhất trên cơ thể đàn ông.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 14
     },
     {
-        "orderIndex": 87,
+        "orderIndex": 88,
         "startTime": 480.5,
         "endTime": 485.5,
         "text": "Well yeah, I'd say that too if I had those skinny little chicken legs!",
@@ -1689,10 +1689,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Barney công kích đôi chân khẳng khiu của Marshall.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 88,
+        "orderIndex": 89,
         "startTime": 485.6,
         "endTime": 488.5,
         "text": "I'll be waiting by the phone for your apology.",
@@ -1704,10 +1704,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Sự kiêu hãnh bất biến của Barney.",
         "properNouns": [],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 89,
+        "orderIndex": 90,
         "startTime": 500.0,
         "endTime": 505.0,
         "text": "It ended up being just a twosome with the third one watching from a chair. Which one were you? I'd rather not say.",
@@ -1720,10 +1720,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Kỷ niệm bẽ bàng về một phi vụ threesome bất thành mà Barney muốn giấu kín.",
         "properNouns": [],
-        "tokenCount": 24
+        "tokenCount": 23
     },
     {
-        "orderIndex": 90,
+        "orderIndex": 91,
         "startTime": 505.1,
         "endTime": 510.5,
         "text": "Oh, we are Swedish, we are so cool with our baguettes and Eiffel Tower!",
@@ -1742,7 +1742,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 14
     },
     {
-        "orderIndex": 91,
+        "orderIndex": 92,
         "startTime": 510.6,
         "endTime": 514.9,
         "text": "Dude, Sweden's not France, you know that right? Oh, it's France!",
@@ -1757,10 +1757,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
             "Sweden",
             "France"
         ],
-        "tokenCount": 13
+        "tokenCount": 11
     },
     {
-        "orderIndex": 92,
+        "orderIndex": 93,
         "startTime": 515.0,
         "endTime": 519.0,
         "text": "If you asked 100 people who's the worst person you could possibly date, they'd all say your therapist...",
@@ -1772,10 +1772,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Khảo sát giả định về đối tượng nguy hiểm nhất để yêu đương.",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 93,
+        "orderIndex": 94,
         "startTime": 519.1,
         "endTime": 523.4,
         "text": "...except the one saying Barney. Hey, yeah, that tracks!",
@@ -1792,7 +1792,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 9
     },
     {
-        "orderIndex": 94,
+        "orderIndex": 95,
         "startTime": 523.5,
         "endTime": 528.0,
         "text": "Everyone has that guy or girl who, no matter what happens, you always remember them being the perfect one for you.",
@@ -1807,7 +1807,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 21
     },
     {
-        "orderIndex": 95,
+        "orderIndex": 96,
         "startTime": 528.1,
         "endTime": 532.8,
         "text": "Nice shots Lily, that girl right over there... I hate Barney!",
@@ -1825,7 +1825,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 11
     },
     {
-        "orderIndex": 96,
+        "orderIndex": 97,
         "startTime": 532.9,
         "endTime": 536.9,
         "text": "Oh I can't wait to see that movie, is it good? Awesome!",
@@ -1837,10 +1837,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Ted bày tỏ sự háo hức trước bộ phim điện ảnh đang gây sốt.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 97,
+        "orderIndex": 98,
         "startTime": 537.0,
         "endTime": 540.2,
         "text": "Wait, totally hypothetically: do you like movies with a shocking twist where all the main characters die at the end?",
@@ -1856,7 +1856,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 20
     },
     {
-        "orderIndex": 98,
+        "orderIndex": 99,
         "startTime": 540.3,
         "endTime": 544.0,
         "text": "Yes? You will love this movie!",
@@ -1870,7 +1870,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 6
     },
     {
-        "orderIndex": 99,
+        "orderIndex": 100,
         "startTime": 580.0,
         "endTime": 585.6,
         "text": "You know Ted, I don't say this nearly enough, but I really value great salads.",
@@ -1884,10 +1884,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "properNouns": [
             "Ted"
         ],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 100,
+        "orderIndex": 101,
         "startTime": 585.7,
         "endTime": 592.1,
         "text": "We knew we could torture Marshall because he has shame. I do not.",
@@ -1905,7 +1905,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 13
     },
     {
-        "orderIndex": 101,
+        "orderIndex": 102,
         "startTime": 592.2,
         "endTime": 596.0,
         "text": "In my body, where the shame gland should be, there's a second awesome gland.",
@@ -1917,10 +1917,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Lý thuyết giải phẫu học hài hước bất hủ: thay vì tuyến xấu hổ thì Barney có tuyến 'awesome' thứ hai.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 102,
+        "orderIndex": 103,
         "startTime": 596.1,
         "endTime": 599.5,
         "text": "True story! Where are you going? Nowhere.",
@@ -1935,7 +1935,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         "tokenCount": 7
     },
     {
-        "orderIndex": 103,
+        "orderIndex": 104,
         "startTime": 599.6,
         "endTime": 603.5,
         "text": "The beach! It's winter. Laser tag! Home.",
@@ -1949,10 +1949,10 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Barney cuống cuồng tung ra hàng loạt địa điểm ngụy trang dở khóc dở cười.",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 104,
+        "orderIndex": 105,
         "startTime": 603.6,
         "endTime": 607.0,
         "text": "Shut up, you're going somewhere!",
@@ -1964,7 +1964,7 @@ export const LESSON_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES: MockVideoLes
         ],
         "explanationAi": "Robin chốt hạ màn vạch trần thói che giấu của Barney, kết thúc video trọn vẹn 607s.",
         "properNouns": [],
-        "tokenCount": 6
+        "tokenCount": 5
     }
 ],
   quiz: QUIZ_HOW_I_MET_YOUR_MOTHER_BARNEY_PLAYBOOK_THEORIES_EXTENDED,

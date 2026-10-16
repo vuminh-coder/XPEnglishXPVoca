@@ -4,6 +4,27 @@ import {
   QUIZ_12_ANGRY_MEN_JUROR_8_FIRST_DOUBT_SEQUENCE,
 } from "../features/listening/data/lessons/movies/inspirational/lesson_12_angry_men";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        clean,
+        isProperNoun: isPN,
+      };
+    })
+    .filter((t) => t.clean.length > 0);
+}
+
 describe("12 Angry Men: Juror 8 Classic Deliberation (mov_insp_12) - Complete Data Coverage Suite", () => {
   it("Test 1: Full Metadata & Duration Alignment", () => {
     const lesson = LESSON_12_ANGRY_MEN_JUROR_8_FIRST_DOUBT_SEQUENCE;
@@ -22,14 +43,14 @@ describe("12 Angry Men: Juror 8 Classic Deliberation (mov_insp_12) - Complete Da
     expect(lesson.thumbnailUrl).toContain("ngbEpZ0tTjI");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed)", () => {
     const segments = LESSON_12_ANGRY_MEN_JUROR_8_FIRST_DOUBT_SEQUENCE.segments;
     expect(segments.length).toBeGreaterThanOrEqual(50);
     expect(segments.length).toBe(56);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -58,15 +79,20 @@ describe("12 Angry Men: Juror 8 Classic Deliberation (mov_insp_12) - Complete Da
     }
   });
 
-  it("Test 4: Strict Token Count Accuracy via Regex", () => {
+  it("Test 4: Pure Master Segments & Zero Merged Utterances Standard", () => {
     const segments = LESSON_12_ANGRY_MEN_JUROR_8_FIRST_DOUBT_SEQUENCE.segments;
     for (const seg of segments) {
-      const tokens = seg.text.match(/\b[A-Za-z0-9_]+\b/g) || [];
+      expect(seg.text).not.toContain(">>");
+      expect(seg.text).not.toContain("[Music]");
+      expect(seg.text).not.toContain("[Applause]");
+      expect(seg.text).not.toContain(" — ");
+
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
       expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions)", () => {
+  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions, 1-indexed)", () => {
     const quiz = QUIZ_12_ANGRY_MEN_JUROR_8_FIRST_DOUBT_SEQUENCE;
     expect(quiz.lessonId).toBe("mov_insp_12");
     expect(quiz.totalQuestions).toBe(8);
@@ -89,8 +115,8 @@ describe("12 Angry Men: Juror 8 Classic Deliberation (mov_insp_12) - Complete Da
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(
         LESSON_12_ANGRY_MEN_JUROR_8_FIRST_DOUBT_SEQUENCE.segments.length
       );
     });
@@ -107,11 +133,13 @@ describe("12 Angry Men: Juror 8 Classic Deliberation (mov_insp_12) - Complete Da
     expect(lesson.studyCount).toBeGreaterThan(1000);
   });
 
-  it("Test 7: Direct Quiz Reference Integrity & Linkage", () => {
+  it("Test 7: Direct Quiz Reference Integrity & Linkage (1-indexed)", () => {
     const lesson = LESSON_12_ANGRY_MEN_JUROR_8_FIRST_DOUBT_SEQUENCE;
     const quiz = lesson.quiz;
     for (const q of quiz!.questions) {
-      const referencedSegment = lesson.segments[q.referenceSegmentIndex!];
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(lesson.segments.length);
+      const referencedSegment = lesson.segments[q.referenceSegmentIndex! - 1];
       expect(referencedSegment).toBeDefined();
       expect(referencedSegment.orderIndex).toBe(q.referenceSegmentIndex);
       expect(referencedSegment.text.length).toBeGreaterThan(0);

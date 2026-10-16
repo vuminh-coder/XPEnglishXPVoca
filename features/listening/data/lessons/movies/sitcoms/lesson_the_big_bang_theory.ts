@@ -50,7 +50,7 @@ export const QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED: Video
       "targetedConcept": "Meta-problem solving and mathematical spatial deduction",
       "targetedConceptEn": "Meta-problem solving and mathematical spatial deduction",
       "targetedConceptVi": "Giải quyết vấn đề bậc cao và suy luận không gian toán học",
-      "referenceSegmentIndex": 9
+      "referenceSegmentIndex": 10
     },
     {
       "id": "mov_sit_09_q2",
@@ -82,7 +82,7 @@ export const QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED: Video
       "targetedConcept": "Statistical extrapolation, observation bias, and normal distribution modeling",
       "targetedConceptEn": "Statistical extrapolation, observation bias, and normal distribution modeling",
       "targetedConceptVi": "Ngoại suy thống kê, thiên lệch quan sát và mô hình phân phối chuẩn",
-      "referenceSegmentIndex": 21
+      "referenceSegmentIndex": 22
     },
     {
       "id": "mov_sit_09_q3",
@@ -114,7 +114,7 @@ export const QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED: Video
       "targetedConcept": "Quantum superposition applied analogously to human relationship dilemmas",
       "targetedConceptEn": "Quantum superposition applied analogously to human relationship dilemmas",
       "targetedConceptVi": "Trạng thái lượng tử chồng chập được ví von tương đồng với tình thế hẹn hò",
-      "referenceSegmentIndex": 48
+      "referenceSegmentIndex": 49
     },
     {
       "id": "mov_sit_09_q4",
@@ -146,7 +146,7 @@ export const QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED: Video
       "targetedConcept": "Nutritional biochemistry rationalization in medical sitcom humor",
       "targetedConceptEn": "Nutritional biochemistry rationalization in medical sitcom humor",
       "targetedConceptVi": "Hợp lý hóa hóa sinh dinh dưỡng trong văn phong hài kịch y khoa",
-      "referenceSegmentIndex": 54
+      "referenceSegmentIndex": 55
     },
     {
       "id": "mov_sit_09_q5",
@@ -178,7 +178,7 @@ export const QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED: Video
       "targetedConcept": "Academic credit jealousy and unyielding scientific possessiveness",
       "targetedConceptEn": "Academic credit jealousy and unyielding scientific possessiveness",
       "targetedConceptVi": "Sự đố kỵ công trạng học thuật và tính chiếm hữu khoa học tuyệt đối",
-      "referenceSegmentIndex": 71
+      "referenceSegmentIndex": 72
     },
     {
       "id": "mov_sit_09_q6",
@@ -210,7 +210,7 @@ export const QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED: Video
       "targetedConcept": "Hyper-convoluted sitcom deceit and fictional digital footprints",
       "targetedConceptEn": "Hyper-convoluted sitcom deceit and fictional digital footprints",
       "targetedConceptVi": "Sự dối trá cực đoan trong sitcom và việc tạo dấu chân số giả mạo",
-      "referenceSegmentIndex": 84
+      "referenceSegmentIndex": 85
     },
     {
       "id": "mov_sit_09_q7",
@@ -242,7 +242,7 @@ export const QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED: Video
       "targetedConcept": "Biological symbiosis humor and eccentric scenario construction",
       "targetedConceptEn": "Biological symbiosis humor and eccentric scenario construction",
       "targetedConceptVi": "Hài hước sinh học cộng sinh và xây dựng hoạt cảnh lập dị",
-      "referenceSegmentIndex": 93
+      "referenceSegmentIndex": 94
     },
     {
       "id": "mov_sit_09_q8",
@@ -274,7 +274,7 @@ export const QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED: Video
       "targetedConcept": "Social reciprocity anxiety and algorithmic gift-giving strategy",
       "targetedConceptEn": "Social reciprocity anxiety and algorithmic gift-giving strategy",
       "targetedConceptVi": "Lo âu về sự đáp lễ xã hội và chiến lược tặng quà theo thuật toán",
-      "referenceSegmentIndex": 98
+      "referenceSegmentIndex": 99
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
     "Những phân đoạn đối đáp khoa học đỉnh cao và lập luận quái đản nhất của Tiến sĩ Sheldon Cooper (Jim Parsons): từ giải Nobel vật lý của Amy, ngoại suy bạn trai Penny bằng đường cong Bell Curve, thí nghiệm con mèo của Schrodinger, gõ cửa ba lần 'Penny Penny Penny', mạng lưới dối trá anh họ Leopold, đến xúc xắc D&D và món quà Giáng sinh cân bằng giá trị.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.1,
         "endTime": 4.5,
         "text": "So apparently, if we win, I'll be the fourth woman ever to win a Nobel in physics.",
@@ -316,10 +316,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Nobel"
         ],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 5.0,
         "endTime": 7.5,
         "text": "Wow, that's a big deal.",
@@ -330,10 +330,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Leonard công nhận tầm vóc to lớn của giải Nobel bằng thành ngữ thông dụng 'big deal'.",
         "properNouns": [],
-        "tokenCount": 6
+        "tokenCount": 5
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 7.6,
         "endTime": 13.0,
         "text": "Tell me about it! This morning I blew through my antiperspirant in like an hour.",
@@ -349,7 +349,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 15
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 13.3,
         "endTime": 16.2,
         "text": "Plus Sheldon's freaking out cuz we got in trouble.",
@@ -363,10 +363,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Sheldon"
         ],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 16.3,
         "endTime": 19.5,
         "text": "I've got him distracted for a while.",
@@ -378,10 +378,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Leonard chia sẻ chiến thuật đánh lạc hướng Sheldon bằng một trò đố trí tuệ.",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 19.9,
         "endTime": 22.5,
         "text": "Doesn't he know how to solve those?",
@@ -392,10 +392,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Amy ngạc nhiên vì với trí tuệ thiên tài, Sheldon thường giải khối Rubik chỉ trong vài giây.",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 22.6,
         "endTime": 28.5,
         "text": "Normally yes, but I switched the stickers around, so I don't even think it's possible to solve.",
@@ -407,10 +407,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Leonard chơi khăm bằng cách tráo decal màu khiến khối Rubik trở nên vô nghiệm về mặt toán học đối xứng.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 17
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 28.6,
         "endTime": 31.4,
         "text": "Solved it.",
@@ -424,7 +424,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 2
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 31.6,
         "endTime": 33.2,
         "text": "What? No, you didn't.",
@@ -435,10 +435,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Leonard hoài nghi vì cấu trúc toán học của khối Rubik đã bị anh làm cho sai lệch hoàn toàn.",
         "properNouns": [],
-        "tokenCount": 5
+        "tokenCount": 4
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 33.3,
         "endTime": 37.2,
         "text": "Not the cube, but the puzzle of why I couldn't solve the cube.",
@@ -450,10 +450,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Tư duy meta-logic thượng thừa của Sheldon: chuyển từ giải bài toán sang giải nguyên nhân của nghịch lý.",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 37.3,
         "endTime": 41.5,
         "text": "Solution: you switched stickers 2, 9, 32, and 51.",
@@ -468,7 +468,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 9
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 41.7,
         "endTime": 43.5,
         "text": "Really? This thing has numbers?",
@@ -482,7 +482,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 5
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 43.6,
         "endTime": 49.2,
         "text": "Anything has a number if you assign it a number, Friend Number Four.",
@@ -497,7 +497,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 13
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 49.3,
         "endTime": 52.6,
         "text": "Top five, not bad.",
@@ -512,7 +512,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 4
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 52.7,
         "endTime": 55.4,
         "text": "What about you, Penny? Do you go on many dates?",
@@ -528,7 +528,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 10
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 55.5,
         "endTime": 59.8,
         "text": "Uh, yeah. I wouldn't say many. A few.",
@@ -540,10 +540,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Penny khiêm tốn dùng từ định lượng 'a few' (một vài người) để miêu tả đời sống tình cảm.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 60.2,
         "endTime": 68.8,
         "text": "What's your characterization of approximately 171 different men as a few?",
@@ -555,10 +555,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon lập tức can thiệp với con số thống kê chính xác đến kỳ quặc về các đối tượng hẹn hò của Penny.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 68.9,
         "endTime": 71.4,
         "text": "Where did you get 171 men?",
@@ -572,7 +572,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 6
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 71.5,
         "endTime": 73.9,
         "text": "Simple extrapolation.",
@@ -586,7 +586,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 2
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 74.0,
         "endTime": 78.4,
         "text": "In the three years that I've known you, you were single for two.",
@@ -598,10 +598,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon thiết lập các biến số nền tảng dựa trên quãng thời gian sống đối diện căn hộ của Penny.",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 78.5,
         "endTime": 81.5,
         "text": "During that time, I saw 17 different suitors.",
@@ -616,7 +616,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 8
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 81.6,
         "endTime": 87.1,
         "text": "If we work backwards, correcting for observation bias and postulate an initial dating age of 15...",
@@ -632,7 +632,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 16
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 87.2,
         "endTime": 89.8,
         "text": "Whoa, wait, wait, wait! I did not start dating at 15.",
@@ -646,7 +646,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 11
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 89.9,
         "endTime": 91.5,
         "text": "I'm sorry. 16?",
@@ -657,10 +657,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon đoán tăng độ tuổi theo giả định thông thường của xã hội Mỹ.",
         "properNouns": [],
-        "tokenCount": 4
+        "tokenCount": 3
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 91.6,
         "endTime": 92.9,
         "text": "14.",
@@ -674,7 +674,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 1
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 93.0,
         "endTime": 96.9,
         "text": "My mistake. Now, assuming the left side of a bell curve peaking around the present...",
@@ -690,7 +690,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 15
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 97.0,
         "endTime": 105.6,
         "text": "...that would bring the total up to 193 men, plus or minus eight men.",
@@ -705,7 +705,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 14
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 105.7,
         "endTime": 109.2,
         "text": "Remarkable. Did you have sexual intercourse with all of these men?",
@@ -720,7 +720,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 11
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 109.3,
         "endTime": 111.6,
         "text": "No!",
@@ -734,7 +734,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 1
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 111.7,
         "endTime": 119.7,
         "text": "Although that number would be fairly easy to calculate based on the number of awkward encounters I've had with strange men leaving her apartment in the morning...",
@@ -747,10 +747,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon phân tích hành vi thực nghiệm dựa trên các buổi sáng mở cửa hành lang đối diện.",
         "properNouns": [],
-        "tokenCount": 28
+        "tokenCount": 27
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 119.8,
         "endTime": 123.8,
         "text": "...plus the number of times she's returned home wearing the same clothes she wore the night before.",
@@ -762,10 +762,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Cách diễn đạt gián tiếp của hiện tượng văn hóa 'walk of shame' (mặc nguyên đồ cũ về nhà sau buổi hẹn qua đêm).",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 123.9,
         "endTime": 128.4,
         "text": "Okay, Sheldon, I think you've made your point.",
@@ -778,10 +778,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Sheldon"
         ],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 128.5,
         "endTime": 132.5,
         "text": "So, we multiply 193 minus 21 men before the loss of virginity.",
@@ -796,7 +796,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 12
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 132.6,
         "endTime": 140.0,
         "text": "So, 172 times 0.18 gives us 30.96 sexual partners.",
@@ -808,10 +808,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Phép nhân xác suất cho ra con số thập phân chi tiết gây cười đỉnh cao.",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 9
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 140.1,
         "endTime": 143.0,
         "text": "Let's round that up to 31.",
@@ -822,10 +822,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Quy tắc làm tròn số trong toán học 'round up' (làm tròn lên số nguyên kế tiếp).",
         "properNouns": [],
-        "tokenCount": 7
+        "tokenCount": 6
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 143.1,
         "endTime": 148.0,
         "text": "Okay, Sheldon, you are so wrong! That is not even close to the real number. I'm going to need a drink over here.",
@@ -840,10 +840,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Sheldon"
         ],
-        "tokenCount": 24
+        "tokenCount": 23
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 148.1,
         "endTime": 151.0,
         "text": "Buckle up. You're in for a cranky night.",
@@ -856,10 +856,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Cụm thành ngữ 'buckle up' (chuẩn bị tinh thần đón nhận thử thách) và 'cranky' (tâm trạng gắt gỏng).",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 151.1,
         "endTime": 156.2,
         "text": "According to the codicil of the Relationship Agreement, which you insisted upon...",
@@ -877,7 +877,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 12
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 156.3,
         "endTime": 160.0,
         "text": "...we're not allowed to pout or be moody on date night.",
@@ -890,10 +890,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Từ vựng chỉ trạng thái cảm xúc: 'pout' (bĩu môi hờn dỗi) và 'moody' (buồn bã thất thường).",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 160.1,
         "endTime": 163.5,
         "text": "You know, I just put that in because of uterus stuff.",
@@ -907,7 +907,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 11
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 163.6,
         "endTime": 167.0,
         "text": "Well, it applies to you, too.",
@@ -921,7 +921,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 6
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 167.1,
         "endTime": 173.2,
         "text": "I was afraid you might bring this up, so I have a workaround.",
@@ -936,7 +936,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 13
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 173.3,
         "endTime": 179.6,
         "text": "There you go.",
@@ -950,7 +950,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 3
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 182.7,
         "endTime": 187.7,
         "text": "Sheldon, I know you're in the zone, but do you want some tea?",
@@ -964,10 +964,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Sheldon"
         ],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 189.7,
         "endTime": 194.8,
         "text": "All right. I can't believe I'm going to say this, but you haven't spoken in hours, and I'm starting to get worried.",
@@ -979,10 +979,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sự im lặng bất thường của Sheldon khiến người bạn cùng phòng Leonard cảm thấy bất an.",
         "properNouns": [],
-        "tokenCount": 26
+        "tokenCount": 22
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 194.9,
         "endTime": 198.2,
         "text": "Please say something, Leonard.",
@@ -998,7 +998,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 4
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 198.3,
         "endTime": 204.0,
         "text": "Prepare to be humbled and weep at the glory of my genius.",
@@ -1014,7 +1014,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 12
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 204.1,
         "endTime": 207.5,
         "text": "Nope. It was better before.",
@@ -1028,7 +1028,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 5
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 207.6,
         "endTime": 213.3,
         "text": "Look at it! I feel like my mind just made a baby and it's beautiful.",
@@ -1040,10 +1040,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Phép ẩn dụ ví von sự ra đời của một công trình khám phá khoa học như một sinh linh trí tuệ hoàn mỹ.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 213.4,
         "endTime": 218.0,
         "text": "It's not like human babies which are loud and covered in goop.",
@@ -1055,10 +1055,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sự chán ghét trẻ sơ sinh sinh học của Sheldon: dùng từ lóng 'goop' (chất nhớt nhầy nhụa khó chịu).",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 218.1,
         "endTime": 224.0,
         "text": "Holy crap, Sheldon! Did you just figure out a method for synthesizing a new stable super-heavy element?",
@@ -1073,10 +1073,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Sheldon"
         ],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 224.1,
         "endTime": 230.3,
         "text": "Why, did I? Well, that can't be right. No one's ever done that before, except me, because I just did it!",
@@ -1089,10 +1089,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sự tự mãn tột đỉnh của Sheldon khẳng định vị thế tiên phong trong nền vật lý hạt nhân toàn cầu.",
         "properNouns": [],
-        "tokenCount": 23
+        "tokenCount": 21
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 241.9,
         "endTime": 245.5,
         "text": "I'm back! You've got me for eight minutes.",
@@ -1104,10 +1104,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon phân bổ thời gian nghiêm ngặt đến từng phút cho hai dự án nghiên cứu đối nghịch.",
         "properNouns": [],
-        "tokenCount": 10
+        "tokenCount": 8
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 245.6,
         "endTime": 249.4,
         "text": "Sheldon, this is silly. You can't expect us to do quality work with you popping in and out like this.",
@@ -1121,10 +1121,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Sheldon"
         ],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 249.5,
         "endTime": 254.6,
         "text": "The coefficient isn't lambda. It's lambda sub one.",
@@ -1136,10 +1136,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Thuật ngữ đại số giải tích và vật lý toán học: 'coefficient' (hệ số) và 'sub' (chỉ số dưới subscript).",
         "properNouns": [],
-        "tokenCount": 10
+        "tokenCount": 8
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 254.7,
         "endTime": 260.6,
         "text": "And then over here, you should consider the possibility that the brain itself is in two different quantum states.",
@@ -1154,7 +1154,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 19
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 260.7,
         "endTime": 264.4,
         "text": "And lastly, do you have any little soup crackers?",
@@ -1168,7 +1168,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 9
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 264.5,
         "endTime": 268.0,
         "text": "The rate of spinning for the central axis centrifuge has to be four revolutions per second.",
@@ -1184,7 +1184,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 16
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 268.1,
         "endTime": 272.5,
         "text": "It can't be four revolutions. It's got to be seven!",
@@ -1195,10 +1195,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Howard tranh cãi nảy lửa với Raj về thông số kỹ thuật chế tạo thiết bị.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 10
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 272.6,
         "endTime": 278.0,
         "text": "It's five and a half.",
@@ -1209,10 +1209,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon đi ngang qua và chốt hạ ngay kết quả chuẩn xác mà không cần dừng bước.",
         "properNouns": [],
-        "tokenCount": 6
+        "tokenCount": 5
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 278.1,
         "endTime": 281.0,
         "text": "Son of a... it's five and a half!",
@@ -1223,10 +1223,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Howard thốt lên câu cảm thán tức tối khi kiểm tra lại công thức và thấy Sheldon luôn luôn đúng.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 281.1,
         "endTime": 286.0,
         "text": "BRB, that's short for 'be right back'. I'm saving so much time.",
@@ -1239,10 +1239,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Cách Sheldon giải thích từ lóng tin nhắn mạng 'BRB' một cách quá trịnh trọng làm mất thêm thời gian.",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 12
     },
     {
-        "orderIndex": 62,
+        "orderIndex": 63,
         "startTime": 286.1,
         "endTime": 293.0,
         "text": "Two signals meet up at the corpus callosum at t equals zero. And I know a boy who just earned a slurp of soup.",
@@ -1257,7 +1257,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 24
     },
     {
-        "orderIndex": 63,
+        "orderIndex": 64,
         "startTime": 293.1,
         "endTime": 299.7,
         "text": "Incredible, Sheldon. I didn't expect that you could work on both projects, but I was wrong.",
@@ -1272,10 +1272,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Sheldon"
         ],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 64,
+        "orderIndex": 65,
         "startTime": 299.8,
         "endTime": 306.0,
         "text": "You know, I felt the same way about the spork. Solids and liquids handled by one utensil? That'll never work. Spoiler: works.",
@@ -1288,10 +1288,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Triết lý hài hước về chiếc thìa lai nĩa 'spork' (spoon + fork) minh họa cho việc tích hợp hai chức năng trong một.",
         "properNouns": [],
-        "tokenCount": 23
+        "tokenCount": 22
     },
     {
-        "orderIndex": 65,
+        "orderIndex": 66,
         "startTime": 306.1,
         "endTime": 311.0,
         "text": "Got to admit, we didn't think you'd be able to do two things at once.",
@@ -1303,10 +1303,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Howard bày tỏ sự kính nể trước tốc độ giải quyết vấn đề của Sheldon.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 15
     },
     {
-        "orderIndex": 66,
+        "orderIndex": 67,
         "startTime": 311.1,
         "endTime": 320.3,
         "text": "I felt the same way about the platypus. A bird and a mammal in the same creature? No way. Spoiler: way.",
@@ -1322,7 +1322,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 21
     },
     {
-        "orderIndex": 67,
+        "orderIndex": 68,
         "startTime": 320.4,
         "endTime": 328.0,
         "text": "In 1935, Erwin Schrodinger, in an attempt to explain the Copenhagen interpretation of quantum physics...",
@@ -1341,7 +1341,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 15
     },
     {
-        "orderIndex": 68,
+        "orderIndex": 69,
         "startTime": 328.1,
         "endTime": 334.5,
         "text": "...he proposed an experiment where a cat is placed in a box with a sealed vial of poison that will break open at a random time.",
@@ -1357,7 +1357,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 26
     },
     {
-        "orderIndex": 69,
+        "orderIndex": 70,
         "startTime": 334.6,
         "endTime": 345.0,
         "text": "Now, since no one knows when or if the poison has been released until the box is opened, the cat can be thought of as both alive and dead.",
@@ -1372,7 +1372,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 29
     },
     {
-        "orderIndex": 70,
+        "orderIndex": 71,
         "startTime": 348.2,
         "endTime": 351.2,
         "text": "I'm sorry. I don't get the point.",
@@ -1383,10 +1383,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Penny bày tỏ sự khó hiểu trước bài giảng vật lý lượng tử đột ngột.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 7
     },
     {
-        "orderIndex": 71,
+        "orderIndex": 72,
         "startTime": 351.3,
         "endTime": 355.6,
         "text": "Of course you don't get it. I haven't made it yet.",
@@ -1397,10 +1397,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Câu đối đáp logic trần trụi của Sheldon: không thể hiểu luận điểm khi người nói chưa đưa ra kết luận.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 11
     },
     {
-        "orderIndex": 72,
+        "orderIndex": 73,
         "startTime": 355.7,
         "endTime": 360.7,
         "text": "You'd have to be psychic to get it, and there's no such thing as psychic.",
@@ -1412,10 +1412,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Lập trường duy lý phản bác mê tín dị đoan của Sheldon Cooper về năng lực ngoại cảm.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 15
     },
     {
-        "orderIndex": 73,
+        "orderIndex": 74,
         "startTime": 360.8,
         "endTime": 366.9,
         "text": "Just like Schrodinger's cat, your potential relationship with Leonard right now can be thought of as both good and bad.",
@@ -1431,10 +1431,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Schrodinger",
             "Leonard"
         ],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 74,
+        "orderIndex": 75,
         "startTime": 367.0,
         "endTime": 372.5,
         "text": "It is only by opening the box that you'll find out which it is.",
@@ -1446,10 +1446,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Hành động quan sát làm sụp đổ hàm sóng được ví như việc dũng cảm bước vào buổi hẹn hò.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 75,
+        "orderIndex": 76,
         "startTime": 372.6,
         "endTime": 376.5,
         "text": "Okay, so you're saying I should go out with Leonard.",
@@ -1462,10 +1462,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Leonard"
         ],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 76,
+        "orderIndex": 77,
         "startTime": 376.6,
         "endTime": 384.0,
         "text": "No, no, no, no, no! Let me start again. In 1935...",
@@ -1480,7 +1480,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 11
     },
     {
-        "orderIndex": 77,
+        "orderIndex": 78,
         "startTime": 384.1,
         "endTime": 389.8,
         "text": "Unless you're planning on running a marathon, choosing both stuffing and mashed potatoes is a starch-filled redundancy.",
@@ -1493,10 +1493,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon phân tích chế độ dinh dưỡng của Leonard qua lăng kính hóa sinh và tính dư thừa 'redundancy'.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 17
     },
     {
-        "orderIndex": 78,
+        "orderIndex": 79,
         "startTime": 389.9,
         "endTime": 394.1,
         "text": "No, it's about Penny.",
@@ -1509,10 +1509,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Penny"
         ],
-        "tokenCount": 5
+        "tokenCount": 4
     },
     {
-        "orderIndex": 79,
+        "orderIndex": 80,
         "startTime": 394.2,
         "endTime": 398.8,
         "text": "A mistake involving Penny? Okay, you'll have to narrow it down.",
@@ -1526,10 +1526,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Penny"
         ],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 80,
+        "orderIndex": 81,
         "startTime": 398.9,
         "endTime": 403.5,
         "text": "I don't think I can go out with her tonight. — Then don't.",
@@ -1541,10 +1541,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Lời giải quyết dứt khoát lạnh lùng đậm chất nhị phân của Sheldon.",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 81,
+        "orderIndex": 82,
         "startTime": 403.6,
         "endTime": 408.3,
         "text": "Other people would say, 'Why not?' — Other people might be interested.",
@@ -1556,10 +1556,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Màn tung hứng thoại sitcom châm biếm sự thờ ơ tuyệt đối của Sheldon đối với cảm xúc cá nhân của bạn bè.",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 12
     },
     {
-        "orderIndex": 82,
+        "orderIndex": 83,
         "startTime": 411.3,
         "endTime": 417.3,
         "text": "Now that I'm actually about to go out with Penny, I'm not excited. I'm nauseous.",
@@ -1573,10 +1573,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Penny"
         ],
-        "tokenCount": 18
+        "tokenCount": 15
     },
     {
-        "orderIndex": 83,
+        "orderIndex": 84,
         "startTime": 417.4,
         "endTime": 425.4,
         "text": "Ah, then your meal choice is appropriate. Starch absorbs fluid, which reduces the amount of vomit available for violent expulsion.",
@@ -1592,7 +1592,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 20
     },
     {
-        "orderIndex": 84,
+        "orderIndex": 85,
         "startTime": 425.5,
         "endTime": 432.8,
         "text": "Sheldon, this date is probably my one chance with Penny. What happens if I blow it?",
@@ -1610,7 +1610,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 16
     },
     {
-        "orderIndex": 85,
+        "orderIndex": 86,
         "startTime": 432.9,
         "endTime": 443.8,
         "text": "Well, if we accept your premise and also accept the highly improbable assumption that Penny is the only woman in the world for you...",
@@ -1627,7 +1627,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 24
     },
     {
-        "orderIndex": 86,
+        "orderIndex": 87,
         "startTime": 443.9,
         "endTime": 449.3,
         "text": "...then we can logically conclude that the result of blowing it would be that you end up a lonely, bitter old man with no progeny.",
@@ -1643,7 +1643,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 25
     },
     {
-        "orderIndex": 87,
+        "orderIndex": 88,
         "startTime": 449.4,
         "endTime": 458.5,
         "text": "The image of any number of evil lighthouse keepers from Scooby-Doo cartoons comes to mind. — Schrodinger's cat.",
@@ -1659,10 +1659,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Scooby-Doo",
             "Schrodinger"
         ],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 88,
+        "orderIndex": 89,
         "startTime": 458.7,
         "endTime": 466.9,
         "text": "Remember when I said if you went through with your surgery, there was a one in 700,000 chance of dying?",
@@ -1674,10 +1674,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon nhắc lại xác suất rủi ro y khoa của ca phẫu thuật chỉnh vách ngăn mũi của Leonard.",
         "properNouns": [],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 89,
+        "orderIndex": 90,
         "startTime": 467.0,
         "endTime": 478.2,
         "text": "Well, I've been crunching the numbers. And so far, I've gotten your probability of death all the way to a sphincter-tightening one in 300.",
@@ -1690,10 +1690,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Cụm thành ngữ 'crunch the numbers' (tính toán chi li số liệu) và tính từ giải phẫu hài hước 'sphincter-tightening' (sợ co thắt ruột).",
         "properNouns": [],
-        "tokenCount": 27
+        "tokenCount": 24
     },
     {
-        "orderIndex": 90,
+        "orderIndex": 91,
         "startTime": 479.3,
         "endTime": 483.8,
         "text": "Great timing. My 'check sphincter' light just went on.",
@@ -1708,7 +1708,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 9
     },
     {
-        "orderIndex": 91,
+        "orderIndex": 92,
         "startTime": 483.9,
         "endTime": 487.8,
         "text": "Leonard, what if you have an allergic reaction to the surgeon's latex gloves?",
@@ -1722,10 +1722,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Leonard"
         ],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 92,
+        "orderIndex": 93,
         "startTime": 487.9,
         "endTime": 494.0,
         "text": "I'm not allergic to latex. — Then why don't you wear the rubber gloves I bought for you to do the dishes?",
@@ -1737,10 +1737,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon lập luận chuyển từ dị ứng y tế sang bắt bẻ chuyện lười làm việc nhà của Leonard.",
         "properNouns": [],
-        "tokenCount": 23
+        "tokenCount": 22
     },
     {
-        "orderIndex": 93,
+        "orderIndex": 94,
         "startTime": 494.1,
         "endTime": 500.6,
         "text": "For the same reason I don't wear the apron or the hairnet. — Fine, what about epilepsy?",
@@ -1756,7 +1756,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 17
     },
     {
-        "orderIndex": 94,
+        "orderIndex": 95,
         "startTime": 500.7,
         "endTime": 512.5,
         "text": "No, you don't. But the surgeon might! And your carotid artery is just one shaky scalpel away from becoming the dancing fountain at Disneyland.",
@@ -1771,10 +1771,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Disneyland"
         ],
-        "tokenCount": 25
+        "tokenCount": 24
     },
     {
-        "orderIndex": 95,
+        "orderIndex": 96,
         "startTime": 512.6,
         "endTime": 521.3,
         "text": "Sheldon, do you realize that driving is riskier than surgery? — I do. I have to drive to the hospital right here!",
@@ -1788,10 +1788,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Sheldon"
         ],
-        "tokenCount": 21
+        "tokenCount": 22
     },
     {
-        "orderIndex": 96,
+        "orderIndex": 97,
         "startTime": 521.4,
         "endTime": 526.9,
         "text": "And don't expect me to carry you. I do that enough in life.",
@@ -1803,10 +1803,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Chơi chữ hai nghĩa của động từ 'carry': bế cõng thể chất vs gánh vác trí tuệ trong công việc.",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 97,
+        "orderIndex": 98,
         "startTime": 527.0,
         "endTime": 536.3,
         "text": "Buddy, I get that you're worried about me, and I appreciate that, but I'm not going to die. — You don't know that!",
@@ -1819,10 +1819,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Tình bạn chân thành ẩn sau sự kỳ quặc thái quá của Sheldon đối với Leonard.",
         "properNouns": [],
-        "tokenCount": 25
+        "tokenCount": 23
     },
     {
-        "orderIndex": 98,
+        "orderIndex": 99,
         "startTime": 536.4,
         "endTime": 544.6,
         "text": "You know who else said that? Every cocky T-Rex currently swimming around in the gas tank of your car!",
@@ -1837,10 +1837,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "T-Rex"
         ],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 99,
+        "orderIndex": 100,
         "startTime": 544.7,
         "endTime": 551.3,
         "text": "If there was an asteroid strike, wouldn't you die, too? — I don't know. I'm smart and scrappy, I think I'd find a way.",
@@ -1853,10 +1853,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Tính từ 'scrappy' (gan dạ, kiên cường, giỏi xoay xở trong nghịch cảnh hiểm nghèo).",
         "properNouns": [],
-        "tokenCount": 27
+        "tokenCount": 24
     },
     {
-        "orderIndex": 100,
+        "orderIndex": 101,
         "startTime": 551.4,
         "endTime": 564.6,
         "text": "And while you're thinking about it, if you have the surgery in Nicaragua during monsoon season, I can practically guarantee your death.",
@@ -1871,10 +1871,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Nicaragua"
         ],
-        "tokenCount": 23
+        "tokenCount": 22
     },
     {
-        "orderIndex": 101,
+        "orderIndex": 102,
         "startTime": 571.0,
         "endTime": 574.6,
         "text": "Dr. Cooper is working.",
@@ -1891,7 +1891,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 4
     },
     {
-        "orderIndex": 102,
+        "orderIndex": 103,
         "startTime": 574.7,
         "endTime": 580.9,
         "text": "Yes, I'm close to a breakthrough. Oh, tickles!",
@@ -1903,10 +1903,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon tận hưởng việc được Ramona xoa bóp ngâm chân trong khi giải toán.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 103,
+        "orderIndex": 104,
         "startTime": 583.8,
         "endTime": 588.5,
         "text": "Holy crap on a crap.",
@@ -1920,7 +1920,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 5
     },
     {
-        "orderIndex": 104,
+        "orderIndex": 105,
         "startTime": 593.8,
         "endTime": 599.7,
         "text": "The only way I could explain it would be in a therapist's office with dolls.",
@@ -1932,10 +1932,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Lối nói bóng gió về liệu pháp tâm lý chấn thương tinh thần dùng búp bê để tái hiện hành vi.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 105,
+        "orderIndex": 106,
         "startTime": 615.4,
         "endTime": 621.9,
         "text": "Sheldon, Halo night. Cuthalee, is you coming? — Oh yes, it's Halo night. Let me just dry my tootsies.",
@@ -1952,7 +1952,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 19
     },
     {
-        "orderIndex": 106,
+        "orderIndex": 107,
         "startTime": 627.9,
         "endTime": 636.6,
         "text": "Didn't a great man once say, 'Science demands nothing less than the fervent and unconditional dedication of our entire lives'?",
@@ -1965,10 +1965,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Trích dẫn triết lý học thuật cao siêu: 'fervent and unconditional dedication' (sự tận hiến nồng nhiệt và không điều kiện).",
         "properNouns": [],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 107,
+        "orderIndex": 108,
         "startTime": 636.7,
         "endTime": 642.1,
         "text": "He did. And who was that great man? — Me.",
@@ -1980,10 +1980,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon tự thừa nhận câu danh ngôn bất hủ đó chính do mình phát biểu ra.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 10
     },
     {
-        "orderIndex": 108,
+        "orderIndex": 109,
         "startTime": 645.4,
         "endTime": 652.1,
         "text": "Seriously, you're not coming? — You heard her. How can I argue with me?",
@@ -1998,7 +1998,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 14
     },
     {
-        "orderIndex": 109,
+        "orderIndex": 110,
         "startTime": 659.8,
         "endTime": 668.8,
         "text": "Dr. Cooper, I have to tell you, your friends are holding you back. — I prefer to think of it as I'm pulling them forward.",
@@ -2015,7 +2015,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 25
     },
     {
-        "orderIndex": 110,
+        "orderIndex": 111,
         "startTime": 699.7,
         "endTime": 710.0,
         "text": "I suppose Battlestar Galactica comes on tonight. I guess I can wait for the DVD and then never ever watch it.",
@@ -2033,7 +2033,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 21
     },
     {
-        "orderIndex": 111,
+        "orderIndex": 112,
         "startTime": 710.1,
         "endTime": 718.5,
         "text": "I've got it! I finally reconciled the black hole information paradox with my theory of string network condensates!",
@@ -2046,10 +2046,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Đỉnh cao vật lý lý thuyết: giải quyết 'black hole information paradox' (nghịch lý mất mát thông tin hố đen của Stephen Hawking).",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 112,
+        "orderIndex": 113,
         "startTime": 718.6,
         "endTime": 728.9,
         "text": "And I could not have done it without you. You helped me work out the masses of all the fermions, and you pumiced my hammer toe.",
@@ -2064,7 +2064,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 26
     },
     {
-        "orderIndex": 113,
+        "orderIndex": 114,
         "startTime": 730.6,
         "endTime": 738.7,
         "text": "Well, would you consider naming it the Cooper-Nowitzki Theorem? — Who's Nowitzki? — I'm Nowitzki.",
@@ -2079,10 +2079,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Cooper",
             "Nowitzki"
         ],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 114,
+        "orderIndex": 115,
         "startTime": 740.9,
         "endTime": 754.4,
         "text": "Oh, you want me to share credit? Get out! — Oh, bite me! — Sisters!",
@@ -2096,10 +2096,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon không bao giờ chịu chia sẻ danh tiếng học thuật; đuổi Ramona ra khỏi nhà ngay lập tức.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 15
     },
     {
-        "orderIndex": 115,
+        "orderIndex": 116,
         "startTime": 755.4,
         "endTime": 761.4,
         "text": "Penny! Penny! Penny!",
@@ -2115,7 +2115,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 3
     },
     {
-        "orderIndex": 116,
+        "orderIndex": 117,
         "startTime": 761.5,
         "endTime": 765.4,
         "text": "Good morning. Do you have any idea what time it is?",
@@ -2129,7 +2129,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 11
     },
     {
-        "orderIndex": 117,
+        "orderIndex": 118,
         "startTime": 765.5,
         "endTime": 772.7,
         "text": "Of course I do. My watch is linked to the atomic clock in Boulder, Colorado. It's accurate to one-tenth of a second.",
@@ -2145,10 +2145,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Boulder",
             "Colorado"
         ],
-        "tokenCount": 24
+        "tokenCount": 22
     },
     {
-        "orderIndex": 118,
+        "orderIndex": 119,
         "startTime": 772.8,
         "endTime": 777.5,
         "text": "But as I'm saying this, it occurs to me that once again your question may have been rhetorical.",
@@ -2160,10 +2160,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Khái niệm ngữ dụng học 'rhetorical question' (câu hỏi tu từ dùng để than phiền chứ không cần câu trả lời số liệu).",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 119,
+        "orderIndex": 120,
         "startTime": 777.6,
         "endTime": 785.4,
         "text": "Remember how Leonard told you we couldn't come to your performance because we were attending a symposium on molecular positronium?",
@@ -2178,10 +2178,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Leonard"
         ],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 120,
+        "orderIndex": 121,
         "startTime": 785.5,
         "endTime": 791.9,
         "text": "I remember symposium. — Yes. Well, he lied.",
@@ -2193,10 +2193,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon thẳng thừng lật tẩy lời nói dối vụng về của Leonard trước mặt Penny.",
         "properNouns": [],
-        "tokenCount": 7
+        "tokenCount": 8
     },
     {
-        "orderIndex": 121,
+        "orderIndex": 122,
         "startTime": 792.0,
         "endTime": 800.6,
         "text": "Wait, what? He lied and I'm feeling very uncomfortable about it. — Well, imagine how I'm feeling!",
@@ -2208,10 +2208,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sự xung đột cảm xúc giữa cảm giác bị lừa dối của Penny và sự khó ở với việc vi phạm chuẩn mực của Sheldon.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 122,
+        "orderIndex": 123,
         "startTime": 800.7,
         "endTime": 811.0,
         "text": "Hungry? Tired? I'm sorry, this really isn't my strong suit.",
@@ -2224,10 +2224,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Thành ngữ 'not one's strong suit' nghĩa là không phải sở trường chuyên môn của một người.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 10
     },
     {
-        "orderIndex": 123,
+        "orderIndex": 124,
         "startTime": 811.1,
         "endTime": 817.6,
         "text": "You told her I lied? Why would you tell her I lied?! — To help you!",
@@ -2239,10 +2239,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Leonard phát hoảng khi kế hoạch trốn xem kịch bị Sheldon bộc lộ toàn bộ.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 16
     },
     {
-        "orderIndex": 124,
+        "orderIndex": 125,
         "startTime": 817.7,
         "endTime": 826.5,
         "text": "She was going to see through your lie eventually, so I told her that you were lying to protect me.",
@@ -2257,7 +2257,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 20
     },
     {
-        "orderIndex": 125,
+        "orderIndex": 126,
         "startTime": 826.6,
         "endTime": 834.2,
         "text": "Oh, I'm getting a bad feeling. — Hunger? Indigestion? I'm sorry, I'm really not very good at this.",
@@ -2270,10 +2270,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Cặp từ chẩn đoán y khoa tiêu hóa lặp lại gây cười: 'indigestion' (chứng khó tiêu).",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 126,
+        "orderIndex": 127,
         "startTime": 834.3,
         "endTime": 842.7,
         "text": "Anyway, Penny now believes that on Friday night, we're going to participate in my cousin Leopold's drug intervention.",
@@ -2289,10 +2289,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Penny",
             "Leopold"
         ],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 127,
+        "orderIndex": 128,
         "startTime": 842.8,
         "endTime": 848.5,
         "text": "...whom most people call Leo, but he also answers to Lee. Remember that. It's important.",
@@ -2308,10 +2308,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Leo",
             "Lee"
         ],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 128,
+        "orderIndex": 129,
         "startTime": 848.6,
         "endTime": 855.2,
         "text": "Details, Leonard! The success or failure of our deceitful enterprise turns on details.",
@@ -2328,7 +2328,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 13
     },
     {
-        "orderIndex": 129,
+        "orderIndex": 130,
         "startTime": 855.3,
         "endTime": 863.8,
         "text": "Do you have a cousin Leopold? — No, I made him up. Though I think you'd call him Lee.",
@@ -2346,7 +2346,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 19
     },
     {
-        "orderIndex": 130,
+        "orderIndex": 131,
         "startTime": 866.1,
         "endTime": 873.9,
         "text": "First of all, your lie was laughably transparent, whereas mine is exquisitely convoluted.",
@@ -2361,7 +2361,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 13
     },
     {
-        "orderIndex": 131,
+        "orderIndex": 132,
         "startTime": 874.0,
         "endTime": 883.0,
         "text": "While you were sleeping, I was weaving an unravelable web. — Unravelable?",
@@ -2373,10 +2373,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Ẩn dụ mạng nhện giăng bẫy 'weave an unravelable web' (dệt tấm lưới không thể bị gỡ rối).",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 12
     },
     {
-        "orderIndex": 132,
+        "orderIndex": 133,
         "startTime": 883.1,
         "endTime": 898.4,
         "text": "If she Googles Leopold Houston, she'll find a Facebook page, an online blog depicting his descent into drug use, and a desperate yet hopeful listing on e-harmony.com.",
@@ -2393,10 +2393,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Facebook",
             "e-harmony.com"
         ],
-        "tokenCount": 30
+        "tokenCount": 27
     },
     {
-        "orderIndex": 133,
+        "orderIndex": 134,
         "startTime": 898.5,
         "endTime": 907.0,
         "text": "We're going to Long Beach?! — No, of course not. There's no cousin Leo, there's no intervention. Focus, Leonard!",
@@ -2413,10 +2413,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Leo",
             "Leonard"
         ],
-        "tokenCount": 21
+        "tokenCount": 19
     },
     {
-        "orderIndex": 134,
+        "orderIndex": 135,
         "startTime": 907.1,
         "endTime": 914.8,
         "text": "You ready to order? — One moment. I'm conducting an experiment with Dungeons and Dragons dice.",
@@ -2433,7 +2433,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 16
     },
     {
-        "orderIndex": 135,
+        "orderIndex": 136,
         "startTime": 914.9,
         "endTime": 924.0,
         "text": "From here on in, I've decided to make all trivial decisions with a throw of the dice, thus freeing up my mind to do what it does best: enlighten and amaze.",
@@ -2446,10 +2446,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Cụm từ triết lý 'freeing up my mind' và cặp động từ 'enlighten and amaze' (khai sáng và tạo kỳ quan).",
         "properNouns": [],
-        "tokenCount": 32
+        "tokenCount": 31
     },
     {
-        "orderIndex": 136,
+        "orderIndex": 137,
         "startTime": 927.4,
         "endTime": 937.3,
         "text": "Page 14, item seven. So, what's for dinner? — A side of corn succotash. Interesting.",
@@ -2464,7 +2464,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 15
     },
     {
-        "orderIndex": 137,
+        "orderIndex": 138,
         "startTime": 951.8,
         "endTime": 961.3,
         "text": "Let's see what I'll be washing that succotash down with... A pitcher of margaritas!",
@@ -2476,10 +2476,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Cụm động từ 'wash down' nghĩa là uống nước tráng miệng cho dễ trôi thức ăn; xúc xắc chọn cả một bình rượu mạnh margarita.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 14
     },
     {
-        "orderIndex": 138,
+        "orderIndex": 139,
         "startTime": 962.3,
         "endTime": 972.8,
         "text": "Do you really want that? — That's the great thing, it doesn't matter! My mind is freed up to think about more important things.",
@@ -2491,10 +2491,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Sheldon triệt tiêu mệt mỏi vì ra quyết định (decision fatigue) bằng cách phó thác cho xác suất.",
         "properNouns": [],
-        "tokenCount": 25
+        "tokenCount": 24
     },
     {
-        "orderIndex": 139,
+        "orderIndex": 140,
         "startTime": 972.9,
         "endTime": 976.0,
         "text": "What's it thinking about now? — Hamburgers and lemonade.",
@@ -2508,7 +2508,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 9
     },
     {
-        "orderIndex": 140,
+        "orderIndex": 141,
         "startTime": 981.8,
         "endTime": 989.0,
         "text": "Mustache is looking good there, Sheldon. — Don't thank me, thank the dice! They told me what percentage of my face to shave.",
@@ -2526,7 +2526,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 23
     },
     {
-        "orderIndex": 141,
+        "orderIndex": 142,
         "startTime": 989.1,
         "endTime": 999.8,
         "text": "In the past few weeks, unburdened by trivial decisions, I've co-authored two papers in notable peer-reviewed journals...",
@@ -2539,10 +2539,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Thuật ngữ học thuật hàn lâm 'peer-reviewed journals' (các tạp chí khoa học có chuyên gia bình duyệt gắt gao).",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 17
     },
     {
-        "orderIndex": 142,
+        "orderIndex": 143,
         "startTime": 999.9,
         "endTime": 1009.3,
         "text": "...and I'm close to figuring out why the Large Hadron Collider has yet to isolate the Higgs boson particle.",
@@ -2559,10 +2559,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Higgs",
             "LHC"
         ],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 143,
+        "orderIndex": 144,
         "startTime": 1011.1,
         "endTime": 1015.8,
         "text": "The dice giveth and the dice taketh away.",
@@ -2576,7 +2576,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 8
     },
     {
-        "orderIndex": 144,
+        "orderIndex": 145,
         "startTime": 1024.0,
         "endTime": 1031.5,
         "text": "I wish you could all be inside my head. The conversation is sparkling.",
@@ -2591,7 +2591,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 13
     },
     {
-        "orderIndex": 145,
+        "orderIndex": 146,
         "startTime": 1032.1,
         "endTime": 1041.0,
         "text": "A lichen is an organism made up of two separate species: fungi and algae.",
@@ -2607,7 +2607,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 14
     },
     {
-        "orderIndex": 146,
+        "orderIndex": 147,
         "startTime": 1041.1,
         "endTime": 1049.8,
         "text": "If you could merge with another species, what species would you pick and why? Hint: there is a right answer. None of you will get it.",
@@ -2623,7 +2623,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 26
     },
     {
-        "orderIndex": 147,
+        "orderIndex": 148,
         "startTime": 1049.9,
         "endTime": 1062.4,
         "text": "Okay, I'd pick swan because the resulting hybrid would have the advanced industrial civilization of a human and the long graceful neck I've always dreamed of having.",
@@ -2636,10 +2636,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Leonard chọn thiên nga vì ước mơ cải thiện ngoại hình và chiều cao cơ thể khiêm tốn.",
         "properNouns": [],
-        "tokenCount": 29
+        "tokenCount": 27
     },
     {
-        "orderIndex": 148,
+        "orderIndex": 149,
         "startTime": 1062.5,
         "endTime": 1066.6,
         "text": "Wrong, Leonard.",
@@ -2655,7 +2655,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 2
     },
     {
-        "orderIndex": 149,
+        "orderIndex": 150,
         "startTime": 1076.1,
         "endTime": 1085.7,
         "text": "Kangaroo. I'd be a Kangajew, the first of my people to dunk a basketball!",
@@ -2670,10 +2670,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Kangajew"
         ],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 150,
+        "orderIndex": 151,
         "startTime": 1085.8,
         "endTime": 1090.4,
         "text": "Also, instead of just living in your mother's house, you could actually live inside her body.",
@@ -2685,10 +2685,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Raj mỉa mai sự bám mẹ của Howard dựa trên túi đựng con của loài chuột túi có túi (marsupial).",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 151,
+        "orderIndex": 152,
         "startTime": 1095.4,
         "endTime": 1106.8,
         "text": "Clever, but also wrong. No, the best organism for human beings to merge with is the lichen itself. That way, you'd be human, fungus, and algae: triple threat! Like three-bean salad.",
@@ -2701,10 +2701,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Thuật ngữ showbiz 'triple threat' (tài năng đa diện 3 trong 1) được Sheldon ví von với món salad đậu.",
         "properNouns": [],
-        "tokenCount": 33
+        "tokenCount": 31
     },
     {
-        "orderIndex": 152,
+        "orderIndex": 153,
         "startTime": 1108.4,
         "endTime": 1113.8,
         "text": "Give me one circumstance in which that would be useful. — All right, picture this: a beautiful outdoor concert.",
@@ -2717,10 +2717,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Leonard thách đố và Sheldon lập tức dựng lên một hoạt cảnh cụ thể.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 19
     },
     {
-        "orderIndex": 153,
+        "orderIndex": 154,
         "startTime": 1113.9,
         "endTime": 1120.6,
         "text": "Now, as a human, I appreciate Beethoven. As a fungus, I have a terrific view growing out of a towering maple tree.",
@@ -2738,7 +2738,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 22
     },
     {
-        "orderIndex": 154,
+        "orderIndex": 155,
         "startTime": 1120.7,
         "endTime": 1127.3,
         "text": "And no thank you expensive concessions, because as an algae, I'll just snack on this sunlight!",
@@ -2750,10 +2750,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Từ vựng 'concessions' (quầy dịch vụ ăn uống tại sự kiện) và sự tự cung tự cấp năng lượng qua quang hợp (photosynthesis).",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 155,
+        "orderIndex": 156,
         "startTime": 1127.4,
         "endTime": 1130.8,
         "text": "Got us again. — No, he didn't.",
@@ -2767,7 +2767,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 7
     },
     {
-        "orderIndex": 156,
+        "orderIndex": 157,
         "startTime": 1135.3,
         "endTime": 1145.2,
         "text": "I don't see anything in here a woman would want. — You're kidding! You've got lotions and bath oils and soaps. That's the estrogen hat trick.",
@@ -2780,10 +2780,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Ẩn dụ thể thao 'hat trick' (ghi 3 bàn một trận) kết hợp hormone nữ tính 'estrogen' để chỉ bộ ba quà tặng phụ nữ yêu thích.",
         "properNouns": [],
-        "tokenCount": 29
+        "tokenCount": 26
     },
     {
-        "orderIndex": 157,
+        "orderIndex": 158,
         "startTime": 1148.4,
         "endTime": 1159.9,
         "text": "What it is is a cacophonous assault of eucalyptus, bayberry, cinnamon, and vanilla. It's as if my head were trapped in the pajamas of a sultan!",
@@ -2796,10 +2796,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Hình ảnh so sánh khứu giác bất hủ của Sheldon: 'cacophonous assault' (cuộc công kích hỗn loạn) và 'pajamas of a sultan' (quần ngủ vua Sultan).",
         "properNouns": [],
-        "tokenCount": 27
+        "tokenCount": 26
     },
     {
-        "orderIndex": 158,
+        "orderIndex": 159,
         "startTime": 1161.4,
         "endTime": 1170.9,
         "text": "Sheldon, if you don't like this stuff, let's just go next door and build her a bear. — I told you before: bears are terrifying.",
@@ -2813,10 +2813,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Build-A-Bear"
         ],
-        "tokenCount": 26
+        "tokenCount": 25
     },
     {
-        "orderIndex": 159,
+        "orderIndex": 160,
         "startTime": 1173.5,
         "endTime": 1181.4,
         "text": "Spearmint and green tea scented bath oil promotes relaxation. — That presupposes Penny is tense. She knows you. She's tense. We all are.",
@@ -2834,7 +2834,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 23
     },
     {
-        "orderIndex": 160,
+        "orderIndex": 161,
         "startTime": 1185.2,
         "endTime": 1192.3,
         "text": "Let's say for a moment that I accept the bath item gift hypothesis. I now lay the following conundrum at your feet: Which size?",
@@ -2847,10 +2847,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Từ vựng học thuật 'hypothesis' (giả thuyết) và 'conundrum' (câu hỏi nan giải, bài toán hóc búa).",
         "properNouns": [],
-        "tokenCount": 25
+        "tokenCount": 24
     },
     {
-        "orderIndex": 161,
+        "orderIndex": 162,
         "startTime": 1194.3,
         "endTime": 1201.6,
         "text": "This one. Let's go. — You put no thought into that! — I'm sorry. This one. Let's go.",
@@ -2862,10 +2862,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Leonard cố gắng chọn bừa bất kỳ giỏ quà nào để nhanh chóng thoát khỏi cửa hàng.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 162,
+        "orderIndex": 163,
         "startTime": 1203.6,
         "endTime": 1217.4,
         "text": "I have insufficient data to proceed. Excuse me, miss. If I were to give you this gift basket, based on that action alone and no other data, infer and describe the hypothetical relationship that exists between us.",
@@ -2881,7 +2881,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 37
     },
     {
-        "orderIndex": 163,
+        "orderIndex": 164,
         "startTime": 1221.5,
         "endTime": 1229.8,
         "text": "Now, are we friends, colleagues, lovers? Are you my grandmother?",
@@ -2896,7 +2896,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 10
     },
     {
-        "orderIndex": 164,
+        "orderIndex": 165,
         "startTime": 1230.1,
         "endTime": 1240.8,
         "text": "I don't understand what you're talking about, and you're making me a little uncomfortable. — See? Sounds just like you and Penny. We'll take it!",
@@ -2910,10 +2910,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "properNouns": [
             "Penny"
         ],
-        "tokenCount": 28
+        "tokenCount": 25
     },
     {
-        "orderIndex": 165,
+        "orderIndex": 166,
         "startTime": 1261.0,
         "endTime": 1270.6,
         "text": "Great news, Leonard! I've solved my Penny gift dilemma. You see, the danger was that I might under- or over-reciprocate...",
@@ -2928,10 +2928,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Leonard",
             "Penny"
         ],
-        "tokenCount": 22
+        "tokenCount": 20
     },
     {
-        "orderIndex": 166,
+        "orderIndex": 167,
         "startTime": 1270.7,
         "endTime": 1282.6,
         "text": "...but I have devised a foolproof plan. I will open her gift to me first, and then excuse myself, feigning digestive distress.",
@@ -2946,7 +2946,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         "tokenCount": 22
     },
     {
-        "orderIndex": 167,
+        "orderIndex": 168,
         "startTime": 1282.7,
         "endTime": 1293.8,
         "text": "Then I'll look up the price of her gift online, choose the basket closest to that value, give it to her, and then return the others for a full refund!",
@@ -2959,10 +2959,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Kế hoạch đáp lễ cân bằng giá trị tài chính tuyệt đối 1:1 của Sheldon nhằm triệt tiêu nợ nần ân nghĩa.",
         "properNouns": [],
-        "tokenCount": 31
+        "tokenCount": 30
     },
     {
-        "orderIndex": 168,
+        "orderIndex": 169,
         "startTime": 1293.9,
         "endTime": 1307.7,
         "text": "Brilliant. — It is, isn't it? Is it okay if I hide them in your room? That smell makes me nauseated. — Do whatever you want. — Thank you, that's very gracious.",
@@ -2975,10 +2975,10 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
         ],
         "explanationAi": "Tính từ 'gracious' (hào hiệp, nhã nhặn) được Sheldon cảm kích trước sự bất lực buông xuôi của Leonard.",
         "properNouns": [],
-        "tokenCount": 31
+        "tokenCount": 32
     },
     {
-        "orderIndex": 169,
+        "orderIndex": 170,
         "startTime": 1309.7,
         "endTime": 1316.0,
         "text": "Gentlemen, why couldn't you have just done what Leonard did and get Penny a new boyfriend?",
@@ -2993,7 +2993,7 @@ export const LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT: MockVideoLes
             "Leonard",
             "Penny"
         ],
-        "tokenCount": 17
+        "tokenCount": 16
     }
 ],
   quiz: QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED,

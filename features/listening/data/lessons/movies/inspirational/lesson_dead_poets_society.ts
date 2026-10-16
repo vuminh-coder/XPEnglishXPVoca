@@ -50,7 +50,7 @@ export const QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: VideoQuizData = {
       "targetedConcept": "Educational Humanism",
       "targetedConceptEn": "Educational Humanism",
       "targetedConceptVi": "Triết lý nhân văn trong giáo dục",
-      "referenceSegmentIndex": 16
+      "referenceSegmentIndex": 17
     },
     {
       "id": "mov_insp_03_q2",
@@ -82,7 +82,7 @@ export const QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: VideoQuizData = {
       "targetedConcept": "Literary Satire",
       "targetedConceptEn": "Literary Satire",
       "targetedConceptVi": "Nghệ thuật châm biếm văn học",
-      "referenceSegmentIndex": 18
+      "referenceSegmentIndex": 19
     },
     {
       "id": "mov_insp_03_q3",
@@ -114,7 +114,7 @@ export const QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: VideoQuizData = {
       "targetedConcept": "Metaphorical Contrast",
       "targetedConceptEn": "Metaphorical Contrast",
       "targetedConceptVi": "Phép đối lập ẩn dụ",
-      "referenceSegmentIndex": 17
+      "referenceSegmentIndex": 18
     },
     {
       "id": "mov_insp_03_q4",
@@ -146,7 +146,7 @@ export const QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: VideoQuizData = {
       "targetedConcept": "Institutional Conflict",
       "targetedConceptEn": "Institutional Conflict",
       "targetedConceptVi": "Xung đột thể chế và tư tưởng giáo dục",
-      "referenceSegmentIndex": 35
+      "referenceSegmentIndex": 36
     },
     {
       "id": "mov_insp_03_q5",
@@ -178,7 +178,7 @@ export const QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: VideoQuizData = {
       "targetedConcept": "Power of Language",
       "targetedConceptEn": "Power of Language",
       "targetedConceptVi": "Sức mạnh chuyển hóa của ngôn từ và tư tưởng",
-      "referenceSegmentIndex": 42
+      "referenceSegmentIndex": 43
     },
     {
       "id": "mov_insp_03_q6",
@@ -210,7 +210,7 @@ export const QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: VideoQuizData = {
       "targetedConcept": "Philosophical Distinction of Existence",
       "targetedConceptEn": "Philosophical Distinction of Existence",
       "targetedConceptVi": "Phân định triết học về mục đích sống",
-      "referenceSegmentIndex": 50
+      "referenceSegmentIndex": 51
     },
     {
       "id": "mov_insp_03_q7",
@@ -242,7 +242,7 @@ export const QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: VideoQuizData = {
       "targetedConcept": "Existential Transcendence",
       "targetedConceptEn": "Existential Transcendence",
       "targetedConceptVi": "Ý nghĩa hiện sinh và sự tự khẳng định bản thân",
-      "referenceSegmentIndex": 55
+      "referenceSegmentIndex": 56
     },
     {
       "id": "mov_insp_03_q8",
@@ -274,7 +274,7 @@ export const QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: VideoQuizData = {
       "targetedConcept": "Self-Actualization Call",
       "targetedConceptEn": "Self-Actualization Call",
       "targetedConceptVi": "Lời hiệu triệu hiện thực hóa tiềm năng cá nhân",
-      "referenceSegmentIndex": 58
+      "referenceSegmentIndex": 59
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
     "Thầy giáo John Keating (Robin Williams) yêu cầu học sinh xé toang trang sách giáo khoa đo lường thơ ca khô khan của Tiến sĩ Pritchard để khám phá bản chất thực sự của nghệ thuật, đam mê và triết lý sống 'Carpe Diem' (Nắm bắt ngày hôm nay), khép lại bằng lời thơ bất hủ của Walt Whitman: 'Vở kịch vĩ đại vẫn tiếp diễn, và bạn có quyền đóng góp một câu thơ. Vậy câu thơ của em sẽ là gì?'",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.88,
         "endTime": 4.96,
         "text": "Gentlemen, open your text to page 21 of the introduction.",
@@ -316,7 +316,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 4.96,
         "endTime": 11.68,
         "text": "Mr. Perry, will you read the opening paragraph of the preface entitled 'Understanding Poetry'?",
@@ -334,7 +334,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 11.68,
         "endTime": 16.32,
         "text": "'Understanding Poetry' by Dr. J. Evans Pritchard, Ph.D.",
@@ -348,10 +348,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "properNouns": [
             "Pritchard"
         ],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 16.32,
         "endTime": 23.52,
         "text": "To fully understand poetry, we must first be fluent with its meter, rhyme, and figures of speech, then ask two questions:",
@@ -367,7 +367,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 21
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 23.52,
         "endTime": 27.36,
         "text": "One: How artfully has the objective of the poem been rendered?",
@@ -383,7 +383,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 27.36,
         "endTime": 31.2,
         "text": "And two: How important is that objective?",
@@ -398,7 +398,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 31.2,
         "endTime": 35.44,
         "text": "Question one rates the poem's perfection; question two rates its importance.",
@@ -410,10 +410,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         ],
         "explanationAi": "Động từ 'rate' (đánh giá, định mức xếp loại theo thang điểm định lượng).",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 35.44,
         "endTime": 41.28,
         "text": "And once these questions have been answered, determining the poem's greatness becomes a relatively simple matter.",
@@ -426,10 +426,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         ],
         "explanationAi": "Lối tư duy hàn lâm cơ học xem giá trị tinh thần như một phép tính định lượng đơn giản.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 41.28,
         "endTime": 47.76,
         "text": "If the poem's score for perfection is plotted on the horizontal of a graph and its importance is plotted on the vertical,",
@@ -442,10 +442,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         ],
         "explanationAi": "'Plotted on' (được vẽ/chấm tọa độ trên đồ thị), 'horizontal' (trục ngang/hoành), 'vertical' (trục đứng/tung).",
         "properNouns": [],
-        "tokenCount": 23
+        "tokenCount": 22
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 47.76,
         "endTime": 54.56,
         "text": "then calculating the total area of the poem yields the measure of its greatness.",
@@ -461,7 +461,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 56.24,
         "endTime": 64.8,
         "text": "A sonnet by Byron might score high on the vertical, but only average on the horizontal.",
@@ -479,7 +479,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 64.8,
         "endTime": 72.16,
         "text": "A Shakespearean sonnet, on the other hand, would score high both horizontally and vertically, yielding a massive total area,",
@@ -497,7 +497,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 19
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 72.16,
         "endTime": 76.0,
         "text": "thereby revealing the poem to be truly great.",
@@ -512,7 +512,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 76.0,
         "endTime": 81.84,
         "text": "As you proceed through the poetry in this book, practice this rating method.",
@@ -527,7 +527,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 81.84,
         "endTime": 89.04,
         "text": "As your ability to evaluate poems in this manner grows, so will your enjoyment and understanding of poetry.",
@@ -543,7 +543,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 92.72,
         "endTime": 95.36,
         "text": "Excrement!",
@@ -557,7 +557,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 96.32,
         "endTime": 100.4,
         "text": "That's what I think of Mr. J. Evans Pritchard.",
@@ -571,10 +571,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "properNouns": [
             "Pritchard"
         ],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 100.4,
         "endTime": 104.5,
         "text": "We're not laying pipe! We're talking about poetry.",
@@ -586,10 +586,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         ],
         "explanationAi": "'Laying pipe' là phép ẩn dụ về lao động kỹ thuật cơ học lắp đặt đường ống, hoàn toàn đối lập với cảm xúc thăng hoa của nghệ thuật.",
         "properNouns": [],
-        "tokenCount": 10
+        "tokenCount": 8
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 104.5,
         "endTime": 107.5,
         "text": "How can you describe poetry like American Bandstand?",
@@ -606,7 +606,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 107.5,
         "endTime": 111.5,
         "text": "'I like Byron, I give him a 42, but I can't dance to it'?",
@@ -621,10 +621,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "properNouns": [
             "Byron"
         ],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 111.5,
         "endTime": 115.5,
         "text": "Now I want you to rip out that page.",
@@ -638,7 +638,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 115.5,
         "endTime": 118.72,
         "text": "Go on, rip out the entire page!",
@@ -653,7 +653,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 118.72,
         "endTime": 123.52,
         "text": "You hear me? Rip it out! Rip it out!",
@@ -668,7 +668,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 123.52,
         "endTime": 127.52,
         "text": "Come on, rip it out!",
@@ -683,7 +683,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 127.52,
         "endTime": 130.0,
         "text": "Thank you, Mr. Dalton.",
@@ -700,7 +700,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 130.0,
         "endTime": 135.36,
         "text": "Gentlemen, tell you what: don't just tear out that page, tear out the entire introduction!",
@@ -713,10 +713,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         ],
         "explanationAi": "'Tell you what' (tôi bảo các bạn điều này nhé); nâng cấp hành động từ xé 1 trang sang xé sạch toàn bộ lời tựa.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 135.36,
         "endTime": 139.36,
         "text": "I want it gone! History! Leave nothing of it!",
@@ -732,7 +732,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 139.36,
         "endTime": 143.92,
         "text": "Rip it out! Be gone, J. Evans Pritchard, Ph.D.!",
@@ -746,10 +746,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "properNouns": [
             "Pritchard"
         ],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 143.92,
         "endTime": 148.56,
         "text": "Shred it, tear it, rip it out! I want to hear nothing but the ripping of Mr. Pritchard!",
@@ -767,7 +767,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 148.56,
         "endTime": 153.12,
         "text": "Is that the Bible? You're not going to go to hell for this!",
@@ -781,10 +781,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "properNouns": [
             "Bible"
         ],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 153.12,
         "endTime": 158.5,
         "text": "Make a clean tear! I want nothing left of it!",
@@ -799,7 +799,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 161.2,
         "endTime": 168.0,
         "text": "Rip it out!",
@@ -813,7 +813,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 175.0,
         "endTime": 181.5,
         "text": "I don't hear enough rips!",
@@ -824,10 +824,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         ],
         "explanationAi": "Keating giục giã các học sinh còn lại nhanh chóng xé trang sách.",
         "properNouns": [],
-        "tokenCount": 6
+        "tokenCount": 5
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 181.5,
         "endTime": 185.0,
         "text": "What the hell is going on here?",
@@ -842,7 +842,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 185.0,
         "endTime": 187.5,
         "text": "Mr. McAllister!",
@@ -858,7 +858,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 187.5,
         "endTime": 192.8,
         "text": "I'm sorry, I... I didn't know you were here.",
@@ -869,10 +869,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         ],
         "explanationAi": "McAllister ngượng ngùng khi nhận ra đây là giờ lên lớp có chủ đích của giáo viên mới chứ không phải trò phá phách.",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 9
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 192.8,
         "endTime": 195.5,
         "text": "I am.",
@@ -886,7 +886,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 195.5,
         "endTime": 200.0,
         "text": "Ah, so you are. Excuse me.",
@@ -901,7 +901,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 200.0,
         "endTime": 207.04,
         "text": "Keep ripping, gentlemen! This is a battle, a war, and the casualties could be your hearts and souls.",
@@ -918,7 +918,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 207.04,
         "endTime": 213.92,
         "text": "Armies of academics going forward measuring poetry... No, we'll not have that here! No more Mr. J. Evans Pritchard.",
@@ -933,10 +933,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "properNouns": [
             "Pritchard"
         ],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 213.92,
         "endTime": 218.5,
         "text": "Now in my class, you will learn to think for yourselves again.",
@@ -950,7 +950,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 218.5,
         "endTime": 222.0,
         "text": "You will learn to savor words and language.",
@@ -965,7 +965,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 222.0,
         "endTime": 227.76,
         "text": "No matter what anybody tells you, words and ideas can change the world.",
@@ -981,7 +981,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 227.76,
         "endTime": 235.0,
         "text": "I see that look in Mr. Pitts' eye, like 19th-century literature has nothing to do with going to business school or medical school, right?",
@@ -997,10 +997,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "properNouns": [
             "Pitts"
         ],
-        "tokenCount": 25
+        "tokenCount": 24
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 235.0,
         "endTime": 242.24,
         "text": "Maybe Mr. Hopkins, you may agree with him, thinking, 'Yes, we should simply study our Mr. Pritchard and learn our rhyme and meter,'",
@@ -1019,7 +1019,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 23
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 242.24,
         "endTime": 247.5,
         "text": "'and go quietly about the business of achieving other ambitions.'",
@@ -1034,7 +1034,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 247.5,
         "endTime": 256.0,
         "text": "I have a little secret for you. Huddle up! Huddle up!",
@@ -1049,7 +1049,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 258.88,
         "endTime": 262.72,
         "text": "We don't read and write poetry because it's cute.",
@@ -1061,10 +1061,10 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         ],
         "explanationAi": "Bác bỏ định kiến sai lầm xem thơ ca là thú tiêu khiển phù phiếm hoặc ủy mị.",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 9
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 262.72,
         "endTime": 267.0,
         "text": "We read and write poetry because we are members of the human race.",
@@ -1079,7 +1079,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 267.0,
         "endTime": 271.92,
         "text": "And the human race is filled with passion.",
@@ -1093,7 +1093,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 271.92,
         "endTime": 279.0,
         "text": "Medicine, law, business, engineering, these are noble pursuits and necessary to sustain life.",
@@ -1109,7 +1109,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 279.0,
         "endTime": 286.48,
         "text": "But poetry, beauty, romance, love, these are what we stay alive for.",
@@ -1124,7 +1124,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 286.48,
         "endTime": 293.76,
         "text": "To quote from Whitman: 'O me! O life!... of the questions of these recurring;'",
@@ -1142,7 +1142,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 293.76,
         "endTime": 300.0,
         "text": "'Of the endless trains of the faithless, of cities filled with the foolish...'",
@@ -1158,7 +1158,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 300.0,
         "endTime": 304.5,
         "text": "'What good amid these, O me, O life?'",
@@ -1173,7 +1173,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 304.5,
         "endTime": 310.48,
         "text": "Answer: That you are here — that life exists, and identity;",
@@ -1189,7 +1189,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 310.48,
         "endTime": 316.08,
         "text": "that the powerful play goes on, and you may contribute a verse.",
@@ -1204,7 +1204,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 316.08,
         "endTime": 325.84,
         "text": "That the powerful play goes on, and you may contribute a verse.",
@@ -1219,7 +1219,7 @@ export const LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 325.84,
         "endTime": 332.5,
         "text": "What will your verse be?",

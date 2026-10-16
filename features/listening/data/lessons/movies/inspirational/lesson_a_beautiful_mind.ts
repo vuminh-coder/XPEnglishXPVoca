@@ -50,7 +50,7 @@ export const QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: VideoQuizData = {
       "targetedConcept": "Coping Strategies for Schizophrenia",
       "targetedConceptEn": "Coping Strategies for Schizophrenia",
       "targetedConceptVi": "Chiến lược ứng phó với bệnh tâm thần phân liệt",
-      "referenceSegmentIndex": 2
+      "referenceSegmentIndex": 3
     },
     {
       "id": "q_mov_insp_09_2",
@@ -82,7 +82,7 @@ export const QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: VideoQuizData = {
       "targetedConcept": "Institutional Discretion & Public Image",
       "targetedConceptEn": "Institutional Discretion & Public Image",
       "targetedConceptVi": "Sự thận trọng của tổ chức & Hình ảnh công chúng",
-      "referenceSegmentIndex": 20
+      "referenceSegmentIndex": 21
     },
     {
       "id": "q_mov_insp_09_3",
@@ -114,7 +114,7 @@ export const QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: VideoQuizData = {
       "targetedConcept": "Cognitive Self-Discipline: Diet of the Mind",
       "targetedConceptEn": "Cognitive Self-Discipline: Diet of the Mind",
       "targetedConceptVi": "Kỷ luật nhận thức: Chế độ ăn kiêng tâm trí",
-      "referenceSegmentIndex": 26
+      "referenceSegmentIndex": 27
     },
     {
       "id": "q_mov_insp_09_4",
@@ -146,7 +146,7 @@ export const QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: VideoQuizData = {
       "targetedConcept": "Academic Reverence: The Pen Ceremony",
       "targetedConceptEn": "Academic Reverence: The Pen Ceremony",
       "targetedConceptVi": "Sự tôn vinh học thuật: Nghi thức tặng bút",
-      "referenceSegmentIndex": 31
+      "referenceSegmentIndex": 32
     },
     {
       "id": "q_mov_insp_09_5",
@@ -178,7 +178,7 @@ export const QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: VideoQuizData = {
       "targetedConcept": "Philosophical Inquiry into Pure Reason",
       "targetedConceptEn": "Philosophical Inquiry into Pure Reason",
       "targetedConceptVi": "Chất vấn triết học về thuần lý trí",
-      "referenceSegmentIndex": 35
+      "referenceSegmentIndex": 36
     },
     {
       "id": "q_mov_insp_09_6",
@@ -210,7 +210,7 @@ export const QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: VideoQuizData = {
       "targetedConcept": "The Mysterious Equations of Love",
       "targetedConceptEn": "The Mysterious Equations of Love",
       "targetedConceptVi": "Những phương trình bí ẩn của tình yêu",
-      "referenceSegmentIndex": 38
+      "referenceSegmentIndex": 39
     },
     {
       "id": "q_mov_insp_09_7",
@@ -242,7 +242,7 @@ export const QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: VideoQuizData = {
       "targetedConcept": "Acceptance, Peaceful Coexistence & Inner Mastery",
       "targetedConceptEn": "Acceptance, Peaceful Coexistence & Inner Mastery",
       "targetedConceptVi": "Sự chấp nhận, Chung sống hòa bình & Làm chủ nội tâm",
-      "referenceSegmentIndex": 52
+      "referenceSegmentIndex": 53
     },
     {
       "id": "q_mov_insp_09_8",
@@ -274,7 +274,7 @@ export const QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: VideoQuizData = {
       "targetedConcept": "The Transformative Power of Unconditional Love",
       "targetedConceptEn": "The Transformative Power of Unconditional Love",
       "targetedConceptVi": "Sức mạnh chuyển hóa của tình yêu vô điều kiện",
-      "referenceSegmentIndex": 42
+      "referenceSegmentIndex": 43
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
     "Nhà toán học thiên tài John Nash (Russell Crowe) đứng trên bục vinh quang nhận giải Nobel Kinh tế, tri ân người vợ Alicia (Jennifer Connelly) đã cùng ông vượt qua căn bệnh tâm thần phân liệt bằng tình yêu thương vô điều kiện.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 9.68,
         "endTime": 15.5,
         "text": "Goodbye, have a nice day.",
@@ -315,7 +315,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 15.5,
         "endTime": 20.87,
         "text": "Excuse me, Professor Nash?",
@@ -331,7 +331,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 20.87,
         "endTime": 30.8,
         "text": "Can you see him? Forgive me, I'm just always suspicious of new people.",
@@ -343,10 +343,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         ],
         "explanationAi": "Phản xạ sinh tồn của Nash: ông phải hỏi sinh viên bên cạnh để xác nhận người lạ kia là người thật hay ảo giác hoang tưởng.",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 30.8,
         "endTime": 36.95,
         "text": "Yes, I see him, Professor. See you next week!",
@@ -360,7 +360,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 36.95,
         "endTime": 40.45,
         "text": "So now that I know that you are real, what can I do for you?",
@@ -374,7 +374,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 40.45,
         "endTime": 46.28,
         "text": "My name is Thomas King. I'm from the Nobel Committee.",
@@ -388,10 +388,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
             "Thomas King",
             "Nobel Committee"
         ],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 46.28,
         "endTime": 54.0,
         "text": "And I'm here to tell you that you're being considered for the Nobel Prize.",
@@ -404,10 +404,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "properNouns": [
             "Nobel Prize"
         ],
-        "tokenCount": 16
+        "tokenCount": 14
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 54.0,
         "endTime": 61.58,
         "text": "I'm just a little stunned. Over the past few years, your equilibrium has become a cornerstone of modern economics.",
@@ -419,10 +419,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         ],
         "explanationAi": "Cân bằng Nash (Nash Equilibrium) - phát kiến toán học đột phá đoạt giải Nobel Kinh tế 1994.",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 61.58,
         "endTime": 68.3,
         "text": "Well, certainly everybody likes that one. What about my other work?",
@@ -436,7 +436,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 68.3,
         "endTime": 76.5,
         "text": "The manifold embedding? The application of your bargaining problem to FCC bandwidth auctions and antitrust cases?",
@@ -454,7 +454,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 76.5,
         "endTime": 84.71,
         "text": "Yes, we took all of that into consideration. Shall we have tea?",
@@ -469,7 +469,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 84.71,
         "endTime": 92.5,
         "text": "I don't go in there. I usually just eat my sandwich in the library.",
@@ -480,10 +480,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         ],
         "explanationAi": "Thói quen thu mình, khép kín của Nash trong nhiều năm để tránh sự kỳ thị của người đời.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 92.5,
         "endTime": 99.5,
         "text": "Come on, John. Let's have some tea. It's a big day.",
@@ -496,10 +496,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "properNouns": [
             "John"
         ],
-        "tokenCount": 13
+        "tokenCount": 11
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 100.0,
         "endTime": 110.57,
         "text": "Most commercially available brands of tea are not suitable to my palate, you see.",
@@ -513,7 +513,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 110.57,
         "endTime": 120.0,
         "text": "There are some northern Indian teas which often have a distinctive flavor that I enjoy.",
@@ -530,7 +530,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 120.0,
         "endTime": 128.0,
         "text": "I have not been in this room for quite some many years.",
@@ -544,7 +544,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 128.0,
         "endTime": 135.02,
         "text": "Thank you, young lady. Things have certainly changed around here.",
@@ -558,7 +558,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 145.6,
         "endTime": 153.34,
         "text": "I would have thought the nominations for the Nobel Prize would be secret.",
@@ -575,7 +575,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 153.34,
         "endTime": 159.55,
         "text": "I would have thought you would only find out if you won or lost.",
@@ -589,7 +589,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 159.55,
         "endTime": 168.58,
         "text": "That is generally the case, yes. But these are special circumstances.",
@@ -603,7 +603,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 168.58,
         "endTime": 176.28,
         "text": "The awards are substantial, and the public image of the Nobel is paramount.",
@@ -620,7 +620,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 176.28,
         "endTime": 183.69,
         "text": "Ah, I see. So you came here to find out if I was crazy?",
@@ -634,7 +634,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 183.69,
         "endTime": 190.14,
         "text": "To find out if I'd screw everything up: dance around the podium, strip naked, and squawk like a chicken?",
@@ -646,10 +646,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         ],
         "explanationAi": "Lối hài hước tự trào cay đắng vạch trần định kiến của xã hội về người mắc bệnh tâm thần phân liệt.",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 190.14,
         "endTime": 197.17,
         "text": "Something like that, yeah. Would I embarrass you?",
@@ -663,7 +663,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 197.17,
         "endTime": 204.04,
         "text": "Yes, it is possible. You see, I am crazy. I take the newer medications.",
@@ -677,7 +677,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 204.04,
         "endTime": 213.93,
         "text": "I still see things that are not here. I just choose not to acknowledge them.",
@@ -691,7 +691,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 213.93,
         "endTime": 223.5,
         "text": "Like a diet of the mind, I choose not to indulge certain appetites: like my appetite for patterns, my appetite to imagine.",
@@ -706,7 +706,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 22
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 235.0,
         "endTime": 245.0,
         "text": "A senior Princeton professor approaches the table, unclips his fountain pen, and places it with reverence in front of Nash.",
@@ -724,7 +724,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 20
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 245.0,
         "endTime": 252.0,
         "text": "Professor Nash, it's good to have you here, John.",
@@ -738,10 +738,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
             "Nash",
             "John"
         ],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 252.0,
         "endTime": 259.0,
         "text": "It's an honor, sir.",
@@ -752,10 +752,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         ],
         "explanationAi": "Vị giáo sư thứ hai bước tới đặt chiếc bút tiếp theo.",
         "properNouns": [],
-        "tokenCount": 5
+        "tokenCount": 4
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 259.0,
         "endTime": 266.0,
         "text": "A privilege, Professor.",
@@ -769,7 +769,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 266.0,
         "endTime": 285.0,
         "text": "One by one, the distinguished faculty members line up silently, offering their cherished pens in profound respect.",
@@ -785,7 +785,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 289.35,
         "endTime": 295.0,
         "text": "Thank you. That was certainly most unexpected.",
@@ -799,7 +799,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 320.0,
         "endTime": 329.01,
         "text": "The Grand Auditorium in Stockholm erupts in applause as Professor John Nash steps to the podium to receive the Nobel Prize in Economics.",
@@ -818,7 +818,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 23
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 329.01,
         "endTime": 336.63,
         "text": "I've always believed in numbers, in the equations and logics that lead to reason.",
@@ -830,10 +830,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         ],
         "explanationAi": "Mở đầu bài phát biểu: tóm lược nửa đời cống hiến cho toán học thuần túy của Nash.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 336.63,
         "endTime": 346.6,
         "text": "But after a lifetime of such pursuits, I ask: what truly is logic? Who decides reason?",
@@ -848,7 +848,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 346.6,
         "endTime": 355.0,
         "text": "My quest has taken me through the physical, the metaphysical, the delusional, and back.",
@@ -864,7 +864,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 355.0,
         "endTime": 364.0,
         "text": "And I have made the most important discovery of my career, the most important discovery of my life:",
@@ -878,7 +878,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 364.0,
         "endTime": 376.0,
         "text": "It is only in the mysterious equations of love that any logical reasons can be found.",
@@ -893,7 +893,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 376.0,
         "endTime": 386.0,
         "text": "John looks down with infinite tenderness directly into the tear-filled eyes of his devoted wife, Alicia.",
@@ -908,10 +908,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
             "John",
             "Alicia"
         ],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 386.0,
         "endTime": 392.13,
         "text": "I am only here tonight because of you.",
@@ -925,7 +925,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 392.13,
         "endTime": 396.0,
         "text": "You are the reason I am.",
@@ -939,7 +939,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 396.0,
         "endTime": 402.26,
         "text": "You are all my reasons.",
@@ -953,7 +953,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 402.26,
         "endTime": 406.05,
         "text": "Thank you.",
@@ -967,7 +967,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 406.05,
         "endTime": 425.0,
         "text": "The Swedish Royal Academy, the King of Sweden, and the international audience rise in a roaring standing ovation.",
@@ -985,7 +985,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 425.0,
         "endTime": 440.0,
         "text": "Alicia clutches her handkerchief, weeping tears of relief and triumphant joy as John touches the gold Nobel medal on his lapel.",
@@ -1004,7 +1004,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 21
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 460.0,
         "endTime": 467.52,
         "text": "After the gala, John and Alicia step into the quiet marble lobby, preparing to return to their hotel.",
@@ -1022,7 +1022,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 467.52,
         "endTime": 473.59,
         "text": "Shall I call for the car? Are you ready to go now?",
@@ -1037,7 +1037,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 473.59,
         "endTime": 478.0,
         "text": "Because I am. Yes indeed, yes. Thank you so much.",
@@ -1052,7 +1052,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 478.0,
         "endTime": 485.0,
         "text": "As Alicia fixes the wool coat and silver pin over his shoulders, she notices him pause and gaze across the hall.",
@@ -1069,7 +1069,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 21
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 485.0,
         "endTime": 490.0,
         "text": "What is it, John? What's wrong?",
@@ -1082,10 +1082,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "properNouns": [
             "John"
         ],
-        "tokenCount": 7
+        "tokenCount": 6
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 490.0,
         "endTime": 493.09,
         "text": "Nothing.",
@@ -1099,7 +1099,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 493.09,
         "endTime": 502.26,
         "text": "In the distance, Charles, young Marcee, and Parcher stand quietly watching him—unvanquished, yet completely harmless.",
@@ -1115,10 +1115,10 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
             "Marcee",
             "Parcher"
         ],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 502.26,
         "endTime": 510.0,
         "text": "Come with me, young lady.",
@@ -1133,7 +1133,7 @@ export const LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 510.0,
         "endTime": 517.84,
         "text": "Hand in hand, John and Alicia walk out into the crisp Swedish night, embracing the triumph of a beautiful mind.",

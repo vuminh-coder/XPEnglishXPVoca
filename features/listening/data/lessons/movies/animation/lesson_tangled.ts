@@ -50,7 +50,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Pointless Vocabulary in Confrontation",
       "targetedConceptEn": "Pointless Vocabulary in Confrontation",
       "targetedConceptVi": "Từ vựng 'pointless' trong ngữ cảnh đối đầu",
-      "referenceSegmentIndex": 2
+      "referenceSegmentIndex": 3
     },
     {
       "id": "q_mov_ani_10_2",
@@ -82,7 +82,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Satchel Definition & Context",
       "targetedConceptEn": "Satchel Definition & Context",
       "targetedConceptVi": "Định nghĩa và ngữ cảnh từ 'satchel'",
-      "referenceSegmentIndex": 14
+      "referenceSegmentIndex": 15
     },
     {
       "id": "q_mov_ani_10_3",
@@ -114,7 +114,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Literally Usage & Exaggeration",
       "targetedConceptEn": "Literally Usage & Exaggeration",
       "targetedConceptVi": "Cách dùng từ 'literally' và sắc thái nhấn mạnh",
-      "referenceSegmentIndex": 20
+      "referenceSegmentIndex": 21
     },
     {
       "id": "q_mov_ani_10_4",
@@ -146,7 +146,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Conditional Bargaining Structures",
       "targetedConceptEn": "Conditional Bargaining Structures",
       "targetedConceptVi": "Cấu trúc điều kiện và thương lượng",
-      "referenceSegmentIndex": 32
+      "referenceSegmentIndex": 33
     },
     {
       "id": "q_mov_ani_10_5",
@@ -178,7 +178,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Cultural Idiom & Character Quirk",
       "targetedConceptEn": "Cultural Idiom & Character Quirk",
       "targetedConceptVi": "Thành ngữ văn hóa và nét tính cách nhân vật",
-      "referenceSegmentIndex": 42
+      "referenceSegmentIndex": 43
     },
     {
       "id": "q_mov_ani_10_6",
@@ -210,7 +210,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Connected Speech & Elision",
       "targetedConceptEn": "Connected Speech & Elision",
       "targetedConceptVi": "Nối âm và hiện tượng lược âm trong giao tiếp",
-      "referenceSegmentIndex": 46
+      "referenceSegmentIndex": 47
     },
     {
       "id": "q_mov_ani_10_7",
@@ -242,7 +242,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Negotiation Leverage & Integrity Declarations",
       "targetedConceptEn": "Negotiation Leverage & Integrity Declarations",
       "targetedConceptVi": "Lợi thế đàm phán và tuyên ngôn danh dự trong thương thuyết",
-      "referenceSegmentIndex": 41
+      "referenceSegmentIndex": 42
     },
     {
       "id": "q_mov_ani_10_8",
@@ -274,7 +274,7 @@ export const QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: VideoQuizData = {
       "targetedConcept": "Poetic Metaphor & Character Awakening in Lyrics",
       "targetedConceptEn": "Poetic Metaphor & Character Awakening in Lyrics",
       "targetedConceptVi": "Phép ẩn dụ thi ca và sự thức tỉnh tâm lý nhân vật qua ca từ",
-      "referenceSegmentIndex": 49
+      "referenceSegmentIndex": 50
     }
   ]
 };
@@ -300,8 +300,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
   description:
     "Cùng công chúa tóc mây Rapunzel và chàng trộm láu lỉnh Flynn Rider trong Tangled giải mã phân cảnh đối đầu thẩm vấn kinh điển với chiếc chảo rán, kỹ thuật nuốt âm Elision 'How you doing?', biến âm Flapped T và ca khúc bất hủ đoạt đề cử Oscar 'I See The Light'.",
   segments: [
-  {
-    "orderIndex": 0,
+    {
+    "orderIndex": 1,
     "startTime": 10,
     "endTime": 45,
     "text": "Welcome to Learn English with TV Series, where we learn spoken English with Rapunzel and Flynn Rider in Disney's Tangled!",
@@ -320,10 +320,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
       "Disney",
       "Tangled"
     ],
-    "tokenCount": 21
+    "tokenCount": 20
   },
-  {
-    "orderIndex": 1,
+    {
+    "orderIndex": 2,
     "startTime": 93,
     "endTime": 100,
     "text": "Okay... AHH! Wha...? Is this... hair?",
@@ -336,8 +336,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 6
   },
-  {
-    "orderIndex": 2,
+    {
+    "orderIndex": 3,
     "startTime": 101,
     "endTime": 106,
     "text": "Struggling... struggling is pointless.",
@@ -351,8 +351,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 4
   },
-  {
-    "orderIndex": 3,
+    {
+    "orderIndex": 4,
     "startTime": 107,
     "endTime": 110,
     "text": "What?",
@@ -365,8 +365,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 1
   },
-  {
-    "orderIndex": 4,
+    {
+    "orderIndex": 5,
     "startTime": 111,
     "endTime": 116,
     "text": "I know why you're here, and I'm not afraid of you.",
@@ -377,10 +377,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Lời răn đe dũng cảm với cấu trúc 'not afraid of' (không hề khiếp sợ), che giấu nỗi bỡ ngỡ lần đầu gặp người lạ ngoài tháp.",
     "properNouns": [],
-    "tokenCount": 13
+    "tokenCount": 11
   },
-  {
-    "orderIndex": 5,
+    {
+    "orderIndex": 6,
     "startTime": 117,
     "endTime": 122,
     "text": "Who are you, and how did you find me?",
@@ -393,8 +393,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 9
   },
-  {
-    "orderIndex": 6,
+    {
+    "orderIndex": 7,
     "startTime": 123,
     "endTime": 130,
     "text": "I know not who you are, nor how I came to find you.",
@@ -408,8 +408,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 13
   },
-  {
-    "orderIndex": 7,
+    {
+    "orderIndex": 8,
     "startTime": 131,
     "endTime": 138,
     "text": "But may I just say, hi! How you doing? The name's Flynn Rider. How's your day going, huh?",
@@ -423,10 +423,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [
       "Flynn Rider"
     ],
-    "tokenCount": 20
+    "tokenCount": 18
   },
-  {
-    "orderIndex": 8,
+    {
+    "orderIndex": 9,
     "startTime": 139,
     "endTime": 144,
     "text": "Who else knows my location, Flynn Rider?",
@@ -442,8 +442,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "tokenCount": 7
   },
-  {
-    "orderIndex": 9,
+    {
+    "orderIndex": 10,
     "startTime": 145,
     "endTime": 148,
     "text": "All right, Blondie.",
@@ -458,8 +458,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "tokenCount": 3
   },
-  {
-    "orderIndex": 10,
+    {
+    "orderIndex": 11,
     "startTime": 149,
     "endTime": 151,
     "text": "Rapunzel.",
@@ -474,8 +474,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "tokenCount": 1
   },
-  {
-    "orderIndex": 11,
+    {
+    "orderIndex": 12,
     "startTime": 152,
     "endTime": 156,
     "text": "Gesundheit.",
@@ -488,8 +488,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 1
   },
-  {
-    "orderIndex": 12,
+    {
+    "orderIndex": 13,
     "startTime": 157,
     "endTime": 166,
     "text": "Here's the thing: I was in a situation, gallivanting through the forest, I came across your tower, and—",
@@ -502,10 +502,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Từ vựng đắt giá 'gallivanting' (rong chơi, lêu lổng tìm thú vui) và cụm động từ 'came across' (tình cờ bắt gặp).",
     "properNouns": [],
-    "tokenCount": 19
+    "tokenCount": 18
   },
-  {
-    "orderIndex": 13,
+    {
+    "orderIndex": 14,
     "startTime": 167,
     "endTime": 172,
     "text": "I've hidden it, somewhere you'll never find it.",
@@ -517,10 +517,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Rapunzel chặn họng tên trộm bằng con át chủ bài: chiếc túi xách chứa vương miện hoàng gia bị đánh cắp.",
     "properNouns": [],
-    "tokenCount": 10
+    "tokenCount": 8
   },
-  {
-    "orderIndex": 14,
+    {
+    "orderIndex": 15,
     "startTime": 173,
     "endTime": 177,
     "text": "Ho, ho, no. Where is my satchel?",
@@ -533,8 +533,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 7
   },
-  {
-    "orderIndex": 15,
+    {
+    "orderIndex": 16,
     "startTime": 178,
     "endTime": 182,
     "text": "I hid it. Somewhere you'll never find it.",
@@ -545,10 +545,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Thì quá khứ đơn 'hid it' khẳng định hành động giấu đồ đã hoàn tất an toàn.",
     "properNouns": [],
-    "tokenCount": 9
+    "tokenCount": 8
   },
-  {
-    "orderIndex": 16,
+    {
+    "orderIndex": 17,
     "startTime": 183,
     "endTime": 186,
     "text": "It's in the pot, isn't it?",
@@ -560,10 +560,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Câu hỏi đuôi châm biếm 'isn't it?' khi Flynn liếc thấy quai túi thò ra ngoài chiếc nồi nấu súp.",
     "properNouns": [],
-    "tokenCount": 8
+    "tokenCount": 6
   },
-  {
-    "orderIndex": 17,
+    {
+    "orderIndex": 18,
     "startTime": 187,
     "endTime": 194,
     "text": "Now it's hidden where you'll never find it! So, what do you want with my hair? To cut it?",
@@ -574,10 +574,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Nỗi ám ảnh sâu kín của Rapunzel vì lời dọa dẫm của Mẹ Gothel rằng kẻ xấu luôn rình rập để cắt trộm mái tóc phép thuật.",
     "properNouns": [],
-    "tokenCount": 21
+    "tokenCount": 19
   },
-  {
-    "orderIndex": 18,
+    {
+    "orderIndex": 19,
     "startTime": 195,
     "endTime": 197,
     "text": "What?",
@@ -590,8 +590,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 1
   },
-  {
-    "orderIndex": 19,
+    {
+    "orderIndex": 20,
     "startTime": 198,
     "endTime": 200,
     "text": "Sell it?",
@@ -604,8 +604,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 2
   },
-  {
-    "orderIndex": 20,
+    {
+    "orderIndex": 21,
     "startTime": 201,
     "endTime": 210,
     "text": "No! Listen, the only thing I want to do with your hair is to get out of it. Literally!",
@@ -619,8 +619,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 19
   },
-  {
-    "orderIndex": 21,
+    {
+    "orderIndex": 22,
     "startTime": 211,
     "endTime": 215,
     "text": "Wait, you don't want my hair?",
@@ -631,10 +631,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Sự ngỡ ngàng của Rapunzel khi nhận ra niềm tin bị nhồi sọ bấy lâu nay có dấu hiệu rạn nứt.",
     "properNouns": [],
-    "tokenCount": 7
+    "tokenCount": 6
   },
-  {
-    "orderIndex": 22,
+    {
+    "orderIndex": 23,
     "startTime": 216,
     "endTime": 225,
     "text": "Why on earth would I want your hair? Look, I was being chased, I saw a tower, I climbed it, end of story.",
@@ -649,8 +649,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 23
   },
-  {
-    "orderIndex": 23,
+    {
+    "orderIndex": 24,
     "startTime": 226,
     "endTime": 230,
     "text": "You're telling the truth?",
@@ -661,10 +661,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Rapunzel tìm kiếm sự xác thực cuối cùng trước khi đưa ra quyết định táo bạo nhất cuộc đời.",
     "properNouns": [],
-    "tokenCount": 5
+    "tokenCount": 4
   },
-  {
-    "orderIndex": 24,
+    {
+    "orderIndex": 25,
     "startTime": 231,
     "endTime": 233,
     "text": "YES!",
@@ -677,8 +677,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 1
   },
-  {
-    "orderIndex": 25,
+    {
+    "orderIndex": 26,
     "startTime": 234,
     "endTime": 245,
     "text": "I think he's telling the truth, too. He doesn't have fangs... but what choice do I have?",
@@ -690,10 +690,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Nỗi sợ trẻ con về quái vật có 'fangs' (răng nanh) được xóa bỏ, dẫn đến câu hỏi trăn trở tìm lối thoát.",
     "properNouns": [],
-    "tokenCount": 19
+    "tokenCount": 17
   },
-  {
-    "orderIndex": 26,
+    {
+    "orderIndex": 27,
     "startTime": 246,
     "endTime": 252,
     "text": "Okay, Flynn Rider, I'm prepared to offer you a deal.",
@@ -706,10 +706,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [
       "Flynn Rider"
     ],
-    "tokenCount": 11
+    "tokenCount": 10
   },
-  {
-    "orderIndex": 27,
+    {
+    "orderIndex": 28,
     "startTime": 253,
     "endTime": 255,
     "text": "Deal?",
@@ -722,8 +722,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 1
   },
-  {
-    "orderIndex": 28,
+    {
+    "orderIndex": 29,
     "startTime": 256,
     "endTime": 265,
     "text": "Look this way. Do you know what these are?",
@@ -736,8 +736,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 9
   },
-  {
-    "orderIndex": 29,
+    {
+    "orderIndex": 30,
     "startTime": 266,
     "endTime": 272,
     "text": "You mean the lantern thing they do for the princess?",
@@ -751,8 +751,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 10
   },
-  {
-    "orderIndex": 30,
+    {
+    "orderIndex": 31,
     "startTime": 273,
     "endTime": 278,
     "text": "Lanterns... I knew they weren't stars!",
@@ -764,10 +764,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Khoảnh khắc khai sáng (epiphany): Rapunzel nhận ra bản chất thực sự của những quầng sáng bay lượn.",
     "properNouns": [],
-    "tokenCount": 7
+    "tokenCount": 6
   },
-  {
-    "orderIndex": 31,
+    {
+    "orderIndex": 32,
     "startTime": 279,
     "endTime": 295,
     "text": "Well, tomorrow evening, they will light the night sky with these lanterns.",
@@ -781,8 +781,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 12
   },
-  {
-    "orderIndex": 32,
+    {
+    "orderIndex": 33,
     "startTime": 296,
     "endTime": 312,
     "text": "You will act as my guide, take me to these lanterns, and return me home safely.",
@@ -796,8 +796,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 16
   },
-  {
-    "orderIndex": 33,
+    {
+    "orderIndex": 34,
     "startTime": 313,
     "endTime": 325,
     "text": "Then, and only then, will I return your satchel to you. That is my deal.",
@@ -811,8 +811,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 15
   },
-  {
-    "orderIndex": 34,
+    {
+    "orderIndex": 35,
     "startTime": 326,
     "endTime": 336,
     "text": "Yeah, no can do. Unfortunately, the kingdom and I are not exactly simpatico at the moment.",
@@ -827,8 +827,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 16
   },
-  {
-    "orderIndex": 35,
+    {
+    "orderIndex": 36,
     "startTime": 337,
     "endTime": 342,
     "text": "So, I won't be taking you anywhere.",
@@ -839,10 +839,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Thì tương lai tiếp diễn 'won't be taking you' nhấn mạnh lập trường từ chối dứt khoát của Flynn Rider.",
     "properNouns": [],
-    "tokenCount": 8
+    "tokenCount": 7
   },
-  {
-    "orderIndex": 36,
+    {
+    "orderIndex": 37,
     "startTime": 343,
     "endTime": 352,
     "text": "Something brought you here, Flynn Rider. Call it what you will: fate, destiny...",
@@ -858,8 +858,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "tokenCount": 13
   },
-  {
-    "orderIndex": 37,
+    {
+    "orderIndex": 38,
     "startTime": 353,
     "endTime": 356,
     "text": "A horse.",
@@ -872,13 +872,13 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 2
   },
-  {
-    "orderIndex": 38,
+    {
+    "orderIndex": 39,
     "startTime": 357,
     "endTime": 365,
-    "text": "So, I have made the decision to trust you. — A horrible decision, really.",
-    "translationVi": "Vì thế, ta đã đưa ra quyết định đặt niềm tin vào ngươi. — Một quyết định cực kỳ tồi tệ, thật đấy.",
-    "ipaUs": "/soʊ, aɪ hæv meɪd ðə dɪˈsɪʒən tuː trʌst juː. — ə ˈhɔːrəbəl dɪˈsɪʒən, ˈrɪəli./",
+    "text": "So, I have made the decision to trust you. A horrible decision, really.",
+    "translationVi": "Vì thế, ta đã đưa ra quyết định đặt niềm tin vào ngươi. Một quyết định cực kỳ tồi tệ, thật đấy.",
+    "ipaUs": "/soʊ, aɪ hæv meɪd ðə dɪˈsɪʒən tuː trʌst juː. ə ˈhɔːrəbəl dɪˈsɪʒən, ˈrɪəli./",
     "keywords": [
       "decision to trust",
       "horrible decision"
@@ -887,8 +887,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 13
   },
-  {
-    "orderIndex": 39,
+    {
+    "orderIndex": 40,
     "startTime": 366,
     "endTime": 382,
     "text": "You can tear this tower apart, brick by brick, but without my help, you will never find your precious satchel.",
@@ -903,8 +903,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 20
   },
-  {
-    "orderIndex": 40,
+    {
+    "orderIndex": 41,
     "startTime": 383,
     "endTime": 398,
     "text": "Let me just get this straight. I take you to see the lanterns, bring you back home, and you'll give me back my satchel?",
@@ -916,10 +916,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Thành ngữ hội thoại đắt giá 'get this straight' (làm sáng tỏ mọi điều khoản, không để hiểu lầm).",
     "properNouns": [],
-    "tokenCount": 25
+    "tokenCount": 24
   },
-  {
-    "orderIndex": 41,
+    {
+    "orderIndex": 42,
     "startTime": 399,
     "endTime": 412,
     "text": "I promise. And when I promise something, I never, ever break that promise. EVER!",
@@ -933,8 +933,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 14
   },
-  {
-    "orderIndex": 42,
+    {
+    "orderIndex": 43,
     "startTime": 413,
     "endTime": 425,
     "text": "All right, listen. I didn't want to have to do this, but you leave me no choice. Here comes... the smolder.",
@@ -946,10 +946,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Thương hiệu hài hước kinh điển của Flynn Rider: 'the smolder' (cái nhìn nhíu mày quyến rũ sát gái độc quyền).",
     "properNouns": [],
-    "tokenCount": 22
+    "tokenCount": 21
   },
-  {
-    "orderIndex": 43,
+    {
+    "orderIndex": 44,
     "startTime": 426,
     "endTime": 438,
     "text": "This is kind of an off day for me. This doesn't normally happen... Fine, I'll take you to see the lanterns!",
@@ -961,10 +961,10 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Thành ngữ 'an off day' (ngày xui xẻo, phong độ kém cỏi). Flynn hoàn toàn bất lực trước sự ngây thơ miễn nhiễm của Rapunzel và buộc phải đồng ý.",
     "properNouns": [],
-    "tokenCount": 23
+    "tokenCount": 21
   },
-  {
-    "orderIndex": 44,
+    {
+    "orderIndex": 45,
     "startTime": 439,
     "endTime": 443,
     "text": "Really?!",
@@ -977,8 +977,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 1
   },
-  {
-    "orderIndex": 45,
+    {
+    "orderIndex": 46,
     "startTime": 444,
     "endTime": 450,
     "text": "Oops. You broke my smolder.",
@@ -991,8 +991,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 5
   },
-  {
-    "orderIndex": 46,
+    {
+    "orderIndex": 47,
     "startTime": 567,
     "endTime": 615,
     "text": "In connected speech, Americans frequently use elision, dropping unstuck auxiliary verbs to create smooth, natural cadence.",
@@ -1008,8 +1008,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 16
   },
-  {
-    "orderIndex": 47,
+    {
+    "orderIndex": 48,
     "startTime": 759,
     "endTime": 810,
     "text": "When pronouncing the T in common phrases like 'get this straight', native speakers produce a flap T or glottal stop.",
@@ -1024,8 +1024,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     "properNouns": [],
     "tokenCount": 20
   },
-  {
-    "orderIndex": 48,
+    {
+    "orderIndex": 49,
     "startTime": 980,
     "endTime": 1040,
     "text": "By stepping outside her tower, Rapunzel trades the safety of her comfort zone for the courageous pursuit of her true lifelong dream.",
@@ -1042,8 +1042,8 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "tokenCount": 22
   },
-  {
-    "orderIndex": 49,
+    {
+    "orderIndex": 50,
     "startTime": 1045,
     "endTime": 1210,
     "text": "And at last I see the light, and it's like the fog has lifted. And at last I see the light, and it's like the sky is new.",
@@ -1056,8 +1056,11 @@ export const LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT: MockVideoLesson = 
     ],
     "explanationAi": "Ca từ bất hủ đoạt giải Oscar 'I See the Light': ẩn dụ sương mù tan biến ('fog has lifted') khi trái tim tìm thấy tình yêu chân chính và tự do.",
     "properNouns": [],
-    "tokenCount": 30
+    "tokenCount": 28
   }
-],
+  ],
   quiz: QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT
 };
+
+
+export default LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT;

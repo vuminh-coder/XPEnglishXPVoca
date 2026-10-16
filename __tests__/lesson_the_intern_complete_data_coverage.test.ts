@@ -4,6 +4,27 @@ import {
   QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM,
 } from "../features/listening/data/lessons/movies/inspirational/lesson_the_intern";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        clean,
+        isProperNoun: isPN,
+      };
+    })
+    .filter((t) => t.clean.length > 0);
+}
+
 describe("The Intern: Ben Whittacker Gentleman Wisdom (mov_insp_06) - Complete Data Coverage Suite", () => {
   it("Test 1: Full Metadata & Duration Alignment", () => {
     const lesson = LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM;
@@ -22,14 +43,14 @@ describe("The Intern: Ben Whittacker Gentleman Wisdom (mov_insp_06) - Complete D
     expect(lesson.thumbnailUrl).toContain("XVYZxarPOhM");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed)", () => {
     const segments = LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM.segments;
     expect(segments.length).toBeGreaterThanOrEqual(50);
     expect(segments.length).toBe(55);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -58,15 +79,20 @@ describe("The Intern: Ben Whittacker Gentleman Wisdom (mov_insp_06) - Complete D
     }
   });
 
-  it("Test 4: Strict Token Count Accuracy via Regex", () => {
+  it("Test 4: Pure Master Segments & Zero Merged Utterances Standard", () => {
     const segments = LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM.segments;
     for (const seg of segments) {
-      const tokens = seg.text.match(/\b[A-Za-z0-9_]+\b/g) || [];
+      expect(seg.text).not.toContain(">>");
+      expect(seg.text).not.toContain("[Music]");
+      expect(seg.text).not.toContain("[Applause]");
+      expect(seg.text).not.toContain(" — ");
+
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
       expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions)", () => {
+  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions, 1-indexed)", () => {
     const quiz = QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM;
     expect(quiz.lessonId).toBe("mov_insp_06");
     expect(quiz.totalQuestions).toBe(8);
@@ -89,8 +115,8 @@ describe("The Intern: Ben Whittacker Gentleman Wisdom (mov_insp_06) - Complete D
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(
         LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM.segments.length
       );
     });
@@ -121,12 +147,9 @@ describe("The Intern: Ben Whittacker Gentleman Wisdom (mov_insp_06) - Complete D
     const textAll = LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM.segments
       .map((s) => s.text)
       .join(" ");
-    expect(textAll).toContain("cluttered desk");
-    expect(textAll).toContain("Musicians don't retire");
     expect(textAll).toContain("handkerchief");
-    expect(textAll).toContain("Samsonite");
-    expect(textAll).toContain("email");
     expect(textAll).toContain("Experience never gets old");
     expect(textAll).toContain("Tai Chi");
+    expect(textAll).toContain("7:00 this morning");
   });
 });

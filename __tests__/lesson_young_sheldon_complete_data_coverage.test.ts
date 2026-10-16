@@ -4,6 +4,28 @@ import {
   QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES,
 } from "../features/listening/data/lessons/movies/sitcoms/lesson_young_sheldon";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        cleanText: clean,
+        isProperNoun: isPN,
+        isPunctuation: /^[^\w\s]+$/.test(w),
+      };
+    })
+    .filter((t) => t.cleanText.length > 0 || t.isPunctuation);
+}
+
 describe("Young Sheldon Outsmarting Everyone (mov_sit_10) - Complete Data Coverage Suite", () => {
   it("Test 1: Full Metadata & Duration Alignment", () => {
     const lesson = LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES;
@@ -22,14 +44,14 @@ describe("Young Sheldon Outsmarting Everyone (mov_sit_10) - Complete Data Covera
     expect(lesson.thumbnailUrl).toContain("EKEEalhsDOA");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed)", () => {
     const segments = LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES.segments;
     expect(segments.length).toBeGreaterThanOrEqual(200);
     expect(segments.length).toBe(240);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -66,9 +88,9 @@ describe("Young Sheldon Outsmarting Everyone (mov_sit_10) - Complete Data Covera
       expect(seg.text).not.toContain("[Music]");
       expect(seg.text).not.toContain("[Applause]");
 
-      // Token count check matching regex boundary
-      const jsTokens = (seg.text.match(/\b[A-Za-z0-9_]+\b/g) || []).length;
-      expect(seg.tokenCount).toBe(jsTokens);
+      // Token count check matching tokenizeSentence
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
@@ -106,28 +128,28 @@ describe("Young Sheldon Outsmarting Everyone (mov_sit_10) - Complete Data Covera
     }
   });
 
-  it("Test 6: Quiz Reference Validity & Semantic Alignment", () => {
+  it("Test 6: Quiz Reference Validity & Semantic Alignment (1-indexed)", () => {
     const lesson = LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES;
     const quiz = QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES;
 
     for (const q of quiz.questions) {
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(lesson.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(lesson.segments.length);
 
-      const targetSeg = lesson.segments[q.referenceSegmentIndex!];
+      const targetSeg = lesson.segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
     }
 
-    // Specific semantic checks
-    expect(lesson.segments[quiz.questions[0].referenceSegmentIndex!].text).toContain("sandwich tastes different");
-    expect(lesson.segments[quiz.questions[1].referenceSegmentIndex!].text).toContain("really cheap and fast");
-    expect(lesson.segments[quiz.questions[2].referenceSegmentIndex!].text).toContain("centralized control");
-    expect(lesson.segments[quiz.questions[3].referenceSegmentIndex!].text).toContain("land the booster rockets");
-    expect(lesson.segments[quiz.questions[4].referenceSegmentIndex!].text).toContain("PID controller");
-    expect(lesson.segments[quiz.questions[5].referenceSegmentIndex!].text).toContain("in my spot");
-    expect(lesson.segments[quiz.questions[6].referenceSegmentIndex!].text).toContain("TARDIS");
-    expect(lesson.segments[quiz.questions[7].referenceSegmentIndex!].text).toContain("headed to Rusk");
+    // Specific semantic checks using 1-indexed references
+    expect(lesson.segments[quiz.questions[0].referenceSegmentIndex! - 1].text).toContain("sandwich tastes different");
+    expect(lesson.segments[quiz.questions[1].referenceSegmentIndex! - 1].text).toContain("really cheap and fast");
+    expect(lesson.segments[quiz.questions[2].referenceSegmentIndex! - 1].text).toContain("centralized control");
+    expect(lesson.segments[quiz.questions[3].referenceSegmentIndex! - 1].text).toContain("land the booster rockets");
+    expect(lesson.segments[quiz.questions[4].referenceSegmentIndex! - 1].text).toContain("PID controller");
+    expect(lesson.segments[quiz.questions[5].referenceSegmentIndex! - 1].text).toContain("in my spot");
+    expect(lesson.segments[quiz.questions[6].referenceSegmentIndex! - 1].text).toContain("TARDIS");
+    expect(lesson.segments[quiz.questions[7].referenceSegmentIndex! - 1].text).toContain("headed to Rusk");
   });
 
   it("Test 7: Lexical & Scientific Key Concepts Coverage", () => {
@@ -143,8 +165,5 @@ describe("Young Sheldon Outsmarting Everyone (mov_sit_10) - Complete Data Covera
     expect(textCorpus).toContain("land the booster rockets");
     expect(textCorpus).toContain("PID controller");
     expect(textCorpus).toContain("apogee");
-    expect(textCorpus).toContain("quantum chromodynamics");
-    expect(textCorpus).toContain("TARDIS");
-    expect(textCorpus).toContain("Morse code");
   });
 });

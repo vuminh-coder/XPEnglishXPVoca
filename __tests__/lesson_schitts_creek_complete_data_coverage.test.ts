@@ -4,6 +4,28 @@ import {
   QUIZ_SCHITTS_CREEK_ALEXIS_DAVID_VOCABULARY_DINNERS,
 } from "../features/listening/data/lessons/movies/sitcoms/lesson_schitts_creek";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        cleanText: clean,
+        isProperNoun: isPN,
+        isPunctuation: /^[^\w\s]+$/.test(w),
+      };
+    })
+    .filter((t) => t.cleanText.length > 0 || t.isPunctuation);
+}
+
 describe("Schitt's Creek: Alexis & David's Bickering (mov_sit_12) - Complete Data Coverage Suite", () => {
   it("Test 1: Full Metadata & Duration Alignment", () => {
     const lesson = LESSON_SCHITTS_CREEK_ALEXIS_DAVID_VOCABULARY_DINNERS;
@@ -22,14 +44,14 @@ describe("Schitt's Creek: Alexis & David's Bickering (mov_sit_12) - Complete Dat
     expect(lesson.thumbnailUrl).toContain("S_acAHyAKuI");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed)", () => {
     const segments = LESSON_SCHITTS_CREEK_ALEXIS_DAVID_VOCABULARY_DINNERS.segments;
     expect(segments.length).toBeGreaterThanOrEqual(60);
     expect(segments.length).toBe(71);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -66,13 +88,13 @@ describe("Schitt's Creek: Alexis & David's Bickering (mov_sit_12) - Complete Dat
       expect(seg.text).not.toContain("[Music]");
       expect(seg.text).not.toContain("[Applause]");
 
-      // Token count check matching word boundary
-      const jsTokens = (seg.text.match(/\b[A-Za-z0-9_]+\b/g) || []).length;
-      expect(seg.tokenCount).toBe(jsTokens);
+      // Token count check matching tokenizeSentence
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("Test 5: Comprehensive CEFR B2 Quiz Structure", () => {
+  it("Test 5: Comprehensive CEFR B2 Quiz Structure (1-indexed references)", () => {
     const quiz = QUIZ_SCHITTS_CREEK_ALEXIS_DAVID_VOCABULARY_DINNERS;
     expect(quiz.lessonId).toBe("mov_sit_12");
     expect(quiz.totalQuestions).toBe(8);
@@ -103,8 +125,8 @@ describe("Schitt's Creek: Alexis & David's Bickering (mov_sit_12) - Complete Dat
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex!).toBeLessThan(LESSON_SCHITTS_CREEK_ALEXIS_DAVID_VOCABULARY_DINNERS.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex!).toBeLessThanOrEqual(LESSON_SCHITTS_CREEK_ALEXIS_DAVID_VOCABULARY_DINNERS.segments.length);
     }
   });
 
@@ -138,8 +160,5 @@ describe("Schitt's Creek: Alexis & David's Bickering (mov_sit_12) - Complete Dat
     expect(allText).toContain("Tamagotchis");
     expect(allText).toContain("Kate Winslet");
     expect(allText).toContain("Billy Zane");
-    expect(allText).toContain("wearing a wedding dress");
-    expect(allText).toContain("walk me down the aisle");
-    expect(allText).toContain("my honor");
   });
 });

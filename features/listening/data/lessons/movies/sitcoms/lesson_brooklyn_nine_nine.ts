@@ -50,7 +50,7 @@ export const QUIZ_BROOKLYN_NINE_NINE_JAKE_COLD_OPENS_EXTENDED: VideoQuizData = {
       "targetedConcept": "Understanding situational appropriateness idiom 'read the room'",
       "targetedConceptEn": "Understanding situational appropriateness idiom 'read the room'",
       "targetedConceptVi": "Hiểu thành ngữ cư xử phù hợp hoàn cảnh 'read the room'",
-      "referenceSegmentIndex": 7
+      "referenceSegmentIndex": 8
     },
     {
       "id": "mov_sit_08_q2",
@@ -82,7 +82,7 @@ export const QUIZ_BROOKLYN_NINE_NINE_JAKE_COLD_OPENS_EXTENDED: VideoQuizData = {
       "targetedConcept": "Comic pseudo-scientific rationale for practical jokes",
       "targetedConceptEn": "Comic pseudo-scientific rationale for practical jokes",
       "targetedConceptVi": "Lý lẽ ngụy khoa học hài hước cho các trò đùa tinh quái",
-      "referenceSegmentIndex": 10
+      "referenceSegmentIndex": 11
     },
     {
       "id": "mov_sit_08_q3",
@@ -114,7 +114,7 @@ export const QUIZ_BROOKLYN_NINE_NINE_JAKE_COLD_OPENS_EXTENDED: VideoQuizData = {
       "targetedConcept": "Irony between grand claims and immediate physical clumsiness",
       "targetedConceptEn": "Irony between grand claims and immediate physical clumsiness",
       "targetedConceptVi": "Sự trớ trêu giữa tuyên bố đao to búa lớn và pha ngã hài hước",
-      "referenceSegmentIndex": 18
+      "referenceSegmentIndex": 19
     },
     {
       "id": "mov_sit_08_q4",
@@ -146,7 +146,7 @@ export const QUIZ_BROOKLYN_NINE_NINE_JAKE_COLD_OPENS_EXTENDED: VideoQuizData = {
       "targetedConcept": "Comedic specificity in street argument dialogue",
       "targetedConceptEn": "Comedic specificity in street argument dialogue",
       "targetedConceptVi": "Tính cụ thể hài hước trong đối thoại cãi vã đường phố",
-      "referenceSegmentIndex": 20
+      "referenceSegmentIndex": 21
     },
     {
       "id": "mov_sit_08_q5",
@@ -178,7 +178,7 @@ export const QUIZ_BROOKLYN_NINE_NINE_JAKE_COLD_OPENS_EXTENDED: VideoQuizData = {
       "targetedConcept": "Nutritional deception and humorous paternalistic friendship dynamic",
       "targetedConceptEn": "Nutritional deception and humorous paternalistic friendship dynamic",
       "targetedConceptVi": "Chiêu lừa dinh dưỡng và sự quan tâm kiểu bảo bọc hài hước",
-      "referenceSegmentIndex": 28
+      "referenceSegmentIndex": 29
     },
     {
       "id": "mov_sit_08_q6",
@@ -210,7 +210,7 @@ export const QUIZ_BROOKLYN_NINE_NINE_JAKE_COLD_OPENS_EXTENDED: VideoQuizData = {
       "targetedConcept": "Unorthodox interrogation psychology through feigned vulnerability",
       "targetedConceptEn": "Unorthodox interrogation psychology through feigned vulnerability",
       "targetedConceptVi": "Tâm lý thẩm vấn quái chiêu bằng cách giả vờ yếu đuối hoảng loạn",
-      "referenceSegmentIndex": 37
+      "referenceSegmentIndex": 38
     },
     {
       "id": "mov_sit_08_q7",
@@ -242,7 +242,7 @@ export const QUIZ_BROOKLYN_NINE_NINE_JAKE_COLD_OPENS_EXTENDED: VideoQuizData = {
       "targetedConcept": "Rhyming wordplay and psychological deflection in sitcom dialogue",
       "targetedConceptEn": "Rhyming wordplay and psychological deflection in sitcom dialogue",
       "targetedConceptVi": "Chơi chữ gieo vần và đòn đánh lạc hướng tâm lý trong đối thoại sitcom",
-      "referenceSegmentIndex": 48
+      "referenceSegmentIndex": 49
     },
     {
       "id": "mov_sit_08_q8",
@@ -274,7 +274,7 @@ export const QUIZ_BROOKLYN_NINE_NINE_JAKE_COLD_OPENS_EXTENDED: VideoQuizData = {
       "targetedConcept": "Workplace physical comedy and team camaraderie stunts",
       "targetedConceptEn": "Workplace physical comedy and team camaraderie stunts",
       "targetedConceptVi": "Hài kịch hình thể nơi công sở và trò đùa gắn kết tập thể",
-      "referenceSegmentIndex": 51
+      "referenceSegmentIndex": 52
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
     "Tuyển tập những màn mở đầu (Cold Opens) và thẩm vấn hài hước nhất của thám tử Jake Peralta (Andy Samberg): từ điệu nhảy con sâu 'The Worm', chiếc hoverboard định mệnh, ẩu đả ông già Noel, trò thẩm vấn gãy tay nắm cửa, acronym SOASRCIUO, Peralta The Negotiator, lỡ miệng gọi Holt là 'Dad', đến cú trượt huyền thoại 'The Full Bullpen'.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.8,
         "endTime": 4.5,
         "text": "I'll get back to you guys by the end of the day with all the logistics.",
@@ -313,10 +313,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Terry thông báo về công tác tổ chức hậu cần của phân đồn.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 4.6,
         "endTime": 10.0,
         "text": "Sergeant Terence Jeffords, four years ago on this exact date, you told me I was too old to learn how to do the worm.",
@@ -334,7 +334,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 24
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 10.1,
         "endTime": 14.5,
         "text": "I vowed on that day to prove you a fool, and today I fulfill that vow! Witness perfection!",
@@ -351,7 +351,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 18
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 14.6,
         "endTime": 22.0,
         "text": "Check it out! More fire!",
@@ -366,7 +366,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 5
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 31.7,
         "endTime": 37.1,
         "text": "As I was telling the squad, our old captain, Captain McGintley, just passed away.",
@@ -383,7 +383,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 14
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 37.2,
         "endTime": 41.5,
         "text": "Oh no, we're going to Los Angeles for the funeral next week. I'll have the travel details later.",
@@ -397,10 +397,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Los Angeles"
         ],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 41.6,
         "endTime": 46.5,
         "text": "Hey, has anyone seen a worm? Because this funky chicken is hungry!",
@@ -415,7 +415,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 12
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 46.6,
         "endTime": 51.5,
         "text": "Charles, a man has died! Read the room!",
@@ -432,7 +432,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 8
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 96.4,
         "endTime": 103.0,
         "text": "Guys, guys, guys, check it out! Hitchcock fell asleep in the break room, so I put his hand in a bowl of warm water.",
@@ -449,7 +449,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 24
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 103.1,
         "endTime": 106.0,
         "text": "Come on man, that's the stupidest prank ever.",
@@ -460,10 +460,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Terry chê bai trò đùa lỗi thời của Jake.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 106.1,
         "endTime": 110.4,
         "text": "Uh no, it's the smartest because it involves biology! I bet it worked already, let's go check!",
@@ -475,10 +475,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Jake ngụy biện hài hước khi gọi trò đùa trẻ con là 'khoa học sinh học'.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 17
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 110.5,
         "endTime": 116.5,
         "text": "No, he's drowning! He's drowning, save him!",
@@ -490,10 +490,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Hitchcock tỉnh dậy đập nước tứ tung và tưởng mình rơi xuống nước sâu.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 7
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 116.6,
         "endTime": 121.0,
         "text": "Man, take it back! Jake, great prank!",
@@ -510,7 +510,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 7
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 121.1,
         "endTime": 127.4,
         "text": "Gather around, glorious turd monsters, and feast your eyes on what I hold in this hand!",
@@ -525,7 +525,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 16
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 127.5,
         "endTime": 132.8,
         "text": "The future of movement: a hoverboard! I don't understand those things, is walking really so hard for you?",
@@ -538,10 +538,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Amy Santiago thắc mắc trước sự lười biếng trẻ con của Jake.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 132.9,
         "endTime": 139.9,
         "text": "Oh Ames, walking's a nightmare! Yeah, Amy! Now friends, eat my space dust!",
@@ -556,10 +556,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
             "Ames",
             "Amy"
         ],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 140.0,
         "endTime": 149.2,
         "text": "Okay, a little harder to control than I thought! Okay, there we go! I think I'm getting the hang of it!",
@@ -571,10 +571,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Thành ngữ 'get the hang of something' nghĩa là nắm được kỹ năng, bắt đầu làm quen được với việc gì.",
         "properNouns": [],
-        "tokenCount": 22
+        "tokenCount": 21
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 149.3,
         "endTime": 163.8,
         "text": "No, I'm not! I'm all right, I'm doing it, I'm doing it!",
@@ -586,10 +586,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Jake loạng choạng cố giữ thăng bằng trên chiếc xe cân bằng.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 12
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 163.9,
         "endTime": 168.0,
         "text": "You got this! No, I do not got this! Terry, don't let go of me!",
@@ -603,10 +603,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Terry"
         ],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 168.1,
         "endTime": 176.7,
         "text": "The future of movement is now!",
@@ -620,7 +620,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 6
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 176.8,
         "endTime": 181.8,
         "text": "All right, you take the skinny one on the right, I'll take the big one on the left. NYPD, stop hitting Santa!",
@@ -635,10 +635,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
             "NYPD",
             "Santa"
         ],
-        "tokenCount": 23
+        "tokenCount": 22
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 181.9,
         "endTime": 186.2,
         "text": "What's going on here? I've been on this corner for six years, suddenly this guy shows up!",
@@ -650,10 +650,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Tranh chấp địa bàn gây quỹ từ thiện mùa Giáng sinh giữa hai ông già Noel.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 17
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 186.3,
         "endTime": 190.1,
         "text": "You don't own this corner! I got a charity too: Canine Diabetes! Who cares about a fat dog?",
@@ -668,10 +668,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Canine Diabetes"
         ],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 190.2,
         "endTime": 193.6,
         "text": "Hey, they can't give themselves shots, they got paws! Calm down, calm down!",
@@ -683,10 +683,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Lập luận ngây thơ hài hước bảo vệ loài chó của ông già Noel thứ hai.",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 193.7,
         "endTime": 197.6,
         "text": "Boyle, freeze the skinny one! I've gone forty-two years without a lump of coal, I'm not going to start now!",
@@ -700,10 +700,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Boyle"
         ],
-        "tokenCount": 23
+        "tokenCount": 20
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 197.7,
         "endTime": 207.1,
         "text": "Are you kidding me? All right fine, come here buddy! Hit him in his fat cherry cheeks! Oh, that felt wrong.",
@@ -718,7 +718,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 21
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 207.2,
         "endTime": 215.3,
         "text": "Knife! Skinny Santa's got a knife! That's right, eat boom! Just kicked Santa in the groin!",
@@ -732,10 +732,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Santa"
         ],
-        "tokenCount": 18
+        "tokenCount": 16
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 215.4,
         "endTime": 222.5,
         "text": "Merry Christmas!",
@@ -751,7 +751,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 2
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 225.1,
         "endTime": 231.6,
         "text": "Falcon One, do we have a go? The light is green, Tiger One.",
@@ -770,7 +770,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 13
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 231.7,
         "endTime": 234.7,
         "text": "What are you going to say when you crash through the window? Hey there, sorry for dropping in!",
@@ -785,7 +785,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 18
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 234.8,
         "endTime": 241.8,
         "text": "Goosebumps, Jake, goosebumps! Equipment secure? Check. Did you have breakfast?",
@@ -803,7 +803,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 10
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 241.9,
         "endTime": 244.7,
         "text": "What? That's not on the checklist! I added it because I care about you. No, I did not have breakfast.",
@@ -815,10 +815,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Tình bạn thân thiết nhưng hơi thái quá của Charles dành cho Jake.",
         "properNouns": [],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 244.8,
         "endTime": 249.3,
         "text": "Unacceptable, look in your pocket! Hey, there are little chocolate chips in this!",
@@ -833,7 +833,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 13
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 249.4,
         "endTime": 251.8,
         "text": "Yeah, I'm not an idiot, I know how to trick my best friend into eating his fiber!",
@@ -845,10 +845,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Cấu trúc 'trick someone into doing something' (lừa ai làm điều gì tốt cho sức khỏe).",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 251.9,
         "endTime": 265.8,
         "text": "All right, bar digested, mission go! Hey there, sorry for dropping in! Was it cool?",
@@ -864,7 +864,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 15
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 265.9,
         "endTime": 270.0,
         "text": "It felt really cool. Yeah, yeah, it was pretty cool, pretty cool. What went wrong?",
@@ -879,7 +879,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 15
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 270.1,
         "endTime": 275.7,
         "text": "You have fudge on your cheek. Oh, from the breakfast bar Boyle gave me!",
@@ -896,7 +896,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 14
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 275.8,
         "endTime": 283.4,
         "text": "I've been going at him for six hours, he won't say a word. The guy is a brick wall. Not to worry sarge, I'll take it from here!",
@@ -909,10 +909,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Thành ngữ 'brick wall' mô tả người cứng đầu ngoan cố không chịu hợp tác.",
         "properNouns": [],
-        "tokenCount": 31
+        "tokenCount": 28
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 283.5,
         "endTime": 292.9,
         "text": "Hope you boys brought popcorn cause I'm about to put on a show! Well, well, well, I hear you don't like answering questions, Marcos. That's fine by me cause I'm not asking...",
@@ -926,10 +926,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Marcos"
         ],
-        "tokenCount": 36
+        "tokenCount": 32
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 293.0,
         "endTime": 302.8,
         "text": "The handle fell off. So looks like we're locked in! That's bad news for you cause you're trapped in here with a psycho!",
@@ -942,10 +942,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Sự cố tay nắm cửa phòng thẩm vấn bị gãy rời khỏi ổ khóa.",
         "properNouns": [],
-        "tokenCount": 26
+        "tokenCount": 23
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 302.9,
         "endTime": 312.8,
         "text": "Has anyone tried it from the outside? Lock's broken, got to call facilities. Copy that, no rush, as I said I got all the time in the world.",
@@ -958,10 +958,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Jake vẫn cố tỏ ra bình tĩnh làm chủ tình hình trước mặt nghi phạm.",
         "properNouns": [],
-        "tokenCount": 29
+        "tokenCount": 28
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 312.9,
         "endTime": 319.2,
         "text": "It's a little warm in here, right? Do you feel any air coming out of that vent? I got nothing! What's the ETA on facilities? At least forty-five minutes.",
@@ -974,10 +974,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Từ viết tắt 'ETA' (Estimated Time of Arrival - thời gian dự kiến đến nơi).",
         "properNouns": [],
-        "tokenCount": 32
+        "tokenCount": 29
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 319.3,
         "endTime": 329.9,
         "text": "They've checked all this paint for lead, right? And the room for asbestos? I feel like I'm sucking on a tailpipe in here, Marcos! Everybody get away from the mirror!",
@@ -992,10 +992,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Marcos"
         ],
-        "tokenCount": 32
+        "tokenCount": 30
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 330.0,
         "endTime": 334.8,
         "text": "Come on, I can't breathe! I can't breathe! Hey, calm down man! I'll confess, just stop freaking out!",
@@ -1008,10 +1008,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Tên tội phạm hoảng sợ trước sự điên rồ của Jake đến mức phải van xin được nhận tội.",
         "properNouns": [],
-        "tokenCount": 21
+        "tokenCount": 18
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 334.9,
         "endTime": 339.6,
         "text": "I did it, I robbed them! BOOM! And that's how it's done! I was faking the whole thing to break him, I could have stayed in here forever!",
@@ -1024,10 +1024,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Cú lật mặt thắng lợi kinh điển của Jake Peralta.",
         "properNouns": [],
-        "tokenCount": 30
+        "tokenCount": 28
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 339.7,
         "endTime": 347.3,
         "text": "Good, cause facilities is going to be a couple hours. We're going to die in here!",
@@ -1039,10 +1039,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Cú twist kết thúc cảnh: Jake lập tức suy sụp lại khi biết phải kẹt thêm vài tiếng.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 347.4,
         "endTime": 351.0,
         "text": "Sir, I'd like to talk to you about the new task force. You're on the hiring committee...",
@@ -1054,10 +1054,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Jake tiếp cận Đại úy Holt để ứng tuyển vào biệt đội đặc nhiệm thành phố.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 17
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 351.1,
         "endTime": 356.1,
         "text": "...for the Special Tactical Operations and Auxiliary Strategic Response Citywide Emergency Investigative Unit for Emergency Operations.",
@@ -1072,7 +1072,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 16
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 356.2,
         "endTime": 364.9,
         "text": "You might want to try shortening it, maybe using a cool acronym: SOASRCIUO! You're right, that is cool.",
@@ -1084,10 +1084,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Cách viết tắt chữ cái đầu (acronym) dài đến mức không thể phát âm nổi.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 612.0,
         "endTime": 617.7,
         "text": "So you're Jake Peralta, 'The Negotiator'? Yes! Who are you? Dennis Cole, ESU.",
@@ -1103,10 +1103,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
             "Dennis Cole",
             "ESU"
         ],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 617.8,
         "endTime": 626.6,
         "text": "This was my crime scene before you bozos got here. I've spent ten years as a negotiator, and you just took my first hostage situation!",
@@ -1118,10 +1118,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Từ lóng 'bozo' (kẻ ngốc nghếch, kẻ lố bịch) và sự tức tối của Dennis.",
         "properNouns": [],
-        "tokenCount": 26
+        "tokenCount": 25
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 626.7,
         "endTime": 635.6,
         "text": "All I've done up until now is talk jumpers off of rooftops. Saving a crazy person's life, whatever!",
@@ -1133,10 +1133,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Sự coi thường nhiệm vụ cứu mạng người hài hước của viên đàm phán ESU.",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 759.0,
         "endTime": 765.0,
         "text": "Who are those for? Captain Holt's uncle passed away. They weren't close, but I wanted to do something.",
@@ -1150,10 +1150,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Holt"
         ],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 765.1,
         "endTime": 771.4,
         "text": "Flowers are a bold choice Santiago, but I can still beat you at expressing condolences!",
@@ -1170,7 +1170,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 15
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 771.5,
         "endTime": 777.2,
         "text": "Yep, it's on! Flowers are a gift, and Captain Holt hates gifts!",
@@ -1184,10 +1184,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Holt"
         ],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 1912.6,
         "endTime": 1916.7,
         "text": "Did you just call Captain Holt 'Dad'? You said: Thanks, Dad!",
@@ -1205,7 +1205,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 11
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 1916.8,
         "endTime": 1922.0,
         "text": "What? No, I didn't! I said: Thanks, man!",
@@ -1217,10 +1217,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Jake chối bay chối biến để che giấu sự bối rối tột độ.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 1922.1,
         "endTime": 1928.0,
         "text": "Do you see me as a father figure, Peralta? No! If anything, I see you as a bother figure, cause you're always bothering me!",
@@ -1234,10 +1234,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Peralta"
         ],
-        "tokenCount": 25
+        "tokenCount": 24
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 1935.0,
         "endTime": 1941.5,
         "text": "That Boyle has psychosexual issues is old news, but you calling Holt 'daddy' is unprecedented!",
@@ -1255,7 +1255,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 15
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 2388.0,
         "endTime": 2392.6,
         "text": "What's up, Peralta? Hey Judy, Judy and dog Judy! What's going on?",
@@ -1270,10 +1270,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
             "Peralta",
             "Judy"
         ],
-        "tokenCount": 14
+        "tokenCount": 12
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 2392.7,
         "endTime": 2399.3,
         "text": "Are you puppy-sitting for Doug? Well I was, but I need you to take him for me because I'm going on a little vacation...",
@@ -1287,10 +1287,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "properNouns": [
             "Doug"
         ],
-        "tokenCount": 26
+        "tokenCount": 24
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 2399.4,
         "endTime": 2407.5,
         "text": "...and let's just say there's going to be some activities that aren't suitable for a dog, like parasailing! Thought you were building to something much more sexual!",
@@ -1302,10 +1302,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Cú twist trong lời nói: Jake tưởng Judy ám chỉ chuyện người lớn, nhưng thực tế chỉ là đi bay dù lượn.",
         "properNouns": [],
-        "tokenCount": 30
+        "tokenCount": 27
     },
     {
-        "orderIndex": 62,
+        "orderIndex": 63,
         "startTime": 2458.5,
         "endTime": 2463.1,
         "text": "All the way from Holt's office to the elevator... You're going to do the Full Bullpen!",
@@ -1321,10 +1321,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
             "Holt",
             "Full Bullpen"
         ],
-        "tokenCount": 18
+        "tokenCount": 16
     },
     {
-        "orderIndex": 63,
+        "orderIndex": 64,
         "startTime": 2463.2,
         "endTime": 2472.8,
         "text": "The floor is freshly waxed, the conditions are immaculate! Are you ready, Peralta?",
@@ -1341,7 +1341,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 13
     },
     {
-        "orderIndex": 64,
+        "orderIndex": 65,
         "startTime": 2472.9,
         "endTime": 2480.0,
         "text": "THE FULL BULLPEN! THE FULL BULLPEN! THE FULL BULLPEN!",
@@ -1357,7 +1357,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 9
     },
     {
-        "orderIndex": 65,
+        "orderIndex": 66,
         "startTime": 2480.1,
         "endTime": 2488.8,
         "text": "Here we go! Built together, standing strong forever! Nothing is going to stop us now!",
@@ -1373,7 +1373,7 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         "tokenCount": 15
     },
     {
-        "orderIndex": 66,
+        "orderIndex": 67,
         "startTime": 2570.0,
         "endTime": 2578.0,
         "text": "He's sliding right into the elevator! Doors are opening!",
@@ -1385,10 +1385,10 @@ export const LESSON_BROOKLYN_NINE_NINE_JAKE_I_WANT_IT_THAT_WAY: MockVideoLesson 
         ],
         "explanationAi": "Khoảnh khắc kỳ diệu khi cửa thang máy mở ra đúng thời điểm hoàn hảo.",
         "properNouns": [],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 67,
+        "orderIndex": 68,
         "startTime": 2578.1,
         "endTime": 2588.0,
         "text": "YES! THE FULL BULLPEN! WE DID IT!",

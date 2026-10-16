@@ -8,9 +8,9 @@ export const passage_r5: ReadingPassage = {
   "icon": "🏋️",
   "coverImage": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&auto=format&fit=crop&q=80",
   "duration": "3 min",
-  "wordCount": 120,
+  "wordCount": 109,
   "passage": "Dear FitLife Member,\n\nYour annual fitness membership is scheduled to expire on November 30th. As a valued member of our community, we are pleased to offer you an exclusive early renewal package.\n\nRenew before November 15th to enjoy these benefits:\n1. 20% discount on your next 12-month membership ($480 instead of $600).\n2. Three complimentary 1-on-1 personal training sessions (worth $150).\n3. Unlimited access to all premium weekend yoga and cycling classes.\n4. Free locker rental for the entire upcoming year.\n\nTo claim this offer, simply visit the reception desk during staffed hours or renew online at www.fitlifeclub.com/renew using the promo code LOYALTY20.\n\nStay active and healthy with FitLife!",
-  "translation": "Kính gửi Hội viên FitLife,\n\nGói tập thể hình hàng năm của bạn dự kiến sẽ hết hạn vào ngày 30 tháng 11. Là một hội viên thân thiết, chúng tôi rất hân hạnh mang đến cho bạn gói gia hạn sớm đặc biệt.\n\nGia hạn trước ngày 15 tháng 11 để nhận các quyền lợi sau:\n1. Giảm 20% cho gói 12 tháng tiếp theo ($480 thay vì $600).\n2. Ba buổi tập cá nhân 1-kèm-1 miễn phí (trị giá $150).\n3. Không giới hạn tham gia các lớp Yoga và Đạp xe cao cấp cuối tuần.\n4. Miễn phí thuê tủ đồ cho cả năm tới.\n\nĐể nhận ưu đãi, vui lòng ghé quầy lễ tân hoặc gia hạn trực tuyến tại fitlifeclub.com/renew với mã LOYALTY20.",
+  "translation": "Kính gửi Hội viên FitLife,\n\nGói tập thể hình hàng năm của bạn dự kiến sẽ hết hạn vào ngày 30 tháng 11. Là một hội viên thân thiết, chúng tôi rất hân hạnh mang đến cho bạn gói gia hạn sớm đặc biệt.\n\nGia hạn trước ngày 15 tháng 11 để nhận các quyền lợi sau:\n1. Giảm 20% cho gói 12 tháng tiếp theo ($480 thay vì $600).\n2. Ba buổi tập cá nhân 1-kèm-1 miễn phí (trị giá $150).\n3. Không giới hạn tham gia các lớp Yoga và Đạp xe cao cấp cuối tuần.\n4. Miễn phí thuê tủ đồ cho cả năm tới.\n\nĐể nhận ưu đãi, vui lòng ghé quầy lễ tân trong giờ phục vụ hoặc gia hạn trực tuyến tại www.fitlifeclub.com/renew với mã LOYALTY20.\n\nHãy luôn năng động và khỏe mạnh cùng FitLife!",
   "vocabularies": [
     {
       "word": "expire",

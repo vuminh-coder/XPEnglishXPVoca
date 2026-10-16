@@ -50,7 +50,7 @@ export const QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: VideoQuizData = {
       "targetedConcept": "Metaphorical Interpretation & Life Philosophy",
       "targetedConceptEn": "Metaphorical Interpretation & Life Philosophy",
       "targetedConceptVi": "Phân tích ẩn dụ & Triết lý nhân sinh",
-      "referenceSegmentIndex": 5
+      "referenceSegmentIndex": 6
     },
     {
       "id": "q_mov_insp_06_2",
@@ -82,7 +82,7 @@ export const QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: VideoQuizData = {
       "targetedConcept": "Workplace Humor & Interpersonal Dynamics",
       "targetedConceptEn": "Workplace Humor & Interpersonal Dynamics",
       "targetedConceptVi": "Hài hước công sở & Nghệ thuật kết nối",
-      "referenceSegmentIndex": 7
+      "referenceSegmentIndex": 8
     },
     {
       "id": "q_mov_insp_06_3",
@@ -114,7 +114,7 @@ export const QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: VideoQuizData = {
       "targetedConcept": "Gentleman Etiquette & Emotional Intelligence",
       "targetedConceptEn": "Gentleman Etiquette & Emotional Intelligence",
       "targetedConceptVi": "Quy tắc quý ông & Trí tuệ cảm xúc",
-      "referenceSegmentIndex": 13
+      "referenceSegmentIndex": 14
     },
     {
       "id": "q_mov_insp_06_4",
@@ -146,7 +146,7 @@ export const QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: VideoQuizData = {
       "targetedConcept": "Proactive Workplace Leadership",
       "targetedConceptEn": "Proactive Workplace Leadership",
       "targetedConceptVi": "Năng lực chủ động trong công việc",
-      "referenceSegmentIndex": 16
+      "referenceSegmentIndex": 17
     },
     {
       "id": "q_mov_insp_06_5",
@@ -178,7 +178,7 @@ export const QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: VideoQuizData = {
       "targetedConcept": "Discretion & Protective Care",
       "targetedConceptEn": "Discretion & Protective Care",
       "targetedConceptVi": "Sự thận trọng & Tinh thần bảo vệ",
-      "referenceSegmentIndex": 18
+      "referenceSegmentIndex": 19
     },
     {
       "id": "q_mov_insp_06_6",
@@ -210,7 +210,7 @@ export const QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: VideoQuizData = {
       "targetedConcept": "Team Loyalty & Comedic Problem-Solving",
       "targetedConceptEn": "Team Loyalty & Comedic Problem-Solving",
       "targetedConceptVi": "Lòng trung thành đội ngũ & Xử lý tình huống hài hước",
-      "referenceSegmentIndex": 25
+      "referenceSegmentIndex": 26
     },
     {
       "id": "q_mov_insp_06_7",
@@ -242,7 +242,7 @@ export const QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: VideoQuizData = {
       "targetedConcept": "Self-Worth & Empowerment",
       "targetedConceptEn": "Self-Worth & Empowerment",
       "targetedConceptVi": "Giá trị bản thân & Trao quyền nội tâm",
-      "referenceSegmentIndex": 40
+      "referenceSegmentIndex": 41
     },
     {
       "id": "q_mov_insp_06_8",
@@ -274,7 +274,7 @@ export const QUIZ_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: VideoQuizData = {
       "targetedConcept": "Mindful Equilibrium & Generational Harmony",
       "targetedConceptEn": "Mindful Equilibrium & Generational Harmony",
       "targetedConceptVi": "Cân bằng tĩnh tại & Giao hòa thế hệ",
-      "referenceSegmentIndex": 50
+      "referenceSegmentIndex": 51
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
     "Quý ông Ben Whittaker (Robert De Niro) 70 tuổi tái xuất với vai trò thực tập sinh cao tuổi tại công ty thời trang khởi nghiệp About the Fit, đem đến sự điềm đạm, phong cách quý ông cổ điển và bài học cuộc sống bất hủ: 'Trải nghiệm không bao giờ lỗi thời.'",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.08,
         "endTime": 7.6,
         "text": "The boss arrives at the office only to find her usually cluttered desk is unprecedentedly clean and tidy. She assumes a subordinate did it.",
@@ -317,7 +317,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 24
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 7.6,
         "endTime": 12.8,
         "text": "I swear I was going to stay late and do this myself.",
@@ -332,7 +332,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 12
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 12.8,
         "endTime": 18.96,
         "text": "Ben came in at 7:00 this morning and did it.",
@@ -345,10 +345,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "properNouns": [
             "Ben"
         ],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 18.96,
         "endTime": 22.4,
         "text": "Who? Ben? Your intern.",
@@ -364,7 +364,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 4
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 22.4,
         "endTime": 34.5,
         "text": "Retirement is an ongoing, relentless effort in creativity. I tried everything: golf, books, movies, pinochle. The problem is, anywhere you go, you're on your own.",
@@ -376,10 +376,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Ben chia sẻ chân thực về sự trống vắng và cô đơn của tuổi già trong video ứng tuyển của mình.",
         "properNouns": [],
-        "tokenCount": 26
+        "tokenCount": 25
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 55.0,
         "endTime": 69.5,
         "text": "Musicians don't retire; they stop when there's no more music in them. Well, I still have music in me, absolutely, without a doubt.",
@@ -391,10 +391,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Câu châm ngôn kinh điển mượn từ nghệ sĩ nhạc jazz Louis Armstrong biểu trưng cho khát vọng cống hiến.",
         "properNouns": [],
-        "tokenCount": 25
+        "tokenCount": 23
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 155.5,
         "endTime": 160.2,
         "text": "Where do you see yourself in 10 years?",
@@ -408,7 +408,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 8
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 160.2,
         "endTime": 165.8,
         "text": "When I'm 80? I hope I'm still alive!",
@@ -419,10 +419,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Câu trả lời hóm hỉnh, duyên dáng của Ben phá vỡ bầu không khí căng thẳng của buổi phỏng vấn.",
         "properNouns": [],
-        "tokenCount": 10
+        "tokenCount": 8
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 260.2,
         "endTime": 265.4,
         "text": "Nice to meet you. I'm Jules Ostin. I'm glad you joined our Senior Intern program.",
@@ -436,10 +436,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
             "Jules Ostin",
             "Senior Intern"
         ],
-        "tokenCount": 17
+        "tokenCount": 15
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 265.4,
         "endTime": 272.5,
         "text": "I want to be upfront with you: I'm not very easy to work with, and I'm bad at delegating.",
@@ -451,10 +451,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "'Upfront' (thẳng thắn, minh bạch); 'delegating' (ủy quyền, phân chia đầu việc cho cấp dưới).",
         "properNouns": [],
-        "tokenCount": 21
+        "tokenCount": 19
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 272.5,
         "endTime": 279.0,
         "text": "That's completely fine. I'm here to help in whatever way I can, no pressure at all.",
@@ -466,10 +466,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Thái độ điềm tĩnh, ân cần và sẵn lòng phục vụ của một quý ông giàu kinh nghiệm sống.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 16
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 320.0,
         "endTime": 328.0,
         "text": "Ben arrives every day wearing a perfectly pressed suit, a crisp tie, and carrying his vintage 1973 Samsonite classic briefcase.",
@@ -487,7 +487,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 20
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 330.0,
         "endTime": 338.5,
         "text": "Davis, tuck in your shirt. Why would you want to look like you just rolled out of bed when you came to work?",
@@ -504,7 +504,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 23
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 340.0,
         "endTime": 352.0,
         "text": "Why do men carry handkerchiefs? One of the last vestiges of the chivalrous gent. It's for offering to a woman when she cries, not for yourself.",
@@ -517,10 +517,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Triết lý quý ông thanh lịch: 'chivalrous gent' (phong thái hiệp sĩ phong nhã); 'vestiges' (dấu tích còn sót lại).",
         "properNouns": [],
-        "tokenCount": 27
+        "tokenCount": 26
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 416.4,
         "endTime": 423.5,
         "text": "I sort of accidentally slept with my roommate, and now I have nowhere to stay.",
@@ -536,7 +536,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 15
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 423.5,
         "endTime": 430.0,
         "text": "Well, you can stay in my guest room until you find your own place, Davis. Pack your bags.",
@@ -553,7 +553,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 18
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 582.6,
         "endTime": 588.3,
         "text": "Brilliant. Thank you! Best thing that has happened around here all week.",
@@ -568,7 +568,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 12
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 588.3,
         "endTime": 597.4,
         "text": "Seeing the messy central table cleared, Jules smiles from across the room and recognizes Ben's silent, extraordinary dedication.",
@@ -583,10 +583,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
             "Jules",
             "Ben"
         ],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 665.0,
         "endTime": 672.7,
         "text": "Ben notices that Jules's personal driver, Mike, has been drinking alcohol from a flask behind the parked car.",
@@ -602,10 +602,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
             "Jules",
             "Mike"
         ],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 672.7,
         "endTime": 678.5,
         "text": "I'm happy to cover for Mike today. He isn't feeling well, so I'll be driving you.",
@@ -619,10 +619,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "properNouns": [
             "Mike"
         ],
-        "tokenCount": 19
+        "tokenCount": 16
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 678.5,
         "endTime": 686.0,
         "text": "You drive? Oh, well, okay. I usually do emails in the car, so please don't feel like you have to make conversation.",
@@ -634,10 +634,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Thói quen làm việc căng thẳng và khép kín của Jules khi ở trên xe ô tô.",
         "properNouns": [],
-        "tokenCount": 23
+        "tokenCount": 22
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 717.8,
         "endTime": 724.5,
         "text": "Oh my god, that smells so good. What is that? I bought some hot clam chowder for you.",
@@ -652,7 +652,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 18
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 778.6,
         "endTime": 786.4,
         "text": "And I hate to say it, but try to get some sleep. You've been running on empty for weeks.",
@@ -664,10 +664,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Thành ngữ 'running on empty' (tiếp tục hoạt động khi nguồn năng lượng đã cạn kiệt hoàn toàn).",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 846.1,
         "endTime": 855.0,
         "text": "The venture capital investors demand that About the Fit hire a seasoned, seasoned corporate CEO to handle operations.",
@@ -684,7 +684,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 18
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 855.0,
         "endTime": 863.5,
         "text": "Jules feels devastated: she created this company from her kitchen table, and now outsiders are trying to take it away.",
@@ -702,7 +702,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 20
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 1074.1,
         "endTime": 1083.5,
         "text": "Oh my god! I just accidentally sent a terrible ranting email about my mother directly to my mother!",
@@ -717,7 +717,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 18
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 1083.5,
         "endTime": 1092.0,
         "text": "She titled it 'She's a neurotic narcissist' and intended to send it to Matt, but auto-fill inserted her mom's address instead.",
@@ -731,10 +731,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "properNouns": [
             "Matt"
         ],
-        "tokenCount": 24
+        "tokenCount": 21
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 1092.0,
         "endTime": 1099.5,
         "text": "If she reads that email, she will disown me, never speak to me again, and die of a stroke!",
@@ -749,7 +749,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 19
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 1100.0,
         "endTime": 1108.5,
         "text": "Don't panic. We can fix this. Does she keep her computer in her house? Is she home right now?",
@@ -761,10 +761,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Ben nhanh chóng trấn tĩnh mọi người và vạch ra kế hoạch hành động dứt khoát.",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 1108.5,
         "endTime": 1118.0,
         "text": "Ben recruits the boys: Davis, Lewis, and Jason, forming a crack team to break into the house and delete the email.",
@@ -785,7 +785,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 21
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 1129.5,
         "endTime": 1138.0,
         "text": "They locate the hidden key under a flowerpot, creep inside, boot up the desktop, and scramble to find the inbox.",
@@ -801,7 +801,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 20
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 1138.0,
         "endTime": 1147.2,
         "text": "Suddenly, the house alarm blares loudly, echoing across the entire neighborhood!",
@@ -816,7 +816,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 11
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 1147.2,
         "endTime": 1158.4,
         "text": "I found it! Move to trash, empty trash! We got it, now move, move, move!",
@@ -831,7 +831,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 15
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 1213.7,
         "endTime": 1222.0,
         "text": "They escape into the getaway van and celebrate like triumphant soldiers who just survived an impossible espionage mission.",
@@ -847,7 +847,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 18
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 1333.8,
         "endTime": 1343.4,
         "text": "Jules travels to San Francisco for meetings with potential CEO candidate Townsend, with Ben accompanying her as her confidant.",
@@ -867,7 +867,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 19
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 1411.4,
         "endTime": 1420.0,
         "text": "Earlier that week, Ben accidentally spotted Jules's stay-at-home husband, Matt, kissing another woman near a neighborhood school.",
@@ -883,10 +883,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
             "Jules",
             "Matt"
         ],
-        "tokenCount": 20
+        "tokenCount": 17
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 1458.9,
         "endTime": 1468.0,
         "text": "In the hotel room late at night, Jules breaks down in tears and reveals: 'Matt is having an affair. I know about it.'",
@@ -904,7 +904,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 23
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 1468.0,
         "endTime": 1478.0,
         "text": "Ben quietly steps forward, pulls out his clean white cotton handkerchief, and gently hands it to her.",
@@ -921,7 +921,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 17
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 1478.0,
         "endTime": 1488.5,
         "text": "I thought if I stepped down and hired a CEO, I'd have more time at home, and maybe... maybe he'd stop cheating on me.",
@@ -933,10 +933,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Lý do cay đắng đằng sau ý định từ bỏ chiếc ghế CEO của Jules: tự trách bản thân và muốn hy sinh sự nghiệp để cứu vãn hôn nhân.",
         "properNouns": [],
-        "tokenCount": 26
+        "tokenCount": 24
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 1488.5,
         "endTime": 1498.0,
         "text": "Jules, don't do that. You built this dream with your own brilliant mind and tireless dedication.",
@@ -950,10 +950,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "properNouns": [
             "Jules"
         ],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 1498.0,
         "endTime": 1508.5,
         "text": "Experience never gets old. Don't ever doubt yourself or think you need someone else to validate what you created.",
@@ -965,10 +965,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Thông điệp biểu tượng của tác phẩm: trải nghiệm và giá trị bản thân luôn trường tồn theo năm tháng.",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 1508.5,
         "endTime": 1520.0,
         "text": "Giving up what you love will not fix what is broken in your marriage. It will only make you lose yourself completely.",
@@ -983,7 +983,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 22
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 1630.5,
         "endTime": 1642.0,
         "text": "The next day, Jules interviews candidate Townsend. His credentials are flawless, yet her heart knows she cannot hand over her company.",
@@ -1001,7 +1001,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 21
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 1703.3,
         "endTime": 1710.32,
         "text": "Back at the Brooklyn headquarters, Matt walks into Jules's glass office, overcome with intense regret and guilt.",
@@ -1017,10 +1017,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
             "Matt",
             "Jules"
         ],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 1710.32,
         "endTime": 1720.5,
         "text": "I was wrong. I had an affair, and it broke me to realize what I almost threw away. But please don't give up this company for me.",
@@ -1032,10 +1032,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Lời nhận lỗi chân thành của Matt, gỡ bỏ gánh nặng hy sinh vô cớ trên vai Jules.",
         "properNouns": [],
-        "tokenCount": 28
+        "tokenCount": 27
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 1720.5,
         "endTime": 1733.52,
         "text": "You poured your life into this. You belong here. I want to earn back your trust, not steal your dream.",
@@ -1050,7 +1050,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 20
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 1733.52,
         "endTime": 1745.0,
         "text": "Jules sheds tears of relief: she refuses to hire a replacement CEO and chooses to boldly lead About the Fit forward herself.",
@@ -1068,7 +1068,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 22
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 1745.0,
         "endTime": 1756.0,
         "text": "She rushes to Ben's desk to share the joyful news, but his chair is empty. Where is Ben?",
@@ -1082,10 +1082,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "properNouns": [
             "Ben"
         ],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 1756.0,
         "endTime": 1768.0,
         "text": "Jules walks into the sunny green park nearby and spots Ben standing peacefully among an outdoor Tai Chi class.",
@@ -1104,7 +1104,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 19
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 1768.0,
         "endTime": 1779.0,
         "text": "Ben gestures softly for her to put down her phone, step into the grassy lawn, and breathe.",
@@ -1121,7 +1121,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 17
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 1779.0,
         "endTime": 1790.79,
         "text": "Jules smiles broadly, relaxes her shoulders, and mirrors his slow, graceful movements in perfect harmony.",
@@ -1138,7 +1138,7 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "tokenCount": 15
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 1790.79,
         "endTime": 1805.0,
         "text": "What is important is not who taught whom, but using each other's light to illuminate each other's blind spots.",
@@ -1150,10 +1150,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Triết lý sâu sắc về tình thầy trò và tình bạn: thế hệ trẻ mang lại sức sống hiện đại, thế hệ đi trước mang lại chiều sâu nội tâm.",
         "properNouns": [],
-        "tokenCount": 21
+        "tokenCount": 19
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 1805.0,
         "endTime": 1820.0,
         "text": "Ben's ironed shirt and the pocket handkerchief highlight patience and respect in dealing with human hearts.",
@@ -1167,10 +1167,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         "properNouns": [
             "Ben"
         ],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 1820.0,
         "endTime": 1845.0,
         "text": "In a restless world chasing double-speed clips and instant metrics, we often forget that experience requires the quiet patience of deep cultivation.",
@@ -1183,10 +1183,10 @@ export const LESSON_THE_INTERN_BEN_WHITTACKER_GENTLEMAN_WISDOM: MockVideoLesson 
         ],
         "explanationAi": "Lời thức tỉnh dành cho người trẻ thời hiện đại trước cám dỗ của văn hóa ăn liền và thành công chớp nhoáng.",
         "properNouns": [],
-        "tokenCount": 23
+        "tokenCount": 22
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 1845.0,
         "endTime": 1874.28,
         "text": "We treat efficiency as the highest standard, forgetting that living people and sincere connections remain the true core of life.",

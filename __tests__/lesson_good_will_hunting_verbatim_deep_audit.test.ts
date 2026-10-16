@@ -99,7 +99,7 @@ describe("Good Will Hunting: Park Bench Monologue (mov_insp_01) - Verbatim Deep 
     const quiz = QUIZ_GOOD_WILL_HUNTING_PARK_BENCH_MONOLOGUE;
     for (const q of quiz.questions) {
       expect(q.referenceSegmentIndex).toBeDefined();
-      const targetSeg = segments[q.referenceSegmentIndex!];
+      const targetSeg = segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
       expect(targetSeg.orderIndex).toBe(q.referenceSegmentIndex);
     }

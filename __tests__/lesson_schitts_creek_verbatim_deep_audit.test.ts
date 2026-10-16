@@ -110,7 +110,7 @@ describe("Schitt's Creek: Alexis & David's Bickering (mov_sit_12) - Verbatim Dee
     const quiz = QUIZ_SCHITTS_CREEK_ALEXIS_DAVID_VOCABULARY_DINNERS;
     for (const q of quiz.questions) {
       expect(q.referenceSegmentIndex).toBeDefined();
-      const targetSeg = segments[q.referenceSegmentIndex!];
+      const targetSeg = segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
       expect(targetSeg.orderIndex).toBe(q.referenceSegmentIndex);
     }

@@ -4,6 +4,27 @@ import {
   QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING,
 } from "../features/listening/data/lessons/movies/animation/lesson_finding_dory";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        clean,
+        isProperNoun: isPN,
+      };
+    })
+    .filter((t) => t.clean.length > 0);
+}
+
 describe("Finding Dory: Dory & Marlin 'Just Keep Swimming' Best Scenes (mov_ani_09) - Complete Data Coverage Suite", () => {
   it("Test 1: Full Metadata & Duration Alignment", () => {
     const lesson = LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING;
@@ -23,13 +44,13 @@ describe("Finding Dory: Dory & Marlin 'Just Keep Swimming' Best Scenes (mov_ani_
     expect(lesson.thumbnailUrl).toContain("2Q1gTWxZcj0");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed)", () => {
     const segments = LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING.segments;
     expect(segments.length).toBe(50);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -58,15 +79,20 @@ describe("Finding Dory: Dory & Marlin 'Just Keep Swimming' Best Scenes (mov_ani_
     }
   });
 
-  it("Test 4: Strict Token Count Accuracy via Regex", () => {
+  it("Test 4: Pure Master Segments & Zero Merged Utterances Standard", () => {
     const segments = LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING.segments;
     for (const seg of segments) {
-      const tokens = seg.text.match(/\b[A-Za-z0-9_]+\b/g) || [];
+      expect(seg.text).not.toContain(">>");
+      expect(seg.text).not.toContain("[Music]");
+      expect(seg.text).not.toContain("[Applause]");
+      expect(seg.text).not.toContain(" — ");
+
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
       expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions)", () => {
+  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions, 1-indexed)", () => {
     const quiz = QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING;
     expect(quiz.lessonId).toBe("mov_ani_09");
     expect(quiz.totalQuestions).toBe(8);
@@ -89,8 +115,8 @@ describe("Finding Dory: Dory & Marlin 'Just Keep Swimming' Best Scenes (mov_ani_
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(
         LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING.segments.length
       );
     });
@@ -102,5 +128,18 @@ describe("Finding Dory: Dory & Marlin 'Just Keep Swimming' Best Scenes (mov_ani_
     expect(lesson.description.length).toBeGreaterThan(20);
     expect(lesson.quiz).toBeDefined();
     expect(lesson.quiz!.questions.length).toBe(8);
+  });
+
+  it("Test 7: Direct Quiz Reference Integrity & Linkage (1-indexed)", () => {
+    const lesson = LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING;
+    const quiz = lesson.quiz;
+    for (const q of quiz!.questions) {
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(lesson.segments.length);
+      const referencedSegment = lesson.segments[q.referenceSegmentIndex! - 1];
+      expect(referencedSegment).toBeDefined();
+      expect(referencedSegment.orderIndex).toBe(q.referenceSegmentIndex);
+      expect(referencedSegment.text.length).toBeGreaterThan(0);
+    }
   });
 });

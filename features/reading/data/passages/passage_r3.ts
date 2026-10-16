@@ -8,7 +8,7 @@ export const passage_r3: ReadingPassage = {
   "icon": "✈️",
   "coverImage": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&auto=format&fit=crop&q=80",
   "duration": "3 min",
-  "wordCount": 105,
+  "wordCount": 101,
   "passage": "Attention all passengers traveling on SkyWings Flight SW-428 to Chicago O'Hare:\n\nDue to severe weather conditions along the flight route, Departure Flight SW-428 originally scheduled for 4:15 PM has been delayed by 45 minutes. The estimated departure time is now 5:00 PM.\n\nAdditionally, please note that the departure gate has been moved from Gate B12 to Gate C08 in Terminal 2. Boarding will begin at 4:35 PM.\n\nPassengers requiring special assistance or traveling with small children are requested to board first. Complimentary beverage vouchers can be claimed at the Customer Service Desk near Gate C02.\n\nWe apologize for any inconvenience caused.",
   "translation": "Xin hành khách trên chuyến bay SkyWings SW-428 đi Chicago O'Hare lưu ý:\n\nDo điều kiện thời tiết xấu dọc đường bay, Chuyến bay SW-428 khởi hành ban đầu lúc 4:15 chiều bị hoãn 45 phút. Giờ khởi hành dự kiến mới là 5:00 chiều.\n\nNgoài ra, cửa khởi hành đã được chuyển từ Cổng B12 sang Cổng C08 tại Nhà ga số 2. Việc lên máy bay sẽ bắt đầu lúc 4:35 chiều.\n\nHành khách cần hỗ trợ đặc biệt hoặc đi cùng trẻ nhỏ được ưu tiên lên trước. Phiếu đồ uống miễn phí có thể nhận tại Quầy Chăm sóc Khách hàng gần Cổng C02.\n\nChúng tôi thành thật xin lỗi vì sự bất tiện này.",
   "vocabularies": [

@@ -7,8 +7,8 @@ export const passage_r4: ReadingPassage = {
   "level": "A2",
   "icon": "📚",
   "coverImage": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&auto=format&fit=crop&q=80",
-  "duration": "4 min",
-  "wordCount": 125,
+  "duration": "3 min",
+  "wordCount": 116,
   "passage": "Join Us for the 15th Annual Oakridge Book Fair!\n\nDate: Saturday & Sunday, November 9th - 10th\nHours: 10:00 AM - 6:00 PM\nLocation: Oakridge Central Library Plaza\nAdmission: Free entry for all ages\n\nDiscover thousands of used and new books starting from only $2! Genres include mystery, science fiction, biographies, children's literature, and language learning textbooks.\n\nSpecial Highlights:\n- Author Book Signings: Meet bestselling novelist Clara Vance on Saturday at 2:00 PM.\n- Children's Storytelling Hour: Every 2 hours in the Children's Pavilion.\n- Coffee & Food Trucks: Enjoy fresh pastries, specialty coffee, and artisan snacks.\n\nAll proceeds from book sales go directly toward supporting free community literacy workshops. Bring your family and reusable bags!",
   "translation": "Hãy tham gia Hội sách Thường niên lần thứ 15 tại Oakridge!\n\nThời gian: Thứ Bảy & Chủ Nhật, ngày 9 - 10 tháng 11\nGiờ mở cửa: 10:00 sáng - 6:00 chiều\nĐịa điểm: Quảng trường Thư viện Trung tâm Oakridge\nVé vào cửa: Miễn phí cho mọi lứa tuổi\n\nKhám phá hàng ngàn cuốn sách cũ và mới chỉ từ $2! Thể loại bao gồm trinh thám, khoa học viễn tưởng, tiểu sử, văn học thiếu nhi và sách học ngoại ngữ.\n\nĐiểm nhấn đặc biệt:\n- Ký tặng sách: Gặp gỡ tiểu thuyết gia bán chạy Clara Vance vào Thứ Bảy lúc 2:00 chiều.\n- Giờ kể chuyện thiếu nhi: Cứ mỗi 2 tiếng tại Nhà bạt Thiếu nhi.\n- Xe cà phê & ẩm thực: Thưởng thức bánh ngọt tươi, cà phê đặc biệt và đồ ăn nhẹ.\n\nToàn bộ tiền bán sách sẽ được tài trợ cho các lớp học đọc viết miễn phí cho cộng đồng.",
   "vocabularies": [

@@ -4,6 +4,28 @@ import {
   QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED,
 } from "../features/listening/data/lessons/movies/sitcoms/lesson_the_office_michael_scott";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        cleanText: clean,
+        isProperNoun: isPN,
+        isPunctuation: /^[^\w\s]+$/.test(w),
+      };
+    })
+    .filter((t) => t.cleanText.length > 0 || t.isPunctuation);
+}
+
 describe("The Office: Michael Scott's Conference Meetings - Complete Data Coverage Test Suite", () => {
   it("should verify lesson metadata conforms to high standards", () => {
     expect(LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS.id).toBe("mov_sit_06");
@@ -29,15 +51,17 @@ describe("The Office: Michael Scott's Conference Meetings - Complete Data Covera
     }
   });
 
-  it("should provide full rich linguistic annotations for every segment", () => {
-    for (const seg of LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS.segments) {
+  it("should provide full rich linguistic annotations for every segment (1-indexed)", () => {
+    const segments = LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS.segments;
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i];
       expect(seg.text.length).toBeGreaterThan(0);
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toBeDefined();
       expect(seg.ipaUs?.length).toBeGreaterThan(0);
       expect(seg.keywords?.length).toBeGreaterThan(0);
       expect(seg.explanationAi?.length).toBeGreaterThan(0);
-      expect(seg.orderIndex).toBeDefined();
+      expect(seg.orderIndex).toBe(i + 1);
     }
   });
 
@@ -51,14 +75,14 @@ describe("The Office: Michael Scott's Conference Meetings - Complete Data Covera
     }
   });
 
-  it("should accurately synchronize tokenCount with JavaScript ASCII word regex", () => {
+  it("should accurately synchronize tokenCount with tokenizeSentence", () => {
     for (const seg of LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS.segments) {
-      const expectedTokens = (seg.text.match(/\b\w+\b/g) || []).length;
-      expect(seg.tokenCount).toBe(expectedTokens);
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("should verify extended bilingual quiz contains 8 comprehensive questions", () => {
+  it("should verify extended bilingual quiz contains 8 comprehensive questions with valid 1-indexed references", () => {
     const quiz = QUIZ_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS_EXTENDED;
     expect(quiz.lessonId).toBe("mov_sit_06");
     expect(quiz.totalQuestions).toBe(8);
@@ -80,6 +104,9 @@ describe("The Office: Michael Scott's Conference Meetings - Complete Data Covera
       expect(q.targetedConcept).toBeDefined();
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
+      expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS.segments.length);
     }
   });
 });

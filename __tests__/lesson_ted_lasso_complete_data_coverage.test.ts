@@ -4,6 +4,28 @@ import {
   QUIZ_TED_LASSO_BE_CURIOUS_NOT_JUDGMENTAL_DARTS,
 } from "../features/listening/data/lessons/movies/sitcoms/lesson_ted_lasso";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        cleanText: clean,
+        isProperNoun: isPN,
+        isPunctuation: /^[^\w\s]+$/.test(w),
+      };
+    })
+    .filter((t) => t.cleanText.length > 0 || t.isPunctuation);
+}
+
 describe("Ted Lasso: Iconic Darts Scene & Top Moments (mov_sit_11) - Complete Data Coverage Suite", () => {
   it("Test 1: Full Metadata & Duration Alignment", () => {
     const lesson = LESSON_TED_LASSO_BE_CURIOUS_NOT_JUDGMENTAL_DARTS;
@@ -22,14 +44,14 @@ describe("Ted Lasso: Iconic Darts Scene & Top Moments (mov_sit_11) - Complete Da
     expect(lesson.thumbnailUrl).toContain("t1bveUz8RD0");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed)", () => {
     const segments = LESSON_TED_LASSO_BE_CURIOUS_NOT_JUDGMENTAL_DARTS.segments;
     expect(segments.length).toBeGreaterThanOrEqual(80);
     expect(segments.length).toBe(138);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -67,13 +89,13 @@ describe("Ted Lasso: Iconic Darts Scene & Top Moments (mov_sit_11) - Complete Da
       expect(seg.text).not.toContain("[Applause]");
       expect(seg.text).not.toContain("[Laughter]");
 
-      // Token count check matching word boundary
-      const jsTokens = (seg.text.match(/\b[A-Za-z0-9_]+\b/g) || []).length;
-      expect(seg.tokenCount).toBe(jsTokens);
+      // Token count check matching tokenizeSentence
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("Test 5: Comprehensive CEFR B2 Quiz Structure", () => {
+  it("Test 5: Comprehensive CEFR B2 Quiz Structure (1-indexed references)", () => {
     const quiz = QUIZ_TED_LASSO_BE_CURIOUS_NOT_JUDGMENTAL_DARTS;
     expect(quiz.lessonId).toBe("mov_sit_11");
     expect(quiz.totalQuestions).toBe(8);
@@ -101,10 +123,11 @@ describe("Ted Lasso: Iconic Darts Scene & Top Moments (mov_sit_11) - Complete Da
       expect(q.targetedConcept).toBeDefined();
       expect(q.targetedConcept!.trim().length).toBeGreaterThan(10);
       expect(q.targetedConceptEn).toBeDefined();
+      expect(q.targetedConceptEn!.trim().length).toBeGreaterThan(10);
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(LESSON_TED_LASSO_BE_CURIOUS_NOT_JUDGMENTAL_DARTS.segments.length);
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_TED_LASSO_BE_CURIOUS_NOT_JUDGMENTAL_DARTS.segments.length);
     }
   });
 

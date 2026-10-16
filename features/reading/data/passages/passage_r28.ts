@@ -7,11 +7,17 @@ export const passage_r28: ReadingPassage = {
   "level": "A2",
   "icon": "🏠",
   "coverImage": "https://images.unsplash.com/photo-1558002038-1055907df827?w=600&auto=format&fit=crop&q=80",
-  "duration": "3 min",
-  "wordCount": 160,
+  "duration": "4 min",
+  "wordCount": 138,
   "passage": "Modern homes are rapidly changing with the arrival of smart ambient technology. In the past, people had to control each light and appliance with manual wall switches or complex smartphone apps.\n\nToday, new ambient smart homes use small sensors placed quietly around rooms. These sensors run tiny machine learning models directly on the device, known as 'edge computing.' Because the data does not travel to distant internet servers, processing happens in real time and user privacy is protected.\n\nFor example, smart thermostats learn when family members wake up and automatically adjust the room temperature for comfort. In the kitchen, smart refrigerators can detect when milk is running low and add it to your digital grocery list.\n\nThese automated systems save up to 20% on monthly electricity bills while making daily household life much easier and safer for everyone.",
-  "translation": "Những ngôi nhà hiện đại đang thay đổi nhanh chóng với sự xuất hiện của công nghệ môi trường thông minh. Trước đây, mọi người phải điều khiển từng bóng đèn và thiết bị bằng công tắc gắn tường thủ công hoặc các ứng dụng điện thoại thông minh phức tạp.\n\nNgày nay, các ngôi nhà thông minh mới sử dụng các cảm biến nhỏ được đặt kín đáo xung quanh các phòng. Các cảm biến này chạy các mô hình máy học nhỏ gọn trực tiếp trên thiết bị, được gọi là 'điện toán biên'. Vì dữ liệu không cần truyền đến các máy chủ internet xa xôi, việc xử lý diễn ra theo thời gian thực và quyền riêng tư của người dùng được bảo vệ.\n\nVí dụ, máy điều nhiệt thông minh học được thời điểm các thành viên trong gia đình thức dậy và tự động điều chỉnh nhiệt độ phòng cho thoải mái.",
+  "translation": "Những ngôi nhà hiện đại đang thay đổi nhanh chóng với sự xuất hiện của công nghệ môi trường thông minh. Trước đây, mọi người phải điều khiển từng bóng đèn và thiết bị bằng công tắc gắn tường thủ công hoặc các ứng dụng điện thoại thông minh phức tạp.\n\nNgày nay, các ngôi nhà thông minh mới sử dụng các cảm biến nhỏ được đặt kín đáo xung quanh các phòng. Các cảm biến này chạy các mô hình máy học nhỏ gọn trực tiếp trên thiết bị, được gọi là 'điện toán biên'. Vì dữ liệu không cần truyền đến các máy chủ internet xa xôi, việc xử lý diễn ra theo thời gian thực và quyền riêng tư của người dùng được bảo vệ.\n\nVí dụ, máy điều nhiệt thông minh học được thời điểm các thành viên trong gia đình thức dậy và tự động điều chỉnh nhiệt độ phòng cho thoải mái. Trong nhà bếp, tủ lạnh thông minh có thể phát hiện khi sữa sắp hết và tự động thêm vào danh sách mua sắm kỹ thuật số của bạn.\n\nCác hệ thống tự động hóa này giúp tiết kiệm tới 20% hóa đơn tiền điện hàng tháng đồng thời giúp cuộc sống sinh hoạt hàng ngày dễ dàng và an toàn hơn nhiều cho mọi người.",
   "vocabularies": [
+    {
+      "word": "automated",
+      "ipa": "/ˈɔː.t̬ə.meɪ.t̬ɪd/",
+      "pos": "adj",
+      "meaning": "tự động hóa, hoạt động tự động"
+    },
     {
       "word": "ambient",
       "ipa": "/ˈæm.bi.ənt/",

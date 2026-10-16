@@ -4,6 +4,27 @@ import {
   QUIZ_COCO_REMEMBER_ME_WITH_MAMA_COCO_EXTENDED,
 } from "../features/listening/data/lessons/movies/animation/lesson_coco";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        clean,
+        isProperNoun: isPN,
+      };
+    })
+    .filter((t) => t.clean.length > 0);
+}
+
 describe("Coco: Miguel & Héctor 'Remember Me' with Mama Coco (mov_ani_05) - Complete Data Coverage Suite", () => {
   it("Test 1: Full Metadata & Duration Alignment", () => {
     const lesson = LESSON_COCO_REMEMBER_ME_WITH_MAMA_COCO_EXTENDED;
@@ -23,13 +44,13 @@ describe("Coco: Miguel & Héctor 'Remember Me' with Mama Coco (mov_ani_05) - Com
     expect(lesson.thumbnailUrl).toContain("EQ9RFbIHrFw");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed)", () => {
     const segments = LESSON_COCO_REMEMBER_ME_WITH_MAMA_COCO_EXTENDED.segments;
     expect(segments.length).toBe(50);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -58,15 +79,20 @@ describe("Coco: Miguel & Héctor 'Remember Me' with Mama Coco (mov_ani_05) - Com
     }
   });
 
-  it("Test 4: Strict Token Count Accuracy via Regex", () => {
+  it("Test 4: Pure Master Segments & Zero Merged Utterances Standard", () => {
     const segments = LESSON_COCO_REMEMBER_ME_WITH_MAMA_COCO_EXTENDED.segments;
     for (const seg of segments) {
-      const tokens = seg.text.match(/\b[A-Za-z0-9_]+\b/g) || [];
+      expect(seg.text).not.toContain(">>");
+      expect(seg.text).not.toContain("[Music]");
+      expect(seg.text).not.toContain("[Applause]");
+      expect(seg.text).not.toContain(" — ");
+
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
       expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions)", () => {
+  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions, 1-indexed)", () => {
     const quiz = QUIZ_COCO_REMEMBER_ME_WITH_MAMA_COCO_EXTENDED;
     expect(quiz.lessonId).toBe("mov_ani_05");
     expect(quiz.totalQuestions).toBe(8);
@@ -89,8 +115,8 @@ describe("Coco: Miguel & Héctor 'Remember Me' with Mama Coco (mov_ani_05) - Com
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(
         LESSON_COCO_REMEMBER_ME_WITH_MAMA_COCO_EXTENDED.segments.length
       );
     });
@@ -101,9 +127,24 @@ describe("Coco: Miguel & Héctor 'Remember Me' with Mama Coco (mov_ani_05) - Com
     expect(lesson.title.trim().length).toBeGreaterThan(10);
     expect(lesson.description.trim().length).toBeGreaterThan(30);
     expect(lesson.categoryName).toBe("Hoạt Hình Pixar & Disney");
+    expect(lesson.quiz).toBeDefined();
+    expect(lesson.quiz!.questions.length).toBe(8);
   });
 
-  it("Test 7: Zero Merged Utterances Across Character Dialogue & Song Segments", () => {
+  it("Test 7: Direct Quiz Reference Integrity & Linkage (1-indexed)", () => {
+    const lesson = LESSON_COCO_REMEMBER_ME_WITH_MAMA_COCO_EXTENDED;
+    const quiz = lesson.quiz;
+    for (const q of quiz!.questions) {
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(lesson.segments.length);
+      const referencedSegment = lesson.segments[q.referenceSegmentIndex! - 1];
+      expect(referencedSegment).toBeDefined();
+      expect(referencedSegment.orderIndex).toBe(q.referenceSegmentIndex);
+      expect(referencedSegment.text.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("Test 8: Zero Merged Utterances Across Character Dialogue & Song Segments", () => {
     const segments = LESSON_COCO_REMEMBER_ME_WITH_MAMA_COCO_EXTENDED.segments;
     // Papel picado narration lines must be strictly independent
     expect(segments[6].text).toBe("The papa, he was a musician.");

@@ -35,7 +35,7 @@ export const QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: VideoQuizData = {
       targetedConcept: "Nutritional Consistency Analysis",
       targetedConceptEn: "Nutritional Consistency Analysis",
       targetedConceptVi: "Ph\u00e2n t\u00edch t\u00ednh nh\u1ea5t qu\u00e1n th\u1ef1c ph\u1ea9m",
-      referenceSegmentIndex: 18,
+      referenceSegmentIndex: 19,
     },
     {
       id: "q_mov_sit_10_2",
@@ -52,7 +52,7 @@ export const QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: VideoQuizData = {
       targetedConcept: "Corporate Cost-Cutting Candor",
       targetedConceptEn: "Corporate Cost-Cutting Candor",
       targetedConceptVi: "S\u1ef1 th\u1eadt v\u1ec1 c\u1eaft gi\u1ea3m chi ph\u00ed doanh nghi\u1ec7p",
-      referenceSegmentIndex: 52,
+      referenceSegmentIndex: 53,
     },
     {
       id: "q_mov_sit_10_3",
@@ -69,7 +69,7 @@ export const QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: VideoQuizData = {
       targetedConcept: "Ideological Misinterpretation",
       targetedConceptEn: "Ideological Misinterpretation",
       targetedConceptVi: "S\u1ef1 ng\u1ed9 nh\u1eadn \u00fd th\u1ee9c h\u1ec7 ch\u00ednh tr\u1ecb",
-      referenceSegmentIndex: 75,
+      referenceSegmentIndex: 76,
     },
     {
       id: "q_mov_sit_10_4",
@@ -86,7 +86,7 @@ export const QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: VideoQuizData = {
       targetedConcept: "Reusable Rocketry Dynamics",
       targetedConceptEn: "Reusable Rocketry Dynamics",
       targetedConceptVi: "\u0110\u1ed9ng l\u1ef1c h\u1ecdc t\u00ean l\u1eeda t\u00e1i s\u1eed d\u1ee5ng",
-      referenceSegmentIndex: 118,
+      referenceSegmentIndex: 119,
     },
     {
       id: "q_mov_sit_10_5",
@@ -103,7 +103,7 @@ export const QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: VideoQuizData = {
       targetedConcept: "Orbital Pitchover & PID Control",
       targetedConceptEn: "Orbital Pitchover & PID Control",
       targetedConceptVi: "Thao t\u00e1c l\u1ed9n m\u0169i qu\u1ef9 \u0111\u1ea1o & B\u1ed9 \u0111i\u1ec1u khi\u1ec3n PID",
-      referenceSegmentIndex: 144,
+      referenceSegmentIndex: 145,
     },
     {
       id: "q_mov_sit_10_6",
@@ -120,7 +120,7 @@ export const QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: VideoQuizData = {
       targetedConcept: "Prodigy Intellectual Jealousy",
       targetedConceptEn: "Prodigy Intellectual Jealousy",
       targetedConceptVi: "S\u1ef1 \u0111\u1ed1 k\u1ef5 tr\u00ed tu\u1ec7 gi\u1eefa c\u00e1c th\u1ea7n \u0111\u1ed3ng",
-      referenceSegmentIndex: 177,
+      referenceSegmentIndex: 178,
     },
     {
       id: "q_mov_sit_10_7",
@@ -137,7 +137,7 @@ export const QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: VideoQuizData = {
       targetedConcept: "Sci-Fi Cognitive Reframing",
       targetedConceptEn: "Sci-Fi Cognitive Reframing",
       targetedConceptVi: "T\u00e1i \u0111\u1ecbnh h\u00ecnh nh\u1eadn th\u1ee9c qua khoa h\u1ecdc vi\u1ec5n t\u01b0\u1edfng",
-      referenceSegmentIndex: 197,
+      referenceSegmentIndex: 198,
     },
     {
       id: "q_mov_sit_10_8",
@@ -154,7 +154,7 @@ export const QUIZ_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: VideoQuizData = {
       targetedConcept: "Cryptographic Morse Translation",
       targetedConceptEn: "Cryptographic Morse Translation",
       targetedConceptVi: "D\u1ecbch m\u00e3 m\u1eadt m\u00e3 h\u1ecdc Morse",
-      referenceSegmentIndex: 236,
+      referenceSegmentIndex: 237,
     },
   ],
 };
@@ -181,7 +181,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
     "Cậu bé thiên tài 9 tuổi Sheldon Cooper (Iain Armitage) dùng lập luận khoa học sắc bén, thuật toán hàng không vũ trụ NASA và tư duy logic lấn át người lớn và gia đình tại Texas.",
   segments: [
     {
-      orderIndex: 0,
+      orderIndex: 1,
       startTime: 0.5,
       endTime: 4.1,
       text: "There we go.",
@@ -193,7 +193,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 1,
+      orderIndex: 2,
       startTime: 4.1,
       endTime: 16.8,
       text: "For many kids, Christmas morning was the most exciting day of the year. That is only because most kids do not know the joy of getting their college midterms back.",
@@ -205,7 +205,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 30,
     },
     {
-      orderIndex: 2,
+      orderIndex: 3,
       startTime: 16.8,
       endTime: 20.3,
       text: "It also did not hurt that Dr. Sturgis looked like an elf.",
@@ -217,7 +217,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 3,
+      orderIndex: 4,
       startTime: 20.3,
       endTime: 23.4,
       text: "Nice work, Sheldon.",
@@ -229,7 +229,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 4,
+      orderIndex: 5,
       startTime: 23.4,
       endTime: 35.2,
       text: "Now, you will notice that your grades are lower than expected. That is because Sheldon did so well he broke the curve turning your As and Bs into Bs and Cs.",
@@ -241,7 +241,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 31,
     },
     {
-      orderIndex: 5,
+      orderIndex: 6,
       startTime: 37.0,
       endTime: 45.1,
       text: "They do not seem happy about it. Maybe you can give them candy.",
@@ -253,7 +253,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 6,
+      orderIndex: 7,
       startTime: 45.8,
       endTime: 48.4,
       text: "Uh-oh.",
@@ -262,10 +262,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["uh-oh"],
       explanationAi: "Th\u00e1n t\u1eeb c\u1ea3m th\u00e1n bi\u1ec3u th\u1ecb v\u1eeba ph\u00e1t hi\u1ec7n ra m\u1ed9t s\u1ef1 c\u1ed1 ho\u1eb7c \u0111i\u1ec1u b\u1ea5t th\u01b0\u1eddng.",
       properNouns: [],
-      tokenCount: 2,
+      tokenCount: 1,
     },
     {
-      orderIndex: 7,
+      orderIndex: 8,
       startTime: 48.4,
       endTime: 51.0,
       text: "What is the matter?",
@@ -277,7 +277,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 8,
+      orderIndex: 9,
       startTime: 51.0,
       endTime: 54.0,
       text: "Something is wrong with my sandwich.",
@@ -289,7 +289,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 6,
     },
     {
-      orderIndex: 9,
+      orderIndex: 10,
       startTime: 54.0,
       endTime: 57.5,
       text: "Did it go bad?",
@@ -301,7 +301,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 10,
+      orderIndex: 11,
       startTime: 57.5,
       endTime: 60.2,
       text: "No, it just tastes different.",
@@ -313,7 +313,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 5,
     },
     {
-      orderIndex: 11,
+      orderIndex: 12,
       startTime: 60.2,
       endTime: 63.7,
       text: "If you do not want it, I will trade you for my dumplings.",
@@ -325,7 +325,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 12,
+      orderIndex: 13,
       startTime: 63.7,
       endTime: 67.9,
       text: "I am already unhappy. Do you really think dumplings will fix the problem?",
@@ -337,7 +337,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 13,
+      orderIndex: 14,
       startTime: 67.9,
       endTime: 71.2,
       text: "Mary Cooper, God bless you.",
@@ -349,7 +349,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 5,
     },
     {
-      orderIndex: 14,
+      orderIndex: 15,
       startTime: 71.2,
       endTime: 72.8,
       text: "Hello, Mom.",
@@ -361,7 +361,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 15,
+      orderIndex: 16,
       startTime: 72.8,
       endTime: 74.5,
       text: "Sheldon, everything okay?",
@@ -373,7 +373,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 16,
+      orderIndex: 17,
       startTime: 74.5,
       endTime: 75.8,
       text: "No.",
@@ -385,7 +385,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 1,
     },
     {
-      orderIndex: 17,
+      orderIndex: 18,
       startTime: 75.8,
       endTime: 77.5,
       text: "What is wrong? What happened?",
@@ -397,7 +397,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 5,
     },
     {
-      orderIndex: 18,
+      orderIndex: 19,
       startTime: 77.5,
       endTime: 80.6,
       text: "My sandwich tastes different.",
@@ -409,7 +409,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 19,
+      orderIndex: 20,
       startTime: 80.6,
       endTime: 84.5,
       text: "You know you are not supposed to call unless it is an emergency.",
@@ -421,7 +421,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 20,
+      orderIndex: 21,
       startTime: 84.5,
       endTime: 88.0,
       text: "I am well aware. So, what did you change?",
@@ -433,7 +433,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 9,
     },
     {
-      orderIndex: 21,
+      orderIndex: 22,
       startTime: 88.0,
       endTime: 91.0,
       text: "I did not change anything. Same bread, same peanut butter, same jelly.",
@@ -445,7 +445,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 22,
+      orderIndex: 23,
       startTime: 91.0,
       endTime: 93.4,
       text: "Did you use one knife for the PB and the J?",
@@ -457,7 +457,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 23,
+      orderIndex: 24,
       startTime: 93.4,
       endTime: 94.8,
       text: "No.",
@@ -469,7 +469,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 1,
     },
     {
-      orderIndex: 24,
+      orderIndex: 25,
       startTime: 94.8,
       endTime: 96.5,
       text: "Are you sure?",
@@ -481,7 +481,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 25,
+      orderIndex: 26,
       startTime: 96.5,
       endTime: 100.5,
       text: "That was one time two years ago and all the other knives were dirty.",
@@ -493,7 +493,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 14,
     },
     {
-      orderIndex: 26,
+      orderIndex: 27,
       startTime: 100.5,
       endTime: 105.0,
       text: "It was fourteen months and eleven days ago when we made the big switch from Wonder Bread.",
@@ -505,7 +505,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 17,
     },
     {
-      orderIndex: 27,
+      orderIndex: 28,
       startTime: 105.0,
       endTime: 109.8,
       text: "Oh, how could I forget? Sheldon, I did not change anything. Can I get back to work now?",
@@ -517,7 +517,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 18,
     },
     {
-      orderIndex: 28,
+      orderIndex: 29,
       startTime: 109.8,
       endTime: 111.5,
       text: "I suppose so.",
@@ -529,7 +529,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 29,
+      orderIndex: 30,
       startTime: 111.5,
       endTime: 113.8,
       text: "Thank you. Bye.",
@@ -541,7 +541,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 30,
+      orderIndex: 31,
       startTime: 113.8,
       endTime: 116.0,
       text: "Do not I get I love you?",
@@ -553,7 +553,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 7,
     },
     {
-      orderIndex: 31,
+      orderIndex: 32,
       startTime: 116.0,
       endTime: 118.0,
       text: "I love you.",
@@ -565,7 +565,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 32,
+      orderIndex: 33,
       startTime: 118.0,
       endTime: 125.0,
       text: "One more time with a little more energy. Must have been disconnected.",
@@ -577,7 +577,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 33,
+      orderIndex: 34,
       startTime: 125.0,
       endTime: 128.5,
       text: "Well, my mother did not do anything differently.",
@@ -589,7 +589,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 8,
     },
     {
-      orderIndex: 34,
+      orderIndex: 35,
       startTime: 128.5,
       endTime: 131.0,
       text: "Are you going to eat it?",
@@ -601,7 +601,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 6,
     },
     {
-      orderIndex: 35,
+      orderIndex: 36,
       startTime: 131.0,
       endTime: 135.5,
       text: "Better. I am going to do science on it.",
@@ -613,7 +613,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 9,
     },
     {
-      orderIndex: 36,
+      orderIndex: 37,
       startTime: 135.5,
       endTime: 138.5,
       text: "Are the goggles necessary?",
@@ -625,7 +625,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 37,
+      orderIndex: 38,
       startTime: 138.5,
       endTime: 142.6,
       text: "No, but they really set the mood.",
@@ -637,7 +637,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 7,
     },
     {
-      orderIndex: 38,
+      orderIndex: 39,
       startTime: 142.6,
       endTime: 155.7,
       text: "Okay. Subject A: jelly. That is definitely strawberry and definitely Smuckers. Subject B.",
@@ -649,7 +649,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 39,
+      orderIndex: 40,
       startTime: 155.7,
       endTime: 160.8,
       text: "That is Jif, all right. Creamy and delicious.",
@@ -661,7 +661,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 8,
     },
     {
-      orderIndex: 40,
+      orderIndex: 41,
       startTime: 160.8,
       endTime: 163.5,
       text: "It must be the bread.",
@@ -673,7 +673,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 5,
     },
     {
-      orderIndex: 41,
+      orderIndex: 42,
       startTime: 163.5,
       endTime: 172.0,
       text: "Hold on. This is a scientific experiment. We cannot make assumptions. Subject C.",
@@ -685,7 +685,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 42,
+      orderIndex: 43,
       startTime: 172.0,
       endTime: 178.5,
       text: "It is the bread.",
@@ -697,7 +697,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 43,
+      orderIndex: 44,
       startTime: 178.5,
       endTime: 182.5,
       text: "Happy Hearthome Bakeries. This is Pete. How can I help you?",
@@ -709,7 +709,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 44,
+      orderIndex: 45,
       startTime: 182.5,
       endTime: 189.0,
       text: "Hello, Pete. My name is Sheldon Cooper and I would like to know what changed in your white sandwich loaf to make it taste different.",
@@ -721,7 +721,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 25,
     },
     {
-      orderIndex: 45,
+      orderIndex: 46,
       startTime: 189.0,
       endTime: 192.5,
       text: "Sheldon, hang up the phone. It is dinner time.",
@@ -733,7 +733,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 9,
     },
     {
-      orderIndex: 46,
+      orderIndex: 47,
       startTime: 192.5,
       endTime: 198.5,
       text: "Be right there, Mom. I am doing battle with corporate America.",
@@ -745,7 +745,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 47,
+      orderIndex: 48,
       startTime: 198.5,
       endTime: 204.0,
       text: "Any chance your bread was past the expiration date?",
@@ -757,7 +757,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 9,
     },
     {
-      orderIndex: 48,
+      orderIndex: 49,
       startTime: 204.0,
       endTime: 213.0,
       text: "No, it was brand new. But I did a taste comparison after it was bought out by the Domestic Food Corporation, and they are definitely not the same.",
@@ -769,7 +769,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 28,
     },
     {
-      orderIndex: 49,
+      orderIndex: 50,
       startTime: 213.0,
       endTime: 220.6,
       text: "Well, I can assure you that the recent acquisition by the Domestic Food Corporation has not affected the quality of our products in any way.",
@@ -781,7 +781,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 25,
     },
     {
-      orderIndex: 50,
+      orderIndex: 51,
       startTime: 220.6,
       endTime: 227.0,
       text: "Every single bread, baked good, and pastry is made with love from our hearth to your home.",
@@ -793,7 +793,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 17,
     },
     {
-      orderIndex: 51,
+      orderIndex: 52,
       startTime: 227.0,
       endTime: 231.0,
       text: "Then why does it taste different, Pete? Why?",
@@ -805,7 +805,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 8,
     },
     {
-      orderIndex: 52,
+      orderIndex: 53,
       startTime: 231.0,
       endTime: 238.0,
       text: "Well, because now we make everything really cheap and fast. Bye.",
@@ -817,7 +817,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 53,
+      orderIndex: 54,
       startTime: 238.0,
       endTime: 242.0,
       text: "Hello, Randall. I would like to apply for a job.",
@@ -829,7 +829,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 10,
     },
     {
-      orderIndex: 54,
+      orderIndex: 55,
       startTime: 242.0,
       endTime: 244.0,
       text: "You would?",
@@ -841,7 +841,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 55,
+      orderIndex: 56,
       startTime: 244.0,
       endTime: 248.5,
       text: "Yes. I need to earn money so I can apply to Harvard.",
@@ -853,7 +853,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 56,
+      orderIndex: 57,
       startTime: 248.5,
       endTime: 255.0,
       text: "I thought about going to Harvard, but then I realized the Shack is my passion.",
@@ -865,7 +865,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 15,
     },
     {
-      orderIndex: 57,
+      orderIndex: 58,
       startTime: 255.0,
       endTime: 258.0,
       text: "So, can I work here?",
@@ -877,7 +877,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 5,
     },
     {
-      orderIndex: 58,
+      orderIndex: 59,
       startTime: 258.0,
       endTime: 262.5,
       text: "Excuse me, how much RAM does this computer have?",
@@ -889,7 +889,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 9,
     },
     {
-      orderIndex: 59,
+      orderIndex: 60,
       startTime: 262.5,
       endTime: 265.5,
       text: "Uh, I can check on that for you.",
@@ -901,7 +901,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 8,
     },
     {
-      orderIndex: 60,
+      orderIndex: 61,
       startTime: 265.5,
       endTime: 273.0,
       text: "It comes with 640 kilobytes, but it is expandable up to 768.",
@@ -913,7 +913,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 61,
+      orderIndex: 62,
       startTime: 273.0,
       endTime: 276.5,
       text: "Well, do you even have a resume?",
@@ -925,7 +925,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 7,
     },
     {
-      orderIndex: 62,
+      orderIndex: 63,
       startTime: 276.5,
       endTime: 282.0,
       text: "No, but I have a report card that will knock your socks off.",
@@ -937,7 +937,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 63,
+      orderIndex: 64,
       startTime: 282.0,
       endTime: 285.5,
       text: "And what is the processor speed?",
@@ -949,7 +949,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 6,
     },
     {
-      orderIndex: 64,
+      orderIndex: 65,
       startTime: 285.5,
       endTime: 290.5,
       text: "It has the Intel 80286, so 10 megahertz.",
@@ -961,7 +961,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 8,
     },
     {
-      orderIndex: 65,
+      orderIndex: 66,
       startTime: 290.5,
       endTime: 296.5,
       text: "Sorry, Sheldon. I think it is against company policy to hire little kids.",
@@ -973,7 +973,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 66,
+      orderIndex: 67,
       startTime: 296.5,
       endTime: 300.5,
       text: "But people say I am like an old man all the time.",
@@ -985,7 +985,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 67,
+      orderIndex: 68,
       startTime: 300.5,
       endTime: 305.5,
       text: "Hey, I am one of them. But the answer is still no.",
@@ -997,7 +997,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 68,
+      orderIndex: 69,
       startTime: 305.5,
       endTime: 314.0,
       text: "When people wonder why Radio Shack eventually went out of business, you can point to this moment.",
@@ -1009,7 +1009,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 17,
     },
     {
-      orderIndex: 69,
+      orderIndex: 70,
       startTime: 314.0,
       endTime: 322.0,
       text: "I was shocked to learn that the Happy Hearthome Bakeries had been bought out by the Domestic Food Corporation and they started making their bread faster and cheaper.",
@@ -1021,7 +1021,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 28,
     },
     {
-      orderIndex: 70,
+      orderIndex: 71,
       startTime: 322.0,
       endTime: 325.0,
       text: "And you do not like that, do you?",
@@ -1033,7 +1033,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 8,
     },
     {
-      orderIndex: 71,
+      orderIndex: 72,
       startTime: 325.0,
       endTime: 326.8,
       text: "No.",
@@ -1045,7 +1045,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 1,
     },
     {
-      orderIndex: 72,
+      orderIndex: 73,
       startTime: 326.8,
       endTime: 330.0,
       text: "And you are collecting signatures to make them stop.",
@@ -1057,7 +1057,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 9,
     },
     {
-      orderIndex: 73,
+      orderIndex: 74,
       startTime: 330.0,
       endTime: 335.5,
       text: "I am. Corporations should not be allowed to make these decisions on their own.",
@@ -1069,7 +1069,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 14,
     },
     {
-      orderIndex: 74,
+      orderIndex: 75,
       startTime: 335.5,
       endTime: 338.0,
       text: "Well, who should?",
@@ -1081,7 +1081,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 75,
+      orderIndex: 76,
       startTime: 338.0,
       endTime: 346.0,
       text: "The people who eat the bread. This would not happen if there were centralized control over all these big corporations.",
@@ -1093,7 +1093,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 20,
     },
     {
-      orderIndex: 76,
+      orderIndex: 77,
       startTime: 346.0,
       endTime: 351.0,
       text: "Are you suggesting a communist form of government in Texas?",
@@ -1105,7 +1105,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 10,
     },
     {
-      orderIndex: 77,
+      orderIndex: 78,
       startTime: 351.0,
       endTime: 354.0,
       text: "I suppose I am.",
@@ -1117,7 +1117,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 78,
+      orderIndex: 79,
       startTime: 354.0,
       endTime: 361.0,
       text: "Hang on a second. There you have it. Local boy Sheldon Cooper says communism is what Texas needs.",
@@ -1129,7 +1129,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 18,
     },
     {
-      orderIndex: 79,
+      orderIndex: 80,
       startTime: 361.0,
       endTime: 372.0,
       text: "You are a grand old flag, you are a high-flying flag, and forever in peace may you wave.",
@@ -1138,10 +1138,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["grand old flag", "high-flying flag", "forever in peace"],
       explanationAi: "H\u00e0ng x\u00f3m bi\u1ec3u t\u00ecnh h\u00e1t qu\u1ed1c ca tr\u01b0\u1edbc s\u00e2n nh\u00e0 Cooper.",
       properNouns: [],
-      tokenCount: 19,
+      tokenCount: 18,
     },
     {
-      orderIndex: 80,
+      orderIndex: 81,
       startTime: 372.0,
       endTime: 376.0,
       text: "These people are atheists.",
@@ -1153,7 +1153,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 81,
+      orderIndex: 82,
       startTime: 376.0,
       endTime: 381.0,
       text: "I get it. They are not my people. You are my people. Then what is this all about?",
@@ -1165,7 +1165,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 18,
     },
     {
-      orderIndex: 82,
+      orderIndex: 83,
       startTime: 381.0,
       endTime: 388.0,
       text: "My son just wanted a better sandwich. Why is this so hard for you all to understand?",
@@ -1177,7 +1177,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 17,
     },
     {
-      orderIndex: 83,
+      orderIndex: 84,
       startTime: 388.0,
       endTime: 394.0,
       text: "God bless America, our home sweet home. Screw you! God bless America!",
@@ -1189,7 +1189,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 84,
+      orderIndex: 85,
       startTime: 394.0,
       endTime: 400.0,
       text: "Three, two. Thanks for having me on. You are welcome. Now, I understand you wanted to set the record straight regarding your son's communism.",
@@ -1198,10 +1198,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["set the record straight", "communism"],
       explanationAi: "Th\u00e0nh ng\u1eef 'set the record straight' (l\u00e0m s\u00e1ng t\u1ecf s\u1ef1 th\u1eadt tr\u01b0\u1edbc c\u00f4ng ch\u00fang).",
       properNouns: [],
-      tokenCount: 25,
+      tokenCount: 24,
     },
     {
-      orderIndex: 85,
+      orderIndex: 86,
       startTime: 400.0,
       endTime: 410.0,
       text: "Yes. No, he is not a communist. He is ten years old. Listen, I fought for this country. I love this country. My kids love this country. Is not that right, Sheldon?",
@@ -1213,7 +1213,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 32,
     },
     {
-      orderIndex: 86,
+      orderIndex: 87,
       startTime: 410.0,
       endTime: 415.5,
       text: "Yes. Although in all fairness, the social security system is a form of...",
@@ -1225,7 +1225,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 87,
+      orderIndex: 88,
       startTime: 415.5,
       endTime: 418.0,
       text: "You love this country!",
@@ -1237,7 +1237,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 88,
+      orderIndex: 89,
       startTime: 418.0,
       endTime: 421.5,
       text: "I love this country.",
@@ -1249,7 +1249,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 89,
+      orderIndex: 90,
       startTime: 421.5,
       endTime: 426.5,
       text: "My ultimate goal is to one day devise the grand unified field theory.",
@@ -1261,7 +1261,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 90,
+      orderIndex: 91,
       startTime: 426.5,
       endTime: 430.0,
       text: "You are one of those, are you?",
@@ -1273,7 +1273,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 7,
     },
     {
-      orderIndex: 91,
+      orderIndex: 92,
       startTime: 430.0,
       endTime: 432.0,
       text: "Excuse me?",
@@ -1285,7 +1285,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 92,
+      orderIndex: 93,
       startTime: 432.0,
       endTime: 438.0,
       text: "Well, Kurt Godel's incompleteness theorems eliminate the possibility of a unified theory.",
@@ -1294,10 +1294,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["Kurt Godel", "incompleteness theorems", "eliminate the possibility"],
       explanationAi: "\u0110\u1ecbnh l\u00fd b\u1ea5t to\u00e0n c\u1ee7a Kurt Godel trong logic to\u00e1n h\u1ecdc.",
       properNouns: ["Kurt Godel"],
-      tokenCount: 13,
+      tokenCount: 12,
     },
     {
-      orderIndex: 93,
+      orderIndex: 94,
       startTime: 438.0,
       endTime: 441.5,
       text: "You honestly believe that?",
@@ -1309,7 +1309,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 94,
+      orderIndex: 95,
       startTime: 441.5,
       endTime: 448.0,
       text: "That is interesting. Tell me more about how Einstein's life goal was nothing but folly.",
@@ -1318,10 +1318,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["Einstein", "life goal", "nothing but folly"],
       explanationAi: "Sheldon m\u1ec9a mai khi c\u00f4ng tr\u00ecnh c\u1ee7a Einstein b\u1ecb coi l\u00e0 tr\u00f2 v\u00f4 ngh\u0129a.",
       properNouns: ["Einstein"],
-      tokenCount: 16,
+      tokenCount: 15,
     },
     {
-      orderIndex: 95,
+      orderIndex: 96,
       startTime: 448.0,
       endTime: 454.0,
       text: "I believe we have to look to gravity and its magnitude.",
@@ -1333,7 +1333,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 96,
+      orderIndex: 97,
       startTime: 454.0,
       endTime: 460.0,
       text: "It could be a repulsive force if you just add negative mass.",
@@ -1345,7 +1345,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 97,
+      orderIndex: 98,
       startTime: 460.0,
       endTime: 466.0,
       text: "I smiled and nodded like my Meemaw's Houston Oilers bobblehead.",
@@ -1354,10 +1354,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["smiled and nodded", "Houston Oilers bobblehead"],
       explanationAi: "H\u00ecnh \u1ea3nh so s\u00e1nh h\u00f3m h\u1ec9nh v\u1ec1 s\u1ef1 ki\u00ean nh\u1eabn ch\u1ecbu \u0111\u1ef1ng ng\u01b0\u1eddi kh\u00e1c.",
       properNouns: ["Meemaw", "Houston Oilers"],
-      tokenCount: 11,
+      tokenCount: 10,
     },
     {
-      orderIndex: 98,
+      orderIndex: 99,
       startTime: 466.0,
       endTime: 474.0,
       text: "And I also discovered a way that we could predict the masses of all the known particles using the Egyptian pyramids.",
@@ -1369,7 +1369,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 21,
     },
     {
-      orderIndex: 99,
+      orderIndex: 100,
       startTime: 474.0,
       endTime: 483.0,
       text: "In physics, there is a phenomenon known as supercritical assembly. If you bring enough material together in one place, in the right configuration, eventually it will explode.",
@@ -1381,7 +1381,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 27,
     },
     {
-      orderIndex: 100,
+      orderIndex: 101,
       startTime: 483.0,
       endTime: 488.0,
       text: "This is fun. Not a lot of people I can talk to scientist to scientist.",
@@ -1393,7 +1393,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 15,
     },
     {
-      orderIndex: 101,
+      orderIndex: 102,
       startTime: 488.0,
       endTime: 498.0,
       text: "You are not talking scientist to scientist. You are not a scientist. You are just a rich man that no one will be honest to because everyone wants your money.",
@@ -1405,7 +1405,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 30,
     },
     {
-      orderIndex: 102,
+      orderIndex: 103,
       startTime: 498.0,
       endTime: 512.0,
       text: "I have a special treat for you all today. My dear friend and former college roommate is here from the Johnson Space Center in Houston to talk to us about our space program.",
@@ -1417,7 +1417,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 33,
     },
     {
-      orderIndex: 103,
+      orderIndex: 104,
       startTime: 512.0,
       endTime: 522.0,
       text: "And yeah, I know what you are thinking. These guys were roomies. How does one go on to be a fancy scientist at NASA and the other is teaching freshman science at a public high school?",
@@ -1429,7 +1429,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 36,
     },
     {
-      orderIndex: 104,
+      orderIndex: 105,
       startTime: 522.0,
       endTime: 525.0,
       text: "Yeah, Sheldon, I was thinking that.",
@@ -1441,7 +1441,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 6,
     },
     {
-      orderIndex: 105,
+      orderIndex: 106,
       startTime: 525.0,
       endTime: 527.0,
       text: "Thank you.",
@@ -1453,7 +1453,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 106,
+      orderIndex: 107,
       startTime: 527.0,
       endTime: 536.0,
       text: "All right. Let us give a warm welcome to my good buddy, Dr. Ronald Hodges.",
@@ -1465,7 +1465,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 15,
     },
     {
-      orderIndex: 107,
+      orderIndex: 108,
       startTime: 536.0,
       endTime: 546.0,
       text: "Hey kids, glad to be here. And Hubert, the answer to your question is one of those roomies was busy studying while the other was out chasing high school girls.",
@@ -1477,7 +1477,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 30,
     },
     {
-      orderIndex: 108,
+      orderIndex: 109,
       startTime: 546.0,
       endTime: 551.0,
       text: "To be clear, they were all over eighteen.",
@@ -1489,7 +1489,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 8,
     },
     {
-      orderIndex: 109,
+      orderIndex: 110,
       startTime: 551.0,
       endTime: 560.0,
       text: "Well, now what I thought it would be fun to talk about today is what NASA is planning on doing beyond the space shuttle. Things like the first manned mission to Mars.",
@@ -1501,7 +1501,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 32,
     },
     {
-      orderIndex: 110,
+      orderIndex: 111,
       startTime: 560.0,
       endTime: 563.0,
       text: "Did you see the movie Aliens?",
@@ -1513,7 +1513,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 6,
     },
     {
-      orderIndex: 111,
+      orderIndex: 112,
       startTime: 563.0,
       endTime: 565.0,
       text: "I did.",
@@ -1525,7 +1525,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 112,
+      orderIndex: 113,
       startTime: 565.0,
       endTime: 567.0,
       text: "Did you think it was cool?",
@@ -1537,7 +1537,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 6,
     },
     {
-      orderIndex: 113,
+      orderIndex: 114,
       startTime: 567.0,
       endTime: 569.5,
       text: "Sure, I enjoyed it.",
@@ -1549,7 +1549,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 114,
+      orderIndex: 115,
       startTime: 569.5,
       endTime: 571.5,
       text: "Me, too.",
@@ -1561,7 +1561,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 115,
+      orderIndex: 116,
       startTime: 571.5,
       endTime: 574.0,
       text: "Football player, right?",
@@ -1573,7 +1573,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 116,
+      orderIndex: 117,
       startTime: 574.0,
       endTime: 576.0,
       text: "Yes, sir.",
@@ -1585,7 +1585,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 117,
+      orderIndex: 118,
       startTime: 576.0,
       endTime: 587.0,
       text: "Now, of course, before we can set out to explore the solar system, we have got a few minor problems to overcome. Not the least of which is every time we launch, it costs the US taxpayers hundreds of millions of dollars.",
@@ -1597,7 +1597,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 42,
     },
     {
-      orderIndex: 118,
+      orderIndex: 119,
       startTime: 587.0,
       endTime: 593.0,
       text: "Yes. If you want to save money, why do not you land the booster rockets instead of letting them drop in the ocean?",
@@ -1609,7 +1609,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 23,
     },
     {
-      orderIndex: 119,
+      orderIndex: 120,
       startTime: 593.0,
       endTime: 597.0,
       text: "That is a cute idea, but it is not technically possible.",
@@ -1621,7 +1621,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 120,
+      orderIndex: 121,
       startTime: 597.0,
       endTime: 599.0,
       text: "Why not?",
@@ -1633,7 +1633,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 121,
+      orderIndex: 122,
       startTime: 599.0,
       endTime: 603.5,
       text: "Well, it is hard to explain. The math is pretty complicated.",
@@ -1645,7 +1645,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 122,
+      orderIndex: 123,
       startTime: 603.5,
       endTime: 606.5,
       text: "Perhaps I could help you with it.",
@@ -1657,7 +1657,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 7,
     },
     {
-      orderIndex: 123,
+      orderIndex: 124,
       startTime: 606.5,
       endTime: 617.0,
       text: "I bet you could. I bet you could. I tell you what, here is a NASA patch. Why do not you have your mom sew that on your book bag?",
@@ -1669,7 +1669,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 30,
     },
     {
-      orderIndex: 124,
+      orderIndex: 125,
       startTime: 617.0,
       endTime: 622.0,
       text: "Now, who here wants to know how astronauts go to the bathroom?",
@@ -1681,7 +1681,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 125,
+      orderIndex: 126,
       startTime: 622.0,
       endTime: 628.0,
       text: "During liftoff, all the astronauts wear diapers.",
@@ -1693,7 +1693,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 7,
     },
     {
-      orderIndex: 126,
+      orderIndex: 127,
       startTime: 628.0,
       endTime: 637.5,
       text: "People often wonder why I chose to pursue a career in theoretical physics. I usually respond by saying, I wanted to unravel the inner workings of the universe.",
@@ -1705,7 +1705,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 28,
     },
     {
-      orderIndex: 127,
+      orderIndex: 128,
       startTime: 637.5,
       endTime: 643.0,
       text: "Perhaps when Captain Kirk said to boldly go, he meant in one of those.",
@@ -1717,7 +1717,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 14,
     },
     {
-      orderIndex: 128,
+      orderIndex: 129,
       startTime: 643.0,
       endTime: 648.8,
       text: "But the real answer was I wanted to prove this nincompoop wrong.",
@@ -1729,7 +1729,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 129,
+      orderIndex: 130,
       startTime: 648.8,
       endTime: 653.9,
       text: "I do not mean to be rude, but we have been waiting for an hour to see your boss.",
@@ -1741,7 +1741,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 19,
     },
     {
-      orderIndex: 130,
+      orderIndex: 131,
       startTime: 653.9,
       endTime: 656.0,
       text: "I am sorry, sir, but you did not have an appointment.",
@@ -1753,7 +1753,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 131,
+      orderIndex: 132,
       startTime: 656.0,
       endTime: 661.0,
       text: "We did not have an appointment because every time I called, you put me on hold.",
@@ -1765,7 +1765,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 16,
     },
     {
-      orderIndex: 132,
+      orderIndex: 133,
       startTime: 661.0,
       endTime: 665.0,
       text: "I am sure Dr. Hodges will see you as soon as he can.",
@@ -1777,7 +1777,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 133,
+      orderIndex: 134,
       startTime: 665.0,
       endTime: 668.0,
       text: "So, what do you want to do?",
@@ -1789,7 +1789,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 7,
     },
     {
-      orderIndex: 134,
+      orderIndex: 135,
       startTime: 668.0,
       endTime: 671.5,
       text: "Well, I guess we just got to be patient and wait.",
@@ -1801,7 +1801,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 135,
+      orderIndex: 136,
       startTime: 671.5,
       endTime: 673.5,
       text: "Screw it.",
@@ -1813,7 +1813,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 136,
+      orderIndex: 137,
       startTime: 673.5,
       endTime: 675.5,
       text: "Excuse me, sir! You cannot just...",
@@ -1825,7 +1825,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 6,
     },
     {
-      orderIndex: 137,
+      orderIndex: 138,
       startTime: 675.5,
       endTime: 685.0,
       text: "All right, here is the deal: my kid has got a damn ulcer because of you. So either you take him seriously or you are going to be taking me seriously.",
@@ -1837,7 +1837,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 31,
     },
     {
-      orderIndex: 138,
+      orderIndex: 139,
       startTime: 685.0,
       endTime: 689.0,
       text: "Janice, why do not you send the little boy in right away?",
@@ -1849,7 +1849,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 139,
+      orderIndex: 140,
       startTime: 689.0,
       endTime: 691.5,
       text: "He will see you now.",
@@ -1861,7 +1861,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 5,
     },
     {
-      orderIndex: 140,
+      orderIndex: 141,
       startTime: 691.5,
       endTime: 695.0,
       text: "You are up, Sheldon.",
@@ -1873,7 +1873,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 141,
+      orderIndex: 142,
       startTime: 695.0,
       endTime: 716.8,
       text: "And here near apogee, we gimbal the engine to exert a torque that executes a pitchover maneuver to flip the rocket by 180 degrees.",
@@ -1885,7 +1885,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 24,
     },
     {
-      orderIndex: 142,
+      orderIndex: 143,
       startTime: 716.8,
       endTime: 720.0,
       text: "Wow, that is very impressive. Thank you very much for taking the time.",
@@ -1897,7 +1897,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 143,
+      orderIndex: 144,
       startTime: 720.0,
       endTime: 722.5,
       text: "I am not done.",
@@ -1909,7 +1909,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 144,
+      orderIndex: 145,
       startTime: 722.5,
       endTime: 732.0,
       text: "Needless to say, we use a PID controller to minimize the dispersions to the landing site.",
@@ -1921,7 +1921,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 16,
     },
     {
-      orderIndex: 145,
+      orderIndex: 146,
       startTime: 732.0,
       endTime: 734.5,
       text: "Anything else?",
@@ -1933,7 +1933,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 146,
+      orderIndex: 147,
       startTime: 734.5,
       endTime: 739.0,
       text: "Yes, I would like a glass of water. It is time to take my Zantac.",
@@ -1945,7 +1945,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 15,
     },
     {
-      orderIndex: 147,
+      orderIndex: 148,
       startTime: 739.0,
       endTime: 743.0,
       text: "You have been in there quite a while.",
@@ -1957,7 +1957,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 8,
     },
     {
-      orderIndex: 148,
+      orderIndex: 149,
       startTime: 743.0,
       endTime: 748.0,
       text: "Well, the topic is science. He can be a real chatty patty.",
@@ -1969,7 +1969,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 12,
     },
     {
-      orderIndex: 149,
+      orderIndex: 150,
       startTime: 748.0,
       endTime: 750.5,
       text: "I am bored.",
@@ -1981,7 +1981,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 150,
+      orderIndex: 151,
       startTime: 750.5,
       endTime: 752.5,
       text: "Me, too.",
@@ -1993,7 +1993,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 2,
     },
     {
-      orderIndex: 151,
+      orderIndex: 152,
       startTime: 752.5,
       endTime: 764.0,
       text: "Someday somebody is going to write a book about Sheldon. Do not you want there to be a chapter about how loving and supportive you two were?",
@@ -2005,7 +2005,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 27,
     },
     {
-      orderIndex: 152,
+      orderIndex: 153,
       startTime: 764.0,
       endTime: 769.0,
       text: "Does not matter. I ain't reading it.",
@@ -2014,10 +2014,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["ain't reading it"],
       explanationAi: "C\u00e2u ch\u1ed1i t\u1eeb h\u00e0i h\u01b0\u1edbc \u0111\u1eb7c tr\u01b0ng phong c\u00e1ch George Sr.",
       properNouns: [],
-      tokenCount: 8,
+      tokenCount: 7,
     },
     {
-      orderIndex: 153,
+      orderIndex: 154,
       startTime: 769.0,
       endTime: 772.0,
       text: "This is groundbreaking work.",
@@ -2029,7 +2029,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 4,
     },
     {
-      orderIndex: 154,
+      orderIndex: 155,
       startTime: 772.0,
       endTime: 774.5,
       text: "Thank you. And?",
@@ -2041,7 +2041,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 3,
     },
     {
-      orderIndex: 155,
+      orderIndex: 156,
       startTime: 774.5,
       endTime: 776.5,
       text: "And?",
@@ -2053,7 +2053,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 1,
     },
     {
-      orderIndex: 156,
+      orderIndex: 157,
       startTime: 776.5,
       endTime: 780.0,
       text: "I thought you might want to apologize.",
@@ -2065,7 +2065,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 7,
     },
     {
-      orderIndex: 157,
+      orderIndex: 158,
       startTime: 780.0,
       endTime: 782.0,
       text: "Why?",
@@ -2077,7 +2077,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 1,
     },
     {
-      orderIndex: 158,
+      orderIndex: 159,
       startTime: 782.0,
       endTime: 785.5,
       text: "You tried to shut me up with a patch.",
@@ -2089,7 +2089,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 9,
     },
     {
-      orderIndex: 159,
+      orderIndex: 160,
       startTime: 785.5,
       endTime: 794.0,
       text: "Well, I give those to everyone. And you have to understand, Sheldon, that while your math is theoretically correct, we do not have the technical capability to execute it.",
@@ -2101,7 +2101,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 29,
     },
     {
-      orderIndex: 160,
+      orderIndex: 161,
       startTime: 794.0,
       endTime: 797.0,
       text: "So, I am ahead of my time.",
@@ -2113,7 +2113,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 7,
     },
     {
-      orderIndex: 161,
+      orderIndex: 162,
       startTime: 797.0,
       endTime: 799.5,
       text: "Well, it would appear so.",
@@ -2125,7 +2125,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 5,
     },
     {
-      orderIndex: 162,
+      orderIndex: 163,
       startTime: 799.5,
       endTime: 804.0,
       text: "All right. Call me when you catch up.",
@@ -2137,7 +2137,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 8,
     },
     {
-      orderIndex: 163,
+      orderIndex: 164,
       startTime: 804.0,
       endTime: 808.5,
       text: "Shelly, it is your last day of summer. Go out and enjoy it.",
@@ -2149,7 +2149,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 13,
     },
     {
-      orderIndex: 164,
+      orderIndex: 165,
       startTime: 808.5,
       endTime: 816.0,
       text: "And I have to learn the student handbook. Did you know extreme hairstyles, goatees, and mustaches are not allowed? I didn't.",
@@ -2158,10 +2158,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["student handbook", "extreme hairstyles", "goatees", "mustaches"],
       explanationAi: "Quy ch\u1ebf k\u1ef7 lu\u1eadt nghi\u00eam ng\u1eb7t c\u1ee7a tr\u01b0\u1eddng Medford High.",
       properNouns: [],
-      tokenCount: 22,
+      tokenCount: 21,
     },
     {
-      orderIndex: 165,
+      orderIndex: 166,
       startTime: 816.0,
       endTime: 820.0,
       text: "I personally find that very reassuring.",
@@ -2173,7 +2173,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 6,
     },
     {
-      orderIndex: 166,
+      orderIndex: 167,
       startTime: 820.0,
       endTime: 823.5,
       text: "Look what a beautiful day it is. Go play.",
@@ -2185,7 +2185,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 9,
     },
     {
-      orderIndex: 167,
+      orderIndex: 168,
       startTime: 823.5,
       endTime: 830.0,
       text: "Go play. If only life were that simple. There, I played.",
@@ -2197,7 +2197,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 168,
+      orderIndex: 169,
       startTime: 830.0,
       endTime: 838.0,
       text: "Hello, Billy Sparks. Hello, Matilda Sparks. I heard you are going to high school tomorrow.",
@@ -2209,7 +2209,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 15,
     },
     {
-      orderIndex: 169,
+      orderIndex: 170,
       startTime: 838.0,
       endTime: 844.0,
       text: "I am. You are going to have to find someone else to torment on the playground.",
@@ -2221,7 +2221,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 16,
     },
     {
-      orderIndex: 170,
+      orderIndex: 171,
       startTime: 844.0,
       endTime: 849.0,
       text: "Torment. She means to maliciously harass.",
@@ -2233,7 +2233,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 6,
     },
     {
-      orderIndex: 171,
+      orderIndex: 172,
       startTime: 849.0,
       endTime: 853.5,
       text: "Her ass? That is funny. Well, this was nice. Hey, doofus.",
@@ -2245,7 +2245,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 11,
     },
     {
-      orderIndex: 172,
+      orderIndex: 173,
       startTime: 853.5,
       endTime: 866.0,
       text: "Good girl. Hello. Hi. Who are you? I am Paige. I like your bow tie.",
@@ -2257,7 +2257,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 15,
     },
     {
-      orderIndex: 173,
+      orderIndex: 174,
       startTime: 866.0,
       endTime: 875.0,
       text: "Thank you. You seem awfully young, Paige. Are you with an adult who is taking this class?",
@@ -2269,7 +2269,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 17,
     },
     {
-      orderIndex: 174,
+      orderIndex: 175,
       startTime: 875.0,
       endTime: 887.0,
       text: "No. Dr. Sturgis heard about my research on quantum chromodynamics at high temperatures and invited me to audit his course. Is that so? Yes, he has been super nice.",
@@ -2281,7 +2281,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 29,
     },
     {
-      orderIndex: 175,
+      orderIndex: 176,
       startTime: 887.0,
       endTime: 898.0,
       text: "Interesting. Well, just so we are clear, he is my mentor. He is my Meemaw's boyfriend. And he had spaghetti and hot dogs at my house.",
@@ -2290,10 +2290,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["mentor", "Meemaw's boyfriend", "spaghetti and hot dogs"],
       explanationAi: "Sheldon \u0111em chi ti\u1ebft \u0103n u\u1ed1ng gia \u0111\u00ecnh ra kh\u1eb3ng \u0111\u1ecbnh v\u1ecb th\u1ebf th\u00e2n c\u1eadn.",
       properNouns: ["Meemaw"],
-      tokenCount: 27,
+      tokenCount: 26,
     },
     {
-      orderIndex: 176,
+      orderIndex: 177,
       startTime: 898.0,
       endTime: 910.0,
       text: "The spaghetti goes on hot dogs. No. You realize this is a very advanced class. We will be discussing deriving nuclear physics from the quark model. Do you know if he will be doing a full color octet calculation with matrix manipulations?",
@@ -2305,7 +2305,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 42,
     },
     {
-      orderIndex: 177,
+      orderIndex: 178,
       startTime: 910.0,
       endTime: 923.0,
       text: "I do not. Do you know how to differentiate under the integral sign? No. Oh, do you know anything? I know you are in my spot.",
@@ -2317,7 +2317,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 26,
     },
     {
-      orderIndex: 178,
+      orderIndex: 179,
       startTime: 923.0,
       endTime: 935.0,
       text: "How old are you? I am ten. I am ten, too. When is your birthday? February 26th. March 17th. I am the youngest person in this class. That is funny.",
@@ -2329,7 +2329,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 30,
     },
     {
-      orderIndex: 179,
+      orderIndex: 180,
       startTime: 935.0,
       endTime: 950.0,
       text: "Oh, good. I see you two have met. I am younger than him. How come you never mentioned she was coming to this class? I thought it would be a fun surprise. I do not like surprises. Neither do I. Then why did you do it?",
@@ -2341,7 +2341,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 46,
     },
     {
-      orderIndex: 180,
+      orderIndex: 181,
       startTime: 950.0,
       endTime: 962.0,
       text: "Some people like surprises. I love surprises. Did you enjoy this one? Yes. A 50 percent success rate. Not bad. Let us get started.",
@@ -2353,7 +2353,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 24,
     },
     {
-      orderIndex: 181,
+      orderIndex: 182,
       startTime: 962.0,
       endTime: 980.0,
       text: "Not since sharing a uterus with my twin sister have I been so unhappy sitting next to someone. A simile directly compares two things using the words like and as. I slept like a log. I am hungry as a horse. Your love is like bad medicine.",
@@ -2365,7 +2365,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 47,
     },
     {
-      orderIndex: 182,
+      orderIndex: 183,
       startTime: 980.0,
       endTime: 988.0,
       text: "Exactly. That is Bon Jovi. Okay. His hair is awesome.",
@@ -2377,7 +2377,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 10,
     },
     {
-      orderIndex: 183,
+      orderIndex: 184,
       startTime: 988.0,
       endTime: 1005.0,
       text: "Moving on. Metaphors are different from similes. I have been called a germaphobe, but I do find a single sneeze acceptable. It could be caused by dust, allergies, or really whatever nasal irritant floats your boat.",
@@ -2389,7 +2389,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 36,
     },
     {
-      orderIndex: 184,
+      orderIndex: 185,
       startTime: 1005.0,
       endTime: 1018.0,
       text: "However, during flu season, a second sneeze means a plague is upon the land and it is every man for himself.",
@@ -2401,7 +2401,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 21,
     },
     {
-      orderIndex: 185,
+      orderIndex: 186,
       startTime: 1018.0,
       endTime: 1025.0,
       text: "Where do you think you are going? Away from you. Why is that? I want to live.",
@@ -2413,7 +2413,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 17,
     },
     {
-      orderIndex: 186,
+      orderIndex: 187,
       startTime: 1025.0,
       endTime: 1038.0,
       text: "I am not sick. Get back in your seat. No, thank you. You know the rules. You cannot leave without a hall pass. May I have a hall pass? No, you may not. Now get back in your seat.",
@@ -2425,7 +2425,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 39,
     },
     {
-      orderIndex: 187,
+      orderIndex: 188,
       startTime: 1038.0,
       endTime: 1052.0,
       text: "Rules are the pillars of society. I love rules, but what benefit are rules to a dead man? Have you ever been in detention?",
@@ -2437,7 +2437,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 24,
     },
     {
-      orderIndex: 188,
+      orderIndex: 189,
       startTime: 1052.0,
       endTime: 1063.0,
       text: "No, but I do take the school bus and that is no party. It is like a mental hospital on wheels. That is a good use of simile.",
@@ -2449,7 +2449,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 28,
     },
     {
-      orderIndex: 189,
+      orderIndex: 190,
       startTime: 1063.0,
       endTime: 1076.0,
       text: "Thanks. Well, I will see you tomorrow, I hope. Hello, I am here for detention. Where is the teacher? Not here yet.",
@@ -2461,7 +2461,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 22,
     },
     {
-      orderIndex: 190,
+      orderIndex: 191,
       startTime: 1076.0,
       endTime: 1089.0,
       text: "Oh, I have three dollars. Feel free to share it with the others. Would you prefer a piece of paper? I have some in my briefcase.",
@@ -2473,7 +2473,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 26,
     },
     {
-      orderIndex: 191,
+      orderIndex: 192,
       startTime: 1089.0,
       endTime: 1098.0,
       text: "All right, losers. You know how this works: one hour, no talking, no horseplay. Sheldon? Hello, Mr. Givens. Why are you here?",
@@ -2485,7 +2485,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 22,
     },
     {
-      orderIndex: 192,
+      orderIndex: 193,
       startTime: 1098.0,
       endTime: 1114.0,
       text: "I did not want to catch a cold from Miss MacElroy, so I left her classroom without a hall pass. Well, something is going around. Actually, I have a little tickle in my throat. Okay, time to go. You have heard of fight or flight? This is flight.",
@@ -2497,7 +2497,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 48,
     },
     {
-      orderIndex: 193,
+      orderIndex: 194,
       startTime: 1114.0,
       endTime: 1128.0,
       text: "All right, just a little bit more. Easy, easy. There you go. Not bad, huh? I do not know, might look better by the fence. Look better? It is a big plastic crap house!",
@@ -2509,7 +2509,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 34,
     },
     {
-      orderIndex: 194,
+      orderIndex: 195,
       startTime: 1128.0,
       endTime: 1140.0,
       text: "You wanted a toilet? Voila! Where did you get it? From the high school. We got like ten of them for visiting teams. Give it a whirl. I would rather die.",
@@ -2521,7 +2521,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 31,
     },
     {
-      orderIndex: 195,
+      orderIndex: 196,
       startTime: 1140.0,
       endTime: 1156.1,
       text: "Is there a light inside? Nope. Trust me, that is a good thing. We will just tie a flashlight to the handle. I always wondered what rock bottom would look like. I checked, I am out.",
@@ -2533,7 +2533,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 36,
     },
     {
-      orderIndex: 196,
+      orderIndex: 197,
       startTime: 1156.1,
       endTime: 1178.0,
       text: "I had a plan to avoid using the porta-potty. I just had to get through the night until I could get back to my dorm in the morning. I lowered my overall liquid intake, skipped my pre-bed chamomile tea, and gave my bladder a stern talking-to. My bladder did not listen.",
@@ -2542,10 +2542,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["porta-potty", "liquid intake", "chamomile tea", "stern talking-to"],
       explanationAi: "Bi\u1ec7n ph\u00e1p nh\u1ecbn ti\u1ec3u khoa h\u1ecdc c\u1ee7a Sheldon b\u1ea5t th\u00e0nh.",
       properNouns: [],
-      tokenCount: 54,
+      tokenCount: 51,
     },
     {
-      orderIndex: 197,
+      orderIndex: 198,
       startTime: 1178.0,
       endTime: 1205.0,
       text: "I can do this. My body may have been weak, but my mind was strong. I just needed to think about this situation in a different way. Instead of a porta-potty, it was a TARDIS. Instead of Sheldon, I was Doctor Who, whose urine was ready to travel through space and time. For those who are not familiar, the TARDIS is bigger on the inside. This one, however, was smellier on the inside.",
@@ -2554,10 +2554,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["TARDIS", "Doctor Who", "travel through space and time", "smellier on the inside"],
       explanationAi: "Ph\u00e9p li\u00ean t\u01b0\u1edfng hoang \u0111\u01b0\u1eddng bi\u1ebfn b\u1ed1t v\u1ec7 sinh th\u00e0nh c\u1ed7 m\u00e1y TARDIS.",
       properNouns: ["TARDIS", "Doctor Who", "Sheldon"],
-      tokenCount: 74,
+      tokenCount: 73,
     },
     {
-      orderIndex: 198,
+      orderIndex: 199,
       startTime: 1205.0,
       endTime: 1228.0,
       text: "I cannot do this. I am not proud of this, but that night I relieved myself inside Billy Sparks' chicken coop. Until my wife, those hens were the only females I ever exposed myself to. I guess I could have left that part out. Oh well.",
@@ -2569,7 +2569,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 46,
     },
     {
-      orderIndex: 199,
+      orderIndex: 200,
       startTime: 1228.0,
       endTime: 1238.0,
       text: "Good afternoon. I am here for tutoring with Sheldon. Oh, he is helping you. Is not that nice? No, I am helping him. Sorry. I am tutoring him.",
@@ -2581,7 +2581,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 28,
     },
     {
-      orderIndex: 200,
+      orderIndex: 201,
       startTime: 1238.0,
       endTime: 1253.0,
       text: "Excuse me just a minute. Shelly, your tutor is here. I have been thinking about it, we should go home. Why? I miss Dad and football, the whole shebang.",
@@ -2593,7 +2593,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 29,
     },
     {
-      orderIndex: 201,
+      orderIndex: 202,
       startTime: 1253.0,
       endTime: 1270.0,
       text: "Honey, are you sure this is not because you need a tutor and she is a little girl? Leave me alone. Did not you say that you wanted to come here to learn new things and expand your horizons? What do I know? I am a dummkopf.",
@@ -2605,7 +2605,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 47,
     },
     {
-      orderIndex: 202,
+      orderIndex: 203,
       startTime: 1270.0,
       endTime: 1285.0,
       text: "Oh, nobody thinks that. I do. I thought we would get started with anti-de Sitter space. That sounds fun. What is that? I wish I could tell you.",
@@ -2614,10 +2614,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["anti-de Sitter space", "wish I could tell you"],
       explanationAi: "Kh\u00f4ng gian ph\u1ea3n de Sitter (anti-de Sitter space) trong v\u1eadt l\u00fd l\u01b0\u1ee3ng t\u1eed.",
       properNouns: [],
-      tokenCount: 29,
+      tokenCount: 28,
     },
     {
-      orderIndex: 203,
+      orderIndex: 204,
       startTime: 1285.0,
       endTime: 1302.0,
       text: "First off, I want to thank you both for coming. What did he do? He did not do anything. Gosh, Tom, I want to believe you. The problem is the curriculum here is not challenging enough for Sheldon. He gets bored and does not express himself in the most productive way.",
@@ -2629,7 +2629,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 51,
     },
     {
-      orderIndex: 204,
+      orderIndex: 205,
       startTime: 1302.0,
       endTime: 1320.0,
       text: "And so the square of sine plus cosine equals one. Sheldon, I did not want to embarrass you, so I am going to give you a moment to think about what you just said. MacElroy, what? I am wondering if you read the book you assigned to us, because I did.",
@@ -2641,7 +2641,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 51,
     },
     {
-      orderIndex: 205,
+      orderIndex: 206,
       startTime: 1320.0,
       endTime: 1330.0,
       text: "Twenty laps. Coach, if you are going to ask us to run, do not you think you should lead by example?",
@@ -2653,7 +2653,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 21,
     },
     {
-      orderIndex: 206,
+      orderIndex: 207,
       startTime: 1330.0,
       endTime: 1346.0,
       text: "So, you are saying he is being rude to his teachers? That is unacceptable. I will give him a talking-to. I do not know if I would call him rude. Well, put a word on it. Rude. Let us go with rude. Rude is good. So, what do you want us to do?",
@@ -2662,10 +2662,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["rude to teachers", "unacceptable", "talking-to"],
       explanationAi: "Tranh c\u00e3i xem c\u00f3 n\u00ean g\u1ecdi h\u00e0nh vi c\u1ee7a Sheldon l\u00e0 'v\u00f4 l\u1ec5' hay kh\u00f4ng.",
       properNouns: [],
-      tokenCount: 54,
+      tokenCount: 53,
     },
     {
-      orderIndex: 207,
+      orderIndex: 208,
       startTime: 1346.0,
       endTime: 1358.0,
       text: "I want you to consider another approach to his education. I recently had a nice chat with the head of Wilmont Academy for gifted children. Now, I told her all about Sheldon, and she seemed to think he would be a perfect fit over there.",
@@ -2677,7 +2677,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 45,
     },
     {
-      orderIndex: 208,
+      orderIndex: 209,
       startTime: 1358.0,
       endTime: 1372.0,
       text: "We already looked into private school. We cannot afford it. Not unless you are giving me a raise. I am not. Okay, just checking. Wilmont has been known to give children like Sheldon a full scholarship. Take a look at that.",
@@ -2689,7 +2689,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 41,
     },
     {
-      orderIndex: 209,
+      orderIndex: 210,
       startTime: 1372.0,
       endTime: 1384.0,
       text: "Hold on. This place is in Dallas. That is three hours away. Well, yeah, but what they do in cases like yours, they look for a local family for him to live with in Dallas.",
@@ -2701,7 +2701,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 35,
     },
     {
-      orderIndex: 210,
+      orderIndex: 211,
       startTime: 1384.0,
       endTime: 1402.0,
       text: "Dallas is certainly close enough that he can come home on the weekends. Look, we appreciate you going to bat for him, but he is just a wee little thing. We cannot ship him off to Dallas.",
@@ -2713,7 +2713,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 37,
     },
     {
-      orderIndex: 211,
+      orderIndex: 212,
       startTime: 1402.0,
       endTime: 1414.0,
       text: "Should not we talk about this first? What is there to talk about, George? This could be a great opportunity for Sheldon. He is nine years old. Oh, come on. You cannot measure him in Earth years. You are saying he is an alien?",
@@ -2725,7 +2725,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 44,
     },
     {
-      orderIndex: 212,
+      orderIndex: 213,
       startTime: 1414.0,
       endTime: 1426.0,
       text: "Well, in George's defense, that idea has been tossed around a little bit. That is a bad joke. Maybe you all are the aliens. I love my job.",
@@ -2734,10 +2734,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["in George's defense", "tossed around", "love my job"],
       explanationAi: "S\u1ef1 m\u1ec7t m\u1ecfi c\u1ee7a hi\u1ec7u tr\u01b0\u1edfng khi gi\u1ea3i quy\u1ebft tranh ch\u1ea5p gia \u0111\u00ecnh Cooper.",
       properNouns: ["George"],
-      tokenCount: 29,
+      tokenCount: 28,
     },
     {
-      orderIndex: 213,
+      orderIndex: 214,
       startTime: 1426.0,
       endTime: 1438.0,
       text: "I mean, why did I bother becoming a teacher? He knows what I am going to say before I say it, or I say it and look like a dumbbell.",
@@ -2749,7 +2749,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 30,
     },
     {
-      orderIndex: 214,
+      orderIndex: 215,
       startTime: 1438.0,
       endTime: 1450.0,
       text: "Miss Ingram, can I offer a suggestion? What? Never mind, you do it your way. No, tell me! Tell me how I am wrong. You assumed an extra axiom of Euclidean geometry without stating it.",
@@ -2761,7 +2761,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 35,
     },
     {
-      orderIndex: 215,
+      orderIndex: 216,
       startTime: 1450.0,
       endTime: 1464.0,
       text: "Was he right? Of course he is right, he is always right. Tell you what I do: I send him on little errands. Like the other day I told him, go to the supply room and get me a Frammeristan.",
@@ -2773,7 +2773,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 40,
     },
     {
-      orderIndex: 216,
+      orderIndex: 217,
       startTime: 1464.0,
       endTime: 1478.0,
       text: "What is a Frammeristan? No such thing, I made it up. He was gone the whole period. Genius! I am using that. What is going on here? You said he was going away! Liar!",
@@ -2785,7 +2785,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 34,
     },
     {
-      orderIndex: 217,
+      orderIndex: 218,
       startTime: 1478.0,
       endTime: 1494.0,
       text: "Impressive. You should major in computer science. No thanks, I will stick to real science. Dude, this is the future. I mean, computers are going to change the whole world.",
@@ -2797,7 +2797,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 30,
     },
     {
-      orderIndex: 218,
+      orderIndex: 219,
       startTime: 1494.0,
       endTime: 1512.0,
       text: "Maybe commerce, communications, media, and banking, but nothing important. What is so important about what you are studying? String theory. Where do I begin? It explains everything. It unifies the fundamental forces in an elegant way. Yeah, but what does it do? Get out.",
@@ -2809,7 +2809,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 44,
     },
     {
-      orderIndex: 219,
+      orderIndex: 220,
       startTime: 1512.0,
       endTime: 1530.0,
       text: "Well, that was Chernobyl adjacent. Sorry, still getting used to Texas. You do not have to be from Texas to flush. Noted. You grew up around here? Medford. It is not as nice as it sounds. Yeah. Now you ask where I am from. I do not do that.",
@@ -2821,7 +2821,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 49,
     },
     {
-      orderIndex: 220,
+      orderIndex: 221,
       startTime: 1530.0,
       endTime: 1550.0,
       text: "Cool. So, what is the girl situation here? I do not do that either. You into guys? I am into science. Everything else is a distraction. So, no video games? Starfire has not even been released yet, I am a beta tester. Oh my. I did not know his name or where he was from, but he was my new best friend.",
@@ -2833,7 +2833,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 62,
     },
     {
-      orderIndex: 221,
+      orderIndex: 222,
       startTime: 1550.0,
       endTime: 1564.0,
       text: "I cannot kill this guardian. He is too strong. Move over. What are you doing? Hang on. Ooh, that is a big gun. How did you do that? I just put in the cheat code.",
@@ -2845,7 +2845,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 35,
     },
     {
-      orderIndex: 222,
+      orderIndex: 223,
       startTime: 1564.0,
       endTime: 1576.0,
       text: "Excuse me, I do not cheat. No, it is not cheating. It is like a secret command that gives you extra powers. And it is called a what code? No, it is part of the game, they build it in.",
@@ -2857,7 +2857,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 40,
     },
     {
-      orderIndex: 223,
+      orderIndex: 224,
       startTime: 1576.0,
       endTime: 1590.0,
       text: "So, you condone cheating? Yeah, but you know, with a wink. I do not like winking either. What is wrong with winking? At the end of the day, it leaves you with an uneven number of blinks per eye.",
@@ -2869,7 +2869,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 39,
     },
     {
-      orderIndex: 224,
+      orderIndex: 225,
       startTime: 1590.0,
       endTime: 1608.0,
       text: "That is insane! Oh, I am insane? You are the cheating winker! Are you from California? Oh, now you want to know where I am from. I think I know enough. Goodbye. Thanks for cleaning up. You are welcome. The toilet bowl is still disinfecting, so I would not use it for another twenty to thirty minutes.",
@@ -2881,7 +2881,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 57,
     },
     {
-      orderIndex: 225,
+      orderIndex: 226,
       startTime: 1608.0,
       endTime: 1630.0,
       text: "I will keep the room clean if you keep the game clean. Okay. We had had our first fight, but at the end of the day, it really brought what is his name and I closer together.",
@@ -2893,7 +2893,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 37,
     },
     {
-      orderIndex: 226,
+      orderIndex: 227,
       startTime: 1630.0,
       endTime: 1642.0,
       text: "Hello. Am I correct that the bus to Dallas has a stop in Rusk? Yep. I would like to buy one ticket, please. You need an adult to buy it. Oh, I did not know. That is the rules.",
@@ -2905,7 +2905,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 39,
     },
     {
-      orderIndex: 227,
+      orderIndex: 228,
       startTime: 1642.0,
       endTime: 1660.0,
       text: "I am just trying to visit my friend in the hospital. Not the regular kind of hospital, a psychiatric hospital. He is actually a brilliant scientist in the field of theoretical physics, Dr. John Sturgis, you may have heard of him.",
@@ -2917,7 +2917,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 41,
     },
     {
-      orderIndex: 228,
+      orderIndex: 229,
       startTime: 1660.0,
       endTime: 1682.0,
       text: "Anyway, he is a great guy. We are almost the same height. And then he and my Meemaw became a romantic item. Not that there have not been bumps in the road. I actually helped them by writing up a relationship agreement. I love drawing up contracts, but I do not love drawing.",
@@ -2929,7 +2929,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 53,
     },
     {
-      orderIndex: 229,
+      orderIndex: 230,
       startTime: 1682.0,
       endTime: 1692.0,
       text: "Here you go, one ticket to Dallas with a stop in Rusk. But that is against the rules! I am an adult, I bought it.",
@@ -2941,7 +2941,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 25,
     },
     {
-      orderIndex: 230,
+      orderIndex: 231,
       startTime: 1692.0,
       endTime: 1708.0,
       text: "Ooh, a loophole! Thank you. I would tell you all about the etymology of the word loophole, but I have a bus to catch.",
@@ -2953,7 +2953,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 24,
     },
     {
-      orderIndex: 231,
+      orderIndex: 232,
       startTime: 1708.0,
       endTime: 1722.0,
       text: "Dots and dashes. Maybe it is Morse code. We think this is Morse code. What does it say? Gee, I do not know. What do you mean you do not know? You were in the army!",
@@ -2965,7 +2965,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 36,
     },
     {
-      orderIndex: 232,
+      orderIndex: 233,
       startTime: 1722.0,
       endTime: 1735.0,
       text: "Yeah, so? I cannot do a push-up either. Well, that is a separate problem. Okay, so how do we read it? I would say ask Sheldon, but he left after I clearly said not to.",
@@ -2974,10 +2974,10 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       keywords: ["cannot do push-up", "separate problem", "ask Sheldon"],
       explanationAi: "George Sr. t\u1ef1 th\u00fa kh\u00f4ng nh\u1edb g\u00ec v\u1ec1 m\u00e3 Morse.",
       properNouns: ["Sheldon"],
-      tokenCount: 36,
+      tokenCount: 35,
     },
     {
-      orderIndex: 233,
+      orderIndex: 234,
       startTime: 1735.0,
       endTime: 1750.0,
       text: "There must be a book on Morse code in here somewhere. Okay, where do we look? I do not know. I know how to use the card catalog. Go, go! You are just useless, are not you?",
@@ -2989,7 +2989,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 37,
     },
     {
-      orderIndex: 234,
+      orderIndex: 235,
       startTime: 1750.0,
       endTime: 1762.0,
       text: "Dot dot dot. S. Got it. Dot. E. All right. Another dot dot dot. S again.",
@@ -3001,7 +3001,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 16,
     },
     {
-      orderIndex: 235,
+      orderIndex: 236,
       startTime: 1762.0,
       endTime: 1774.0,
       text: "Okay, what do we have so far? I am taking a bus. Fun fact about buses... Come on! Does he really think these facts are fun?",
@@ -3013,7 +3013,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 26,
     },
     {
-      orderIndex: 236,
+      orderIndex: 237,
       startTime: 1774.0,
       endTime: 1782.0,
       text: "Not now. I have got it! He is headed to Rusk. He is going to the hospital to see John. I will call the police. Hurry!",
@@ -3025,7 +3025,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 26,
     },
     {
-      orderIndex: 237,
+      orderIndex: 238,
       startTime: 1782.0,
       endTime: 1788.0,
       text: "Is Shelly going to jail?",
@@ -3037,7 +3037,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 5,
     },
     {
-      orderIndex: 238,
+      orderIndex: 239,
       startTime: 1788.0,
       endTime: 1790.5,
       text: "No.",
@@ -3049,7 +3049,7 @@ export const LESSON_YOUNG_SHELDON_OUTSMARTING_EVERYONE_DEBATES: MockVideoLesson 
       tokenCount: 1,
     },
     {
-      orderIndex: 239,
+      orderIndex: 240,
       startTime: 1790.5,
       endTime: 1795.0,
       text: "Damn it!",

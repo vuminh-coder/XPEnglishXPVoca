@@ -50,7 +50,7 @@ export const QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: VideoQuizData = {
       "targetedConcept": "Iconic Catchphrase & Resilience: Just Keep Swimming",
       "targetedConceptEn": "Iconic Catchphrase & Resilience: Just Keep Swimming",
       "targetedConceptVi": "Khẩu hiệu biểu tượng & Nghị lực kiên cường: Cứ việc bơi tiếp",
-      "referenceSegmentIndex": 3
+      "referenceSegmentIndex": 4
     },
     {
       "id": "q_mov_ani_09_2",
@@ -82,7 +82,7 @@ export const QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: VideoQuizData = {
       "targetedConcept": "Pathological Memory Impairment: Short-Term Memory Loss",
       "targetedConceptEn": "Pathological Memory Impairment: Short-Term Memory Loss",
       "targetedConceptVi": "Khiếm khuyết nhận thức: Chứng mất trí nhớ ngắn hạn",
-      "referenceSegmentIndex": 0
+      "referenceSegmentIndex": 1
     },
     {
       "id": "q_mov_ani_09_3",
@@ -114,7 +114,7 @@ export const QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: VideoQuizData = {
       "targetedConcept": "Anatomical & Linguistic Innovation: The Concept of a 'Septopus'",
       "targetedConceptEn": "Anatomical & Linguistic Innovation: The Concept of a 'Septopus'",
       "targetedConceptVi": "Sáng tạo ngôn từ & Giải phẫu: Khái niệm bạch tuộc bảy chi 'Septopus'",
-      "referenceSegmentIndex": 14
+      "referenceSegmentIndex": 15
     },
     {
       "id": "q_mov_ani_09_4",
@@ -146,7 +146,7 @@ export const QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: VideoQuizData = {
       "targetedConcept": "Transactional Exchange & Motivation: The Orange Quarantine Tag",
       "targetedConceptEn": "Transactional Exchange & Motivation: The Orange Quarantine Tag",
       "targetedConceptVi": "Giao dịch và động lực nhân vật: Chiếc thẻ cách ly màu cam",
-      "referenceSegmentIndex": 17
+      "referenceSegmentIndex": 18
     },
     {
       "id": "q_mov_ani_09_5",
@@ -178,7 +178,7 @@ export const QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: VideoQuizData = {
       "targetedConcept": "Sensory Adaptation: Bailey's Echolocation & 'The World's Most Powerful Glasses'",
       "targetedConceptEn": "Sensory Adaptation: Bailey's Echolocation & 'The World's Most Powerful Glasses'",
       "targetedConceptVi": "Thích nghi giác quan: Định vị sóng âm của Bailey & Cặp kính quyền năng",
-      "referenceSegmentIndex": 33
+      "referenceSegmentIndex": 34
     },
     {
       "id": "q_mov_ani_09_6",
@@ -210,7 +210,7 @@ export const QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: VideoQuizData = {
       "targetedConcept": "Parental Devotion & Spatial Anchors: The Trails of Purple Seashells",
       "targetedConceptEn": "Parental Devotion & Spatial Anchors: The Trails of Purple Seashells",
       "targetedConceptVi": "Tình phụ tử mẫu tử & Điểm tựa không gian: Những vệt vỏ sò màu tím",
-      "referenceSegmentIndex": 40
+      "referenceSegmentIndex": 41
     },
     {
       "id": "q_mov_ani_09_7",
@@ -242,7 +242,7 @@ export const QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: VideoQuizData = {
       "targetedConcept": "Improvisational Problem-Solving: 'What Would Dory Do?'",
       "targetedConceptEn": "Improvisational Problem-Solving: 'What Would Dory Do?'",
       "targetedConceptVi": "Tư duy ứng biến linh hoạt: Dory sẽ hành động như thế nào?",
-      "referenceSegmentIndex": 44
+      "referenceSegmentIndex": 45
     },
     {
       "id": "q_mov_ani_09_8",
@@ -274,7 +274,7 @@ export const QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: VideoQuizData = {
       "targetedConcept": "Theme of Chosen Family & Emotional Memory: 'I Didn't Do It Alone'",
       "targetedConceptEn": "Theme of Chosen Family & Emotional Memory: 'I Didn't Do It Alone'",
       "targetedConceptVi": "Chủ đề gia đình lựa chọn & Ký ức cảm xúc: Tôi không đơn độc",
-      "referenceSegmentIndex": 48
+      "referenceSegmentIndex": 49
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
     "Hành trình kỳ diệu của cô cá đãng trí Dory tìm lại gia đình: Từ câu hát bất hủ 'Just keep swimming', cuộc gặp gỡ với bạch tuộc Hank 7 xúc tu, cá nhám voi cận thị Destiny, màn định vị sóng âm của cá voi trắng Bailey, đến vệt vỏ sò tình thân dẫn lối về mái ấm và bài học nhân văn về nghị lực phi thường.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 10,
         "endTime": 22,
         "text": "Hi, I'm Dory. I suffer from short-term memory loss.",
@@ -315,10 +315,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Dory"
         ],
-        "tokenCount": 11
+        "tokenCount": 9
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 23,
         "endTime": 34,
         "text": "It runs in my family... At least I think it does. Where are they?",
@@ -333,7 +333,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 35,
         "endTime": 48,
         "text": "There you go, sweetheart! Just remember: When life gets you down, you know what you gotta do?",
@@ -349,7 +349,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 49,
         "endTime": 62,
         "text": "Just keep swimming! Just keep swimming, swimming, swimming!",
@@ -363,7 +363,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 63,
         "endTime": 74,
         "text": "That's our girl! What do we do? We swim, swim, swim!",
@@ -375,10 +375,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Thành ngữ khen ngợi 'That's our girl!' biểu thị niềm tự hào cha mẹ dành cho con gái nhỏ.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 75,
         "endTime": 85,
         "text": "And if you ever get lost, just follow the purple shells all the way home.",
@@ -394,7 +394,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 88,
         "endTime": 104,
         "text": "I remembered something! The Jewel of Morro Bay, California!",
@@ -412,7 +412,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 106,
         "endTime": 120,
         "text": "They have names! My mom, my dad! Jenny and Charlie!",
@@ -430,7 +430,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 122,
         "endTime": 135,
         "text": "They're out there somewhere, and they miss me! I gotta find them!",
@@ -443,10 +443,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Động từ khiếm khuyết 'gotta find' nhấn mạnh quyết tâm mãnh liệt vượt lên trên rào cản của trí nhớ suy giảm.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 136,
         "endTime": 148,
         "text": "Dory, California is on the other side of the ocean! You can't just swim across the world on a whim!",
@@ -461,10 +461,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
             "Dory",
             "California"
         ],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 149,
         "endTime": 162,
         "text": "Dad, she remembered her family. We have to help her.",
@@ -479,7 +479,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 165,
         "endTime": 185,
         "text": "Whoa, dude! You're totally riding the EAC! Keep your flippers inside the current at all times!",
@@ -494,10 +494,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "EAC"
         ],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 195,
         "endTime": 215,
         "text": "Welcome to the Marine Life Institute, where we believe in Rescue, Rehabilitation, and Release.",
@@ -516,7 +516,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 220,
         "endTime": 235,
         "text": "Where am I? What happened? Hello? Can anyone hear me?",
@@ -531,7 +531,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 240,
         "endTime": 255,
         "text": "I am a septopus. I lost an arm, so that makes seven.",
@@ -546,7 +546,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 258,
         "endTime": 270,
         "text": "And you have an orange tag clipped to your fin.",
@@ -561,7 +561,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 275,
         "endTime": 295,
         "text": "An orange tag means you are getting transferred to the permanent aquarium in Cleveland.",
@@ -579,7 +579,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 300,
         "endTime": 320,
         "text": "That tag is my ticket out of here. Give me that tag, and I'll help you find your parents.",
@@ -591,10 +591,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Thành ngữ ẩn dụ 'ticket out of here' (lối thoát duy nhất, cơ hội giải phóng bản thân đến nơi mong muốn).",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 325,
         "endTime": 345,
         "text": "Deal! You help me locate my family in the Open Ocean exhibit, and the tag is all yours.",
@@ -612,7 +612,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 18
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 348,
         "endTime": 360,
         "text": "Just get in the coffee pot, and don't make a sound.",
@@ -624,10 +624,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Hình ảnh chiếc bình pha cà phê thủy tinh đựng nước - phương tiện vận chuyển ngộ nghĩnh đặc sắc xuyên suốt viện nghiên cứu.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 365,
         "endTime": 385,
         "text": "Ooh, look at you! You can camouflage! You completely blended in with the wall!",
@@ -642,7 +642,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 395,
         "endTime": 415,
         "text": "Dory! Is that really you? We used to talk through the pipes when we were little!",
@@ -659,7 +659,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 418,
         "endTime": 432,
         "text": "Destiny! My pipe pal! You're a whale shark!",
@@ -673,10 +673,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Destiny"
         ],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 435,
         "endTime": 455,
         "text": "I know! And I'm really clumsy because I'm completely nearsighted! I keep swimming into walls!",
@@ -689,10 +689,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Tính từ tật khúc xạ thị giác 'nearsighted' (cận thị) và tính cách 'clumsy' (vụng về, hậu đậu) tạo nên nét đáng yêu của Destiny.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 15
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 458,
         "endTime": 472,
         "text": "My head hurts! My echolocation is completely broken!",
@@ -707,7 +707,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 475,
         "endTime": 488,
         "text": "It's not broken, Bailey! You just have to believe in your sonar!",
@@ -721,10 +721,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Bailey"
         ],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 492,
         "endTime": 508,
         "text": "Off! Off! Off! Off! Gerald, get off our rock!",
@@ -740,7 +740,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 512,
         "endTime": 530,
         "text": "You need to get inside the institute? You need Becky! She's a loon!",
@@ -754,10 +754,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Becky"
         ],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 535,
         "endTime": 550,
         "text": "Just make eye contact and imprint on her! Don't break the stare!",
@@ -770,10 +770,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Thuật ngữ tập tính học động vật 'imprint on' (hiện tượng khắc vết/ghi dấu trong não chim non đối với cá thể đầu tiên nhìn thấy).",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 555,
         "endTime": 568,
         "text": "Roo-roo! Look at me, Becky, roo-roo!",
@@ -786,10 +786,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Becky"
         ],
-        "tokenCount": 8
+        "tokenCount": 6
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 572,
         "endTime": 585,
         "text": "It worked, Dad! She's picking up the bucket!",
@@ -801,10 +801,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Cụm động từ 'pick up' (nhặt lên, quắp lấy chiếc xô) đưa hai chú cá hề bay qua bầu trời California.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 590,
         "endTime": 605,
         "text": "We're flying through the air! Don't look down, Nemo!",
@@ -818,10 +818,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Nemo"
         ],
-        "tokenCount": 11
+        "tokenCount": 9
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 648,
         "endTime": 670,
         "text": "Don't panic. What would Dory do? If life gets you down, you just keep swimming!",
@@ -836,10 +836,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Dory"
         ],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 692,
         "endTime": 715,
         "text": "Oooohhh! The glasses are off! I can see the whole pipeline through the walls!",
@@ -855,7 +855,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 14
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 720,
         "endTime": 738,
         "text": "Dory, turn left at the next valve! You're almost in the ocean!",
@@ -870,10 +870,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Dory"
         ],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 745,
         "endTime": 765,
         "text": "Where is everybody? Did I lose them again? Please, someone help me...",
@@ -888,7 +888,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 795,
         "endTime": 815,
         "text": "Wait... Shells. Beautiful purple shells, neatly laid out in lines spreading out in all directions.",
@@ -904,7 +904,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 15
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 820,
         "endTime": 835,
         "text": "They're forming a path... Just like Dad said. Follow the shells all the way home.",
@@ -917,10 +917,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Sự liên kết cảm xúc trọn vẹn: lời dạy bảo của người cha năm xưa trở thành ánh sáng dẫn đường đưa Dory trở về cội nguồn.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 840,
         "endTime": 852,
         "text": "Dory? Is it really you, our sweet little kelpcake?",
@@ -937,7 +937,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 855,
         "endTime": 865,
         "text": "We knew you'd come home! We never gave up hope!",
@@ -949,10 +949,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Thành ngữ biểu thị lòng kiên định bất diệt 'never gave up hope' (không bao giờ từ bỏ niềm hy vọng).",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 868,
         "endTime": 888,
         "text": "We laid out trails of shells every single day, hoping you would follow them back to us.",
@@ -968,7 +968,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 17
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 890,
         "endTime": 905,
         "text": "Mom! Dad! You remembered me! I found you!",
@@ -983,7 +983,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 910,
         "endTime": 928,
         "text": "Marlin and Nemo are trapped in that truck heading to Cleveland! We have to save them!",
@@ -1003,7 +1003,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 16
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 932,
         "endTime": 950,
         "text": "Hit the gas, Dory? I don't have a license, and I don't have feet!",
@@ -1018,10 +1018,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Dory"
         ],
-        "tokenCount": 16
+        "tokenCount": 14
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 955,
         "endTime": 975,
         "text": "You don't need feet, Hank! Just use your tentacles on the pedals and steer the wheel!",
@@ -1036,10 +1036,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Hank"
         ],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 980,
         "endTime": 1002,
         "text": "Hang on to your suction cups! We're driving this truck into the bay!",
@@ -1052,10 +1052,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Cụm thành ngữ khẩu ngữ 'hang on' (bám chắc vào) kết hợp danh từ sinh học 'suction cups' (các giác hút trên xúc tu bạch tuộc).",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 1045,
         "endTime": 1065,
         "text": "You did it, Dory. You found your family, all on your own.",
@@ -1072,7 +1072,7 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "tokenCount": 12
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 1070,
         "endTime": 1092,
         "text": "No, Marlin, I didn't do it alone. I had you, and Nemo, and Hank, and Destiny, and Bailey.",
@@ -1090,10 +1090,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
             "Destiny",
             "Bailey"
         ],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 1095,
         "endTime": 1108,
         "text": "And now, I remember. And it's unforgettable.",
@@ -1105,10 +1105,10 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         ],
         "explanationAi": "Cú đảo ngược ngôn từ tuyệt diệu: Một kẻ mắc chứng mất trí nhớ kinh niên khẳng định điều thiêng liêng nhất là 'unforgettable' (không bao giờ quên).",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 1110,
         "endTime": 1117,
         "text": "Yes, Dory. It's completely unforgettable. Now let's go see the view.",
@@ -1122,9 +1122,9 @@ export const LESSON_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING: MockVideoLesson = {
         "properNouns": [
             "Dory"
         ],
-        "tokenCount": 13
+        "tokenCount": 11
     }
-],
+  ],
   quiz: QUIZ_FINDING_NEMO_DORY_JUST_KEEP_SWIMMING,
 };
 

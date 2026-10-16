@@ -8,7 +8,7 @@ export const passage_r1: ReadingPassage = {
   "icon": "📧",
   "coverImage": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=600&auto=format&fit=crop&q=80",
   "duration": "3 min",
-  "wordCount": 115,
+  "wordCount": 113,
   "passage": "Subject: Updated Office Hours During Holiday Season\n\nDear Staff,\n\nPlease be informed that starting December 20th, our office will operate on a reduced schedule. The office will open at 9:00 AM and close at 3:00 PM from Monday through Friday. This schedule will remain in effect until January 3rd.\n\nDuring this period, all urgent requests should be directed to the emergency contact line at extension 4500. Regular maintenance work on the heating system will be carried out on December 23rd, so the office temperature may be lower than usual on that day.\n\nPlease plan your tasks accordingly and ensure all critical deadlines are met before December 19th.\n\nBest regards,\nSarah Thompson\nOffice Manager",
   "translation": "Chủ đề: Cập nhật giờ làm việc văn phòng trong dịp lễ\n\nKính gửi toàn thể nhân viên,\n\nXin thông báo rằng bắt đầu từ ngày 20 tháng 12, văn phòng của chúng ta sẽ hoạt động theo lịch rút ngắn. Văn phòng sẽ mở cửa lúc 9:00 sáng và đóng cửa lúc 3:00 chiều từ Thứ Hai đến Thứ Sáu. Lịch trình này sẽ duy trì cho đến ngày 3 tháng 1.\n\nTrong thời gian này, mọi yêu cầu khẩn cấp xin vui lòng liên hệ đường dây nóng theo số máy lẻ 4500. Công tác bảo trì hệ thống sưởi định kỳ sẽ diễn ra vào ngày 23 tháng 12, do đó nhiệt độ văn phòng có thể thấp hơn bình thường vào ngày hôm đó.\n\nXin vui lòng sắp xếp công việc hợp lý và hoàn thành mọi hạn chót quan trọng trước ngày 19 tháng 12.\n\nTrân trọng,\nSarah Thompson\nTrưởng phòng Hành chính",
   "vocabularies": [

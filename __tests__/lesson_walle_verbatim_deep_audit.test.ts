@@ -124,36 +124,36 @@ describe("WALL-E: Hidden Meaning, Captain McCrea & 'I Want to Live' (mov_ani_11)
     const quiz = QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE;
     expect(quiz.questions.length).toBe(8);
 
-    // Q1 -> referenceSegmentIndex 17
-    expect(quiz.questions[0].referenceSegmentIndex).toBe(17);
+    // Q1 -> referenceSegmentIndex 18
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(18);
     expect(LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments[17].text).toContain("mass consumerism");
 
-    // Q2 -> referenceSegmentIndex 21
-    expect(quiz.questions[1].referenceSegmentIndex).toBe(21);
+    // Q2 -> referenceSegmentIndex 22
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(22);
     expect(LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments[21].text).toContain("Charlie Chaplin");
 
-    // Q3 -> referenceSegmentIndex 25
-    expect(quiz.questions[2].referenceSegmentIndex).toBe(25);
+    // Q3 -> referenceSegmentIndex 26
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(26);
     expect(LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments[25].text).toContain("autonomy for automation");
 
-    // Q4 -> referenceSegmentIndex 29
-    expect(quiz.questions[3].referenceSegmentIndex).toBe(29);
+    // Q4 -> referenceSegmentIndex 30
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(30);
     expect(LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments[29].text).toContain("The Blue Danube");
 
-    // Q5 -> referenceSegmentIndex 33
-    expect(quiz.questions[4].referenceSegmentIndex).toBe(33);
+    // Q5 -> referenceSegmentIndex 34
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(34);
     expect(LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments[33].text).toContain("genesis");
 
-    // Q6 -> referenceSegmentIndex 45
-    expect(quiz.questions[5].referenceSegmentIndex).toBe(45);
+    // Q6 -> referenceSegmentIndex 46
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(46);
     expect(LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments[45].text).toContain("I want to live");
 
-    // Q7 -> referenceSegmentIndex 27
-    expect(quiz.questions[6].referenceSegmentIndex).toBe(27);
+    // Q7 -> referenceSegmentIndex 28
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(28);
     expect(LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments[27].text).toContain("physical and mental atrophy");
 
-    // Q8 -> referenceSegmentIndex 38
-    expect(quiz.questions[7].referenceSegmentIndex).toBe(38);
+    // Q8 -> referenceSegmentIndex 39
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(39);
     expect(LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE.segments[38].text).toContain("Also Sprach Zarathustra");
   });
 });

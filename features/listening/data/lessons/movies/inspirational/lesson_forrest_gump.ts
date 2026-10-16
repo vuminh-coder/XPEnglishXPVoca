@@ -50,7 +50,7 @@ export const QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE: VideoQuizData = {
       "targetedConcept": "Pop Culture Catchphrases",
       "targetedConceptEn": "Pop Culture Catchphrases",
       "targetedConceptVi": "Những câu thoại biểu tượng văn hóa đại chúng",
-      "referenceSegmentIndex": 5
+      "referenceSegmentIndex": 6
     },
     {
       "id": "mov_insp_05_q2",
@@ -82,7 +82,7 @@ export const QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE: VideoQuizData = {
       "targetedConcept": "Method Acting & Accent Adoption",
       "targetedConceptEn": "Method Acting & Accent Adoption",
       "targetedConceptVi": "Phương pháp tiếp cận và mô phỏng ngữ điệu nhân vật",
-      "referenceSegmentIndex": 11
+      "referenceSegmentIndex": 12
     },
     {
       "id": "mov_insp_05_q3",
@@ -114,7 +114,7 @@ export const QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE: VideoQuizData = {
       "targetedConcept": "Dialectology & Regional Phonetics",
       "targetedConceptEn": "Dialectology & Regional Phonetics",
       "targetedConceptVi": "Ngữ âm học phương ngữ vùng miền",
-      "referenceSegmentIndex": 15
+      "referenceSegmentIndex": 16
     },
     {
       "id": "mov_insp_05_q4",
@@ -146,7 +146,7 @@ export const QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE: VideoQuizData = {
       "targetedConcept": "Conversational Humor & Anecdotes",
       "targetedConceptEn": "Conversational Humor & Anecdotes",
       "targetedConceptVi": "Nghệ thuật kể chuyện hài hước trong giao tiếp",
-      "referenceSegmentIndex": 19
+      "referenceSegmentIndex": 20
     },
     {
       "id": "mov_insp_05_q5",
@@ -178,7 +178,7 @@ export const QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE: VideoQuizData = {
       "targetedConcept": "Film History Knowledge",
       "targetedConceptEn": "Film History Knowledge",
       "targetedConceptVi": "Kiến thức lịch sử điện ảnh quốc tế",
-      "referenceSegmentIndex": 23
+      "referenceSegmentIndex": 24
     },
     {
       "id": "mov_insp_05_q6",
@@ -210,7 +210,7 @@ export const QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE: VideoQuizData = {
       "targetedConcept": "British Satirical Self-Deprecation",
       "targetedConceptEn": "British Satirical Self-Deprecation",
       "targetedConceptVi": "Nghệ thuật tự trào hài hước kiểu Anh",
-      "referenceSegmentIndex": 38
+      "referenceSegmentIndex": 40
     },
     {
       "id": "mov_insp_05_q7",
@@ -242,7 +242,7 @@ export const QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE: VideoQuizData = {
       "targetedConcept": "Celebrity Philanthropy & Feats",
       "targetedConceptEn": "Celebrity Philanthropy & Feats",
       "targetedConceptVi": "Hoạt động từ thiện và chiến tích của người nổi tiếng",
-      "referenceSegmentIndex": 50
+      "referenceSegmentIndex": 55
     },
     {
       "id": "mov_insp_05_q8",
@@ -274,7 +274,7 @@ export const QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE: VideoQuizData = {
       "targetedConcept": "Philosophical Life Metaphor",
       "targetedConceptEn": "Philosophical Life Metaphor",
       "targetedConceptVi": "Ẩn dụ triết lý sống nhân văn",
-      "referenceSegmentIndex": 0
+      "referenceSegmentIndex": 1
     }
   ]
 };
@@ -301,871 +301,700 @@ export const LESSON_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE: MockVideoLesson
     "Tom Hanks chia sẻ trực tiếp trên The Graham Norton Show về câu chuyện hậu trường tạo nên giọng nói bất hủ của Forrest Gump từ cậu bé Michael Conner Humphreys vùng Mississippi, nguồn gốc tiếng hét 'Wilson!' nổi tiếng toàn cầu và những kỷ niệm hài hước đêm trao giải Oscar 1995 cùng Peter Capaldi và David Walliams.",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.32,
         "endTime": 5.36,
         "text": "Tom, lots of your fans in the audience, lot of your fans everywhere, but is it always the same?",
         "translationVi": "Tom này, có rất nhiều người hâm mộ của anh trong khán phòng, và ở khắp mọi nơi, nhưng liệu mọi chuyện có luôn giống nhau không?",
         "ipaUs": "/tɑːm, lɑːts əv jɔːr fænz ɪn ðɪ ˈɔːdiəns, lɑːt əv jɔːr fænz ˈɛvriˌwɛr, bʌt ɪz ɪt ˈɔːlweɪz ðə seɪm?/",
-        "keywords": [
-            "fans in the audience",
-            "always the same"
-        ],
+        "keywords": [ "fans in the audience", "always the same" ],
         "explanationAi": "Graham Norton mở đầu cuộc trò chuyện bằng câu hỏi về phản ứng của người hâm mộ khi gặp Tom Hanks ngoài đời.",
-        "properNouns": [
-            "Tom"
-        ],
+        "properNouns": [ "Tom" ],
         "tokenCount": 19
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 5.36,
         "endTime": 12.36,
         "text": "What do people mostly ask you? What would people mostly shout out to you when they see you?",
         "translationVi": "Mọi người thường hay hỏi anh điều gì nhất? Người ta thường hét lên câu gì khi tình cờ nhìn thấy anh?",
         "ipaUs": "/wɑːt duː ˈpiːpəl ˈmoʊstli æsk juː? wɑːt wʊd ˈpiːpəl ˈmoʊstli ʃaʊt aʊt tuː juː wɛn ðeɪ siː juː?/",
-        "keywords": [
-            "mostly ask",
-            "shout out"
-        ],
+        "keywords": [ "mostly ask", "shout out" ],
         "explanationAi": "'Shout out to someone' (gọi to, reo hò tên ai đó trên đường phố).",
         "properNouns": [],
         "tokenCount": 18
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 12.36,
         "endTime": 16.96,
         "text": "They used to yell, 'Houston, we have a problem!' They used to yell that.",
         "translationVi": "Trước đây họ từng hay hét lên: 'Houston, chúng ta gặp rắc rối rồi!' Họ từng hay hét câu đó.",
         "ipaUs": "/ðeɪ juːzd tuː jɛl, ˈhjuːstən, wiː hæv ə ˈprɑːbləm! ðeɪ juːzd tuː jɛl ðæt./",
-        "keywords": [
-            "used to yell",
-            "Houston, we have a problem"
-        ],
+        "keywords": [ "used to yell", "Houston, we have a problem" ],
         "explanationAi": "Câu thoại kinh điển của Tom Hanks trong bộ phim thám hiểm vũ trụ 'Apollo 13' (1995).",
-        "properNouns": [
-            "Houston"
-        ],
+        "properNouns": [ "Houston" ],
         "tokenCount": 14
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 16.96,
         "endTime": 21.72,
         "text": "And 'Run, Forrest, run!' That's a biggie.",
         "translationVi": "Và cả câu: 'Chạy đi, Forrest, chạy đi!' Đó là một câu cực kỳ nổi tiếng.",
         "ipaUs": "/ænd rʌn, ˈfɔːrɪst, rʌn! ðæts ə ˈbɪɡi./",
-        "keywords": [
-            "Run Forrest run",
-            "a biggie"
-        ],
+        "keywords": [ "Run Forrest run", "a biggie" ],
         "explanationAi": "'A biggie' là từ lóng tiếng Anh chỉ một sự kiện hoặc câu nói đặc biệt lớn, phổ biến rộng rãi.",
-        "properNouns": [
-            "Forrest"
-        ],
-        "tokenCount": 8
+        "properNouns": [ "Forrest" ],
+        "tokenCount": 7
     },
     {
-        "orderIndex": 4,
-        "startTime": 22.0,
+        "orderIndex": 5,
+        "startTime": 22,
         "endTime": 25.8,
         "text": "But now they just yell...",
         "translationVi": "Nhưng bây giờ họ chỉ hét lên...",
         "ipaUs": "/bʌt naʊ ðeɪ dʒʌst jɛl.../",
-        "keywords": [
-            "now they just yell"
-        ],
+        "keywords": [ "now they just yell" ],
         "explanationAi": "Tom Hanks tạo khoảng lặng kịch tính trước khi mô phỏng lại tiếng hét phổ biến nhất hiện nay.",
         "properNouns": [],
         "tokenCount": 5
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 25.8,
         "endTime": 30.08,
         "text": "WILSON!",
         "translationVi": "WILSON!",
         "ipaUs": "/ˈwɪlsən!/",
-        "keywords": [
-            "Wilson"
-        ],
+        "keywords": [ "Wilson" ],
         "explanationAi": "Tiếng hét tuyệt vọng gọi tên quả bóng chuyền người bạn đồng hành trong phim sinh tồn 'Cast Away' (2000).",
-        "properNouns": [
-            "Wilson"
-        ],
+        "properNouns": [ "Wilson" ],
         "tokenCount": 1
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 30.08,
         "endTime": 34.56,
         "text": "A lot of Wilson over there. Is it the same everywhere?",
         "translationVi": "Rất nhiều người hét Wilson đằng kia. Ở đâu cũng như vậy hả anh?",
         "ipaUs": "/ə lɑːt əv ˈwɪlsən ˈoʊvər ðɛr. ɪz ɪt ðə seɪm ˈɛvriˌwɛr?/",
-        "keywords": [
-            "same everywhere"
-        ],
+        "keywords": [ "same everywhere" ],
         "explanationAi": "Graham Norton ngạc nhiên trước mức độ phủ sóng rộng rãi của câu thoại qua nhiều thế hệ khán giả.",
-        "properNouns": [
-            "Wilson"
-        ],
+        "properNouns": [ "Wilson" ],
         "tokenCount": 11
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 34.56,
         "endTime": 41.64,
         "text": "Yes, evidently Wilson is a universal language, words that they don't bother dubbing into any other language.",
         "translationVi": "Đúng vậy, rõ ràng là cái tên Wilson đã trở thành một ngôn ngữ phổ quát toàn cầu, từ ngữ mà họ chẳng thèm lồng tiếng sang bất kỳ thứ tiếng nào khác.",
         "ipaUs": "/jɛs, ˈɛvɪdəntli ˈwɪlsən ɪz ə ˌjuːnɪˈvɜːrsəl ˈlæŋɡwɪdʒ, wɜːrdz ðæt ðeɪ doʊnt ˈbɑːðər ˈdʌbɪŋ ˈɪntuː ˈɛni ˈʌðər ˈlæŋɡwɪdʒ./",
-        "keywords": [
-            "universal language",
-            "dubbing into"
-        ],
+        "keywords": [ "universal language", "dubbing into" ],
         "explanationAi": "'Universal language' (ngôn ngữ toàn cầu); 'dubbing' (lồng tiếng phim sang ngôn ngữ địa phương).",
-        "properNouns": [
-            "Wilson"
-        ],
-        "tokenCount": 18
+        "properNouns": [ "Wilson" ],
+        "tokenCount": 17
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 41.64,
         "endTime": 47.24,
         "text": "So it's in Hindi, it's in Japanese, Chinese...",
         "translationVi": "Thế nên nó giữ nguyên trong tiếng Hindi, tiếng Nhật, tiếng Trung Quốc...",
         "ipaUs": "/soʊ ɪts ɪn ˈhɪndi, ɪts ɪn ˌdʒæpəˈniːz, tʃaɪˈniːz.../",
-        "keywords": [
-            "Hindi",
-            "Japanese",
-            "Chinese"
-        ],
+        "keywords": [ "Hindi", "Japanese", "Chinese" ],
         "explanationAi": "Liệt kê các ngôn ngữ lớn giữ nguyên âm thanh nguyên bản của từ 'Wilson'.",
-        "properNouns": [
-            "Hindi",
-            "Japanese",
-            "Chinese"
-        ],
-        "tokenCount": 10
+        "properNouns": [ "Hindi", "Japanese", "Chinese" ],
+        "tokenCount": 8
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 47.24,
         "endTime": 51.08,
         "text": "Pretty much all around the world.",
         "translationVi": "Hầu như trên toàn thế giới luôn.",
         "ipaUs": "/ˈprɪti mʌtʃ ɔːl əˈraʊnd ðə wɜːrld./",
-        "keywords": [
-            "all around the world"
-        ],
+        "keywords": [ "all around the world" ],
         "explanationAi": "'Pretty much' tương đương với 'almost completely' (gần như hoàn toàn).",
         "properNouns": [],
         "tokenCount": 6
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 51.08,
         "endTime": 58.56,
         "text": "I didn't realize until you were coming this time that in Forrest Gump, the famous voice you used as Forrest came from a specific person.",
         "translationVi": "Tôi đã không hề nhận ra cho tới tận lần anh đến đây rằng trong Forrest Gump, chất giọng nổi tiếng mà anh dùng thực ra bắt nguồn từ một người cụ thể.",
         "ipaUs": "/aɪ ˈdɪdənt ˈriːəˌlaɪz ənˈtɪl juː wɜːr ˈkʌmɪŋ ðɪs taɪm ðæt ɪn ˈfɔːrɪst ɡʌmp, ðə ˈfeɪməs vɔɪs juː juːzd æz ˈfɔːrɪst keɪm frʌm ə spəˈsɪfɪk ˈpɜːrsən./",
-        "keywords": [
-            "famous voice",
-            "specific person"
-        ],
+        "keywords": [ "famous voice", "specific person" ],
         "explanationAi": "Norton chuyển chủ đề sang câu chuyện hậu trường thú vị về quá trình xây dựng giọng nói nhân vật.",
-        "properNouns": [
-            "Forrest Gump",
-            "Forrest"
-        ],
-        "tokenCount": 26
+        "properNouns": [ "Forrest Gump", "Forrest" ],
+        "tokenCount": 25
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 58.56,
         "endTime": 65.56,
         "text": "Young Michael Conner Humphreys, who played young Forrest Gump. Bob Zemeckis came to me and said, 'Hey, we got a problem on this.'",
         "translationVi": "Cậu bé Michael Conner Humphreys, người đóng vai Forrest Gump lúc nhỏ. Đạo diễn Bob Zemeckis đến gặp tôi và bảo: 'Này, chúng ta có vấn đề rồi đây.'",
         "ipaUs": "/jʌŋ ˈmaɪkəl ˈkɑːnər ˈhʌmfriz, huː pleɪd jʌŋ ˈfɔːrɪst ɡʌmp. bɑːb zəˈmɛkɪs keɪm tuː miː ænd sɛd, heɪ, wiː ɡɑːt ə ˈprɑːbləm ɑːn ðɪs./",
-        "keywords": [
-            "Michael Conner Humphreys",
-            "Bob Zemeckis",
-            "got a problem"
-        ],
+        "keywords": [ "Michael Conner Humphreys", "Bob Zemeckis", "got a problem" ],
         "explanationAi": "Đạo diễn Robert Zemeckis nhận ra sự khác biệt quá lớn về giọng nói giữa diễn viên nhí và Tom Hanks.",
-        "properNouns": [
-            "Michael Conner Humphreys",
-            "Forrest Gump",
-            "Bob Zemeckis"
-        ],
+        "properNouns": [ "Michael Conner Humphreys", "Forrest Gump", "Bob Zemeckis" ],
         "tokenCount": 23
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 65.56,
         "endTime": 71.96,
         "text": "There's Michael right there, Sally and Michael. He was a very young man. He's now a veteran, he served in Afghanistan.",
         "translationVi": "Michael ở ngay trên ảnh kia kìa, Sally Field và Michael. Hồi đó cậu bé còn rất nhỏ. Bây giờ cậu ấy đã là cựu chiến binh, từng phục vụ tại Afghanistan.",
         "ipaUs": "/ðɛrz ˈmaɪkəl raɪt ðɛr, ˈsæli ænd ˈmaɪkəl. hiː wʌz ə ˈvɛri jʌŋ mæn. hiːz naʊ ə ˈvɛtərən, hiː sɜːrvd ɪn æfˈɡænɪˌstæn./",
-        "keywords": [
-            "Sally",
-            "veteran",
-            "served in Afghanistan"
-        ],
+        "keywords": [ "Sally", "veteran", "served in Afghanistan" ],
         "explanationAi": "Chi tiết đời thực cảm động: diễn viên nhí sau này nhập ngũ trở thành quân nhân phục vụ tại chiến trường Afghanistan.",
-        "properNouns": [
-            "Michael",
-            "Sally",
-            "Afghanistan"
-        ],
-        "tokenCount": 23
+        "properNouns": [ "Michael", "Sally", "Afghanistan" ],
+        "tokenCount": 21
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 71.96,
         "endTime": 76.76,
         "text": "Bob said, 'Okay, we got a problem here. You're gonna have to teach this kid how to talk the way you want to talk.'",
         "translationVi": "Bob bảo: 'Được rồi, chúng ta có vấn đề ở đây. Cậu sẽ phải dạy thằng bé này cách nói chuyện theo cách mà cậu muốn nói.'",
         "ipaUs": "/bɑːb sɛd, oʊˈkeɪ, wiː ɡɑːt ə ˈprɑːbləm hɪr. jʊr ˈɡɑːnə hæv tuː tiːtʃ ðɪs kɪd haʊ tuː tɔːk ðə weɪ juː wɑːnt tuː tɔːk./",
-        "keywords": [
-            "teach this kid",
-            "the way you want to talk"
-        ],
+        "keywords": [ "teach this kid", "the way you want to talk" ],
         "explanationAi": "Ý tưởng ban đầu của đạo diễn là yêu cầu đứa trẻ thay đổi giọng theo Tom Hanks.",
-        "properNouns": [
-            "Bob"
-        ],
-        "tokenCount": 25
+        "properNouns": [ "Bob" ],
+        "tokenCount": 24
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 76.76,
         "endTime": 83.56,
         "text": "And I thought, why don't I just talk the way he talks right now? And so we started hanging out with him.",
         "translationVi": "Và tôi nghĩ, tại sao tôi không nói chuyện theo đúng cách thằng bé đang nói ngay bây giờ nhỉ? Và thế là chúng tôi bắt đầu đi chơi cùng cậu bé.",
         "ipaUs": "/ænd aɪ θɔːt, waɪ doʊnt aɪ dʒʌst tɔːk ðə weɪ hiː tɔːks raɪt naʊ? ænd soʊ wiː ˈstɑːrtɪd ˈhæŋɪŋ aʊt wɪð hɪm./",
-        "keywords": [
-            "why don't I just talk",
-            "hanging out with him"
-        ],
+        "keywords": [ "why don't I just talk", "hanging out with him" ],
         "explanationAi": "Bước ngoặt diễn xuất thiên tài: người diễn viên ngôi sao quyết định học theo ngữ điệu tự nhiên của đứa trẻ bản xứ.",
         "properNouns": [],
-        "tokenCount": 23
+        "tokenCount": 22
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 83.56,
         "endTime": 91.12,
         "text": "He was from deep in Mississippi, and he had this hard G at the end. It wasn't 'thinking', it was 'think-ing'.",
         "translationVi": "Cậu bé đến từ vùng sâu bang Mississippi, và cậu ta có âm 'G' phát âm rất cứng ở đuôi. Không phải là 'thinking', mà là 'think-ing'.",
         "ipaUs": "/hiː wʌz frʌm diːp ɪn ˌmɪsɪˈsɪpi, ænd hiː hæd ðɪs hɑːrd dʒiː æt ðɪ ɛnd. ɪt ˈwʌzənt ˈθɪŋkɪŋ, ɪt wʌz θɪŋk ɪŋ./",
-        "keywords": [
-            "Mississippi",
-            "hard G",
-            "think-ing"
-        ],
+        "keywords": [ "Mississippi", "hard G", "think-ing" ],
         "explanationAi": "Đặc trưng ngữ âm học vùng miền: người dân Mississippi nhấn mạnh âm tắc /g/ ở đuôi hậu tố -ing.",
-        "properNouns": [
-            "Mississippi"
-        ],
-        "tokenCount": 23
+        "properNouns": [ "Mississippi" ],
+        "tokenCount": 21
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 91.12,
         "endTime": 97.32,
         "text": "It wasn't 'making', it was 'mak-ing'. I said, 'What does your father do?'",
         "translationVi": "Không phải là 'making', mà là 'mak-ing'. Tôi hỏi: 'Bố của cháu làm nghề gì?'",
         "ipaUs": "/ɪt ˈwʌzənt ˈmeɪkɪŋ, ɪt wʌz meɪk ɪŋ. aɪ sɛd, wɑːt dʌz jɔːr ˈfɑːðər duː?/",
-        "keywords": [
-            "mak-ing",
-            "father do"
-        ],
+        "keywords": [ "mak-ing", "father do" ],
         "explanationAi": "Tom Hanks trực tiếp thị phạm sự khác biệt trong cách phát âm trước khán giả.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 13
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 97.32,
         "endTime": 105.24,
         "text": "He goes, 'My daddy makes grease.' That's what he said! I said, 'Grease? Is grease something he makes?'",
         "translationVi": "Thằng bé bảo: 'Bố cháu làm mỡ.' Cậu ta nói thế đấy! Tôi hỏi: 'Mỡ hả? Mỡ là thứ bố cháu sản xuất ra à?'",
         "ipaUs": "/hiː ɡoʊz, maɪ ˈdædi meɪks ɡriːs. ðæts wʌt hiː sɛd! aɪ sɛd, ɡriːs? ɪz ɡriːs ˈsʌmθɪŋ hiː meɪks?/",
-        "keywords": [
-            "makes grease"
-        ],
+        "keywords": [ "makes grease" ],
         "explanationAi": "Mẩu đối thoại chân chất và hồn nhiên của cậu bé nông thôn miền Nam nước Mỹ.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 105.24,
-        "endTime": 114.0,
+        "endTime": 114,
         "text": "He says, 'Yes.' I said, 'What do you do with grease?' 'Well, grease goes into all different sorts of products.'",
         "translationVi": "Thằng bé bảo: 'Dạ vâng.' Tôi hỏi tiếp: 'Thế người ta dùng mỡ để làm gì?' 'À, mỡ được cho vào đủ các loại sản phẩm khác nhau ạ.'",
         "ipaUs": "/hiː sɛz, jɛs. aɪ sɛd, wɑːt duː juː duː wɪð ɡriːs? wɛl, ɡriːs ɡoʊz ˈɪntuː ɔːl ˈdɪfərənt sɔːrts əv ˈprɑːdəkts./",
-        "keywords": [
-            "different sorts of products"
-        ],
+        "keywords": [ "different sorts of products" ],
         "explanationAi": "'Sorts of products' (các chủng loại sản phẩm khác nhau).",
         "properNouns": [],
         "tokenCount": 20
     },
     {
-        "orderIndex": 19,
-        "startTime": 114.0,
+        "orderIndex": 20,
+        "startTime": 114,
         "endTime": 120.84,
         "text": "I said, 'Like what products?' 'Oh, grease goes into lipsticks!'",
         "translationVi": "Tôi hỏi: 'Ví dụ như sản phẩm gì nào?' 'Dạ, mỡ được cho vào son môi ạ!'",
         "ipaUs": "/aɪ sɛd, laɪk wɑːt ˈprɑːdəkts? oʊ, ɡriːs ɡoʊz ˈɪntuː ˈlɪpˌstɪks!/",
-        "keywords": [
-            "lipsticks"
-        ],
+        "keywords": [ "lipsticks" ],
         "explanationAi": "Câu trả lời bất ngờ làm cả trường quay Graham Norton bật cười thích thú.",
         "properNouns": [],
         "tokenCount": 10
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 122.08,
         "endTime": 127.52,
         "text": "And I was like, this is it! This is it!",
         "translationVi": "Và tôi thốt lên: Chính là nó rồi! Chính là cái này!",
         "ipaUs": "/ænd aɪ wʌz laɪk, ðɪs ɪz ɪt! ðɪs ɪz ɪt!/",
-        "keywords": [
-            "this is it"
-        ],
+        "keywords": [ "this is it" ],
         "explanationAi": "Khoảnh khắc 'Eureka' của Tom Hanks khi tìm thấy chìa khóa định hình toàn bộ linh hồn nhân vật.",
         "properNouns": [],
         "tokenCount": 10
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 127.52,
         "endTime": 134.16,
         "text": "So somewhere I have cassettes, hours and hours of me just making chit-chat with young Michael Conner.",
         "translationVi": "Thế nên ở đâu đó tôi vẫn còn giữ những cuốn băng cassette ghi lại hàng giờ đồng hồ tôi ngồi tán gẫu cùng cậu bé Michael Conner.",
         "ipaUs": "/soʊ ˈsʌmˌwɛr aɪ hæv kəˈsɛts, ˈaʊərz ænd ˈaʊərz əv miː dʒʌst ˈmeɪkɪŋ tʃɪt tʃæt wɪð jʌŋ ˈmaɪkəl ˈkɑːnər./",
-        "keywords": [
-            "cassettes",
-            "hours and hours",
-            "chit-chat"
-        ],
+        "keywords": [ "cassettes", "hours and hours", "chit-chat" ],
         "explanationAi": "'Chit-chat' (tán gẫu, trò chuyện thân mật thường ngày để bắt nhịp ngữ điệu).",
-        "properNouns": [
-            "Michael Conner"
-        ],
-        "tokenCount": 18
+        "properNouns": [ "Michael Conner" ],
+        "tokenCount": 17
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 134.16,
         "endTime": 140.72,
         "text": "He was seven or eight years old, and that was the vernacular that we spoke in, and it was priceless.",
         "translationVi": "Hồi đó cậu bé mới bảy hay tám tuổi, và đó chính là thổ ngữ địa phương mà chúng tôi đã nói, nó thực sự vô giá.",
         "ipaUs": "/hiː wʌz ˈsɛvən ɔːr eɪt jɪrz oʊld, ænd ðæt wʌz ðə vərˈnækjələr ðæt wiː spoʊk ɪn, ænd ɪt wʌz ˈpraɪslɪs./",
-        "keywords": [
-            "vernacular",
-            "priceless"
-        ],
+        "keywords": [ "vernacular", "priceless" ],
         "explanationAi": "'Vernacular' (thổ ngữ/tiếng địa phương); 'priceless' (vô giá, tuyệt vời không gì sánh bằng).",
         "properNouns": [],
         "tokenCount": 20
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 140.72,
         "endTime": 147.12,
         "text": "Oh, that's adorable! And of course, huge success for you. And the year you won, that was your second Oscar, wasn't it?",
         "translationVi": "Ồ, đáng yêu quá! Và tất nhiên, đó là thành công vang dội của anh. Năm đó anh đoạt giải, đó là tượng vàng Oscar thứ hai của anh phải không?",
         "ipaUs": "/oʊ, ðæts əˈdɔːrəbəl! ænd əv kɔːrs, hjuːdʒ səkˈsɛs fɔːr juː. ænd ðə jɪr juː wʌn, ðæt wʌz jɔːr ˈsɛkənd ˈɔːskər, ˈwʌzənt ɪt?/",
-        "keywords": [
-            "huge success",
-            "second Oscar"
-        ],
+        "keywords": [ "huge success", "second Oscar" ],
         "explanationAi": "Tom Hanks đoạt Oscar Nam chính năm 1994 (phim Philadelphia) và năm 1995 (phim Forrest Gump).",
-        "properNouns": [
-            "Oscar"
-        ],
-        "tokenCount": 24
+        "properNouns": [ "Oscar" ],
+        "tokenCount": 22
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 147.12,
         "endTime": 153.48,
         "text": "Well, yes, if I must mention it. But let me put it this way: it was my last one! How about that?",
         "translationVi": "Chà, vâng, nếu buộc phải nhắc tới. Nhưng để tôi nói thế này: đó cũng là giải Oscar cuối cùng của tôi cho tới nay! Thế mới hay chứ?",
         "ipaUs": "/wɛl, jɛs, ɪf aɪ mʌst ˈmɛnʃən ɪt. bʌt lɛt miː pʊt ɪt ðɪs weɪ: ɪt wʌz maɪ læst wʌn! haʊ əˈbaʊt ðæt?/",
-        "keywords": [
-            "last one",
-            "how about that"
-        ],
+        "keywords": [ "last one", "how about that" ],
         "explanationAi": "Lời nói đùa tự trào khiêm tốn của Tom Hanks về kỷ lục hai giải Oscar liên tiếp.",
         "properNouns": [],
         "tokenCount": 22
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 153.48,
         "endTime": 161.36,
         "text": "It was 1995, and that was a very special year for the man sitting beside you, Peter Capaldi, as I understand.",
         "translationVi": "Đó là năm 1995, và theo tôi được biết đó cũng là một năm vô cùng đặc biệt đối với người đàn ông ngồi cạnh anh, Peter Capaldi.",
         "ipaUs": "/ɪt wʌz ˈnaɪnˈtiːn ˈnaɪnti faɪv, ænd ðæt wʌz ə ˈvɛri ˈspɛʃəl jɪr fɔːr ðə mæn ˈsɪtɪŋ bɪˈsaɪd juː, ˈpiːtər kəˈpældi, æz aɪ ˌʌndərˈstænd./",
-        "keywords": [
-            "1995",
-            "Peter Capaldi"
-        ],
+        "keywords": [ "1995", "Peter Capaldi" ],
         "explanationAi": "Graham Norton chuyển hướng cuộc trò chuyện sang câu chuyện hài hước của Peter Capaldi.",
-        "properNouns": [
-            "Peter Capaldi"
-        ],
-        "tokenCount": 21
-    },
-    {
-        "orderIndex": 26,
-        "startTime": 161.36,
-        "endTime": 168.24,
-        "text": "Because that was the year you won an Oscar! — There again, I won an Oscar, yes, for a little short film.",
-        "translationVi": "Bởi vì đó chính là năm anh đã giành giải Oscar! — Đúng vậy, tôi đã thắng một giải Oscar cho một bộ phim ngắn nhỏ.",
-        "ipaUs": "/bɪˈkɔːz ðæt wʌz ðə jɪr juː wʌn ən ˈɔːskər! — ðɛr əˈɡɛn, aɪ wʌn ən ˈɔːskər, jɛs, fɔːr ə ˈlɪtl̩ ʃɔːrt fɪlm./",
-        "keywords": [
-            "won an Oscar",
-            "little short film"
-        ],
-        "explanationAi": "Peter Capaldi giành giải Oscar Phim ngắn người đóng năm 1995 cho 'Franz Kafka's It's a Wonderful Life'.",
-        "properNouns": [
-            "Oscar"
-        ],
+        "properNouns": [ "Peter Capaldi" ],
         "tokenCount": 21
     },
     {
         "orderIndex": 27,
+        "startTime": 161.36,
+        "endTime": 164.5,
+        "text": "Because that was the year you won an Oscar!",
+        "translationVi": "Bởi vì đó chính là năm anh đã giành giải Oscar!",
+        "ipaUs": "/bɪˈkɔːz ðæt wʌz ðə jɪr juː wʌn ən ˈɔːskər!/",
+        "keywords": [ "won an Oscar" ],
+        "explanationAi": "Graham Norton nhắc đến năm Peter Capaldi cùng được đề cử và thắng tượng vàng Oscar.",
+        "properNouns": [ "Oscar" ],
+        "tokenCount": 9
+    },
+    {
+        "orderIndex": 28,
+        "startTime": 164.5,
+        "endTime": 168.24,
+        "text": "There again, I won an Oscar, yes, for a little short film.",
+        "translationVi": "Đúng vậy, tôi đã thắng một giải Oscar cho một bộ phim ngắn nhỏ.",
+        "ipaUs": "/ðɛr əˈɡɛn, aɪ wʌn ən ˈɔːskər, jɛs, fɔːr ə ˈlɪtl̩ ʃɔːrt fɪlm./",
+        "keywords": [ "won an Oscar", "little short film" ],
+        "explanationAi": "Peter Capaldi giành giải Oscar Phim ngắn người đóng năm 1995 cho 'Franz Kafka's It's a Wonderful Life'.",
+        "properNouns": [ "Oscar" ],
+        "tokenCount": 12
+    },
+    {
+        "orderIndex": 29,
         "startTime": 168.24,
         "endTime": 175.72,
         "text": "I didn't even know that they gave Oscars for short films, but I had made this little short film because I was interested in filmmaking.",
         "translationVi": "Tôi thậm chí còn chẳng biết là người ta trao giải Oscar cho phim ngắn nữa cơ, nhưng tôi đã làm bộ phim nhỏ này vì tôi yêu thích đạo diễn phim.",
         "ipaUs": "/aɪ ˈdɪdənt ˈiːvən noʊ ðæt ðeɪ ɡeɪv ˈɔːskərz fɔːr ʃɔːrt fɪlmz, bʌt aɪ hæd meɪd ðɪs ˈlɪtl̩ ʃɔːrt fɪlm bɪˈkɔːz aɪ wʌz ˈɪntrəstɪd ɪn ˈfɪlmˌmeɪkɪŋ./",
-        "keywords": [
-            "Oscars for short films",
-            "filmmaking"
-        ],
+        "keywords": [ "Oscars for short films", "filmmaking" ],
         "explanationAi": "Sự ngây thơ bất ngờ của Peter Capaldi khi bắt đầu dấn thân vào con đường điện ảnh.",
-        "properNouns": [
-            "Oscars"
-        ],
-        "tokenCount": 26
+        "properNouns": [ "Oscars" ],
+        "tokenCount": 25
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 30,
         "startTime": 175.72,
         "endTime": 182.84,
         "text": "The next thing I knew, I was being telephoned and told that you were nominated for an Oscar. We didn't even have any money to get over there!",
         "translationVi": "Điều tiếp theo tôi biết là có người gọi điện thoại báo tin rằng tôi đã được đề cử giải Oscar. Chúng tôi khi ấy thậm chí còn chẳng có tiền để bay sang đó!",
         "ipaUs": "/ðə nɛkst θɪŋ aɪ nuː, aɪ wʌz ˈbiːɪŋ ˈtɛləˌfoʊnd ænd toʊld ðæt juː wɜːr ˈnɑːmɪˌneɪtɪd fɔːr ən ˈɔːskər. wiː ˈdɪdənt ˈiːvən hæv ˈɛni ˈmʌni tuː ɡɛt ˈoʊvər ðɛr!/",
-        "keywords": [
-            "nominated for an Oscar",
-            "get over there"
-        ],
+        "keywords": [ "nominated for an Oscar", "get over there" ],
         "explanationAi": "Hoàn cảnh kinh tế eo hẹp của các nhà làm phim độc lập kinh phí thấp tại Anh.",
-        "properNouns": [
-            "Oscar"
-        ],
-        "tokenCount": 29
+        "properNouns": [ "Oscar" ],
+        "tokenCount": 28
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 31,
         "startTime": 182.84,
         "endTime": 191.76,
         "text": "We managed to cobble together enough money to get over there, and we found ourselves at the Oscars with yourself and lots of other film stars.",
         "translationVi": "Chúng tôi cố gắng xoay xở gom góp đủ tiền để bay sang, và rồi chúng tôi thấy mình đang ở lễ trao giải Oscar cùng với anh và hàng loạt ngôi sao điện ảnh lẫy lừng.",
         "ipaUs": "/wiː ˈmænɪdʒd tuː ˈkɑːbəl təˈɡɛðər ɪˈnʌf ˈmʌni tuː ɡɛt ˈoʊvər ðɛr, ænd wiː faʊnd ˌaʊərˈsɛlvz æt ðɪ ˈɔːskərz wɪð jʊərˈsɛlf ænd lɑːts əv ˈʌðər fɪlm stɑːrz./",
-        "keywords": [
-            "cobble together",
-            "Oscars",
-            "film stars"
-        ],
+        "keywords": [ "cobble together", "Oscars", "film stars" ],
         "explanationAi": "'Cobble together' (chắp vá, xoay xở gom góp tiền bạc từ nhiều nguồn nhỏ).",
-        "properNouns": [
-            "Oscars"
-        ],
+        "properNouns": [ "Oscars" ],
         "tokenCount": 26
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 32,
         "startTime": 191.76,
         "endTime": 199.08,
         "text": "They called my name, and I got up on the stage. I looked down, and it was a huge auditorium like this.",
         "translationVi": "Họ xướng tên tôi, và tôi bước lên sân khấu. Tôi nhìn xuống dưới, và đó là một khán phòng khổng lồ giống như thế này.",
         "ipaUs": "/ðeɪ kɔːld maɪ neɪm, ænd aɪ ɡɑːt ʌp ɑːn ðə steɪdʒ. aɪ lʊkt daʊn, ænd ɪt wʌz ə hjuːdʒ ˌɔːdɪˈtɔːriəm laɪk ðɪs./",
-        "keywords": [
-            "called my name",
-            "huge auditorium"
-        ],
+        "keywords": [ "called my name", "huge auditorium" ],
         "explanationAi": "Cảm giác choáng ngợp trước sân khấu nhà hát Dorothy Chandler Pavilion tại Los Angeles.",
         "properNouns": [],
         "tokenCount": 22
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 33,
         "startTime": 199.08,
         "endTime": 208.12,
         "text": "It looked to me as if it was full of an Arnold Schwarzenegger look-alike, a Steve Martin look-alike, a Tom Hanks look-alike, except it was the real thing!",
         "translationVi": "Trông như thể khán phòng chứa đầy những kẻ đóng giả Arnold Schwarzenegger, kẻ đóng giả Steve Martin, kẻ đóng giả Tom Hanks, ngoại trừ việc họ là hàng thật!",
         "ipaUs": "/ɪt lʊkt tuː miː æz ɪf ɪt wʌz fʊl əv ən ˈɑːrnəld ˈʃwɔːrtsənˌɛɡər ˈlʊk əˌlaɪk, ə stiːv ˈmɑːrtn̩ ˈlʊk əˌlaɪk, ə tɑːm hæŋks ˈlʊk əˌlaɪk, ɪkˈsɛpt ɪt wʌz ðə ˈriːəl θɪŋ!/",
-        "keywords": [
-            "look-alike",
-            "real thing"
-        ],
+        "keywords": [ "look-alike", "real thing" ],
         "explanationAi": "'Look-alike' (người có ngoại hình giống hệt). Lối miêu tả hóm hỉnh khi não bộ không tin vào mắt mình.",
-        "properNouns": [
-            "Arnold Schwarzenegger",
-            "Steve Martin",
-            "Tom Hanks"
-        ],
-        "tokenCount": 31
+        "properNouns": [ "Arnold Schwarzenegger", "Steve Martin", "Tom Hanks" ],
+        "tokenCount": 28
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 34,
         "startTime": 208.12,
-        "endTime": 215.0,
+        "endTime": 215,
         "text": "It was sort of orgasmic. I don't know how it was for you, but for me, it was orgasmic!",
         "translationVi": "Cảm giác đó như một cơn cực khoái vậy. Tôi không biết với anh thì thế nào, nhưng với tôi, nó thực sự đê mê tột cùng!",
         "ipaUs": "/ɪt wʌz sɔːrt əv ɔːrˈɡæzmɪk. aɪ doʊnt noʊ haʊ ɪt wʌz fɔːr juː, bʌt fɔːr miː, ɪt wʌz ɔːrˈɡæzmɪk!/",
-        "keywords": [
-            "orgasmic"
-        ],
+        "keywords": [ "orgasmic" ],
         "explanationAi": "Từ miêu tả cảm giác hưng phấn tột độ làm cả trường quay vỗ tay tán thưởng.",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 35,
         "startTime": 215.01,
         "endTime": 223.12,
         "text": "Well, my last one was... orgasmic! But I knew as well it wouldn't last.",
         "translationVi": "À thì, giải Oscar cuối cùng của tôi cũng... đê mê lắm! Nhưng tôi cũng biết rõ là niềm vui ấy sẽ chẳng kéo dài lâu.",
         "ipaUs": "/wɛl, maɪ læst wʌn wʌz... ɔːrˈɡæzmɪk! bʌt aɪ nuː æz wɛl ɪt ˈwʊdənt læst./",
-        "keywords": [
-            "wouldn't last"
-        ],
+        "keywords": [ "wouldn't last" ],
         "explanationAi": "Tom Hanks hưởng ứng miếng hài duyên dáng của Peter Capaldi.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 36,
         "startTime": 223.12,
         "endTime": 231.04,
         "text": "Because obviously when you've just made a little short film, it doesn't have quite the same impact on your career.",
         "translationVi": "Bởi vì rõ ràng khi bạn vừa mới chỉ làm một bộ phim ngắn nhỏ, nó sẽ không có được tầm ảnh hưởng tương tự đối với sự nghiệp của bạn.",
         "ipaUs": "/bɪˈkɔːz ˈɑːbviəsli wɛn juːv dʒʌst meɪd ə ˈlɪtl̩ ʃɔːrt fɪlm, ɪt ˈdʌzənt hæv kwaɪt ðə seɪm ˈɪmpækt ɑːn jɔːr kəˈrɪr./",
-        "keywords": [
-            "short film",
-            "impact on your career"
-        ],
+        "keywords": [ "short film", "impact on your career" ],
         "explanationAi": "Thực tế khắc nghiệt của giải phim ngắn so với các giải thưởng phim điện ảnh lớn.",
         "properNouns": [],
-        "tokenCount": 22
+        "tokenCount": 20
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 37,
         "startTime": 231.04,
         "endTime": 237.8,
         "text": "They take you backstage, and they put you on a kind of conveyor belt, and they take you into a hangar with the world's press.",
         "translationVi": "Họ dẫn bạn vào hậu trường, đặt bạn lên một thứ như băng chuyền tự động, và đưa bạn vào một nhà vòm lớn chứa toàn bộ giới báo chí thế giới.",
         "ipaUs": "/ðeɪ teɪk juː ˈbækˌsteɪdʒ, ænd ðeɪ pʊt juː ɑːn ə kaɪnd əv kənˈveɪər bɛlt, ænd ðeɪ teɪk juː ˈɪntuː ə ˈhæŋər wɪð ðə wɜːrldz prɛs./",
-        "keywords": [
-            "conveyor belt",
-            "hangar",
-            "world's press"
-        ],
+        "keywords": [ "conveyor belt", "hangar", "world's press" ],
         "explanationAi": "'Conveyor belt' (băng chuyền); 'hangar' (nhà chứa máy bay/hội trường khổng lồ).",
         "properNouns": [],
-        "tokenCount": 26
+        "tokenCount": 25
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 38,
         "startTime": 237.8,
-        "endTime": 245.0,
+        "endTime": 245,
         "text": "All those pictures you see of people holding up their Oscar, they're taken on that stage.",
         "translationVi": "Tất cả những bức ảnh quý vị thấy mọi người giơ cao tượng vàng Oscar, đều được chụp trên bục sân khấu đó.",
         "ipaUs": "/ɔːl ðoʊz ˈpɪktʃərz juː siː əv ˈpiːpəl ˈhoʊldɪŋ ʌp ðɛr ˈɔːskər, ðɛr ˈteɪkən ɑːn ðæt steɪdʒ./",
-        "keywords": [
-            "holding up their Oscar"
-        ],
+        "keywords": [ "holding up their Oscar" ],
         "explanationAi": "Quy trình chụp ảnh lưu niệm chính thức của Viện Hàn lâm sau khi nhận giải.",
-        "properNouns": [
-            "Oscar"
-        ],
-        "tokenCount": 17
+        "properNouns": [ "Oscar" ],
+        "tokenCount": 16
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 39,
         "startTime": 245.01,
         "endTime": 253.92,
         "text": "And then they say, 'Would anyone like to talk to Peter Capaldi, winner of the short film for 1995?'",
         "translationVi": "Và rồi người điều phối cất tiếng: 'Có ai muốn phỏng vấn Peter Capaldi, người chiến thắng hạng mục phim ngắn năm 1995 không?'",
         "ipaUs": "/ænd ðɛn ðeɪ seɪ, wʊd ˈɛniˌwʌn laɪk tuː tɔːk tuː ˈpiːtər kəˈpældi, ˈwɪnər əv ðə ʃɔːrt fɪlm fɔːr ˈnaɪnˈtiːn ˈnaɪnti faɪv?/",
-        "keywords": [
-            "winner of the short film",
-            "Peter Capaldi"
-        ],
+        "keywords": [ "winner of the short film", "Peter Capaldi" ],
         "explanationAi": "Màn giới thiệu dẫn vào tình huống trớ trêu hài hước nhất của câu chuyện.",
-        "properNouns": [
-            "Peter Capaldi"
-        ],
+        "properNouns": [ "Peter Capaldi" ],
         "tokenCount": 19
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 40,
         "startTime": 256.32,
         "endTime": 265.28,
         "text": "Nobody! I mean, seriously, not one person! The tumbleweeds blew through my life!",
         "translationVi": "Không một ai cả! Ý tôi là nói nghiêm túc đấy, không lấy một người! Bụi cỏ lăn khô khốc như thổi qua cuộc đời tôi vậy!",
         "ipaUs": "/ˈnoʊˌbɑːdi! aɪ miːn, ˈsɪriəsli, nɑːt wʌn ˈpɜːrsən! ðə ˈtʌmbəlˌwiːdz bluː θruː maɪ laɪf!/",
-        "keywords": [
-            "not one person",
-            "tumbleweeds"
-        ],
+        "keywords": [ "not one person", "tumbleweeds" ],
         "explanationAi": "'Tumbleweeds' (cỏ lăn sa mạc) là hình ảnh ẩn dụ kinh điển của phim Viễn Tây chỉ sự vắng tanh, im bặt đến ngượng ngùng.",
         "properNouns": [],
         "tokenCount": 13
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 41,
         "startTime": 267.8,
         "endTime": 272.44,
         "text": "Have you got an Oscar, David?",
         "translationVi": "Anh có tượng Oscar nào không, David?",
         "ipaUs": "/hæv juː ɡɑːt ən ˈɔːskər, ˈdeɪvɪd?/",
-        "keywords": [
-            "got an Oscar",
-            "David"
-        ],
+        "keywords": [ "got an Oscar", "David" ],
         "explanationAi": "Graham Norton quay sang trêu chọc diễn viên hài David Walliams.",
-        "properNouns": [
-            "Oscar",
-            "David"
-        ],
+        "properNouns": [ "Oscar", "David" ],
         "tokenCount": 6
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 42,
         "startTime": 272.44,
         "endTime": 278.8,
         "text": "I think so. I'm not sure, I'll have to check when I get home. What is the theme of this show if you don't have one?",
         "translationVi": "Tôi nghĩ là có đấy. Tôi không chắc lắm, lát về nhà tôi phải kiểm tra lại xem sao. Chủ đề của cái chương trình này là gì thế nếu bạn không có tượng Oscar nào?",
         "ipaUs": "/aɪ θɪŋk soʊ. aɪm nɑːt ʃʊr, aɪl hæv tuː tʃɛk wɛn aɪ ɡɛt hoʊm. wɑːt ɪz ðə θiːm əv ðɪs ʃoʊ ɪf juː doʊnt hæv wʌn?/",
-        "keywords": [
-            "check when I get home",
-            "theme of this show"
-        ],
+        "keywords": [ "check when I get home", "theme of this show" ],
         "explanationAi": "David Walliams đối đáp hài hước trước sự áp đảo về danh hiệu của hai vị khách mời bên cạnh.",
         "properNouns": [],
-        "tokenCount": 29
+        "tokenCount": 26
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 43,
         "startTime": 278.8,
         "endTime": 284.88,
         "text": "I've probably got one, because it looks like they're pretty easy to get, I mean!",
         "translationVi": "Chắc tôi cũng có một cái đấy chứ, bởi trông như thể kiếm tượng Oscar cũng dễ ợt mà, ý tôi là vậy!",
         "ipaUs": "/aɪv ˈprɑːbəbli ɡɑːt wʌn, bɪˈkɔːz ɪt lʊks laɪk ðɛr ˈprɪti ˈiːzi tuː ɡɛt, aɪ miːn!/",
-        "keywords": [
-            "pretty easy to get"
-        ],
+        "keywords": [ "pretty easy to get" ],
         "explanationAi": "Lời nói đùa tếu táo làm Tom Hanks và Peter Capaldi cười lớn.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 15
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 44,
         "startTime": 284.88,
-        "endTime": 292.48,
-        "text": "Have you been, though? Have you been to the Oscars? — Of course I haven't been! Why would I go to the Oscars?",
-        "translationVi": "Thế anh đã từng đến dự lễ trao giải Oscar chưa? — Dĩ nhiên là chưa rồi! Tôi đến Oscar làm cái quái gì cơ chứ?",
-        "ipaUs": "/hæv juː biːn, ðoʊ? hæv juː biːn tuː ðɪ ˈɔːskərz? — əv kɔːrs aɪ ˈhævənt biːn! waɪ wʊd aɪ ɡoʊ tuː ðɪ ˈɔːskərz?/",
-        "keywords": [
-            "been to the Oscars"
-        ],
-        "explanationAi": "Phản xạ nhanh nhạy và tự nhiên tạo tiếng cười cho khán giả.",
-        "properNouns": [
-            "Oscars"
-        ],
-        "tokenCount": 23
+        "endTime": 288.2,
+        "text": "Have you been, though? Have you been to the Oscars?",
+        "translationVi": "Thế anh đã từng đến dự lễ trao giải Oscar chưa?",
+        "ipaUs": "/hæv juː biːn, ðoʊ? hæv juː biːn tuː ðɪ ˈɔːskərz?/",
+        "keywords": [ "been to the Oscars" ],
+        "explanationAi": "Graham Norton quay sang hỏi David Walliams xem anh đã từng tới dự Oscar chưa.",
+        "properNouns": [ "Oscars" ],
+        "tokenCount": 10
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 45,
+        "startTime": 288.2,
+        "endTime": 292.48,
+        "text": "Of course I haven't been! Why would I go to the Oscars?",
+        "translationVi": "Dĩ nhiên là chưa rồi! Tôi đến Oscar làm cái quái gì cơ chứ?",
+        "ipaUs": "/əv kɔːrs aɪ ˈhævənt biːn! waɪ wʊd aɪ ɡoʊ tuː ðɪ ˈɔːskərz?/",
+        "keywords": [ "why would I go" ],
+        "explanationAi": "Phản xạ hài hước tự trào của David Walliams khiến cả khán phòng bật cười.",
+        "properNouns": [ "Oscars" ],
+        "tokenCount": 12
+    },
+    {
+        "orderIndex": 46,
         "startTime": 292.48,
         "endTime": 300.68,
         "text": "It is great, isn't it? You get all that great free stuff. Even if you just went for a short film, they treat you wonderfully.",
         "translationVi": "Nó tuyệt vời lắm đúng không? Anh nhận được toàn bộ số quà tặng miễn phí xịn sò. Kể cả khi anh chỉ đi thi phim ngắn, họ vẫn đối đãi với anh vô cùng chu đáo.",
         "ipaUs": "/ɪt ɪz ɡreɪt, ˈɪzənt ɪt? juː ɡɛt ɔːl ðæt ɡreɪt friː stʌf. ˈiːvən ɪf juː dʒʌst wɛnt fɔːr ə ʃɔːrt fɪlm, ðeɪ triːt juː ˈwʌndərfəli./",
-        "keywords": [
-            "free stuff",
-            "gift basket"
-        ],
+        "keywords": [ "free stuff", "gift basket" ],
         "explanationAi": "Đề cập đến túi quà tặng danh giá của Oscar (Oscar gift bag) trị giá hàng chục nghìn đô la dành cho các ứng viên.",
         "properNouns": [],
-        "tokenCount": 26
+        "tokenCount": 25
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 47,
         "startTime": 300.68,
-        "endTime": 306.72,
-        "text": "Did you get the gift basket with all the goodies? — Actually, that was 1995, we were booked on economy to come back to London.",
-        "translationVi": "Anh có nhận được giỏ quà tặng đầy đồ ngọt và quà xịn không? — Thật ra hồi đó là năm 1995, chúng tôi đặt vé máy bay hạng phổ thông để bay về London.",
-        "ipaUs": "/dɪd juː ɡɛt ðə ɡɪft ˈbæskɪt wɪð ɔːl ðə ˈɡʊdiz? — ˈæktʃuəli, ðæt wʌz ˈnaɪnˈtiːn ˈnaɪnti faɪv, wiː wɜːr bʊkt ɑːn ɪˈkɑːnəmi tuː kʌm bæk tuː ˈlʌndən./",
-        "keywords": [
-            "gift basket",
-            "goodies",
-            "economy class"
-        ],
-        "explanationAi": "Peter Capaldi kể tiếp kỷ niệm dở khóc dở cười khi mang tượng vàng Oscar lên máy bay.",
-        "properNouns": [
-            "London"
-        ],
-        "tokenCount": 24
+        "endTime": 303.2,
+        "text": "Did you get the gift basket with all the goodies?",
+        "translationVi": "Anh có nhận được giỏ quà tặng đầy đồ ngọt và quà xịn không?",
+        "ipaUs": "/dɪd juː ɡɛt ðə ɡɪft ˈbæskɪt wɪð ɔːl ðə ˈɡʊdiz?/",
+        "keywords": [ "gift basket", "goodies" ],
+        "explanationAi": "Graham tò mò hỏi về giỏ quà xa xỉ huyền thoại trị giá hàng chục nghìn đô dành cho các đề cử Oscar.",
+        "properNouns": [],
+        "tokenCount": 10
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 48,
+        "startTime": 303.2,
+        "endTime": 306.72,
+        "text": "Actually, that was 1995, we were booked on economy to come back to London.",
+        "translationVi": "Thật ra hồi đó là năm 1995, chúng tôi đặt vé máy bay hạng phổ thông để bay về London.",
+        "ipaUs": "/ˈæktʃuəli, ðæt wʌz ˈnaɪnˈtiːn ˈnaɪnti faɪv, wiː wɜːr bʊkt ɑːn ɪˈkɑːnəmi tuː kʌm bæk tuː ˈlʌndən./",
+        "keywords": [ "economy", "come back to London" ],
+        "explanationAi": "Peter Capaldi kể kỷ niệm giản dị khi vừa ôm tượng vàng vừa ngồi vé hạng phổ thông bay về nước.",
+        "properNouns": [ "London" ],
+        "tokenCount": 14
+    },
+    {
+        "orderIndex": 49,
         "startTime": 306.72,
         "endTime": 316.24,
         "text": "I thought if I turn up at Los Angeles airport and place my Oscar on the counter, surely I'll get upgraded. I didn't!",
         "translationVi": "Tôi đã nghĩ nếu tôi xuất hiện ở sân bay Los Angeles và đặt tượng Oscar lên quầy làm thủ tục, thì chắc chắn tôi sẽ được nâng hạng vé. Nhưng không hề!",
         "ipaUs": "/aɪ θɔːt ɪf aɪ tɜːrn ʌp æt lɔːs ˈændʒələs ˈɛrˌpɔːrt ænd pleɪs maɪ ˈɔːskər ɑːn ðə ˈkaʊntər, ˈʃʊrli aɪl ɡɛt ʌpˈɡreɪdɪd. aɪ ˈdɪdənt!/",
-        "keywords": [
-            "Los Angeles airport",
-            "upgraded",
-            "place my Oscar"
-        ],
+        "keywords": [ "Los Angeles airport", "upgraded", "place my Oscar" ],
         "explanationAi": "Nhân viên sân bay không mảy may quan tâm đến bức tượng Oscar danh giá.",
-        "properNouns": [
-            "Los Angeles",
-            "Oscar"
-        ],
-        "tokenCount": 25
+        "properNouns": [ "Los Angeles", "Oscar" ],
+        "tokenCount": 23
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 50,
         "startTime": 316.24,
         "endTime": 326.92,
         "text": "And we were put in economy. It was great! We handed it around, and everybody in economy held up the Oscar!",
         "translationVi": "Và chúng tôi vẫn phải ngồi ở khoang phổ thông. Nhưng mà vui lắm! Chúng tôi chuyền tay nhau, và tất cả mọi người ở khoang phổ thông đều được cầm tượng Oscar!",
         "ipaUs": "/ænd wiː wɜːr pʊt ɪn ɪˈkɑːnəmi. ɪt wʌz ɡreɪt! wiː ˈhændɪd ɪt əˈraʊnd, ænd ˈɛvriˌbɑːdi ɪn ɪˈkɑːnəmi hɛld ʌp ðɪ ˈɔːskər!/",
-        "keywords": [
-            "handed it around",
-            "held up the Oscar"
-        ],
+        "keywords": [ "handed it around", "held up the Oscar" ],
         "explanationAi": "Bữa tiệc ăn mừng ấm áp, bình dân cùng những hành khách bình thường trên chuyến bay.",
-        "properNouns": [
-            "Oscar"
-        ],
+        "properNouns": [ "Oscar" ],
         "tokenCount": 21
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 51,
         "startTime": 326.92,
         "endTime": 336.08,
         "text": "It was like a night at the Opera, like all the people in the Titanic underneath waving an Oscar. It was great!",
         "translationVi": "Nó tựa như một đêm dạ tiệc Opera, giống như toàn bộ những người ở tầng dưới tàu Titanic đang cùng nhau vẫy tượng Oscar vậy. Thật tuyệt vời!",
         "ipaUs": "/ɪt wʌz laɪk ə naɪt æt ðɪ ˈɑːprə, laɪk ɔːl ðə ˈpiːpəl ɪn ðə taɪˈtænɪk ˌʌndərˈniːθ ˈweɪvɪŋ ən ˈɔːskər. ɪt wʌz ɡreɪt!/",
-        "keywords": [
-            "night at the Opera",
-            "Titanic"
-        ],
+        "keywords": [ "night at the Opera", "Titanic" ],
         "explanationAi": "So sánh dí dỏm với khoang hạng ba của con tàu Titanic huyền thoại.",
-        "properNouns": [
-            "Titanic"
-        ],
+        "properNouns": [ "Titanic" ],
         "tokenCount": 22
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 52,
         "startTime": 336.08,
         "endTime": 344.4,
         "text": "We've enjoyed the Oscar chat, but David, have you ever won anything?",
         "translationVi": "Chúng ta đã bàn luận rất rôm rả về Oscar rồi, nhưng David này, anh đã bao giờ giành được giải thưởng gì chưa?",
         "ipaUs": "/wiːv ɛnˈdʒɔɪd ðɪ ˈɔːskər tʃæt, bʌt ˈdeɪvɪd, hæv juː ˈɛvər wʌn ˈɛniˌθɪŋ?/",
-        "keywords": [
-            "won anything"
-        ],
+        "keywords": [ "won anything" ],
         "explanationAi": "Norton tiếp tục xoáy vào chủ đề giải thưởng để trêu David Walliams.",
-        "properNouns": [
-            "David"
-        ],
-        "tokenCount": 13
+        "properNouns": [ "David" ],
+        "tokenCount": 12
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 53,
         "startTime": 348.76,
-        "endTime": 354.48,
-        "text": "A bicycling trophy! Did you have perfect attendance in school? — Yes, I did actually, I got an award for that!",
-        "translationVi": "Một chiếc cúp đi xe đạp! Thế anh có bao giờ đạt điểm chuyên cần tuyệt đối ở trường không? — Thật ra là có đấy, tôi từng được nhận giải thưởng cho việc đó!",
-        "ipaUs": "/ə ˈbaɪsɪklɪŋ ˈtroʊfi! dɪd juː hæv ˈpɜːrfɪkt əˈtɛndəns ɪn skuːl? — jɛs, aɪ dɪd ˈæktʃuəli, aɪ ɡɑːt ən əˈwɔːrd fɔːr ðæt!/",
-        "keywords": [
-            "bicycling trophy",
-            "perfect attendance"
-        ],
-        "explanationAi": "'Perfect attendance' (chuyên cần 100%, không nghỉ học buổi nào).",
+        "endTime": 351.5,
+        "text": "A bicycling trophy! Did you have perfect attendance in school?",
+        "translationVi": "Một chiếc cúp đi xe đạp! Thế anh có bao giờ đạt điểm chuyên cần tuyệt đối ở trường không?",
+        "ipaUs": "/ə ˈbaɪsɪklɪŋ ˈtroʊfi! dɪd juː hæv ˈpɜːrfɪkt əˈtɛndəns ɪn skuːl?/",
+        "keywords": [ "bicycling trophy", "perfect attendance" ],
+        "explanationAi": "Graham Norton trêu chọc hỏi về giải thưởng chuyên cần thời đi học.",
         "properNouns": [],
-        "tokenCount": 20
+        "tokenCount": 10
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 54,
+        "startTime": 351.5,
+        "endTime": 354.48,
+        "text": "Yes, I did actually, I got an award for that!",
+        "translationVi": "Thật ra là có đấy, tôi từng được nhận giải thưởng cho việc đó!",
+        "ipaUs": "/jɛs, aɪ dɪd ˈæktʃuəli, aɪ ɡɑːt ən əˈwɔːrd fɔːr ðæt!/",
+        "keywords": [ "got an award" ],
+        "explanationAi": "David Walliams tự hào thừa nhận từng nhận được phần thưởng học sinh chuyên cần.",
+        "properNouns": [],
+        "tokenCount": 10
+    },
+    {
+        "orderIndex": 55,
         "startTime": 354.48,
         "endTime": 364.28,
         "text": "He won the hearts of the nation when he swam the English Channel for charity! Done that, done that!",
         "translationVi": "Anh ấy đã chiếm trọn trái tim của cả quốc gia khi anh ấy bơi qua eo biển Manche vì mục đích từ thiện! Đã làm được điều đó rồi nhé!",
         "ipaUs": "/hiː wʌn ðə hɑːrts əv ðə ˈneɪʃən wɛn hiː swæm ðɪ ˈɪŋɡlɪʃ ˈtʃænəl fɔːr ˈtʃærɪti! dʌn ðæt, dʌn ðæt!/",
-        "keywords": [
-            "won the hearts",
-            "swam the English Channel",
-            "charity"
-        ],
+        "keywords": [ "won the hearts", "swam the English Channel", "charity" ],
         "explanationAi": "Thành tích thể thao từ thiện phi thường của David Walliams bơi vượt eo biển Manche năm 2006 gây quỹ hàng triệu bảng Anh.",
-        "properNouns": [
-            "English Channel"
-        ],
+        "properNouns": [ "English Channel" ],
         "tokenCount": 19
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 56,
         "startTime": 376.2,
         "endTime": 384.56,
         "text": "We're now recording Toy Story 4, so we're doing that. It'll be out in 2018, as a matter of fact. It takes a long time.",
         "translationVi": "Hiện tại chúng tôi đang thu âm cho Toy Story 4, chúng tôi đang thực hiện việc đó. Phim sẽ ra rạp vào năm 2018. Nó đòi hỏi rất nhiều thời gian.",
         "ipaUs": "/wɪr naʊ rɪˈkɔːrdɪŋ tɔɪ ˈstɔːri fɔːr, soʊ wɪr ˈduːɪŋ ðæt. ˈɪtəl biː aʊt ɪn ˈtwɛnti eɪˈtiːn, æz ə ˈmætər əv fækt. ɪt teɪks ə lɔːŋ taɪm./",
-        "keywords": [
-            "recording Toy Story 4",
-            "takes a long time"
-        ],
+        "keywords": [ "recording Toy Story 4", "takes a long time" ],
         "explanationAi": "Tom Hanks chia sẻ tiến độ lồng tiếng cho nhân vật Woody trong loạt phim hoạt hình kinh điển Toy Story.",
-        "properNouns": [
-            "Toy Story 4"
-        ],
-        "tokenCount": 28
+        "properNouns": [ "Toy Story 4" ],
+        "tokenCount": 25
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 57,
         "startTime": 384.56,
+        "endTime": 387.8,
+        "text": "Are you not proud of your lad down there?",
+        "translationVi": "Anh có tự hào về chàng trai của anh ở đằng kia không?",
+        "ipaUs": "/ɑːr juː nɑːt praʊd əv jɔːr læd daʊn ðɛr?/",
+        "keywords": [ "proud of your lad" ],
+        "explanationAi": "Graham Norton hỏi mẹ của David Walliams ngồi dưới hàng ghế khán giả.",
+        "properNouns": [],
+        "tokenCount": 9
+    },
+    {
+        "orderIndex": 58,
+        "startTime": 387.8,
         "endTime": 394.16,
-        "text": "Are you not proud of your lad down there? — Very proud! Forty-two million books sold! One of these days, he just might win an Oscar!",
-        "translationVi": "Anh có tự hào về chàng trai của anh ở đằng kia không? — Rất tự hào chứ! Bốn mươi hai triệu cuốn sách đã được bán ra! Một ngày nào đó, cậu ấy hoàn toàn có thể đoạt giải Oscar!",
-        "ipaUs": "/ɑːr juː nɑːt praʊd əv jɔːr læd daʊn ðɛr? — ˈvɛri praʊd! ˈfɔːrti tuː ˈmɪljən bʊks soʊld! wʌn əv ðiːz deɪz, hiː dʒʌst maɪt wɪn ən ˈɔːskər!/",
-        "keywords": [
-            "very proud",
-            "forty-two million books",
-            "might win an Oscar"
-        ],
+        "text": "Very proud! Forty-two million books sold! One of these days, he just might win an Oscar!",
+        "translationVi": "Rất tự hào chứ! Bốn mươi hai triệu cuốn sách đã được bán ra! Một ngày nào đó, cậu ấy hoàn toàn có thể đoạt giải Oscar!",
+        "ipaUs": "/ˈvɛri praʊd! ˈfɔːrti tuː ˈmɪljən bʊks soʊld! wʌn əv ðiːz deɪz, hiː dʒʌst maɪt wɪn ən ˈɔːskər!/",
+        "keywords": [ "very proud", "forty-two million books", "might win an Oscar" ],
         "explanationAi": "Lời chúc tốt đẹp và khen ngợi sự nghiệp viết sách thiếu nhi thành công rực rỡ của David Walliams khép lại buổi trò chuyện.",
-        "properNouns": [
-            "Oscar"
-        ],
-        "tokenCount": 26
+        "properNouns": [ "Oscar" ],
+        "tokenCount": 16
     }
 ],
   quiz: QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE,

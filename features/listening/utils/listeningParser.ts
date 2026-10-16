@@ -8,6 +8,7 @@ export interface TranscriptSentence {
   id?: number | string;
   startTime: number; // in seconds
   endTime: number; // in seconds
+  duration?: number; // in seconds
   text: string;
   vietnamese: string;
   translation?: string;
@@ -290,7 +291,7 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
     quizzes.push(currentQuiz as ListeningQuiz);
   }
 
-  // Post-process sentence end times
+  // Post-process sentence end times, duration, translations, and word timings
   for (let idx = 0; idx < transcript.length; idx++) {
     const currentSent = transcript[idx];
     if (idx < transcript.length - 1) {
@@ -299,10 +300,46 @@ export function parseListeningMarkdown(markdownText: string): ListeningLesson {
       const wordCount = currentSent.text.split(/\s+/).length;
       currentSent.endTime = currentSent.startTime + Math.max(2.5, wordCount * 0.35 + 1.2);
     }
+    currentSent.duration = Number((currentSent.endTime - currentSent.startTime).toFixed(2));
+    if (!currentSent.translation) {
+      currentSent.translation = currentSent.vietnamese;
+    }
+    if (!currentSent.wordTimings || currentSent.wordTimings.length === 0) {
+      if (currentSent.words && currentSent.words.length > 0) {
+        currentSent.wordTimings = currentSent.words.map((w, wIdx) => {
+          const nextOffset = (wIdx < currentSent.words!.length - 1)
+            ? currentSent.words![wIdx + 1].offset
+            : Math.round((currentSent.duration || 3) * 1000);
+          return {
+            word: w.word,
+            start: w.offset,
+            end: Math.max(w.offset + 100, nextOffset)
+          };
+        });
+      } else {
+        const wordsList = currentSent.text.trim().split(/\s+/).filter(Boolean);
+        const totalMs = Math.round((currentSent.duration || 3) * 1000);
+        const msPerWord = wordsList.length > 0 ? Math.floor(totalMs / wordsList.length) : 300;
+        currentSent.wordTimings = wordsList.map((w, wIdx) => ({
+          word: w,
+          start: wIdx * msPerWord,
+          end: wIdx === wordsList.length - 1 ? totalMs : (wIdx + 1) * msPerWord
+        }));
+      }
+    }
+  }
+
+  if (lesson.vocabularyList) {
+    lesson.vocabularyList.forEach(v => {
+      if (!v.meaning) v.meaning = v.vietnamese;
+      if (v.ipa && !v.ipa.startsWith("/")) v.ipa = `/${v.ipa}`;
+      if (v.ipa && !v.ipa.endsWith("/")) v.ipa = `${v.ipa}/`;
+    });
   }
 
   lesson.vocabList = lesson.vocabularyList;
   lesson.vocabulary = lesson.vocabularyList;
+  lesson.quizList = lesson.quizzes;
 
   return lesson;
 }

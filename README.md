@@ -2459,9 +2459,12 @@ Toàn bộ 37 đề thi trong thư mục `lib/data/exam-papers/` đã được r
    - **Trên Desktop (`>= 640px`)**: Bố cục thẻ dọc đa cột (`sm:flex-col`, `md:grid-cols-3`, `xl:grid-cols-4`) giữ nguyên 100% tỷ lệ ảnh chuẩn `w-full aspect-[16/10]`, padding `p-3` và khung Double-Bezel lồng nhau sang trọng.
    - **Thanh Điều Hướng Đáy Mobile (`BottomNav`)**: Tự động hiển thị đầy đủ trên giao diện duyệt bài (Listing Mode) của cả 3 trang Luyện Đọc, Luyện Nghe và Shadowing; tự động ẩn mượt mà thông qua Zustand Store `hideBottomNav` khi người học bấm chọn bài để bước vào phòng thu Studio tập trung cao độ.
 
-4. **Dedicated Dual-Pane Reading Studio (`/study/reading/[id]` & `/study/reading`)**:
-   - **Kho Dữ Liệu 40 Bài Đọc Mô-đun Hóa Độc Lập (`passage_r1.ts` đến `passage_r40.ts`)**: Mở rộng toàn diện từ cấp độ A1 đến C2 với 40 tệp dữ liệu cô lập, không trùng lặp hay xung đột.
-   - **Chuẩn 5 Câu Hỏi Đọc Hiểu Chuyên Sâu Mỗi Bài (Tối Thiểu 200 Câu Toàn Hệ Thống)**: Mỗi bài đọc được trang bị tối thiểu 5 câu hỏi trắc nghiệm thiết kế theo chuẩn sư phạm quốc tế:
+4. **Dedicated Dual-Pane Reading Studio (`/study/reading/[id]` & `/study/reading`) — Chuẩn Master Edition 40/40 Passages**:
+   - **Kho Dữ Liệu 40 Bài Đọc Master Edition Mô-đun Hóa Độc Lập (`passage_r1.ts` đến `passage_r40.ts`)**: Mở rộng toàn diện từ cấp độ A1 đến C2 với 40 tệp dữ liệu cô lập, không trùng lặp hay xung đột.
+   - **100% Khớp Số Từ Tuyệt Đối (`Exact WordCount`)**: Số từ khai báo trong `wordCount` khớp chính xác 100% với số từ thực tế của đoạn văn tiếng Anh, triệt tiêu hoàn toàn sai số.
+   - **100% Đồng Bộ Đoạn Văn Song Ngữ (`Paragraph Parity`)**: Tỷ lệ đoạn văn tiếng Anh và bản dịch tiếng Việt đạt 1:1 tuyệt đối trên toàn bộ 40 bài đọc, bảo đảm đối ứng câu chữ chuẩn mực khi học viên đọc song ngữ.
+   - **Bộ Từ Vựng Học Thuật Chuẩn Quốc Tế ($\ge 4$ Từ/Bài)**: Mỗi bài có tối thiểu 4 từ vựng cao cấp đầy đủ phiên âm quốc tế bọc `/.../`, từ loại POS (`n`, `v`, `adj`, `adv`) và giải nghĩa tiếng Việt chính xác.
+   - **Chuẩn 5 Câu Hỏi Đọc Hiểu Chuyên Sâu Mỗi Bài (200 Câu Toàn Hệ Thống)**: Mỗi bài đọc được trang bị 5 câu hỏi trắc nghiệm thiết kế theo chuẩn sư phạm CEFR quốc tế:
      - **Câu 1 (Main Idea / Global Theme)**: Ý chính, chủ đề hoặc mục đích bao quát của văn bản.
      - **Câu 2 (Factual Detail / Timeline / Key Data)**: Thông tin sự kiện, mốc thời gian, số liệu chính xác trong bài.
      - **Câu 3 (Vocabulary in Context / Lexical Nuance)**: Từ vựng then chốt, ngữ nghĩa và sắc thái trong văn cảnh thực tế.
@@ -5989,42 +5992,42 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
     2. **`mov_sit_02` (Friends)**: YouTube ID `xT5zt93BbAg` (492s / 08:12 | 1,618,018 views) - *The Very Best of Chandler Bing’s Sarcasm & Wit* (✅ 118 Segments 1-indexed Master, 8 Quiz Questions Song Ngữ, 14/14 Tests PASS 100%).
     3. **`mov_sit_03` (Modern Family)**: YouTube ID `qMNsPjt7L4M` (710s / 11:50 | 1,102,020 views) - *The Best Of Phil Dunphy's Phil's-osophy & Dad Wisdom* (✅ 129 Segments 1-indexed Master, 8 Quiz Questions Song Ngữ, 14/14 Tests PASS 100%).
     4. **`mov_sit_04` (Modern Family)**: YouTube ID `72okAeSn5Tc` (888s / 14:48 | 162,749 views) - *Gloria’s Funniest Language Struggles & Accent Mix-ups* (✅ 74 Segments 1-indexed Master, 8 Quiz Questions Song Ngữ, 14/14 Tests PASS 100%).
-    5. **`mov_sit_05` (The Office)**: YouTube ID `Xnk4seEHmgw` (723s / 12:03 | 60,595,680 views) - *Jim Halpert's Best Pranks on Dwight Schrute (Bears, Beets, Battlestar Galactica)*.
-    6. **`mov_sit_06` (The Office)**: YouTube ID `Db1NdYbQhAA` (908s / 15:08 | 10,358,212 views) - *Michael Scott's Most Chaotic Conference Room Meetings*.
-    7. **`mov_sit_07` (How I Met Your Mother)**: YouTube ID `WjVtAbcT-po` (607s / 10:07 | 1,649,729 views) - *Barney Stinson's Greatest Theories, Rules & The Playbook* (✅ 105 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    8. **`mov_sit_08` (Brooklyn Nine-Nine)**: YouTube ID `EVKutiIBsw8` (2588s / 43:08 | 2,124,206 views) - *Jake Peralta's Cold Opens & "I Want It That Way" Lineup* (✅ 68 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    9. **`mov_sit_09` (The Big Bang Theory)**: YouTube ID `WjM9M-AdNho` (1328s / 22:08 | 6,059,786 views) - *12 Times Sheldon Showed His True Genius & Eccentricity* (✅ 170 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    10. **`mov_sit_10` (Young Sheldon)**: YouTube ID `EKEEalhsDOA` (1882s / 31:22 | 18,700,000 views) - *Young Sheldon Outsmarting Everyone & Winning Family Debates* (✅ 240 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    11. **`mov_sit_11` (Ted Lasso)**: YouTube ID `t1bveUz8RD0` (1047s / 17:27 | 1,855,225 views) - *The Iconic Darts Scene: "Be Curious, Not Judgmental" & Top Moments* (✅ 138 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    12. **`mov_sit_12` (Schitt’s Creek)**: YouTube ID `S_acAHyAKuI` (315s / 05:15 | 2,905,806 views) - *Alexis Rose & David's Most Iconic Sibling Bickering Moments* (✅ 71 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    5. **`mov_sit_05` (The Office)**: YouTube ID `Xnk4seEHmgw` (723s / 12:03 | 60,595,680 views) - *Jim Halpert's Best Pranks on Dwight Schrute (Bears, Beets, Battlestar Galactica)* (✅ 168 Segments 1-indexed Master, 8 Quiz Questions Song Ngữ, 14/14 Tests PASS 100%).
+    6. **`mov_sit_06` (The Office)**: YouTube ID `Db1NdYbQhAA` (908s / 15:08 | 10,358,212 views) - *Michael Scott's Most Chaotic Conference Room Meetings* (✅ 121 Segments 1-indexed Master, 8 Quiz Questions Song Ngữ, 14/14 Tests PASS 100%).
+    7. **`mov_sit_07` (How I Met Your Mother)**: YouTube ID `WjVtAbcT-po` (607s / 10:07 | 1,649,729 views) - *Barney Stinson's Greatest Theories, Rules & The Playbook* (✅ 105 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    8. **`mov_sit_08` (Brooklyn Nine-Nine)**: YouTube ID `EVKutiIBsw8` (2588s / 43:08 | 2,124,206 views) - *Jake Peralta's Cold Opens & "I Want It That Way" Lineup* (✅ 68 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    9. **`mov_sit_09` (The Big Bang Theory)**: YouTube ID `WjM9M-AdNho` (1328s / 22:08 | 6,059,786 views) - *12 Times Sheldon Showed His True Genius & Eccentricity* (✅ 170 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    10. **`mov_sit_10` (Young Sheldon)**: YouTube ID `EKEEalhsDOA` (1882s / 31:22 | 18,700,000 views) - *Young Sheldon Outsmarting Everyone & Winning Family Debates* (✅ 240 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    11. **`mov_sit_11` (Ted Lasso)**: YouTube ID `t1bveUz8RD0` (1047s / 17:27 | 1,855,225 views) - *The Iconic Darts Scene: "Be Curious, Not Judgmental" & Top Moments* (✅ 138 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    12. **`mov_sit_12` (Schitt’s Creek)**: YouTube ID `S_acAHyAKuI` (315s / 05:15 | 2,905,806 views) - *Alexis Rose & David's Most Iconic Sibling Bickering Moments* (✅ 71 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
 
     #### 🔥 III. Phim Truyền Cảm Hứng & Triết Lý (`cat_inspirational_life` - 12 Video):
-    1. **`mov_insp_01` (Good Will Hunting)**: YouTube ID `8GY3sO47YYo` (301s / 05:01 | 4,704,113 views) - *Robin Williams' Park Bench Monologue (The Sistine Chapel & Real Loss)* (✅ 56 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    2. **`mov_insp_02` (The Pursuit of Happyness)**: YouTube ID `pKoH9GkEKxQ` (1217s / 20:17 | 6,914,465 views) - *Chris Gardner's Job Interview at Dean Witter & Dream Protection Speech* (✅ 80 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    3. **`mov_insp_03` (Dead Poets Society)**: YouTube ID `8x0COtH4Vrw` (332s / 05:32 | 707,269 views) - *Robin Williams "Rip It Out" & Carpe Diem (Walt Whitman's "O Me! O Life!")* (✅ 59 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    4. **`mov_insp_04` (The Shawshank Redemption)**: YouTube ID `accOHNw_qX8` (3311s / 55:11 | 9,839,170 views) - *Hope & Choice Words: "Get Busy Living, or Get Busy Dying"* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    5. **`mov_insp_05` (Forrest Gump)**: YouTube ID `QmMHP6JxU4s` (395s / 06:35 | 15,178,279 views) - *Tom Hanks on Becoming Gump & "Life Is Like a Box of Chocolates"* (✅ 53 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    6. **`mov_insp_06` (The Intern)**: YouTube ID `XVYZxarPOhM` (1892s / 31:32 | 835,439 views) - *Ben Whittacker Ultimate Gentleman Wisdom: "Experience Never Gets Old"* (✅ 55 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    7. **`mov_insp_07` (Whiplash)**: YouTube ID `gfceCnMJZ3c` (349s / 05:49 | 3,161,204 views) - *"Not My Tempo" Masterclass & "There Are No Two Words More Harmful Than Good Job"* (✅ 59 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    8. **`mov_insp_08` (The Theory of Everything)**: YouTube ID `0RdvRJGl-_w` (318s / 05:18 | 1,321,038 views) - *Stephen Hawking Ending Speech: "While There's Life, There Is Hope"* (✅ 34 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    9. **`mov_insp_09` (A Beautiful Mind)**: YouTube ID `rrZBpTZmGfI` (517s / 08:37 | 106,950 views) - *John Nash's Nobel Prize Acceptance Speech (The Mysterious Equations of Love)* (✅ 55 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    10. **`mov_insp_10` (Cast Away)**: YouTube ID `qAoNcF5uGWg` (234s / 03:54 | 940,360 views) - *Chuck Noland's Monologue: "I Gotta Keep Breathing" & "Tomorrow The Sun Will Rise"* (✅ 39 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    11. **`mov_insp_11` (Scent of a Woman)**: YouTube ID `p9DQSnik1mw` (489s / 08:09 | 9,831,779 views) - *Al Pacino's Legendary Baird School Defense Speech: "Integrity, Courage & Amputated Spirit"* (✅ 62 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    12. **`mov_insp_12` (12 Angry Men)**: YouTube ID `ngbEpZ0tTjI` (6276s / 104:36 | 3,662,164 views) - *Juror 8 Classic Deliberation: "Reasonable Doubt & Somebody's Life at Stake"* (✅ 56 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    1. **`mov_insp_01` (Good Will Hunting)**: YouTube ID `8GY3sO47YYo` (301s / 05:01 | 4,704,113 views) - *Robin Williams' Park Bench Monologue (The Sistine Chapel & Real Loss)* (✅ 56 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    2. **`mov_insp_02` (The Pursuit of Happyness)**: YouTube ID `pKoH9GkEKxQ` (1217s / 20:17 | 6,914,465 views) - *Chris Gardner's Job Interview at Dean Witter & Dream Protection Speech* (✅ 80 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    3. **`mov_insp_03` (Dead Poets Society)**: YouTube ID `8x0COtH4Vrw` (332s / 05:32 | 707,269 views) - *Robin Williams "Rip It Out" & Carpe Diem (Walt Whitman's "O Me! O Life!")* (✅ 59 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    4. **`mov_insp_04` (The Shawshank Redemption)**: YouTube ID `accOHNw_qX8` (3311s / 55:11 | 9,839,170 views) - *Hope & Choice Words: "Get Busy Living, or Get Busy Dying"* (✅ 51 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    5. **`mov_insp_05` (Forrest Gump)**: YouTube ID `QmMHP6JxU4s` (395s / 06:35 | 15,178,279 views) - *Tom Hanks on Becoming Gump & "Life Is Like a Box of Chocolates"* (✅ 58 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    6. **`mov_insp_06` (The Intern)**: YouTube ID `XVYZxarPOhM` (1892s / 31:32 | 835,439 views) - *Ben Whittacker Ultimate Gentleman Wisdom: "Experience Never Gets Old"* (✅ 55 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    7. **`mov_insp_07` (Whiplash)**: YouTube ID `gfceCnMJZ3c` (349s / 05:49 | 3,161,204 views) - *"Not My Tempo" Masterclass & "There Are No Two Words More Harmful Than Good Job"* (✅ 59 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    8. **`mov_insp_08` (The Theory of Everything)**: YouTube ID `0RdvRJGl-_w` (318s / 05:18 | 1,321,038 views) - *Stephen Hawking Ending Speech: "While There's Life, There Is Hope"* (✅ 34 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    9. **`mov_insp_09` (A Beautiful Mind)**: YouTube ID `rrZBpTZmGfI` (517s / 08:37 | 106,950 views) - *John Nash's Nobel Prize Acceptance Speech (The Mysterious Equations of Love)* (✅ 55 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    10. **`mov_insp_10` (Cast Away)**: YouTube ID `qAoNcF5uGWg` (234s / 03:54 | 940,360 views) - *Chuck Noland's Monologue: "I Gotta Keep Breathing" & "Tomorrow The Sun Will Rise"* (✅ 39 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    11. **`mov_insp_11` (Scent of a Woman)**: YouTube ID `p9DQSnik1mw` (489s / 08:09 | 9,831,779 views) - *Al Pacino's Legendary Baird School Defense Speech: "Integrity, Courage & Amputated Spirit"* (✅ 62 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    12. **`mov_insp_12` (12 Angry Men)**: YouTube ID `ngbEpZ0tTjI` (6276s / 104:36 | 3,662,164 views) - *Juror 8 Classic Deliberation: "Reasonable Doubt & Somebody's Life at Stake"* (✅ 56 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
 
     #### ✨ IV. Hoạt Hình Pixar & Disney (`cat_animation_pixar_disney` - 12 Video):
-    1. **`mov_ani_01` (Kung Fu Panda)**: YouTube ID `SAY6Mptrj5s` (1652s / 27:32 | 2,453,009 views) - *Master Oogway Wisdom & The Peach Tree: "Today Is a Gift, That's Why It's Called the Present"* (✅ 39 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    2. **`mov_ani_02` (Inside Out)**: YouTube ID `Uky-jgd3M3E` (793s / 13:13 | 5,862,110 views) - *Joy, Sadness & Headquarters Emotional Journey: Core Memories & Empathy* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    3. **`mov_ani_03` (Soul)**: YouTube ID `e1Mno2A2N5E` (1402s / 23:22 | 1,119,240 views) - *Joe Gardner & 22: The Spark, Lost Souls & Ocean Parable* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    4. **`mov_ani_04` (Ratatouille)**: YouTube ID `8WRjQAKUlio` (1421s / 23:41 | 3,090,371 views) - *Remy, Linguini & Anton Ego's Food Philosophy: "A Great Artist Can Come From Anywhere"* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    5. **`mov_ani_05` (Coco)**: YouTube ID `EQ9RFbIHrFw` (978s / 16:18 | 835,393 views) - *Miguel & Héctor "Remember Me" with Mamá Coco & The Final Death* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    6. **`mov_ani_06` (Up)**: YouTube ID `0zbPeoZzcPg` (1446s / 24:06 | 1,608,833 views) - *Carl & Ellie's Adventure Book & Russell Wilderness Explorer: "Thanks for the Adventure"* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    7. **`mov_ani_07` (Zootopia)**: YouTube ID `FikAJxtVgOY` (1676s / 27:56 | 5,918,376 views) - *Judy Hopps & Nick Wilde Carrot Pen Investigation ("It's Called a Hustle, Sweetheart")* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    8. **`mov_ani_08` (The Lion King)**: YouTube ID `HeQTJE99OXo` (1444s / 24:04 | 1,453,059 views) - *Rafiki Teaches Simba "The Past Can Hurt" & Remember Who You Are* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    9. **`mov_ani_09` (Finding Dory)**: YouTube ID `2Q1gTWxZcj0` (1118s / 18:38 | 567,625 views) - *Dory & Marlin: "Just Keep Swimming" Best Scenes & Short-Term Memory Loss* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    10. **`mov_ani_10` (Tangled)**: YouTube ID `uQ2rJKiiRiU` (1215s / 20:15 | 3,765,078 views) - *Rapunzel & Flynn Rider Floating Lanterns & "I See The Light"* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    11. **`mov_ani_11` (WALL-E)**: YouTube ID `_Y6jc1mLT-8` (397s / 06:37 | 848,784 views) - *Captain McCrea, AUTO & "I Don't Want to Survive, I Want to Live"* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
-    12. **`mov_ani_12` (Monsters, Inc.)**: YouTube ID `_kafLt9bNyU` (1059s / 17:39 | 277,436 views) - *Mike & Sulley Master Cut - "She's Out of Our Hair" & Scare Floor Rivalry* (✅ 50 Pure Segments, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 14/14 Tests PASS 100%).
+    1. **`mov_ani_01` (Kung Fu Panda)**: YouTube ID `SAY6Mptrj5s` (1652s / 27:32 | 2,453,009 views) - *Master Oogway Wisdom & The Peach Tree: "Today Is a Gift, That's Why It's Called the Present"* (✅ 39 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B1/B2, 15/15 Tests PASS 100%).
+    2. **`mov_ani_02` (Inside Out)**: YouTube ID `Uky-jgd3M3E` (793s / 13:13 | 5,862,110 views) - *Joy, Sadness & Headquarters Emotional Journey: Core Memories & Empathy* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR A2/B1, 15/15 Tests PASS 100%).
+    3. **`mov_ani_03` (Soul)**: YouTube ID `e1Mno2A2N5E` (1402s / 23:22 | 1,119,240 views) - *Joe Gardner & 22: The Spark, Lost Souls & Ocean Parable* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B1/B2, 15/15 Tests PASS 100%).
+    4. **`mov_ani_04` (Ratatouille)**: YouTube ID `8WRjQAKUlio` (1421s / 23:41 | 3,090,371 views) - *Remy, Linguini & Anton Ego's Food Philosophy: "A Great Artist Can Come From Anywhere"* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B2, 15/15 Tests PASS 100%).
+    5. **`mov_ani_05` (Coco)**: YouTube ID `EQ9RFbIHrFw` (978s / 16:18 | 835,393 views) - *Miguel & Héctor "Remember Me" with Mamá Coco & The Final Death* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B1/B2, 15/15 Tests PASS 100%).
+    6. **`mov_ani_06` (Up)**: YouTube ID `0zbPeoZzcPg` (1446s / 24:06 | 1,608,833 views) - *Carl & Ellie's Adventure Book & Russell Wilderness Explorer: "Thanks for the Adventure"* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B1/B2, 15/15 Tests PASS 100%).
+    7. **`mov_ani_07` (Zootopia)**: YouTube ID `FikAJxtVgOY` (1676s / 27:56 | 5,918,376 views) - *Judy Hopps & Nick Wilde Carrot Pen Investigation ("It's Called a Hustle, Sweetheart")* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B1/B2, 15/15 Tests PASS 100%).
+    8. **`mov_ani_08` (The Lion King)**: YouTube ID `HeQTJE99OXo` (1444s / 24:04 | 1,453,059 views) - *Rafiki Teaches Simba "The Past Can Hurt" & Remember Who You Are* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR A2/B1, 15/15 Tests PASS 100%).
+    9. **`mov_ani_09` (Finding Dory)**: YouTube ID `2Q1gTWxZcj0` (1118s / 18:38 | 567,625 views) - *Dory & Marlin: "Just Keep Swimming" Best Scenes & Short-Term Memory Loss* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B1/B2, 15/15 Tests PASS 100%).
+    10. **`mov_ani_10` (Tangled)**: YouTube ID `uQ2rJKiiRiU` (1215s / 20:15 | 3,765,078 views) - *Rapunzel & Flynn Rider Floating Lanterns & "I See The Light"* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B1/B2, 15/15 Tests PASS 100%).
+    11. **`mov_ani_11` (WALL-E)**: YouTube ID `_Y6jc1mLT-8` (397s / 06:37 | 848,784 views) - *Captain McCrea, AUTO & "I Don't Want to Survive, I Want to Live"* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B1/B2, 15/15 Tests PASS 100%).
+    12. **`mov_ani_12` (Monsters, Inc.)**: YouTube ID `_kafLt9bNyU` (1059s / 17:39 | 277,436 views) - *Mike & Sulley Master Cut - "She's Out of Our Hair" & Scare Floor Rivalry* (✅ 50 Segments 1-indexed Master, Zero Merged Utterances, 8 Quiz Questions Song Ngữ CEFR B1/B2, 15/15 Tests PASS 100%).
 
     #### 📁 V. Quy Chuẩn Đặt Tên Tệp Bài Học Theo Tên Phim & Video (Standardized Cinema File Naming System):
     Toàn bộ 48 tệp dữ liệu bài học thuộc 4 nhóm chủ đề điện ảnh đã được chuẩn hóa lại tên tệp theo định dạng ngắn gọn, trực quan, phản ánh chính xác 100% tựa đề tác phẩm và chủ đề video:
@@ -6097,6 +6100,115 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       * **Vitest Verbatim Suites (`*verbatim*`)**: **103/103 test files PASS, 675/675 tests PASS 100%**.
       * **Vitest Full Regression Test Suite**: **288/288 test files PASS, 2376/2376 tests PASS 100%**.
       * **YouTube IFrame API Playability**: **48/48 video (100%) Playable mượt mà**, hoàn toàn không bị lỗi 150/101.
+
+16. **Chuẩn Hóa Toàn Diện Kho Học Liệu Luyện Đọc Reading Studio (40/40 Bài Đọc Master Edition: 100% Paragraph Parity, Exact WordCount, Chuẩn Hóa Thời Lượng, Đầy Đủ IPA/POS & 200 Câu Hỏi CEFR Chuyên Sâu)**:
+    - **Mục Tiêu & Tiêu Chuẩn Chất Lượng Master Edition (50-Year Senior QA Standards)**:
+      * **100% Khớp Số Từ Tuyệt Đối (`Exact WordCount`)**: Toàn bộ 40 bài đọc (`passage_r1.ts` đến `passage_r40.ts`) đều có trường `wordCount` khớp chính xác 100% với số từ thực tế tính theo thuật toán `passage.trim().split(/\s+/).filter(w => w.length > 0).length`, loại bỏ triệt để 39 sai lệch dữ liệu trước đây.
+      * **100% Đồng Bộ Đoạn Văn Song Ngữ (`Paragraph Parity`)**: Khắc phục triệt để lỗi thiếu đoạn dịch tiếng Việt tại 19 bài đọc trước đây (`r5`, `r6`, `r9`..`r16`, `r20`, `r24`, `r26`..`r32`). Mọi bài đọc đều có số đoạn văn tiếng Anh và đoạn dịch tiếng Việt khớp nhau hoàn hảo 1:1 theo phân tách `\n\n`, bảo đảm học viên tra cứu song ngữ đối ứng mạch lạc, không bị lệch đoạn hay mất đoạn kết.
+      * **Chuẩn Hóa Thời Lượng Đọc Thực Tế (`duration`)**: Phản ánh chính xác tốc độ đọc theo khung năng lực quốc tế kèm thời gian suy ngẫm trả lời 5 câu hỏi trắc nghiệm (3 phút cho $\le 130$ từ, 4 phút cho $131-165$ từ, 5 phút cho $166-195$ từ, 6 phút cho $\ge 196$ từ).
+      * **Bộ Từ Vựng Học Thuật Chuẩn Quốc Tế ($\ge 4$ Từ/Bài)**: Mỗi bài đọc được trang bị tối thiểu 4 từ vựng học thuật cao cấp với cấu trúc hoàn chỉnh: `word` (từ tiếng Anh), `ipa` (phiên âm quốc tế chuẩn bọc trong `/.../`), `pos` (từ loại: `n`, `v`, `adj`, `adv`), và `meaning` (định nghĩa tiếng Việt cô đọng, dễ hiểu). Bổ sung từ thứ 4 (`"automated"`) cho bài đọc số 28.
+      * **200 Câu Hỏi Đọc Hiểu CEFR Toàn Diện (5 Câu/Bài x 40 Bài)**: Phủ kín 5 cấp độ kỹ năng tư duy đọc hiểu quốc tế (Main Idea, Factual Detail, Vocabulary in Context, Logical Inference, Author's Tone/Actionable Takeaway). Mỗi câu hỏi có 4 lựa chọn A-D cân bằng, chỉ số đáp án đúng hợp lệ (`correctAnswer` $\in [0, 3]$), và phần giải thích chi tiết $> 20$ ký tự dẫn chứng câu văn gốc từ bài đọc.
+    - **Bảng Tổng Hợp 40 Bài Đọc Luyện Kỹ Năng Đọc Hiểu Chuyên Sâu (Phân Bổ CEFR A1 đến C2)**:
+      * **Cấp độ A1 - A2 (Cơ bản - Nền tảng giao tiếp & đời sống)**:
+        - `passage_r1.ts`: A Daily Routine in London (A1 | 134 từ | 4 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r2.ts`: Healthy Eating Habits (A1 | 138 từ | 4 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r3.ts`: Weekend Trip to the Countryside (A2 | 148 từ | 4 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r4.ts`: Learning to Cook Italian Food (A2 | 158 từ | 4 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r5.ts`: The Joy of Public Libraries (A2 | 156 từ | 4 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r6.ts`: Morning Walk in the City Park (A1 | 138 từ | 4 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r7.ts`: How to Choose a Good Bicycle (A2 | 164 từ | 4 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r8.ts`: Volunteering at Animal Shelters (A2 | 165 từ | 4 min | 4 từ vựng | 5 câu trắc nghiệm)
+      * **Cấp độ B1 (Trung cấp - Công sở, Công nghệ & Môi trường)**:
+        - `passage_r9.ts`: The Growth of Remote Work (B1 | 185 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r10.ts`: Urban Farming in Modern Cities (B1 | 179 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r11.ts`: Artificial Intelligence in Healthcare (B1 | 181 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r12.ts`: Cultural Etiquette Across the Globe (B1 | 183 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r13.ts`: Minimalist Living: Less is More (B1 | 172 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r14.ts`: Space Tourism: Next Frontier (B1 | 181 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r15.ts`: Sustainable Fashion Trends (B1 | 176 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r16.ts`: The Chemistry of Coffee Brewing (B1 | 171 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+      * **Cấp độ B2 (Trung cao cấp - Khoa học, Xã hội & Đổi mới sáng tạo)**:
+        - `passage_r17.ts`: The Psychology of Decision Fatigue (B2 | 196 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r18.ts`: Ocean Plastic and Marine Conservation (B2 | 191 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r19.ts`: Renewable Energy Grid Transition (B2 | 187 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r20.ts`: Modern Architecture and Biophilic Design (B2 | 192 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r21.ts`: Sleep Hygiene and Brain Plasticity (B2 | 188 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r22.ts`: FinTech Disruption in Emerging Markets (B2 | 186 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r23.ts`: Genetic Engineering & Food Security (B2 | 189 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r24.ts`: E-Commerce Logistics and Last-Mile Delivery (B2 | 186 từ | 5 min | 4 từ vựng | 5 câu trắc nghiệm)
+      * **Cấp độ C1 (Cao cấp - Nghiên cứu học thuật, Kinh tế vĩ mô & Đạo đức công nghệ)**:
+        - `passage_r25.ts`: Cognitive Biases in Financial Markets (C1 | 215 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r26.ts`: Quantum Computing: Theory to Practice (C1 | 208 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r27.ts`: Ethics of Autonomous Weapon Systems (C1 | 208 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r28.ts`: Global Supply Chain Reshoring (C1 | 208 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r29.ts`: The Neuroscience of Music and Emotion (C1 | 213 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r30.ts`: Macroeconomic Impact of Carbon Taxing (C1 | 207 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r31.ts`: Urban Microclimates and Heat Island Effect (C1 | 210 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r32.ts`: Deepfake Technology and Information Warfare (C1 | 213 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+      * **Cấp độ C2 (Thành thạo tối thượng - Triết học, Vũ trụ học & Ngôn ngữ học)**:
+        - `passage_r33.ts`: Epistemology in the Age of Generative AI (C2 | 224 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r34.ts`: The Anthropocene: Geological Imprint (C2 | 219 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r35.ts`: Synthetic Biology and De-Extinction Ethics (C2 | 222 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r36.ts`: The Fermi Paradox and Great Filter (C2 | 221 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r37.ts`: Post-Structuralist Literary Criticism (C2 | 225 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r38.ts`: Dark Matter and Cosmic Microwave Background (C2 | 224 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r39.ts`: Neurophilosophy: Neural Basis of Consciousness (C2 | 227 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+        - `passage_r40.ts`: Complex Systems Theory and Societal Collapse (C2 | 228 từ | 6 min | 4 từ vựng | 5 câu trắc nghiệm)
+    - **Bộ Kiểm Thử Kiến Trúc & Chất Lượng Dữ Liệu Reading 100% PASS**:
+      * `__tests__/reading_modular_passages_architecture.test.ts`: **6/6 tests PASS** (Xác thực 100% 40 bài đọc khớp ID, tiêu đề, CEFR level, exact wordCount, duration format, paragraph parity 1:1, $\ge 4$ từ vựng bọc IPA `/.../`, 5 câu hỏi với 4 options và giải thích chi tiết).
+      * Toàn bộ 5 test files phân hệ Reading (`reading_deep_dictionary_studio.test.ts`, `reading_catalog_cache_swr.test.ts`, `reading_modular_passages_architecture.test.ts`, `reading_backend_grading.test.ts`, `reading_dedicated_studio_architecture.test.ts`): **34/34 tests PASS 100%**.
+
+17. **Chuẩn Hóa Toàn Diện Kho Học Liệu Audio Shadowing (12/12 Bài Học Master Edition: 100% Word Timings, Song Ngữ Đối Ứng, Đầy Đủ IPA/POS & 48 Câu Hỏi CEFR Cân Bằng Hoàn Hảo)**:
+    - **Mục Tiêu & Tiêu Chuẩn Chất Lượng Master Edition (Audio Shadowing Pedagogical Standard)**:
+      * **100% Khớp Karaoke Word Timings Từng Từ (`wordTimings`)**: 100% các câu thoại (168/168 câu thoại trên toàn bộ 12 bài) đều có mốc thời gian từng từ `wordTimings: { word, start, end }` với mili-giây chuẩn xác, hỗ trợ tính năng hát Karaoke / bôi đậm từ theo thời gian thực (Real-time Speech Synchronization) mượt mà không độ trễ.
+      * **100% Song Ngữ Đối Ứng 1:1 (`vietnamese` & `translation`)**: Mọi câu thoại được đồng bộ trường `vietnamese` và `translation` để bảo đảm khả năng tương thích chéo với cả hai giao diện Dictation Workspace và Shadowing Studio Workspace.
+      * **Trang Bị Chuẩn Thời Lượng Câu (`duration`)**: Bổ sung trường `duration` cho toàn bộ câu thoại và mở rộng interface `TranscriptSentence` trong core parser, bảo đảm việc phân tích nhịp điệu nói chuẩn xác.
+      * **Kho Từ Vựng Học Thuật Chuyên Sâu ($\ge 4$ Từ/Bài)**: Mỗi bài học sở hữu từ 4 đến 5 từ vựng chuyên ngành cao cấp với đầy đủ cấu trúc: `word`, `ipa` (bọc chuẩn trong `/.../`), `pos` (từ loại chuẩn quốc tế), `vietnamese`, `meaning`, `englishDef`, và câu ví dụ ngữ cảnh `example`.
+      * **Bộ 48 Câu Hỏi Trắc Nghiệm CEFR Chuyên Sâu (4 Câu/Bài x 12 Bài)**:
+        - Xây dựng theo ma trận năng lực quốc tế: Câu 1 (Main Topic / Context Identification), Câu 2 (Detailed Fact / Specific Number & Evidence), Câu 3 (Advanced Vocabulary & Phrasal Inference), Câu 4 (Strategic Outcome / Critical Synthesis).
+        - Toàn bộ 48 câu hỏi được cân bằng đáp án đúng tuyệt đối: **A (12 câu - 25%), B (12 câu - 25%), C (12 câu - 25%), D (12 câu - 25%)**, loại bỏ hoàn toàn thiên kiến đáp án (bias-free).
+        - Phần giải thích chi tiết (`explanation`) trích dẫn trực tiếp lời thoại nhân vật, phân tích logic rõ ràng vì sao đáp án đúng và vì sao các phương án khác sai.
+      * **Đồng Bộ Thuộc Tính Kép (`quizzes` & `quizList`)**: Đảm bảo 100% các component cũ và mới đọc câu hỏi trắc nghiệm đều nhận dữ liệu đồng nhất.
+    - **Danh Mục 12 Bài Học Audio Shadowing Chuyên Sâu (Phân Bổ Chủ Đề & Lĩnh Vực)**:
+      * `shadow_ext_001`: **International Airport Flight Disruption & Rebooking** (Travel & Business | B2 | 2:45 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_002`: **Tech Startup Product Launch Keynote** (Technology & Business | B2 | 2:50 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_003`: **Emergency Room Medical Consultation** (Healthcare & Medicine | B2 | 2:55 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_004`: **Climate Change & Ocean Conservation Summit** (Environment & Science | C1 | 3:00 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_005`: **Cross-Border E-Commerce & Supply Chain Logistics** (Logistics & Global Trade | B2 | 2:50 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_006`: **Academic Lecture: The Psychology of Habit Formation** (Psychology & Neuroscience | C1 | 3:05 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_007`: **Job Interview for Senior AI Software Engineer** (Career & Engineering | C1 | 2:55 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_008`: **Culinary Masterclass: The Science of Fermentation** (Gastronomy & Food Science | B2 | 2:45 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_009`: **High-Stakes Venture Capital Pitch & Term Sheet Negotiation** (Finance & Venture Capital | C1 | 3:10 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_010`: **Renewable Energy Transition: Solar Grid & Battery Storage** (Energy & Engineering | B2 | 3:00 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_011`: **Modern Architecture: Biophilic Design & Urban Planning** (Urban Architecture & Design | B2 | 2:55 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `shadow_ext_012`: **The Future of Quantum Computing: Cryptography & Qubits** (Deep Tech & Quantum Physics | C2 | 3:15 | 5 từ vựng | 14 câu thoại | 4 câu trắc nghiệm CEFR)
+    - **Bộ Kiểm Thử Chuẩn Hóa & Chất Lượng Dữ Liệu 100% PASS**:
+      * `__tests__/extended_shadowing_lessons_standards.test.ts`: **4/4 tests PASS** (Kiểm tra nghiêm ngặt 12 bài học, 168 câu thoại, 100% wordTimings, >=4 từ vựng bọc IPA `/.../`, 48 câu hỏi với 4 options, giải thích chi tiết và phân bổ 25% mỗi đáp án A/B/C/D).
+      * Toàn bộ 10 test files phân hệ Shadowing (`shadowing_dual_branch.test.ts`, `extended_shadowing_lessons_standards.test.ts`, `shadowing_audio_cache_swr.test.ts`, `shadowing_video_cache_swr.test.ts`, `shadowing_media_playback.test.ts`, v.v.): **107/107 tests PASS 100%**.
+
+18. **Chuẩn Hóa Toàn Diện 7 Bài Học Curated CEFR Listening Lessons Master Edition (A1 - C1: 100% Word Timings, 10 Câu Thoại/Bài & 28 Câu Hỏi CEFR Cân Bằng Tuyệt Đối 25%)**:
+    - **Mục Tiêu & Tiêu Chuẩn Nâng Cấp Master Edition**:
+      * **Mở Rộng Hội Thoại Bản Xứ Toàn Vẹn (10 Câu Thoại/Bài)**: Nâng cấp toàn bộ 7 bài học (`listen_a1_001` đến `listen_a1_005` và `listen_c1_001`, `listen_c1_002`) từ 5–6 câu thoại ngắn lên chuẩn mực 10 câu thoại tự nhiên, có cốt truyện và diễn biến hoàn chỉnh. Triệt tiêu hoàn toàn sự phụ thuộc vào việc tiêm câu văn mở rộng mặc định, đảm bảo tính chân thực và trải nghiệm nghe mượt mà 100%.
+      * **100% Karaoke Word Timings Từng Từ**: Mọi câu thoại đều được trang bị mốc thời gian chi tiết từng từ `{word:offset}` kết hợp bộ sinh mốc thời gian tự động trong `parseListeningMarkdown`, phục vụ phát âm và đồng bộ hóa giao diện chép chính tả/shadowing không độ trễ.
+      * **Đồng Bộ Song Ngữ Đối Ứng 1:1 (`vietnamese` & `translation`)**: Mọi câu thoại đều có bản dịch tiếng Việt tự nhiên, chuẩn văn phong và khớp nối ngữ cảnh 100%.
+      * **Kho Từ Vựng Học Thuật & Chuyên Ngành Chuẩn Quốc Tế ($\ge 5$ Từ/Bài)**: Mỗi bài học sở hữu 5 từ vựng then chốt với cấu trúc chuẩn: `word`, `ipa` bọc trong `/.../`, `pos`, định nghĩa tiếng Việt chuẩn xác và câu ví dụ minh họa `example`.
+      * **Bộ 28 Câu Hỏi Trắc Nghiệm CEFR Chuyên Sâu (4 Câu/Bài x 7 Bài)**:
+        - Nâng cấp từ 3 câu lên 4 câu trắc nghiệm chuyên sâu mỗi bài, đầy đủ 4 phương án A-D.
+        - Phân bổ đáp án chuẩn mực tuyệt đối 25% mỗi lựa chọn: **A (7 câu - 25%), B (7 câu - 25%), C (7 câu - 25%), D (7 câu - 25%)**.
+        - Toàn bộ câu hỏi đều có phần giải thích chi tiết trích dẫn trực tiếp lời thoại và phân tích ngữ cảnh rõ ràng.
+      * **Đồng Bộ Thuộc Tính Kép (`quizzes` & `quizList`)**: Đảm bảo tương thích hoàn hảo giữa các phân hệ giao diện trong hệ sinh thái XP English.
+    - **Danh Mục 7 Bài Học Curated CEFR Listening Lessons**:
+      * `listen_a1_001`: **Ordering Breakfast at a Downtown Café** (Daily Life | A1 | 0:50 | 5 từ vựng | 10 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `listen_a1_002`: **Asking for Directions in the City Center** (Travel | A1 | 0:52 | 5 từ vựng | 10 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `listen_a1_003`: **Hotel Reception Check-In and Room Amenities** (Travel | A1 | 0:52 | 5 từ vựng | 10 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `listen_a1_004`: **Grocery Shopping for Fresh Vegetables** (Shopping | A1 | 0:48 | 5 từ vựng | 10 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `listen_a1_005`: **Booking a Doctor's Routine Check-up Appointment** (Healthcare | A1 | 0:50 | 5 từ vựng | 10 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `listen_c1_001`: **Artificial Intelligence Ethics and Neural Model Governance** (Technology | C1 | 1:15 | 5 từ vựng | 10 câu thoại | 4 câu trắc nghiệm CEFR)
+      * `listen_c1_002`: **Central Bank Monetary Policy and Macroeconomic Volatility** (Finance | C1 | 1:18 | 5 từ vựng | 10 câu thoại | 4 câu trắc nghiệm CEFR)
+    - **Bộ Kiểm Thử Chuẩn Hóa & Chất Lượng Dữ Liệu 100% PASS**:
+      * `__tests__/curated_level_lessons_standards.test.ts`: **4/4 tests PASS** (Xác thực 100% 7 bài học, 70 câu thoại, 100% wordTimings, $\ge 5$ từ vựng bọc IPA `/.../`, 28 câu hỏi trắc nghiệm với 4 lựa chọn, giải thích chi tiết và phân bổ 25% mỗi key A/B/C/D).
+      * `npx vitest run __tests__/curated_level_lessons_standards.test.ts __tests__/listening_shadowing_standards.test.ts __tests__/extended_shadowing_lessons_standards.test.ts`: **12/12 tests PASS 100%**.
+      * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
 
 ---
 

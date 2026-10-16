@@ -4,6 +4,28 @@ import {
   QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED,
 } from "../features/listening/data/lessons/movies/sitcoms/lesson_the_big_bang_theory";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        cleanText: clean,
+        isProperNoun: isPN,
+        isPunctuation: /^[^\w\s]+$/.test(w),
+      };
+    })
+    .filter((t) => t.cleanText.length > 0 || t.isPunctuation);
+}
+
 describe("The Big Bang Theory: Complete Data Coverage & Integrity Tests", () => {
   it("Test 1: Video metadata, IDs and duration should match canonical requirements", () => {
     expect(LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT.id).toBe("mov_sit_09");
@@ -18,12 +40,12 @@ describe("The Big Bang Theory: Complete Data Coverage & Integrity Tests", () => 
     expect(LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT.viewCount).toBeGreaterThanOrEqual(6000000);
   });
 
-  it("Test 2: Segments sequence must be strictly 0-indexed and continuous", () => {
+  it("Test 2: Segments sequence must be strictly 1-indexed and continuous", () => {
     const segments = LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT.segments;
     expect(segments.length).toBeGreaterThanOrEqual(100);
 
     segments.forEach((seg, idx) => {
-      expect(seg.orderIndex).toBe(idx);
+      expect(seg.orderIndex).toBe(idx + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       expect(seg.startTime).toBeGreaterThanOrEqual(0);
       expect(seg.endTime).toBeLessThanOrEqual(1329);
@@ -47,12 +69,12 @@ describe("The Big Bang Theory: Complete Data Coverage & Integrity Tests", () => 
     });
   });
 
-  it("Test 4: Token counts must accurately match ASCII word regex boundary counts", () => {
+  it("Test 4: Token counts must accurately match tokenizeSentence token count", () => {
     const segments = LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT.segments;
 
     segments.forEach((seg, idx) => {
-      const expectedTokens = (seg.text.match(/\b[A-Za-z0-9_]+\b/g) || []).length;
-      expect(seg.tokenCount, `Segment ${idx} tokenCount mismatch: text='${seg.text}'`).toBe(expectedTokens);
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(seg.tokenCount, `Segment ${idx} tokenCount mismatch: text='${seg.text}'`).toBe(tokens.length);
       expect(seg.tokenCount).toBeGreaterThan(0);
     });
   });
@@ -102,16 +124,16 @@ describe("The Big Bang Theory: Complete Data Coverage & Integrity Tests", () => 
     });
   });
 
-  it("Test 7: Quiz options must be strictly distinct and reference segment indices must be valid", () => {
+  it("Test 7: Quiz options must be strictly distinct and reference segment indices must be valid 1-indexed", () => {
     const quiz = QUIZ_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT_EXTENDED;
-    const maxSegmentIndex = LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT.segments.length - 1;
+    const maxSegmentIndex = LESSON_THE_BIG_BANG_THEORY_SHELDON_ROOMMATE_AGREEMENT.segments.length;
 
     quiz.questions.forEach((q, idx) => {
       const uniqueOptions = new Set(q.options);
       expect(uniqueOptions.size, `Question ${idx + 1} has duplicate options`).toBe(4);
 
       expect(q.referenceSegmentIndex).toBeDefined();
-      expect(q.referenceSegmentIndex!).toBeGreaterThanOrEqual(0);
+      expect(q.referenceSegmentIndex!).toBeGreaterThanOrEqual(1);
       expect(q.referenceSegmentIndex!).toBeLessThanOrEqual(maxSegmentIndex);
     });
   });

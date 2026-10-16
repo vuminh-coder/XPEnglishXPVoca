@@ -150,12 +150,15 @@ describe("The Pursuit of Happyness: Job Interview & Dream Speech (mov_insp_02) -
     expect(segments[78].text).toContain("Also, be sure to hit subscribe");
     expect(segments[79].text).toContain("go beyond the classroom and live your English. Aww yeah!");
 
-    // Quiz cross-reference audit
+    // Quiz cross-reference audit (1-indexed)
     const quiz = QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS;
     for (const q of quiz.questions) {
       expect(q.referenceSegmentIndex).toBeDefined();
-      const targetSeg = segments[q.referenceSegmentIndex!];
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(segments.length);
+      const targetSeg = segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
+      expect(targetSeg.orderIndex).toBe(q.referenceSegmentIndex);
       expect(targetSeg.text.length).toBeGreaterThan(0);
     }
   });

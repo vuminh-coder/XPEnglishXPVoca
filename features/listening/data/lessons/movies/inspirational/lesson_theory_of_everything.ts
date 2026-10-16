@@ -50,7 +50,7 @@ export const QUIZ_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: VideoQuizData =
       "targetedConcept": "Cosmic Perspective & Existential Humility",
       "targetedConceptEn": "Cosmic Perspective & Existential Humility",
       "targetedConceptVi": "Góc nhìn vũ trụ & Sự khiêm nhường hiện sinh",
-      "referenceSegmentIndex": 4
+      "referenceSegmentIndex": 5
     },
     {
       "id": "q_mov_insp_08_2",
@@ -82,7 +82,7 @@ export const QUIZ_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: VideoQuizData =
       "targetedConcept": "Scientific Metaphor & Human Endeavor",
       "targetedConceptEn": "Scientific Metaphor & Human Endeavor",
       "targetedConceptVi": "Ẩn dụ khoa học & Nỗ lực của con người",
-      "referenceSegmentIndex": 9
+      "referenceSegmentIndex": 10
     },
     {
       "id": "q_mov_insp_08_3",
@@ -114,7 +114,7 @@ export const QUIZ_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: VideoQuizData =
       "targetedConcept": "Cinematic Symbolism & Inner Vulnerability",
       "targetedConceptEn": "Cinematic Symbolism & Inner Vulnerability",
       "targetedConceptVi": "Biểu tượng điện ảnh & Nỗi niềm trắc ẩn nội tâm",
-      "referenceSegmentIndex": 12
+      "referenceSegmentIndex": 13
     },
     {
       "id": "q_mov_insp_08_4",
@@ -146,7 +146,7 @@ export const QUIZ_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: VideoQuizData =
       "targetedConcept": "Resilience & The Will to Live",
       "targetedConceptEn": "Resilience & The Will to Live",
       "targetedConceptVi": "Nghị lực kiên cường & Ý chí sinh tồn",
-      "referenceSegmentIndex": 17
+      "referenceSegmentIndex": 18
     },
     {
       "id": "q_mov_insp_08_5",
@@ -178,7 +178,7 @@ export const QUIZ_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: VideoQuizData =
       "targetedConcept": "Marital Partnership & Enduring Legacy",
       "targetedConceptEn": "Marital Partnership & Enduring Legacy",
       "targetedConceptVi": "Tình nghĩa bạn đời & Di sản trường tồn",
-      "referenceSegmentIndex": 24
+      "referenceSegmentIndex": 25
     },
     {
       "id": "q_mov_insp_08_6",
@@ -210,7 +210,7 @@ export const QUIZ_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: VideoQuizData =
       "targetedConcept": "The Nature of Time & Nostalgia",
       "targetedConceptEn": "The Nature of Time & Nostalgia",
       "targetedConceptVi": "Bản chất của Thời gian & Hoài niệm thanh xuân",
-      "referenceSegmentIndex": 26
+      "referenceSegmentIndex": 27
     },
     {
       "id": "q_mov_insp_08_7",
@@ -242,7 +242,7 @@ export const QUIZ_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: VideoQuizData =
       "targetedConcept": "Scientific Milestone: Hawking Radiation",
       "targetedConceptEn": "Scientific Milestone: Hawking Radiation",
       "targetedConceptVi": "Cột mốc khoa học: Bức xạ Hawking",
-      "referenceSegmentIndex": 28
+      "referenceSegmentIndex": 29
     },
     {
       "id": "q_mov_insp_08_8",
@@ -274,7 +274,7 @@ export const QUIZ_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: VideoQuizData =
       "targetedConcept": "Historical Legacy & Triumph of Spirit",
       "targetedConceptEn": "Historical Legacy & Triumph of Spirit",
       "targetedConceptVi": "Di sản lịch sử & Chiến thắng của tinh thần",
-      "referenceSegmentIndex": 33
+      "referenceSegmentIndex": 34
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
     "Diễn xuất đỉnh cao đoạt giải Oscar của Eddie Redmayne hóa thân thành Giáo sư Stephen Hawking trong bài phát biểu xúc động lay động hàng triệu trái tim: 'Chừng nào còn sự sống, chừng đó còn có hy vọng.'",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 5.0,
         "endTime": 12.5,
         "text": "And now, Professor Stephen Hawking has graciously agreed to take a few questions from the audience.",
@@ -318,7 +318,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 16
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 12.5,
         "endTime": 19.8,
         "text": "Professor Hawking, you have said you do not believe in God.",
@@ -335,7 +335,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 11
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 19.8,
         "endTime": 28.0,
         "text": "Do you have a philosophy of life that helps you?",
@@ -349,7 +349,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 10
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 28.0,
         "endTime": 36.5,
         "text": "Stephen gently clicks his electronic speech synthesizer to prepare his response.",
@@ -366,7 +366,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 11
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 36.5,
         "endTime": 45.0,
         "text": "It is clear that we are just an advanced breed of primates on a minor planet...",
@@ -382,7 +382,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 16
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 45.0,
         "endTime": 54.0,
         "text": "...orbiting around a very average star, in the outer suburb of one among a hundred billion galaxies.",
@@ -398,7 +398,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 17
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 54.0,
         "endTime": 63.5,
         "text": "BUT... ever since the dawn of civilization, people have craved for an understanding of the underlying order of the world.",
@@ -414,7 +414,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 20
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 63.5,
         "endTime": 72.0,
         "text": "There ought to be something very special about the boundary conditions of the universe.",
@@ -429,7 +429,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 14
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 72.0,
         "endTime": 79.5,
         "text": "And what could be more special than that there is no boundary?",
@@ -443,7 +443,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 12
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 79.5,
         "endTime": 87.0,
         "text": "And there should be no boundary to human endeavor.",
@@ -458,7 +458,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 9
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 87.0,
         "endTime": 96.0,
         "text": "As he speaks, Stephen looks down the auditorium steps and notices a student accidentally drop her fountain pen.",
@@ -475,7 +475,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 18
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 96.0,
         "endTime": 105.0,
         "text": "The metal pen clatters softly onto the carpeted floor below.",
@@ -490,7 +490,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 10
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 105.0,
         "endTime": 115.0,
         "text": "In a breathtaking moment of imagination, Stephen envisions himself rising freely from his motorized wheelchair.",
@@ -508,7 +508,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 15
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 115.0,
         "endTime": 125.0,
         "text": "His legs step down the stairs with steady strength, approaching the young woman with a warm, humble smile.",
@@ -524,7 +524,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 18
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 125.0,
         "endTime": 135.0,
         "text": "He bends down, picks up the pen, and hands it back to her, experiencing the simple grace of physical movement.",
@@ -539,7 +539,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 20
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 135.0,
         "endTime": 144.0,
         "text": "The vision dissolves back into reality: Stephen remains seated in his chair, a glistening tear forming in his eye.",
@@ -556,7 +556,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 19
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 144.0,
         "endTime": 151.0,
         "text": "We are all different.",
@@ -570,7 +570,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 4
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 151.0,
         "endTime": 162.0,
         "text": "However bad life may seem, there is always something you can do, and succeed at.",
@@ -585,7 +585,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 15
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 162.0,
         "endTime": 172.0,
         "text": "While there's life, there is hope.",
@@ -597,10 +597,10 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         ],
         "explanationAi": "Câu châm ngôn bất hủ (Dum spiro spero) đúc kết trọn vẹn toàn bộ ý chí sống kiên cường của Stephen Hawking.",
         "properNouns": [],
-        "tokenCount": 7
+        "tokenCount": 6
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 172.0,
         "endTime": 182.0,
         "text": "The entire auditorium erupts into thunderous applause, offering a standing ovation to the triumphant physicist.",
@@ -616,7 +616,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 15
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 182.0,
         "endTime": 192.0,
         "text": "Jane Hawking and Jonathan watch from the front row, their eyes filled with deep affection, pride, and tears of joy.",
@@ -634,7 +634,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 20
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 192.0,
         "endTime": 204.0,
         "text": "Later, Stephen and Jane travel to Buckingham Palace, where Queen Elizabeth II invites the professor to receive royal honors.",
@@ -655,7 +655,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 19
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 204.0,
         "endTime": 214.0,
         "text": "In the lush, sunlit royal garden, their three children—Robert, Lucy, and Timothy—run happily across the manicured green lawn.",
@@ -672,10 +672,10 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
             "Lucy",
             "Timothy"
         ],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 214.0,
         "endTime": 222.0,
         "text": "Jane gently leans beside Stephen's wheelchair, watching the children laughing under the afternoon sun.",
@@ -690,10 +690,10 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
             "Jane",
             "Stephen"
         ],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 222.0,
         "endTime": 227.0,
         "text": "Look what we made.",
@@ -707,7 +707,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 4
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 227.0,
         "endTime": 235.0,
         "text": "Stephen smiles warmly, typing back through his screen: 'Look what we made.'",
@@ -724,7 +724,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 12
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 235.0,
         "endTime": 245.0,
         "text": "The sublime symphonic track 'Arrival of the Birds' swells, as the flow of time begins to reverse magically.",
@@ -742,7 +742,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 18
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 245.0,
         "endTime": 255.0,
         "text": "Images rewind: Stephen's tracheostomy surgery, his published manuscripts, the birth of their babies.",
@@ -757,10 +757,10 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "properNouns": [
             "Stephen"
         ],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 255.0,
         "endTime": 265.0,
         "text": "The timeline travels back through the discovery of Hawking radiation and the physics breakthroughs of black holes.",
@@ -778,7 +778,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 17
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 265.0,
         "endTime": 275.0,
         "text": "Rewinding past the heartbreaking day in 1963 when the doctor sentenced young Stephen to only two years of life.",
@@ -795,7 +795,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 19
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 275.0,
         "endTime": 285.0,
         "text": "Further back still: young Stephen cycling through Cambridge, his healthy body racing the spring wind.",
@@ -813,7 +813,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 15
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 285.0,
         "endTime": 295.0,
         "text": "Until finally arriving at the May Ball dance party in 1963, where two college students first locked eyes under the ultraviolet lights.",
@@ -831,7 +831,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 22
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 295.0,
         "endTime": 305.0,
         "text": "Jane smiles in her shimmering blue dress, spinning beneath the stars as Stephen gazes at her with infinite wonder.",
@@ -849,7 +849,7 @@ export const LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE: MockVideoLess
         "tokenCount": 19
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 305.0,
         "endTime": 318.0,
         "text": "Professor Hawking lived for over fifty years beyond his prognosis, showing the world that as long as there is life, there is hope.",

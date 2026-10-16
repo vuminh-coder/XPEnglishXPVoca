@@ -50,7 +50,7 @@ export const QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: VideoQuizData = {
       "targetedConcept": "Satire of Mass Consumerism",
       "targetedConceptEn": "Satire of Mass Consumerism",
       "targetedConceptVi": "Châm biếm chủ nghĩa tiêu dùng đại chúng",
-      "referenceSegmentIndex": 17
+      "referenceSegmentIndex": 18
     },
     {
       "id": "q_mov_ani_11_2",
@@ -82,7 +82,7 @@ export const QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: VideoQuizData = {
       "targetedConcept": "Silent Film Aesthetics",
       "targetedConceptEn": "Silent Film Aesthetics",
       "targetedConceptVi": "Thẩm mỹ điện ảnh phim câm",
-      "referenceSegmentIndex": 21
+      "referenceSegmentIndex": 22
     },
     {
       "id": "q_mov_ani_11_3",
@@ -114,7 +114,7 @@ export const QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: VideoQuizData = {
       "targetedConcept": "Autonomy vs Automation Wordplay",
       "targetedConceptEn": "Autonomy vs Automation Wordplay",
       "targetedConceptVi": "Chơi chữ: Tự chủ đối lập Tự động hóa",
-      "referenceSegmentIndex": 25
+      "referenceSegmentIndex": 26
     },
     {
       "id": "q_mov_ani_11_4",
@@ -146,7 +146,7 @@ export const QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: VideoQuizData = {
       "targetedConcept": "Cinematic Allusion & Musical Homage",
       "targetedConceptEn": "Cinematic Allusion & Musical Homage",
       "targetedConceptVi": "Điển tích điện ảnh & Tri ân âm nhạc",
-      "referenceSegmentIndex": 29
+      "referenceSegmentIndex": 30
     },
     {
       "id": "q_mov_ani_11_5",
@@ -178,7 +178,7 @@ export const QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: VideoQuizData = {
       "targetedConcept": "Biblical Genesis Metaphor",
       "targetedConceptEn": "Biblical Genesis Metaphor",
       "targetedConceptVi": "Ẩn dụ Sáng Thế Ký",
-      "referenceSegmentIndex": 33
+      "referenceSegmentIndex": 34
     },
     {
       "id": "q_mov_ani_11_6",
@@ -210,7 +210,7 @@ export const QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: VideoQuizData = {
       "targetedConcept": "Surviving vs Living Philosophical Paradigm",
       "targetedConceptEn": "Surviving vs Living Philosophical Paradigm",
       "targetedConceptVi": "Hệ hình triết học: Tồn tại lay lắt đối lập Sống đích thực",
-      "referenceSegmentIndex": 45
+      "referenceSegmentIndex": 46
     },
     {
       "id": "q_mov_ani_11_7",
@@ -242,7 +242,7 @@ export const QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: VideoQuizData = {
       "targetedConcept": "Evolutionary De-evolution & Technological Atrophy",
       "targetedConceptEn": "Evolutionary De-evolution & Technological Atrophy",
       "targetedConceptVi": "Thoái hóa tiến hóa và sự teo tóp chức năng do công nghệ",
-      "referenceSegmentIndex": 27
+      "referenceSegmentIndex": 28
     },
     {
       "id": "q_mov_ani_11_8",
@@ -274,7 +274,7 @@ export const QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: VideoQuizData = {
       "targetedConcept": "Evolutionary Breakthrough & Musical Leitmotif",
       "targetedConceptEn": "Evolutionary Breakthrough & Musical Leitmotif",
       "targetedConceptVi": "Bước đột phá tiến hóa và chủ đề âm nhạc tư tưởng",
-      "referenceSegmentIndex": 38
+      "referenceSegmentIndex": 39
     }
   ]
 };
@@ -300,8 +300,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
   description:
     "Phân tích chiều sâu triết lý và môi trường của kiệt tác WALL-E: Từ thủ pháp phim câm Charlie Chaplin, châm biếm chủ nghĩa tiêu dùng đại chúng, ẩn dụ Sáng Thế Ký Adam & Eve, đến trận đối đầu giữa Thuyền trưởng McCrea và trí tuệ nhân tạo AUTO với tuyên ngôn sống còn: 'Tôi không muốn chỉ tồn tại lay lắt, tôi muốn được thực sự sống!'",
   segments: [
-  {
-    "orderIndex": 0,
+    {
+    "orderIndex": 1,
     "startTime": 10,
     "endTime": 16,
     "text": "Greetings, and welcome to Earthling Cinema. I am your host, Garyx Wormuloid.",
@@ -318,8 +318,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 12
   },
-  {
-    "orderIndex": 1,
+    {
+    "orderIndex": 2,
     "startTime": 16,
     "endTime": 24,
     "text": "This week's artifact is Wall-E, a Pixar masterpiece starring a bunch of computerized blips and whistles, and also a non-animated Fred Willard just to mess with your head.",
@@ -336,10 +336,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Pixar",
       "Fred Willard"
     ],
-    "tokenCount": 31
+    "tokenCount": 28
   },
-  {
-    "orderIndex": 2,
+    {
+    "orderIndex": 3,
     "startTime": 24,
     "endTime": 31,
     "text": "Our story begins on Earth, which the Earthlings have abandoned in protest of the electoral college.",
@@ -356,8 +356,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 16
   },
-  {
-    "orderIndex": 3,
+    {
+    "orderIndex": 4,
     "startTime": 31,
     "endTime": 35,
     "text": "The planet's maid, Wall-E, is left behind to clean up all the garbage.",
@@ -372,10 +372,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [
       "Wall-E"
     ],
-    "tokenCount": 15
+    "tokenCount": 13
   },
-  {
-    "orderIndex": 4,
+    {
+    "orderIndex": 5,
     "startTime": 35,
     "endTime": 39,
     "text": "Well, not really clean it so much as stack it into piles that would definitely fall over with the slightest earthquake.",
@@ -390,8 +390,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 21
   },
-  {
-    "orderIndex": 5,
+    {
+    "orderIndex": 6,
     "startTime": 39,
     "endTime": 48,
     "text": "One day, a sexy default Twitter avatar named Eve comes to town and starts scanning for vegetation, sexily.",
@@ -408,8 +408,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 18
   },
-  {
-    "orderIndex": 6,
+    {
+    "orderIndex": 7,
     "startTime": 48,
     "endTime": 54,
     "text": "She's got nearly 200 million square miles to cover, but fortunately Wall-E gives her a plant after like ten minutes of work.",
@@ -423,10 +423,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [
       "Wall-E"
     ],
-    "tokenCount": 24
+    "tokenCount": 22
   },
-  {
-    "orderIndex": 7,
+    {
+    "orderIndex": 8,
     "startTime": 54,
     "endTime": 58,
     "text": "Good thing she landed in exactly the spot where Earth's only resident lives, huh?",
@@ -440,10 +440,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [
       "Earth"
     ],
-    "tokenCount": 15
+    "tokenCount": 14
   },
-  {
-    "orderIndex": 8,
+    {
+    "orderIndex": 9,
     "startTime": 58,
     "endTime": 64,
     "text": "When Eve's spaceship returns, Wall-E hitches a ride so he doesn't have to keep hanging out with a cockroach.",
@@ -459,10 +459,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Eve",
       "Wall-E"
     ],
-    "tokenCount": 22
+    "tokenCount": 19
   },
-  {
-    "orderIndex": 9,
+    {
+    "orderIndex": 10,
     "startTime": 64,
     "endTime": 70,
     "text": "They find the humans, who have just been chilling on a Carnival cruise this whole time, soaking up the sun's delicious calories.",
@@ -477,10 +477,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [
       "Carnival"
     ],
-    "tokenCount": 23
+    "tokenCount": 22
   },
-  {
-    "orderIndex": 10,
+    {
+    "orderIndex": 11,
     "startTime": 70,
     "endTime": 79,
     "text": "Wall-E and Eve meet the Captain and discover that if they place the plant in an arbitrary spot on a purely recreational part of the ship that has nothing to do with the command center, the ship will send itself back to Earth.",
@@ -498,10 +498,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Captain",
       "Earth"
     ],
-    "tokenCount": 44
+    "tokenCount": 43
   },
-  {
-    "orderIndex": 11,
+    {
+    "orderIndex": 12,
     "startTime": 79,
     "endTime": 83,
     "text": "Piece of cake in a cup.",
@@ -514,8 +514,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 6
   },
-  {
-    "orderIndex": 12,
+    {
+    "orderIndex": 13,
     "startTime": 83,
     "endTime": 91,
     "text": "Unfortunately, the Autopilot has explicit orders to be an obstacle, so he mutinies, sending Wall-E and Eve to the trash compactor so Wall-E can feel more at home.",
@@ -532,10 +532,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Wall-E",
       "Eve"
     ],
-    "tokenCount": 30
+    "tokenCount": 28
   },
-  {
-    "orderIndex": 13,
+    {
+    "orderIndex": 14,
     "startTime": 91,
     "endTime": 96,
     "text": "But not so fast, because Wall-E's all graduated and ready to leave the nest.",
@@ -549,10 +549,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [
       "Wall-E"
     ],
-    "tokenCount": 16
+    "tokenCount": 14
   },
-  {
-    "orderIndex": 14,
+    {
+    "orderIndex": 15,
     "startTime": 96,
     "endTime": 104,
     "text": "They escape and head to the plant analyzer thing, where all the humans have been gathered for no explicable reason.",
@@ -566,8 +566,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 20
   },
-  {
-    "orderIndex": 15,
+    {
+    "orderIndex": 16,
     "startTime": 104,
     "endTime": 110,
     "text": "The Captain turns off the Autopilot so they can put the plant in the doohickey, and they go back to Earth in two seconds.",
@@ -585,8 +585,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 24
   },
-  {
-    "orderIndex": 16,
+    {
+    "orderIndex": 17,
     "startTime": 110,
     "endTime": 115,
     "text": "Something it seems like they could have done at any point in the last 700 years if they really wanted a progress report that badly.",
@@ -600,8 +600,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 25
   },
-  {
-    "orderIndex": 17,
+    {
+    "orderIndex": 18,
     "startTime": 115,
     "endTime": 123,
     "text": "Wall-E satirizes mass consumerism by depicting a planet destroyed by the insatiable need for newer, flashier stuff.",
@@ -617,10 +617,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [
       "Wall-E"
     ],
-    "tokenCount": 18
+    "tokenCount": 17
   },
-  {
-    "orderIndex": 18,
+    {
+    "orderIndex": 19,
     "startTime": 123,
     "endTime": 130,
     "text": "Even though in actuality we know Earth was destroyed by something far more sinister and impossible to predict.",
@@ -637,8 +637,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 18
   },
-  {
-    "orderIndex": 19,
+    {
+    "orderIndex": 20,
     "startTime": 130,
     "endTime": 138,
     "text": "Ironically, the film presents this world of overconsumption in the minimalist style of the silent film era.",
@@ -653,8 +653,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 17
   },
-  {
-    "orderIndex": 20,
+    {
+    "orderIndex": 21,
     "startTime": 138,
     "endTime": 143,
     "text": "Rather than dialogue, Wall-E communicates its message using the actions of its title character.",
@@ -669,10 +669,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [
       "Wall-E"
     ],
-    "tokenCount": 15
+    "tokenCount": 14
   },
-  {
-    "orderIndex": 21,
+    {
+    "orderIndex": 22,
     "startTime": 143,
     "endTime": 149,
     "text": "Whose antics are reminiscent of early stars like Buster Keaton, Charlie Chaplin, and woman stomping on grapes.",
@@ -689,8 +689,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 17
   },
-  {
-    "orderIndex": 22,
+    {
+    "orderIndex": 23,
     "startTime": 149,
     "endTime": 156,
     "text": "The film also warns about overreliance on technology, even good technology like an eyebrow straightener.",
@@ -704,8 +704,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 15
   },
-  {
-    "orderIndex": 23,
+    {
+    "orderIndex": 24,
     "startTime": 156,
     "endTime": 163,
     "text": "21st Century Earthlings manufactured countless gadgets in the name of making life more convenient, but at what cost, I ask you? What cost??",
@@ -722,8 +722,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 23
   },
-  {
-    "orderIndex": 24,
+    {
+    "orderIndex": 25,
     "startTime": 163,
     "endTime": 171,
     "text": "The humans aboard the Axiom take this trend to the extreme: they are so comfortable with technology that they have placed their free will in its cold, metallic handles.",
@@ -740,8 +740,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 29
   },
-  {
-    "orderIndex": 25,
+    {
+    "orderIndex": 26,
     "startTime": 171,
     "endTime": 177,
     "text": "They have traded their autonomy for automation. A little wordplay for the fans, free of charge.",
@@ -757,8 +757,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 16
   },
-  {
-    "orderIndex": 26,
+    {
+    "orderIndex": 27,
     "startTime": 177,
     "endTime": 186,
     "text": "The passengers' last remaining decisions are meaningless ones, \"Try blue! It's the new red!\" and critical thinking is remembered only as a laughable antiquity.",
@@ -771,10 +771,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "explanationAi": "Từ vựng: 'critical thinking' (tư duy phản biện), 'antiquity' (di tích cổ đại, đồ cổ).",
     "properNouns": [],
-    "tokenCount": 25
+    "tokenCount": 24
   },
-  {
-    "orderIndex": 27,
+    {
+    "orderIndex": 28,
     "startTime": 186,
     "endTime": 196,
     "text": "\"Wow, would you look at that.\" After centuries of physical and mental atrophy -- plus all that time they spent in space -- humans have devolved into nothing more than overgrown babies.",
@@ -789,8 +789,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 30
   },
-  {
-    "orderIndex": 28,
+    {
+    "orderIndex": 29,
     "startTime": 196,
     "endTime": 202,
     "text": "This creates a Hoover vacuum of power that allows the Autopilot to take control.",
@@ -807,8 +807,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 14
   },
-  {
-    "orderIndex": 29,
+    {
+    "orderIndex": 30,
     "startTime": 202,
     "endTime": 211,
     "text": "His entrance is accompanied by Johann Strauss's \"The Blue Danube\", a song associated with 2001: A Space Odyssey, which also features a tyrannical computer running on Windows 95.",
@@ -826,10 +826,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "2001: A Space Odyssey",
       "Windows 95"
     ],
-    "tokenCount": 29
+    "tokenCount": 28
   },
-  {
-    "orderIndex": 30,
+    {
+    "orderIndex": 31,
     "startTime": 211,
     "endTime": 220,
     "text": "The message is clear: if you don't control your technology, it may wind up controlling you, which is the opposite of what you want.",
@@ -841,10 +841,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "explanationAi": "Cụm động từ: 'wind up doing something' (rốt cuộc, kết cục lại lâm vào tình cảnh nào đó). Thông điệp cảnh báo công nghệ trung tâm của bộ phim.",
     "properNouns": [],
-    "tokenCount": 25
+    "tokenCount": 24
   },
-  {
-    "orderIndex": 31,
+    {
+    "orderIndex": 32,
     "startTime": 220,
     "endTime": 227,
     "text": "Wall-E and Eve's role in the salvation of the human species is reminiscent of the biblical story of Adam and Adam's girlfriend.",
@@ -861,10 +861,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Eve",
       "Adam"
     ],
-    "tokenCount": 25
+    "tokenCount": 22
   },
-  {
-    "orderIndex": 32,
+    {
+    "orderIndex": 33,
     "startTime": 227,
     "endTime": 234,
     "text": "The two robots inhabit Earth alone, similar to the Olive Garden of Eden, which is usually pretty empty except for like one couple.",
@@ -882,8 +882,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 23
   },
-  {
-    "orderIndex": 33,
+    {
+    "orderIndex": 34,
     "startTime": 234,
     "endTime": 242,
     "text": "Just as humanity supposedly consists of a line of children descended from Adam and the other one, I forget her name, Wall-E and Eve are the genesis of man's rebirth.",
@@ -900,10 +900,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Wall-E",
       "Eve"
     ],
-    "tokenCount": 32
+    "tokenCount": 30
   },
-  {
-    "orderIndex": 34,
+    {
+    "orderIndex": 35,
     "startTime": 242,
     "endTime": 251,
     "text": "Wall-E impregnates Eve with the plant, which causes her to transform into a fertilized egg and start wearing some questionable maternity clothes.",
@@ -918,10 +918,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Wall-E",
       "Eve"
     ],
-    "tokenCount": 23
+    "tokenCount": 22
   },
-  {
-    "orderIndex": 35,
+    {
+    "orderIndex": 36,
     "startTime": 251,
     "endTime": 258,
     "text": "This act ultimately leads Wall-E to the Axiom, which sort of sounds like it could be a bible name, thus triggering the salvation of the human species.",
@@ -936,10 +936,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Wall-E",
       "Axiom"
     ],
-    "tokenCount": 28
+    "tokenCount": 27
   },
-  {
-    "orderIndex": 36,
+    {
+    "orderIndex": 37,
     "startTime": 258,
     "endTime": 265,
     "text": "As Wall-E and Eve complete their mission, the humans begin to \"grow up.\" They do grow up so fast, don't they?",
@@ -954,10 +954,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Wall-E",
       "Eve"
     ],
-    "tokenCount": 23
+    "tokenCount": 21
   },
-  {
-    "orderIndex": 37,
+    {
+    "orderIndex": 38,
     "startTime": 265,
     "endTime": 273,
     "text": "They take their first steps, begin learning new words, \"Define Hoedown,\" and play with toys that are probably covered in germs.",
@@ -974,8 +974,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 21
   },
-  {
-    "orderIndex": 38,
+    {
+    "orderIndex": 39,
     "startTime": 273,
     "endTime": 282,
     "text": "The film signals this development with another nod to 2001: \"Also Sprach Zarathustra\" by Richard Strauss, not to be confused with Johann Strauss, Bruce's schoolyard crush.",
@@ -994,10 +994,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Bruce",
       "2001"
     ],
-    "tokenCount": 27
+    "tokenCount": 26
   },
-  {
-    "orderIndex": 39,
+    {
+    "orderIndex": 40,
     "startTime": 282,
     "endTime": 289,
     "text": "Both films use the music to indicate a breakthrough of evolutionary significance, but only one of them has funny monkeys.",
@@ -1011,8 +1011,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 20
   },
-  {
-    "orderIndex": 40,
+    {
+    "orderIndex": 41,
     "startTime": 289,
     "endTime": 296,
     "text": "When the Earthlings return home, they set about cleaning up the mess Wall-E failed to clean up for 700 years.",
@@ -1027,10 +1027,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Earthlings",
       "Wall-E"
     ],
-    "tokenCount": 21
+    "tokenCount": 20
   },
-  {
-    "orderIndex": 41,
+    {
+    "orderIndex": 42,
     "startTime": 296,
     "endTime": 303,
     "text": "But as long and painful as that process will be, the message is hopeful: perhaps they can find a way to repurpose their technology and move humanity forward.",
@@ -1045,8 +1045,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [],
     "tokenCount": 28
   },
-  {
-    "orderIndex": 42,
+    {
+    "orderIndex": 43,
     "startTime": 303,
     "endTime": 310,
     "text": "Once they do, they'll have an even better ship for when they inevitably ruin everything and have to leave again.",
@@ -1058,10 +1058,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "explanationAi": "Cú twist mỉa mai đặc trưng của Garyx: con người sửa sai chỉ để chuẩn bị cho một chu kỳ sai lầm tiếp theo ở quy mô lớn hơn.",
     "properNouns": [],
-    "tokenCount": 21
+    "tokenCount": 20
   },
-  {
-    "orderIndex": 43,
+    {
+    "orderIndex": 44,
     "startTime": 310,
     "endTime": 325,
     "text": "For Earthling Cinema, I'm Garyx Wormuloid. And remember: shop at BuyNLarge this holiday season and all foreseeable holiday seasons.",
@@ -1077,10 +1077,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Garyx Wormuloid",
       "BuyNLarge"
     ],
-    "tokenCount": 20
+    "tokenCount": 19
   },
-  {
-    "orderIndex": 44,
+    {
+    "orderIndex": 45,
     "startTime": 326,
     "endTime": 334,
     "text": "AUTO: On the Axiom, you will survive.",
@@ -1097,8 +1097,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 7
   },
-  {
-    "orderIndex": 45,
+    {
+    "orderIndex": 46,
     "startTime": 335,
     "endTime": 345,
     "text": "Captain McCrea: I don't want to survive! I want to live!",
@@ -1112,10 +1112,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     "properNouns": [
       "Captain McCrea"
     ],
-    "tokenCount": 12
+    "tokenCount": 11
   },
-  {
-    "orderIndex": 46,
+    {
+    "orderIndex": 47,
     "startTime": 346,
     "endTime": 358,
     "text": "Directive A-113: Earth is toxic. Do not return to Earth. Repeat: Do not return to Earth.",
@@ -1131,10 +1131,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Directive A-113",
       "Earth"
     ],
-    "tokenCount": 17
+    "tokenCount": 16
   },
-  {
-    "orderIndex": 47,
+    {
+    "orderIndex": 48,
     "startTime": 359,
     "endTime": 370,
     "text": "Captain McCrea: Look at this plant! It's life, AUTO! We have to go back and help it grow!",
@@ -1150,10 +1150,10 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
       "Captain McCrea",
       "AUTO"
     ],
-    "tokenCount": 19
+    "tokenCount": 18
   },
-  {
-    "orderIndex": 48,
+    {
+    "orderIndex": 49,
     "startTime": 371,
     "endTime": 384,
     "text": "Captain McCrea: Out there is our home, AUTO! Home! And I am not going to let you steer us into eternity!",
@@ -1170,8 +1170,8 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 21
   },
-  {
-    "orderIndex": 49,
+    {
+    "orderIndex": 50,
     "startTime": 385,
     "endTime": 397,
     "text": "Captain McCrea: Mutiny? I am the Captain of the Axiom! And I am relieving you of duty!",
@@ -1188,6 +1188,9 @@ export const LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE: MockVideoLesson
     ],
     "tokenCount": 17
   }
-],
+  ],
   quiz: QUIZ_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE
 };
+
+
+export default LESSON_WALLE_I_DONT_WANT_TO_SURVIVE_I_WANT_TO_LIVE;

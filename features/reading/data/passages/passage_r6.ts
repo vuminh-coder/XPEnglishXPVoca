@@ -8,9 +8,9 @@ export const passage_r6: ReadingPassage = {
   "icon": "🚰",
   "coverImage": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&auto=format&fit=crop&q=80",
   "duration": "3 min",
-  "wordCount": 110,
+  "wordCount": 111,
   "passage": "Notice to All Residents of Horizon Towers:\n\nPlease be advised that annual water tank inspection and pipe cleaning will take place on Thursday, October 24th.\n\nWater supply will be temporarily shut off between 1:00 PM and 5:00 PM for all units from the 5th floor to the 18th floor.\n\nRecommendations for Residents:\n- Please store enough water for cooking and drinking before 1:00 PM.\n- Keep all faucets and taps completely closed to prevent accidental overflow when the water pressure returns.\n- When water service is restored, run your cold water tap for 60 seconds to clear any trapped air.\n\nFor questions, contact building management at ext. 101.\n\nHorizon Property Management",
-  "translation": "Thông báo tới toàn thể cư dân Tòa nhà Horizon Towers:\n\nXin lưu ý rằng công tác kiểm tra bồn nước và súc rửa đường ống hàng năm sẽ diễn ra vào Thứ Năm, ngày 24 tháng 10.\n\nNguồn cung cấp nước sẽ tạm ngừng từ 1:00 chiều đến 5:00 chiều cho các căn hộ từ tầng 5 đến tầng 18.\n\nKhuyến nghị cho cư dân:\n- Vui lòng dự trữ đủ nước cho nấu ăn và uống trước 1:00 chiều.\n- Khóa chặt tất cả các vòi nước để tránh tràn nước khi áp lực nước quay trở lại.\n- Khi có nước trở lại, hãy xả vòi nước lạnh trong 60 giây để đẩy hết bọt khí.\n\nBan Quản lý Tòa nhà Horizon",
+  "translation": "Thông báo tới toàn thể cư dân Tòa nhà Horizon Towers:\n\nXin lưu ý rằng công tác kiểm tra bồn nước và súc rửa đường ống hàng năm sẽ diễn ra vào Thứ Năm, ngày 24 tháng 10.\n\nNguồn cung cấp nước sẽ tạm ngừng từ 1:00 chiều đến 5:00 chiều cho các căn hộ từ tầng 5 đến tầng 18.\n\nKhuyến nghị cho cư dân:\n- Vui lòng dự trữ đủ nước cho nấu ăn và uống trước 1:00 chiều.\n- Khóa chặt tất cả các vòi nước để tránh tràn nước khi áp lực nước quay trở lại.\n- Khi có nước trở lại, hãy xả vòi nước lạnh trong 60 giây để đẩy hết bọt khí.\n\nMọi thắc mắc xin liên hệ ban quản lý tòa nhà theo số máy lẻ 101.\n\nBan Quản lý Bất động sản Horizon",
   "vocabularies": [
     {
       "word": "inspection",

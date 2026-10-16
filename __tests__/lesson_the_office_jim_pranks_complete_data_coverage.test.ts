@@ -4,6 +4,28 @@ import {
   QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED,
 } from "../features/listening/data/lessons/movies/sitcoms/lesson_the_office_jim_pranks";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        cleanText: clean,
+        isProperNoun: isPN,
+        isPunctuation: /^[^\w\s]+$/.test(w),
+      };
+    })
+    .filter((t) => t.cleanText.length > 0 || t.isPunctuation);
+}
+
 describe("The Office: Jim's Best Pranks - Complete Data Coverage Test Suite", () => {
   it("should verify lesson metadata conforms to high standards", () => {
     expect(LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT.id).toBe("mov_sit_05");
@@ -29,8 +51,10 @@ describe("The Office: Jim's Best Pranks - Complete Data Coverage Test Suite", ()
     }
   });
 
-  it("should provide full rich linguistic annotations for every segment", () => {
-    for (const seg of LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT.segments) {
+  it("should provide full rich linguistic annotations for every segment (1-indexed)", () => {
+    const segments = LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT.segments;
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i];
       expect(seg.text.length).toBeGreaterThan(0);
       expect(seg.translationVi.length).toBeGreaterThan(0);
       expect(seg.ipaUs).toBeDefined();
@@ -51,14 +75,14 @@ describe("The Office: Jim's Best Pranks - Complete Data Coverage Test Suite", ()
     }
   });
 
-  it("should accurately synchronize tokenCount with JavaScript ASCII word regex", () => {
+  it("should accurately synchronize tokenCount with tokenizeSentence", () => {
     for (const seg of LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT.segments) {
-      const expectedTokens = (seg.text.match(/\b\w+\b/g) || []).length;
-      expect(seg.tokenCount).toBe(expectedTokens);
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("should verify extended bilingual quiz contains 8 comprehensive questions", () => {
+  it("should verify extended bilingual quiz contains 8 comprehensive questions with valid 1-indexed references", () => {
     const quiz = QUIZ_THE_OFFICE_JIM_PRANKS_ON_DWIGHT_EXTENDED;
     expect(quiz.lessonId).toBe("mov_sit_05");
     expect(quiz.totalQuestions).toBe(8);
@@ -80,6 +104,9 @@ describe("The Office: Jim's Best Pranks - Complete Data Coverage Test Suite", ()
       expect(q.targetedConcept).toBeDefined();
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
+      expect(typeof q.referenceSegmentIndex).toBe("number");
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT.segments.length);
     }
   });
 });

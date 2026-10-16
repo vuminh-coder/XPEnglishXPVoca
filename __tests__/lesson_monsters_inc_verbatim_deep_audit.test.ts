@@ -128,36 +128,36 @@ describe("Monsters, Inc.: Mike & Sulley Funniest Moments & Door Shredder (mov_an
     const quiz = QUIZ_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT;
     expect(quiz.questions.length).toBe(8);
 
-    // Q1 -> referenceSegmentIndex 19
-    expect(quiz.questions[0].referenceSegmentIndex).toBe(19);
+    // Q1 -> referenceSegmentIndex 20
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(20);
     expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[19].text).toContain("hook someone up with");
 
-    // Q2 -> referenceSegmentIndex 23
-    expect(quiz.questions[1].referenceSegmentIndex).toBe(23);
+    // Q2 -> referenceSegmentIndex 24
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(24);
     expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[23].text).toContain("in the zone");
 
-    // Q3 -> referenceSegmentIndex 34
-    expect(quiz.questions[2].referenceSegmentIndex).toBe(34);
+    // Q3 -> referenceSegmentIndex 35
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(35);
     expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[34].text).toContain("Can it");
 
-    // Q4 -> referenceSegmentIndex 37
-    expect(quiz.questions[3].referenceSegmentIndex).toBe(37);
+    // Q4 -> referenceSegmentIndex 38
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(38);
     expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[37].text).toContain("Word on the street is");
 
-    // Q5 -> referenceSegmentIndex 44
-    expect(quiz.questions[4].referenceSegmentIndex).toBe(44);
+    // Q5 -> referenceSegmentIndex 45
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(45);
     expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[44].text).toContain("put your money where your mouth is");
 
-    // Q6 -> referenceSegmentIndex 46
-    expect(quiz.questions[5].referenceSegmentIndex).toBe(46);
+    // Q6 -> referenceSegmentIndex 47
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(47);
     expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[46].text).toContain("shifty");
 
-    // Q7 -> referenceSegmentIndex 31
-    expect(quiz.questions[6].referenceSegmentIndex).toBe(31);
+    // Q7 -> referenceSegmentIndex 32
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(32);
     expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[31].text).toContain("out of our hair");
 
-    // Q8 -> referenceSegmentIndex 29
-    expect(quiz.questions[7].referenceSegmentIndex).toBe(29);
+    // Q8 -> referenceSegmentIndex 30
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(30);
     expect(LESSON_MONSTERS_INC_GOODBYE_BOO_EMOTIONAL_CUT.segments[29].text).toContain("blow something");
   });
 });

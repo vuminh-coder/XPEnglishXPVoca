@@ -50,7 +50,7 @@ export const QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: VideoQuizData = {
       "targetedConcept": "Interview Authenticity Strategy",
       "targetedConceptEn": "Interview Authenticity Strategy",
       "targetedConceptVi": "Chiến lược trung thực trong phỏng vấn",
-      "referenceSegmentIndex": 13
+      "referenceSegmentIndex": 14
     },
     {
       "id": "mov_insp_02_q2",
@@ -82,7 +82,7 @@ export const QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: VideoQuizData = {
       "targetedConcept": "Phrasal Verb Comprehension",
       "targetedConceptEn": "Phrasal Verb Comprehension",
       "targetedConceptVi": "Hiểu cụm động từ thông dụng",
-      "referenceSegmentIndex": 50
+      "referenceSegmentIndex": 51
     },
     {
       "id": "mov_insp_02_q3",
@@ -114,7 +114,7 @@ export const QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: VideoQuizData = {
       "targetedConcept": "Professional Vocabulary",
       "targetedConceptEn": "Professional Vocabulary",
       "targetedConceptVi": "Từ vựng nghề nghiệp chuyên nghiệp",
-      "referenceSegmentIndex": 14
+      "referenceSegmentIndex": 15
     },
     {
       "id": "mov_insp_02_q4",
@@ -146,7 +146,7 @@ export const QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: VideoQuizData = {
       "targetedConcept": "Colloquial Terminology",
       "targetedConceptEn": "Colloquial Terminology",
       "targetedConceptVi": "Hiểu thuật ngữ khẩu ngữ Mỹ",
-      "referenceSegmentIndex": 56
+      "referenceSegmentIndex": 57
     },
     {
       "id": "mov_insp_02_q5",
@@ -178,7 +178,7 @@ export const QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: VideoQuizData = {
       "targetedConcept": "Problem-Solving Mindset",
       "targetedConceptEn": "Problem-Solving Mindset",
       "targetedConceptVi": "Tư duy giải quyết vấn đề và năng lực tự học",
-      "referenceSegmentIndex": 44
+      "referenceSegmentIndex": 45
     },
     {
       "id": "mov_insp_02_q6",
@@ -210,7 +210,7 @@ export const QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: VideoQuizData = {
       "targetedConcept": "Humor & High-Pressure Composure",
       "targetedConceptEn": "Humor & High-Pressure Composure",
       "targetedConceptVi": "Khiếu hài hước và bản lĩnh dưới áp lực",
-      "referenceSegmentIndex": 47
+      "referenceSegmentIndex": 48
     },
     {
       "id": "mov_insp_02_q7",
@@ -242,7 +242,7 @@ export const QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: VideoQuizData = {
       "targetedConcept": "Parental Guidance & Life Philosophy",
       "targetedConceptEn": "Parental Guidance & Life Philosophy",
       "targetedConceptVi": "Triết lý sống và lời dặn dò nuôi dạy con",
-      "referenceSegmentIndex": 64
+      "referenceSegmentIndex": 65
     },
     {
       "id": "mov_insp_02_q8",
@@ -274,7 +274,7 @@ export const QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: VideoQuizData = {
       "targetedConcept": "American Idiomatic Expression",
       "targetedConceptEn": "American Idiomatic Expression",
       "targetedConceptVi": "Thành ngữ nhấn mạnh trong tiếng Anh Mỹ",
-      "referenceSegmentIndex": 68
+      "referenceSegmentIndex": 69
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
     "Bài học truyền cảm hứng kinh điển qua diễn xuất của Will Smith trong The Pursuit of Happyness: từ màn phỏng vấn xin việc đầy bản lĩnh và hóm hỉnh tại công ty chứng khoán Dean Witter cho đến lời dặn dò bất hủ dành cho con trai trên sân bóng rổ: 'Nếu con có ước mơ, con phải bảo vệ nó. Muốn điều gì, hãy giành lấy nó. Chấm hết.'",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.0,
         "endTime": 2.8,
         "text": "Do you want to learn English with an inspiring movie?",
@@ -316,7 +316,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 10
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 2.8,
         "endTime": 6.6,
         "text": "Let's do today with Will Smith in The Pursuit of Happyness.",
@@ -331,10 +331,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
             "Will Smith",
             "The Pursuit of Happyness"
         ],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 10.9,
         "endTime": 15.4,
         "text": "All right, so I want you to pay special attention to the formal language used in today's scene,",
@@ -346,10 +346,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Cụm từ 'pay attention to' (chú ý đến). Trong môi trường phỏng vấn, ngôn ngữ trang trọng (formal language) giữ vai trò then chốt.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 15.4,
         "endTime": 20.1,
         "text": "because it's really fantastic for preparing for a job interview in English,",
@@ -361,10 +361,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "'Job interview' (phỏng vấn xin việc). Cấu trúc 'prepare for something' mang nghĩa chuẩn bị cho điều gì.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 20.1,
         "endTime": 26.4,
         "text": "and you're also going to get tons of examples of American pronunciation and connected speech.",
@@ -379,10 +379,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "properNouns": [
             "American"
         ],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 26.4,
         "endTime": 31.1,
         "text": "By the way, do you want to be able to understand natives at any speed without getting lost?",
@@ -398,7 +398,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 18
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 31.1,
         "endTime": 33.4,
         "text": "Without missing the jokes, and without subtitles?",
@@ -413,7 +413,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 7
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 33.4,
         "endTime": 38.8,
         "text": "Well, then be sure to subscribe so that we can help you do it.",
@@ -428,7 +428,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 14
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 38.8,
         "endTime": 42.5,
         "text": "Now let's learn English with Will Smith!",
@@ -442,10 +442,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "properNouns": [
             "Will Smith"
         ],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 68.0,
         "endTime": 72.5,
         "text": "Mr. Gardner. This way. It'll be right over there.",
@@ -459,10 +459,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "properNouns": [
             "Gardner"
         ],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 73.0,
         "endTime": 74.8,
         "text": "Chris Gardner.",
@@ -478,7 +478,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 2
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 75.0,
         "endTime": 78.2,
         "text": "Chris Gardner. How are you? Good morning.",
@@ -495,7 +495,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 7
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 78.5,
         "endTime": 83.5,
         "text": "Chris Gardner. Good to see you again. Chris Gardner, pleasure.",
@@ -512,7 +512,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 10
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 84.0,
         "endTime": 93.5,
         "text": "I've been sitting out there for the last half-hour trying to come up with a story that would explain my being here dressed like this.",
@@ -525,10 +525,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "'Come up with' (nghĩ ra/sáng tác ra). Cấu trúc danh động từ sở hữu 'my being here' (sự hiện diện của tôi ở đây) thuộc phong cách tiếng Anh học thuật, chuẩn mực.",
         "properNouns": [],
-        "tokenCount": 27
+        "tokenCount": 25
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 94.0,
         "endTime": 105.5,
         "text": "And I wanted to come up with a story that would demonstrate qualities that I'm sure you all admire here, like earnestness, or diligence, or team-playing, something.",
@@ -542,10 +542,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Bộ ba danh từ chuyên ngành tuyển dụng: 'earnestness' (sự chân thành/nghiêm túc), 'diligence' (sự chuyên cần/tỉ mỉ), 'team-playing' (tinh thần phối hợp đồng đội).",
         "properNouns": [],
-        "tokenCount": 29
+        "tokenCount": 27
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 106.0,
         "endTime": 109.5,
         "text": "And I couldn't think of anything.",
@@ -556,10 +556,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Cú đảo ngược tình thế ấn tượng: sự thành thật tuyệt đối (radical honesty) thay vì nói dối để bao biện cho sự cố trang phục.",
         "properNouns": [],
-        "tokenCount": 7
+        "tokenCount": 6
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 110.0,
         "endTime": 116.5,
         "text": "So the truth is, I was arrested for failure to pay parking tickets.",
@@ -576,7 +576,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 13
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 117.0,
         "endTime": 118.8,
         "text": "Parking tickets?",
@@ -590,7 +590,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 2
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 119.0,
         "endTime": 124.5,
         "text": "And I ran all the way here from the Polk Station, the police station.",
@@ -608,7 +608,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 14
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 125.0,
         "endTime": 128.5,
         "text": "What were you doing before you were arrested?",
@@ -623,7 +623,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 8
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 129.0,
         "endTime": 132.0,
         "text": "I was painting my apartment.",
@@ -637,7 +637,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 5
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 132.5,
         "endTime": 134.8,
         "text": "Is it dry now?",
@@ -651,7 +651,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 4
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 135.0,
         "endTime": 137.5,
         "text": "I hope so.",
@@ -665,7 +665,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 3
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 138.0,
         "endTime": 141.5,
         "text": "Jay says you're pretty determined.",
@@ -678,10 +678,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "properNouns": [
             "Jay"
         ],
-        "tokenCount": 6
+        "tokenCount": 5
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 142.0,
         "endTime": 148.5,
         "text": "He's been waiting outside the front of the building with some 40-pound gizmo for over a month.",
@@ -694,10 +694,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "'Gizmo' là từ lóng chỉ món đồ/thiết bị kỳ lạ (máy quét mật độ xương di động mà Chris đang cố gắng bán kiếm sống).",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 17
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 149.0,
         "endTime": 151.5,
         "text": "He says you're smart?",
@@ -708,10 +708,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Câu hỏi dưới dạng khẳng định có ngữ điệu lên giọng ở cuối câu để thăm dò mức độ tự tin của ứng viên.",
         "properNouns": [],
-        "tokenCount": 5
+        "tokenCount": 4
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 152.0,
         "endTime": 154.5,
         "text": "I'd like to think so.",
@@ -722,10 +722,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "'I'd like to think so' là cách trả lời kinh điển trong văn hóa Mỹ: vừa khẳng định năng lực bản thân vừa giữ được sự khiêm tốn.",
         "properNouns": [],
-        "tokenCount": 6
+        "tokenCount": 5
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 155.0,
         "endTime": 157.8,
         "text": "And you want to learn this business?",
@@ -739,7 +739,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 7
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 158.0,
         "endTime": 161.5,
         "text": "Yes, sir, I wanna learn this business.",
@@ -754,7 +754,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 7
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 162.0,
         "endTime": 165.2,
         "text": "Have you already started learning on your own?",
@@ -769,7 +769,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 8
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 165.5,
         "endTime": 167.5,
         "text": "Absolutely.",
@@ -783,7 +783,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 1
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 168.0,
         "endTime": 169.5,
         "text": "Jay?",
@@ -799,7 +799,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 1
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 170.0,
         "endTime": 171.5,
         "text": "Yes, sir?",
@@ -813,7 +813,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 2
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 172.0,
         "endTime": 174.5,
         "text": "How many times have you seen Chris?",
@@ -830,7 +830,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 7
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 175.0,
         "endTime": 178.5,
         "text": "I don't know. One too many, apparently.",
@@ -842,10 +842,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "'One too many' là thành ngữ chỉ việc xảy ra nhiều lần đến mức vượt quá ngưỡng mong muốn; 'apparently' (rõ ràng là/dường như).",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 179.0,
         "endTime": 181.5,
         "text": "Was he dressed like this?",
@@ -859,7 +859,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 5
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 182.0,
         "endTime": 184.8,
         "text": "No. Jacket and tie.",
@@ -873,7 +873,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 4
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 185.0,
         "endTime": 189.5,
         "text": "First in your class in school? High school?",
@@ -888,7 +888,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 8
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 190.0,
         "endTime": 191.8,
         "text": "Yes, sir.",
@@ -902,7 +902,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 2
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 192.0,
         "endTime": 194.5,
         "text": "How many in the class?",
@@ -916,7 +916,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 5
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 195.0,
         "endTime": 198.5,
         "text": "Twelve. It was a small town.",
@@ -931,7 +931,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 6
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 199.0,
         "endTime": 201.2,
         "text": "I'll say.",
@@ -942,10 +942,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "'I'll say' là khẩu ngữ Mỹ đồng tình mạnh mẽ: 'Chắc chắn là vậy rồi' hoặc 'Tôi cũng nghĩ thế'.",
         "properNouns": [],
-        "tokenCount": 3
+        "tokenCount": 2
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 201.5,
         "endTime": 208.5,
         "text": "But I was also first in my radar class in the Navy, and that was a class of twenty.",
@@ -963,7 +963,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 19
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 209.0,
         "endTime": 211.5,
         "text": "Can I say something?",
@@ -977,7 +977,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 4
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 212.0,
         "endTime": 220.5,
         "text": "I'm the type of person, if you ask me a question and I don't know the answer, I'm gonna tell you that I don't know.",
@@ -990,10 +990,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Tuyên ngôn về tính chính trực (integrity): thà thừa nhận sự thiếu sót còn hơn là ngụy biện lừa dối.",
         "properNouns": [],
-        "tokenCount": 29
+        "tokenCount": 25
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 221.0,
         "endTime": 229.5,
         "text": "But I bet you what, I know how to find the answer, and I will find the answer. Is that fair enough?",
@@ -1009,7 +1009,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 22
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 230.0,
         "endTime": 239.5,
         "text": "Chris, what would you say if a guy walked in for an interview without a shirt on, and I hired him? What would you say?",
@@ -1027,7 +1027,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 25
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 240.0,
         "endTime": 244.5,
         "text": "He must've had on some really nice pants.",
@@ -1039,10 +1039,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "'Must have had on' biểu thị suy đoán quá khứ gần như chắc chắn. Câu trả lời hóm hỉnh làm nổ tung tiếng cười trong phòng họp và chính thức thuyết phục các nhà tuyển dụng.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 282.0,
         "endTime": 287.5,
         "text": "Now let's break down the most essential vocabulary and expressions from this interview.",
@@ -1055,10 +1055,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "'Break down' (phân tích chi tiết thành từng phần nhỏ dễ hiểu).",
         "properNouns": [],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 288.0,
         "endTime": 293.5,
         "text": "First, Chris says he was trying to 'come up with a story'.",
@@ -1074,7 +1074,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 12
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 294.0,
         "endTime": 300.5,
         "text": "To 'come up with' means to think of or produce an idea, excuse, or plan.",
@@ -1090,7 +1090,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 15
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 301.0,
         "endTime": 308.5,
         "text": "Notice the three key virtues Chris mentions: 'earnestness', 'diligence', and 'team-playing'.",
@@ -1106,10 +1106,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "properNouns": [
             "Chris"
         ],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 309.0,
         "endTime": 318.5,
         "text": "'Earnestness' refers to sincere and serious dedication, while 'diligence' means careful and persistent effort.",
@@ -1126,7 +1126,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 14
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 319.0,
         "endTime": 327.5,
         "text": "When explaining his situation, Chris uses the formal phrase: 'arrested for failure to pay parking tickets'.",
@@ -1143,7 +1143,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 16
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 328.0,
         "endTime": 337.5,
         "text": "In legal and official contexts, 'failure to do something' means neglecting or omitting to fulfill an obligation.",
@@ -1158,7 +1158,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 17
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 338.0,
         "endTime": 344.5,
         "text": "Jay Twistle mentions that Chris was waiting with a '40-pound gizmo'.",
@@ -1173,10 +1173,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
             "Jay Twistle",
             "Chris"
         ],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 345.0,
         "endTime": 354.5,
         "text": "The word 'gizmo' is an informal American term for a gadget or device whose exact technical name you don't recall.",
@@ -1191,10 +1191,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "properNouns": [
             "American"
         ],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 355.0,
         "endTime": 361.5,
         "text": "Listen to the natural conversational response: 'I'd like to think so'.",
@@ -1206,10 +1206,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Phân tích sắc thái xã hội học trong giao tiếp tiếng Anh công sở.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 362.0,
         "endTime": 370.5,
         "text": "It's a polite, humble way to express self-confidence without sounding boastful or arrogant.",
@@ -1222,10 +1222,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Kỹ năng trả lời phỏng vấn: cân bằng giữa khiêm nhường (humility) và tự tin (confidence).",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 13
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 371.0,
         "endTime": 378.5,
         "text": "Next, pay attention to the connected speech in Chris's assertion: 'I bet you what'.",
@@ -1239,10 +1239,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "properNouns": [
             "Chris"
         ],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 379.0,
         "endTime": 386.5,
         "text": "In fast American English, 'I bet you' blends together into 'betcha'.",
@@ -1260,7 +1260,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 11
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 387.0,
         "endTime": 395.5,
         "text": "Finally, let's look at Chris's humorous punchline: 'He must've had on some really nice pants'.",
@@ -1275,10 +1275,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "properNouns": [
             "Chris"
         ],
-        "tokenCount": 18
+        "tokenCount": 15
     },
     {
-        "orderIndex": 62,
+        "orderIndex": 63,
         "startTime": 396.0,
         "endTime": 406.5,
         "text": "'Must have had on' demonstrates a past deduction of high probability, while 'to have on' means to wear.",
@@ -1294,7 +1294,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 18
     },
     {
-        "orderIndex": 63,
+        "orderIndex": 64,
         "startTime": 407.0,
         "endTime": 415.5,
         "text": "Humor under immense pressure can defuse tension and prove your emotional intelligence.",
@@ -1310,7 +1310,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 12
     },
     {
-        "orderIndex": 64,
+        "orderIndex": 65,
         "startTime": 750.0,
         "endTime": 759.5,
         "text": "Hey. Don't ever let somebody tell you you can't do something. Not even me. All right?",
@@ -1323,10 +1323,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Cấu trúc mệnh lệnh phủ định mạnh mẽ: 'Don't ever let somebody + V(bare)'. Thể hiện sự tôn trọng tuyệt đối ước mơ của con.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 16
     },
     {
-        "orderIndex": 65,
+        "orderIndex": 66,
         "startTime": 760.0,
         "endTime": 761.5,
         "text": "All right.",
@@ -1340,7 +1340,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 2
     },
     {
-        "orderIndex": 66,
+        "orderIndex": 67,
         "startTime": 762.0,
         "endTime": 768.5,
         "text": "You got a dream... You gotta protect it.",
@@ -1355,7 +1355,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 8
     },
     {
-        "orderIndex": 67,
+        "orderIndex": 68,
         "startTime": 769.0,
         "endTime": 777.5,
         "text": "People can't do something themselves, they wanna tell you you can't do it.",
@@ -1367,10 +1367,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Hiện tượng tâm lý xã hội phản ánh qua câu thoại: sự hoài nghi của người khác thường bắt nguồn từ chính giới hạn của họ.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 13
     },
     {
-        "orderIndex": 68,
+        "orderIndex": 69,
         "startTime": 778.0,
         "endTime": 785.5,
         "text": "If you want something, go get it. Period.",
@@ -1385,7 +1385,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 8
     },
     {
-        "orderIndex": 69,
+        "orderIndex": 70,
         "startTime": 786.0,
         "endTime": 795.5,
         "text": "This part of my life, this little part, is called happiness.",
@@ -1400,7 +1400,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 11
     },
     {
-        "orderIndex": 70,
+        "orderIndex": 71,
         "startTime": 796.0,
         "endTime": 805.5,
         "text": "It was the moment I realized perseverance truly breaks barriers.",
@@ -1415,7 +1415,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 10
     },
     {
-        "orderIndex": 71,
+        "orderIndex": 72,
         "startTime": 997.0,
         "endTime": 1006.5,
         "text": "Now, let's watch the full interview scene again without any subtitles so you can test your comprehension.",
@@ -1427,10 +1427,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Thử thách nghe hiểu thực chiến không có phụ đề để não bộ xử lý âm thanh tự nhiên.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 72,
+        "orderIndex": 73,
         "startTime": 1020.0,
         "endTime": 1026.5,
         "text": "So the truth is, I was arrested for failure to pay parking tickets.",
@@ -1445,7 +1445,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 13
     },
     {
-        "orderIndex": 73,
+        "orderIndex": 74,
         "startTime": 1040.0,
         "endTime": 1048.5,
         "text": "I know how to find the answer, and I will find the answer. Is that fair enough?",
@@ -1460,7 +1460,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 17
     },
     {
-        "orderIndex": 74,
+        "orderIndex": 75,
         "startTime": 1060.0,
         "endTime": 1065.5,
         "text": "He must've had on some really nice pants.",
@@ -1472,10 +1472,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Câu chốt hạ hài hước được ôn tập lại trọn vẹn trong phần nghe hiểu không phụ đề.",
         "properNouns": [],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 75,
+        "orderIndex": 76,
         "startTime": 1180.0,
         "endTime": 1187.5,
         "text": "How much did you understand this time? Did you catch all the connected speech and formal expressions?",
@@ -1490,7 +1490,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 17
     },
     {
-        "orderIndex": 76,
+        "orderIndex": 77,
         "startTime": 1187.6,
         "endTime": 1191.2,
         "text": "Alright, I hope you had a lot of fun with today's lesson.",
@@ -1502,10 +1502,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "Lời chúc thân thiện của người dẫn kết thúc phần nội dung bài giảng.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 77,
+        "orderIndex": 78,
         "startTime": 1191.2,
         "endTime": 1195.2,
         "text": "Go check out the movie, it's really inspiring. I think that you'll really love it.",
@@ -1517,10 +1517,10 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         ],
         "explanationAi": "'Check out' (tìm xem, trải nghiệm). Lời khuyến khích học viên xem trọn vẹn tác phẩm điện ảnh.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 15
     },
     {
-        "orderIndex": 78,
+        "orderIndex": 79,
         "startTime": 1195.2,
         "endTime": 1200.5,
         "text": "Also, be sure to hit subscribe so you know when we put out new lessons like this one.",
@@ -1535,7 +1535,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "tokenCount": 18
     },
     {
-        "orderIndex": 79,
+        "orderIndex": 80,
         "startTime": 1212.1,
         "endTime": 1217.2,
         "text": "Now, it's time to go beyond the classroom and live your English. Aww yeah!",
@@ -1549,7 +1549,7 @@ export const LESSON_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS: MockVideoLesson =
         "properNouns": [
             "English"
         ],
-        "tokenCount": 15
+        "tokenCount": 14
     }
 ],
   quiz: QUIZ_PURSUIT_OF_HAPPYNESS_BASKETBALL_HAPPINESS,

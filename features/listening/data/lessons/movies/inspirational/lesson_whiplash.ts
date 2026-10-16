@@ -50,7 +50,7 @@ export const QUIZ_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: VideoQuizData = {
       "targetedConcept": "Psychological Manipulation & Deceptive Calm",
       "targetedConceptEn": "Psychological Manipulation & Deceptive Calm",
       "targetedConceptVi": "Thao túng tâm lý & Sự bình thản giả tạo",
-      "referenceSegmentIndex": 3
+      "referenceSegmentIndex": 4
     },
     {
       "id": "q_mov_insp_07_2",
@@ -82,7 +82,7 @@ export const QUIZ_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: VideoQuizData = {
       "targetedConcept": "Musical Terminology: Rushing vs. Dragging",
       "targetedConceptEn": "Musical Terminology: Rushing vs. Dragging",
       "targetedConceptVi": "Thuật ngữ âm nhạc: Nhanh nhịp và Trễ nhịp",
-      "referenceSegmentIndex": 23
+      "referenceSegmentIndex": 24
     },
     {
       "id": "q_mov_insp_07_3",
@@ -114,7 +114,7 @@ export const QUIZ_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: VideoQuizData = {
       "targetedConcept": "Character Intimidation & Volatility",
       "targetedConceptEn": "Character Intimidation & Volatility",
       "targetedConceptVi": "Hành vi đe dọa & Sự bùng nổ của nhân vật",
-      "referenceSegmentIndex": 20
+      "referenceSegmentIndex": 21
     },
     {
       "id": "q_mov_insp_07_4",
@@ -146,7 +146,7 @@ export const QUIZ_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: VideoQuizData = {
       "targetedConcept": "Coercive Pedagogical Violence",
       "targetedConceptEn": "Coercive Pedagogical Violence",
       "targetedConceptVi": "Bạo lực giáo dục cưỡng bức",
-      "referenceSegmentIndex": 26
+      "referenceSegmentIndex": 27
     },
     {
       "id": "q_mov_insp_07_5",
@@ -178,7 +178,7 @@ export const QUIZ_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: VideoQuizData = {
       "targetedConcept": "Intimidation & Enforced Perfectionism",
       "targetedConceptEn": "Intimidation & Enforced Perfectionism",
       "targetedConceptVi": "Đe dọa & Chủ nghĩa hoàn hảo áp đặt",
-      "referenceSegmentIndex": 32
+      "referenceSegmentIndex": 33
     },
     {
       "id": "q_mov_insp_07_6",
@@ -210,7 +210,7 @@ export const QUIZ_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: VideoQuizData = {
       "targetedConcept": "Personal Degradation & Psychological Cruelty",
       "targetedConceptEn": "Personal Degradation & Psychological Cruelty",
       "targetedConceptVi": "Lăng mạ cá nhân & Sự tàn nhẫn tâm lý",
-      "referenceSegmentIndex": 54
+      "referenceSegmentIndex": 55
     },
     {
       "id": "q_mov_insp_07_7",
@@ -242,7 +242,7 @@ export const QUIZ_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: VideoQuizData = {
       "targetedConcept": "Professional Speed & High Performance Expectations",
       "targetedConceptEn": "Professional Speed & High Performance Expectations",
       "targetedConceptVi": "Tốc độ chuyên nghiệp & Kỳ vọng đỉnh cao",
-      "referenceSegmentIndex": 58
+      "referenceSegmentIndex": 59
     },
     {
       "id": "q_mov_insp_07_8",
@@ -274,7 +274,7 @@ export const QUIZ_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: VideoQuizData = {
       "targetedConcept": "Thematic Philosophy: The Harm of Complacency",
       "targetedConceptEn": "Thematic Philosophy: The Harm of Complacency",
       "targetedConceptVi": "Triết lý chủ đề: Tác hại của sự tự mãn",
-      "referenceSegmentIndex": 23
+      "referenceSegmentIndex": 24
     }
   ]
 };
@@ -301,7 +301,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
     "Màn đối đầu kịch tính nghẹt thở giữa người thầy độc đoán Terence Fletcher (J.K. Simmons) và tay trống trẻ Andrew Neyman (Miles Teller): 'Không có hai từ nào trong tiếng Anh độc hại hơn cụm từ Good Job (Làm tốt lắm).'",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 1.12,
         "endTime": 5.64,
         "text": "All right man, have fun.",
@@ -315,7 +315,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 19.12,
         "endTime": 25.35,
         "text": "So...",
@@ -329,7 +329,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 31.04,
         "endTime": 34.0,
         "text": "All right gang, Whiplash.",
@@ -345,7 +345,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 34.0,
         "endTime": 39.44,
         "text": "Little under tempo, okay? Neyman, just do your best.",
@@ -362,7 +362,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 39.44,
         "endTime": 43.23,
         "text": "Here we go. Five, six...",
@@ -376,7 +376,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 70.84,
         "endTime": 76.5,
         "text": "Feel like Buddy Rich here?",
@@ -392,7 +392,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 82.4,
         "endTime": 87.44,
         "text": "A little trouble there. Let's pick it up at 17.",
@@ -403,10 +403,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "'Pick it up' (bắt đầu lại một đoạn nhạc từ ô nhịp chỉ định).",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 87.44,
         "endTime": 90.73,
         "text": "Ready. Five, six, and...",
@@ -420,7 +420,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 96.16,
         "endTime": 100.8,
         "text": "Not... not quite my tempo.",
@@ -434,7 +434,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 5
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 100.8,
         "endTime": 104.88,
         "text": "Here we go. Five, six, and...",
@@ -448,7 +448,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 104.88,
         "endTime": 108.56,
         "text": "Downbeat on 18. Okay, there we go.",
@@ -462,7 +462,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 108.56,
         "endTime": 112.08,
         "text": "Five, six...",
@@ -476,7 +476,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 2
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 112.08,
         "endTime": 116.64,
         "text": "Bar 17, the end of four. Got it?",
@@ -491,7 +491,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 116.64,
         "endTime": 121.2,
         "text": "Five, six, seven...",
@@ -505,7 +505,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 121.2,
         "endTime": 128.72,
         "text": "Not quite my tempo. It's all good, no worries, here we go.",
@@ -517,10 +517,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Sự kiên nhẫn bề ngoài bắt đầu có dấu hiệu rạn nứt trước sai sót lặp lại.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 128.72,
         "endTime": 132.24,
         "text": "You're rushing. Here we go.",
@@ -531,10 +531,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "'Rushing' là lỗi phổ biến nhất của các tay trống khi vô thức tăng tốc độ so với tempo tổng thể.",
         "properNouns": [],
-        "tokenCount": 6
+        "tokenCount": 5
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 132.32,
         "endTime": 138.56,
         "text": "Ready, okay. Five, six...",
@@ -548,7 +548,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 4
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 138.56,
         "endTime": 143.84,
         "text": "Dragging just a hair. Wait for my cue.",
@@ -563,7 +563,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 145.6,
         "endTime": 150.32,
         "text": "Five, six, seven...",
@@ -577,7 +577,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 150.32,
         "endTime": 153.32,
         "text": "Rushing!",
@@ -591,7 +591,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 183.28,
         "endTime": 187.36,
         "text": "Why do you suppose I just hurled a chair at your head, Neyman?",
@@ -608,7 +608,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 187.36,
         "endTime": 189.92,
         "text": "I... I don't know.",
@@ -619,10 +619,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Sự sợ hãi, bối rối cùng cực của cậu học trò trẻ tuổi Andrew Neyman.",
         "properNouns": [],
-        "tokenCount": 5
+        "tokenCount": 4
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 189.92,
         "endTime": 192.0,
         "text": "Sure you do.",
@@ -636,7 +636,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 3
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 192.0,
         "endTime": 194.96,
         "text": "The tempo. Were you rushing or were you dragging?",
@@ -650,7 +650,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 194.96,
         "endTime": 198.48,
         "text": "I... I don't know.",
@@ -661,10 +661,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Andrew run rẩy không dám đưa ra câu trả lời.",
         "properNouns": [],
-        "tokenCount": 5
+        "tokenCount": 4
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 198.48,
         "endTime": 202.56,
         "text": "Start counting! Five, six, seven, four... damn it, look at me!",
@@ -679,7 +679,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 202.56,
         "endTime": 207.28,
         "text": "One, two, three, four. One, two, three, four. One, two, three...",
@@ -693,7 +693,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 207.28,
         "endTime": 210.72,
         "text": "Now, was I rushing or was I dragging?",
@@ -707,7 +707,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 210.72,
         "endTime": 213.84,
         "text": "I... I don't know.",
@@ -718,10 +718,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Andrew nghẹn ngào vì bị tát bất ngờ.",
         "properNouns": [],
-        "tokenCount": 5
+        "tokenCount": 4
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 213.84,
         "endTime": 216.24,
         "text": "Count again! One, two, three, four! One, two, three, four! Rushing or dragging?",
@@ -736,7 +736,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 216.24,
         "endTime": 219.2,
         "text": "Rushing.",
@@ -750,7 +750,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 219.2,
         "endTime": 221.84,
         "text": "So you DO know the difference!",
@@ -764,7 +764,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 221.84,
         "endTime": 226.64,
         "text": "If you deliberately sabotage my band, I will gut you like a pig.",
@@ -779,7 +779,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 226.64,
         "endTime": 231.5,
         "text": "Now, are you a rusher or are you a dragger, or are you going to be on my time?",
@@ -795,7 +795,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 19
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 231.5,
         "endTime": 234.88,
         "text": "I'm going to be on your time.",
@@ -806,10 +806,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Andrew cúi đầu chấp nhận sự phục tùng tuyệt đối.",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 234.88,
         "endTime": 238.5,
         "text": "What does that say? Quarter note equals 215.",
@@ -824,7 +824,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 8
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 238.5,
         "endTime": 242.4,
         "text": "Count me a 215. A one, two, three, four. One, two, three, four...",
@@ -838,7 +838,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 13
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 242.4,
         "endTime": 246.72,
         "text": "Jesus Christ, am I to understand that you cannot read tempo?",
@@ -854,7 +854,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 246.72,
         "endTime": 249.12,
         "text": "Can you even read music? What is that? Eighth note?",
@@ -869,7 +869,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 10
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 249.12,
         "endTime": 250.56,
         "text": "Yes.",
@@ -883,7 +883,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 250.56,
         "endTime": 253.5,
         "text": "What is that? Dotted sixteenth note?",
@@ -897,7 +897,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 6
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 253.5,
         "endTime": 258.64,
         "text": "Sight-read measure 101. Play the goddamn kit!",
@@ -909,10 +909,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "'Sight-read' (thị tấu - nhìn bản nhạc và chơi ngay lập tức không qua tập dượt).",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 258.64,
         "endTime": 264.72,
         "text": "Now answer my question: were you rushing or were you dragging?",
@@ -926,7 +926,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 11
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 264.72,
         "endTime": 268.76,
         "text": "Rushing.",
@@ -940,7 +940,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 271.12,
         "endTime": 276.72,
         "text": "Oh my dear God. Are you one of those single-tear people?",
@@ -953,10 +953,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "properNouns": [
             "God"
         ],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 276.72,
         "endTime": 280.08,
         "text": "Do I look like a double rainbow to you?",
@@ -970,7 +970,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 280.08,
         "endTime": 284.4,
         "text": "You must be upset. Are you upset?",
@@ -984,7 +984,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 284.4,
         "endTime": 286.16,
         "text": "No.",
@@ -998,7 +998,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 286.16,
         "endTime": 291.92,
         "text": "No? So you just don't give a damn about any of this? Are you upset, yes or no?",
@@ -1010,10 +1010,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Bẫy tâm lý: nói 'không' thì bị quy là vô trách nhiệm, nói 'có' thì bị sỉ nhục là yếu đuối.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 18
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 291.92,
         "endTime": 293.36,
         "text": "Yes.",
@@ -1027,7 +1027,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 293.36,
         "endTime": 297.76,
         "text": "Say it so the whole band can hear you!",
@@ -1041,7 +1041,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 9
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 297.76,
         "endTime": 301.12,
         "text": "I'm upset.",
@@ -1052,10 +1052,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Andrew nói trong tiếng nấc nghẹn ngào.",
         "properNouns": [],
-        "tokenCount": 3
+        "tokenCount": 2
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 301.12,
         "endTime": 303.52,
         "text": "Louder!",
@@ -1069,7 +1069,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 1
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 303.52,
         "endTime": 306.96,
         "text": "I'm upset!",
@@ -1080,10 +1080,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Andrew hét lên trong đau đớn.",
         "properNouns": [],
-        "tokenCount": 3
+        "tokenCount": 2
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 306.96,
         "endTime": 317.6,
         "text": "You are a worthless, friendless, little piece of trash whose mommy left daddy when she figured out he wasn't Eugene O'Neill, and who is now weeping and slobbering all over my drum set like a nine-year-old girl!",
@@ -1098,10 +1098,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "properNouns": [
             "Eugene O'Neill"
         ],
-        "tokenCount": 41
+        "tokenCount": 37
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 317.6,
         "endTime": 323.28,
         "text": "So for the final father-fucking time, say it louder!",
@@ -1112,10 +1112,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Tiếng thét dữ dội nghiền nát ý chí đối kháng.",
         "properNouns": [],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 323.28,
         "endTime": 326.24,
         "text": "I'm upset!",
@@ -1126,10 +1126,10 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         ],
         "explanationAi": "Tiếng hét tuyệt vọng của Andrew trong nước mắt chan hòa.",
         "properNouns": [],
-        "tokenCount": 3
+        "tokenCount": 2
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 326.24,
         "endTime": 330.24,
         "text": "Carl, take over. Start practicing harder, Neyman.",
@@ -1147,7 +1147,7 @@ export const LESSON_WHIPLASH_THERE_ARE_NO_TWO_WORDS_HARMFUL: MockVideoLesson = {
         "tokenCount": 7
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 330.24,
         "endTime": 344.58,
         "text": "Whiplash, bar 125, big boy tempo, five, six...",

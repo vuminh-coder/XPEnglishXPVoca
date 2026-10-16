@@ -142,7 +142,7 @@ describe("Ted Lasso: Iconic Darts Scene & Top Moments (mov_sit_11) - Verbatim De
     const quiz = QUIZ_TED_LASSO_BE_CURIOUS_NOT_JUDGMENTAL_DARTS;
     for (const q of quiz.questions) {
       expect(q.referenceSegmentIndex).toBeDefined();
-      const targetSeg = segments[q.referenceSegmentIndex!];
+      const targetSeg = segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
       expect(targetSeg.orderIndex).toBe(q.referenceSegmentIndex);
     }

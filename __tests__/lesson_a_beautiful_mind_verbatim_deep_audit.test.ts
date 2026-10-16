@@ -99,14 +99,17 @@ describe("A Beautiful Mind: John Nash Nobel Speech (mov_insp_09) - Verbatim Deep
     expect(segments[54].text).toContain("walk out into the crisp Swedish night, embracing the triumph of a beautiful mind");
   });
 
-  it("Audit 7: Quiz Reference Indices & Semantic Alignment", () => {
+  it("Audit 7: Quiz Reference Indices & Semantic Alignment (1-indexed)", () => {
     const quiz = QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH;
     const segments = LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH.segments;
 
     quiz.questions.forEach((q) => {
       expect(q.referenceSegmentIndex).toBeDefined();
-      const targetSeg = segments[q.referenceSegmentIndex!];
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(segments.length);
+      const targetSeg = segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
+      expect(targetSeg.orderIndex).toBe(q.referenceSegmentIndex);
       expect(q.targetedConcept).toBeTruthy();
       expect(q.targetedConceptVi).toBeTruthy();
       expect(q.explanationVi).toBeTruthy();

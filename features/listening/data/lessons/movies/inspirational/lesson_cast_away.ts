@@ -51,7 +51,7 @@ export const QUIZ_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: VideoQuizData = {
         "targetedConcept": "Idiomatic Expression & Pragmatic Meaning",
         "targetedConceptEn": "Idiomatic Expression & Pragmatic Meaning",
         "targetedConceptVi": "Thành ngữ và ý nghĩa thực dụng ngữ cảnh",
-        "referenceSegmentIndex": 0
+        "referenceSegmentIndex": 1
     },
     {
         "id": "q_mov_insp_10_2",
@@ -83,7 +83,7 @@ export const QUIZ_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: VideoQuizData = {
         "targetedConcept": "Psychological Motivation & Character Analysis",
         "targetedConceptEn": "Psychological Motivation & Character Analysis",
         "targetedConceptVi": "Phân tích động cơ tâm lý nhân vật",
-        "referenceSegmentIndex": 9
+        "referenceSegmentIndex": 10
     },
     {
         "id": "q_mov_insp_10_3",
@@ -115,7 +115,7 @@ export const QUIZ_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: VideoQuizData = {
         "targetedConcept": "Factual Detail & Turning Point Analysis",
         "targetedConceptEn": "Factual Detail & Turning Point Analysis",
         "targetedConceptVi": "Chi tiết thực tế và bước ngoặt bước đệm tâm lý",
-        "referenceSegmentIndex": 15
+        "referenceSegmentIndex": 16
     },
     {
         "id": "q_mov_insp_10_4",
@@ -147,7 +147,7 @@ export const QUIZ_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: VideoQuizData = {
         "targetedConcept": "Metaphor & Imagery Interpretation",
         "targetedConceptEn": "Metaphor & Imagery Interpretation",
         "targetedConceptVi": "Phân tích hình ảnh ẩn dụ và cảm thụ ngôn từ",
-        "referenceSegmentIndex": 18
+        "referenceSegmentIndex": 19
     },
     {
         "id": "q_mov_insp_10_5",
@@ -179,7 +179,7 @@ export const QUIZ_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: VideoQuizData = {
         "targetedConcept": "Narrative Catalyst & Philosophical Contrast",
         "targetedConceptEn": "Narrative Catalyst & Philosophical Contrast",
         "targetedConceptVi": "Chất xúc tác cốt truyện và sự đối lập triết học",
-        "referenceSegmentIndex": 28
+        "referenceSegmentIndex": 29
     },
     {
         "id": "q_mov_insp_10_6",
@@ -211,7 +211,7 @@ export const QUIZ_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: VideoQuizData = {
         "targetedConcept": "Symbolism & Subtext Comprehension",
         "targetedConceptEn": "Symbolism & Subtext Comprehension",
         "targetedConceptVi": "Biểu tượng nghệ thuật và hàm ý ẩn sâu",
-        "referenceSegmentIndex": 31
+        "referenceSegmentIndex": 32
     },
     {
         "id": "q_mov_insp_10_7",
@@ -243,7 +243,7 @@ export const QUIZ_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: VideoQuizData = {
         "targetedConcept": "Emotional Maturity & Moral Perspective",
         "targetedConceptEn": "Emotional Maturity & Moral Perspective",
         "targetedConceptVi": "Sự trưởng thành cảm xúc và góc nhìn nhân văn",
-        "referenceSegmentIndex": 34
+        "referenceSegmentIndex": 35
     },
     {
         "id": "q_mov_insp_10_8",
@@ -275,7 +275,7 @@ export const QUIZ_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: VideoQuizData = {
         "targetedConcept": "Core Philosophical Takeaway",
         "targetedConceptEn": "Core Philosophical Takeaway",
         "targetedConceptVi": "Bài học triết lý nhân sinh cốt lõi",
-        "referenceSegmentIndex": 38
+        "referenceSegmentIndex": 39
     }
 ]
 };
@@ -302,7 +302,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
     "Đoạn độc thoại xúc động chạm đáy tâm hồn của Chuck Noland (Tom Hanks) với người bạn Stan sau khi trở về từ 4 năm sống sót trên đảo hoang: 'Tôi phải tiếp tục hít thở, bởi ngày mai mặt trời sẽ lại mọc, và ai biết được thủy triều sẽ mang tới điều gì.'",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 2.9,
         "endTime": 5.5,
         "text": "We both had done the math.",
@@ -317,7 +317,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 6
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 7.5,
         "endTime": 9.6,
         "text": "Kelly added it all up.",
@@ -333,7 +333,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 5
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 11.5,
         "endTime": 13.5,
         "text": "Knew she had to let me go.",
@@ -348,7 +348,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 7
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 13.7,
         "endTime": 15.4,
         "text": "I added it up.",
@@ -362,7 +362,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 4
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 15.6,
         "endTime": 19.2,
         "text": "Knew that I had lost her.",
@@ -377,7 +377,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 6
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 21.7,
         "endTime": 24.5,
         "text": "Because I was never going to get off that island.",
@@ -393,7 +393,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 10
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 26.8,
         "endTime": 29.2,
         "text": "I was going to die there.",
@@ -407,7 +407,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 6
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 30.0,
         "endTime": 32.2,
         "text": "Totally alone.",
@@ -421,7 +421,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 2
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 37.0,
         "endTime": 41.5,
         "text": "I didn't know if I was going to get sick or if I was going to get injured or something.",
@@ -434,10 +434,10 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         ],
         "explanationAi": "Các cụm động từ miêu tả rủi ro sinh tồn trong tự nhiên hoang dã: mắc bệnh tật hoặc chấn thương trí mạng.",
         "properNouns": [],
-        "tokenCount": 21
+        "tokenCount": 20
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 45.0,
         "endTime": 52.0,
         "text": "The only choice I had, the only thing I could control,",
@@ -452,7 +452,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 11
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 54.5,
         "endTime": 59.5,
         "text": "was when and how and where that was going to happen.",
@@ -467,7 +467,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 11
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 59.5,
         "endTime": 64.5,
         "text": "So I made a rope.",
@@ -481,7 +481,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 5
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 67.2,
         "endTime": 70.5,
         "text": "And I went up to the summit to hang myself.",
@@ -496,7 +496,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 10
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 73.5,
         "endTime": 76.8,
         "text": "I had to test it, you know, of course.",
@@ -511,7 +511,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 9
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 77.8,
         "endTime": 79.5,
         "text": "You know me.",
@@ -525,7 +525,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 3
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 80.5,
         "endTime": 86.4,
         "text": "And the weight of the log snapped the limb of the tree.",
@@ -541,7 +541,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 12
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 86.5,
         "endTime": 91.0,
         "text": "So I couldn't even kill myself the way I wanted to.",
@@ -554,10 +554,10 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         ],
         "explanationAi": "Nhận thức cay đắng khi ngay cả quyền tự kết thúc sinh mạng cũng nằm ngoài tầm kiểm soát.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 91.1,
         "endTime": 94.0,
         "text": "I had power over nothing.",
@@ -571,7 +571,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 5
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 102.1,
         "endTime": 106.0,
         "text": "And that's when this feeling came over me like a warm blanket.",
@@ -583,10 +583,10 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         ],
         "explanationAi": "Hình ảnh ẩn dụ 'like a warm blanket' (như chiếc chăn ấm áp): sự an ủi kỳ diệu, cảm giác được che chở trong cô đơn.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 109.4,
         "endTime": 116.8,
         "text": "I knew somehow that I had to stay alive.",
@@ -601,7 +601,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 9
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 118.5,
         "endTime": 120.2,
         "text": "Somehow.",
@@ -615,7 +615,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 1
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 121.4,
         "endTime": 124.5,
         "text": "I had to keep breathing.",
@@ -629,7 +629,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 5
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 126.2,
         "endTime": 128.8,
         "text": "Even though there was no reason to hope.",
@@ -644,7 +644,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 8
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 130.2,
         "endTime": 135.5,
         "text": "And all my logic said that I would never see this place again.",
@@ -659,7 +659,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 13
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 139.3,
         "endTime": 141.0,
         "text": "So that's what I did.",
@@ -670,10 +670,10 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         ],
         "explanationAi": "Lời đúc kết mộc mạc cho 4 năm chiến đấu ròng rã với thiên nhiên hoang dã.",
         "properNouns": [],
-        "tokenCount": 6
+        "tokenCount": 5
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 142.0,
         "endTime": 143.5,
         "text": "I stayed alive.",
@@ -687,7 +687,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 3
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 144.7,
         "endTime": 146.5,
         "text": "I kept breathing.",
@@ -701,7 +701,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 3
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 148.4,
         "endTime": 152.0,
         "text": "And then one day that logic was proven all wrong...",
@@ -716,7 +716,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 10
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 152.0,
         "endTime": 158.0,
         "text": "because the tide came in, gave me a sail.",
@@ -731,7 +731,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 9
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 161.4,
         "endTime": 164.5,
         "text": "And now here I am.",
@@ -745,7 +745,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 5
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 167.8,
         "endTime": 173.5,
         "text": "I'm back in Memphis talking to you.",
@@ -759,10 +759,10 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "properNouns": [
             "Memphis"
         ],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 175.0,
         "endTime": 178.5,
         "text": "I have ice in my glass.",
@@ -776,7 +776,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 6
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 184.0,
         "endTime": 188.0,
         "text": "And I've lost her all over again.",
@@ -788,10 +788,10 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         ],
         "explanationAi": "'All over again' (lặp lại từ đầu): nỗi đau thứ hai khi trở về thì Kelly đã lập gia đình mới.",
         "properNouns": [],
-        "tokenCount": 8
+        "tokenCount": 7
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 194.4,
         "endTime": 198.0,
         "text": "I'm so sad that I don't have Kelly.",
@@ -805,10 +805,10 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "properNouns": [
             "Kelly"
         ],
-        "tokenCount": 10
+        "tokenCount": 8
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 202.2,
         "endTime": 206.0,
         "text": "But I'm so grateful that she was with me on that island.",
@@ -820,10 +820,10 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         ],
         "explanationAi": "Lòng biết ơn cao thượng: ký ức về Kelly trong chiếc đồng hồ quả quýt chính là nguồn năng lượng giữ cho Chuck sống sót.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 212.5,
         "endTime": 215.8,
         "text": "And I know what I have to do now.",
@@ -837,7 +837,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 9
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 218.0,
         "endTime": 220.0,
         "text": "I gotta keep breathing.",
@@ -851,7 +851,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 4
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 222.7,
         "endTime": 225.5,
         "text": "Because tomorrow the sun will rise.",
@@ -865,7 +865,7 @@ export const LESSON_CAST_AWAY_KEEP_BREATHING_TOMORROW_SUN_RISES: MockVideoLesson
         "tokenCount": 6
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 226.2,
         "endTime": 229.5,
         "text": "Who knows what the tide could bring.",

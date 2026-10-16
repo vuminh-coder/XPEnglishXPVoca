@@ -51,7 +51,7 @@ export const QUIZ_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: VideoQuizData
         "targetedConcept": "Ethical Reframing & Character Defense",
         "targetedConceptEn": "Ethical Reframing & Character Defense",
         "targetedConceptVi": "Tái định hình đạo đức và bảo vệ nhân cách",
-        "referenceSegmentIndex": 2
+        "referenceSegmentIndex": 3
     },
     {
         "id": "q_mov_insp_11_2",
@@ -83,7 +83,7 @@ export const QUIZ_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: VideoQuizData
         "targetedConcept": "Satirical Critique & Institutional Hypocrisy",
         "targetedConceptEn": "Satirical Critique & Institutional Hypocrisy",
         "targetedConceptVi": "Châm biếm phê phán và sự đạo đức giả của thiết chế",
-        "referenceSegmentIndex": 11
+        "referenceSegmentIndex": 12
     },
     {
         "id": "q_mov_insp_11_3",
@@ -115,7 +115,7 @@ export const QUIZ_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: VideoQuizData
         "targetedConcept": "Character Contrast & Social Commentary",
         "targetedConceptEn": "Character Contrast & Social Commentary",
         "targetedConceptVi": "Tương phản tính cách và bình luận xã hội",
-        "referenceSegmentIndex": 13
+        "referenceSegmentIndex": 14
     },
     {
         "id": "q_mov_insp_11_4",
@@ -147,7 +147,7 @@ export const QUIZ_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: VideoQuizData
         "targetedConcept": "Metaphorical Extension & Moral Indictment",
         "targetedConceptEn": "Metaphorical Extension & Moral Indictment",
         "targetedConceptVi": "Hình tượng ẩn dụ mở rộng và cáo trạng đạo đức",
-        "referenceSegmentIndex": 19
+        "referenceSegmentIndex": 20
     },
     {
         "id": "q_mov_insp_11_5",
@@ -179,7 +179,7 @@ export const QUIZ_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: VideoQuizData
         "targetedConcept": "Philosophical Analogy & Moral Anatomy",
         "targetedConceptEn": "Philosophical Analogy & Moral Anatomy",
         "targetedConceptVi": "Loại suy triết học và giải phẫu đạo đức",
-        "referenceSegmentIndex": 34
+        "referenceSegmentIndex": 35
     },
     {
         "id": "q_mov_insp_11_6",
@@ -211,7 +211,7 @@ export const QUIZ_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: VideoQuizData
         "targetedConcept": "Literary Allusion & Rhetorical Deconstruction",
         "targetedConceptEn": "Literary Allusion & Rhetorical Deconstruction",
         "targetedConceptVi": "Điển cố văn học và giải cấu trúc tu từ học",
-        "referenceSegmentIndex": 42
+        "referenceSegmentIndex": 43
     },
     {
         "id": "q_mov_insp_11_7",
@@ -243,7 +243,7 @@ export const QUIZ_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: VideoQuizData
         "targetedConcept": "Personal Vulnerability & Moral Empathy",
         "targetedConceptEn": "Personal Vulnerability & Moral Empathy",
         "targetedConceptVi": "Sự dũng cảm bộc lộ điểm yếu và thấu cảm đạo đức",
-        "referenceSegmentIndex": 49
+        "referenceSegmentIndex": 50
     },
     {
         "id": "q_mov_insp_11_8",
@@ -275,7 +275,7 @@ export const QUIZ_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: VideoQuizData
         "targetedConcept": "Narrative Resolution & Justice Restored",
         "targetedConceptEn": "Narrative Resolution & Justice Restored",
         "targetedConceptVi": "Giải quyết cao trào truyện và công lý phục hồi",
-        "referenceSegmentIndex": 60
+        "referenceSegmentIndex": 61
     }
 ]
 };
@@ -302,7 +302,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
     "Màn diễn xuất đoạt giải Oscar huyền thoại của Al Pacino trong vai Trung tá Frank Slade mù lòa đứng lên bảo vệ cậu học sinh nghèo Charlie Simms trước hội đồng kỷ luật trường Baird: 'Charlie Simms quyết không bán đứng ai để mua lấy tương lai cho mình! Và điều đó được gọi là sự chính trực, đó là lòng can đảm!'",
   segments: [
     {
-        "orderIndex": 0,
+        "orderIndex": 1,
         "startTime": 0.2,
         "endTime": 6.2,
         "text": "I'm going to recommend to the disciplinary committee that you be expelled, Mr. Simms.",
@@ -317,10 +317,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Mr. Simms"
         ],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 1,
+        "orderIndex": 2,
         "startTime": 6.2,
         "endTime": 12.0,
         "text": "You are a cover-up artist, and you are a liar.",
@@ -332,10 +332,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Cụm danh từ 'cover-up artist': kẻ chuyên che giấu sai phạm cho người khác. Lời sỉ nhục nặng nề của Trask nhằm gây sức ép tâm lý.",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 2,
+        "orderIndex": 3,
         "startTime": 12.5,
         "endTime": 15.5,
         "text": "But not a snitch!",
@@ -349,7 +349,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 4
     },
     {
-        "orderIndex": 3,
+        "orderIndex": 4,
         "startTime": 16.0,
         "endTime": 18.0,
         "text": "Excuse me?",
@@ -363,7 +363,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 2
     },
     {
-        "orderIndex": 4,
+        "orderIndex": 5,
         "startTime": 18.2,
         "endTime": 22.0,
         "text": "No, I don't think I will, Mr. Trask!",
@@ -376,10 +376,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Mr. Trask"
         ],
-        "tokenCount": 9
+        "tokenCount": 8
     },
     {
-        "orderIndex": 5,
+        "orderIndex": 6,
         "startTime": 22.2,
         "endTime": 25.5,
         "text": "This is such a crock of shit!",
@@ -393,7 +393,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 7
     },
     {
-        "orderIndex": 6,
+        "orderIndex": 7,
         "startTime": 25.5,
         "endTime": 30.2,
         "text": "Please watch your language, Mr. Slade. You are in the Baird School, not a barracks.",
@@ -411,7 +411,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 15
     },
     {
-        "orderIndex": 7,
+        "orderIndex": 8,
         "startTime": 30.2,
         "endTime": 33.5,
         "text": "Mr. Simms, I will give you one final opportunity to speak up.",
@@ -428,7 +428,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 12
     },
     {
-        "orderIndex": 8,
+        "orderIndex": 9,
         "startTime": 33.5,
         "endTime": 38.0,
         "text": "Mr. Simms doesn't want it! He doesn't need to be labeled 'still worthy of being a Baird man'!",
@@ -443,10 +443,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
             "Mr. Simms",
             "Baird"
         ],
-        "tokenCount": 20
+        "tokenCount": 18
     },
     {
-        "orderIndex": 9,
+        "orderIndex": 10,
         "startTime": 38.2,
         "endTime": 41.8,
         "text": "What the hell is that? What is your motto here?",
@@ -461,7 +461,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 10
     },
     {
-        "orderIndex": 10,
+        "orderIndex": 11,
         "startTime": 41.9,
         "endTime": 47.0,
         "text": "'Boys, inform on your classmates, save your own hide'?",
@@ -476,7 +476,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 9
     },
     {
-        "orderIndex": 11,
+        "orderIndex": 12,
         "startTime": 47.1,
         "endTime": 51.5,
         "text": "Anything short of that, we're gonna burn you at the stake?",
@@ -488,10 +488,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Hình ảnh ẩn dụ thời trung cổ 'burn at the stake' (hỏa thiêu dị giáo), ví von hội đồng kỷ luật như tòa án dị giáo tàn bạo.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 12,
+        "orderIndex": 13,
         "startTime": 51.5,
         "endTime": 57.0,
         "text": "Well, gentlemen, when the shit hits the fan, some guys run and some guys stay.",
@@ -507,7 +507,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 15
     },
     {
-        "orderIndex": 13,
+        "orderIndex": 14,
         "startTime": 57.2,
         "endTime": 64.0,
         "text": "Here's Charlie facing the fire, and there's George hiding in Big Daddy's pocket!",
@@ -522,10 +522,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
             "Charlie",
             "George"
         ],
-        "tokenCount": 16
+        "tokenCount": 13
     },
     {
-        "orderIndex": 14,
+        "orderIndex": 15,
         "startTime": 64.2,
         "endTime": 71.0,
         "text": "And what are you doing? You're going to reward George, and destroy Charlie!",
@@ -540,10 +540,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
             "George",
             "Charlie"
         ],
-        "tokenCount": 14
+        "tokenCount": 13
     },
     {
-        "orderIndex": 15,
+        "orderIndex": 16,
         "startTime": 71.0,
         "endTime": 74.0,
         "text": "Are you finished, Mr. Slade?",
@@ -559,7 +559,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 5
     },
     {
-        "orderIndex": 16,
+        "orderIndex": 17,
         "startTime": 74.2,
         "endTime": 77.0,
         "text": "No, I'm just getting warmed up!",
@@ -570,10 +570,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Cụm 'get warmed up' (khởi động sẵn sàng cho trận chiến lớn). Báo hiệu làn sóng tấn công hùng biện dữ dội sắp bùng nổ.",
         "properNouns": [],
-        "tokenCount": 7
+        "tokenCount": 6
     },
     {
-        "orderIndex": 17,
+        "orderIndex": 18,
         "startTime": 77.5,
         "endTime": 84.0,
         "text": "I don't know who went to this place: William Howard Taft, William Jennings Bryan, William Tell, whoever.",
@@ -589,10 +589,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
             "William Jennings Bryan",
             "William Tell"
         ],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 18,
+        "orderIndex": 19,
         "startTime": 84.2,
         "endTime": 89.5,
         "text": "Their spirit is dead. If they ever had one, it's gone!",
@@ -604,10 +604,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Lời phán quyết về sự xói mòn tinh thần và lý tưởng sống của giới thượng lưu bảo thủ.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 19,
+        "orderIndex": 20,
         "startTime": 89.6,
         "endTime": 94.0,
         "text": "You're building a rat ship here. A vessel for seagoing snitches!",
@@ -620,10 +620,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Hình tượng ẩn dụ cay độc 'rat ship' và 'vessel for seagoing snitches': nơi sản sinh ra những kẻ đê hèn phản bội đồng loại.",
         "properNouns": [],
-        "tokenCount": 12
+        "tokenCount": 11
     },
     {
-        "orderIndex": 20,
+        "orderIndex": 21,
         "startTime": 94.2,
         "endTime": 100.0,
         "text": "And if you think you're preparing these minnows for manhood, you better think again!",
@@ -636,10 +636,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "'Minnows' (lũ cá mồi nhỏ bé tầm thường). 'Manhood' (bản lĩnh người đàn ông trưởng thành). Sự tương phản gay gắt.",
         "properNouns": [],
-        "tokenCount": 15
+        "tokenCount": 14
     },
     {
-        "orderIndex": 21,
+        "orderIndex": 22,
         "startTime": 100.2,
         "endTime": 105.8,
         "text": "Because I say you are killing the very spirit this institution proclaims it instills!",
@@ -655,7 +655,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 14
     },
     {
-        "orderIndex": 22,
+        "orderIndex": 23,
         "startTime": 106.0,
         "endTime": 110.0,
         "text": "What a sham! What kind of a show are you guys putting on here today?",
@@ -670,7 +670,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 15
     },
     {
-        "orderIndex": 23,
+        "orderIndex": 24,
         "startTime": 110.2,
         "endTime": 115.5,
         "text": "I mean, the only class in this act is sitting next to me!",
@@ -685,7 +685,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 13
     },
     {
-        "orderIndex": 24,
+        "orderIndex": 25,
         "startTime": 115.8,
         "endTime": 121.0,
         "text": "And I'm here to tell you, this boy's soul is intact! It's non-negotiable!",
@@ -697,10 +697,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "'Intact' (nguyên vẹn thuần khiết). 'Non-negotiable' (không thể mặc cả, thỏa hiệp). Khẳng định phẩm giá bất khả xâm phạm.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 13
     },
     {
-        "orderIndex": 25,
+        "orderIndex": 26,
         "startTime": 121.2,
         "endTime": 126.8,
         "text": "You know how I know? Someone here—and I'm not gonna say who—offered to buy it.",
@@ -712,10 +712,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Vạch trần hành vi hối lộ tương lai: Trask từng hứa hẹn lá thư giới thiệu vào Đại học Harvard để dụ Charlie phản bội bạn.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 15
     },
     {
-        "orderIndex": 26,
+        "orderIndex": 27,
         "startTime": 127.0,
         "endTime": 130.0,
         "text": "Only Charlie here wasn't selling!",
@@ -728,10 +728,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Charlie"
         ],
-        "tokenCount": 6
+        "tokenCount": 5
     },
     {
-        "orderIndex": 27,
+        "orderIndex": 28,
         "startTime": 130.2,
         "endTime": 133.0,
         "text": "Sir, you are out of order!",
@@ -745,7 +745,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 6
     },
     {
-        "orderIndex": 28,
+        "orderIndex": 29,
         "startTime": 133.2,
         "endTime": 138.0,
         "text": "Out of order?! I'll show you out of order! You don't know what 'out of order' is, Mr. Trask!",
@@ -759,10 +759,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Mr. Trask"
         ],
-        "tokenCount": 21
+        "tokenCount": 19
     },
     {
-        "orderIndex": 29,
+        "orderIndex": 30,
         "startTime": 138.2,
         "endTime": 144.5,
         "text": "I'd show you, but I'm too old, I'm too tired, I'm too fuckin' blind!",
@@ -775,10 +775,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Tiếng thét xé lòng phơi bày nỗi đau thương tật chiến tranh và sự bế tắc của một cựu chiến binh.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 14
     },
     {
-        "orderIndex": 30,
+        "orderIndex": 31,
         "startTime": 144.6,
         "endTime": 150.5,
         "text": "If I were the man I was five years ago, I'd take a flamethrower to this place!",
@@ -790,10 +790,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Câu điều kiện loại 2 thể hiện sự cuồng nộ và sức mạnh chiến trận khủng khiếp trong quá khứ.",
         "properNouns": [],
-        "tokenCount": 18
+        "tokenCount": 17
     },
     {
-        "orderIndex": 31,
+        "orderIndex": 32,
         "startTime": 150.8,
         "endTime": 155.0,
         "text": "'Out of order'? Who the hell do you think you're talking to?",
@@ -804,10 +804,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Khí phách ngút trời của một sĩ quan chỉ huy cấp cao từng vào sinh ra tử trên chiến trường.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 32,
+        "orderIndex": 33,
         "startTime": 155.2,
         "endTime": 161.0,
         "text": "I've been around, you know? There was a time I could see!",
@@ -819,10 +819,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Thành ngữ 'be around' (nếm trải nhiều sóng gió cuộc đời). Chuyển mạch cảm xúc từ thịnh nộ sang chiêm nghiệm sâu sắc.",
         "properNouns": [],
-        "tokenCount": 13
+        "tokenCount": 12
     },
     {
-        "orderIndex": 33,
+        "orderIndex": 34,
         "startTime": 161.2,
         "endTime": 169.0,
         "text": "And I have seen. Boys like these, younger than these, their arms torn out, their legs ripped off.",
@@ -837,7 +837,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 18
     },
     {
-        "orderIndex": 34,
+        "orderIndex": 35,
         "startTime": 169.2,
         "endTime": 175.5,
         "text": "But there is nothing like the sight of an amputated spirit. There is no prosthetic for that!",
@@ -852,7 +852,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 17
     },
     {
-        "orderIndex": 35,
+        "orderIndex": 36,
         "startTime": 175.8,
         "endTime": 182.0,
         "text": "You think you're merely sending this splendid foot soldier back home to Oregon with his tail between his legs?",
@@ -866,10 +866,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Oregon"
         ],
-        "tokenCount": 20
+        "tokenCount": 19
     },
     {
-        "orderIndex": 36,
+        "orderIndex": 37,
         "startTime": 182.2,
         "endTime": 187.0,
         "text": "But I say you are executing his soul!",
@@ -883,7 +883,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 8
     },
     {
-        "orderIndex": 37,
+        "orderIndex": 38,
         "startTime": 187.2,
         "endTime": 194.0,
         "text": "And why? Because he's not a Baird man? 'Baird man'!",
@@ -896,10 +896,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Baird"
         ],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 38,
+        "orderIndex": 39,
         "startTime": 194.2,
         "endTime": 202.0,
         "text": "You hurt this boy, you're gonna be Baird bums!",
@@ -912,10 +912,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Baird"
         ],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 39,
+        "orderIndex": 40,
         "startTime": 202.2,
         "endTime": 209.5,
         "text": "And Harry, Jimmy, Trent, wherever you are out there: Fuck you too!",
@@ -933,7 +933,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 12
     },
     {
-        "orderIndex": 40,
+        "orderIndex": 41,
         "startTime": 210.0,
         "endTime": 213.5,
         "text": "Stand down, Mr. Slade!",
@@ -949,7 +949,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 4
     },
     {
-        "orderIndex": 41,
+        "orderIndex": 42,
         "startTime": 213.8,
         "endTime": 220.5,
         "text": "I'm not finished! As I came in here, I heard those words: 'cradle of leadership'.",
@@ -960,10 +960,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "'Cradle of leadership' (cái nôi lãnh đạo) — khẩu hiệu kinh điển của trường Baird bị đưa ra phẫu thuật mổ xẻ.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 42,
+        "orderIndex": 43,
         "startTime": 221.0,
         "endTime": 227.0,
         "text": "Well, when the bough breaks, the cradle will fall. And it has fallen here. It has fallen!",
@@ -978,7 +978,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 17
     },
     {
-        "orderIndex": 43,
+        "orderIndex": 44,
         "startTime": 227.2,
         "endTime": 235.0,
         "text": "Makers of men! Creators of leaders! Be careful what kind of leaders you're producing here!",
@@ -991,10 +991,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Lời cảnh tỉnh mang tầm triết học thời đại: nếu dạy học trò thói mách lẻo hèn hạ, xã hội sẽ gặt hái những kẻ độc tài đồi bại.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 44,
+        "orderIndex": 45,
         "startTime": 235.5,
         "endTime": 242.0,
         "text": "I don't know if Charlie's silence here today is right or wrong. I'm not a judge or jury.",
@@ -1008,10 +1008,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Charlie"
         ],
-        "tokenCount": 21
+        "tokenCount": 18
     },
     {
-        "orderIndex": 45,
+        "orderIndex": 46,
         "startTime": 242.2,
         "endTime": 248.5,
         "text": "But I can tell you this: he won't sell anybody out to buy his future!",
@@ -1023,10 +1023,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Trục tư tưởng trung tâm của toàn bộ tác phẩm: không đánh đổi phẩm giá và tình bạn để lấy danh vọng cá nhân.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 46,
+        "orderIndex": 47,
         "startTime": 248.8,
         "endTime": 255.5,
         "text": "And that, my friends, is called integrity! That's called courage!",
@@ -1038,10 +1038,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Định nghĩa lại hai phẩm chất cao quý nhất của con người: 'integrity' (sự chính trực thanh liêm) và 'courage' (lòng quả cảm).",
         "properNouns": [],
-        "tokenCount": 11
+        "tokenCount": 10
     },
     {
-        "orderIndex": 47,
+        "orderIndex": 48,
         "startTime": 255.8,
         "endTime": 260.5,
         "text": "Now that's the stuff leaders should be made of!",
@@ -1052,10 +1052,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Thành ngữ 'the stuff someone is made of' (phẩm chất, cốt cách tạo nên con người). Chuẩn mực lãnh đạo đích thực.",
         "properNouns": [],
-        "tokenCount": 10
+        "tokenCount": 9
     },
     {
-        "orderIndex": 48,
+        "orderIndex": 49,
         "startTime": 263.2,
         "endTime": 271.0,
         "text": "Now I have come to the crossroads in my life. I always knew what the right path was. Without exception, I knew.",
@@ -1071,7 +1071,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 22
     },
     {
-        "orderIndex": 49,
+        "orderIndex": 50,
         "startTime": 271.2,
         "endTime": 278.0,
         "text": "But I never took it. You know why? It was too damn hard.",
@@ -1086,7 +1086,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 13
     },
     {
-        "orderIndex": 50,
+        "orderIndex": 51,
         "startTime": 278.2,
         "endTime": 286.0,
         "text": "Now here's Charlie. He's come to the crossroads. He has chosen a path. It's the right path.",
@@ -1100,10 +1100,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Charlie"
         ],
-        "tokenCount": 20
+        "tokenCount": 17
     },
     {
-        "orderIndex": 51,
+        "orderIndex": 52,
         "startTime": 286.2,
         "endTime": 294.0,
         "text": "It's a path made of principle that leads to character. Let him continue on his journey!",
@@ -1116,10 +1116,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Cặp khái niệm triết học: 'principle' (nguyên tắc đạo lý) dẫn lối đến 'character' (nhân cách vĩ đại).",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 16
     },
     {
-        "orderIndex": 52,
+        "orderIndex": 53,
         "startTime": 294.2,
         "endTime": 302.0,
         "text": "You hold this boy's future in your hands, committee. It's a valuable future, believe me.",
@@ -1131,10 +1131,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Kháng cáo trực tiếp tới lương tri của các thành viên hội đồng kỷ luật trường Baird.",
         "properNouns": [],
-        "tokenCount": 17
+        "tokenCount": 15
     },
     {
-        "orderIndex": 53,
+        "orderIndex": 54,
         "startTime": 302.2,
         "endTime": 312.0,
         "text": "Don't destroy it. Protect it. Embrace it. It's gonna make you proud one day, I promise you.",
@@ -1147,10 +1147,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Chuỗi ba mệnh lệnh từ ngữ tăng tiến: 'Protect' -> 'Embrace' -> 'Make you proud'. Lời kết hùng tráng rung động toàn bộ khán phòng.",
         "properNouns": [],
-        "tokenCount": 19
+        "tokenCount": 17
     },
     {
-        "orderIndex": 54,
+        "orderIndex": 55,
         "startTime": 339.4,
         "endTime": 343.5,
         "text": "How's that for a call, Colonel?",
@@ -1164,10 +1164,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "properNouns": [
             "Colonel"
         ],
-        "tokenCount": 7
+        "tokenCount": 6
     },
     {
-        "orderIndex": 55,
+        "orderIndex": 56,
         "startTime": 362.8,
         "endTime": 366.0,
         "text": "Nothing like shutting 'em up.",
@@ -1181,7 +1181,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 5
     },
     {
-        "orderIndex": 56,
+        "orderIndex": 57,
         "startTime": 368.4,
         "endTime": 375.5,
         "text": "The disciplinary committee will take this matter under advisement in closed session.",
@@ -1196,7 +1196,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 12
     },
     {
-        "orderIndex": 57,
+        "orderIndex": 58,
         "startTime": 381.8,
         "endTime": 387.5,
         "text": "Apparently that meeting will be unnecessary, Mr. Trask.",
@@ -1213,7 +1213,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 8
     },
     {
-        "orderIndex": 58,
+        "orderIndex": 59,
         "startTime": 407.6,
         "endTime": 416.0,
         "text": "The joint student-faculty disciplinary committee needs no further sessions. They have come to a decision.",
@@ -1225,10 +1225,10 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         ],
         "explanationAi": "Quyết định đồng thuận tuyệt đối của đại diện sinh viên và giảng viên trường Baird.",
         "properNouns": [],
-        "tokenCount": 16
+        "tokenCount": 15
     },
     {
-        "orderIndex": 59,
+        "orderIndex": 60,
         "startTime": 416.0,
         "endTime": 425.5,
         "text": "Messrs. Havemeyer, Potter, and Jameson are placed on probation for suspicion of ungentlemanly conduct.",
@@ -1247,7 +1247,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 14
     },
     {
-        "orderIndex": 60,
+        "orderIndex": 61,
         "startTime": 425.6,
         "endTime": 433.7,
         "text": "It is further recommended that Mr. George Willis Jr. receive neither recognition nor commendation for his cooperation.",
@@ -1263,7 +1263,7 @@ export const LESSON_SCENT_OF_A_WOMAN_AL_PACINO_BAIRD_SCHOOL_DEFENSE: MockVideoLe
         "tokenCount": 17
     },
     {
-        "orderIndex": 61,
+        "orderIndex": 62,
         "startTime": 433.8,
         "endTime": 442.8,
         "text": "Mr. Charles Simms is excused from any further response to this incident.",

@@ -85,14 +85,17 @@ describe("The Theory of Everything: Stephen Hawking Ending (mov_insp_08) - Verba
     expect(segments[33].text).toContain("lived for over fifty years beyond his prognosis");
   });
 
-  it("Audit 7: Quiz Reference Indices & Semantic Alignment", () => {
+  it("Audit 7: Quiz Reference Indices & Semantic Alignment (1-indexed)", () => {
     const quiz = QUIZ_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE;
     const segments = LESSON_THEORY_OF_EVERYTHING_WHERE_THERE_IS_LIFE_HOPE.segments;
 
     quiz.questions.forEach((q) => {
       expect(q.referenceSegmentIndex).toBeDefined();
-      const targetSeg = segments[q.referenceSegmentIndex!];
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(segments.length);
+      const targetSeg = segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
+      expect(targetSeg.orderIndex).toBe(q.referenceSegmentIndex);
       expect(q.targetedConcept).toBeTruthy();
       expect(q.targetedConceptVi).toBeTruthy();
       expect(q.explanationVi).toBeTruthy();

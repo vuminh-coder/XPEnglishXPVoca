@@ -141,36 +141,36 @@ describe("Tangled: Rapunzel & Flynn Rider Floating Lanterns & I See The Light (m
     const quiz = QUIZ_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT;
     expect(quiz.questions.length).toBe(8);
 
-    // Q1 -> referenceSegmentIndex 2
-    expect(quiz.questions[0].referenceSegmentIndex).toBe(2);
+    // Q1 -> referenceSegmentIndex 3
+    expect(quiz.questions[0].referenceSegmentIndex).toBe(3);
     expect(LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT.segments[2].text).toContain("pointless");
 
-    // Q2 -> referenceSegmentIndex 14
-    expect(quiz.questions[1].referenceSegmentIndex).toBe(14);
+    // Q2 -> referenceSegmentIndex 15
+    expect(quiz.questions[1].referenceSegmentIndex).toBe(15);
     expect(LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT.segments[14].text).toContain("satchel");
 
-    // Q3 -> referenceSegmentIndex 20
-    expect(quiz.questions[2].referenceSegmentIndex).toBe(20);
+    // Q3 -> referenceSegmentIndex 21
+    expect(quiz.questions[2].referenceSegmentIndex).toBe(21);
     expect(LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT.segments[20].text).toContain("Literally");
 
-    // Q4 -> referenceSegmentIndex 32
-    expect(quiz.questions[3].referenceSegmentIndex).toBe(32);
+    // Q4 -> referenceSegmentIndex 33
+    expect(quiz.questions[3].referenceSegmentIndex).toBe(33);
     expect(LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT.segments[32].text).toContain("act as my guide");
 
-    // Q5 -> referenceSegmentIndex 42
-    expect(quiz.questions[4].referenceSegmentIndex).toBe(42);
+    // Q5 -> referenceSegmentIndex 43
+    expect(quiz.questions[4].referenceSegmentIndex).toBe(43);
     expect(LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT.segments[42].text).toContain("smolder");
 
-    // Q6 -> referenceSegmentIndex 46
-    expect(quiz.questions[5].referenceSegmentIndex).toBe(46);
+    // Q6 -> referenceSegmentIndex 47
+    expect(quiz.questions[5].referenceSegmentIndex).toBe(47);
     expect(LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT.segments[46].text).toContain("elision");
 
-    // Q7 -> referenceSegmentIndex 41
-    expect(quiz.questions[6].referenceSegmentIndex).toBe(41);
+    // Q7 -> referenceSegmentIndex 42
+    expect(quiz.questions[6].referenceSegmentIndex).toBe(42);
     expect(LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT.segments[41].text).toContain("break that promise");
 
-    // Q8 -> referenceSegmentIndex 49
-    expect(quiz.questions[7].referenceSegmentIndex).toBe(49);
+    // Q8 -> referenceSegmentIndex 50
+    expect(quiz.questions[7].referenceSegmentIndex).toBe(50);
     expect(LESSON_TANGLED_LANTERN_FESTIVAL_I_SEE_THE_LIGHT.segments[49].text).toContain("fog has lifted");
   });
 });

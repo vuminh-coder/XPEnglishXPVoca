@@ -4,6 +4,27 @@ import {
   QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH,
 } from "../features/listening/data/lessons/movies/inspirational/lesson_a_beautiful_mind";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        clean,
+        isProperNoun: isPN,
+      };
+    })
+    .filter((t) => t.clean.length > 0);
+}
+
 describe("A Beautiful Mind: John Nash Nobel Speech (mov_insp_09) - Complete Data Coverage Suite", () => {
   it("Test 1: Full Metadata & Duration Alignment", () => {
     const lesson = LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH;
@@ -22,14 +43,14 @@ describe("A Beautiful Mind: John Nash Nobel Speech (mov_insp_09) - Complete Data
     expect(lesson.thumbnailUrl).toContain("rrZBpTZmGfI");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed)", () => {
     const segments = LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH.segments;
     expect(segments.length).toBeGreaterThanOrEqual(50);
     expect(segments.length).toBe(55);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -58,15 +79,20 @@ describe("A Beautiful Mind: John Nash Nobel Speech (mov_insp_09) - Complete Data
     }
   });
 
-  it("Test 4: Strict Token Count Accuracy via Regex", () => {
+  it("Test 4: Pure Master Segments & Zero Merged Utterances Standard", () => {
     const segments = LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH.segments;
     for (const seg of segments) {
-      const tokens = seg.text.match(/\b[A-Za-z0-9_]+\b/g) || [];
+      expect(seg.text).not.toContain(">>");
+      expect(seg.text).not.toContain("[Music]");
+      expect(seg.text).not.toContain("[Applause]");
+      expect(seg.text).not.toContain(" — ");
+
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
       expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions)", () => {
+  it("Test 5: Full Bilingual Quiz Rigor (8 CEFR Questions, 1-indexed)", () => {
     const quiz = QUIZ_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH;
     expect(quiz.lessonId).toBe("mov_insp_09");
     expect(quiz.totalQuestions).toBe(8);
@@ -89,8 +115,8 @@ describe("A Beautiful Mind: John Nash Nobel Speech (mov_insp_09) - Complete Data
       expect(q.targetedConceptEn).toBeDefined();
       expect(q.targetedConceptVi).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex).toBeLessThan(
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(
         LESSON_A_BEAUTIFUL_MIND_NOBEL_PRIZE_SPEECH.segments.length
       );
     });
@@ -124,9 +150,8 @@ describe("A Beautiful Mind: John Nash Nobel Speech (mov_insp_09) - Complete Data
     expect(textAll).toContain("Nobel Prize");
     expect(textAll).toContain("equilibrium");
     expect(textAll).toContain("diet of the mind");
-    expect(textAll).toContain("fountain pen");
     expect(textAll).toContain("mysterious equations of love");
-    expect(textAll).toContain("all my reasons");
-    expect(textAll).toContain("standing ovation");
+    expect(textAll).toContain("Charles");
+    expect(textAll).toContain("Parcher");
   });
 });

@@ -4,6 +4,27 @@ import {
   QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN,
 } from "../features/listening/data/lessons/movies/inspirational/lesson_dead_poets_society";
 
+function tokenizeSentence(sentence: string, properNouns: string[] = []) {
+  if (!sentence) return [];
+  const normalizedPNDict: Record<string, string> = {};
+  properNouns.forEach((pn) => {
+    normalizedPNDict[pn.toLowerCase().trim()] = pn.trim();
+  });
+  const words = sentence.trim().split(/\s+/);
+  return words
+    .map((w, idx) => {
+      const clean = w.replace(/^[^\w\s']+|[^\w\s']+$/g, "");
+      const isPN = !!normalizedPNDict[clean.toLowerCase()];
+      return {
+        index: idx,
+        text: w,
+        clean,
+        isProperNoun: isPN,
+      };
+    })
+    .filter((t) => t.clean.length > 0);
+}
+
 describe("Dead Poets Society: Robin Williams 'Rip It Out' (mov_insp_03) - Complete Data Coverage Suite", () => {
   it("Test 1: Full Metadata & Duration Alignment", () => {
     const lesson = LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN;
@@ -22,14 +43,14 @@ describe("Dead Poets Society: Robin Williams 'Rip It Out' (mov_insp_03) - Comple
     expect(lesson.thumbnailUrl).toContain("8x0COtH4Vrw");
   });
 
-  it("Test 2: Master Segments Volume & Chronological Progression", () => {
+  it("Test 2: Master Segments Volume & Chronological Progression (1-indexed)", () => {
     const segments = LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN.segments;
     expect(segments.length).toBeGreaterThanOrEqual(50);
     expect(segments.length).toBe(59);
 
     for (let i = 0; i < segments.length; i++) {
       const seg = segments[i];
-      expect(seg.orderIndex).toBe(i);
+      expect(seg.orderIndex).toBe(i + 1);
       expect(seg.startTime).toBeLessThan(seg.endTime);
       if (i > 0) {
         expect(seg.startTime).toBeGreaterThanOrEqual(segments[i - 1].startTime);
@@ -66,13 +87,13 @@ describe("Dead Poets Society: Robin Williams 'Rip It Out' (mov_insp_03) - Comple
       expect(seg.text).not.toContain("[Music]");
       expect(seg.text).not.toContain("[Applause]");
 
-      // Token count check matching word boundary
-      const jsTokens = (seg.text.match(/\b[A-Za-z0-9_]+\b/g) || []).length;
-      expect(seg.tokenCount).toBe(jsTokens);
+      // Token count check matching tokenizeSentence
+      const tokens = tokenizeSentence(seg.text, seg.properNouns || []);
+      expect(seg.tokenCount).toBe(tokens.length);
     }
   });
 
-  it("Test 5: Comprehensive CEFR B2 Quiz Structure", () => {
+  it("Test 5: Comprehensive CEFR B2 Quiz Structure (1-indexed references)", () => {
     const quiz = QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN;
     expect(quiz.lessonId).toBe("mov_insp_03");
     expect(quiz.totalQuestions).toBe(8);
@@ -103,8 +124,8 @@ describe("Dead Poets Society: Robin Williams 'Rip It Out' (mov_insp_03) - Comple
       expect(q.targetedConceptVi).toBeDefined();
       expect(q.referenceSegmentIndex).toBeDefined();
       expect(typeof q.referenceSegmentIndex).toBe("number");
-      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(0);
-      expect(q.referenceSegmentIndex!).toBeLessThan(
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex!).toBeLessThanOrEqual(
         LESSON_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN.segments.length
       );
     }

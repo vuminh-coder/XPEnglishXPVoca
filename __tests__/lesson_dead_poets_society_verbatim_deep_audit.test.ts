@@ -163,12 +163,15 @@ describe("Dead Poets Society: Robin Williams 'Rip It Out' (mov_insp_03) - Verbat
     );
     expect(segments[58].text).toBe("What will your verse be?");
 
-    // Quiz cross-reference audit
+    // Quiz cross-reference audit (1-indexed)
     const quiz = QUIZ_DEAD_POETS_SOCIETY_CARPE_DIEM_CAPTAIN;
     for (const q of quiz.questions) {
       expect(q.referenceSegmentIndex).toBeDefined();
-      const targetSeg = segments[q.referenceSegmentIndex!];
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(segments.length);
+      const targetSeg = segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
+      expect(targetSeg.orderIndex).toBe(q.referenceSegmentIndex);
       expect(targetSeg.text.length).toBeGreaterThan(0);
     }
   });

@@ -97,14 +97,17 @@ describe("Forrest Gump: Tom Hanks on Becoming Gump (mov_insp_05) - Verbatim Deep
     expect(sForky!.properNouns).toContain("Toy Story 4");
   });
 
-  it("Audit 7: Quiz Reference Indices & Semantic Alignment", () => {
+  it("Audit 7: Quiz Reference Indices & Semantic Alignment (1-indexed)", () => {
     const quiz = QUIZ_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE;
     const segments = LESSON_FORREST_GUMP_BOX_OF_CHOCOLATES_JENNYS_GRAVE.segments;
 
     quiz.questions.forEach((q) => {
       expect(q.referenceSegmentIndex).toBeDefined();
-      const targetSeg = segments[q.referenceSegmentIndex!];
+      expect(q.referenceSegmentIndex).toBeGreaterThanOrEqual(1);
+      expect(q.referenceSegmentIndex).toBeLessThanOrEqual(segments.length);
+      const targetSeg = segments[q.referenceSegmentIndex! - 1];
       expect(targetSeg).toBeDefined();
+      expect(targetSeg.orderIndex).toBe(q.referenceSegmentIndex);
       expect(q.targetedConcept).toBeTruthy();
       expect(q.targetedConceptVi).toBeTruthy();
       expect(q.explanationVi).toBeTruthy();
