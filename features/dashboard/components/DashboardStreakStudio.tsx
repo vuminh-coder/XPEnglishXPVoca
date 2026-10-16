@@ -127,7 +127,7 @@ export function DashboardStreakStudio({
             className="w-full py-2 sm:py-2.5 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 cursor-default select-none shadow-2xs"
           >
             <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-            <span>Đã điểm danh hôm nay (+15 XP)</span>
+            <span>Đã điểm danh hôm nay</span>
           </div>
         ) : (
           <button
@@ -141,7 +141,7 @@ export function DashboardStreakStudio({
             ) : (
               <Flame className="w-4 h-4 fill-amber-300 text-amber-300" />
             )}
-            <span>{isCheckingIn ? "Đang điểm danh..." : "Điểm danh ngay (+15 XP)"}</span>
+            <span>{isCheckingIn ? "Đang điểm danh..." : "Điểm danh ngay"}</span>
           </button>
         )}
       </div>
