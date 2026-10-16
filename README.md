@@ -6256,7 +6256,7 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Hỗ trợ 5 kích thước chuẩn hóa: `xs` (24px), `sm` (32px), `md` (48-56px), `lg` (80-96px), `xl` (112-128px).
         * Tích hợp 3 lớp hiệu ứng điện ảnh:
           1. **Ambient Backlight Halo**: Vầng sáng tỏa tròn hổ phách kết hợp chân đế xanh hoàng gia nhịp nhàng (`scale` & `opacity` breathing).
-          2. **Kinetic Micro-Sparks System (Tối Giản & Tinh Tế)**: Loại bỏ toàn bộ các vòng tròn và đốm halo thừa; tinh giản thành đúng 3 tia lửa li ti sắc nét (2 tia lửa kim cương 4 cánh vàng óng 5-7px ở góc trên hai bên và 1 chấm tàn lửa 2px bay bốc lên nhẹ nhàng bên sườn trái), tạo sự chuyển động sống động tự nhiên mà không gây rối mắt.
+          2. **Kinetic Micro-Sparks System (Tối Giản & Tinh Tế)**: Loại bỏ toàn bộ các vòng tròn và đốm halo thừa; tinh giản thành đúng 3 tia lửa li ti sắc nét được cân chỉnh kích thước vừa vặn (2 tia lửa kim cương 4 cánh vàng óng 10-13px ở góc trên hai bên và 1 chấm tàn lửa 4px bay bốc lên nhẹ nhàng bên sườn trái), tạo sự chuyển động sống động tự nhiên mà không gây rối mắt.
           3. **Breathing Hover Micro-Interaction**: Hiệu ứng nhấp nhô nhẹ nhàng tự nhiên và phản hồi khi di chuột / chạm.
       - **Tích Hợp Đồng Bộ Trên Toàn Bộ Nền Tảng**:
         * `DashboardStreakStudio.tsx`: Đốm lửa mascot 3D trung tâm `<StreakFlame3D size="lg" />`, tạo điểm nhấn thu hút và ấm áp.

@@ -103,15 +103,15 @@ export function StreakFlame3D({
       {/* 2. Exactly 3 Tiny Subtle Flying Sparks (Chỉ mấy cái nhỏ nhỏ bay, không hình tròn thừa) */}
       {showSparks && isLarge && animate && (
         <>
-          {/* Spark 1 - Upper Right (Tia lửa nhỏ 7px phía trên bên phải) */}
+          {/* Spark 1 - Upper Right (Tia lửa kim cương 13px góc trên bên phải) */}
           <motion.div
-            className="absolute top-1 -right-1 sm:-right-2 pointer-events-none z-20"
+            className="absolute top-1 -right-1.5 sm:-right-2.5 pointer-events-none z-20"
             animate={{
-              y: [0, -6, 0],
+              y: [0, -7, 0],
               x: [0, 2, 0],
-              rotate: [0, 15, -10, 0],
-              scale: [0.85, 1.15, 0.85],
-              opacity: [0.4, 0.95, 0.4],
+              rotate: [0, 18, -10, 0],
+              scale: [0.9, 1.2, 0.9],
+              opacity: [0.45, 1, 0.45],
             }}
             transition={{
               duration: 3,
@@ -119,18 +119,18 @@ export function StreakFlame3D({
               ease: "easeInOut",
             }}
           >
-            <MicroSpark size={7} uid={`${baseId}-tr`} />
+            <MicroSpark size={13} uid={`${baseId}-tr`} />
           </motion.div>
 
-          {/* Spark 2 - Upper Left (Tia lửa nhỏ 5px phía trên bên trái) */}
+          {/* Spark 2 - Upper Left (Tia lửa kim cương 10px góc trên bên trái) */}
           <motion.div
-            className="absolute top-3 -left-1 sm:-left-2 pointer-events-none z-20"
+            className="absolute top-2.5 -left-1.5 sm:-left-2.5 pointer-events-none z-20"
             animate={{
-              y: [0, -5, 0],
+              y: [0, -6, 0],
               x: [0, -2, 0],
-              rotate: [0, -15, 10, 0],
-              scale: [0.8, 1.1, 0.8],
-              opacity: [0.35, 0.85, 0.35],
+              rotate: [0, -18, 10, 0],
+              scale: [0.85, 1.15, 0.85],
+              opacity: [0.4, 0.9, 0.4],
             }}
             transition={{
               duration: 2.6,
@@ -139,17 +139,17 @@ export function StreakFlame3D({
               delay: 0.5,
             }}
           >
-            <MicroSpark size={5} uid={`${baseId}-tl`} />
+            <MicroSpark size={10} uid={`${baseId}-tl`} />
           </motion.div>
 
-          {/* Spark 3 - Left Drift (1 chấm tàn lửa li ti 2px bay nhẹ bốc lên rồi tan biến) */}
+          {/* Spark 3 - Left Drift (Đốm tàn lửa 4px bay nhẹ bốc lên rồi tan biến) */}
           <motion.div
             className="absolute bottom-7 left-0 pointer-events-none z-20"
             animate={{
-              y: [0, -14, -24],
+              y: [0, -16, -28],
               x: [0, -3, -1],
-              opacity: [0, 0.8, 0],
-              scale: [0.6, 1, 0.4],
+              opacity: [0, 0.85, 0],
+              scale: [0.7, 1.15, 0.5],
             }}
             transition={{
               duration: 2.8,
@@ -158,7 +158,7 @@ export function StreakFlame3D({
               delay: 0.3,
             }}
           >
-            <div className="w-1 h-1 rounded-full bg-amber-300" />
+            <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-tr from-amber-400 via-yellow-300 to-white shadow-[0_0_4px_rgba(251,191,36,0.8)]" />
           </motion.div>
         </>
       )}
