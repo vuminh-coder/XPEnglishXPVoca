@@ -93,99 +93,99 @@ export function DashboardHeroGreeting({
       <div className="h-px bg-slate-100 dark:bg-slate-800 w-full" />
 
       {/* 4 Double-Bezel Metric Cards Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
         {/* Metric 1: Streak (Amber Gold) */}
-        <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-800/60 shadow-2xs group">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform p-1 overflow-hidden">
-            <StreakFlame3D size="sm" showHalo={false} showSparks={false} />
+        <div className="py-2 sm:py-2.5 px-3 sm:px-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5 sm:gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-800/60 shadow-2xs group">
+          <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform p-0.5 overflow-hidden">
+            <StreakFlame3D size="xs" showHalo={false} showSparks={false} />
           </div>
           <div className="min-w-0 flex-1">
             {isActuallyLoading ? (
-              <ShimmerBox className="h-5 w-16 rounded" />
+              <ShimmerBox className="h-4 w-14 rounded" />
             ) : (
-              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white tabular-nums truncate">
+              <div className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white tabular-nums truncate leading-tight">
                 {user?.currentStreak || 1}{" "}
-                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-sans">
+                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 font-sans">
                   ngày
                 </span>
               </div>
             )}
-            <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+            <div className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate leading-tight mt-0.5">
               Chuỗi học liên tiếp
             </div>
           </div>
         </div>
 
         {/* Metric 2: Study Time (Sky Blue) */}
-        <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 transition-all hover:border-sky-300 dark:hover:border-sky-800/60 shadow-2xs group">
-          <div className="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-            <Clock className="w-5 h-5 stroke-[2.2]" />
+        <div className="py-2 sm:py-2.5 px-3 sm:px-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5 sm:gap-3 transition-all hover:border-sky-300 dark:hover:border-sky-800/60 shadow-2xs group">
+          <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+            <Clock className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
           </div>
           <div className="min-w-0 flex-1">
             {isActuallyLoading ? (
-              <ShimmerBox className="h-5 w-16 rounded" />
+              <ShimmerBox className="h-4 w-14 rounded" />
             ) : (
-              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white tabular-nums truncate">
+              <div className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white tabular-nums truncate leading-tight">
                 {Math.floor((user?.minutesStudied || 15) / 60)}h {(user?.minutesStudied || 15) % 60}m
               </div>
             )}
-            <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+            <div className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate leading-tight mt-0.5">
               Thời gian luyện tập
             </div>
           </div>
         </div>
 
         {/* Metric 3: Saved Words (Emerald Green) */}
-        <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 transition-all hover:border-emerald-300 dark:hover:border-emerald-800/60 shadow-2xs group">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-            <BookmarkCheck className="w-5 h-5 stroke-[2.2]" />
+        <div className="py-2 sm:py-2.5 px-3 sm:px-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5 sm:gap-3 transition-all hover:border-emerald-300 dark:hover:border-emerald-800/60 shadow-2xs group">
+          <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+            <BookmarkCheck className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
           </div>
           <div className="min-w-0 flex-1">
             {isActuallyLoading ? (
-              <ShimmerBox className="h-5 w-16 rounded" />
+              <ShimmerBox className="h-4 w-14 rounded" />
             ) : (
-              <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white tabular-nums truncate">
+              <div className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white tabular-nums truncate leading-tight">
                 {savedWordsCount}{" "}
-                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 font-sans">
+                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 font-sans">
                   từ
                 </span>
               </div>
             )}
-            <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+            <div className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate leading-tight mt-0.5">
               Vốn từ đã tích lũy
             </div>
           </div>
         </div>
 
         {/* Metric 4: Total XP & Level Bar (Royal Blue) */}
-        <div className="p-3 sm:p-3.5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3 transition-all hover:border-blue-300 dark:hover:border-blue-800/60 shadow-2xs group">
-          <div className="w-10 h-10 rounded-xl bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-            <Target className="w-5 h-5 stroke-[2.2]" />
+        <div className="py-2 sm:py-2.5 px-3 sm:px-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5 sm:gap-3 transition-all hover:border-blue-300 dark:hover:border-blue-800/60 shadow-2xs group">
+          <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-lg bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-400 border border-[#0059bb]/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+            <Target className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
           </div>
           <div className="min-w-0 flex-1">
             <div className="flex items-center justify-between gap-1">
               {isActuallyLoading ? (
-                <ShimmerBox className="h-5 w-16 rounded" />
+                <ShimmerBox className="h-4 w-14 rounded" />
               ) : (
-                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white tabular-nums truncate">
+                <div className="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white tabular-nums truncate leading-tight">
                   {user?.totalXp || 0}{" "}
-                  <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 font-sans">
+                  <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 font-sans">
                     XP
                   </span>
                 </div>
               )}
-              <span className="px-1.5 py-0.2 rounded-md bg-blue-100 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300 font-mono font-bold text-[9.5px] shrink-0">
+              <span className="px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300 font-mono font-bold text-[9px] shrink-0 leading-none">
                 {formatPercent(xpPercent)}
               </span>
             </div>
-            <div className="w-full mt-0.5">
-              <div className="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+            <div className="w-full mt-1">
+              <div className="h-1 w-full rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-[#0059bb] via-indigo-600 to-purple-600 transition-all duration-500"
                   style={{ width: `${xpPercent}%` }}
                 />
               </div>
-              <div className="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+              <div className="text-[9.5px] sm:text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5 leading-tight">
                 Tiến độ cấp độ Lv.{user?.level || 1}
               </div>
             </div>
