@@ -6230,6 +6230,22 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * `__tests__/auth_exam_standards.test.ts`: **5/5 tests PASS 100%**.
         * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
 
+  21. **Kết Nối Chuỗi Streak Vào Cơ Sở Dữ Liệu PostgreSQL, Đồng Bộ Múi Giờ Địa Phương & Nâng Cấp Thăng Cấp Đa Tầng (Server-Authoritative Streak Engine, Timezone Parity & Multi-Level Level-Up)**:
+      - **Kết nối chuỗi Streak thực tế với Database (`Profile` & `DailySkillPractice`)**:
+        * Phát triển hàm `calculateStreakFromActiveDates` tại `shared/utils/dateUtils.ts` tính toán số ngày học liên tiếp thực tế từ toàn bộ lịch sử hoạt động trong database (Dictation, Shadowing, Luyện từ, Viết, Đề thi).
+        * Nâng cấp `POST /api/user/activity-award`: Tự động tính toán và lưu `currentStreak`, `longestStreak`, `streakFreezes` vào cơ sở dữ liệu PostgreSQL ngay khi học viên hoàn thành bất kỳ kỹ năng nào mà không cần phải bấm nút Điểm danh thủ công.
+        * Nâng cấp `POST /api/user/daily-checkin`: Mở rộng tìm kiếm các buổi học trước đó trên toàn bộ các kỹ năng (thay vì chỉ lọc mỗi `skill: "checkin"`), đồng thời tự động kích hoạt trừ `streakFreezes` cứu chuỗi khi học viên vắng mặt 1 ngày.
+        * Nâng cấp `GET /api/dashboard/overview`: Tính toán số ngày học liên tiếp chuẩn xác từ các bảng hoạt động và trả về dữ liệu streak đồng bộ với database.
+      - **Triệt tiêu lệch múi giờ (Timezone Parity)**:
+        * Thay thế toàn bộ 4 vị trí dùng `toISOString().slice(0, 10)` (giờ UTC) trong `app/(dashboard)/dashboard/page.tsx` bằng `getLocalDateString(new Date())` (giờ địa phương), giải quyết dứt điểm lỗi lệch ngày điểm danh trong ca học đêm khuya (00:00 - 06:59 sáng giờ VN).
+      - **Hỗ trợ Thăng cấp Đa tầng (Multi-Level Jump)**:
+        * Cập nhật `awardXp` trong `stores/userStore.ts` thay thế câu lệnh `if` bằng vòng lặp `while (newLevel < LEVEL_XP.length && newXp >= LEVEL_XP[newLevel])` cho phép học viên nhảy vọt từ Level 1 lên Level 4 khi nhận thưởng lớn kèm tiền thưởng Vàng tích lũy chính xác.
+        * Tái sử dụng trực tiếp mảng `LEVEL_XP` từ `@/shared/constants` loại bỏ hoàn toàn trùng lặp code.
+      - **Bộ Kiểm Thử & Kiểm Định Kiểu Dữ Liệu 100% PASS**:
+        * `__tests__/streak_database_and_xp_level.test.ts`: **9/9 tests PASS 100%** (Kiểm tra chuỗi liên tiếp, giữ streak qua ngày, sử dụng freeze cứu chuỗi, reset khi đứt gãy, thăng cấp đa tầng Lv1 -> Lv4).
+        * Toàn bộ 4 test suites Bảng điều khiển (`dashboard_state_retention.test.ts`, `dashboard_performance.test.ts`, `dashboard_db_sync.test.ts`, `streak_database_and_xp_level.test.ts`): **37/37 tests PASS 100%**.
+        * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

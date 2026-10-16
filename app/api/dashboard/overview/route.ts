@@ -1,7 +1,7 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
-import { getLocalDateString, getWeekDateRange } from "@/shared/utils/dateUtils";
+import { getLocalDateString, getWeekDateRange, calculateStreakFromActiveDates } from "@/shared/utils/dateUtils";
 import { NextResponse } from "next/server";
 
 interface ChallengeDef {
@@ -171,6 +171,7 @@ export async function GET(request: Request) {
             totalXp: true,
             coins: true,
             minutesStudied: true,
+            streakFreezes: true,
             updatedAt: true,
             // 1. DailySkillPractice (contiguous range for index efficiency)
             dailySkillPractices: {
@@ -266,11 +267,21 @@ export async function GET(request: Request) {
         (p) => p.date === todayStr && p.skill === "checkin"
       );
 
+      // Server-authoritative consecutive learning days streak calculation from database activity records
+      const { currentStreak: calculatedStreak } = calculateStreakFromActiveDates(
+        activeDaysSet,
+        today,
+        profile?.streakFreezes ?? 0
+      );
+      const effectiveStreak = Math.max(calculatedStreak, profile?.currentStreak || 1);
+      const effectiveLongest = Math.max(profile?.longestStreak || 1, effectiveStreak);
+
       const checkin = {
         isCheckedInToday,
         activeDaysInWeek: Array.from(activeDaysSet),
-        currentStreak: profile?.currentStreak || 1,
-        longestStreak: profile?.longestStreak || 1,
+        currentStreak: effectiveStreak,
+        longestStreak: effectiveLongest,
+        streakFreezes: profile?.streakFreezes ?? 0,
         totalXp: profile?.totalXp || 0,
         coins: profile?.coins || 0,
         wordsLearned: wordsLearnedCount,

@@ -202,21 +202,32 @@ export async function POST(request: Request) {
         throw new Error("Không tìm thấy thông tin tài khoản.");
       }
 
-      // 3. Compute streak from the previous check-in, not profile.updatedAt.
-      // Profile updates can be caused by unrelated activity and must not reset a streak.
-      const previousCheckin = await tx.dailySkillPractice.findFirst({
-        where: { userId, skill: "checkin", date: { lt: todayStr } },
+      // 3. Compute streak from the previous practice across all skills (Dictation, Shadowing, Vocab, etc.)
+      const previousPractice = await tx.dailySkillPractice.findFirst({
+        where: { userId, date: { lt: todayStr } },
         orderBy: { date: "desc" },
         select: { date: true },
       });
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayStr = getLocalDateString(yesterday);
-      const lastCheckinDate = previousCheckin?.date;
 
-      const newStreak = lastCheckinDate === yesterdayStr
-        ? Math.max(1, profile.currentStreak) + 1
-        : 1;
+      const dayBeforeYesterday = new Date();
+      dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
+      const dayBeforeYesterdayStr = getLocalDateString(dayBeforeYesterday);
+
+      const lastPracticeDate = previousPractice?.date;
+      let newStreak = 1;
+      let newFreezes = profile.streakFreezes ?? 0;
+
+      if (lastPracticeDate === yesterdayStr) {
+        newStreak = Math.max(1, profile.currentStreak) + 1;
+      } else if (lastPracticeDate === dayBeforeYesterdayStr && newFreezes > 0) {
+        newFreezes -= 1;
+        newStreak = Math.max(1, profile.currentStreak) + 1;
+      } else {
+        newStreak = 1;
+      }
       const newLongestStreak = Math.max(profile.longestStreak || 1, newStreak);
 
       // 4. Update Profile with XP, Coins, Minutes and Streak
@@ -228,6 +239,7 @@ export async function POST(request: Request) {
           minutesStudied: { increment: PRACTICE_MINUTES },
           currentStreak: newStreak,
           longestStreak: newLongestStreak,
+          streakFreezes: newFreezes,
           updatedAt: new Date(),
         },
       });
@@ -250,6 +262,7 @@ export async function POST(request: Request) {
         minutesAwarded: PRACTICE_MINUTES,
         currentStreak: updatedProfile.currentStreak,
         longestStreak: updatedProfile.longestStreak,
+        streakFreezes: updatedProfile.streakFreezes,
         totalXp: updatedProfile.totalXp,
         coins: updatedProfile.coins,
         message: `Điểm danh thành công! +${XP_REWARD} XP, +${COIN_REWARD} Vàng đã được cộng vào tài khoản.`,

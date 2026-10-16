@@ -25,6 +25,7 @@ import { LEVEL_TITLES } from "@/shared/constants";
 import {
   getWeeklySkillMinutes,
   hydrateSkillMinutesFromBackend,
+  getLocalDateString,
   SkillType,
 } from "@/stores/skillChartStore";
 import {
@@ -298,12 +299,12 @@ export default function DashboardPage() {
 
   const wordsPracticedToday = useMemo(() => {
     if (!isMounted || !user) return 0;
-    const todayStr = new Date().toISOString().slice(0, 10);
+    const todayStr = getLocalDateString(new Date());
     return learned.filter((item) => {
       return (
         item.userId === user.id &&
         item.lastPracticed &&
-        item.lastPracticed.slice(0, 10) === todayStr
+        getLocalDateString(new Date(item.lastPracticed)) === todayStr
       );
     }).length;
   }, [isMounted, learned, user]);
@@ -350,8 +351,8 @@ export default function DashboardPage() {
     return labels.map((label, index) => {
       const targetDate = new Date(startOfWeek);
       targetDate.setDate(startOfWeek.getDate() + index);
-      const dateStr = targetDate.toISOString().slice(0, 10);
-      const todayStr = today.toISOString().slice(0, 10);
+      const dateStr = getLocalDateString(targetDate);
+      const todayStr = getLocalDateString(today);
 
       let status: "learned" | "missed" | "current" | "pending" = "pending";
       const isPast = dateStr < todayStr;
@@ -529,7 +530,7 @@ export default function DashboardPage() {
 
     // 1. OPTIMISTIC UPDATE: Instant 16ms UI feedback
     setIsCheckedInToday(true);
-    const todayStr = new Date().toISOString().slice(0, 10);
+    const todayStr = getLocalDateString(new Date());
     setActiveDaysInWeek((prev) => Array.from(new Set([...prev, todayStr])));
     awardXp(15);
     awardCoins(20);

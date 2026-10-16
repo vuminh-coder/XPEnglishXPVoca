@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { User } from "@/shared/types";
-import { LEVEL_TITLES } from "@/shared/constants";
+import { LEVEL_TITLES, LEVEL_XP } from "@/shared/constants";
 import { useVocabularyStore } from "./vocabularyStore";
 import { addSkillPracticeMinutes, addSkillPracticeSession, getLocalDateString, SkillType } from "./skillChartStore";
 
@@ -198,18 +198,14 @@ export const useUserStore = create<UserState>((set, get) => ({
     const finalAmount = amount * multiplier;
     const newXp = (user.totalXp || 0) + finalAmount;
 
-    // Level up check
+    // Level up check (multi-level jump support)
     let newLevel = user.level || 1;
     let levelUp = false;
     let levelUpCoins = 0;
-    const LEVEL_XP = [
-      0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
-      7600, 9200, 11000,
-    ];
-    if (newXp >= (LEVEL_XP[newLevel] || 99999)) {
+    while (newLevel < LEVEL_XP.length && newXp >= LEVEL_XP[newLevel]) {
       newLevel++;
       levelUp = true;
-      levelUpCoins = 100 * newLevel;
+      levelUpCoins += 100 * newLevel;
     }
 
     const newTitle = LEVEL_TITLES[newLevel] || "Grandmaster";
@@ -266,6 +262,9 @@ export const useUserStore = create<UserState>((set, get) => ({
               level: json.data.level,
               title: json.data.title,
               coins: json.data.coins,
+              currentStreak: json.data.currentStreak ?? get().user?.currentStreak,
+              longestStreak: json.data.longestStreak ?? get().user?.longestStreak,
+              streakFreezes: json.data.streakFreezes ?? get().user?.streakFreezes,
             });
           }
         })
@@ -343,6 +342,9 @@ export const useUserStore = create<UserState>((set, get) => ({
           if (json.success && json.data) {
             get().updateUserStats({
               minutesStudied: json.data.minutesStudied,
+              currentStreak: json.data.currentStreak ?? get().user?.currentStreak,
+              longestStreak: json.data.longestStreak ?? get().user?.longestStreak,
+              streakFreezes: json.data.streakFreezes ?? get().user?.streakFreezes,
             });
           }
         })

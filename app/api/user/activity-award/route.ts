@@ -1,14 +1,9 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma, handlePrismaError, safeDbExecute } from "@/infrastructure/database/prisma";
-import { LEVEL_TITLES } from "@/shared/constants";
+import { LEVEL_TITLES, LEVEL_XP } from "@/shared/constants";
 import { getLocalDateString } from "@/shared/utils/dateUtils";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
-
-const LEVEL_XP = [
-  0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
-  7600, 9200, 11000,
-];
 
 function calculateLevelFromXp(totalXp: number): { level: number; title: string } {
   let level = 1;
@@ -75,6 +70,7 @@ export async function POST(request: Request) {
           minutesStudied: true,
           currentStreak: true,
           longestStreak: true,
+          streakFreezes: true,
         },
       });
 
@@ -99,6 +95,15 @@ export async function POST(request: Request) {
           },
         });
       }
+
+      // Check whether today already has any practice recorded prior to this award
+      const existingPracticeToday = await prisma.dailySkillPractice.findFirst({
+        where: {
+          userId,
+          date: todayStr,
+        },
+      });
+      const isFirstActivityToday = !existingPracticeToday;
 
       // 3. Upsert DailySkillPractice entry for today
       if (safeMinutes > 0 || safeXp > 0) {
@@ -125,12 +130,61 @@ export async function POST(request: Request) {
         });
       }
 
+      // 4. Server-Authoritative Streak Calculation from Database Activity Records
+      let finalStreak = updatedProfile.currentStreak;
+      let finalLongest = updatedProfile.longestStreak;
+      let finalFreezes = updatedProfile.streakFreezes ?? 0;
+
+      if (isFirstActivityToday) {
+        const previousPractice = await prisma.dailySkillPractice.findFirst({
+          where: {
+            userId,
+            date: { lt: todayStr },
+          },
+          orderBy: { date: "desc" },
+          select: { date: true },
+        });
+
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = getLocalDateString(yesterday);
+
+        const dayBeforeYesterday = new Date();
+        dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
+        const dayBeforeYesterdayStr = getLocalDateString(dayBeforeYesterday);
+
+        const lastPracticeDate = previousPractice?.date;
+
+        if (lastPracticeDate === yesterdayStr) {
+          finalStreak = Math.max(1, updatedProfile.currentStreak) + 1;
+        } else if (lastPracticeDate === dayBeforeYesterdayStr && finalFreezes > 0) {
+          finalFreezes -= 1;
+          finalStreak = Math.max(1, updatedProfile.currentStreak) + 1;
+        } else {
+          finalStreak = 1;
+        }
+
+        finalLongest = Math.max(finalLongest || 1, finalStreak);
+
+        await prisma.profile.update({
+          where: { id: userId },
+          data: {
+            currentStreak: finalStreak,
+            longestStreak: finalLongest,
+            streakFreezes: finalFreezes,
+          },
+        });
+      }
+
       return {
         totalXp: updatedProfile.totalXp,
         level: finalLevel,
         title: finalTitle,
         coins: updatedProfile.coins + (levelUp ? 100 * computedLevel : 0),
         minutesStudied: updatedProfile.minutesStudied,
+        currentStreak: finalStreak,
+        longestStreak: finalLongest,
+        streakFreezes: finalFreezes,
         levelUp,
       };
     }, "Activity Award Persistence");

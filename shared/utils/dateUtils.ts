@@ -48,3 +48,47 @@ export function getWeekDateRange(): {
     weekDates,
   };
 }
+
+/**
+ * Calculates consecutive learning days (streak) from a set of active practice dates (YYYY-MM-DD).
+ * Handles streak freezes gracefully to bridge missed days.
+ */
+export function calculateStreakFromActiveDates(
+  activeDates: Iterable<string>,
+  today: Date = new Date(),
+  streakFreezes = 0
+): { currentStreak: number; freezesConsumed: number; isLearnedToday: boolean } {
+  const dateSet = activeDates instanceof Set ? activeDates : new Set(activeDates);
+  const todayStr = getLocalDateString(today);
+  const isLearnedToday = dateSet.has(todayStr);
+
+  let currentStreak = 0;
+  let remainingFreezes = Math.max(0, streakFreezes);
+  let freezesConsumed = 0;
+
+  // If user learned today, start counting from today. Otherwise, start from yesterday.
+  const cursorDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  if (!isLearnedToday) {
+    cursorDate.setDate(cursorDate.getDate() - 1);
+  }
+
+  // Iterate backwards day by day (up to 365 days max)
+  for (let i = 0; i < 365; i++) {
+    const checkStr = getLocalDateString(cursorDate);
+    if (dateSet.has(checkStr)) {
+      currentStreak += 1;
+    } else {
+      if (remainingFreezes > 0) {
+        remainingFreezes -= 1;
+        freezesConsumed += 1;
+        // Freeze bridges the missed day, continue to previous day
+      } else {
+        break;
+      }
+    }
+    cursorDate.setDate(cursorDate.getDate() - 1);
+  }
+
+  return { currentStreak, freezesConsumed, isLearnedToday };
+}
+
