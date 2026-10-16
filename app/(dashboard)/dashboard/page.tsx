@@ -803,6 +803,7 @@ export default function DashboardPage() {
               setAiQuestion={setAiQuestion}
               isAiLoading={isAiLoading}
               aiAnswer={aiAnswer}
+              setAiAnswer={setAiAnswer}
               handleQuickAskSubmit={handleQuickAskSubmit}
             />
           </div>
