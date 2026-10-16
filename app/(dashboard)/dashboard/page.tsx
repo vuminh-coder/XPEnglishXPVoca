@@ -664,32 +664,23 @@ export default function DashboardPage() {
             {isCheckedInToday ? (
               <div
                 className="h-9 px-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 font-bold text-xs flex items-center gap-1.5 shadow-2xs select-none"
-                title={`Đã điểm danh hôm nay (Chuỗi ${user?.currentStreak || 1} ngày)`}
+                title="Đã điểm danh hôm nay"
               >
                 <CheckCircle2 className="w-4 h-4 text-emerald-500 stroke-[2.5]" />
                 <span>Đã điểm danh</span>
-                <span className="font-mono text-[11px] text-emerald-600/80 dark:text-emerald-400/80 flex items-center gap-0.5">
-                  <Flame className="w-3.5 h-3.5 text-orange-500 fill-orange-500" />
-                  {user?.currentStreak || 1}
-                </span>
               </div>
             ) : (
               <button
                 type="button"
                 onClick={handleCheckIn}
                 disabled={isCheckingIn || isLoadingCheckin}
-                className="h-9 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-orange-500/20 active:scale-95 transition-all cursor-pointer disabled:opacity-60 font-display"
-                title="Điểm danh nhận ngay +15 XP và +20 Vàng"
+                className="h-9 px-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-orange-500/20 active:scale-95 transition-all cursor-pointer disabled:opacity-60 font-display"
+                title="Điểm danh hôm nay"
               >
-                {isCheckingIn ? (
+                {isCheckingIn && (
                   <Loader2 className="w-4 h-4 animate-spin text-white" />
-                ) : (
-                  <Flame className="w-4 h-4 fill-white text-white" />
                 )}
                 <span>{isCheckingIn ? "Đang điểm danh..." : "Điểm danh"}</span>
-                <span className="px-1.5 py-0.5 rounded-md bg-white/20 text-white text-[10px] font-mono font-bold">
-                  +15 XP
-                </span>
               </button>
             )}
           </div>
