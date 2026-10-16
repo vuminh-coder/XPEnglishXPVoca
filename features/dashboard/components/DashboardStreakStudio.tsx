@@ -123,27 +123,25 @@ export function DashboardStreakStudio({
       {/* 4. Checkin Button CTA */}
       <div className="pt-1.5 sm:pt-2">
         {isCheckedInToday ? (
-          <button
-            type="button"
-            disabled
-            className="w-full py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2 cursor-default select-none border-t border-white/20"
+          <div
+            className="w-full py-2 sm:py-2.5 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 cursor-default select-none shadow-2xs"
           >
-            <CheckCircle2 className="w-4 h-4 stroke-[3]" />
-            <span>ĐÃ ĐIỂM DANH HÔM NAY</span>
-          </button>
+            <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
+            <span>Đã điểm danh hôm nay (+15 XP)</span>
+          </div>
         ) : (
           <button
             type="button"
             onClick={handleCheckIn}
             disabled={isCheckingIn || isLoadingCheckin}
-            className="w-full py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-[#0059bb] to-blue-600 hover:from-[#004fba] hover:to-blue-700 text-white font-extrabold text-xs sm:text-sm tracking-wider uppercase shadow-md shadow-blue-500/20 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer border-t border-white/20 disabled:opacity-60"
+            className="w-full py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#0059bb] to-blue-600 hover:from-[#004fba] hover:to-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm shadow-blue-500/25 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer border-t border-white/20 disabled:opacity-60"
           >
             {isCheckingIn ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              <Flame className="w-4 h-4 fill-white stroke-none" />
+              <Flame className="w-4 h-4 fill-amber-300 text-amber-300" />
             )}
-            <span>{isCheckingIn ? "Đang điểm danh..." : "ĐIỂM DANH (+15 XP)"}</span>
+            <span>{isCheckingIn ? "Đang điểm danh..." : "Điểm danh ngay (+15 XP)"}</span>
           </button>
         )}
       </div>
