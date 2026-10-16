@@ -140,26 +140,28 @@ export function DashboardDailyQuestsCard({
     <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
       {/* 1. Header with dynamic achievement status */}
       <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
-        <div className="flex items-center gap-2">
-          <Target className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
-          <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+        <div className="flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-xl bg-blue-500/10 dark:bg-blue-500/15 text-[#0059bb] dark:text-sky-400 border border-blue-500/20 flex items-center justify-center shrink-0 shadow-2xs">
+            <Target className="w-5 h-5 stroke-[2.3]" />
+          </div>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
             Nhiệm Vụ Hôm Nay
           </h3>
         </div>
 
         {/* Dynamic Status Badge */}
         {unclaimedCount > 0 ? (
-          <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 font-mono font-bold text-[11px] border border-amber-500/25 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-            <span>{unclaimedCount} SẴN SÀNG NHẬN</span>
+          <span className="px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 font-mono font-bold text-[11px] border border-amber-300 dark:border-amber-700/80 flex items-center gap-1.5 shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+            <span>{unclaimedCount} CHỜ NHẬN THƯỞNG</span>
           </span>
         ) : achievedCount === totalCount && totalCount > 0 ? (
-          <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold text-[11px] border border-emerald-500/25 flex items-center gap-1">
+          <span className="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 font-mono font-bold text-[11px] border border-emerald-300 dark:border-emerald-700/80 flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 stroke-[2.2]" />
             <span>{achievedCount}/{totalCount} HOÀN THÀNH</span>
           </span>
         ) : (
-          <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono font-bold text-[11px] border border-slate-200 dark:border-slate-700">
+          <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-mono font-bold text-[11px] border border-slate-200 dark:border-slate-700">
             {achievedCount}/{totalCount} HOÀN THÀNH
           </span>
         )}
