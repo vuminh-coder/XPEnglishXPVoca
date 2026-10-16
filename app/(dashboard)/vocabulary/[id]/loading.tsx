@@ -23,21 +23,10 @@ export default function VocabDetailLoading() {
         <div className="h-9 w-32 rounded-xl bg-blue-500/20 shrink-0" />
       </div>
 
-      {/* MAIN CONTAINER: 2-COLUMN STAGE (35% Visual + 65% Flashcard Stage) */}
+      {/* MAIN CONTAINER: 2-COLUMN STAGE (65% Flashcard Stage Left + 35% Visual Showcase Right) */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
-          {/* Left Column (35%): Visual Showcase Skeleton */}
-          <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-between">
-            <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between h-full space-y-3">
-              <div className="w-full h-[320px] sm:h-[380px] lg:h-[420px] rounded-xl bg-slate-200 dark:bg-slate-800" />
-              <div className="pt-2.5 px-1 flex items-center justify-between">
-                <div className="h-4 w-32 rounded bg-slate-200 dark:bg-slate-700" />
-                <div className="h-4 w-16 rounded bg-slate-200 dark:bg-slate-700" />
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column (65%): Flashcard 3D Stage Skeleton */}
+          {/* Left Column (65%): Flashcard 3D Stage Skeleton */}
           <div className="lg:col-span-7 xl:col-span-8 flex flex-col justify-between space-y-3">
             {/* Top Bar Skeleton */}
             <div className="px-4 py-2.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between">
@@ -69,6 +58,17 @@ export default function VocabDetailLoading() {
               <div className="h-10 w-28 rounded-xl bg-slate-200 dark:bg-slate-800" />
               <div className="h-10 w-44 rounded-xl bg-emerald-500/20" />
               <div className="h-10 w-32 rounded-xl bg-blue-500/20" />
+            </div>
+          </div>
+
+          {/* Right Column (35%): Visual Showcase Skeleton */}
+          <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-between">
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between h-full space-y-3">
+              <div className="w-full h-[320px] sm:h-[380px] lg:h-[420px] rounded-xl bg-slate-200 dark:bg-slate-800" />
+              <div className="pt-2.5 px-1 flex items-center justify-between">
+                <div className="h-4 w-32 rounded bg-slate-200 dark:bg-slate-700" />
+                <div className="h-4 w-16 rounded bg-slate-200 dark:bg-slate-700" />
+              </div>
             </div>
           </div>
         </div>

@@ -93,65 +93,11 @@ export function FlashcardStudioPane({
 
   return (
     <div className="space-y-4 select-none">
-      {/* 2-COLUMN STAGE: 35% Clean Visual Showcase + 65% Interactive 3D Flashcard */}
+      {/* 2-COLUMN STAGE: 65% Interactive 3D Flashcard (Left) + 35% Clean Visual Showcase (Right) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
         
         {/* =========================================================================
-            LEFT COLUMN (35%): CLEAN, ARTISTIC VISUAL SHOWCASE (Zero visual pollution)
-           ========================================================================= */}
-        <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-between">
-          <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between h-full">
-            {/* Visual Canvas: Pure Photography, No Cluttered Badges */}
-            <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[420px] rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950 group">
-              <Image
-                src={imageError ? "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80" : illustrationUrl}
-                alt={activeVocab.word}
-                fill
-                sizes="(max-width: 1024px) 100vw, 35vw"
-                className="object-cover group-hover:scale-102 transition-transform duration-500 ease-out select-none"
-                priority
-                onError={() => setImageError(true)}
-              />
-
-              {/* Minimal Top Controls */}
-              <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-10">
-                <span className="px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md text-white font-mono font-bold text-[10.5px] uppercase border border-white/10 shadow-xs">
-                  {activeVocab.pos || "CEFR B1"}
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() => setShowFullImageModal(true)}
-                  className="p-1.5 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md text-white border border-white/10 transition-colors cursor-pointer shadow-xs active:scale-95"
-                  title="Phóng to ảnh"
-                >
-                  <Maximize2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Clean Bottom Caption */}
-            <div className="pt-2.5 px-1 flex items-center justify-between text-xs font-medium">
-              <div className="text-slate-500 dark:text-slate-400 font-mono font-semibold">
-                Ảnh minh họa: <span className="font-bold text-slate-800 dark:text-slate-200 capitalize font-sans">{activeVocab.word}</span>
-              </div>
-
-              {isLearned ? (
-                <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold text-[11px]">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Đã thuộc</span>
-                </span>
-              ) : (
-                <span className="text-[#0059bb] dark:text-sky-400 font-semibold text-[11px]">
-                  Đang học
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* =========================================================================
-            RIGHT COLUMN (65%): INTERACTIVE 3D FLASHCARD STAGE
+            LEFT COLUMN (65%): INTERACTIVE 3D FLASHCARD STAGE
            ========================================================================= */}
         <div className="lg:col-span-7 xl:col-span-8 flex flex-col justify-between space-y-3">
           
@@ -397,6 +343,61 @@ export function FlashcardStudioPane({
             </button>
           </div>
         </div>
+
+        {/* =========================================================================
+            RIGHT COLUMN (35%): CLEAN, ARTISTIC VISUAL SHOWCASE (Zero visual pollution)
+           ========================================================================= */}
+        <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-between">
+          <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex flex-col justify-between h-full">
+            {/* Visual Canvas: Pure Photography, No Cluttered Badges */}
+            <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[420px] rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950 group">
+              <Image
+                src={imageError ? "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80" : illustrationUrl}
+                alt={activeVocab.word}
+                fill
+                sizes="(max-width: 1024px) 100vw, 35vw"
+                className="object-cover group-hover:scale-102 transition-transform duration-500 ease-out select-none"
+                priority
+                onError={() => setImageError(true)}
+              />
+
+              {/* Minimal Top Controls */}
+              <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-10">
+                <span className="px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md text-white font-mono font-bold text-[10.5px] uppercase border border-white/10 shadow-xs">
+                  {activeVocab.pos || "CEFR B1"}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={() => setShowFullImageModal(true)}
+                  className="p-1.5 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md text-white border border-white/10 transition-colors cursor-pointer shadow-xs active:scale-95"
+                  title="Phóng to ảnh"
+                >
+                  <Maximize2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Clean Bottom Caption */}
+            <div className="pt-2.5 px-1 flex items-center justify-between text-xs font-medium">
+              <div className="text-slate-500 dark:text-slate-400 font-mono font-semibold">
+                Ảnh minh họa: <span className="font-bold text-slate-800 dark:text-slate-200 capitalize font-sans">{activeVocab.word}</span>
+              </div>
+
+              {isLearned ? (
+                <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold text-[11px]">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>Đã thuộc</span>
+                </span>
+              ) : (
+                <span className="text-[#0059bb] dark:text-sky-400 font-semibold text-[11px]">
+                  Đang học
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* Lightbox Zoom */}
