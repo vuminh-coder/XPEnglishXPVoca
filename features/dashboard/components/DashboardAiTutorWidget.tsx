@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bot, Send, Loader2, Volume2, Sparkles } from "lucide-react";
+import { Bot, Send, Loader2, Volume2, Zap } from "lucide-react";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { FormattedAiText } from "@/shared/components/FormattedAiText";
 
@@ -94,9 +94,9 @@ export function DashboardAiTutorWidget({
             Hỏi Đáp Nhanh Cùng AI Tutor
           </h3>
         </div>
-        <span className="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-600 dark:text-purple-400 text-[10px] font-bold border border-purple-500/20 flex items-center gap-1 font-mono">
-          <Sparkles className="w-3 h-3 text-purple-500" />
-          <span>Gemini AI</span>
+        <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 text-[10px] font-bold border border-amber-500/20 font-mono flex items-center gap-1">
+          <Zap className="w-3 h-3 text-amber-500 fill-amber-500" />
+          <span>+10 XP</span>
         </span>
       </div>
 
