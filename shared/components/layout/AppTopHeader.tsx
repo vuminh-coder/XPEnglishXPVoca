@@ -279,10 +279,19 @@ export function AppTopHeader({
 
   return (
     <div
-      className={`w-full h-14 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 shadow-2xs ${
+      className={`w-full h-14 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 ${
         sticky ? "sticky top-0 z-30" : "relative"
       } ${className}`}
     >
+      {/* ─── Fading Ambient Border Bottom (Hòa trộn êm ái với nền dưới chữ) ─── */}
+      <div
+        className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-slate-200/75 dark:via-slate-800/80 to-transparent pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute top-full inset-x-0 h-2 bg-gradient-to-b from-slate-200/20 dark:from-slate-950/40 to-transparent pointer-events-none"
+        aria-hidden="true"
+      />
       {/* ─── LEFT SECTION: Hamburger Toggle / Back + Custom Page Mode Switcher ─── */}
       <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
         {onBack ? (
