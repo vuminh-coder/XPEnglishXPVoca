@@ -279,17 +279,17 @@ export function AppTopHeader({
 
   return (
     <div
-      className={`w-full h-14 bg-gradient-to-b from-slate-100/90 via-slate-50/95 to-white/95 dark:from-slate-800/80 dark:via-slate-900/90 dark:to-slate-900/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 ${
+      className={`w-full h-14 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
         sticky ? "sticky top-0 z-30" : "relative"
       } ${className}`}
     >
       {/* ─── Fading Ambient Border Bottom (Hòa trộn êm ái với nền dưới chữ) ─── */}
       <div
-        className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-slate-200/75 dark:via-slate-800/80 to-transparent pointer-events-none"
+        className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-slate-200/60 dark:via-slate-800/70 to-transparent pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute top-full inset-x-0 h-2 bg-gradient-to-b from-slate-200/20 dark:from-slate-950/40 to-transparent pointer-events-none"
+        className="absolute top-full inset-x-0 h-1.5 bg-gradient-to-b from-slate-900/[0.02] dark:from-black/15 to-transparent pointer-events-none"
         aria-hidden="true"
       />
       {/* ─── LEFT SECTION: Hamburger Toggle / Back + Custom Page Mode Switcher ─── */}
