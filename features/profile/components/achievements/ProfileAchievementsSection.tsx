@@ -102,7 +102,7 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
                 : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white font-semibold"
             }`}
           >
-            Đã đạt • {unlockedCount}
+            Đã đạt
           </button>
           <button
             type="button"
@@ -113,7 +113,7 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
                 : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white font-semibold"
             }`}
           >
-            Chưa mở • {totalCount - unlockedCount}
+            Chưa mở
           </button>
         </div>
       </div>
