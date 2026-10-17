@@ -47,13 +47,13 @@ export const StudyMediaHubTabs: React.FC<StudyMediaHubTabsProps> = React.memo(
       <div
         className={`flex items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-3 flex-wrap ${className}`}
       >
-        <div className="flex items-center gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
+        <div className="w-full sm:w-auto grid grid-cols-2 sm:flex items-center gap-1 sm:gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
           {/* TAB 1: AUDIO */}
           <Link
             href={audioHref}
             onClick={() => onModeChange?.("audio")}
             aria-selected={activeMode === "audio"}
-            className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer relative select-none ${
+            className={`w-full justify-center px-1.5 xs:px-2.5 sm:px-4 py-2 rounded-xl text-[11px] xs:text-xs sm:text-sm font-bold flex items-center gap-1 sm:gap-2 transition-all cursor-pointer relative select-none text-center whitespace-nowrap ${
               activeMode === "audio"
                 ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -67,9 +67,9 @@ export const StudyMediaHubTabs: React.FC<StudyMediaHubTabsProps> = React.memo(
               />
             )}
             {isDictation ? (
-              <Headphones className="w-4 h-4 text-[#0059bb] dark:text-sky-400 relative z-10 shrink-0" />
+              <Headphones className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0059bb] dark:text-sky-400 relative z-10 shrink-0" />
             ) : (
-              <Mic className="w-4 h-4 text-[#0059bb] dark:text-sky-400 relative z-10 shrink-0" />
+              <Mic className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0059bb] dark:text-sky-400 relative z-10 shrink-0" />
             )}
             <span className="relative z-10">
               {isDictation ? "Bài Nghe Tiêu Chuẩn" : "Nhại Âm Tiêu Chuẩn"}
@@ -86,7 +86,7 @@ export const StudyMediaHubTabs: React.FC<StudyMediaHubTabsProps> = React.memo(
             href={videoHref}
             onClick={() => onModeChange?.("video")}
             aria-selected={activeMode === "video"}
-            className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all cursor-pointer relative select-none ${
+            className={`w-full justify-center px-1.5 xs:px-2.5 sm:px-4 py-2 rounded-xl text-[11px] xs:text-xs sm:text-sm font-bold flex items-center gap-1 sm:gap-2 transition-all cursor-pointer relative select-none text-center whitespace-nowrap ${
               activeMode === "video"
                 ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -99,7 +99,7 @@ export const StudyMediaHubTabs: React.FC<StudyMediaHubTabsProps> = React.memo(
                 transition={{ type: "spring", stiffness: 450, damping: 32 }}
               />
             )}
-            <Video className="w-4 h-4 text-[#0059bb] dark:text-sky-400 relative z-10 shrink-0" />
+            <Video className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#0059bb] dark:text-sky-400 relative z-10 shrink-0" />
             <span className="relative z-10">
               {isDictation ? "Kho Video Tuyển Chọn" : "Nhại Âm Video"}
             </span>

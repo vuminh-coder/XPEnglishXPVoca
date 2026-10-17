@@ -71,12 +71,12 @@ export function ListeningListingSkeleton() {
       <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
         {/* VIEW MODE PILL TOGGLE (Standard Audio is ACTIVE) */}
         <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-3 flex-wrap">
-          <div className="flex items-center gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
-            <div className="px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold flex items-center gap-2 bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs">
+          <div className="w-full sm:w-auto grid grid-cols-2 sm:flex items-center gap-1 sm:gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
+            <div className="w-full justify-center px-2.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold flex items-center gap-1.5 sm:gap-2 bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs">
               <div className="w-4 h-4 rounded-full bg-[#0059bb]/20 dark:bg-sky-400/20" />
               <span>Bài Nghe Tiêu Chuẩn</span>
             </div>
-            <div className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-400">
+            <div className="w-full justify-center px-2.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 sm:gap-2 text-slate-400">
               <div className="w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-700" />
               <span>Kho Video Tuyển Chọn</span>
             </div>
