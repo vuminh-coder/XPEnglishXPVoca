@@ -978,7 +978,11 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - Khi nhấp chọn bất kỳ thẻ âm nào:
         * Tự động ẩn các khối không cần thiết (Hero greeting bento, thanh công cụ tab/tìm kiếm, sơ đồ giải phẫu cắt dọc SVG phức tạp và các văn bản lý thuyết dài dòng) để học viên tập trung tối đa vào phát âm và nghe.
         * **Thanh Điều Hướng Phía Trên**: Nút `Quay lại bảng âm` (icon `ArrowLeft`) nằm trực tiếp phía trên mục tiêu phát âm thử giọng, đi kèm nút `Vào phòng học chuyên sâu` (icon `Sparkles`) được bố trí ở góc phải trên cùng rất hợp lý và công thái học.
-        * **Khối Mục Tiêu Phát Âm Thử Giọng & Micro**: Hiển thị rõ ràng ký hiệu âm `/{sound.symbol}/`, badge loại âm, từ mẫu kèm phiên âm chuẩn, 2 nút nghe tức thì (nghe âm cô lập + nghe từ mẫu), tích hợp ngay dock thu âm chấm điểm AI `IpaSpeechRecorder` với micro, thanh đo sóng âm và tỷ lệ chuẩn xác %.
+        * **Khối Mục Tiêu Phát Âm Thử Giọng & Micro (Bố Trí Dàn Đều Cân Bằng)**:
+          - Bố trí giếng biểu tượng âm riêng biệt (Sound Tile Well `w-14 h-14 sm:w-16 sm:h-16`) nổi bật với ký hiệu phiên âm to rõ `/{sound.symbol}/`.
+          - Đặt thẻ phân loại badge và từ mẫu đại diện song hành, triệt tiêu hoàn toàn khoảng trống lệch bên trái.
+          - Cặp nút nghe nhanh (Nghe âm cô lập + Nghe từ mẫu) được dàn đều đối xứng theo tỷ lệ 50% - 50% trên di động (`grid grid-cols-2 gap-2 w-full`) và song hành cân bằng bên phải trên desktop (`md:min-w-[340px]`), phủ kín toàn bộ bề ngang một cách hài hòa và chuyên nghiệp.
+          - Tích hợp dock thu âm chấm điểm AI `IpaSpeechRecorder` với micro, thanh đo sóng âm và tỷ lệ chuẩn xác % ngay bên dưới.
         * **Khối Từ Vựng Ví Dụ Thực Tế**: Dàn lưới danh sách từ vựng thực tế ở phía dưới kèm nút nghe âm thanh và khả năng bấm chọn từ để thử giọng micro trực tiếp.
         * Bấm `Quay lại bảng âm` sẽ đưa học viên trở về ma trận 44 âm nguyên vẹn chỉ trong 1 thao tác.
 
