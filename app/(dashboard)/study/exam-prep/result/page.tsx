@@ -357,7 +357,7 @@ Yêu cầu phân tích chi tiết:
             onClick={() => setReportTab("REVIEW")}
             layoutId="examResultActiveTab"
             icon={<BookOpen className="w-3.5 h-3.5 text-emerald-500" />}
-            label={`2. Lời Giải (${examResult.questionResults.length})`}
+            label="2. Lời Giải"
           />
           <HeaderPillItem
             active={reportTab === "DIAGNOSTIC"}

@@ -6608,6 +6608,28 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - Chuyển đổi trạng thái thu âm phát âm `🔴 Đang lắng nghe...` sang chấm xung nhịp động hiện đại (`animate-ping`).
       - Bổ sung icon `CheckCircle2` / `X` cho thanh phản hồi kết quả gõ chính tả (`PracticeWritingArena.tsx`) và quy chuẩn icon sai của Speaking thành `X` đồng nhất.
 
+11. **Chuẩn Hóa UI/UX Phòng Luyện Thi Chuẩn Hóa (`/study/exam-prep`) - Khử Dấu Ngoặc Kém Thẩm Mỹ, Tinh Gọn Header & Công Thái Học Mobile**:
+    - **Xóa bỏ triệt để dấu ngoặc đơn `(...)` trên toàn bộ suite Luyện Thi Chuẩn**:
+      - Tiêu đề trang (`layout.tsx`): Chuyển `"Phòng Luyện Thi Chuẩn (Exam Prep)"` thành `"Phòng Luyện Thi Chuẩn | Thi Thử TOEIC & IELTS"`.
+      - Placeholder tìm kiếm (`ExamFilterToolbar.tsx`): Chuyển `(ví dụ: TOEIC 2026, IELTS 4K, ETS)` thành dạng bullet `• ví dụ: TOEIC 2026, IELTS 4K, ETS...`.
+      - Tooltips kỹ năng thẻ đề (`ExamPaperCard.tsx`): Chuyển `(Listening)`, `(Reading)`, `(Speaking)`, `(Writing)` thành dạng dấu chấm tinh tế `• Listening`, `• Reading`, `• Speaking`, `• Writing`.
+      - Nút phiếu trả lời Mobile (`ExamMobileThumbBar.tsx`): Chuyển `Phiếu ({answeredCount}/{totalQuestions})` thành `Phiếu {answeredCount}/{totalQuestions}`.
+      - Tiêu đề drawer phiếu trả lời (`ExamAnswerSheet.tsx`): Chuyển `Phiếu Trả Lời ({answeredCount}/{questions.length} Đã làm)` thành `Phiếu Trả Lời • {answeredCount}/{questions.length} Đã làm`.
+      - Phím tắt audio player (`ListeningWorkspace.tsx`): Chuyển `(Phím tắt: Space)` thành `• Phím Space`.
+      - Nút studio nói (`SpeakingStudioWorkspace.tsx`): Chuyển `Nói Ngay (Bắt Đầu Thu Âm)` thành `Bắt Đầu Thu Âm`, `Đang Ghi Âm Trực Tiếp (Live Studio)` thành `Đang Ghi Âm Trực Tiếp`, và `Hoàn Thành Bài Nói (Nộp Bài)` thành `Nộp Bài Nói`.
+      - Nút studio viết (`WritingStudioWorkspace.tsx`): Chuyển `(ETS Sample)` thành `• ETS Sample`.
+      - Tab phân tích kết quả (`ResultAiDiagnosticTab.tsx` & `ResultQuestionReviewTab.tsx`): Chuyển `(45 Phút)` thành `• 45 Phút`, `(Transcript)` thành `• Transcript`, và nhãn tab `2. Lời Giải`.
+    - **Đồng bộ hóa thanh đỉnh `AppTopHeader` trên Exam Prep Hub**:
+      - Thiết lập `showGamificationStats={false}` và `hideMobileSearch={true}` tương tự trang Luyện Tập, loại bỏ hoàn toàn các chip streak/XP thừa thãi gây phân tâm.
+      - Tích hợp `<StudySuiteNavTabs showPracticeTab={true} />` bảo đảm hiển thị đầy đủ 4 tab quy chuẩn: Dictation, Shadowing, Luyện từ vựng và Thi thử đề.
+    - **Tối ưu hiển thị Mobile Workspace TopBar (375px - 430px)**:
+      - Ẩn biểu tượng `FileText` trên màn hình nhỏ (`hidden sm:flex`), giải phóng hơn 36px không gian hàng ngang.
+      - Mở rộng giới hạn chiều rộng tiêu đề bài thi (`max-w-[170px] xs:max-w-[210px] sm:max-w-xs`), triệt tiêu hoàn toàn hiện tượng tên đề thi bị cắt cụt trên iPhone SE (375px) và iPhone 14 (390px).
+      - Tinh chỉnh khoảng đệm nút Nộp bài và đồng hồ đếm ngược trên di động cân đối, sắc nét.
+    - **Nâng cấp công thái học thanh điều hướng ngón tay cái Mobile Thumb Bar**:
+      - Nâng tầng hiển thị lên `z-50`, ngăn chặn hoàn toàn nút bấm bị che khuất bởi các thành phần trôi nổi.
+      - Gia tăng khoảng đệm an toàn đáy trên màn hình câu hỏi (`pb-20 lg:pb-0`) giúp học viên cuộn xem hết nội dung mà không bị thanh điều hướng che lấp.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

@@ -155,7 +155,7 @@ export function ExamMobileAnswerDrawer({
               <div className="flex items-center gap-2">
                 <Layers className="w-4 h-4 text-[#0059bb]" />
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white font-display">
-                  Phiếu Trả Lời ({answeredCount}/{questions.length} Đã làm)
+                  Phiếu Trả Lời • {answeredCount}/{questions.length} Đã làm
                 </h3>
               </div>
               <button

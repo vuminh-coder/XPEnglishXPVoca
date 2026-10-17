@@ -652,7 +652,7 @@ export function ResultAiDiagnosticTab({
             <div className="lg:col-span-5 p-4 rounded-xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200/70 dark:border-blue-900/50 flex flex-col justify-between space-y-3 text-xs font-sans">
               <div className="flex items-center gap-2 text-[#0059bb] dark:text-sky-400 font-bold text-xs sm:text-sm">
                 <Award className="w-4.5 h-4.5 shrink-0" />
-                <span>Khung Thời Lượng Ôn Luyện Mỗi Ngày (45 Phút):</span>
+                <span>Khung Thời Lượng Ôn Luyện Mỗi Ngày • 45 Phút:</span>
               </div>
 
               <div className="grid grid-cols-3 gap-2 text-center">

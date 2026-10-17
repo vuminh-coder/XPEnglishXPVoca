@@ -478,7 +478,7 @@ export function ResultQuestionReviewTab({
                       >
                         {showReviewTranscript
                           ? "Ẩn Lời Thoại"
-                          : "Xem Lời Thoại (Transcript)"}
+                          : "Xem Lời Thoại • Transcript"}
                       </button>
                     )}
 

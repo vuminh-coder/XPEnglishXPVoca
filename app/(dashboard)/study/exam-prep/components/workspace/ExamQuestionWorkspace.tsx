@@ -33,7 +33,7 @@ export function ExamQuestionWorkspace({
 }: ExamQuestionWorkspaceProps) {
   return (
     <div
-      className={`${showAnswerSheet ? "lg:col-span-8" : "lg:col-span-12"} space-y-3.5 pb-16 lg:pb-0`}
+      className={`${showAnswerSheet ? "lg:col-span-8" : "lg:col-span-12"} space-y-3.5 pb-20 lg:pb-0`}
     >
       <div className="space-y-4">
         {/* 1. LISTENING WORKSPACE */}

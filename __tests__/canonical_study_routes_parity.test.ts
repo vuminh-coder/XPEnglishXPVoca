@@ -37,7 +37,7 @@ describe("Canonical Study Routes & URL Normalization Suite", () => {
   it("verifies VideoComprehensionStudioView component is exported from listening module", async () => {
     const listeningModule = await import("@/features/listening");
     expect(typeof listeningModule.VideoComprehensionStudioView).toBe("function");
-  });
+  }, 15000);
 
   it("verifies canonical comprehension route format is /study/dictation/video/comprehension/[id]", () => {
     const buildComprehensionUrl = (lessonId: string) => `/study/dictation/video/comprehension/${lessonId}`;

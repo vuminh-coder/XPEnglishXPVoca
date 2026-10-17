@@ -122,7 +122,7 @@ export function WritingStudioWorkspace({
             >
               <span className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4" />
-                <span>Tham Khảo Bài Mẫu Điểm Tuyệt Đối (ETS Sample)</span>
+                <span>Tham Khảo Bài Mẫu Điểm Tuyệt Đối • ETS Sample</span>
               </span>
               {showSample ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>

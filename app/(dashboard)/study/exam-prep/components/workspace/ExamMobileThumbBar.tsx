@@ -25,7 +25,7 @@ export function ExamMobileThumbBar({
   answeredCount,
 }: ExamMobileThumbBarProps) {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden p-2.5 px-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/90 dark:border-slate-800 shadow-xl flex items-center justify-between gap-2">
+    <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden p-2.5 px-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200/90 dark:border-slate-800 shadow-xl flex items-center justify-between gap-2">
       {/* Left: Nút Trước */}
       <button
         type="button"
@@ -60,7 +60,7 @@ export function ExamMobileThumbBar({
         >
           <Layers className="w-3.5 h-3.5" />
           <span>
-            Phiếu ({answeredCount}/{totalQuestions})
+            Phiếu {answeredCount}/{totalQuestions}
           </span>
         </button>
       </div>

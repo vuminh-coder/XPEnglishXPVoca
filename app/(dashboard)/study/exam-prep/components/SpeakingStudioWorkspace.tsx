@@ -305,7 +305,7 @@ export function SpeakingStudioWorkspace({
               className="w-full sm:w-auto px-6 py-2.5 min-h-[44px] rounded-xl bg-amber-400 hover:bg-amber-300 active:scale-95 text-slate-950 text-xs sm:text-sm font-black cursor-pointer font-display inline-flex items-center justify-center gap-2 shadow-md transition-all"
             >
               <Mic className="w-4 h-4 stroke-[2.5]" />
-              <span>Nói Ngay (Bắt Đầu Thu Âm)</span>
+              <span>Bắt Đầu Thu Âm</span>
             </button>
           </div>
         </div>
@@ -322,7 +322,7 @@ export function SpeakingStudioWorkspace({
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
               </span>
               <span className="text-[11px] sm:text-xs font-black uppercase text-rose-700 dark:text-rose-300 font-mono tracking-wider">
-                Đang Ghi Âm Trực Tiếp (Live Studio)
+                Đang Ghi Âm Trực Tiếp
               </span>
             </div>
 
@@ -391,7 +391,7 @@ export function SpeakingStudioWorkspace({
               className="w-full sm:w-auto px-6 py-2.5 min-h-[44px] rounded-xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white text-xs sm:text-sm font-black cursor-pointer shadow-md transition-all flex items-center justify-center gap-2 font-display"
             >
               <Square className="w-3.5 h-3.5 fill-current" />
-              <span>Hoàn Thành Bài Nói (Nộp Bài)</span>
+              <span>Nộp Bài Nói</span>
             </button>
           </div>
         </div>

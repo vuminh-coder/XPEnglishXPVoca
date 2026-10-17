@@ -34,15 +34,15 @@ export function ExamWorkspaceTopBar({
           <span className="hidden sm:inline">Thoát bài thi</span>
         </button>
 
-        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-200/60 dark:border-blue-900/40 shadow-2xs">
+        <div className="hidden sm:flex w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 items-center justify-center shrink-0 border border-blue-200/60 dark:border-blue-900/40 shadow-2xs">
           <FileText className="w-4 h-4 stroke-[2]" />
         </div>
 
-        <div className="min-w-0 flex items-center gap-2">
-          <span className="px-2 sm:px-2.5 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black bg-[#0059bb] text-white shadow-2xs shrink-0 font-mono tracking-wider">
+        <div className="min-w-0 flex items-center gap-1.5 sm:gap-2">
+          <span className="px-1.5 sm:px-2.5 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black bg-[#0059bb] text-white shadow-2xs shrink-0 font-mono tracking-wider">
             {selectedExam.categoryBadge || "EXAM"}
           </span>
-          <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate max-w-[140px] sm:max-w-xs md:max-w-md lg:max-w-lg">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate max-w-[170px] xs:max-w-[210px] sm:max-w-xs md:max-w-md lg:max-w-lg">
             {selectedExam.title}
           </h2>
         </div>
@@ -71,7 +71,7 @@ export function ExamWorkspaceTopBar({
 
         {/* Timer Countdown Badge */}
         <div
-          className={`px-2.5 sm:px-3.5 py-1.5 rounded-xl border text-xs sm:text-sm font-bold font-mono flex items-center gap-1.5 shadow-2xs ${
+          className={`px-2 sm:px-3.5 py-1.5 rounded-xl border text-xs sm:text-sm font-bold font-mono flex items-center gap-1 sm:gap-1.5 shadow-2xs ${
             secondsRemaining <= 300
               ? "bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 border-rose-300 dark:border-rose-800 animate-pulse"
               : "bg-slate-100 dark:bg-slate-800 text-[#0059bb] dark:text-sky-400 border-slate-200/80 dark:border-slate-700"
@@ -85,7 +85,7 @@ export function ExamWorkspaceTopBar({
         <button
           type="button"
           onClick={onRequestSubmitConfirm}
-          className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white text-xs sm:text-xs font-bold transition-all shadow-sm cursor-pointer font-display active:scale-95 flex items-center gap-1"
+          className="px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white text-xs font-bold transition-all shadow-sm cursor-pointer font-display active:scale-95 flex items-center gap-1"
         >
           <span>Nộp bài<span className="hidden sm:inline"> ngay</span></span>
         </button>

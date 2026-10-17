@@ -295,7 +295,7 @@ function ExamPrepContent() {
     addToast({
       type: "info",
       title: "Bắt đầu bài thi!",
-      message: `Đề: ${paper.title} (${paper.timeLimitMinutes} phút)`,
+      message: `Đề: ${paper.title} • ${paper.timeLimitMinutes} phút`,
     });
   };
 
@@ -339,7 +339,7 @@ function ExamPrepContent() {
           timeLimitMinutes: Math.ceil(aiQuestionCount * 0.8),
           totalQuestions: data.data.questions.length,
           maxScore: 990,
-          description: `Đề thi ngẫu nhiên AI tạo theo chủ đề ${aiTopic} (Mục tiêu ${aiTargetScore}).`,
+          description: `Đề thi ngẫu nhiên AI tạo theo chủ đề ${aiTopic} • Mục tiêu ${aiTargetScore}.`,
           categoryBadge: "AI Generated",
           tags: ["AI", aiTopic, "Custom"],
           supportedSkills: activeSkills,
@@ -405,7 +405,8 @@ function ExamPrepContent() {
         <div className="space-y-4">
           {/* 0. BRAND TOP HEADER (56px h-14 Baseline) */}
           <AppTopHeader
-            showGamificationStats={true}
+            showGamificationStats={false}
+            hideMobileSearch={true}
             rightDesktopContent={
               <button
                 type="button"
@@ -433,7 +434,7 @@ function ExamPrepContent() {
               </button>
             }
           >
-            <StudySuiteNavTabs />
+            <StudySuiteNavTabs showPracticeTab={true} />
           </AppTopHeader>
 
           {/* MAIN CONTAINER */}

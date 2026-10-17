@@ -160,7 +160,7 @@ export function ListeningWorkspace({
             <button
               type="button"
               onClick={togglePlay}
-              title="Phát / Tạm dừng (Phím tắt: Space)"
+              title="Phát / Tạm dừng • Phím Space"
               className={`w-10 h-10 rounded-xl flex items-center justify-center font-black cursor-pointer transition-all duration-200 shrink-0 shadow-sm active:scale-95 ${
                 isPlaying
                   ? "bg-amber-400 text-slate-950 hover:bg-amber-300 ring-2 ring-amber-300/50 shadow-md"

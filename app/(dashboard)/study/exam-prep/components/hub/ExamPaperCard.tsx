@@ -66,7 +66,7 @@ export function ExamPaperCard({ exam, onStartExam }: ExamPaperCardProps) {
             {exam.supportedSkills.includes("LISTENING") && (
               <span
                 className="w-6.5 h-6.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 flex items-center justify-center border border-blue-200/60 dark:border-blue-800/40 shadow-2xs shrink-0"
-                title="Kỹ năng Nghe (Listening)"
+                title="Kỹ năng Nghe • Listening"
               >
                 <Headphones className="w-3.5 h-3.5" strokeWidth={2.2} />
               </span>
@@ -74,7 +74,7 @@ export function ExamPaperCard({ exam, onStartExam }: ExamPaperCardProps) {
             {exam.supportedSkills.includes("READING") && (
               <span
                 className="w-6.5 h-6.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 flex items-center justify-center border border-emerald-200/60 dark:border-emerald-800/40 shadow-2xs shrink-0"
-                title="Kỹ năng Đọc (Reading)"
+                title="Kỹ năng Đọc • Reading"
               >
                 <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" strokeWidth={2.2} />
               </span>
@@ -82,7 +82,7 @@ export function ExamPaperCard({ exam, onStartExam }: ExamPaperCardProps) {
             {exam.supportedSkills.includes("SPEAKING") && (
               <span
                 className="w-6.5 h-6.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 flex items-center justify-center border border-amber-200/60 dark:border-amber-800/40 shadow-2xs shrink-0"
-                title="Kỹ năng Nói (Speaking)"
+                title="Kỹ năng Nói • Speaking"
               >
                 <Mic className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" strokeWidth={2.2} />
               </span>
@@ -90,7 +90,7 @@ export function ExamPaperCard({ exam, onStartExam }: ExamPaperCardProps) {
             {exam.supportedSkills.includes("WRITING") && (
               <span
                 className="w-6.5 h-6.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 flex items-center justify-center border border-purple-200/60 dark:border-purple-800/40 shadow-2xs shrink-0"
-                title="Kỹ năng Viết (Writing)"
+                title="Kỹ năng Viết • Writing"
               >
                 <PenTool className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" strokeWidth={2.2} />
               </span>
