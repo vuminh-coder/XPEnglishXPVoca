@@ -81,11 +81,11 @@ export default function BottomNav() {
             onTouchStart={() => prefetchRouteData(tab.path)}
             className="relative flex items-center justify-center flex-1 h-full cursor-pointer transition-transform duration-150 active:scale-90 group"
           >
-            {/* Facebook-style Top Active Indicator Bar (No clumsy pill box!) */}
+            {/* Top Active Indicator Bar: Deep Slate / Charcoal (Not pitch black) */}
             {isActive && (
               <motion.div
                 layoutId="fbBottomNavActiveBar"
-                className="absolute top-0 inset-x-2.5 sm:inset-x-3.5 h-[2.5px] bg-[#0059bb] dark:bg-sky-400 rounded-b-full shadow-xs"
+                className="absolute top-0 inset-x-2.5 sm:inset-x-3.5 h-[2.5px] bg-slate-900 dark:bg-slate-100 rounded-b-full shadow-xs"
                 transition={{ type: "spring", stiffness: 450, damping: 35 }}
               />
             )}
@@ -96,8 +96,8 @@ export default function BottomNav() {
                 <div
                   className={`rounded-full p-[2px] transition-all duration-200 flex items-center justify-center ${
                     isActive
-                      ? "border-2 border-[#0059bb] dark:border-sky-400 ring-2 ring-[#0059bb]/20 dark:ring-sky-400/20 shadow-xs bg-white dark:bg-slate-900"
-                      : "border-2 border-slate-300 dark:border-slate-600 group-hover:border-slate-400 dark:group-hover:border-slate-500 bg-white dark:bg-slate-900 opacity-85 group-hover:opacity-100"
+                      ? "border-2 border-slate-900 dark:border-slate-100 ring-2 ring-slate-900/15 dark:ring-white/20 shadow-xs bg-white dark:bg-slate-900"
+                      : "border-2 border-slate-300 dark:border-slate-600 group-hover:border-slate-400 dark:group-hover:border-slate-500 bg-white dark:bg-slate-900 opacity-80 group-hover:opacity-100"
                   }`}
                 >
                   <UserAvatar
@@ -110,12 +110,12 @@ export default function BottomNav() {
                   />
                 </div>
               ) : (
-                /* Icon Tabs: Pure, High-Contrast Facebook Style (No text labels) */
+                /* Icon Tabs: Inactive: Grey, Active: Deep Slate / Charcoal */
                 <Icon
                   className={`w-[22px] h-[22px] transition-all duration-200 ${
                     isActive
-                      ? "text-[#0059bb] dark:text-sky-400 stroke-[2.3] scale-105"
-                      : "text-slate-500 dark:text-slate-400 stroke-[1.8] group-hover:text-slate-800 dark:group-hover:text-slate-200"
+                      ? "text-slate-900 dark:text-slate-100 stroke-[2.3] scale-105"
+                      : "text-slate-400 dark:text-slate-500 stroke-[1.8] group-hover:text-slate-600 dark:group-hover:text-slate-300"
                   }`}
                 />
               )}
