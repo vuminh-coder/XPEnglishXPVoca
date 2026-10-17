@@ -101,7 +101,7 @@ export function PracticeQuizArena({
       </div>
 
       {/* 4 Quiz Option Cards (2x2 Grid on sm+) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 shrink-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 shrink-0">
         {quizOptions.map((opt, idx) => {
           const isSelected = qSelectedOpt === opt.id;
           let btnStyle =
@@ -125,21 +125,21 @@ export function PracticeQuizArena({
               type="button"
               disabled={qIsAnswered}
               onClick={() => onSelectOption(opt)}
-              className={`p-3.5 sm:p-4 rounded-xl border text-left min-h-[64px] font-bold transition-all cursor-pointer flex items-center justify-between gap-3 shadow-2xs active:scale-98 ${btnStyle}`}
+              className={`px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl border text-left min-h-[46px] sm:min-h-[50px] font-bold transition-all cursor-pointer flex items-center justify-between gap-2.5 shadow-2xs active:scale-98 ${btnStyle}`}
             >
-              <div className="flex items-center gap-3 min-w-0 flex-1">
-                <span className="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs">
+              <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                <span className="w-6 h-6 rounded-md bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs">
                   {String.fromCharCode(65 + idx)}
                 </span>
-                <span className="text-sm sm:text-base font-semibold leading-snug line-clamp-2 break-words flex-1 text-slate-800 dark:text-slate-200">
+                <span className="text-xs sm:text-sm font-semibold leading-snug line-clamp-2 break-words flex-1 text-slate-800 dark:text-slate-200">
                   {opt.text}
                 </span>
               </div>
               {qIsAnswered && opt.isCorrect && (
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 stroke-[2.5]" />
+                <CheckCircle2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-emerald-600 dark:text-emerald-400 shrink-0 stroke-[2.5]" />
               )}
               {qIsAnswered && isSelected && !opt.isCorrect && (
-                <X className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 stroke-[2.5]" />
+                <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-rose-600 dark:text-rose-400 shrink-0 stroke-[2.5]" />
               )}
             </button>
           );

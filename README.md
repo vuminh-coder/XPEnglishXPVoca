@@ -6579,6 +6579,7 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
    - **Bàn phím nhập liệu chuẩn Mobile (`PracticeWritingArena.tsx`)**: Bổ sung các thuộc tính di động `autoCapitalize="none"`, `autoCorrect="off"`, `spellCheck={false}` ngăn chặn bàn phím ảo tự động sửa từ vựng tiếng Anh.
    - **Accordion Thông tin từ vựng Sidebar (`PracticeWordLabSidebar.tsx`)**: Trên Mobile, WordLab được chuyển đổi thành thanh Accordion tinh gọn ("Xem chi tiết" / "Thu gọn"), giải phóng hoàn toàn chiều dọc màn hình giúp toàn bộ Đấu trường câu hỏi (Thẻ câu hỏi, Đáp án, Nút điều hướng) nằm trọn 100% trong khung hình (0px scroll). Khi cần học sâu, học viên chạm 1 chạm để mở rộng đầy đủ ví dụ ngữ cảnh.
    - **Khoảng đệm & Tỷ lệ hiển thị linh hoạt (`page.tsx`)**: Quy chuẩn `px-2.5 sm:px-5 py-2 sm:py-3.5 space-y-2 sm:space-y-3 pb-24 lg:pb-3` tương thích hoàn hảo với thanh điều hướng đáy `AppBottomNav` trên mọi dòng iPhone và Android.
+   - **Tinh chỉnh khối đáp án trắc nghiệm thanh thoát (`PracticeQuizArena.tsx`)**: Giảm chiều cao tối thiểu và khoảng đệm của 4 thẻ đáp án A, B, C, D từ `min-h-[64px] p-3.5 sm:p-4` xuống `min-h-[46px] sm:min-h-[50px] px-3 py-2 sm:px-3.5 sm:py-2.5`, thu gọn nhãn ký tự thành `w-6 h-6`, triệt tiêu hoàn toàn cảm giác cồng kềnh, thô to trên cả di động và máy tính.
 
 ---
 
