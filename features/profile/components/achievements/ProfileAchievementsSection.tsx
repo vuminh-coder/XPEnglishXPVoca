@@ -77,15 +77,15 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
           </div>
         </div>
 
-        {/* Category Tab Filters */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 sm:p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60 shrink-0 overflow-x-auto no-scrollbar">
+        {/* Category Tab Filters: Chia đều 3 phần và phong cách màu trắng */}
+        <div className="grid grid-cols-3 w-full sm:w-auto sm:flex sm:items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60 shrink-0">
           <button
             type="button"
             onClick={() => setActiveTab("all")}
-            className={`px-2.5 sm:px-3 py-1 rounded-lg transition-all cursor-pointer text-[11px] sm:text-xs font-bold font-display whitespace-nowrap ${
+            className={`py-1.5 px-2 sm:px-3 rounded-lg transition-all cursor-pointer text-[11px] sm:text-xs font-bold font-display text-center flex items-center justify-center whitespace-nowrap active:scale-[0.98] ${
               activeTab === "all"
-                ? "bg-[#0059bb] text-white shadow-xs"
-                : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs border border-slate-200/70 dark:border-slate-700/60 font-bold"
+                : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white font-semibold"
             }`}
           >
             Tất cả
@@ -93,10 +93,10 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
           <button
             type="button"
             onClick={() => setActiveTab("unlocked")}
-            className={`px-2.5 sm:px-3 py-1 rounded-lg transition-all cursor-pointer text-[11px] sm:text-xs font-bold font-display whitespace-nowrap ${
+            className={`py-1.5 px-2 sm:px-3 rounded-lg transition-all cursor-pointer text-[11px] sm:text-xs font-bold font-display text-center flex items-center justify-center whitespace-nowrap active:scale-[0.98] ${
               activeTab === "unlocked"
-                ? "bg-emerald-600 text-white shadow-xs"
-                : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                ? "bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-xs border border-slate-200/70 dark:border-slate-700/60 font-bold"
+                : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white font-semibold"
             }`}
           >
             Đã đạt • {unlockedCount}
@@ -104,10 +104,10 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
           <button
             type="button"
             onClick={() => setActiveTab("locked")}
-            className={`px-2.5 sm:px-3 py-1 rounded-lg transition-all cursor-pointer text-[11px] sm:text-xs font-bold font-display whitespace-nowrap ${
+            className={`py-1.5 px-2 sm:px-3 rounded-lg transition-all cursor-pointer text-[11px] sm:text-xs font-bold font-display text-center flex items-center justify-center whitespace-nowrap active:scale-[0.98] ${
               activeTab === "locked"
-                ? "bg-slate-800 text-white shadow-xs"
-                : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs border border-slate-200/70 dark:border-slate-700/60 font-bold"
+                : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white font-semibold"
             }`}
           >
             Chưa mở • {totalCount - unlockedCount}
