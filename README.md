@@ -954,8 +954,8 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - Rút gọn nút tốc độ phát âm về 2 nấc `1.0x` và `0.8x`, lược bỏ chữ "Chậm" thừa thãi.
       - Tối ưu hóa ô tìm kiếm âm thanh `flex-1 min-w-0 sm:w-64` với placeholder chỉ dẫn ngắn gọn `"Tìm âm hoặc từ..."` và nút xóa nhanh `X`.
     - **Tối Ưu Kích Thước & Giảm Chiều Cao Cuộn Bảng 44 Âm IPA (`IpaSoundCardV2.tsx`)**:
-      - Thu gọn chiều cao tối thiểu của thẻ âm từ 134px/106px xuống siêu tinh gọn **78px - 84px** trên mobile và **94px - 100px** trên desktop (`min-h-[78px] xs:min-h-[84px] sm:min-h-[94px] md:min-h-[100px]`), bo góc chuẩn `rounded-xl sm:rounded-2xl`, đệm viền `p-2 sm:p-2.5`, tiết kiệm hơn 300px chiều dài cuộn trang khi duyệt ma trận 44 âm.
-      - Tinh chỉnh nút loa phát âm cô lập về chuẩn `w-6 h-6` (icon `w-3 h-3`), ký tự phiên âm trung tâm thanh thoát `text-xl xs:text-2xl sm:text-[26px]`, từ khóa in đậm rõ nét `text-[11px] xs:text-xs sm:text-[13px]`, ẩn gợi ý phụ trên màn hình nhỏ (`hidden md:inline`), giúp toàn bộ soundboard hiển thị như một bảng Launchpad âm thanh chuyên nghiệp, trực quan và không bị thô cứng.
+      - Thu gọn chiều cao tối thiểu của thẻ âm từ 78px - 84px xuống siêu tinh gọn **66px - 70px** trên mobile và **76px - 82px** trên desktop (`min-h-[66px] xs:min-h-[70px] sm:min-h-[76px] md:min-h-[82px]`), bo góc chuẩn `rounded-xl sm:rounded-2xl`, đệm viền `p-1.5 xs:p-2 sm:p-2`, tiết kiệm thêm hơn 100px chiều dài cuộn trang khi duyệt ma trận 44 âm.
+      - Tinh chỉnh nút loa phát âm cô lập về chuẩn `w-5.5 h-5.5 sm:w-6 sm:h-6` (icon `w-3 h-3`), ký tự phiên âm trung tâm thanh thoát `text-lg xs:text-xl sm:text-[22px]`, từ khóa in đậm rõ nét `text-[10px] xs:text-[11px] sm:text-xs`, ẩn gợi ý phụ trên màn hình nhỏ (`hidden lg:inline`), giúp toàn bộ soundboard hiển thị như một bảng Launchpad âm thanh chuyên nghiệp, trực quan và không bị thô cứng.
     - **Chuẩn Hóa Bảng Màu Ngữ Nghĩa Hữu Thanh & Vô Thanh (`ipaData.ts`, `IpaMatrixBoard.tsx`, `IpaAnatomyViewer.tsx`)**:
       - Triệt tiêu hoàn toàn việc dùng màu Xanh Emerald (`bg-emerald-500`) và Vàng Hổ Phách (`bg-amber-500`) cho phụ âm. Tuân thủ tuyệt đối Quy tắc thiết kế số 20 trong `AGENTS.md` (Emerald bảo lưu cho đáp án đúng/thành tích XP, Amber bảo lưu cho chuỗi streak/thưởng vàng), loại bỏ cảm giác bàn cờ "đèn giao thông Đúng vs Sai" gây hiểu lầm.
       - **Hữu thanh (Voiced - Rung cổ)**: Chuyển sang gam màu **Teal** (`#0d9488`, `teal-500/600`, nền `bg-teal-50/80 dark:bg-teal-950/60`, viền `border-teal-200/80 dark:border-teal-800/60`), tượng trưng cho độ trầm ấm và sự cộng hưởng âm thanh của thanh quản rung.
@@ -973,9 +973,14 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - **Xóa Bỏ Chip Chuỗi Streak Liên Tục**: Lược bỏ cờ `showGamificationStats` trên trang `/study/ipa`, xóa bỏ chip ngọn lửa chuỗi học liên tục trên đỉnh đầu trang để không gian tinh gọn, tập trung hoàn toàn vào luyện âm.
       - Nâng cấp hành động desktop sang nút Primary CTA `"Phòng Luyện AI"` (`bg-[#0059bb]`, icon `Mic`).
       - Tinh chỉnh đệm trang `px-2.5 sm:px-6` tận dụng tối đa bề ngang thiết bị di động.
-    - **Trải Nghiệm Mở Modal Giải Phẫu Chi Tiết (`IpaSoundDetailModal.tsx`)**:
-      - Bấm vào thẻ âm thanh mở ngay modal giải phẫu khẩu hình học 3D (`IpaMouthAnatomySvg`), máy ghi âm chấm điểm phát âm AI (`IpaSpeechRecorder`), mẹo phát âm và danh sách từ vựng ví dụ thực tế thay vì đột ngột điều hướng sang trang luyện tập.
-      - Thiết kế lại header modal dạng 2 tầng linh hoạt trên mobile: hàng 1 gồm ký hiệu âm + badge + nút đóng `X`, hàng 2 gồm 2 nút phát âm cô lập và phát từ mẫu full width.
+    - **Chuyển Đổi Sang Trải Nghiệm Xem Chi Tiết Trực Tiếp Trong Trang (In-Page Pronunciation & Micro Lab - Zero Floating Modal)**:
+      - Loại bỏ hoàn toàn kiểu hiển thị modal nổi (popup dialog tối màu che màn hình) khi chọn âm.
+      - Khi nhấp chọn bất kỳ thẻ âm nào:
+        * Tự động ẩn các khối không cần thiết (Hero greeting bento, thanh công cụ tab/tìm kiếm, sơ đồ giải phẫu cắt dọc SVG phức tạp và các văn bản lý thuyết dài dòng) để học viên tập trung tối đa vào phát âm và nghe.
+        * **Thanh Điều Hướng Phía Trên**: Nút `Quay lại bảng âm` (icon `ArrowLeft`) nằm trực tiếp phía trên mục tiêu phát âm thử giọng, đi kèm nút `Vào phòng học chuyên sâu` (icon `Sparkles`) được bố trí ở góc phải trên cùng rất hợp lý và công thái học.
+        * **Khối Mục Tiêu Phát Âm Thử Giọng & Micro**: Hiển thị rõ ràng ký hiệu âm `/{sound.symbol}/`, badge loại âm, từ mẫu kèm phiên âm chuẩn, 2 nút nghe tức thì (nghe âm cô lập + nghe từ mẫu), tích hợp ngay dock thu âm chấm điểm AI `IpaSpeechRecorder` với micro, thanh đo sóng âm và tỷ lệ chuẩn xác %.
+        * **Khối Từ Vựng Ví Dụ Thực Tế**: Dàn lưới danh sách từ vựng thực tế ở phía dưới kèm nút nghe âm thanh và khả năng bấm chọn từ để thử giọng micro trực tiếp.
+        * Bấm `Quay lại bảng âm` sẽ đưa học viên trở về ma trận 44 âm nguyên vẹn chỉ trong 1 thao tác.
 
 ---
 

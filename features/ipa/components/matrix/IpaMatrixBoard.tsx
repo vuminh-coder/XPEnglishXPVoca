@@ -8,6 +8,9 @@ import {
   Volume2,
   SlidersHorizontal,
   Mic,
+  ArrowLeft,
+  ArrowRight,
+  Sparkles,
 } from "lucide-react";
 import {
   ALL_IPA_SOUNDS,
@@ -15,9 +18,15 @@ import {
   DIPHTHONGS,
   CONSONANTS,
   IpaSound,
+  getSoundDisplayHint,
 } from "../../data/ipaData";
 import { IpaSoundCardV2 } from "./IpaSoundCardV2";
 import { IpaSoundDetailModal } from "./IpaSoundDetailModal";
+import { IpaSoundBadge } from "../shared/IpaSoundBadge";
+import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
+import { IpaWordExampleCard } from "../shared/IpaWordExampleCard";
+import { IpaSpeechRecorder } from "../shared/IpaSpeechRecorder";
+import { playIpaIsolatedSound, stopIpaAudio } from "@/shared/utils/ipaAudioPlayer";
 import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
 import { useIpaCatalogStore, IpaMatrixCategory } from "@/stores/ipaCatalogStore";
 
@@ -115,13 +124,178 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
     );
   }, [searchQuery, isSearching]);
 
+  const [isPlayingIsolated, setIsPlayingIsolated] = useState(false);
+  const [activePracticeWord, setActivePracticeWord] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (selectedSound) {
+      setActivePracticeWord(selectedSound.keyWord);
+    }
+  }, [selectedSound]);
+
   const handleSelectSound = (sound: IpaSound) => {
-    openModal(sound);
+    stopIpaAudio();
+    stopTTS();
+    setSelectedSound(sound);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const handleOpenDetailModal = (sound: IpaSound) => {
-    openModal(sound);
+    handleSelectSound(sound);
   };
+
+  const handleBackToMatrix = () => {
+    stopIpaAudio();
+    stopTTS();
+    setSelectedSound(null);
+  };
+
+  const handlePlayIsolatedSound = () => {
+    if (!selectedSound) return;
+    stopIpaAudio();
+    setIsPlayingIsolated(true);
+    playIpaIsolatedSound(selectedSound.id, {
+      rate: playbackRate,
+      onPlay: () => setIsPlayingIsolated(true),
+      onEnd: () => setIsPlayingIsolated(false),
+      onError: () => setIsPlayingIsolated(false),
+    });
+    setTimeout(() => setIsPlayingIsolated(false), 1400);
+  };
+
+  // IN-PAGE SOUND DETAIL VIEW (NO FLOATING MODAL, CLEAN PRONUNCIATION & MICRO LAB)
+  if (selectedSound) {
+    return (
+      <div className={`space-y-3.5 sm:space-y-5 select-none ${className}`}>
+        {/* TOP ACTION ROW: NÚT QUAY LẠI (NẰM BÊN TRÊN MỤC TIÊU PHÁT ÂM) + NÚT VÀO PHÒNG HỌC (VỊ TRÍ HỢP LÝ BÊN PHẢI) */}
+        <div className="flex items-center justify-between gap-2.5 w-full">
+          <button
+            type="button"
+            onClick={handleBackToMatrix}
+            className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 transition-all cursor-pointer shadow-2xs hover:shadow-xs active:scale-95"
+            title="Quay lại danh sách 44 âm IPA"
+          >
+            <ArrowLeft className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+            <span>Quay lại bảng âm</span>
+          </button>
+
+          {onGoToPracticeLab && (
+            <button
+              type="button"
+              onClick={() => onGoToPracticeLab(selectedSound)}
+              className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] active:scale-95 text-white text-xs font-bold transition-all cursor-pointer shadow-xs hover:shadow-md"
+              title="Vào phòng thực hành luyện âm chuyên sâu với AI"
+            >
+              <Sparkles className="w-3.5 h-3.5 shrink-0" />
+              <span>Vào phòng học chuyên sâu</span>
+              <ArrowRight className="w-3.5 h-3.5 hidden sm:inline shrink-0" />
+            </button>
+          )}
+        </div>
+
+        {/* 1. MỤC TIÊU PHÁT ÂM THỬ GIỌNG VÀ MICRO */}
+        <div className="p-3.5 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
+          {/* Target sound identity & quick audio listeners */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="text-3xl sm:text-4xl font-black font-sans text-slate-900 dark:text-white leading-none shrink-0">
+                /{selectedSound.symbol}/
+              </div>
+              <div className="space-y-1">
+                <IpaSoundBadge sound={selectedSound} size="md" showCategoryTag />
+                <div className="flex items-center gap-1.5 text-xs">
+                  <span className="text-slate-400 font-medium">Từ mẫu:</span>
+                  <span className="font-bold text-slate-900 dark:text-white capitalize">
+                    {selectedSound.keyWord}
+                  </span>
+                  <span className="font-mono text-[11px] font-semibold text-[#0059bb] dark:text-sky-400">
+                    {selectedSound.keyWordPhonetic}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Audio Players */}
+            <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+              <button
+                type="button"
+                onClick={handlePlayIsolatedSound}
+                className={`h-9 px-3 rounded-xl font-bold text-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
+                  isPlayingIsolated
+                    ? "bg-[#0059bb] text-white ring-2 ring-blue-400/40 animate-pulse"
+                    : "bg-[#0059bb] hover:bg-[#004ba0] text-white shadow-2xs"
+                }`}
+                title={`Nghe âm cô lập /${selectedSound.symbol}/`}
+              >
+                <Volume2 className="w-3.5 h-3.5" />
+                <span>Âm /{selectedSound.symbol}/</span>
+              </button>
+
+              <IpaAudioPlayButton
+                text={selectedSound.keyWord}
+                size="md"
+                variant="secondary"
+                label={selectedSound.keyWord}
+              />
+            </div>
+          </div>
+
+          {/* Voice Trial & Microphone Section */}
+          <div className="space-y-2">
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <Mic className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                <span>Mục tiêu phát âm thử giọng & Micro AI:</span>
+              </div>
+              {activePracticeWord && activePracticeWord !== selectedSound.keyWord && (
+                <button
+                  type="button"
+                  onClick={() => setActivePracticeWord(selectedSound.keyWord)}
+                  className="text-[11px] font-semibold text-[#0059bb] dark:text-sky-400 hover:underline cursor-pointer"
+                >
+                  Đổi về từ mẫu: {selectedSound.keyWord}
+                </button>
+              )}
+            </div>
+
+            <div className="p-3 sm:p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-white/5">
+              <IpaSpeechRecorder
+                targetWord={activePracticeWord || selectedSound.keyWord}
+                targetPhonetic={activePracticeWord === selectedSound.keyWord ? selectedSound.keyWordPhonetic : undefined}
+                acceptableWords={selectedSound.examples.map((e) => e.word)}
+                xpReward={10}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 2. MẤY CÁI DƯỚI THÔI: TỪ VỰNG VÍ DỤ THỰC TẾ */}
+        <div className="p-3.5 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+              Từ vựng ví dụ thực tế ({selectedSound.examples.length})
+            </h3>
+            <span className="text-[11px] text-slate-400">
+              Bấm để nghe hoặc chọn từ thử giọng
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-2.5">
+            {selectedSound.examples.map((ex) => (
+              <IpaWordExampleCard
+                key={ex.word}
+                example={ex}
+                isSelected={activePracticeWord === ex.word}
+                onSelect={(item) => setActivePracticeWord(item.word)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`space-y-4 sm:space-y-5 select-none ${className}`}>

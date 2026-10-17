@@ -28,6 +28,7 @@ export default function IpaStudioPage() {
   const practiceSoundScores = useIpaCatalogStore((s) => s.practiceSoundScores);
   const matrixSearchQuery = useIpaCatalogStore((s) => s.matrixSearchQuery);
   const setMatrixSearchQuery = useIpaCatalogStore((s) => s.setMatrixSearchQuery);
+  const selectedSound = useIpaCatalogStore((s) => s.matrixSelectedSound);
   const averageScore = getAverageScore();
   const practicedCount = Math.max(Object.keys(practiceSoundScores).length, 7);
 
@@ -71,18 +72,20 @@ export default function IpaStudioPage() {
 
       {/* MAIN CANVAS WITH STAGGERED ENTRANCE */}
       <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2.5 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3 sm:py-6 pb-24 sm:pb-8 space-y-3.5 sm:space-y-6">
-        {/* 1. HERO GREETING BANNER WITH 4 BENTO METRIC CARDS */}
-        <IpaHeroGreeting
-          user={user}
-          masteredCount={masteredCount}
-          totalCount={44}
-          averageScore={averageScore}
-          pairsLearnedCount={practicedCount}
-          streakDays={user?.currentStreak || 1}
-          onNavigateTab={handleNavigateTab}
-        />
+        {/* 1. HERO GREETING BANNER WITH 4 BENTO METRIC CARDS (Hidden when in sound detail mode) */}
+        {!selectedSound && (
+          <IpaHeroGreeting
+            user={user}
+            masteredCount={masteredCount}
+            totalCount={44}
+            averageScore={averageScore}
+            pairsLearnedCount={practicedCount}
+            streakDays={user?.currentStreak || 1}
+            onNavigateTab={handleNavigateTab}
+          />
+        )}
 
-        {/* 2. MAIN 44-SOUND MATRIX BOARD */}
+        {/* 2. MAIN 44-SOUND MATRIX BOARD (OR IN-PAGE DETAIL VIEW) */}
         <IpaMatrixBoard onGoToPracticeLab={handleGoToPracticeLab} />
       </PageEntranceWrapper>
     </div>

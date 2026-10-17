@@ -52,7 +52,7 @@ export const IpaSoundCardV2: React.FC<IpaSoundCardV2Props> = ({
   return (
     <div
       onClick={handleCardClick}
-      className={`p-2 sm:p-2.5 rounded-xl sm:rounded-2xl transition-all duration-200 cursor-pointer select-none group flex flex-col justify-between h-full min-h-[78px] xs:min-h-[84px] sm:min-h-[94px] md:min-h-[100px] relative overflow-hidden ${
+      className={`p-1.5 xs:p-2 sm:p-2 rounded-xl sm:rounded-2xl transition-all duration-200 cursor-pointer select-none group flex flex-col justify-between h-full min-h-[66px] xs:min-h-[70px] sm:min-h-[76px] md:min-h-[82px] relative overflow-hidden ${
         isSelected
           ? `${theme.selectedRing} ${theme.selectedBg} shadow-xs`
           : `bg-white dark:bg-slate-900 hover:bg-slate-50/90 dark:hover:bg-slate-850 border border-slate-200/90 dark:border-slate-800 ${theme.borderHover} shadow-2xs hover:shadow-xs hover:-translate-y-0.5`
@@ -66,7 +66,7 @@ export const IpaSoundCardV2: React.FC<IpaSoundCardV2Props> = ({
         <button
           type="button"
           onClick={handleSpeakerClick}
-          className={`w-6 h-6 sm:w-6 sm:h-6 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+          className={`w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center transition-all cursor-pointer ${
             isPlaying
               ? `${theme.speakerActive} scale-110`
               : `text-slate-400 dark:text-slate-500 ${theme.textHover} hover:bg-slate-100 dark:hover:bg-slate-800 group-hover:bg-slate-100 dark:group-hover:bg-slate-800`
@@ -79,15 +79,15 @@ export const IpaSoundCardV2: React.FC<IpaSoundCardV2Props> = ({
       </div>
 
       {/* 2. Center: Large High-Legibility Phonetic Symbol (The Hero Glyph) */}
-      <div className="relative py-0.5 sm:py-1 flex flex-col items-center justify-center my-auto">
+      <div className="relative py-0 sm:py-0.5 flex flex-col items-center justify-center my-auto">
         {/* Soft acoustic ripple effect on tap matching category color */}
         {isPlaying && (
           <span
-            className={`absolute inset-0 m-auto w-8 h-8 sm:w-10 sm:h-10 rounded-full ${theme.rippleColor} animate-ping pointer-events-none`}
+            className={`absolute inset-0 m-auto w-7 h-7 sm:w-9 sm:h-9 rounded-full ${theme.rippleColor} animate-ping pointer-events-none`}
           />
         )}
         <span
-          className={`text-xl xs:text-2xl sm:text-[26px] font-black font-sans tracking-wide text-slate-900 dark:text-white ${theme.textHover} transition-colors leading-none`}
+          className={`text-lg xs:text-xl sm:text-[22px] font-black font-sans tracking-wide text-slate-900 dark:text-white ${theme.textHover} transition-colors leading-none`}
         >
           {sound.symbol}
         </span>
@@ -96,11 +96,11 @@ export const IpaSoundCardV2: React.FC<IpaSoundCardV2Props> = ({
       {/* 3. Bottom: Cohesive Centered Typography (NO dividing hairline) */}
       <div className="w-full flex flex-col items-center justify-center text-center mt-auto">
         <span
-          className={`font-bold text-[11px] xs:text-xs sm:text-[13px] text-slate-800 dark:text-slate-200 capitalize tracking-tight ${theme.textHover} transition-colors leading-tight`}
+          className={`font-bold text-[10px] xs:text-[11px] sm:text-xs text-slate-800 dark:text-slate-200 capitalize tracking-tight ${theme.textHover} transition-colors leading-tight`}
         >
           {sound.keyWord}
         </span>
-        <span className="hidden md:inline text-[10px] font-medium text-slate-400 dark:text-slate-500 truncate w-full text-center mt-0.5">
+        <span className="hidden lg:inline text-[9.5px] font-medium text-slate-400 dark:text-slate-500 truncate w-full text-center mt-0.5">
           {getSoundDisplayHint(sound)}
         </span>
       </div>
