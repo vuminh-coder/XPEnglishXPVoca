@@ -6331,6 +6331,9 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - **Nâng Cấp Hình Dạng Bong Bóng Lời Thoại Bất Đối Xứng (Asymmetric Speech Bubble Shape)**:
         * Thay thế khối hộp chữ nhật đối xứng phẳng đơn điệu bằng hình dáng bong bóng hội thoại hiện đại chuẩn iOS / Duolingo (`rounded-2xl rounded-tl-xs` cho gia sư AI trỏ về phía Avatar, và `rounded-2xl rounded-tr-xs` cho học viên).
         * Tối ưu bề mặt thẻ trắng sáng nổi bật (`bg-white dark:bg-slate-900 border border-slate-200/90 shadow-xs`) cùng độ rộng ôm sát văn bản (`w-fit`), mang lại cảm giác đàm thoại sinh động và trực quan cao cấp.
+      - **Nút & Bảng Chọn Đổi Giọng Nói AI Tiện Lợi (Voice & Speed Picker Modal)**:
+        * Tích hợp nút bấm trực quan có icon Bot ("Đổi giọng") kèm khả năng nhấp trực tiếp vào tên/avatar huấn luyện viên ở cả thanh Header khung chat và thanh Slim Hero Status.
+        * Mở Bottom Sheet Modal mượt mà trên mobile (z-[99999] phủ toàn bộ khung nhìn), cho phép học viên đổi qua lại giữa 3 chất giọng bản xứ (Emma Anh Quốc, Alex Hoa Kỳ, Chloe Úc kèm nút nghe thử giọng) và tùy chỉnh 3 cấp độ tốc độ nói (0.75x, 1.0x, 1.25x) một cách dễ dàng.
 
 ---
 

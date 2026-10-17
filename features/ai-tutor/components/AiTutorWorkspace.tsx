@@ -35,6 +35,7 @@ import {
   RotateCcw,
   History,
   CheckCircle,
+  ChevronDown,
 } from "lucide-react";
 
 interface SuggestedWord {
@@ -229,6 +230,7 @@ export default function AiTutorWorkspace() {
     return probe?.isSessionCompleted ?? false;
   });
   const [showChatHistoryInSummary, setShowChatHistoryInSummary] = useState(false);
+  const [showVoiceModal, setShowVoiceModal] = useState(false);
 
   // Practice timer state (Frame 0 Probe)
   const [elapsedTime, setElapsedTime] = useState(() => {
@@ -1107,12 +1109,17 @@ export default function AiTutorWorkspace() {
         {/* 2.1. SLIM HERO STATUS STRIP (DASHBOARD BENTO STYLE) */}
         <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="shrink-0 relative">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shadow-2xs font-mono">
+            <button
+              type="button"
+              onClick={() => setShowVoiceModal(true)}
+              className="shrink-0 relative cursor-pointer group"
+              title="Nhấp để đổi giọng nói / huấn luyện viên AI"
+            >
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-blue-50 group-hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shadow-2xs font-mono transition-colors">
                 <span>{activePersonaObj.countryCode}</span>
               </div>
               <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white dark:border-slate-900" />
-            </div>
+            </button>
 
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
@@ -1121,9 +1128,15 @@ export default function AiTutorWorkspace() {
                     ? "Báo Cáo Buổi Luyện Nói"
                     : `Đang trò chuyện cùng ${activePersonaObj.name}`}
                 </span>
-                <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-mono border border-blue-200/60 dark:border-blue-800/40 shadow-2xs">
-                  {activePersonaObj.role}
-                </span>
+                <button
+                  type="button"
+                  onClick={() => setShowVoiceModal(true)}
+                  className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-mono border border-blue-200/60 dark:border-blue-800/40 shadow-2xs flex items-center gap-1 cursor-pointer transition-all"
+                  title="Nhấp để đổi giọng nói / huấn luyện viên AI"
+                >
+                  <span>{activePersonaObj.role}</span>
+                  <ChevronDown className="w-3 h-3 text-[#0059bb] dark:text-sky-400" />
+                </button>
               </div>
               <p className="text-xs font-medium text-slate-600 dark:text-slate-300 truncate">
                 {isSessionCompleted
@@ -1171,39 +1184,58 @@ export default function AiTutorWorkspace() {
               <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2.5">
                 {/* Header Trong Khung Chat */}
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 gap-2 shrink-0">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold text-xs font-mono border border-blue-200/60 dark:border-blue-800/40">
+                  <button
+                    type="button"
+                    onClick={() => setShowVoiceModal(true)}
+                    className="flex items-center gap-2 min-w-0 text-left hover:opacity-85 transition-opacity cursor-pointer group"
+                    title="Nhấp để đổi giọng nói / huấn luyện viên AI"
+                  >
+                    <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold text-xs font-mono border border-blue-200/60 dark:border-blue-800/40 shrink-0">
                       {activePersonaObj.countryCode}
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
                       {activePersonaObj.name} ({activePersonaObj.role})
                     </span>
-                  </div>
-
-                  {/* Sound Button */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const next = !soundEnabled;
-                      setSoundEnabled(next);
-                      useAiSessionStore.getState().setTutorSession({ soundEnabled: next });
-                    }}
-                    className={`px-2.5 py-1 rounded-md text-xs font-bold border transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer ${
-                      soundEnabled
-                        ? "bg-slate-50 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-[#0059bb]"
-                        : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/30 text-rose-600 dark:text-rose-400"
-                    }`}
-                    title={soundEnabled ? "Tắt âm thanh" : "Bật âm thanh"}
-                  >
-                    {soundEnabled ? (
-                      <Volume2 className="w-3.5 h-3.5 text-[#0059bb]" />
-                    ) : (
-                      <VolumeX className="w-3.5 h-3.5" />
-                    )}
-                    <span className="hidden sm:inline">
-                      {soundEnabled ? "Bật âm" : "Tắt âm"}
-                    </span>
+                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0059bb] transition-colors shrink-0" />
                   </button>
+
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {/* Nút Đổi Giọng Nói với Icon Bot */}
+                    <button
+                      type="button"
+                      onClick={() => setShowVoiceModal(true)}
+                      className="px-2 py-1 sm:px-2.5 sm:py-1 rounded-md text-xs font-bold border border-blue-200/80 dark:border-blue-800/50 bg-blue-50/80 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all shadow-2xs flex items-center gap-1 cursor-pointer active:scale-95"
+                      title="Đổi giọng nói / Huấn luyện viên AI"
+                    >
+                      <Bot className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                      <span>Đổi giọng</span>
+                    </button>
+
+                    {/* Sound Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = !soundEnabled;
+                        setSoundEnabled(next);
+                        useAiSessionStore.getState().setTutorSession({ soundEnabled: next });
+                      }}
+                      className={`px-2.5 py-1 rounded-md text-xs font-bold border transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer ${
+                        soundEnabled
+                          ? "bg-slate-50 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-[#0059bb]"
+                          : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/30 text-rose-600 dark:text-rose-400"
+                      }`}
+                      title={soundEnabled ? "Tắt âm thanh" : "Bật âm thanh"}
+                    >
+                      {soundEnabled ? (
+                        <Volume2 className="w-3.5 h-3.5 text-[#0059bb]" />
+                      ) : (
+                        <VolumeX className="w-3.5 h-3.5" />
+                      )}
+                      <span className="hidden sm:inline">
+                        {soundEnabled ? "Bật âm" : "Tắt âm"}
+                      </span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Scrollable Chat Stream Box */}
@@ -2033,6 +2065,145 @@ export default function AiTutorWorkspace() {
           </motion.div>
         )}
       </div>
+
+      {/* 2.9. MODAL CHỌN GIỌNG NÓI & HUẤN LUYỆN VIÊN AI (VOICE & SPEED PICKER MODAL) */}
+      <AnimatePresence>
+        {showVoiceModal && (
+          <div className="fixed inset-0 z-[99999] flex items-end sm:items-center justify-center bg-slate-950/60 backdrop-blur-xs p-0 sm:p-4">
+            <motion.div
+              initial={{ opacity: 0, y: 40, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 40, scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              className="w-full max-w-lg bg-white dark:bg-slate-900 rounded-t-2xl sm:rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl p-4 sm:p-5 pb-8 sm:pb-5 space-y-4 max-h-[85vh] overflow-y-auto select-none"
+            >
+              {/* Header Modal */}
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center border border-blue-200/60 dark:border-blue-800/40">
+                    <Bot className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
+                      Đổi Giọng Nói & Huấn Luyện Viên AI
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Chọn chất giọng bản xứ và tốc độ đàm thoại phù hợp
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowVoiceModal(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
+                  title="Đóng"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* 1. Danh Sách 3 Giọng Nói / Huấn Luyện Viên */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Giọng Đọc Bản Xứ
+                </label>
+                <div className="space-y-2">
+                  {PERSONAS.map((p) => {
+                    const isActive = currentPersona === p.id;
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => {
+                          handleSelectPersona(p.id);
+                          speakText(`Hello, I'm ${p.name}, ready to practice with you!`);
+                        }}
+                        className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
+                          isActive
+                            ? "bg-blue-50/90 dark:bg-blue-950/60 border-[#0059bb] text-[#0059bb] dark:text-sky-300 font-bold shadow-xs"
+                            : "bg-slate-50/70 dark:bg-slate-950/60 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span
+                            className={`w-9 h-9 rounded-lg flex items-center justify-center font-mono font-bold text-xs shrink-0 border ${
+                              isActive
+                                ? "bg-[#0059bb] text-white border-[#0059bb]"
+                                : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
+                            }`}
+                          >
+                            {p.countryCode}
+                          </span>
+                          <div className="truncate">
+                            <div className="text-sm font-bold font-display truncate text-slate-900 dark:text-white flex items-center gap-1.5">
+                              <span>{p.name}</span>
+                              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                                ({p.countryName})
+                              </span>
+                            </div>
+                            <div className="text-xs text-slate-600 dark:text-slate-300 font-medium truncate">
+                              {p.role}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="text-xs text-slate-400 hover:text-[#0059bb] flex items-center gap-1 font-medium">
+                            <Volume2 className="w-3.5 h-3.5" /> Nghe thử
+                          </span>
+                          {isActive && (
+                            <Check className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[3]" />
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* 2. Tốc Độ Nói */}
+              <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                    Tốc Độ Đàm Thoại
+                  </label>
+                  <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 font-mono">
+                    {speechSpeed}x
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { spd: 0.75, label: "0.75x Chậm" },
+                    { spd: 1.0, label: "1.0x Chuẩn" },
+                    { spd: 1.25, label: "1.25x Nhanh" },
+                  ].map(({ spd, label }) => (
+                    <button
+                      key={spd}
+                      type="button"
+                      onClick={() => handleSelectSpeed(spd)}
+                      className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer text-center ${
+                        speechSpeed === spd
+                          ? "bg-[#0059bb] text-white border-[#0059bb] shadow-xs"
+                          : "bg-slate-50 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* 3. Nút Áp Dụng */}
+              <button
+                type="button"
+                onClick={() => setShowVoiceModal(false)}
+                className="w-full py-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs cursor-pointer active:scale-98 transition-all"
+              >
+                Áp Dụng & Tiếp Tục Nói
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* 3. 1-CLICK INTERACTIVE DEEP WORD DICTIONARY FLOATING MODAL */}
       <AnimatePresence>
