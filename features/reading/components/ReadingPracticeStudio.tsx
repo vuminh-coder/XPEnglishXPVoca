@@ -661,7 +661,7 @@ export function ReadingPracticeStudio({
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
-            <span>Câu hỏi ({Object.keys(answers).length}/{passage.questions.length})</span>
+            <span>Câu hỏi</span>
           </button>
 
           <button
@@ -844,7 +844,7 @@ export function ReadingPracticeStudio({
                   }`}
                 >
                   <FileText className="w-3.5 h-3.5" />
-                  <span>Câu hỏi ({passage.questions.length})</span>
+                  <span>Câu hỏi</span>
                 </button>
 
                 <button
