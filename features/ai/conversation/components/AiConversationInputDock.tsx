@@ -43,12 +43,12 @@ export function AiConversationInputDock({
   return (
     <div className="space-y-1.5 shrink-0 select-none">
       {/* 1. Thanh Gợi Ý & Chỉ Báo Trạng Thái (Status & Suggestion Strip) */}
-      <div className="pt-1.5 pb-0.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 text-xs text-slate-700 dark:text-slate-300 flex-wrap shrink-0">
-        {/* Left: Gợi ý nhanh */}
-        <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-          {(currentSuggestions.words.length > 0 || currentSuggestions.phrases.length > 0) && (
-            <>
-              <span className="text-xs font-semibold text-[#0059bb] dark:text-sky-400 flex items-center gap-1 shrink-0">
+      {(currentSuggestions.words.length > 0 || currentSuggestions.phrases.length > 0) && (
+        <div className="pt-1.5 pb-0.5 border-t border-slate-100 dark:border-slate-800 shrink-0 min-w-0">
+          {/* BẢN DESKTOP (lg:flex): Giữ nguyên vẹn 100% bố cục dòng linh hoạt kèm status */}
+          <div className="hidden lg:flex items-center justify-between gap-2 text-xs text-slate-700 dark:text-slate-300">
+            <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+              <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
                 <Sparkles className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> Gợi ý:
               </span>
 
@@ -59,7 +59,7 @@ export function AiConversationInputDock({
                     type="button"
                     onClick={() => (onInsertWord ? onInsertWord(w.word) : onSendMessage(w.word))}
                     title={`Nhấp để chèn từ "${w.word}" vào câu của bạn`}
-                    className="text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-300 hover:underline cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors"
+                    className="text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-300 cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors"
                   >
                     {w.word}
                   </button>
@@ -68,47 +68,123 @@ export function AiConversationInputDock({
 
               {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
                 <React.Fragment key={`p_${idx}`}>
-                  <span className="text-slate-300 dark:text-slate-700 hidden xs:inline">•</span>
+                  <span className="text-slate-300 dark:text-slate-700 select-none">•</span>
                   <button
                     type="button"
                     onClick={() => onSendMessage(phrase)}
-                    className="text-[11px] text-slate-600 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-300 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors truncate max-w-[180px] sm:max-w-[220px] hidden xs:inline"
+                    className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-300 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors truncate max-w-[220px]"
                   >
                     "{phrase}"
                   </button>
                 </React.Fragment>
               ))}
-            </>
-          )}
-        </div>
+            </div>
 
-        {/* Right: Trạng thái tương tác thời gian thực (Rule 6 - External Status) */}
-        <div className="shrink-0 ml-auto">
-          {isRecording ? (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/50 border border-rose-200/80 dark:border-rose-900/40 text-rose-600 dark:text-rose-400 text-[11px] font-bold font-mono animate-pulse">
-              <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-              Đang nghe (00:{recordingTime < 10 ? `0${recordingTime}` : recordingTime})
-            </span>
-          ) : isSpeaking ? (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/50 border border-blue-200/80 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-300 text-[11px] font-bold">
-              <Volume2 className="w-3 h-3 animate-pulse" />
-              AI đang đọc...
-            </span>
-          ) : isAiTyping ? (
-            <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-              AI đang suy nghĩ...
-            </span>
-          ) : hasTextToSubmit ? (
-            <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 hidden sm:inline">
-              Nhấn Enter để gửi
-            </span>
-          ) : (
-            <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 hidden sm:inline">
-              Bấm Micro để nói hoặc gõ phím
-            </span>
-          )}
+            {/* Right: Trạng thái tương tác thời gian thực */}
+            <div className="shrink-0 ml-auto">
+              {isRecording ? (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/50 border border-rose-200/80 dark:border-rose-900/40 text-rose-600 dark:text-rose-400 text-[11px] font-bold font-mono animate-pulse">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                  Đang nghe (00:{recordingTime < 10 ? `0${recordingTime}` : recordingTime})
+                </span>
+              ) : isSpeaking ? (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/50 border border-blue-200/80 dark:border-blue-800/40 text-[#0059bb] dark:text-sky-300 text-[11px] font-bold">
+                  <Volume2 className="w-3 h-3 animate-pulse" />
+                  AI đang đọc...
+                </span>
+              ) : isAiTyping ? (
+                <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                  AI đang suy nghĩ...
+                </span>
+              ) : hasTextToSubmit ? (
+                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                  Nhấn Enter để gửi
+                </span>
+              ) : (
+                <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                  Bấm Micro để nói hoặc gõ phím
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* BẢN MOBILE (< lg): Đúng 2 dòng, lướt ngang mượt mà tương tự AI Tutor */}
+          <div className="lg:hidden flex flex-col gap-1 text-xs text-slate-700 dark:text-slate-300 min-w-0">
+            {currentSuggestions.words.length > 0 ? (
+              <>
+                {/* Dòng 1: Gợi ý + Từ vựng (lướt ngang nếu dài hơn màn hình) */}
+                <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap min-w-0 pr-1 py-0.5">
+                  <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
+                    <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
+                  </span>
+
+                  {currentSuggestions.words.slice(0, 3).map((w, idx) => (
+                    <React.Fragment key={`mob_w_${idx}`}>
+                      {idx > 0 && (
+                        <span className="text-slate-300 dark:text-slate-600 select-none shrink-0">
+                          •
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => (onInsertWord ? onInsertWord(w.word) : onSendMessage(w.word))}
+                        className="text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 active:opacity-70 cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors shrink-0"
+                      >
+                        {w.word}
+                      </button>
+                    </React.Fragment>
+                  ))}
+                </div>
+
+                {/* Dòng 2: Mẫu câu mở đầu (lướt ngang nếu dài hơn màn hình) */}
+                {currentSuggestions.phrases.length > 0 && (
+                  <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap min-w-0 pr-1 py-0.5">
+                    {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
+                      <React.Fragment key={`mob_p_${idx}`}>
+                        {idx > 0 && (
+                          <span className="text-slate-300 dark:text-slate-600 select-none shrink-0">
+                            •
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => onSendMessage(phrase)}
+                          className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 active:opacity-70 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors shrink-0"
+                        >
+                          "{phrase}"
+                        </button>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              /* Trường hợp không có words, chỉ có phrases */
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap min-w-0 pr-1 py-0.5">
+                <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
+                  <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
+                </span>
+                {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
+                  <React.Fragment key={`mob_p_only_${idx}`}>
+                    {idx > 0 && (
+                      <span className="text-slate-300 dark:text-slate-600 select-none shrink-0">
+                        •
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => onSendMessage(phrase)}
+                      className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 active:opacity-70 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors shrink-0"
+                    >
+                      "{phrase}"
+                    </button>
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* 2. Khung Nhập Liệu & Nút Hành Động (Ergonomic Voice & Text Input Dock) */}
       <div className="p-1 sm:p-1.5 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-1">

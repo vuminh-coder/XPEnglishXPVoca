@@ -15,7 +15,12 @@ import {
   CheckCircle2,
   MessageSquare,
   Target,
+  ChevronDown,
+  X,
+  SlidersHorizontal,
+  Check,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 import {
   aiTopics,
@@ -36,6 +41,7 @@ import {
   AiConversationScoreCard,
   AiConversationHistoryDrawer,
   WordLookupModal,
+  TOPIC_ICONS,
 } from "@/features/ai/conversation";
 
 const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -153,7 +159,8 @@ export default function AiConversationPage() {
   });
 
   const [selectedWordData, setSelectedWordData] = useState<WordLookupData | null>(null);
-  const [mobileActiveTab, setMobileActiveTab] = useState<"chat" | "inspector">("chat");
+  const [showGoalsModal, setShowGoalsModal] = useState(false);
+  const [showTopicModal, setShowTopicModal] = useState(false);
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
   // Speech & Visualizer Hook
@@ -761,10 +768,12 @@ export default function AiConversationPage() {
   );
 
   return (
-    <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
+    <div
+      suppressHydrationWarning
+      className="w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none"
+    >
       {/* 1. APP TOP HEADER (FIXED 56PX) */}
       <AppTopHeader
-        showGamificationStats={true}
         rightDesktopContent={
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
             {/* Lịch Sử Buổi Học Button */}
@@ -778,7 +787,10 @@ export default function AiConversationPage() {
               <span className="hidden sm:inline">Lịch sử</span>
             </button>
 
-            <span suppressHydrationWarning className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
+            <span
+              suppressHydrationWarning
+              className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs"
+            >
               <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
               <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
             </span>
@@ -804,71 +816,50 @@ export default function AiConversationPage() {
             )}
           </div>
         }
+        customMobileSearchReplacement={
+          <button
+            type="button"
+            onClick={handleOpenHistoryDrawer}
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+            title="Lịch sử buổi hội thoại"
+            aria-label="Lịch sử buổi hội thoại"
+          >
+            <History className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
+          </button>
+        }
       >
         <AiSuiteNavTabs />
       </AppTopHeader>
 
-      {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS (FITS IN 1 SCREEN ON DESKTOP) */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-2 flex flex-col min-h-0 lg:overflow-hidden space-y-2 sm:space-y-2.5 pb-20 lg:pb-2">
-        {/* 2.1. SLIM HERO TOPIC STATUS STRIP */}
-        <AiConversationTopBar
-          currentTopic={currentTopic}
-          allTopics={aiTopics}
-          selectedTopicId={selectedTopicId}
-          onSelectTopic={handleSelectTopic}
-          isSessionCompleted={isSessionCompleted}
-          elapsedTime={elapsedTime}
-          formatElapsedTime={formatElapsedTime}
-          onRestartNewSession={handleRestartNewSession}
-          onFinishConversation={handleFinishConversation}
-          currentPersona={currentPersona}
-          allPersonas={AI_PERSONAS}
-          onSelectPersona={(persona) => setSelectedPersonaId(persona.id)}
-          currentDifficulty={effectiveDifficulty}
-          onSelectDifficulty={(diff) => setSelectedDifficulty(diff)}
-        />
+      {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS (FITS IN 1 SCREEN ON DESKTOP & DOCKED ABOVE BOTTOMNAV ON MOBILE) */}
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2 sm:px-5 lg:px-6 pt-1.5 sm:pt-3 lg:pt-3 pb-[50px] lg:pb-3 flex flex-col min-h-0 overflow-hidden space-y-1.5 sm:space-y-3">
+        {/* 2.1. SLIM HERO TOPIC STATUS STRIP (DESKTOP ONLY) */}
+        <div className="hidden lg:block shrink-0">
+          <AiConversationTopBar
+            currentTopic={currentTopic}
+            allTopics={aiTopics}
+            selectedTopicId={selectedTopicId}
+            onSelectTopic={handleSelectTopic}
+            isSessionCompleted={isSessionCompleted}
+            elapsedTime={elapsedTime}
+            formatElapsedTime={formatElapsedTime}
+            onRestartNewSession={handleRestartNewSession}
+            onFinishConversation={handleFinishConversation}
+            currentPersona={currentPersona}
+            allPersonas={AI_PERSONAS}
+            onSelectPersona={(persona) => setSelectedPersonaId(persona.id)}
+            currentDifficulty={effectiveDifficulty}
+            onSelectDifficulty={(diff) => setSelectedDifficulty(diff)}
+          />
+        </div>
 
-        {/* 2.2. MOBILE SEGMENTED VIEW SWITCHER (Mobile only: sm/md, hidden on lg+) */}
-        {!isSessionCompleted && (
-          <div className="flex lg:hidden items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shrink-0">
-            <button
-              type="button"
-              onClick={() => setMobileActiveTab("chat")}
-              className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                mobileActiveTab === "chat"
-                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              <MessageSquare className="w-3.5 h-3.5" />
-              <span>Hội thoại ({userTurnsCount})</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setMobileActiveTab("inspector")}
-              className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                mobileActiveTab === "inspector"
-                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              <Target className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-              <span>Mục tiêu ({completedGoalsCount}/{currentTopic.goals.length})</span>
-            </button>
-          </div>
-        )}
-
-        {/* 2.3. MAIN BENTO GRID: FITS STRICTLY IN DESKTOP VIEWPORT */}
+        {/* 2.2. MAIN BENTO GRID: FITS STRICTLY IN VIEWPORT */}
         {!isSessionCompleted ? (
           /* ===== VIEW 1: STUDIO BENTO GRID (8/12 - 4/12) ===== */
-          <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2.5 lg:gap-3 items-stretch min-w-0">
+          <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-2.5 lg:gap-3 items-stretch min-w-0">
             {/* CỘT TRÁI: AI CHAT COMPANION & INPUT DOCK (8/12) */}
-            <div
-              className={`lg:col-span-8 flex flex-col min-w-0 lg:h-full lg:min-h-0 ${
-                mobileActiveTab === "chat" ? "flex" : "hidden lg:flex"
-              }`}
-            >
-              <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2">
+            <div className="lg:col-span-8 flex flex-col min-w-0 h-full min-h-0">
+              <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 h-full min-h-0 space-y-1.5 sm:space-y-2 overflow-hidden">
                 <AiConversationChatStream
                   messages={messages}
                   currentTopic={currentTopic}
@@ -886,6 +877,56 @@ export default function AiConversationPage() {
                   isSpeaking={isSpeaking}
                   user={user}
                   chatBottomRef={chatBottomRef}
+                  headerLeftMobileContent={
+                    <button
+                      type="button"
+                      onClick={() => setShowTopicModal(true)}
+                      className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-900 dark:text-white border border-slate-200/80 dark:border-slate-700 transition-all cursor-pointer active:scale-95 text-xs font-bold truncate max-w-[130px] xs:max-w-[160px] sm:max-w-[200px]"
+                      title="Đổi chủ đề / Giọng AI / Trình độ"
+                    >
+                      <span className="shrink-0 text-sm">
+                        {TOPIC_ICONS[currentTopic.id] || "💬"}
+                      </span>
+                      <span className="truncate">{currentTopic.name}</span>
+                      <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                    </button>
+                  }
+                  headerRightMobileContent={
+                    <>
+                      {/* Timer capsule */}
+                      <span
+                        suppressHydrationWarning
+                        className="h-7 px-1.5 xs:px-2 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1 shrink-0"
+                      >
+                        <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                        <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
+                      </span>
+
+                      {/* Goals Pill */}
+                      <button
+                        type="button"
+                        onClick={() => setShowGoalsModal(true)}
+                        className="h-7 px-1.5 xs:px-2 rounded-md bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 border border-purple-200/80 dark:border-purple-800/50 text-xs font-bold flex items-center gap-1 shrink-0 active:scale-95 transition-all cursor-pointer shadow-2xs"
+                        title="Xem mục tiêu hội thoại & gợi ý từ vựng"
+                      >
+                        <Target className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+                        <span className="tabular-nums font-mono font-bold">
+                          {completedGoalsCount}/{currentTopic.goals.length}
+                        </span>
+                      </button>
+
+                      {/* Chấm điểm button */}
+                      <button
+                        type="button"
+                        onClick={handleFinishConversation}
+                        className="h-7 px-2 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-600 text-xs font-bold flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer shrink-0"
+                        title="Hoàn thành và chấm điểm buổi nói"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2]" />
+                        <span className="hidden xs:inline">Chấm điểm</span>
+                      </button>
+                    </>
+                  }
                 />
 
                 <AiConversationInputDock
@@ -906,12 +947,8 @@ export default function AiConversationPage() {
               </div>
             </div>
 
-            {/* CỘT PHẢI: GOALS & CONTEXTUAL VOCABULARY DECK (4/12) */}
-            <div
-              className={`lg:col-span-4 flex flex-col min-w-0 lg:h-full lg:min-h-0 ${
-                mobileActiveTab === "inspector" ? "flex" : "hidden lg:flex"
-              }`}
-            >
+            {/* CỘT PHẢI: GOALS & CONTEXTUAL VOCABULARY DECK (4/12 - DESKTOP ONLY) */}
+            <div className="hidden lg:flex lg:col-span-4 flex-col min-w-0 h-full min-h-0">
               <AiConversationInspectorDock
                 currentTopic={currentTopic}
                 completedGoalIds={completedGoalIds}
@@ -924,22 +961,24 @@ export default function AiConversationPage() {
           </div>
         ) : (
           /* ===== VIEW 2: IN-PLACE SCORECARD & SUMMARY ===== */
-          <AiConversationScoreCard
-            currentTopic={currentTopic}
-            allTopics={aiTopics}
-            onSelectTopic={handleSelectTopic}
-            sessionEvaluation={sessionEvaluation}
-            completedGoalsCount={completedGoalsCount}
-            userTurnsCount={userTurnsCount}
-            elapsedTime={elapsedTime}
-            formatElapsedTime={formatElapsedTime}
-            grammarCorrections={grammarCorrections}
-            messages={messages}
-            onRestartNewSession={handleRestartNewSession}
-            currentPersona={currentPersona}
-            difficulty={effectiveDifficulty}
-            userName={user?.fullName || user?.username || "Học viên XP"}
-          />
+          <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin">
+            <AiConversationScoreCard
+              currentTopic={currentTopic}
+              allTopics={aiTopics}
+              onSelectTopic={handleSelectTopic}
+              sessionEvaluation={sessionEvaluation}
+              completedGoalsCount={completedGoalsCount}
+              userTurnsCount={userTurnsCount}
+              elapsedTime={elapsedTime}
+              formatElapsedTime={formatElapsedTime}
+              grammarCorrections={grammarCorrections}
+              messages={messages}
+              onRestartNewSession={handleRestartNewSession}
+              currentPersona={currentPersona}
+              difficulty={effectiveDifficulty}
+              userName={user?.fullName || user?.username || "Học viên XP"}
+            />
+          </div>
         )}
       </div>
 
@@ -960,6 +999,219 @@ export default function AiConversationPage() {
         onSelectPastSession={setSelectedPastSession}
         isLoadingHistory={isLoadingHistory}
       />
+
+      {/* 5. MOBILE GOALS & VOCABULARY BOTTOM SHEET / MODAL */}
+      <AnimatePresence>
+        {showGoalsModal && (
+          <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowGoalsModal(false)}
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs"
+            />
+            <motion.div
+              initial={{ y: "100%", opacity: 0.5 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 280 }}
+              className="relative w-full max-w-lg max-h-[85vh] bg-white dark:bg-slate-900 rounded-t-2xl sm:rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden z-10"
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-3.5 border-b border-slate-100 dark:border-slate-800 shrink-0">
+                <div className="flex items-center gap-2">
+                  <span className="p-1.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
+                    <Target className="w-4 h-4" />
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                      Mục Tiêu & Từ Vựng Ngữ Cảnh
+                    </h3>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      Đạt {completedGoalsCount}/{currentTopic.goals.length} mục tiêu trong chủ đề này
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowGoalsModal(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Modal Body: Inspector Dock */}
+              <div className="p-3 overflow-y-auto flex-1 min-h-0 space-y-3">
+                <AiConversationInspectorDock
+                  currentTopic={currentTopic}
+                  completedGoalIds={completedGoalIds}
+                  completedGoalsCount={completedGoalsCount}
+                  currentSuggestions={currentSuggestions}
+                  onWordClick={(w) => {
+                    handleWordClick(w);
+                    setShowGoalsModal(false);
+                  }}
+                  onSendMessage={(ph) => {
+                    handleSendMessage(ph);
+                    setShowGoalsModal(false);
+                  }}
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* 6. MOBILE TOPIC & AI SETTINGS BOTTOM SHEET / MODAL */}
+      <AnimatePresence>
+        {showTopicModal && (
+          <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowTopicModal(false)}
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs"
+            />
+            <motion.div
+              initial={{ y: "100%", opacity: 0.5 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 280 }}
+              className="relative w-full max-w-lg max-h-[85vh] bg-white dark:bg-slate-900 rounded-t-2xl sm:rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden z-10"
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-3.5 border-b border-slate-100 dark:border-slate-800 shrink-0">
+                <div className="flex items-center gap-2">
+                  <span className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400">
+                    <SlidersHorizontal className="w-4 h-4" />
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                      Cài Đặt Buổi Hội Thoại
+                    </h3>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      Chọn chủ đề, huấn luyện viên và độ khó
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowTopicModal(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-3.5 overflow-y-auto flex-1 min-h-0 space-y-4">
+                {/* Section A: Trình độ */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                    Độ khó phản xạ
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(["Beginner", "Intermediate", "Advanced"] as ConversationDifficulty[]).map((diff) => (
+                      <button
+                        key={diff}
+                        type="button"
+                        onClick={() => setSelectedDifficulty(diff)}
+                        className={`p-2 rounded-xl border text-xs font-bold transition-all text-center cursor-pointer ${
+                          effectiveDifficulty === diff
+                            ? "bg-blue-50 dark:bg-blue-950/60 border-[#0059bb] text-[#0059bb] dark:text-sky-300 shadow-2xs"
+                            : "bg-slate-50 dark:bg-slate-800/60 border-slate-200/80 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300"
+                        }`}
+                      >
+                        {diff}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Section B: Huấn luyện viên AI Persona */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                    Huấn luyện viên AI
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {AI_PERSONAS.map((persona) => {
+                      const isSelected = currentPersona.id === persona.id;
+                      return (
+                        <button
+                          key={persona.id}
+                          type="button"
+                          onClick={() => setSelectedPersonaId(persona.id)}
+                          className={`p-2 rounded-xl border transition-all flex items-center gap-2 cursor-pointer text-left ${
+                            isSelected
+                              ? "bg-blue-50 dark:bg-blue-950/60 border-[#0059bb] text-[#0059bb] dark:text-sky-300 shadow-2xs"
+                              : "bg-slate-50 dark:bg-slate-800/60 border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300"
+                          }`}
+                        >
+                          <div className="w-7 h-7 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-xs font-bold font-mono shrink-0">
+                            {persona.countryCode}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="text-xs font-bold truncate">{persona.name}</div>
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                              {persona.countryName}
+                            </div>
+                          </div>
+                          {isSelected && <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Section C: Chọn Chủ Đề */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                    Chủ đề hội thoại ({aiTopics.length})
+                  </label>
+                  <div className="space-y-1.5 max-h-[280px] overflow-y-auto pr-1 scrollbar-thin">
+                    {aiTopics.map((topic) => {
+                      const isSelected = topic.id === selectedTopicId;
+                      return (
+                        <button
+                          key={topic.id}
+                          type="button"
+                          onClick={() => {
+                            handleSelectTopic(topic);
+                            setShowTopicModal(false);
+                          }}
+                          className={`w-full p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2.5 cursor-pointer ${
+                            isSelected
+                              ? "bg-blue-50 dark:bg-blue-950/60 border-[#0059bb] text-[#0059bb] dark:text-sky-300 shadow-2xs"
+                              : "bg-slate-50 dark:bg-slate-800/60 border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300"
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0">
+                              {TOPIC_ICONS[topic.id] || <MessageSquare className="w-4 h-4 text-[#0059bb]" />}
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                                {topic.name}
+                              </div>
+                              <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                                {topic.nameEn} • {topic.level}
+                              </div>
+                            </div>
+                          </div>
+                          {isSelected && <Check className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

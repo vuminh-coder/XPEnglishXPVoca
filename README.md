@@ -6485,6 +6485,25 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
     - **Kết Quả Kiểm Thử**:
       * Vitest: **293 test suites (2,430 passed tests) - 100% pass rate**.
 
+51. **Quy Chuẩn Bố Cục Công Thái Học Mobile Cho Luyện Giao Tiếp Với AI ([`/ai/conversation`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/ai/conversation/page.tsx)) Đồng Bộ Chuẩn Mực Gia Sư AI (`/ai/tutor`)**:
+    - **Khóa Chiều Cao Viewport & Triệt Tiêu Cuộn Trang Cấp Thể (100dvh Lock & Zero Body Scroll)**:
+      * Chuyển đổi container chính sang `w-full h-[100dvh] max-h-[100dvh] overflow-hidden` kèm khoảng đệm đáy `pb-[50px] lg:pb-3`, neo khít hoàn hảo ngay phía trên thanh đáy `BottomNav` trên thiết bị di động, triệt tiêu 100% tình trạng tràn màn hình hay tranh chấp cuộn giữa trang và dock chat.
+    - **Tối Ưu Thanh Header Đỉnh (`AppTopHeader`)**:
+      * Lược bỏ thanh gamification gây chiếm chỗ trên mobile, thay thế bằng nút truy cập nhanh lịch sử buổi trò chuyện (`customMobileSearchReplacement` với icon `History`), đồng bộ 1:1 phong cách công thái học của `/ai/tutor`.
+    - **Ẩn Thanh Trạng Thái Cồng Kềnh Ngoại Vi (`AiConversationTopBar`) Trên Mobile**:
+      * Thiết lập `hidden lg:block` cho `AiConversationTopBar` trên màn hình nhỏ (< lg), tiết kiệm hơn 110px chiều cao màn hình quý giá để dành trọn vẹn không gian cho trải nghiệm hội thoại thời gian thực.
+    - **Tích Hợp Bộ Điều Khiển Mobile Trực Tiếp Vào Header Khung Chat (`AiConversationChatStream`)**:
+      * *Bên trái*: Nút chuyển nhanh chủ đề (`headerLeftMobileContent`) hiển thị icon chủ đề, tên chủ đề rút gọn và mũi tên `ChevronDown`, mở Bottom Sheet cài đặt chỉ với 1 chạm.
+      * *Bên phải*: Con nhộng thời gian bấm giờ (`Clock` + `formatElapsedTime`), viên thuốc tiến độ mục tiêu (`Target` `{completedGoalsCount}/{goals.length}`), nút hoàn thành/chấm điểm (`CheckCircle2` "Chấm điểm" / "Buổi mới"), và nút bật/tắt âm thanh tinh gọn.
+    - **Loại Bỏ Segmented Switcher Toàn Màn Hình, Thay Bằng Bottom Sheet Modals Mượt Mà**:
+      * Triệt tiêu hoàn toàn thanh chuyển tab 2 chế độ gây đứt quãng trải nghiệm trò chuyện ("Hội thoại" vs "Mục tiêu"). Khung hội thoại AI luôn được hiển thị liên tục toàn màn hình.
+      * Nhấp vào viên thuốc mục tiêu `🎯 2/4` mở ngay Bottom Sheet Modal hiển thị danh sách mục tiêu và từ vựng ngữ cảnh (`AiConversationInspectorDock`) dạng trượt lò xo (`framer-motion`).
+      * Nhấp vào nút chủ đề mở Modal/Bottom Sheet cài đặt chủ đề, chọn huấn luyện viên AI (Persona) và độ khó phản xạ (Beginner, Intermediate, Advanced).
+    - **Dải Gợi Ý Đúng 2 Dòng & Lướt Ngang (`AiConversationInputDock`)**:
+      * Dòng 1 cho từ vựng gợi ý (`words`), Dòng 2 cho mẫu câu mở đầu (`phrases`) với khả năng lướt ngang mượt mà (`overflow-x-auto no-scrollbar whitespace-nowrap`), triệt tiêu việc rớt 3-4 dòng gây đẩy lệch Micro.
+    - **Kiểm Thử Toàn Diện**:
+      * Bộ kiểm thử chuyên biệt `__tests__/ai_conversation_mobile_ergonomics.test.ts` (10/10 tests PASS) và `__tests__/ai_conversation_standards.test.ts` (100% PASS).
+
 
 
 
