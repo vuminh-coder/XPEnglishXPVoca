@@ -57,16 +57,6 @@ function PracticeContent() {
         hideMobileSearch={true}
         hideAvatarOnMobile={true}
         hideGamificationOnMobile={true}
-        mobileTitle={
-          <div className="flex items-center gap-1.5 shrink-0">
-            <div className="w-6.5 h-6.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200/60 dark:border-blue-900/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
-              <BookOpen className="w-3.5 h-3.5 stroke-[2.2]" />
-            </div>
-            <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 font-mono text-xs font-bold tabular-nums shrink-0 shadow-2xs">
-              Câu {Math.min(session.vocabs.length, session.currentIndex + 1)}/{session.vocabs.length}
-            </span>
-          </div>
-        }
         rightDesktopContent={
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
             {/* Progress Counter Badge */}
@@ -120,16 +110,16 @@ function PracticeContent() {
         }
         rightMobileContent={
           <div className="flex items-center gap-1 shrink-0">
-            {/* Mobile Timer Badge */}
-            <span className="h-7 px-1.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[11px] font-bold font-mono tabular-nums flex items-center gap-1 shadow-2xs shrink-0">
-              <Clock className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-              <span>{session.formatElapsedTime(session.elapsedTime)}</span>
+            {/* Mobile Progress Counter Badge */}
+            <span className="h-7 px-1.5 sm:px-2 rounded-lg bg-slate-100 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 border border-slate-200/90 dark:border-slate-700 text-[11px] font-bold font-mono tabular-nums flex items-center shadow-2xs shrink-0">
+              <span className="hidden xs:inline mr-0.5">Câu </span>
+              {Math.min(session.vocabs.length, session.currentIndex + 1)}/{session.vocabs.length}
             </span>
 
-            {/* Mobile XP Badge */}
-            <span className="h-7 px-1.5 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[11px] font-bold font-mono tabular-nums flex items-center gap-0.5 shadow-2xs shrink-0">
-              <Trophy className="w-3 h-3 text-amber-500" />
-              <span>+{session.totalEarnedXp}</span>
+            {/* Mobile Timer Badge */}
+            <span className="h-7 px-1.5 sm:px-2 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[11px] font-bold font-mono tabular-nums flex items-center gap-1 shadow-2xs shrink-0">
+              <Clock className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+              <span>{session.formatElapsedTime(session.elapsedTime)}</span>
             </span>
 
             {/* Mobile Action Button */}

@@ -301,12 +301,12 @@ export function AppTopHeader({
 
   return (
     <div
-      className={`w-full h-[50px] sm:h-14 bg-gradient-to-b from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 border-b border-slate-200/80 dark:border-slate-800 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
+      className={`w-full h-[50px] sm:h-14 bg-gradient-to-b from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-md px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1.5 sm:gap-4 select-none shrink-0 border-b border-slate-200/80 dark:border-slate-800 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
         sticky ? "sticky top-0 z-30" : "relative"
       } ${className}`}
     >
       {/* ─── LEFT SECTION: Hamburger Toggle / Back + Custom Page Mode Switcher ─── */}
-      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
         {onBack ? (
           <button
             type="button"
@@ -338,10 +338,10 @@ export function AppTopHeader({
           ) : (
             <Link
               href="/dashboard"
-              className="sm:hidden flex items-center gap-1.5 min-w-0 select-none group"
+              className="sm:hidden flex items-center gap-1 shrink-0 select-none group"
               title="Trang chủ XP English"
             >
-              <span className="text-[15px] font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight whitespace-nowrap">
+              <span className="text-[13px] sm:text-[15px] font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight whitespace-nowrap">
                 <span className="text-[#0059bb]">XP</span> English
                 <span className="text-amber-500 font-normal">|</span>
                 <span className="text-amber-500">XP Voca</span>
