@@ -19,6 +19,7 @@ import {
   Bot,
   Search,
   X,
+  XCircle,
   Flame,
   Coins,
   Settings,
@@ -720,7 +721,7 @@ export function AppTopHeader({
             transition={{ duration: 0.16, ease: "easeOut" }}
             className="absolute inset-0 z-50 bg-white/98 dark:bg-slate-900/98 backdrop-blur-md px-3 sm:px-4 flex items-center gap-2 border-b border-slate-200/90 dark:border-slate-800"
           >
-            <Search className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+            <Search className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2] text-slate-800 dark:text-slate-200 shrink-0" />
             <input
               ref={mobileSearchInputRef}
               type="text"
@@ -736,18 +737,21 @@ export function AppTopHeader({
                   searchProps.onChange("");
                   if (searchProps.onClear) searchProps.onClear();
                 }}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
-                title="Xóa"
+                className="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer shrink-0 transition-colors"
+                title="Xóa nội dung"
+                aria-label="Xóa nội dung"
               >
-                <X className="w-4 h-4" />
+                <XCircle className="w-4 h-4" />
               </button>
             )}
             <button
               type="button"
               onClick={() => setIsMobileSearchOpen(false)}
-              className="px-2.5 py-1 text-xs font-bold rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0 active:scale-90"
+              title="Đóng tìm kiếm"
+              aria-label="Đóng tìm kiếm"
             >
-              Đóng
+              <X className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
             </button>
           </motion.div>
         )}

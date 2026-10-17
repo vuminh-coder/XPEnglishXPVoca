@@ -212,19 +212,14 @@ export function ListeningListingView({
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
       {/* 1. CONTINUOUS FULL-WIDTH TOP BAR (AppTopHeader) */}
       <AppTopHeader
+        searchProps={{
+          value: listingSearch,
+          onChange: setListingSearch,
+          placeholder: "Tìm kiếm bài nghe...",
+          onClear: () => setListingSearch(""),
+        }}
         rightDesktopContent={
           <div className="flex items-center gap-2.5 shrink-0">
-            <div className="relative w-44 xs:w-56 sm:w-72">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Tìm kiếm bài nghe..."
-                value={listingSearch}
-                onChange={(e) => setListingSearch(e.target.value)}
-                className="w-full h-9 pl-9 pr-3 text-xs sm:text-sm font-medium rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-[#0059bb] transition-all"
-              />
-            </div>
-
             <button
               type="button"
               onClick={() => setShowCreateForm((prev) => !prev)}
