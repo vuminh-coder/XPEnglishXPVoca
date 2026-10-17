@@ -6324,6 +6324,10 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Bảo toàn 100% bố cục hai cột cân đối (8/12 và 4/12) trên máy tính để bàn (Desktop lg: trở lên).
       - **Tự Động Ẩn `FloatingAiChatbot` Trên Các Phân Hệ AI Workspace (`/ai/tutor`, `/ai/conversation`)**:
         * Ngăn chặn hiện tượng nút bong bóng chatbot trôi nổi che khuất thanh nhập liệu và dock Microphone nói tiếng Anh trên màn hình điện thoại hẹp.
+      - **Dải Gợi Ý Đúng 2 Dòng & Lướt Ngang Trên Mobile (Suggestion Strip 2-Line Horizontal Scroll)**:
+        * Tách biệt rõ ràng 2 luồng: Dòng 1 cho nhãn "Gợi ý:" và từ vựng gợi ý (`words`), Dòng 2 cho mẫu câu mở đầu (`phrases`).
+        * Giữ cố định đúng 2 dòng trên mobile, thiết lập chế độ lướt ngang mượt mà (`overflow-x-auto no-scrollbar whitespace-nowrap`) khi độ dài từ vựng hoặc mẫu câu vượt quá chiều rộng màn hình điện thoại, triệt tiêu hoàn toàn việc bị rớt xuống 3-4 dòng làm đẩy lệch khung nhập liệu và micro.
+        * Bảo toàn 100% bố cục dòng linh hoạt (flex-wrap) trên Desktop (`lg:`).
 
 ---
 

@@ -1398,42 +1398,121 @@ export default function AiTutorWorkspace() {
                 {/* Dải Gợi Ý Thuần Chữ (Shrink-0) */}
                 {(currentSuggestions.words.length > 0 ||
                   currentSuggestions.phrases.length > 0) && (
-                  <div className="pt-2 pb-0.5 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 flex-wrap shrink-0">
-                    <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
-                      <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
-                    </span>
+                  <div className="pt-2 pb-0.5 border-t border-slate-100 dark:border-slate-800 shrink-0 min-w-0">
+                    {/* BẢN DESKTOP (lg:flex): Giữ nguyên vẹn 100% bố cục dòng linh hoạt */}
+                    <div className="hidden lg:flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 flex-wrap">
+                      <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
+                        <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
+                      </span>
 
-                    {currentSuggestions.words.slice(0, 3).map((w, idx) => (
-                      <React.Fragment key={`w_${idx}`}>
-                        {idx > 0 && (
+                      {currentSuggestions.words.slice(0, 3).map((w, idx) => (
+                        <React.Fragment key={`w_${idx}`}>
+                          {idx > 0 && (
+                            <span className="text-slate-300 dark:text-slate-600 select-none">
+                              •
+                            </span>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => speakText(w.word)}
+                            className="text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors"
+                          >
+                            {w.word}
+                          </button>
+                        </React.Fragment>
+                      ))}
+
+                      {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
+                        <React.Fragment key={`p_${idx}`}>
                           <span className="text-slate-300 dark:text-slate-600 select-none">
                             •
                           </span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => speakText(w.word)}
-                          className="text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors"
-                        >
-                          {w.word}
-                        </button>
-                      </React.Fragment>
-                    ))}
+                          <button
+                            type="button"
+                            onClick={() => speakText(phrase)}
+                            className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors truncate max-w-[220px]"
+                          >
+                            "{phrase}"
+                          </button>
+                        </React.Fragment>
+                      ))}
+                    </div>
 
-                    {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
-                      <React.Fragment key={`p_${idx}`}>
-                        <span className="text-slate-300 dark:text-slate-600 select-none">
-                          •
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => speakText(phrase)}
-                          className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors truncate max-w-[220px]"
-                        >
-                          "{phrase}"
-                        </button>
-                      </React.Fragment>
-                    ))}
+                    {/* BẢN MOBILE (< lg): Đúng 2 dòng, lướt ngang mượt mà nếu độ dài vượt quá width điện thoại */}
+                    <div className="lg:hidden flex flex-col gap-1 text-xs text-slate-700 dark:text-slate-300 min-w-0">
+                      {currentSuggestions.words.length > 0 ? (
+                        <>
+                          {/* Dòng 1: Gợi ý + Từ vựng (lướt ngang nếu dài hơn màn hình) */}
+                          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap min-w-0 pr-1 py-0.5">
+                            <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
+                              <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
+                            </span>
+
+                            {currentSuggestions.words.slice(0, 3).map((w, idx) => (
+                              <React.Fragment key={`mob_w_${idx}`}>
+                                {idx > 0 && (
+                                  <span className="text-slate-300 dark:text-slate-600 select-none shrink-0">
+                                    •
+                                  </span>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => speakText(w.word)}
+                                  className="text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 active:opacity-70 cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors shrink-0"
+                                >
+                                  {w.word}
+                                </button>
+                              </React.Fragment>
+                            ))}
+                          </div>
+
+                          {/* Dòng 2: Mẫu câu mở đầu (lướt ngang nếu dài hơn màn hình) */}
+                          {currentSuggestions.phrases.length > 0 && (
+                            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap min-w-0 pr-1 py-0.5">
+                              {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
+                                <React.Fragment key={`mob_p_${idx}`}>
+                                  {idx > 0 && (
+                                    <span className="text-slate-300 dark:text-slate-600 select-none shrink-0">
+                                      •
+                                    </span>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => speakText(phrase)}
+                                    className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 active:opacity-70 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors shrink-0"
+                                  >
+                                    "{phrase}"
+                                  </button>
+                                </React.Fragment>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        /* Trường hợp không có words, chỉ có phrases */
+                        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap min-w-0 pr-1 py-0.5">
+                          <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
+                            <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
+                          </span>
+                          {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
+                            <React.Fragment key={`mob_p_only_${idx}`}>
+                              {idx > 0 && (
+                                <span className="text-slate-300 dark:text-slate-600 select-none shrink-0">
+                                  •
+                                </span>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => speakText(phrase)}
+                                className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 active:opacity-70 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors shrink-0"
+                              >
+                                "{phrase}"
+                              </button>
+                            </React.Fragment>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
 
