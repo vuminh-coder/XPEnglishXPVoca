@@ -6582,16 +6582,16 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
    - **Tinh chỉnh khối đáp án trắc nghiệm thanh thoát (`PracticeQuizArena.tsx`)**: Giảm chiều cao tối thiểu và khoảng đệm của 4 thẻ đáp án A, B, C, D từ `min-h-[64px] p-3.5 sm:p-4` xuống `min-h-[46px] sm:min-h-[50px] px-3 py-2 sm:px-3.5 sm:py-2.5`, thu gọn nhãn ký tự thành `w-6 h-6`, triệt tiêu hoàn toàn cảm giác cồng kềnh, thô to trên cả di động và máy tính.
 
 9. **Tái Cấu Trúc Toàn Diện Thanh Điều Hướng Đỉnh Cao Cấp (`AppTopHeader.tsx` & `page.tsx`)**:
-   - **Đột phá Mobile Header Ergonomics**: Khắc phục triệt để tình trạng ẩn toàn bộ chỉ số làm bài và nút kết thúc trên điện thoại. Bổ sung các thuộc tính mở rộng `hideMobileSearch`, `rightMobileContent`, `hideAvatarOnMobile`, và `hideGamificationOnMobile` vào `AppTopHeader`.
-   - **Bảo tồn thương hiệu & Tối ưu không gian hiển thị Mobile (375px - 430px)**: 
+   - **Đột phá Mobile Header Ergonomics**: Khắc phục triệt để tình trạng ẩn chỉ số làm bài và nút kết thúc trên điện thoại. Bổ sung các thuộc tính mở rộng `hideMobileSearch`, `rightMobileContent`, và hỗ trợ Avatar tương thích linh hoạt trên di động.
+   - **Bảo tồn thương hiệu, Hiển thị Avatar & Tối ưu không gian hiển thị Mobile (375px - 430px)**: 
      - Góc trái: Giữ nguyên vẹn 100% tên thương hiệu website `XP English | XP Voca` sắc nét, không bị che khuất hay đè chữ nhờ cơ chế `shrink-0` và tối ưu font `text-[13px] sm:text-[15px]`.
-     - Góc phải: Hiển thị bộ ba điều khiển thiết yếu: Huy hiệu số câu (`1/25`), Đồng hồ học tập `[⏱️ 00:00]`, và Nút hành động tương tác `[Kết thúc]` / `[Luyện lại]` với phản hồi tức thì.
-     - Triệt tiêu hoàn toàn nút tìm kiếm sai ngữ cảnh (ngăn chặn học viên vô tình bị văng ra trang `/vocabulary` làm mất dữ liệu luyện dở dang).
-     - Ẩn khối `+... XP`, User Avatar và chip Chuỗi liên tiếp (Streak) trên Mobile Top Header (vì Avatar và Streak đã có sẵn tại thanh điều hướng đáy `AppBottomNav`), giải phóng hoàn toàn không gian ngang giúp thanh đỉnh đạt chuẩn công thái học cao cấp trên mọi dòng iPhone và Android.
+     - Góc phải: Bố trí gọn gàng, tinh tế gồm: Huy hiệu số câu (`1/25`) ── Nút hành động tương tác `[Kết thúc]` / `[Luyện lại]` ── Nút Avatar người dùng (`UserAvatar` chuẩn di động `w-7 h-7`).
+     - Triệt tiêu hoàn toàn nút tìm kiếm sai ngữ cảnh và các khối gây rối mắt (Streak flame, +XP).
+   - **Loại bỏ khối thời gian trên cả Desktop & Mobile (Total Header Timer Decluttering)**:
+     - Xóa bỏ triệt để khối đồng hồ đếm giờ làm bài `[⏱️ 00:00]` ở cả hai giao diện máy tính và điện thoại trên `AppTopHeader`, giảm áp lực thời gian dồn dập, giúp học viên tập trung sâu (deep focus) vào chất lượng ghi nhớ từng từ vựng.
    - **Tinh chỉnh thanh đỉnh Desktop tập trung & tối giản (Desktop Header Focus & Decluttering)**: 
-     - Loại bỏ các khối phân tâm không cần thiết: huy hiệu `+... XP` và chip Chuỗi học tập liên tiếp (Streak Flame 🔥 / Gold Coins 🪙) trên Desktop Top Header, đồng bộ triệt để với triết lý tối giản của Mobile.
-     - Cấu trúc thanh điều hướng máy tính tinh gọn tuyệt đối: `[StudySuiteNavTabs]` (bên trái) ── `[🎯 Câu 1/25]` ── `[⏱️ 00:00]` ── `[CheckCircle2 Kết thúc]` / `[RotateCcw Luyện lại]` ── Vách ngăn ── `[UserAvatar]` (bên phải).
-     - Giữ sự tập trung 100% vào việc hoàn thành bài luyện tập mà không bị rối mắt bởi các số liệu gamification phụ.
+     - Cấu trúc thanh điều hướng máy tính tinh gọn tuyệt đối: `[StudySuiteNavTabs]` (bên trái) ── `[🎯 Câu 1/25]` ── `[CheckCircle2 Kết thúc]` / `[RotateCcw Luyện lại]` ── Vách ngăn ── `[UserAvatar]` (bên phải).
+     - Loại bỏ hiện tượng kẹp nút hành động giữa các chip thông số tĩnh, nâng cấp toàn diện tính thẩm mỹ và công thái học theo Quy tắc 3 & 18 UI/UX.
    - **Khử khối phản hồi chật chội ở thanh điều hướng đáy Mobile (`PracticeArenaNavigation.tsx`)**: Ẩn khối badge phản hồi trạng thái ở giữa (`Chính xác! +10 XP`, `Chưa đúng!`, `Chuẩn xác!`) trên màn hình điện thoại (`hidden sm:flex`). Nhờ đó, 2 nút điều hướng `Câu trước` và `Câu tiếp theo / Bỏ qua` có đầy đủ không gian ngón tay cái thao tác thoải mái, không bị chèn ép ép dòng gây mất thẩm mỹ.
 
 10. **Chuẩn Hóa Ngữ Nghĩa Toàn Diện Icon Thông Báo & Phản Hồi (`Toast.tsx`, `usePracticeSession.ts`, `PracticeWordLabSidebar.tsx`, `PracticeArenaHeader.tsx`)**:

@@ -503,7 +503,7 @@ export function AppTopHeader({
               setShowUserMenu(!showUserMenu);
               setShowThemeSubmenu(false);
             }}
-            className={`flex items-center justify-center w-10 h-10 rounded-full hover:ring-2 hover:ring-[#0059bb]/30 transition-all cursor-pointer active:scale-95 shrink-0 ${
+            className={`flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full hover:ring-2 hover:ring-[#0059bb]/30 transition-all cursor-pointer active:scale-95 shrink-0 ${
               showUserMenu ? "ring-2 ring-[#0059bb]" : ""
             }`}
             title="Menu tài khoản"
@@ -516,7 +516,7 @@ export function AppTopHeader({
               avatar={(user as any)?.avatar}
               emoji={user?.avatarEmoji}
               name={userName}
-              size="w-8 h-8 sm:w-8.5 sm:h-8.5"
+              size="w-7 h-7 sm:w-8.5 sm:h-8.5"
               className="ring-1.5 ring-slate-200/90 dark:ring-slate-700"
             />
           </button>
