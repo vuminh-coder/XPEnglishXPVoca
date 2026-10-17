@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   Clock,
@@ -38,6 +39,67 @@ import {
   ReadingVocab,
   READING_PASSAGES_DATA,
 } from "@/features/reading/data/readingMockData";
+
+function StudioMarqueeTitle({ title }: { title: string }) {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const textRef = React.useRef<HTMLSpanElement>(null);
+  const [isOverflowing, setIsOverflowing] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkOverflow = () => {
+      if (containerRef.current && textRef.current) {
+        setIsOverflowing(textRef.current.scrollWidth > containerRef.current.clientWidth);
+      }
+    };
+    checkOverflow();
+    const timer = setTimeout(checkOverflow, 80);
+    window.addEventListener("resize", checkOverflow);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", checkOverflow);
+    };
+  }, [title]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative overflow-hidden w-[54vw] max-w-[56vw] sm:w-auto sm:max-w-md lg:max-w-xl [mask-image:linear-gradient(90deg,transparent_0%,black_4px,black_calc(100%-8px),transparent_100%)] sm:[mask-image:none]"
+      title={title}
+    >
+      {/* Hidden reference measurement node */}
+      <span
+        ref={textRef}
+        className="absolute opacity-0 pointer-events-none whitespace-nowrap text-xs sm:text-sm lg:text-[15px] font-bold font-sans"
+        aria-hidden="true"
+      >
+        {title}
+      </span>
+
+      {isOverflowing ? (
+        <motion.div
+          className="inline-flex whitespace-nowrap gap-8"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{
+            repeat: Infinity,
+            ease: "linear",
+            duration: Math.max(10, title.length * 0.35),
+          }}
+        >
+          <span className="text-xs sm:text-sm lg:text-[15px] font-bold text-slate-900 dark:text-white font-sans shrink-0">
+            {title}
+          </span>
+          <span className="text-xs sm:text-sm lg:text-[15px] font-bold text-slate-900 dark:text-white font-sans shrink-0">
+            {title}
+          </span>
+        </motion.div>
+      ) : (
+        <h1 className="text-xs sm:text-sm lg:text-[15px] font-bold text-slate-900 dark:text-white truncate font-sans">
+          {title}
+        </h1>
+      )}
+    </div>
+  );
+}
 
 export interface ReadingPracticeStudioProps {
   passage: ReadingPassage;
@@ -474,15 +536,7 @@ export function ReadingPracticeStudio({
             <span className="hidden sm:inline">Quay lại</span>
           </button>
 
-          <span className="px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-mono font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/70 dark:border-blue-800/60 shadow-2xs shrink-0">
-            {getLevelLabel(passage.level)}
-          </span>
-
-          <div className="min-w-0">
-            <h1 className="text-xs sm:text-sm lg:text-[15px] font-bold text-slate-900 dark:text-white truncate font-sans max-w-[120px] xs:max-w-[180px] sm:max-w-md lg:max-w-lg">
-              {passage.title}
-            </h1>
-          </div>
+          <StudioMarqueeTitle title={passage.title} />
         </div>
 
         {/* Right: Timer, Font Sizer & Bilingual Switcher */}
