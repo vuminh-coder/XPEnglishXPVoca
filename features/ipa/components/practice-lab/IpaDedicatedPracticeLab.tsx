@@ -433,30 +433,22 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                     handleSelectSoundId(sound.id);
                     setActiveWordTarget(null);
                   }}
-                  className={`relative min-w-[50px] h-10 px-3 rounded-xl font-sans font-bold text-sm shrink-0 transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${
+                  className={`relative min-w-[44px] sm:min-w-[48px] h-10 px-2.5 rounded-xl font-sans shrink-0 transition-all cursor-pointer flex items-center justify-center select-none ${
                     isSelected
-                      ? "bg-[#0059bb] text-white shadow-md shadow-blue-500/25 ring-2 ring-blue-400/50 scale-[1.05]"
-                      : "bg-slate-100/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 hover:bg-slate-200/90 dark:hover:bg-slate-750 border border-slate-200/70 dark:border-slate-700/70 hover:scale-[1.02]"
+                      ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 font-black border-2 border-[#0059bb] dark:border-sky-400 ring-4 ring-blue-500/15 dark:ring-sky-400/20 shadow-xs scale-[1.05]"
+                      : "bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/90 dark:hover:bg-slate-750 border border-slate-200/90 dark:border-slate-700/80 shadow-2xs hover:border-slate-300 dark:hover:border-slate-600 active:scale-[0.98]"
                   }`}
                   title={`${sound.name} (${sound.vietnameseGuide || sound.mouthShape})`}
                 >
-                  <span className="leading-none tracking-normal font-sans antialiased text-[15px] pt-0.5">
+                  <span
+                    className={`leading-none tracking-normal font-sans antialiased text-center ${
+                      isSelected
+                        ? "text-[15px] sm:text-base font-black"
+                        : "text-[14px] sm:text-[15px] font-bold"
+                    }`}
+                  >
                     {sound.symbol}
                   </span>
-                  {/* Semantic Category Nano Accent Bar */}
-                  <span
-                    className={`w-3.5 h-[2.5px] rounded-full transition-all ${
-                      isSelected
-                        ? "bg-white/95 w-4"
-                        : sound.category === "monophthong"
-                        ? "bg-blue-400/90 dark:bg-blue-400"
-                        : sound.category === "diphthong"
-                        ? "bg-purple-400/90 dark:bg-purple-400"
-                        : sound.voicing === "voiced"
-                        ? "bg-emerald-400/90 dark:bg-emerald-400"
-                        : "bg-amber-400/90 dark:bg-amber-400"
-                    }`}
-                  />
                 </button>
               );
             })}
