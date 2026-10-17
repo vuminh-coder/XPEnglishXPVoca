@@ -312,9 +312,6 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
               <span className="font-mono font-bold text-[#0059bb] dark:text-sky-400 text-sm shrink-0">
                 /{currentSound.symbol}/
               </span>
-              <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">
-                ({currentSound.name})
-              </span>
             </div>
 
             {/* Keyboard shortcut hint */}

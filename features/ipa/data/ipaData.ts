@@ -586,7 +586,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_p",
     symbol: "p",
-    name: "p (bật hơi)",
+    name: "Âm /p/",
     category: "consonant",
     subCategory: "voiceless_consonant",
     keyWord: "pen",
@@ -610,7 +610,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_b",
     symbol: "b",
-    name: "b (hữu thanh)",
+    name: "Âm /b/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "bad",
@@ -636,7 +636,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_t",
     symbol: "t",
-    name: "t (bật hơi)",
+    name: "Âm /t/",
     category: "consonant",
     subCategory: "voiceless_consonant",
     keyWord: "tea",
@@ -660,7 +660,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_d",
     symbol: "d",
-    name: "d (hữu thanh)",
+    name: "Âm /d/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "did",
@@ -686,7 +686,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_ch",
     symbol: "tʃ",
-    name: "ch (bật hơi)",
+    name: "Âm /tʃ/",
     category: "consonant",
     subCategory: "voiceless_consonant",
     keyWord: "chair",
@@ -710,7 +710,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_j",
     symbol: "dʒ",
-    name: "j (hữu thanh)",
+    name: "Âm /dʒ/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "jump",
@@ -736,7 +736,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_k",
     symbol: "k",
-    name: "k (bật hơi)",
+    name: "Âm /k/",
     category: "consonant",
     subCategory: "voiceless_consonant",
     keyWord: "cat",
@@ -760,7 +760,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_g",
     symbol: "g",
-    name: "g (hữu thanh)",
+    name: "Âm /ɡ/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "go",
@@ -786,7 +786,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_f",
     symbol: "f",
-    name: "f (vô thanh)",
+    name: "Âm /f/",
     category: "consonant",
     subCategory: "voiceless_consonant",
     keyWord: "fly",
@@ -810,7 +810,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_v",
     symbol: "v",
-    name: "v (hữu thanh)",
+    name: "Âm /v/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "video",
@@ -836,7 +836,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_th_unvoiced",
     symbol: "θ",
-    name: "th vô thanh (th thổi)",
+    name: "Âm /θ/",
     category: "consonant",
     subCategory: "voiceless_consonant",
     keyWord: "think",
@@ -860,7 +860,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_th_voiced",
     symbol: "ð",
-    name: "th hữu thanh (th rung)",
+    name: "Âm /ð/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "this",
@@ -886,7 +886,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_s",
     symbol: "s",
-    name: "s nhẹ (vô thanh)",
+    name: "Âm /s/",
     category: "consonant",
     subCategory: "voiceless_consonant",
     keyWord: "see",
@@ -910,7 +910,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_z",
     symbol: "z",
-    name: "z (hữu thanh)",
+    name: "Âm /z/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "zoo",
@@ -936,7 +936,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_sh",
     symbol: "ʃ",
-    name: "sh nặng (vô thanh)",
+    name: "Âm /ʃ/",
     category: "consonant",
     subCategory: "voiceless_consonant",
     keyWord: "she",
@@ -960,7 +960,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_zh",
     symbol: "ʒ",
-    name: "zh (hữu thanh)",
+    name: "Âm /ʒ/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "vision",
@@ -986,7 +986,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_m",
     symbol: "m",
-    name: "m (âm mũi)",
+    name: "Âm /m/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "man",
@@ -1010,7 +1010,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_n",
     symbol: "n",
-    name: "n (âm mũi)",
+    name: "Âm /n/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "no",
@@ -1034,7 +1034,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_ng",
     symbol: "ŋ",
-    name: "ng (âm mũi)",
+    name: "Âm /ŋ/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "sing",
@@ -1058,7 +1058,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_h",
     symbol: "h",
-    name: "h (hơi gió)",
+    name: "Âm /h/",
     category: "consonant",
     subCategory: "voiceless_consonant",
     keyWord: "hat",
@@ -1082,7 +1082,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_l",
     symbol: "l",
-    name: "l (âm bên)",
+    name: "Âm /l/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "love",
@@ -1106,7 +1106,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_r",
     symbol: "r",
-    name: "r (cong lưỡi)",
+    name: "Âm /r/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "red",
@@ -1130,7 +1130,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_w",
     symbol: "w",
-    name: "w (chu môi)",
+    name: "Âm /w/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "we",
@@ -1154,7 +1154,7 @@ export const CONSONANTS: IpaSound[] = [
   {
     id: "c_j_glide",
     symbol: "j",
-    name: "y (lướt nhẹ)",
+    name: "Âm /j/",
     category: "consonant",
     subCategory: "voiced_consonant",
     keyWord: "yes",
@@ -1460,30 +1460,30 @@ const SOUND_DISPLAY_HINTS: Record<string, string> = {
   d_ow: "a ➔ u",
 
   // 24 Consonants
-  c_p: "p bật hơi",
-  c_b: "b mím môi",
-  c_t: "t bật hơi",
-  c_d: "d đập nướu",
-  c_k: "k bật hơi",
-  c_g: "g gằn cổ",
-  c_ch: "ch bật hơi",
-  c_j: "j bật hơi",
-  c_f: "f cắn môi",
-  c_v: "v cắn môi",
-  c_th_unvoiced: "th thổi gió",
-  c_th_voiced: "th rung lưỡi",
-  c_s: "s nhẹ",
-  c_z: "z rung",
-  c_sh: "sh nặng",
-  c_zh: "zh rung",
-  c_m: "m ngậm môi",
-  c_n: "n chạm nướu",
-  c_ng: "ng nghẹt mũi",
-  c_h: "h hơi gió",
-  c_l: "l uốn lưỡi",
-  c_r: "r cong lưỡi",
-  c_w: "w chu môi",
-  c_j_glide: "y lướt nhẹ",
+  c_p: "Môi - Môi",
+  c_b: "Môi - Môi",
+  c_t: "Đầu lưỡi - Chân răng",
+  c_d: "Đầu lưỡi - Chân răng",
+  c_k: "Cuống lưỡi - Ngạc mềm",
+  c_g: "Cuống lưỡi - Ngạc mềm",
+  c_ch: "Chu môi - Đầu lưỡi",
+  c_j: "Chu môi - Thân lưỡi",
+  c_f: "Răng trên - Môi dưới",
+  c_v: "Răng trên - Môi dưới",
+  c_th_unvoiced: "Đầu lưỡi kẹp răng",
+  c_th_voiced: "Đầu lưỡi kẹp răng",
+  c_s: "Đầu lưỡi - Khe răng",
+  c_z: "Đầu lưỡi - Khe răng",
+  c_sh: "Chu môi - Vòm miệng",
+  c_zh: "Chu môi - Vòm miệng",
+  c_m: "Ngậm môi",
+  c_n: "Đầu lưỡi",
+  c_ng: "Cuống lưỡi",
+  c_h: "Mở họng",
+  c_l: "Uốn đầu lưỡi",
+  c_r: "Cong đầu lưỡi",
+  c_w: "Tròn môi",
+  c_j_glide: "Nâng thân lưỡi",
 };
 
 export function getSoundDisplayHint(sound: IpaSound): string {
