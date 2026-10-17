@@ -311,14 +311,13 @@ export function AppTopHeader({
         {!onBack && (
           <Link
             href="/dashboard"
-            className="sm:hidden flex items-center gap-1 min-w-0 select-none group"
+            className="sm:hidden flex items-center gap-1.5 min-w-0 select-none group"
             title="Trang chủ XP English"
           >
-            <span className="text-[15px] xs:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate font-display leading-none tracking-tight">
+            <span className="text-[15px] font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight whitespace-nowrap">
               <span className="text-[#0059bb]">XP</span> English
               <span className="text-amber-500 font-normal">|</span>
-              <span className="text-amber-500 hidden xs:inline">XP Voca</span>
-              <span className="text-amber-500 xs:hidden">Voca</span>
+              <span className="text-amber-500">XP Voca</span>
             </span>
           </Link>
         )}
