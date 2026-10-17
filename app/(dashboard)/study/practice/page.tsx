@@ -24,7 +24,6 @@ import {
   Mic,
   FileText,
   Target,
-  Trophy,
   Clock,
   RotateCcw,
   CheckCircle2,
@@ -53,10 +52,9 @@ function PracticeContent() {
     <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
       {/* 1. MASTER TOP HEADER (FIXED 56PX) WITH GAMIFICATION STATS & PRACTICE SESSION CONTROLS */}
       <AppTopHeader
-        showGamificationStats={true}
+        showGamificationStats={false}
         hideMobileSearch={true}
         hideAvatarOnMobile={true}
-        hideGamificationOnMobile={true}
         rightDesktopContent={
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
             {/* Progress Counter Badge */}
@@ -66,12 +64,6 @@ function PracticeContent() {
                 Câu {Math.min(session.vocabs.length, session.currentIndex + 1)}/
                 {session.vocabs.length}
               </span>
-            </span>
-
-            {/* Total XP Badge */}
-            <span className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
-              <Trophy className="w-3.5 h-3.5 text-amber-500" />
-              <span>+{session.totalEarnedXp} XP</span>
             </span>
 
             {/* Timer Badge */}

@@ -6588,9 +6588,10 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
      - Góc phải: Hiển thị bộ ba điều khiển thiết yếu: Huy hiệu số câu (`1/25`), Đồng hồ học tập `[⏱️ 00:00]`, và Nút hành động tương tác `[Kết thúc]` / `[Luyện lại]` với phản hồi tức thì.
      - Triệt tiêu hoàn toàn nút tìm kiếm sai ngữ cảnh (ngăn chặn học viên vô tình bị văng ra trang `/vocabulary` làm mất dữ liệu luyện dở dang).
      - Ẩn khối `+... XP`, User Avatar và chip Chuỗi liên tiếp (Streak) trên Mobile Top Header (vì Avatar và Streak đã có sẵn tại thanh điều hướng đáy `AppBottomNav`), giải phóng hoàn toàn không gian ngang giúp thanh đỉnh đạt chuẩn công thái học cao cấp trên mọi dòng iPhone và Android.
-   - **Phân nhóm Spacing & Grouping chuẩn Desktop**: 
-     - Tách biệt rõ ràng 3 nhóm chức năng: Nhóm chỉ số bài học (`Câu 1/25`, `+0 XP`, `00:00`) ── Vách ngăn phân tách ── Nút hành động CTA (`Kết thúc` / `Luyện lại`) ── Vách ngăn phân tách ── Nhóm hồ sơ người dùng (`🔥 Streak`, `Avatar`).
-     - Loại bỏ hiện tượng kẹp nút hành động giữa các chip thông số tĩnh, nâng cấp toàn diện tính thẩm mỹ và công thái học theo Quy tắc 3 & 18 UI/UX.
+   - **Tinh chỉnh thanh đỉnh Desktop tập trung & tối giản (Desktop Header Focus & Decluttering)**: 
+     - Loại bỏ các khối phân tâm không cần thiết: huy hiệu `+... XP` và chip Chuỗi học tập liên tiếp (Streak Flame 🔥 / Gold Coins 🪙) trên Desktop Top Header, đồng bộ triệt để với triết lý tối giản của Mobile.
+     - Cấu trúc thanh điều hướng máy tính tinh gọn tuyệt đối: `[StudySuiteNavTabs]` (bên trái) ── `[🎯 Câu 1/25]` ── `[⏱️ 00:00]` ── `[CheckCircle2 Kết thúc]` / `[RotateCcw Luyện lại]` ── Vách ngăn ── `[UserAvatar]` (bên phải).
+     - Giữ sự tập trung 100% vào việc hoàn thành bài luyện tập mà không bị rối mắt bởi các số liệu gamification phụ.
    - **Khử khối phản hồi chật chội ở thanh điều hướng đáy Mobile (`PracticeArenaNavigation.tsx`)**: Ẩn khối badge phản hồi trạng thái ở giữa (`Chính xác! +10 XP`, `Chưa đúng!`, `Chuẩn xác!`) trên màn hình điện thoại (`hidden sm:flex`). Nhờ đó, 2 nút điều hướng `Câu trước` và `Câu tiếp theo / Bỏ qua` có đầy đủ không gian ngón tay cái thao tác thoải mái, không bị chèn ép ép dòng gây mất thẩm mỹ.
 
 ---
