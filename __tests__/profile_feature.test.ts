@@ -85,4 +85,18 @@ describe("Profile Feature Suite & /analytics Style Alignment Tests", () => {
       expect(AVAILABLE_EMOJIS).toContain("⚡");
     });
   });
+
+  describe("5. Mobile Responsiveness & Profile Components Contract", () => {
+    it("exports all core profile suite components", async () => {
+      const profile = await import("@/features/profile");
+      expect(profile.ProfileHeroCard).toBeDefined();
+      expect(profile.ProfileMetricsBar).toBeDefined();
+      expect(profile.ProfileSkillBreakdown).toBeDefined();
+      expect(profile.ProfileAchievementsSection).toBeDefined();
+      expect(profile.ProfileInventorySection).toBeDefined();
+      expect(profile.ProfileTitleProgression).toBeDefined();
+      expect(profile.ProfileQuickLinks).toBeDefined();
+    });
+  });
 });
+

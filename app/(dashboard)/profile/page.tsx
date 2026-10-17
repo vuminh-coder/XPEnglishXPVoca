@@ -87,6 +87,8 @@ export default function ProfilePage() {
             equippedHat={equippedHat}
             userTitle={userTitle}
             onShare={shareProfile}
+            isEditing={isEditing}
+            onToggleEdit={() => setIsEditing(!isEditing)}
           />
         </MotionItem>
 

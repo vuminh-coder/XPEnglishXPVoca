@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Shield, Flame, Coins, Share2 } from "lucide-react";
+import { Shield, Flame, Coins, Share2, Edit3 } from "lucide-react";
 import { formatCleanName } from "@/shared/components/feedback/UserAvatar";
 
 interface ProfileHeroCardProps {
@@ -10,6 +10,8 @@ interface ProfileHeroCardProps {
   equippedHat: boolean;
   userTitle: string;
   onShare: () => void;
+  isEditing?: boolean;
+  onToggleEdit?: () => void;
 }
 
 export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
@@ -18,6 +20,8 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
   equippedHat,
   userTitle,
   onShare,
+  isEditing = false,
+  onToggleEdit,
 }) => {
   const cleanName = formatCleanName(user.fullName || user.username);
   const avatarSrc = user.imageUrl || user.avatar || user.avatarUrl;
@@ -91,9 +95,10 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
           </div>
         </div>
 
-        {/* Right Column: Live Stats Pills & Quick Mobile Actions */}
-        <div className="flex items-center gap-2.5 shrink-0">
-          <div className="flex items-center gap-3 bg-black/25 backdrop-blur-md px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-white/15 shadow-inner">
+        {/* Right Column: Live Stats Pills (Desktop/Tablet) & Quick Mobile Actions */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          {/* Desktop/Tablet Stats Pill (Hidden on mobile to eliminate duplication with 4 Bento cards below) */}
+          <div className="hidden sm:flex items-center gap-3 bg-black/25 backdrop-blur-md px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-white/15 shadow-inner">
             <div className="text-center px-1">
               <div className="text-[10px] text-blue-200 font-bold uppercase tracking-wider font-display">
                 Chuỗi Streak
@@ -117,15 +122,29 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
             </div>
           </div>
 
-          {/* Mobile-only share button */}
-          <button
-            type="button"
-            onClick={onShare}
-            className="sm:hidden w-9 h-9 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/20 flex items-center justify-center cursor-pointer transition-colors shadow-2xs shrink-0"
-            title="Chia sẻ hồ sơ"
-          >
-            <Share2 className="w-4 h-4 stroke-[2.2]" />
-          </button>
+          {/* Mobile-only action buttons (Edit profile & Share) */}
+          <div className="flex sm:hidden items-center gap-2">
+            {onToggleEdit && (
+              <button
+                type="button"
+                onClick={onToggleEdit}
+                className="h-8 px-3 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-bold border border-white/25 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shadow-2xs font-display"
+                title="Chỉnh sửa thông tin hồ sơ"
+              >
+                <Edit3 className="w-3.5 h-3.5 text-sky-200 stroke-[2.2]" />
+                <span>{isEditing ? "Đóng" : "Sửa hồ sơ"}</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={onShare}
+              className="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/20 flex items-center justify-center cursor-pointer transition-colors shadow-2xs shrink-0"
+              title="Chia sẻ hồ sơ"
+            >
+              <Share2 className="w-3.5 h-3.5 stroke-[2.2]" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

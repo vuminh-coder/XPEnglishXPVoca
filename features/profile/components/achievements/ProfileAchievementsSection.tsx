@@ -63,8 +63,11 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
             <Award className="w-4 h-4 stroke-[2.2]" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white font-display">
-              Kho Huy Hiệu Thành Tích ({unlockedCount}/{totalCount})
+            <h2 className="text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
+              <span>Kho Huy Hiệu Thành Tích</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-black font-mono bg-blue-50 text-[#0059bb] dark:bg-blue-950/60 dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/40">
+                {unlockedCount}/{totalCount}
+              </span>
             </h2>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
               Mở khóa danh hiệu để nhận thêm XP và chứng nhận
@@ -73,11 +76,11 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
         </div>
 
         {/* Category Tab Filters */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60 shrink-0">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60 shrink-0 overflow-x-auto no-scrollbar">
           <button
             type="button"
             onClick={() => setActiveTab("all")}
-            className={`px-3 py-1 rounded-lg transition-all cursor-pointer text-xs font-bold font-display ${
+            className={`px-3 py-1 rounded-lg transition-all cursor-pointer text-xs font-bold font-display whitespace-nowrap ${
               activeTab === "all"
                 ? "bg-[#0059bb] text-white shadow-xs"
                 : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
@@ -88,24 +91,24 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
           <button
             type="button"
             onClick={() => setActiveTab("unlocked")}
-            className={`px-3 py-1 rounded-lg transition-all cursor-pointer text-xs font-bold font-display ${
+            className={`px-3 py-1 rounded-lg transition-all cursor-pointer text-xs font-bold font-display whitespace-nowrap ${
               activeTab === "unlocked"
                 ? "bg-emerald-600 text-white shadow-xs"
                 : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
             }`}
           >
-            Đã đạt ({unlockedCount})
+            Đã đạt • {unlockedCount}
           </button>
           <button
             type="button"
             onClick={() => setActiveTab("locked")}
-            className={`px-3 py-1 rounded-lg transition-all cursor-pointer text-xs font-bold font-display ${
+            className={`px-3 py-1 rounded-lg transition-all cursor-pointer text-xs font-bold font-display whitespace-nowrap ${
               activeTab === "locked"
                 ? "bg-slate-800 text-white shadow-xs"
                 : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
             }`}
           >
-            Chưa mở ({totalCount - unlockedCount})
+            Chưa mở • {totalCount - unlockedCount}
           </button>
         </div>
       </div>

@@ -93,7 +93,7 @@ export const ProfileMetricsBar: React.FC<ProfileMetricsBarProps> = ({
       <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col justify-between space-y-2.5 hover:border-slate-300 dark:hover:border-slate-700 transition-all">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2">
           <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">
-            Kinh Nghiệm (XP)
+            Kinh Nghiệm XP
           </span>
           <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 border border-indigo-200/60 dark:border-indigo-900/40 flex items-center justify-center shrink-0 shadow-2xs">
             <Zap className="w-4 h-4 stroke-[2.2]" />
@@ -109,7 +109,7 @@ export const ProfileMetricsBar: React.FC<ProfileMetricsBarProps> = ({
           <div className="flex items-center justify-between text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-2">
             <span>Lên LV.{level + 1}</span>
             <span className="text-indigo-600 dark:text-indigo-400 font-bold font-mono">
-              {xpCurrent}/{xpTotal} XP ({formatPercent(xpPercent)})
+              {xpCurrent}/{xpTotal} XP
             </span>
           </div>
           <div className="h-1.5 sm:h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden mt-1.5">

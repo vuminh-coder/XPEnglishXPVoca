@@ -67,9 +67,10 @@ export const ProfileSkillBreakdown: React.FC<ProfileSkillBreakdownProps> = ({ sk
         </div>
         <Link
           href="/analytics"
-          className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5 font-display"
+          className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-0.5 font-display shrink-0"
         >
-          <span>Biểu đồ chi tiết</span>
+          <span className="hidden sm:inline">Biểu đồ chi tiết</span>
+          <span className="sm:hidden">Chi tiết</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </Link>
       </div>
@@ -78,7 +79,7 @@ export const ProfileSkillBreakdown: React.FC<ProfileSkillBreakdownProps> = ({ sk
         {skills.map((skill) => (
           <div
             key={skill.label}
-            className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-800 text-center space-y-1.5 hover:border-blue-300 dark:hover:border-slate-700 transition-all"
+            className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-800 text-center space-y-1.5 hover:border-blue-300 dark:hover:border-slate-700 transition-all last:col-span-2 sm:last:col-span-1"
             suppressHydrationWarning
           >
             <div className={`w-7 h-7 rounded-xl ${skill.color} mx-auto flex items-center justify-center`}>
