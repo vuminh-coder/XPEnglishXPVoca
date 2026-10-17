@@ -51,13 +51,26 @@ function PracticeContent() {
 
   return (
     <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
-      {/* 1. MASTER TOP HEADER (FIXED 56PX) WITH GAMIFICATION STATS & PROFILE POPOVER */}
+      {/* 1. MASTER TOP HEADER (FIXED 56PX) WITH GAMIFICATION STATS & PRACTICE SESSION CONTROLS */}
       <AppTopHeader
         showGamificationStats={true}
+        hideMobileSearch={true}
+        hideAvatarOnMobile={true}
+        hideGamificationOnMobile={true}
+        mobileTitle={
+          <div className="flex items-center gap-1.5 shrink-0">
+            <div className="w-6.5 h-6.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200/60 dark:border-blue-900/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
+              <BookOpen className="w-3.5 h-3.5 stroke-[2.2]" />
+            </div>
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 font-mono text-xs font-bold tabular-nums shrink-0 shadow-2xs">
+              Câu {Math.min(session.vocabs.length, session.currentIndex + 1)}/{session.vocabs.length}
+            </span>
+          </div>
+        }
         rightDesktopContent={
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
             {/* Progress Counter Badge */}
-            <span className="hidden sm:flex px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 border border-slate-200/90 dark:border-slate-700 text-xs font-bold font-mono tabular-nums items-center gap-1.5 shadow-2xs">
+            <span className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 border border-slate-200/90 dark:border-slate-700 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
               <Target className="w-3.5 h-3.5 text-[#0059bb]" />
               <span>
                 Câu {Math.min(session.vocabs.length, session.currentIndex + 1)}/
@@ -77,11 +90,15 @@ function PracticeContent() {
               <span>{session.formatElapsedTime(session.elapsedTime)}</span>
             </span>
 
+            <div className="h-5 w-px bg-slate-200 dark:bg-slate-800 mx-0.5" />
+
+            {/* Action CTA Button */}
             {session.isCompleted ? (
               <button
                 type="button"
                 onClick={session.handleRestartSession}
                 className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
+                title="Luyện lại từ vựng bài này"
               >
                 <RotateCcw className="w-4 h-4" />
                 <span>Luyện lại</span>
@@ -90,9 +107,50 @@ function PracticeContent() {
               <button
                 type="button"
                 onClick={session.finishSession}
-                className="h-9 px-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
+                className="h-9 px-3.5 rounded-xl bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-800 dark:hover:bg-slate-700/90 text-slate-700 dark:text-slate-200 border border-slate-200/90 dark:border-slate-700 text-xs sm:text-sm font-bold shadow-2xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
+                title="Kết thúc bài luyện và xem tổng kết điểm"
               >
-                <CheckCircle2 className="w-4 h-4" />
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 stroke-[2.2]" />
+                <span>Kết thúc</span>
+              </button>
+            )}
+
+            <div className="h-5 w-px bg-slate-200 dark:bg-slate-800 mx-0.5" />
+          </div>
+        }
+        rightMobileContent={
+          <div className="flex items-center gap-1 shrink-0">
+            {/* Mobile Timer Badge */}
+            <span className="h-7 px-1.5 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/25 text-[11px] font-bold font-mono tabular-nums flex items-center gap-1 shadow-2xs shrink-0">
+              <Clock className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+              <span>{session.formatElapsedTime(session.elapsedTime)}</span>
+            </span>
+
+            {/* Mobile XP Badge */}
+            <span className="h-7 px-1.5 rounded-lg bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-[11px] font-bold font-mono tabular-nums flex items-center gap-0.5 shadow-2xs shrink-0">
+              <Trophy className="w-3 h-3 text-amber-500" />
+              <span>+{session.totalEarnedXp}</span>
+            </span>
+
+            {/* Mobile Action Button */}
+            {session.isCompleted ? (
+              <button
+                type="button"
+                onClick={session.handleRestartSession}
+                className="h-7 px-2 rounded-lg bg-[#0059bb] hover:bg-[#004899] text-white text-[11px] font-bold shadow-xs flex items-center gap-1 cursor-pointer active:scale-95 transition-all shrink-0"
+                title="Luyện lại bài này"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Luyện lại</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={session.finishSession}
+                className="h-7 px-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200/90 dark:border-slate-700 text-[11px] font-bold shadow-2xs flex items-center gap-1 cursor-pointer active:scale-95 transition-all shrink-0"
+                title="Kết thúc bài và xem tổng kết"
+              >
+                <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400 stroke-[2.2]" />
                 <span>Kết thúc</span>
               </button>
             )}

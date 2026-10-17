@@ -179,10 +179,20 @@ export interface AppTopHeaderProps {
   rightExtraActions?: React.ReactNode;
   /** Optional desktop-specific right content (e.g. search bars & action buttons) */
   rightDesktopContent?: React.ReactNode;
+  /** Optional mobile-specific right content (e.g. compact stats & action buttons for < sm screens) */
+  rightMobileContent?: React.ReactNode;
+  /** Optional custom title or element rendered on mobile (< sm) instead of the default XP English logo */
+  mobileTitle?: React.ReactNode;
+  /** When true, completely hides the mobile search icon button */
+  hideMobileSearch?: boolean;
   /** Custom replacement for the mobile search button (e.g. Share button on Profile page) */
   customMobileSearchReplacement?: React.ReactNode;
   /** Whether to hide Theme toggle & Avatar on desktop (default: false) */
   hideThemeAndAvatarOnDesktop?: boolean;
+  /** Whether to hide User Avatar on mobile screens (default: false) */
+  hideAvatarOnMobile?: boolean;
+  /** Whether to hide Gamification stats (Streak/Coins) on mobile screens (default: false) */
+  hideGamificationOnMobile?: boolean;
   /** Whether header is sticky on top (default: true) */
   sticky?: boolean;
   /** Additional container classes */
@@ -199,8 +209,13 @@ export function AppTopHeader({
   showGamificationStats = false,
   rightExtraActions,
   rightDesktopContent,
+  rightMobileContent,
+  mobileTitle,
+  hideMobileSearch = false,
   customMobileSearchReplacement,
   hideThemeAndAvatarOnDesktop = false,
+  hideAvatarOnMobile = false,
+  hideGamificationOnMobile = false,
   sticky = true,
   className = "",
 }: AppTopHeaderProps) {
@@ -270,7 +285,9 @@ export function AppTopHeader({
 
   // By default, preserve User Avatar on Desktop even when rightDesktopContent is present
   const shouldHideThemeAndAvatarOnDesktop = hideThemeAndAvatarOnDesktop;
-  const themeAvatarResponsiveClass = shouldHideThemeAndAvatarOnDesktop ? "lg:hidden" : "";
+  const desktopHiddenClass = shouldHideThemeAndAvatarOnDesktop ? "lg:hidden" : "";
+  const mobileHiddenClass = hideAvatarOnMobile ? "hidden sm:block" : "";
+  const themeAvatarResponsiveClass = `${desktopHiddenClass} ${mobileHiddenClass}`.trim();
 
   const [quote, setQuote] = useState<InspirationalQuote>(() => {
     return customQuote || getDailyInspirationalQuote();
@@ -312,19 +329,25 @@ export function AppTopHeader({
           </button>
         )}
 
-        {/* Mobile Website Brand Name (< sm) in place of header tabs */}
+        {/* Mobile Website Brand Name (< sm) or Custom Mobile Title */}
         {!onBack && (
-          <Link
-            href="/dashboard"
-            className="sm:hidden flex items-center gap-1.5 min-w-0 select-none group"
-            title="Trang chủ XP English"
-          >
-            <span className="text-[15px] font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight whitespace-nowrap">
-              <span className="text-[#0059bb]">XP</span> English
-              <span className="text-amber-500 font-normal">|</span>
-              <span className="text-amber-500">XP Voca</span>
-            </span>
-          </Link>
+          mobileTitle !== undefined ? (
+            <div className="sm:hidden flex items-center min-w-0">
+              {mobileTitle}
+            </div>
+          ) : (
+            <Link
+              href="/dashboard"
+              className="sm:hidden flex items-center gap-1.5 min-w-0 select-none group"
+              title="Trang chủ XP English"
+            >
+              <span className="text-[15px] font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight whitespace-nowrap">
+                <span className="text-[#0059bb]">XP</span> English
+                <span className="text-amber-500 font-normal">|</span>
+                <span className="text-amber-500">XP Voca</span>
+              </span>
+            </Link>
+          )
         )}
 
         {/* Custom Mode Switcher Pill / Left Content Slot (Hidden on mobile if on normal page with tabs) */}
@@ -363,27 +386,29 @@ export function AppTopHeader({
         )}
 
         {/* 2. Mobile Search Icon Trigger or Custom Replacement (Below lg) */}
-        {customMobileSearchReplacement ? (
-          customMobileSearchReplacement
-        ) : searchProps ? (
-          <button
-            type="button"
-            onClick={() => setIsMobileSearchOpen(true)}
-            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
-            title="Mở tìm kiếm"
-            aria-label="Mở tìm kiếm"
-          >
-            <Search className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
-          </button>
-        ) : (
-          <Link
-            href="/vocabulary"
-            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
-            title="Tìm kiếm"
-            aria-label="Tìm kiếm"
-          >
-            <Search className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
-          </Link>
+        {!hideMobileSearch && (
+          customMobileSearchReplacement !== undefined ? (
+            customMobileSearchReplacement
+          ) : searchProps ? (
+            <button
+              type="button"
+              onClick={() => setIsMobileSearchOpen(true)}
+              className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+              title="Mở tìm kiếm"
+              aria-label="Mở tìm kiếm"
+            >
+              <Search className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
+            </button>
+          ) : (
+            <Link
+              href="/vocabulary"
+              className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+              title="Tìm kiếm"
+              aria-label="Tìm kiếm"
+            >
+              <Search className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
+            </Link>
+          )
         )}
 
         {/* 3. Custom Desktop Right Content (e.g. Action Buttons) */}
@@ -393,9 +418,16 @@ export function AppTopHeader({
           </div>
         )}
 
+        {/* 3.1 Custom Mobile Right Content (visible on < sm only) */}
+        {rightMobileContent && (
+          <div className="sm:hidden flex items-center gap-1.5 shrink-0">
+            {rightMobileContent}
+          </div>
+        )}
+
         {/* 4. Gamification Chips: Streak 🔥 & Coins 🪙 */}
         {showGamificationStats && (
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className={`${hideGamificationOnMobile ? "hidden sm:flex" : "flex"} items-center gap-1.5 shrink-0`}>
             {/* Streak Flame Chip */}
             <Link
               href="/analytics"
