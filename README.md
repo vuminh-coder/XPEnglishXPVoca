@@ -6510,13 +6510,23 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
     - **Kiểm Thử Toàn Diện**:
       * Bộ kiểm thử chuyên biệt `__tests__/ai_conversation_mobile_ergonomics.test.ts` (10/10 tests PASS) và `__tests__/ai_conversation_standards.test.ts` (100% PASS).
 
+### 94. Chuẩn Hóa UI/UX Kho Bài Đọc & Phòng Luyện Đọc Hiểu Ngữ Cảnh (`/study/reading` & `/study/reading/[id]`)
 
+1. **Chuẩn Hóa AppTopHeader & Khôi Phục Tìm Kiếm Mobile (`ReadingCatalogView.tsx`)**:
+   - Chuyển đổi ô tìm kiếm thủ công sang `searchProps` chính thức của `AppTopHeader` (`value`, `onChange`, `placeholder: "Tìm kiếm bài đọc theo tên hoặc chủ đề..."`, `onClear`).
+   - Trên Mobile: Tự động kích hoạt nút kính lúp tìm kiếm ở góc phải và khay tìm kiếm toàn màn hình có auto-focus, giải quyết dứt điểm tình trạng học viên mobile không có ô tìm kiếm bài đọc.
+   - Trên Desktop: Tích hợp thanh tìm kiếm chuẩn mực bo góc `rounded-xl`, nút xóa nhanh `X`, bảo toàn vị trí hiển thị của huy hiệu Streak lửa cam, Vàng và Avatar cá nhân.
 
+2. **Khử Trùng Lặp Chỉ Số Thẻ Bài Đọc & Chuẩn Hóa Ảnh Bìa Fallback**:
+   - Triệt tiêu hiện tượng lặp lại chỉ số thời lượng (trước đây hiển thị 2 lần cả ở góc trên ảnh và chân thẻ footer).
+   - Chân thẻ chuyển sang hiển thị số câu hỏi trắc nghiệm (`FileText` icon + `{passage.questions.length} câu hỏi`), cung cấp thông tin có giá trị cao cho người học.
+   - Chuẩn hóa khối fallback khi ảnh bìa lỗi với biểu tượng vector `BookOpen` trên nền gradient kính mờ cao cấp thay cho emoji thô.
 
-
-
-
-
+3. **Tối Ưu Công Thái Học Mobile & Triệt Tiêu Thanh Nộp Bài Che Khuất Văn Bản (`ReadingPracticeStudio.tsx`)**:
+   - Sửa lỗi thanh nộp bài nổi che khuất bài đọc: Thanh hành động cố định ở đáy màn hình (`Nộp bài & Chấm điểm tức thì`) giờ đây được ẩn hoàn toàn trên mobile khi học viên đang ở tab đọc bài (`mobileViewTab === "passage"`) hoặc tra từ điển (`mobileViewTab === "dictionary"`), giải phóng 100% không gian cuộn đọc văn bản.
+   - Thêm `suppressHydrationWarning` cho đồng hồ bấm giờ `formatElapsed(elapsedSeconds)` để ngăn ngừa cảnh báo hydration mismatch giữa server và client.
+   - Bộ chọn cỡ chữ (`A- A A+`) được tinh chỉnh co giãn linh hoạt (`hidden xs:flex`), ưu tiên khoảng thở hiển thị trọn vẹn tiêu đề bài đọc trên màn hình điện thoại nhỏ (< 380px).
+   - Kiểm thử kỹ thuật: Toàn bộ 5 test suites (34 tests) của phân hệ Đọc hiểu đạt 100% PASS.
 
 ---
 

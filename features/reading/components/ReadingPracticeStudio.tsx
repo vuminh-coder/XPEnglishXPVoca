@@ -490,7 +490,7 @@ export function ReadingPracticeStudio({
           {/* Practice Timer */}
           <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-mono font-bold text-xs border border-slate-200/80 dark:border-slate-700/60 shadow-2xs">
             <Clock className="w-3.5 h-3.5 text-slate-400 stroke-[2.2]" />
-            <span>{formatElapsed(elapsedSeconds)}</span>
+            <span suppressHydrationWarning>{formatElapsed(elapsedSeconds)}</span>
           </div>
 
           {/* Read Whole Passage Audio Toggle */}
@@ -518,7 +518,7 @@ export function ReadingPracticeStudio({
           </button>
 
           {/* Font Size Adjuster: A- A A+ */}
-          <div className="flex items-center bg-slate-100/90 dark:bg-slate-800/90 p-0.5 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
+          <div className="hidden xs:flex items-center bg-slate-100/90 dark:bg-slate-800/90 p-0.5 rounded-xl border border-slate-200/80 dark:border-slate-700/60">
             <button
               type="button"
               onClick={() => setFontSizeLevel("sm")}
@@ -1293,7 +1293,7 @@ export function ReadingPracticeStudio({
           {/* BOTTOM SUBMISSION ACTION BAR (GẮN CỐ ĐỊNH Ở ĐÁY CỘT PHẢI TRÊN DESKTOP, TRÊN MOBILE CHỈ HIỂN THỊ KHI Ở TAB CÂU HỎI HOẶC ĐÃ NỘP BÀI) */}
           <div
             className={`${
-              activeRightTab === "questions" || isSubmitted
+              (mobileViewTab === "questions" && activeRightTab === "questions") || (isSubmitted && mobileViewTab === "questions")
                 ? "fixed bottom-0 left-0 right-0 lg:static"
                 : "hidden lg:block lg:static"
             } shrink-0 p-3.5 sm:p-4 border-t border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-lg lg:shadow-none z-30 space-y-2.5 pb-[max(0.875rem,env(safe-area-inset-bottom))]`}
