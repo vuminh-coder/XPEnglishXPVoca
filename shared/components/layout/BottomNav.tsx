@@ -92,12 +92,12 @@ export default function BottomNav() {
 
             <div className="relative flex items-center justify-center">
               {tab.isProfile ? (
-                /* Profile Tab: Facebook-style Avatar with distinct circular outer ring */
+                /* Profile Tab: Facebook-style Avatar with distinct circular outer ring & gap */
                 <div
-                  className={`rounded-full p-[1.5px] transition-all duration-200 flex items-center justify-center ${
+                  className={`rounded-full p-[2px] transition-all duration-200 flex items-center justify-center ${
                     isActive
-                      ? "border-2 border-[#0059bb] dark:border-sky-400 shadow-2xs"
-                      : "border-2 border-slate-300 dark:border-slate-600 group-hover:border-slate-400 dark:group-hover:border-slate-500"
+                      ? "border-2 border-[#0059bb] dark:border-sky-400 ring-2 ring-[#0059bb]/20 dark:ring-sky-400/20 shadow-xs bg-white dark:bg-slate-900"
+                      : "border-2 border-slate-300 dark:border-slate-600 group-hover:border-slate-400 dark:group-hover:border-slate-500 bg-white dark:bg-slate-900 opacity-85 group-hover:opacity-100"
                   }`}
                 >
                   <UserAvatar
@@ -106,7 +106,7 @@ export default function BottomNav() {
                     avatar={(user as any)?.avatar}
                     emoji={user?.avatarEmoji}
                     name={userName}
-                    size="w-[22px] h-[22px]"
+                    size="w-6 h-6"
                   />
                 </div>
               ) : (
