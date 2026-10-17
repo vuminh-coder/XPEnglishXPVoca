@@ -435,8 +435,8 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   }}
                   className={`relative min-w-[44px] sm:min-w-[48px] h-10 px-2.5 rounded-xl font-sans shrink-0 transition-all cursor-pointer flex items-center justify-center select-none ${
                     isSelected
-                      ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-300 font-black border-2 border-[#0059bb] dark:border-sky-400 ring-4 ring-blue-500/15 dark:ring-sky-400/20 shadow-xs scale-[1.05]"
-                      : "bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/90 dark:hover:bg-slate-750 border border-slate-200/90 dark:border-slate-700/80 shadow-2xs hover:border-slate-300 dark:hover:border-slate-600 active:scale-[0.98]"
+                      ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-black shadow-sm border border-slate-900 dark:border-white scale-[1.05]"
+                      : "bg-slate-100/90 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-750 border border-slate-200/80 dark:border-slate-700/70 shadow-2xs hover:border-slate-300 dark:hover:border-slate-600 active:scale-[0.98]"
                   }`}
                   title={`${sound.name} (${sound.vietnameseGuide || sound.mouthShape})`}
                 >
