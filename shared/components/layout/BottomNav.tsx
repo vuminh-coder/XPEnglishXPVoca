@@ -61,7 +61,7 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 h-[50px] pb-[env(safe-area-inset-bottom,0px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800 z-[var(--z-navbar)] flex items-center justify-around px-1 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-2px_16px_rgba(0,0,0,0.4)] select-none"
+      className="md:hidden fixed bottom-0 left-0 right-0 h-[50px] pb-[env(safe-area-inset-bottom,0px)] bg-gradient-to-t from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800 z-[var(--z-navbar)] flex items-center justify-around px-1 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-2px_16px_rgba(0,0,0,0.4)] select-none"
       aria-label="Mobile navigation"
     >
       {tabs.map((tab) => {
