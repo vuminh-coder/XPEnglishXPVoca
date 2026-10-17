@@ -77,7 +77,7 @@ export function ReadingListingSkeleton() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0 py-1.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 self-start md:self-auto">
+          <div className="hidden md:flex items-center gap-3 sm:gap-4 shrink-0 py-1.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 self-start md:self-auto">
             <div className="flex items-center gap-1.5">
               <div className="w-3.5 h-3.5 rounded-full bg-amber-500/30" />
               <div className="h-3.5 w-24 rounded bg-slate-200 dark:bg-slate-700" />
@@ -90,8 +90,8 @@ export function ReadingListingSkeleton() {
           </div>
         </div>
 
-        {/* Category Filter Tabs Bar Skeleton (5 Tabs 1:1) */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar">
+        {/* Category Filter Tabs Bar Skeleton (5 Tabs 1:1 - Ẩn trên mobile để khớp component) */}
+        <div className="hidden sm:flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar">
           <div className="h-8 w-28 rounded-xl bg-[#0059bb]/30 shrink-0" />
           <div className="h-8 w-28 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shrink-0" />
           <div className="h-8 w-32 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shrink-0" />

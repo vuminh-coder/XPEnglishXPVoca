@@ -6516,6 +6516,8 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
    - Chuyển đổi ô tìm kiếm thủ công sang `searchProps` chính thức của `AppTopHeader` (`value`, `onChange`, `placeholder: "Tìm kiếm bài đọc theo tên hoặc chủ đề..."`, `onClear`).
    - Trên Mobile: Tự động kích hoạt nút kính lúp tìm kiếm ở góc phải và khay tìm kiếm toàn màn hình có auto-focus, giải quyết dứt điểm tình trạng học viên mobile không có ô tìm kiếm bài đọc.
    - Trên Desktop: Tích hợp thanh tìm kiếm chuẩn mực bo góc `rounded-xl`, nút xóa nhanh `X`, bảo toàn vị trí hiển thị của huy hiệu Streak lửa cam, Vàng và Avatar cá nhân.
+   - Ẩn thanh Tab Phân Loại Trình Độ & Cụm Thống Kê Nhanh trên Mobile (`hidden sm:flex` & `hidden md:flex`): Thanh tab danh mục bài đọc (`Tất cả`, `Cơ bản`, `Trung cấp`, `Nâng cao`, `Học thuật`) và cụm thống kê nhanh (`Tổng bài đọc: 40 bài`, `Vốn từ: ~5,664 từ`) được ẩn trên thiết bị di động để tối ưu tối đa không gian lướt duyệt thẻ bài đọc, đồng bộ hoàn hảo với trải nghiệm của Shadowing và Dictation Hub.
+   - Khung Xương Tải Đồng Bộ Tuyệt Đối 1:1 (0px CLS): `ReadingListingSkeleton` trong [`LoadingSkeletons.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/reading/components/LoadingSkeletons.tsx) được đồng bộ hóa chuẩn xác với cùng các breakpoint `hidden sm:flex` và `hidden md:flex`, triệt tiêu 100% hiện tượng giật giao diện (Layout Shift) khi nạp trang.
 
 2. **Khử Trùng Lặp Chỉ Số Thẻ Bài Đọc & Chuẩn Hóa Ảnh Bìa Fallback**:
    - Triệt tiêu hiện tượng lặp lại chỉ số thời lượng (trước đây hiển thị 2 lần cả ở góc trên ảnh và chân thẻ footer).

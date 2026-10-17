@@ -341,7 +341,7 @@ export function ReadingCatalogView() {
           </div>
 
           {/* Minimal Inline Metric Cluster */}
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0 py-1.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 self-start md:self-auto">
+          <div className="hidden md:flex items-center gap-3 sm:gap-4 shrink-0 py-1.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 self-start md:self-auto">
             <div className="flex items-center gap-1.5 text-xs">
               <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
               <span className="text-slate-500 dark:text-slate-400 font-medium">Tổng bài đọc:</span>
@@ -360,8 +360,8 @@ export function ReadingCatalogView() {
           </div>
         </div>
 
-        {/* 2.2 CATEGORY FILTER TABS (Preserved in Zustand Store) */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar">
+        {/* 2.2 CATEGORY FILTER TABS (Preserved in Zustand Store - Ẩn trên mobile để tối ưu màn hình) */}
+        <div className="hidden sm:flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar">
           {categoryTabs.map((tab) => {
             const isActive = activeCategoryTab === tab.id;
             return (
