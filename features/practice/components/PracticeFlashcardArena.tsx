@@ -83,7 +83,8 @@ export function PracticeFlashcardArena({
 
               <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 pt-1 flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5 text-[#0059bb]" />
-                <span>Bấm vào thẻ hoặc nhấn Space để lật mặt sau</span>
+                <span className="sm:hidden">Chạm vào thẻ để lật mặt sau</span>
+                <span className="hidden sm:inline">Bấm vào thẻ hoặc nhấn Space để lật mặt sau</span>
               </p>
             </div>
 
@@ -110,13 +111,13 @@ export function PracticeFlashcardArena({
           <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-medium">
             <Folder className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
             <span>Chủ đề:</span>
-            <span className="font-bold text-slate-700 dark:text-slate-200">
+            <span className="font-bold text-slate-700 dark:text-slate-200 truncate max-w-[200px] sm:max-w-none">
               {currentWord.topic || "Cảm xúc & Đời sống"}
             </span>
           </div>
 
-          {/* Góc Phải Dưới: Phím nhanh */}
-          <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-medium shrink-0">
+          {/* Góc Phải Dưới: Phím nhanh (chỉ hiển thị trên Desktop) */}
+          <div className="hidden sm:flex items-center gap-2 text-slate-600 dark:text-slate-300 font-medium shrink-0">
             <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 whitespace-nowrap">
               <Keyboard className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
               <span>Phím nhanh:</span>
@@ -143,32 +144,32 @@ export function PracticeFlashcardArena({
         <button
           type="button"
           onClick={onFlipCard}
-          className="w-full h-13 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-sm sm:text-base font-black shadow-xs cursor-pointer transition-all active:scale-98 flex items-center justify-center gap-2.5 shrink-0"
+          className="w-full h-12 sm:h-13 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-sm sm:text-base font-black shadow-xs cursor-pointer transition-all active:scale-98 flex items-center justify-center gap-2.5 shrink-0"
         >
           <Layers className="w-4.5 h-4.5" />
           <span>Lật Thẻ Để Xem Nghĩa</span>
-          <kbd className="px-1.5 py-0.5 rounded bg-white/20 text-white font-mono text-xs font-bold">
+          <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-white/20 text-white font-mono text-xs font-bold">
             Space
           </kbd>
         </button>
       ) : (
-        <div className="grid grid-cols-3 gap-2 shrink-0 animate-fade-in">
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 shrink-0 animate-fade-in">
           {/* Button 1: Chưa nhớ (Again) */}
           <button
             type="button"
             onClick={() => onRateFlashcard("again")}
-            className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-rose-50/60 dark:hover:bg-rose-950/30 hover:border-rose-300 dark:hover:border-rose-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
+            className="p-2 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-rose-50/60 dark:hover:bg-rose-950/30 hover:border-rose-300 dark:hover:border-rose-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex flex-col sm:flex-row items-center sm:justify-between gap-1 sm:gap-2 shadow-2xs active:scale-95 group text-center sm:text-left"
             title="Đánh giá Chưa nhớ phím 1"
           >
-            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-              <span className="w-7 h-7 rounded-lg bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-rose-600 dark:text-rose-400 group-hover:scale-105 transition-transform">
+            <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
+              <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-md sm:rounded-lg bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/80 flex items-center justify-center text-[10px] sm:text-xs font-black font-mono shrink-0 shadow-2xs text-rose-600 dark:text-rose-400 group-hover:scale-105 transition-transform">
                 1
               </span>
-              <span className="text-xs sm:text-base font-bold truncate text-slate-800 dark:text-slate-200 group-hover:text-rose-600 dark:group-hover:text-rose-400">
+              <span className="text-[11px] sm:text-base font-bold whitespace-nowrap text-slate-800 dark:text-slate-200 group-hover:text-rose-600 dark:group-hover:text-rose-400">
                 Chưa nhớ
               </span>
             </div>
-            <span className="px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 font-mono text-xs font-bold shrink-0 border border-rose-200/60 dark:border-rose-800/40 shadow-2xs">
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 font-mono text-[10px] sm:text-xs font-bold shrink-0 border border-rose-200/60 dark:border-rose-800/40 shadow-2xs">
               +5 XP
             </span>
           </button>
@@ -177,18 +178,18 @@ export function PracticeFlashcardArena({
           <button
             type="button"
             onClick={() => onRateFlashcard("good")}
-            className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-blue-50/60 dark:hover:bg-blue-950/30 hover:border-[#0059bb]/50 dark:hover:border-blue-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
+            className="p-2 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-blue-50/60 dark:hover:bg-blue-950/30 hover:border-[#0059bb]/50 dark:hover:border-blue-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex flex-col sm:flex-row items-center sm:justify-between gap-1 sm:gap-2 shadow-2xs active:scale-95 group text-center sm:text-left"
             title="Đánh giá Nhớ tốt phím 2"
           >
-            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-              <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-[#0059bb] dark:text-sky-400 group-hover:scale-105 transition-transform">
+            <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
+              <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-md sm:rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 flex items-center justify-center text-[10px] sm:text-xs font-black font-mono shrink-0 shadow-2xs text-[#0059bb] dark:text-sky-400 group-hover:scale-105 transition-transform">
                 2
               </span>
-              <span className="text-xs sm:text-base font-bold truncate text-slate-800 dark:text-slate-200 group-hover:text-[#0059bb] dark:group-hover:text-sky-400">
+              <span className="text-[11px] sm:text-base font-bold whitespace-nowrap text-slate-800 dark:text-slate-200 group-hover:text-[#0059bb] dark:group-hover:text-sky-400">
                 Nhớ tốt
               </span>
             </div>
-            <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-mono text-xs font-bold shrink-0 border border-blue-200/60 dark:border-blue-800/40 shadow-2xs">
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-mono text-[10px] sm:text-xs font-bold shrink-0 border border-blue-200/60 dark:border-blue-800/40 shadow-2xs">
               +10 XP
             </span>
           </button>
@@ -197,18 +198,18 @@ export function PracticeFlashcardArena({
           <button
             type="button"
             onClick={() => onRateFlashcard("easy")}
-            className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/30 hover:border-emerald-300 dark:hover:border-emerald-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
+            className="p-2 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/30 hover:border-emerald-300 dark:hover:border-emerald-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex flex-col sm:flex-row items-center sm:justify-between gap-1 sm:gap-2 shadow-2xs active:scale-95 group text-center sm:text-left"
             title="Đánh giá Rất dễ phím 3"
           >
-            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-              <span className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition-transform">
+            <div className="flex items-center gap-1.5 sm:gap-2.5 min-w-0">
+              <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-md sm:rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/80 flex items-center justify-center text-[10px] sm:text-xs font-black font-mono shrink-0 shadow-2xs text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition-transform">
                 3
               </span>
-              <span className="text-xs sm:text-base font-bold truncate text-slate-800 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+              <span className="text-[11px] sm:text-base font-bold whitespace-nowrap text-slate-800 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
                 Rất dễ
               </span>
             </div>
-            <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 font-mono text-xs font-bold shrink-0 border border-emerald-200/60 dark:border-emerald-800/40 shadow-2xs">
+            <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 font-mono text-[10px] sm:text-xs font-bold shrink-0 border border-emerald-200/60 dark:border-emerald-800/40 shadow-2xs">
               +15 XP
             </span>
           </button>

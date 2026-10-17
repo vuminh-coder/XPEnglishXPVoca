@@ -10,6 +10,7 @@ import {
   Lightbulb,
   Lock,
   Eye,
+  ChevronDown,
 } from "lucide-react";
 import { PracticeWord, SubMode } from "../types";
 
@@ -31,6 +32,7 @@ export function PracticeWordLabSidebar({
   isAnswered = false,
 }: PracticeWordLabSidebarProps) {
   const [manualReveal, setManualReveal] = useState(false);
+  const [isOpenMobile, setIsOpenMobile] = useState(false);
 
   // Reset manual reveal when currentWord changes
   React.useEffect(() => {
@@ -42,7 +44,32 @@ export function PracticeWordLabSidebar({
 
   return (
     <div className="lg:col-span-4 flex flex-col min-w-0 lg:h-full lg:min-h-0">
-      <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-3 lg:h-full lg:min-h-0 overflow-y-auto">
+      {/* Mobile Accordion Header */}
+      <button
+        type="button"
+        onClick={() => setIsOpenMobile((prev) => !prev)}
+        className="lg:hidden w-full p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex items-center justify-between font-bold text-xs shadow-2xs cursor-pointer active:scale-98 transition-all"
+      >
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+          <span className="text-slate-900 dark:text-white font-display">Thông tin từ vựng & Ví dụ ngữ cảnh</span>
+        </div>
+        <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-mono text-[11px]">
+          <span>{isOpenMobile ? "Thu gọn" : "Xem chi tiết"}</span>
+          <ChevronDown
+            className={`w-4 h-4 transition-transform duration-200 ${
+              isOpenMobile ? "rotate-180 text-[#0059bb]" : ""
+            }`}
+          />
+        </div>
+      </button>
+
+      {/* Main Card (Always visible on lg, toggled by isOpenMobile on mobile) */}
+      <div
+        className={`mt-2 lg:mt-0 p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-3 lg:h-full lg:min-h-0 overflow-y-auto ${
+          isOpenMobile ? "flex" : "hidden lg:flex"
+        }`}
+      >
         {/* 1. Main Word Profile Header */}
         <div className="space-y-2.5 shrink-0">
           <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 dark:border-slate-800">

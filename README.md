@@ -6573,6 +6573,13 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
    - **Tiêu đề trang (`layout.tsx`)**: Chuẩn hóa từ `Luyện Tập Từ Vựng (Practice)` thành `Luyện Tập Từ Vựng | XP English`.
    - **Bộ kiểm thử tự động (`__tests__/practice_clean_text.test.ts`)**: 5 unit tests độc lập kiểm định khả năng khử ngoặc đơn đạt tỷ lệ vượt qua 100% (30/30 total practice tests pass).
 
+8. **Chuẩn Hóa Trải Nghiệm Mobile Toàn Diện Cho Cả 4 Chế Độ Luyện Tập (Mobile-First Ergonomics & Zero-Scroll Arena)**:
+   - **Tối ưu thẻ đánh giá Flashcard 3 mức (`PracticeFlashcardArena.tsx`)**: Chuyển bố cục sang `flex-col sm:flex-row` giúp văn bản nhãn `Chưa nhớ`, `Nhớ tốt`, `Rất dễ` hiển thị trọn vẹn 100%, không bị cắt cụt do chiều ngang điện thoại hẹp. Ẩn phím tắt bàn phím vật lý (`Space: Lật thẻ`) và chip `<kbd>Space</kbd>` không cần thiết trên màn hình cảm ứng, đổi chỉ dẫn sang `Chạm vào thẻ để lật mặt sau`.
+   - **Khử phím tắt thừa trên màn hình cảm ứng Mobile (`PracticeQuizArena.tsx`, `PracticeWritingArena.tsx`, `PracticeSpeakingArena.tsx`)**: Ẩn các nút số `1 2 3 4`, `Enter: Kiểm tra`, `Space: Thu âm` trên di động (`hidden sm:flex`), chỉ hiển thị trên Desktop nơi có bàn phím vật lý. Đổi thông báo Speaking sang `Chạm nút Micro để bắt đầu nói`.
+   - **Bàn phím nhập liệu chuẩn Mobile (`PracticeWritingArena.tsx`)**: Bổ sung các thuộc tính di động `autoCapitalize="none"`, `autoCorrect="off"`, `spellCheck={false}` ngăn chặn bàn phím ảo tự động sửa từ vựng tiếng Anh.
+   - **Accordion Thông tin từ vựng Sidebar (`PracticeWordLabSidebar.tsx`)**: Trên Mobile, WordLab được chuyển đổi thành thanh Accordion tinh gọn ("Xem chi tiết" / "Thu gọn"), giải phóng hoàn toàn chiều dọc màn hình giúp toàn bộ Đấu trường câu hỏi (Thẻ câu hỏi, Đáp án, Nút điều hướng) nằm trọn 100% trong khung hình (0px scroll). Khi cần học sâu, học viên chạm 1 chạm để mở rộng đầy đủ ví dụ ngữ cảnh.
+   - **Khoảng đệm & Tỷ lệ hiển thị linh hoạt (`page.tsx`)**: Quy chuẩn `px-2.5 sm:px-5 py-2 sm:py-3.5 space-y-2 sm:space-y-3 pb-24 lg:pb-3` tương thích hoàn hảo với thanh điều hướng đáy `AppBottomNav` trên mọi dòng iPhone và Android.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

@@ -43,7 +43,7 @@ export function PracticeQuizArena({
         {/* 2. CENTERPIECE VOCABULARY & AUDIO FOCUS */}
         <div className="py-2.5 sm:py-3.5 text-center space-y-1.5 flex-1 flex flex-col justify-center items-center">
           <div className="relative inline-flex items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-slate-900 dark:text-white font-display tracking-tight leading-none drop-shadow-2xs text-center">
+            <h2 className="text-2xl sm:text-4xl lg:text-[44px] font-black text-slate-900 dark:text-white font-display tracking-tight leading-none drop-shadow-2xs text-center">
               {currentWord.word}
             </h2>
             <button
@@ -57,7 +57,7 @@ export function PracticeQuizArena({
           </div>
 
           {currentWord.ipa && (
-            <p className="text-sm sm:text-base font-mono text-slate-600 dark:text-slate-300 font-bold tracking-wide pt-0.5 text-center">
+            <p className="text-xs sm:text-base font-mono text-slate-600 dark:text-slate-300 font-bold tracking-wide pt-0.5 text-center">
               {currentWord.ipa}
             </p>
           )}
@@ -69,13 +69,13 @@ export function PracticeQuizArena({
           <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-medium">
             <Folder className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
             <span>Chủ đề:</span>
-            <span className="font-bold text-slate-700 dark:text-slate-200">
+            <span className="font-bold text-slate-700 dark:text-slate-200 truncate max-w-[200px] sm:max-w-none">
               {currentWord.topic || "Cảm xúc & Đời sống"}
             </span>
           </div>
 
-          {/* Góc Phải Dưới: Phím nhanh chọn đáp án */}
-          <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-medium shrink-0">
+          {/* Góc Phải Dưới: Phím nhanh chọn đáp án (chỉ hiển thị trên Desktop) */}
+          <div className="hidden sm:flex items-center gap-2 text-slate-600 dark:text-slate-300 font-medium shrink-0">
             <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 whitespace-nowrap">
               <Keyboard className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
               <span>Phím nhanh:</span>

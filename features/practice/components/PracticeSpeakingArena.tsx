@@ -51,7 +51,7 @@ export function PracticeSpeakingArena({
         {/* 2. CENTERPIECE TARGET VOCABULARY & AUDIO */}
         <div className="flex-1 flex flex-col items-center justify-center text-center my-auto py-2 space-y-1.5">
           <div className="relative inline-flex items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-black text-slate-900 dark:text-white font-display tracking-tight leading-none text-center">
+            <h2 className="text-2xl sm:text-4xl lg:text-[42px] font-black text-slate-900 dark:text-white font-display tracking-tight leading-none text-center">
               {currentWord.word}
             </h2>
             <button
@@ -65,7 +65,7 @@ export function PracticeSpeakingArena({
           </div>
 
           {currentWord.ipa && (
-            <p className="text-sm sm:text-base font-mono text-slate-600 dark:text-slate-300 font-bold tracking-wide text-center">
+            <p className="text-xs sm:text-base font-mono text-slate-600 dark:text-slate-300 font-bold tracking-wide text-center">
               {currentWord.ipa}
             </p>
           )}
@@ -84,13 +84,13 @@ export function PracticeSpeakingArena({
           <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-medium">
             <Folder className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
             <span>Chủ đề:</span>
-            <span className="font-bold text-slate-700 dark:text-slate-200">
+            <span className="font-bold text-slate-700 dark:text-slate-200 truncate max-w-[200px] sm:max-w-none">
               {currentWord.topic || "Cảm xúc & Đời sống"}
             </span>
           </div>
 
-          {/* Góc Phải Dưới: Phím nhanh */}
-          <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-medium shrink-0">
+          {/* Góc Phải Dưới: Phím nhanh (chỉ hiển thị trên Desktop) */}
+          <div className="hidden sm:flex items-center gap-2 text-slate-600 dark:text-slate-300 font-medium shrink-0">
             <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 whitespace-nowrap">
               <Keyboard className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
               <span>Phím nhanh:</span>
@@ -146,11 +146,16 @@ export function PracticeSpeakingArena({
 
         <div className="space-y-1">
           <p className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
-            {isListening
-              ? "🔴 Đang lắng nghe giọng bạn phát âm..."
-              : isAnswered
-              ? "Bấm Micro hoặc Space để phát âm lại"
-              : "Nhấn nút Micro hoặc bấm Space để bắt đầu nói"}
+            {isListening ? (
+              "🔴 Đang lắng nghe giọng bạn phát âm..."
+            ) : isAnswered ? (
+              "Chạm Micro để phát âm lại"
+            ) : (
+              <>
+                <span className="sm:hidden">Chạm nút Micro để bắt đầu nói</span>
+                <span className="hidden sm:inline">Nhấn nút Micro hoặc bấm Space để bắt đầu nói</span>
+              </>
+            )}
           </p>
 
           {speechError && (

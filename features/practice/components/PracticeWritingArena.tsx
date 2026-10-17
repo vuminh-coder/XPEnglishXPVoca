@@ -53,7 +53,7 @@ export function PracticeWritingArena({
           <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
             Nghĩa tiếng Việt cần viết chính tả sang tiếng Anh
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-black text-slate-900 dark:text-white font-display leading-snug">
+          <h2 className="text-xl sm:text-3xl lg:text-[34px] font-black text-slate-900 dark:text-white font-display leading-snug">
             {currentWord.meaning}
           </h2>
 
@@ -101,13 +101,13 @@ export function PracticeWritingArena({
           <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-medium">
             <Folder className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
             <span>Chủ đề:</span>
-            <span className="font-bold text-slate-700 dark:text-slate-200">
+            <span className="font-bold text-slate-700 dark:text-slate-200 truncate max-w-[200px] sm:max-w-none">
               {currentWord.topic || "Cảm xúc & Đời sống"}
             </span>
           </div>
 
-          {/* Góc Phải Dưới: Phím nhanh */}
-          <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300 font-medium shrink-0">
+          {/* Góc Phải Dưới: Phím nhanh (chỉ hiển thị trên Desktop) */}
+          <div className="hidden sm:flex items-center gap-2 text-slate-600 dark:text-slate-300 font-medium shrink-0">
             <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-300 whitespace-nowrap">
               <Keyboard className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
               <span>Phím nhanh:</span>
@@ -150,6 +150,9 @@ export function PracticeWritingArena({
                 onCheckWriting();
               }
             }}
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             placeholder="Gõ từ tiếng Anh tương ứng và nhấn Enter..."
             className={`w-full h-12 sm:h-13 pl-4 pr-24 text-base sm:text-lg font-mono font-bold rounded-xl border transition-all placeholder:text-slate-400 focus:outline-none shadow-2xs ${
               wIsAnswered
@@ -180,7 +183,7 @@ export function PracticeWritingArena({
             className="w-full h-11 sm:h-12 rounded-xl bg-[#0059bb] hover:bg-[#004899] disabled:opacity-40 disabled:pointer-events-none text-white text-sm sm:text-base font-black shadow-xs cursor-pointer transition-all active:scale-98 flex items-center justify-center gap-2"
           >
             <span>Kiểm Tra Chính Tả</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-white/20 text-white font-mono text-xs font-bold">
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-white/20 text-white font-mono text-xs font-bold">
               Enter ↵
             </kbd>
           </button>

@@ -103,7 +103,7 @@ function PracticeContent() {
       </AppTopHeader>
 
       {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2.5 sm:py-3.5 lg:py-3 flex flex-col min-h-0 lg:overflow-hidden space-y-2.5 sm:space-y-3 pb-24 lg:pb-3">
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2.5 sm:px-5 lg:px-6 py-2 sm:py-3.5 lg:py-3 flex flex-col min-h-0 lg:overflow-hidden space-y-2 sm:space-y-3 pb-24 lg:pb-3">
         {/* 2.1. SUB-MODE SEGMENTED TOOLBAR (QUIZ / FLASHCARD / WRITING / SPEAKING) */}
         <PracticeSubModeBar
           subMode={session.subMode}
@@ -114,10 +114,10 @@ function PracticeContent() {
 
         {/* 2.2. MAIN BENTO GRID */}
         {!session.isCompleted ? (
-          <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5 items-stretch min-w-0">
+          <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2.5 lg:gap-3.5 items-stretch min-w-0">
             {/* CỘT TRÁI: PRACTICE ARENA (8/12) */}
             <div className="lg:col-span-8 flex flex-col min-w-0 lg:h-full lg:min-h-0">
-              <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-3">
+              <div className="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2.5 sm:space-y-3">
                 {/* Arena Sub-Header */}
                 <PracticeArenaHeader
                   subMode={session.subMode}
