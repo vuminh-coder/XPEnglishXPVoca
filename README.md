@@ -6380,6 +6380,16 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Loại bỏ hoàn toàn phần ngoặc đơn và vai trò rườm rà `(British IELTS Coach)` bên cạnh tên huấn luyện viên (`Emma`), chỉ giữ lại tên ngắn gọn kèm cờ quốc gia `[UK] Emma` và icon mũi tên mở bảng chọn.
         * Triệt tiêu hiện tượng chữ bị cắt cụt (`Emma (British IE...`), giúp thanh tiêu đề thoáng đãng, tinh tế và các nút điều khiển thời gian, chấm điểm, đổi giọng hiển thị trọn vẹn trên cùng 1 hàng.
 
+  29. **Tích Hợp Nút Tìm Kiếm Thông Minh Trên Mobile Header Cho Kho Từ Vựng ([`VocabularyThemesClientList.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/vocabulary/VocabularyThemesClientList.tsx) & [`AppTopHeader.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx))**:
+      - **Kích Hoạt Nút Tìm Kiếm Mobile Header Tương Tự Dictation**:
+        * Trước đây, trên trang Kho Từ Vựng (`/vocabulary`), nút tìm kiếm kính lúp trên thanh `AppTopHeader` mobile là một liên kết tĩnh trỏ về chính nó (`/vocabulary`), không mở ô tìm kiếm.
+        * Đã kết nối `searchProps` với `useVocabularyCatalogStore`: Khi người học bấm nút kính lúp trên mobile header, thanh tìm kiếm toàn màn hình mượt mà (Mobile Search Overlay) lập tức trượt xuống, tự động focus ô nhập và lọc trực tiếp 60 chủ đề cơ bản / 155 chủ đề nâng cao trong thời gian thực.
+        * Tích hợp nút xóa nhanh `XCircle` khi có từ khóa và nút đóng `X` dạng tròn êm ái.
+      - **Thuộc Tính `hideDesktopInput` Bảo Vệ Bố Cục Desktop**:
+        * Bổ sung thuộc tính `hideDesktopInput?: boolean` vào `HeaderSearchProps` trong [`AppTopHeader.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx).
+        * Khi `hideDesktopInput: true`, ô tìm kiếm trên thanh header desktop (`lg:flex`) được ẩn đi, tránh gây dư thừa hiển thị với thanh tìm kiếm trung tâm (Single-Tier Control Dock) đã có sẵn phím tắt `Cmd+K` và bộ đếm kết quả ở thân trang, đồng thời giữ thanh header luôn rộng rãi cho `VocabSuiteNavTabs` và nút Luyện Trí Nhớ Flashcards.
+
+
 
 
 

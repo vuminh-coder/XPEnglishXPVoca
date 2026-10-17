@@ -157,6 +157,8 @@ export interface HeaderSearchProps {
   onChange: (val: string) => void;
   placeholder?: string;
   onClear?: () => void;
+  /** When true, hides the search input on desktop header (useful when the page has its own prominent desktop search dock) */
+  hideDesktopInput?: boolean;
 }
 
 export interface AppTopHeaderProps {
@@ -335,7 +337,7 @@ export function AppTopHeader({
       {/* ─── RIGHT SECTION: Search, Gamification, Custom Actions, Quote & User Avatar ─── */}
       <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
         {/* 1. Integrated Desktop Search Input */}
-        {searchProps && (
+        {searchProps && !searchProps.hideDesktopInput && (
           <div className="relative w-44 sm:w-56 lg:w-64 xl:w-72 hidden lg:flex items-center">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
             <input
