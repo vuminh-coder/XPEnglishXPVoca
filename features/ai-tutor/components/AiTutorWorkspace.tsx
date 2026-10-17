@@ -1202,8 +1202,8 @@ export default function AiTutorWorkspace() {
 
                   <div className="flex items-center gap-1.5 shrink-0">
                     {/* 1. Thời Gian Luyện Nói (Luôn hiện trên mobile < lg, desktop đã có ở AppTopHeader) */}
-                    <span className="lg:hidden px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1 shrink-0">
-                      <Clock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                    <span className="lg:hidden h-7 px-2 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1 shrink-0">
+                      <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                       <span>{formatElapsedTime(elapsedTime)}</span>
                     </span>
 
@@ -1213,21 +1213,21 @@ export default function AiTutorWorkspace() {
                         <button
                           type="button"
                           onClick={handleRestartNewSession}
-                          className="h-7 px-2 rounded-md bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold flex items-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer"
+                          className="h-7 w-7 sm:w-auto sm:px-2.5 rounded-md bg-[#0059bb] hover:bg-[#004899] text-white border border-[#0059bb] text-xs font-bold flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer"
                           title="Bắt đầu buổi luyện mới"
                         >
-                          <RotateCcw className="w-3 h-3" />
-                          <span className="hidden xs:inline">Buổi mới</span>
+                          <RotateCcw className="w-3.5 h-3.5" />
+                          <span className="hidden sm:inline">Buổi mới</span>
                         </button>
                       ) : (
                         <button
                           type="button"
                           onClick={handleFinishConversation}
-                          className="h-7 px-2 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer"
+                          className="h-7 w-7 sm:w-auto sm:px-2.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-600 text-xs font-bold flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer"
                           title="Hoàn thành và chấm điểm buổi nói"
                         >
-                          <CheckCircle2 className="w-3 h-3 stroke-[2.5]" />
-                          <span className="hidden xs:inline">Chấm điểm</span>
+                          <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2]" />
+                          <span className="hidden sm:inline">Chấm điểm</span>
                         </button>
                       )}
                     </div>
@@ -1236,7 +1236,7 @@ export default function AiTutorWorkspace() {
                     <button
                       type="button"
                       onClick={handleCycleNextPersona}
-                      className="px-2 py-1 sm:px-2.5 sm:py-1 rounded-md text-xs font-bold border border-blue-200/80 dark:border-blue-800/50 bg-blue-50/80 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all shadow-2xs flex items-center gap-1 cursor-pointer active:scale-95"
+                      className="h-7 w-7 sm:w-auto sm:px-2.5 rounded-md text-xs font-bold border border-blue-200/80 dark:border-blue-800/50 bg-blue-50/80 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all shadow-2xs flex items-center justify-center gap-1 cursor-pointer active:scale-95 shrink-0"
                       title={`Đang là ${activePersonaObj.name} (${activePersonaObj.countryName}) • Bấm để đổi ngay sang giọng tiếp theo`}
                     >
                       <Shuffle className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
