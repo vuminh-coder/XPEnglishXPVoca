@@ -52,7 +52,7 @@ export const IpaAnatomyViewer: React.FC<IpaAnatomyViewerProps> = ({
               </span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
-              Chuẩn giải phẫu ngữ âm học quốc tế IPA
+              Ngữ âm học quốc tế IPA
             </p>
           </div>
         </div>
@@ -61,7 +61,7 @@ export const IpaAnatomyViewer: React.FC<IpaAnatomyViewerProps> = ({
       {/* Tier 2: Dedicated Control Toolbar Strip */}
       <div className="flex items-center justify-between gap-2 px-0.5 pt-0.5">
         <div className="text-xs font-medium text-slate-500 dark:text-slate-400">
-          {viewMode === "sagittal" ? "Sơ đồ giải phẫu cắt dọc" : "Khẩu hình trực diện môi"}
+          {viewMode === "sagittal" ? "Mặt cắt dọc" : "Khẩu hình trực diện"}
         </div>
 
         {/* View Switcher Segmented Control & Labels Toggle */}
@@ -132,7 +132,7 @@ export const IpaAnatomyViewer: React.FC<IpaAnatomyViewerProps> = ({
               Khẩu hình môi
             </span>
             <span className="text-xs font-medium text-slate-800 dark:text-slate-200 line-clamp-1 mt-0.5">
-              {sound.mouthShape}
+              {sound.mouthShape.replace(/\s*\([^)]*\)/g, "")}
             </span>
           </div>
 
@@ -142,7 +142,7 @@ export const IpaAnatomyViewer: React.FC<IpaAnatomyViewerProps> = ({
               Vị trí lưỡi
             </span>
             <span className="text-xs font-medium text-slate-800 dark:text-slate-200 line-clamp-1 mt-0.5">
-              {sound.tonguePosition}
+              {sound.tonguePosition.replace(/\s*\([^)]*\)/g, "")}
             </span>
           </div>
 
@@ -155,7 +155,7 @@ export const IpaAnatomyViewer: React.FC<IpaAnatomyViewerProps> = ({
             <span className={`text-xs font-medium line-clamp-1 mt-0.5 ${
               isVoiced ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"
             }`}>
-              {isVoiced ? "Rung (Hữu thanh)" : "Không rung (Vô thanh)"}
+              {isVoiced ? "Rung • Hữu thanh" : "Không rung • Vô thanh"}
             </span>
           </div>
 
@@ -168,7 +168,7 @@ export const IpaAnatomyViewer: React.FC<IpaAnatomyViewerProps> = ({
             <span className={`text-xs font-medium line-clamp-1 mt-0.5 ${
               isNasal ? "text-purple-600 dark:text-purple-400" : "text-blue-600 dark:text-blue-400"
             }`}>
-              {isNasal ? "Qua mũi (Nasal)" : "Qua miệng (Oral)"}
+              {isNasal ? "Qua mũi" : "Qua miệng"}
             </span>
           </div>
         </div>

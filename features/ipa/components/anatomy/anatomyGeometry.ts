@@ -161,7 +161,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 315, y: 226 };
     spotX = 350;
     spotY = 215;
-    titleVi = "Hai Môi Khép Kín (Bilabial)";
+    titleVi = "Hai Môi Khép Kín";
     titleEn = "Bilabial Closure";
     descVi = sym === "m"
       ? "Hai môi mím lại, vòm mềm hạ thấp cho luồng hơi cộng hưởng qua mũi."
@@ -179,7 +179,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 315, y: 226 };
     spotX = 336;
     spotY = 217;
-    titleVi = "Răng Trên - Môi Dưới (Labiodental)";
+    titleVi = "Răng Trên - Môi Dưới";
     titleEn = "Labiodental Constriction";
     descVi = "Răng cửa trên chạm nhẹ vào lòng môi dưới, luồng khí ma sát thoát ra qua khe hẹp.";
     anatomicalType = "labiodental";
@@ -195,7 +195,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 342, y: 218 }; // Clearly past incisor plane (336, 216)!
     spotX = 340;
     spotY = 218;
-    titleVi = "Đầu Lưỡi Kẹp Giữa Răng (Interdental)";
+    titleVi = "Đầu Lưỡi Kẹp Giữa Răng";
     titleEn = "Interdental Placement";
     descVi = "Đầu lưỡi đặt nhẹ giữa hai hàm răng cửa, luồng hơi lướt êm qua bề mặt đầu lưỡi.";
     anatomicalType = "dental";
@@ -207,7 +207,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 324, y: 206 }; // Direct contact with alveolar ridge!
     spotX = 324;
     spotY = 206;
-    titleVi = "Chân Răng Trên / Lợi (Alveolar)";
+    titleVi = "Chân Răng Trên / Lợi";
     titleEn = "Alveolar Contact";
     descVi = sym === "n"
       ? "Đầu lưỡi chạm chân răng trên, vòm mềm mở cho hơi thoát toàn bộ qua mũi."
@@ -223,7 +223,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 322, y: 210 }; // Super narrow groove
     spotX = 322;
     spotY = 210;
-    titleVi = "Rãnh Khí Chân Răng (Alveolar Groove)";
+    titleVi = "Rãnh Khí Chân Răng";
     titleEn = "Alveolar Fricative Slit";
     descVi = "Đầu lưỡi nâng rất sát chân răng tạo khe rãnh hẹp, luồng khí xì ma sát sắc nét.";
     anatomicalType = "alveolar";
@@ -237,7 +237,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 312, y: 212 };
     spotX = 286;
     spotY = 204;
-    titleVi = "Sau Chân Răng / Vòm Trước (Postalveolar)";
+    titleVi = "Sau Chân Răng / Vòm Trước";
     titleEn = "Postalveolar Constriction";
     descVi = "Mặt lưỡi cong nâng cao ở vùng sau lợi, hai môi chu nhẹ về phía trước.";
     anatomicalType = "postalveolar";
@@ -248,7 +248,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 315, y: 230 };
     spotX = 238;
     spotY = 198;
-    titleVi = "Ngạc Mềm / Vòm Mềm (Velar)";
+    titleVi = "Ngạc Mềm / Vòm Mềm";
     titleEn = "Velar Closure";
     descVi = sym === "ŋ"
       ? "Cuống lưỡi nâng cao bịt chặt ngạc mềm, luồng khí cộng hưởng thoát qua đường mũi."
@@ -261,7 +261,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 320, y: 224 };
     spotX = 270;
     spotY = 202;
-    titleVi = "Vòm Ngạc Cứng (Palatal)";
+    titleVi = "Vòm Ngạc Cứng";
     titleEn = "Palatal Approximant";
     descVi = "Thân lưỡi nâng rất cao sát vòm cứng như âm /iː/, không gây tiếng ma sát.";
     anatomicalType = "palatal";
@@ -274,7 +274,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 310, y: 230 };
     spotX = 356;
     spotY = 214;
-    titleVi = "Môi Tròn & Vòm Mềm (Labio-Velar)";
+    titleVi = "Môi Tròn & Vòm Mềm";
     titleEn = "Labio-Velar Coarticulation";
     descVi = "Hai môi chúm tròn nhỏ, đồng thời cuống lưỡi nâng cao về phía ngạc mềm.";
     anatomicalType = "bilabial";
@@ -287,7 +287,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 296, y: 198 }; // Tip curled up!
     spotX = 296;
     spotY = 198;
-    titleVi = "Uốn Cong Đầu Lưỡi (Retroflex / Alveolar)";
+    titleVi = "Uốn Cong Đầu Lưỡi";
     titleEn = "Retroflex / Post-Alveolar Curl";
     descVi = "Đầu lưỡi cong ngược lên vòm họng nhưng không chạm vào vòm miệng.";
     anatomicalType = "postalveolar";
@@ -298,7 +298,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 315, y: 226 };
     spotX = 196;
     spotY = 310;
-    titleVi = "Thanh Môn / Thanh Quản (Glottal)";
+    titleVi = "Thanh Môn / Thanh Quản";
     titleEn = "Glottal Friction";
     descVi = "Dây thanh mở nhẹ, luồng hơi ma sát tại thanh môn rồi thoát tự do qua miệng.";
     anatomicalType = "glottal";
@@ -313,7 +313,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 324, y: 222 };   // Tip low behind lower incisors
     spotX = 286;
     spotY = 198;
-    titleVi = "Nguyên Âm Trước - Cao (High Front)";
+    titleVi = "Nguyên Âm Trước - Cao";
     titleEn = "High Front Unrounded";
     descVi = sym === "iː"
       ? "Lưng lưỡi nâng rất cao sát vòm cứng, khóe môi bè ngang như đang cười mỉm."
@@ -329,7 +329,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 322, y: 224 };
     spotX = 280;
     spotY = 210;
-    titleVi = "Nguyên Âm Trước - Vừa (Mid Front)";
+    titleVi = "Nguyên Âm Trước - Vừa";
     titleEn = "Mid Front Vowel";
     descVi = "Miệng mở vừa phải, thân lưỡi dâng lên vị trí trung bình phía trước.";
     anatomicalType = "vowel_front";
@@ -343,7 +343,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 316, y: 234 }; // Flat and low on floor of mouth
     spotX = 270;
     spotY = 230;
-    titleVi = "Nguyên Âm Trước - Rộng (Low Front)";
+    titleVi = "Nguyên Âm Trước - Rộng";
     titleEn = "Open Front Vowel";
     descVi = "Hạ quai hàm mở rộng xuống dưới, thân lưỡi nằm thấp phẳng sát sàn miệng.";
     anatomicalType = "vowel_front";
@@ -356,7 +356,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 312, y: 228 };
     spotX = 228;
     spotY = 202;
-    titleVi = "Nguyên Âm Sau - Cao Tròn Môi (High Back)";
+    titleVi = "Nguyên Âm Sau - Cao Tròn Môi";
     titleEn = "High Back Rounded";
     descVi = sym === "uː"
       ? "Cuống lưỡi nâng cao về phía vòm mềm, hai môi chúm tròn nhỏ căng về phía trước."
@@ -374,7 +374,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 310, y: 228 };
     spotX = 226;
     spotY = 212;
-    titleVi = "Nguyên Âm Sau - Vừa Tròn Môi (Mid Back)";
+    titleVi = "Nguyên Âm Sau - Vừa Tròn Môi";
     titleEn = "Mid Back Rounded";
     descVi = "Lưỡi rụt về phía cuống họng, hàm mở vừa, khẩu hình tròn đều.";
     anatomicalType = "vowel_back";
@@ -388,7 +388,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 310, y: 234 };
     spotX = 222;
     spotY = 232;
-    titleVi = "Nguyên Âm Mở - Sâu (Open Central/Back)";
+    titleVi = "Nguyên Âm Mở - Sâu";
     titleEn = "Open Unrounded Vowel";
     descVi = sym === "ɑː"
       ? "Hạ hàm tối đa, lưỡi hạ thấp phẳng rụt sâu về đáy họng."
@@ -403,7 +403,7 @@ export function getSagittalGeometry(sound: IpaSound): SagittalGeometryConfig {
     tip = { x: 318, y: 224 };
     spotX = 275;
     spotY = 220;
-    titleVi = "Nguyên Âm Trung Tâm (Central Vowel)";
+    titleVi = "Nguyên Âm Trung Tâm";
     titleEn = "Mid Central (Schwa)";
     descVi = "Toàn bộ cơ môi, lưỡi và hàm ở trạng thái nghỉ thả lỏng hoàn toàn.";
     anatomicalType = "vowel_central";

@@ -540,10 +540,10 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white font-sans tracking-tight">
-                    Giải Phẫu Khẩu Hình Chuẩn
+                    Khẩu Hình Chuẩn
                   </h3>
                   <p className="text-[11px] text-slate-400">
-                    Sơ đồ mặt cắt vòm họng và chỉ số cấu âm
+                    Mặt cắt vòm họng và chỉ số cấu âm
                   </p>
                 </div>
               </div>
@@ -569,7 +569,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   </div>
                 </div>
                 <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
-                  {currentSound.mouthShape}
+                  {currentSound.mouthShape.replace(/\s*\([^)]*\)/g, "")}
                 </p>
               </div>
 
@@ -584,7 +584,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   </div>
                 </div>
                 <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
-                  {currentSound.tonguePosition}
+                  {currentSound.tonguePosition.replace(/\s*\([^)]*\)/g, "")}
                 </p>
               </div>
 
@@ -599,7 +599,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   </div>
                 </div>
                 <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
-                  {currentSound.jawOpening}
+                  {currentSound.jawOpening.replace(/\s*\([^)]*\)/g, "")}
                 </p>
               </div>
 
@@ -623,8 +623,8 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   />
                   <span>
                     {currentSound.voicing === "voiced"
-                      ? "Dây thanh rung (Hữu thanh)"
-                      : "Không rung dây thanh (Vô thanh)"}
+                      ? "Dây thanh rung • Hữu thanh"
+                      : "Không rung dây thanh • Vô thanh"}
                   </span>
                 </p>
               </div>

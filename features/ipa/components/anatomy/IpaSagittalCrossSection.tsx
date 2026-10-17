@@ -530,7 +530,7 @@ export const IpaSagittalCrossSection: React.FC<IpaSagittalCrossSectionProps> = (
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/90 dark:border-slate-800 shadow-md text-xs min-w-0">
             <span className="w-2 h-2 rounded-full bg-[#0059bb] dark:bg-sky-400 animate-pulse shrink-0" />
             <span className="font-bold text-slate-800 dark:text-slate-200 truncate">
-              {geo.spotlight.titleVi}
+              {geo.spotlight.titleVi.replace(/\s*\([^)]*\)/g, "")}
             </span>
           </div>
 
@@ -538,12 +538,12 @@ export const IpaSagittalCrossSection: React.FC<IpaSagittalCrossSectionProps> = (
             {geo.isVoiced ? (
               <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-semibold">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                Hữu thanh (Voiced)
+                Hữu thanh
               </span>
             ) : (
               <span className="text-amber-600 dark:text-amber-400 flex items-center gap-1 font-semibold">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                Vô thanh (Voiceless)
+                Vô thanh
               </span>
             )}
           </div>
