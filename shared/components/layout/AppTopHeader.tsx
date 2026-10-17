@@ -279,7 +279,7 @@ export function AppTopHeader({
 
   return (
     <div
-      className={`w-full h-14 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
+      className={`w-full h-14 bg-gradient-to-b from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
         sticky ? "sticky top-0 z-30" : "relative"
       } ${className}`}
     >
