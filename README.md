@@ -957,14 +957,16 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - Thu gọn chiều cao tối thiểu của thẻ âm từ 136px xuống **106px** trên mobile (`min-h-[106px] sm:min-h-[134px]`), giảm padding xuống `p-2.5 sm:p-3`, tiết kiệm hơn 800px chiều dài cuộn trang khi hiển thị 44 âm (22 hàng × 2 cột).
       - Mở rộng vùng chạm cảm ứng cho icon loa phát âm lên `w-7 h-7 sm:w-6 sm:h-6` kèm active pulse và ring phản hồi xúc giác, giúp người học không bị bấm trượt vào thân thẻ.
       - Ẩn dòng ghi chú phụ cắt cụt trên mobile (`hidden sm:inline`), căn giữa từ khóa chính `keyWord` in đậm nổi bật ngay dưới ký tự phiên âm cỡ lớn (`text-2xl sm:text-[30px]`), xóa bỏ hiện tượng rớt dòng hoặc tràn mép.
-    - **Tinh Gọn Khối Hero Banner & Chỉ Số Bento (`IpaHeroGreeting.tsx` & `IpaMetricCard.tsx`)**:
+    - **Dàn Đều Khối Hero Banner & Chỉ Số Bento (`IpaHeroGreeting.tsx` & `IpaMetricCard.tsx`)**:
       - Ẩn avatar trùng lặp trên mobile (`hidden sm:block`) do `AppTopHeader` đã hiển thị avatar học viên ở góc phải trên cùng.
-      - Rút gọn tiêu đề thành 1 hàng `Studio Phát Âm IPA` kèm huy hiệu cấp độ `Lv.N • Title`, triệt tiêu tình trạng vỡ hàng trên màn hình nhỏ.
-      - Công tắc gạt mở rộng chỉ số kiểu iOS Toggle căn đều về mép phải, kết nối hiệu ứng thu/phóng lò xo mượt mà (`framer-motion`).
+      - **Dàn Trải 2 Đầu Toàn Chiều Rộng**:
+        * Hàng 1: Tiêu đề `Studio Phát Âm IPA` bên trái đối diện trực tiếp công tắc gạt `Chỉ số chi tiết` bên phải (`justify-between`), xóa bỏ hoàn toàn đường viền ngăn cách `border-t` cắt ngang rườm rà phía dưới.
+        * Hàng 2: Huy hiệu cấp độ `Lv.1 • Phonics Explorer` neo sát mép trái, thông tin `Đã làm chủ 18/44 âm • 41%` neo sát mép phải (`justify-between`), lấp đầy 100% không gian thẻ, triệt tiêu triệt để hiện tượng thông tin bị dồn cục ở góc trái và khoảng trống mênh mông ở nửa phải.
       - Tinh gọn 4 thẻ Bento chỉ số: đệm `p-2 sm:p-3.5`, icon well `w-8 h-8 sm:w-10 sm:h-10`, nhãn súc tích ("Âm đã thuộc", "Độ chuẩn xác AI", "Cặp âm đã học", "Chuỗi luyện tập"), không bao giờ bị cắt chữ hay tràn viền.
-    - **Tích Hợp `searchProps` & Chip Gamification Vào `AppTopHeader` (`/study/ipa/page.tsx`)**:
+    - **Tối Ưu Hóa Thanh Điều Hướng Header (`AppTopHeader.tsx` & `app/(dashboard)/study/ipa/page.tsx`)**:
       - Kết nối trực tiếp `searchProps` với `matrixSearchQuery` và `setMatrixSearchQuery` từ `useIpaCatalogStore` với `hideDesktopInput: true`. Khi bấm icon kính lúp trên mobile, thanh trượt tìm kiếm toàn màn hình mở ra để tìm kiếm tức thời 44 âm và từ vựng ví dụ.
-      - Kích hoạt `showGamificationStats={true}` hiển thị ngọn lửa Streak 🔥 và Vàng 🪙 chuẩn mực.
+      - **Xóa Bỏ Icon `XCircle` Có Viền Tròn**: Lược bỏ hoàn toàn icon `XCircle` trong ô tìm kiếm mobile, chỉ duy trì duy nhất 1 nút đóng `X` tinh tế, giải quyết tình trạng 2 icon X đứng cạnh nhau gây rối mắt.
+      - **Xóa Bỏ Chip Chuỗi Streak Liên Tục**: Lược bỏ cờ `showGamificationStats` trên trang `/study/ipa`, xóa bỏ chip ngọn lửa chuỗi học liên tục trên đỉnh đầu trang để không gian tinh gọn, tập trung hoàn toàn vào luyện âm.
       - Nâng cấp hành động desktop sang nút Primary CTA `"Phòng Luyện AI"` (`bg-[#0059bb]`, icon `Mic`).
       - Tinh chỉnh đệm trang `px-2.5 sm:px-6` tận dụng tối đa bề ngang thiết bị di động.
     - **Trải Nghiệm Mở Modal Giải Phẫu Chi Tiết (`IpaSoundDetailModal.tsx`)**:

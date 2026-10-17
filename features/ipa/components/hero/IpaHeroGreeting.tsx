@@ -57,67 +57,85 @@ export const IpaHeroGreeting: React.FC<IpaHeroGreetingProps> = ({
       className={`p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm shadow-slate-200/40 dark:shadow-black/30 select-none transition-shadow ${className}`}
     >
       {/* Upper Greeting Row with Avatar, Name & Toggle Switch */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
-        <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
-          <div className="shrink-0 hidden sm:block">
-            <UserAvatar
-              avatar={(user as any)?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
-              imageUrl={user?.imageUrl}
-              emoji={user?.avatarEmoji}
-              name={displayName}
-              size="w-11 h-11 sm:w-12 sm:h-12"
-            />
+      <div className="flex flex-col gap-2.5 sm:gap-3">
+        {/* Row 1: Title & Avatar (Left) vs Toggle Switch (Right) */}
+        <div className="flex items-center justify-between gap-3 sm:gap-4 w-full">
+          <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+            <div className="shrink-0 hidden sm:block">
+              <UserAvatar
+                avatar={(user as any)?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+                imageUrl={user?.imageUrl}
+                emoji={user?.avatarEmoji}
+                name={displayName}
+                size="w-11 h-11 sm:w-12 sm:h-12"
+              />
+            </div>
+
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+                <h1 className="text-sm xs:text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white font-display truncate">
+                  <span className="sm:hidden">Studio Phát Âm IPA</span>
+                  <span className="hidden sm:inline">Studio Phát Âm IPA • {displayName}</span>
+                </h1>
+                <span className="hidden sm:inline-flex px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold font-mono border border-slate-200/70 dark:border-slate-700/60 shadow-2xs shrink-0">
+                  Lv.{user?.level || 1} • {userTitle}
+                </span>
+              </div>
+              <p className="hidden sm:flex text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 items-center gap-2">
+                <span>
+                  Đã làm chủ <strong className="text-slate-800 dark:text-slate-200">{masteredCount}/{totalCount}</strong> âm
+                </span>
+                <span className="text-slate-300 dark:text-slate-700">•</span>
+                <span className="text-[#0059bb] dark:text-sky-400 font-bold">{progressPercent}% Hoàn thành</span>
+              </p>
+            </div>
           </div>
 
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-sm sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white font-display truncate">
-                <span className="sm:hidden">Studio Phát Âm IPA</span>
-                <span className="hidden sm:inline">Studio Phát Âm IPA • {displayName}</span>
-              </h1>
-              <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs font-semibold font-mono border border-slate-200/70 dark:border-slate-700/60 shadow-2xs shrink-0">
-                Lv.{user?.level || 1} • {userTitle}
-              </span>
-            </div>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1.5 sm:gap-2 flex-wrap">
-              <span>
-                Đã làm chủ <strong className="text-slate-800 dark:text-slate-200">{masteredCount}/{totalCount}</strong> âm
-              </span>
-              <span className="text-slate-300 dark:text-slate-700">•</span>
-              <span className="text-[#0059bb] dark:text-sky-400 font-bold">{progressPercent}% Hoàn thành</span>
-            </p>
+          {/* Right: iOS-Style Smooth Spring Toggle Switch */}
+          <div className="flex items-center gap-2 shrink-0 select-none">
+            <span
+              onClick={handleToggle}
+              className={`text-xs cursor-pointer select-none transition-colors duration-200 ${
+                showMetrics
+                  ? "font-semibold text-slate-800 dark:text-slate-200"
+                  : "font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
+              }`}
+            >
+              <span className="hidden xs:inline">Chỉ số chi tiết</span>
+              <span className="xs:hidden">Chỉ số</span>
+            </span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={showMetrics}
+              onClick={handleToggle}
+              className={`relative inline-flex h-5.5 sm:h-6 w-10 sm:w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0059bb] active:scale-95 ${
+                showMetrics ? "bg-[#0059bb]" : "bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600"
+              }`}
+              title={showMetrics ? "Gạt tắt để ẩn các chỉ số (thu gọn)" : "Gạt bật để xem 4 thẻ chỉ số (mở rộng)"}
+            >
+              <span className="sr-only">Bật/Tắt hiển thị chỉ số chi tiết</span>
+              <motion.span
+                animate={{ x: showMetrics ? 18 : 0 }}
+                transition={{ type: "spring", stiffness: 600, damping: 32 }}
+                className="pointer-events-none inline-block h-4.5 sm:h-5 w-4.5 sm:w-5 rounded-full bg-white shadow-sm ring-0"
+              />
+            </button>
           </div>
         </div>
 
-        {/* Header Right: iOS-Style Smooth Spring Toggle Switch */}
-        <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800/80 w-full sm:w-auto shrink-0 select-none">
-          <span
-            onClick={handleToggle}
-            className={`text-xs cursor-pointer select-none transition-colors duration-200 ${
-              showMetrics
-                ? "font-semibold text-slate-800 dark:text-slate-200"
-                : "font-medium text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
-            }`}
-          >
-            Chỉ số chi tiết
+        {/* Row 2 (Mobile only): Spread out Level Badge (Left) & Progress (Right) across full width */}
+        <div className="sm:hidden flex items-center justify-between gap-2 w-full text-xs pt-0.5">
+          <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] font-semibold font-mono border border-slate-200/70 dark:border-slate-700/60 shadow-2xs shrink-0">
+            Lv.{user?.level || 1} • {userTitle}
           </span>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={showMetrics}
-            onClick={handleToggle}
-            className={`relative inline-flex h-5.5 sm:h-6 w-10 sm:w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0059bb] active:scale-95 ${
-              showMetrics ? "bg-[#0059bb]" : "bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600"
-            }`}
-            title={showMetrics ? "Gạt tắt để ẩn các chỉ số (thu gọn)" : "Gạt bật để xem 4 thẻ chỉ số (mở rộng)"}
-          >
-            <span className="sr-only">Bật/Tắt hiển thị chỉ số chi tiết</span>
-            <motion.span
-              animate={{ x: showMetrics ? 18 : 0 }}
-              transition={{ type: "spring", stiffness: 600, damping: 32 }}
-              className="pointer-events-none inline-block h-4.5 sm:h-5 w-4.5 sm:w-5 rounded-full bg-white shadow-sm ring-0"
-            />
-          </button>
+          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-medium">
+            <span>
+              Đã làm chủ <strong className="text-slate-800 dark:text-slate-200 font-bold">{masteredCount}/{totalCount}</strong> âm
+            </span>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
+            <span className="text-[#0059bb] dark:text-sky-400 font-bold">{progressPercent}%</span>
+          </div>
         </div>
       </div>
 

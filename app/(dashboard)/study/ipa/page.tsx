@@ -55,7 +55,6 @@ export default function IpaStudioPage() {
           placeholder: "Tìm âm IPA hoặc từ ví dụ...",
           hideDesktopInput: true,
         }}
-        showGamificationStats={true}
         rightDesktopContent={
           <Link
             href="/study/ipa/practice"

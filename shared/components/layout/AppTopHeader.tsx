@@ -19,7 +19,6 @@ import {
   Bot,
   Search,
   X,
-  XCircle,
   Flame,
   Coins,
   Settings,
@@ -732,23 +731,15 @@ export function AppTopHeader({
               placeholder={searchProps.placeholder || "Tìm kiếm bài học, chủ đề..."}
               className="flex-1 h-9 px-1 text-xs sm:text-sm font-medium bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none"
             />
-            {searchProps.value && (
-              <button
-                type="button"
-                onClick={() => {
-                  searchProps.onChange("");
-                  if (searchProps.onClear) searchProps.onClear();
-                }}
-                className="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer shrink-0 transition-colors"
-                title="Xóa nội dung"
-                aria-label="Xóa nội dung"
-              >
-                <XCircle className="w-4 h-4" />
-              </button>
-            )}
             <button
               type="button"
-              onClick={() => setIsMobileSearchOpen(false)}
+              onClick={() => {
+                if (searchProps.value) {
+                  searchProps.onChange("");
+                  if (searchProps.onClear) searchProps.onClear();
+                }
+                setIsMobileSearchOpen(false);
+              }}
               className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0 active:scale-90"
               title="Đóng tìm kiếm"
               aria-label="Đóng tìm kiếm"
