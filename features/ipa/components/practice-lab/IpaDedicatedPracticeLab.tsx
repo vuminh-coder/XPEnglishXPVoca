@@ -423,6 +423,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
           >
             {displayedSounds.map((sound) => {
               const isSelected = sound.id === currentSound.id;
+              const soundTheme = getSoundCategoryTheme(sound);
               return (
                 <button
                   key={sound.id}
@@ -435,8 +436,8 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   }}
                   className={`relative min-w-[44px] sm:min-w-[48px] h-10 px-2.5 rounded-xl font-sans shrink-0 transition-all cursor-pointer flex items-center justify-center select-none ${
                     isSelected
-                      ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-black shadow-sm border border-slate-900 dark:border-white scale-[1.05]"
-                      : "bg-slate-100/90 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-750 border border-slate-200/80 dark:border-slate-700/70 shadow-2xs hover:border-slate-300 dark:hover:border-slate-600 active:scale-[0.98]"
+                      ? `${soundTheme.badgeBg} ${soundTheme.textColor} font-black shadow-xs ring-2 ring-current/25 scale-[1.05]`
+                      : "bg-slate-50 dark:bg-slate-800/70 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs active:scale-[0.98]"
                   }`}
                   title={`${sound.name} (${sound.vietnameseGuide || sound.mouthShape})`}
                 >
@@ -444,7 +445,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                     className={`leading-none tracking-normal font-sans antialiased text-center ${
                       isSelected
                         ? "text-[15px] sm:text-base font-black"
-                        : "text-[14px] sm:text-[15px] font-bold"
+                        : "text-[14px] sm:text-[15px] font-semibold"
                     }`}
                   >
                     {sound.symbol}
