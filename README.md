@@ -954,9 +954,13 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
       - Rút gọn nút tốc độ phát âm về 2 nấc `1.0x` và `0.8x`, lược bỏ chữ "Chậm" thừa thãi.
       - Tối ưu hóa ô tìm kiếm âm thanh `flex-1 min-w-0 sm:w-64` với placeholder chỉ dẫn ngắn gọn `"Tìm âm hoặc từ..."` và nút xóa nhanh `X`.
     - **Tối Ưu Kích Thước & Giảm Chiều Cao Cuộn Bảng 44 Âm IPA (`IpaSoundCardV2.tsx`)**:
-      - Thu gọn chiều cao tối thiểu của thẻ âm từ 136px xuống **106px** trên mobile (`min-h-[106px] sm:min-h-[134px]`), giảm padding xuống `p-2.5 sm:p-3`, tiết kiệm hơn 800px chiều dài cuộn trang khi hiển thị 44 âm (22 hàng × 2 cột).
-      - Mở rộng vùng chạm cảm ứng cho icon loa phát âm lên `w-7 h-7 sm:w-6 sm:h-6` kèm active pulse và ring phản hồi xúc giác, giúp người học không bị bấm trượt vào thân thẻ.
-      - Ẩn dòng ghi chú phụ cắt cụt trên mobile (`hidden sm:inline`), căn giữa từ khóa chính `keyWord` in đậm nổi bật ngay dưới ký tự phiên âm cỡ lớn (`text-2xl sm:text-[30px]`), xóa bỏ hiện tượng rớt dòng hoặc tràn mép.
+      - Thu gọn chiều cao tối thiểu của thẻ âm từ 134px/106px xuống siêu tinh gọn **78px - 84px** trên mobile và **94px - 100px** trên desktop (`min-h-[78px] xs:min-h-[84px] sm:min-h-[94px] md:min-h-[100px]`), bo góc chuẩn `rounded-xl sm:rounded-2xl`, đệm viền `p-2 sm:p-2.5`, tiết kiệm hơn 300px chiều dài cuộn trang khi duyệt ma trận 44 âm.
+      - Tinh chỉnh nút loa phát âm cô lập về chuẩn `w-6 h-6` (icon `w-3 h-3`), ký tự phiên âm trung tâm thanh thoát `text-xl xs:text-2xl sm:text-[26px]`, từ khóa in đậm rõ nét `text-[11px] xs:text-xs sm:text-[13px]`, ẩn gợi ý phụ trên màn hình nhỏ (`hidden md:inline`), giúp toàn bộ soundboard hiển thị như một bảng Launchpad âm thanh chuyên nghiệp, trực quan và không bị thô cứng.
+    - **Chuẩn Hóa Bảng Màu Ngữ Nghĩa Hữu Thanh & Vô Thanh (`ipaData.ts`, `IpaMatrixBoard.tsx`, `IpaAnatomyViewer.tsx`)**:
+      - Triệt tiêu hoàn toàn việc dùng màu Xanh Emerald (`bg-emerald-500`) và Vàng Hổ Phách (`bg-amber-500`) cho phụ âm. Tuân thủ tuyệt đối Quy tắc thiết kế số 20 trong `AGENTS.md` (Emerald bảo lưu cho đáp án đúng/thành tích XP, Amber bảo lưu cho chuỗi streak/thưởng vàng), loại bỏ cảm giác bàn cờ "đèn giao thông Đúng vs Sai" gây hiểu lầm.
+      - **Hữu thanh (Voiced - Rung cổ)**: Chuyển sang gam màu **Teal** (`#0d9488`, `teal-500/600`, nền `bg-teal-50/80 dark:bg-teal-950/60`, viền `border-teal-200/80 dark:border-teal-800/60`), tượng trưng cho độ trầm ấm và sự cộng hưởng âm thanh của thanh quản rung.
+      - **Vô thanh (Voiceless - Bật hơi)**: Chuyển sang gam màu **Slate** (`#64748b`, `slate-400/500`, nền `bg-slate-100/90 dark:bg-slate-800/80`, viền `border-slate-200/80 dark:border-slate-700/60`), tượng trưng cho luồng khí hơi thở thanh khiết, không rung dây thanh.
+      - Đồng bộ xuyên suốt 100% các phân hệ: Tab Phụ âm, Giếng icon Mic, Chú thích Voicing Legend, Vòng sóng âm ripple, Thẻ giải phẫu cắt dọc Sagittal (`IpaSagittalCrossSection`), Mô hình khẩu hình (`IpaAnatomyViewer`) và Dải thanh trượt bài học (`IpaDedicatedPracticeLab`).
     - **Dàn Đều Khối Hero Banner & Chỉ Số Bento (`IpaHeroGreeting.tsx` & `IpaMetricCard.tsx`)**:
       - Ẩn avatar trùng lặp trên mobile (`hidden sm:block`) do `AppTopHeader` đã hiển thị avatar học viên ở góc phải trên cùng.
       - **Dàn Trải 2 Đầu Toàn Chiều Rộng**:

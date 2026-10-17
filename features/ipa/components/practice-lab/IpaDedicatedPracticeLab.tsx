@@ -388,8 +388,8 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                         : sound.category === "diphthong"
                         ? "bg-purple-400/90 dark:bg-purple-400"
                         : sound.voicing === "voiced"
-                        ? "bg-emerald-400/90 dark:bg-emerald-400"
-                        : "bg-amber-400/90 dark:bg-amber-400"
+                        ? "bg-teal-400/90 dark:bg-teal-400"
+                        : "bg-slate-400/90 dark:bg-slate-400"
                     }`}
                   />
                 </button>
@@ -631,7 +631,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   <span
                     className={`w-2 h-2 rounded-full shrink-0 ${
                       currentSound.voicing === "voiced"
-                        ? "bg-emerald-500"
+                        ? "bg-teal-500"
                         : "bg-slate-400 dark:bg-slate-500"
                     }`}
                   />

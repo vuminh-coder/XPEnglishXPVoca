@@ -162,7 +162,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
-            <Mic className="w-3.5 h-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+            <Mic className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-400" />
             <span>Phụ âm</span>
           </button>
         </div>
@@ -354,7 +354,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
               {/* Header with Dashboard Icon Well */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2.5 sm:pb-3">
                 <div className="flex items-center gap-2.5 sm:gap-3">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/50 flex items-center justify-center shrink-0 shadow-2xs">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 border border-teal-200/60 dark:border-teal-800/50 flex items-center justify-center shrink-0 shadow-2xs">
                     <Mic className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
                   </div>
                   <div>
@@ -369,11 +369,11 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
 
                 {/* Voicing Legend */}
                 <div className="flex items-center gap-2.5 sm:gap-3 text-xs text-slate-500">
-                  <span className="flex items-center gap-1.5 font-semibold text-emerald-600 dark:text-emerald-400">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> Hữu thanh<span className="hidden sm:inline"> (Rung cổ)</span>
+                  <span className="flex items-center gap-1.5 font-semibold text-teal-700 dark:text-teal-300">
+                    <span className="w-2 h-2 rounded-full bg-teal-500" /> Hữu thanh<span className="hidden sm:inline"> (Rung cổ)</span>
                   </span>
-                  <span className="flex items-center gap-1.5 font-semibold text-amber-600 dark:text-amber-400">
-                    <span className="w-2 h-2 rounded-full bg-amber-500" /> Vô thanh<span className="hidden sm:inline"> (Bật hơi)</span>
+                  <span className="flex items-center gap-1.5 font-semibold text-slate-600 dark:text-slate-400">
+                    <span className="w-2 h-2 rounded-full bg-slate-400" /> Vô thanh<span className="hidden sm:inline"> (Bật hơi)</span>
                   </span>
                 </div>
               </div>
@@ -382,7 +382,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
               <div className="space-y-2 sm:space-y-2.5">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <span className="w-2 h-2 rounded-full bg-teal-500" />
                     <span>Phụ âm có cặp đối xứng (16 âm)</span>
                   </span>
                   <span className="hidden sm:inline text-[11px] text-slate-400 font-mono">
@@ -408,7 +408,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
               <div className="space-y-2 sm:space-y-2.5 pt-3 border-t border-slate-100 dark:border-slate-800/80">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-amber-500" />
+                    <span className="w-2 h-2 rounded-full bg-slate-400" />
                     <span>Phụ âm đơn lẻ & Bán nguyên âm (8 âm)</span>
                   </span>
                   <span className="hidden sm:inline text-[11px] text-slate-400">

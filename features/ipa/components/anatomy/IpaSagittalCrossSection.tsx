@@ -536,13 +536,13 @@ export const IpaSagittalCrossSection: React.FC<IpaSagittalCrossSectionProps> = (
 
           <div className="hidden xs:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200/90 dark:border-slate-800 text-[11px] font-medium shadow-sm">
             {geo.isVoiced ? (
-              <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+              <span className="text-teal-600 dark:text-teal-400 flex items-center gap-1 font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-ping" />
                 Hữu thanh (Voiced)
               </span>
             ) : (
-              <span className="text-amber-600 dark:text-amber-400 flex items-center gap-1 font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+              <span className="text-slate-600 dark:text-slate-400 flex items-center gap-1 font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
                 Vô thanh (Voiceless)
               </span>
             )}
