@@ -6594,6 +6594,20 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
      - Giữ sự tập trung 100% vào việc hoàn thành bài luyện tập mà không bị rối mắt bởi các số liệu gamification phụ.
    - **Khử khối phản hồi chật chội ở thanh điều hướng đáy Mobile (`PracticeArenaNavigation.tsx`)**: Ẩn khối badge phản hồi trạng thái ở giữa (`Chính xác! +10 XP`, `Chưa đúng!`, `Chuẩn xác!`) trên màn hình điện thoại (`hidden sm:flex`). Nhờ đó, 2 nút điều hướng `Câu trước` và `Câu tiếp theo / Bỏ qua` có đầy đủ không gian ngón tay cái thao tác thoải mái, không bị chèn ép ép dòng gây mất thẩm mỹ.
 
+10. **Chuẩn Hóa Ngữ Nghĩa Toàn Diện Icon Thông Báo & Phản Hồi (`Toast.tsx`, `usePracticeSession.ts`, `PracticeWordLabSidebar.tsx`, `PracticeArenaHeader.tsx`)**:
+    - **Tối ưu Icon Thông Báo Toasts (`Toast.tsx`)**:
+      - Chuyển icon ghi âm/thu âm từ `Headphones` (tai nghe - chỉ dành cho luyện nghe) sang `Mic` chuẩn ngữ nghĩa phát âm.
+      - Thay thế fallback `Sparkles` của thành công chung sang `CheckCircle2` chuẩn công thái học quốc tế.
+      - Bổ sung bộ nhận diện chuyên biệt cho Hết thời gian (`Clock` thay vì tam giác cảnh báo `AlertTriangle`), Lưu từ (`BookmarkCheck`) và Bỏ lưu từ (`BookmarkX` thay vì chuông thông báo `Bell`).
+      - Thay thế icon thông tin mặc định từ chuông `Bell` sang `Info`.
+      - Mở rộng hàm làm sạch `cleanEmoji` loại bỏ triệt để các emoji thô (`💾`, `⏳`, `🎉`, `🔴`) khỏi tiêu đề thông báo.
+    - **Chuẩn hóa Icon & Khối cảnh báo trên giao diện**:
+      - Thay thế icon `Sparkles` ở thanh tiêu đề "Thông tin từ vựng" sang `BookOpen` thanh lịch, đồng bộ với bộ nhận diện học tập.
+      - Chuyển icon phân loại "Từ vựng" (`PracticeWordMetadataRow`) từ `Brain` sang `BookOpen`, triệt tiêu hoàn toàn sự trùng lặp với icon `Brain` của nhãn `QUIZ` ngay phía trên.
+      - Đồng bộ màu nền khối thông báo mẹo ghi nhớ ngắt quãng (SRS) sang màu vàng hổ phách (`bg-amber-500/10 border-amber-500/20`), hài hòa hoàn hảo với icon bóng đèn `Lightbulb`.
+      - Chuyển đổi trạng thái thu âm phát âm `🔴 Đang lắng nghe...` sang chấm xung nhịp động hiện đại (`animate-ping`).
+      - Bổ sung icon `CheckCircle2` / `X` cho thanh phản hồi kết quả gõ chính tả (`PracticeWritingArena.tsx`) và quy chuẩn icon sai của Speaking thành `X` đồng nhất.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

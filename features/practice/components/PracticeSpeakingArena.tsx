@@ -147,7 +147,10 @@ export function PracticeSpeakingArena({
         <div className="space-y-1">
           <p className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
             {isListening ? (
-              "🔴 Đang lắng nghe giọng bạn phát âm..."
+              <span className="inline-flex items-center gap-1.5 text-rose-600 dark:text-rose-400">
+                <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping shrink-0" />
+                <span>Đang lắng nghe giọng bạn phát âm...</span>
+              </span>
             ) : isAnswered ? (
               "Chạm Micro để phát âm lại"
             ) : (

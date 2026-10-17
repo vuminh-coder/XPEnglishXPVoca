@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ChevronLeft, ChevronRight, CheckCircle2, X, AlertCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, CheckCircle2, X } from "lucide-react";
 import { SubMode, PracticeWord } from "../types";
 
 interface PracticeArenaNavigationProps {
@@ -109,7 +109,7 @@ export function PracticeArenaNavigation({
             </div>
           ) : (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-300/80 dark:border-rose-800/80 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-bold shadow-xs animate-scale-in">
-              <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 stroke-[2.5] shrink-0" />
+              <X className="w-4 h-4 text-rose-600 dark:text-rose-400 stroke-[2.5] shrink-0" />
               <span>Độ khớp: {sAccuracy}%</span>
             </div>
           )

@@ -11,12 +11,19 @@ import {
   RotateCcw,
   RotateCw,
   Bookmark,
+  BookmarkCheck,
+  BookmarkX,
   Shuffle,
   Copy,
   Flag,
+  Mic,
   MicOff,
   Bell,
   Headphones,
+  CheckCircle2,
+  Clock,
+  Info,
+  Trophy,
 } from "lucide-react";
 
 const cardStyleMap: Record<ToastType, string> = {
@@ -37,7 +44,7 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
   const lowerMsg = (toast.message || "").toLowerCase();
   const combined = `${lowerTitle} ${lowerMsg}`;
 
-  // 1. Context: Đã đạt / Hoàn thành bài / Xuất sắc
+  // 1. Context: Đã đạt / Hoàn thành bài / Xuất sắc / Chúc mừng
   if (
     combined.includes("đã đạt") ||
     combined.includes("hoàn thành") ||
@@ -46,7 +53,7 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
   ) {
     return {
       bg: "bg-emerald-600 text-white shadow-xs",
-      icon: <Sparkles className="w-4.5 h-4.5 stroke-[2.2]" />,
+      icon: <Trophy className="w-4.5 h-4.5 stroke-[2.2]" />,
     };
   }
 
@@ -62,7 +69,19 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
     };
   }
 
-  // 3. Context: Tua lùi
+  // 3. Context: Hết thời gian / Timeout
+  if (
+    combined.includes("hết thời gian") ||
+    combined.includes("thời gian") ||
+    combined.includes("timeout")
+  ) {
+    return {
+      bg: "bg-amber-500 text-white shadow-xs",
+      icon: <Clock className="w-4.5 h-4.5 stroke-[2.2]" />,
+    };
+  }
+
+  // 4. Context: Tua lùi
   if (combined.includes("tua lùi") || combined.includes("lùi 5s")) {
     return {
       bg: "bg-[#0059bb] text-white shadow-xs",
@@ -70,7 +89,7 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
     };
   }
 
-  // 4. Context: Tua nhanh
+  // 5. Context: Tua nhanh
   if (combined.includes("tua nhanh") || combined.includes("tiến 5s")) {
     return {
       bg: "bg-[#0059bb] text-white shadow-xs",
@@ -78,15 +97,32 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
     };
   }
 
-  // 5. Context: Sổ tay / Lưu câu / Bookmark
-  if (combined.includes("sổ tay") || combined.includes("lưu câu") || combined.includes("bookmark")) {
+  // 6. Context: Bỏ lưu / Gỡ khỏi danh sách
+  if (
+    combined.includes("bỏ lưu") ||
+    combined.includes("gỡ khỏi danh sách") ||
+    combined.includes("unbookmark")
+  ) {
     return {
-      bg: "bg-[#0059bb] text-white shadow-xs",
-      icon: <Bookmark className="w-4.5 h-4.5 stroke-[2.2]" />,
+      bg: "bg-slate-600 dark:bg-slate-700 text-white shadow-xs",
+      icon: <BookmarkX className="w-4.5 h-4.5 stroke-[2.2]" />,
     };
   }
 
-  // 6. Context: Đổi bài ngẫu nhiên / Shuffle
+  // 7. Context: Sổ tay / Lưu câu / Lưu từ / Bookmark
+  if (
+    combined.includes("sổ tay") ||
+    combined.includes("lưu câu") ||
+    combined.includes("lưu từ") ||
+    combined.includes("bookmark")
+  ) {
+    return {
+      bg: "bg-[#0059bb] text-white shadow-xs",
+      icon: <BookmarkCheck className="w-4.5 h-4.5 stroke-[2.2]" />,
+    };
+  }
+
+  // 8. Context: Đổi bài ngẫu nhiên / Shuffle
   if (combined.includes("ngẫu nhiên") || combined.includes("đổi bài") || combined.includes("shuffle")) {
     return {
       bg: "bg-[#0059bb] text-white shadow-xs",
@@ -94,7 +130,7 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
     };
   }
 
-  // 7. Context: Báo cáo câu / Flag
+  // 9. Context: Báo cáo câu / Flag
   if (combined.includes("báo cáo") || combined.includes("report")) {
     return {
       bg: "bg-[#0059bb] text-white shadow-xs",
@@ -102,7 +138,7 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
     };
   }
 
-  // 8. Context: Copy / Clipboard
+  // 10. Context: Copy / Clipboard
   if (combined.includes("copy") || combined.includes("sao chép") || combined.includes("clipboard")) {
     return {
       bg: "bg-emerald-600 text-white shadow-xs",
@@ -110,8 +146,13 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
     };
   }
 
-  // 9. Context: Micro / Ghi âm
-  if (combined.includes("micro") || combined.includes("ghi âm") || combined.includes("thu âm")) {
+  // 11. Context: Micro / Ghi âm / Thu âm / Phát âm
+  if (
+    combined.includes("micro") ||
+    combined.includes("ghi âm") ||
+    combined.includes("thu âm") ||
+    combined.includes("phát âm")
+  ) {
     if (toast.type === "error" || toast.type === "warning") {
       return {
         bg: "bg-rose-600 text-white shadow-xs",
@@ -120,16 +161,24 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
     }
     return {
       bg: "bg-[#0059bb] text-white shadow-xs",
+      icon: <Mic className="w-4.5 h-4.5 stroke-[2.2]" />,
+    };
+  }
+
+  // 12. Context: Nghe / Audio / Âm thanh
+  if (combined.includes("nghe") || combined.includes("audio") || combined.includes("âm thanh")) {
+    return {
+      bg: "bg-[#0059bb] text-white shadow-xs",
       icon: <Headphones className="w-4.5 h-4.5 stroke-[2.2]" />,
     };
   }
 
-  // 10. Fallback theo ToastType chuẩn Design Tokens 60-30-10
+  // 13. Fallback theo ToastType chuẩn Design Tokens 60-30-10
   switch (toast.type) {
     case "success":
       return {
         bg: "bg-emerald-600 text-white shadow-xs",
-        icon: <Sparkles className="w-4.5 h-4.5 stroke-[2.2]" />,
+        icon: <CheckCircle2 className="w-4.5 h-4.5 stroke-[2.2]" />,
       };
     case "warning":
       return {
@@ -150,20 +199,20 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
     default:
       return {
         bg: "bg-[#0059bb] text-white shadow-xs",
-        icon: <Bell className="w-4.5 h-4.5 stroke-[2.2]" />,
+        icon: <Info className="w-4.5 h-4.5 stroke-[2.2]" />,
       };
   }
 }
 
 function getToastCardStyle(toast: { type: ToastType; title: string }) {
-  if (/^CHƯA ĐẠT\b/i.test(toast.title.replace(/[🎉⚠️↺🔖📌✨⭐🔥👍👏❌✅💡]/gu, "").trim())) {
+  if (/^CHƯA ĐẠT\b/i.test(toast.title.replace(/[🎉⚠️↺🔖📌✨⭐🔥👍👏❌✅💡💾⏳🔴]/gu, "").trim())) {
     return "border-rose-200/90 dark:border-rose-800/60 bg-white/95 dark:bg-slate-900/95 shadow-[0_12px_36px_-6px_rgba(244,63,94,0.18)] dark:shadow-[0_12px_36px_-6px_rgba(0,0,0,0.7)] ring-1 ring-rose-500/15";
   }
   return cardStyleMap[toast.type];
 }
 
 function cleanEmoji(text: string): string {
-  return text.replace(/[🎉⚠️↺🔖📌✨⭐🔥👍👏❌✅💡]/gu, "").trim();
+  return text.replace(/[🎉⚠️↺🔖📌✨⭐🔥👍👏❌✅💡💾⏳🔴]/gu, "").trim();
 }
 
 function renderToastTitle(title: string) {

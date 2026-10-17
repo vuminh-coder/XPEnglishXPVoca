@@ -9,6 +9,7 @@ import {
   Clock,
   Bookmark,
   BookmarkCheck,
+  BookOpen,
 } from "lucide-react";
 import { SubMode, PracticeWord } from "../types";
 
@@ -107,7 +108,7 @@ export function PracticeWordMetadataRow({
   isCurrentBookmarked,
   onToggleBookmark,
   badgeLabel = "Từ vựng",
-  badgeIcon = <Brain className="w-3 h-3 text-[#0059bb] dark:text-sky-300" />,
+  badgeIcon = <BookOpen className="w-3 h-3 text-[#0059bb] dark:text-sky-300" />,
 }: PracticeWordMetadataRowProps) {
   const isFlashcard = badgeLabel.toLowerCase().includes("flashcard");
 

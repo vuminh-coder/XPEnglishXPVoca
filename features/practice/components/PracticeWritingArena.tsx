@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Folder, Keyboard, Lightbulb, PenLine } from "lucide-react";
+import { Folder, Keyboard, Lightbulb, PenLine, CheckCircle2, X } from "lucide-react";
 import { PracticeWord } from "../types";
 import { PracticeWordMetadataRow } from "./PracticeArenaHeader";
 
@@ -76,14 +76,19 @@ export function PracticeWritingArena({
           {/* Feedback Banner after answered */}
           {wIsAnswered && (
             <div
-              className={`inline-flex items-center gap-3 px-4 py-2 rounded-xl border text-sm font-bold shadow-2xs animate-fade-in ${
+              className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl border text-xs sm:text-sm font-bold shadow-2xs animate-fade-in ${
                 wIsCorrect
                   ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200"
                   : "bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-800 text-rose-800 dark:text-rose-200"
               }`}
             >
+              {wIsCorrect ? (
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 stroke-[2.5] shrink-0" />
+              ) : (
+                <X className="w-4 h-4 text-rose-600 dark:text-rose-400 stroke-[2.5] shrink-0" />
+              )}
               <span>{wIsCorrect ? "Chính xác! +15 XP" : "Chưa chính xác!"}</span>
-              <span className="font-mono text-base font-black uppercase text-slate-900 dark:text-white">
+              <span className="font-mono text-sm sm:text-base font-black uppercase text-slate-900 dark:text-white">
                 {currentWord.word}
               </span>
               {currentWord.ipa && (

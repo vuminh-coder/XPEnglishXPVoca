@@ -146,7 +146,7 @@ export function usePracticeSession() {
     setBookmarkedList(getBookmarkedWords());
     addToast({
       type: isSaved ? "success" : "info",
-      title: isSaved ? "Đã lưu vào Sổ tay từ vựng 💾" : "Đã bỏ lưu từ vựng",
+      title: isSaved ? "Đã lưu vào Sổ tay từ vựng" : "Đã bỏ lưu từ vựng",
       message: isSaved
         ? `+5 XP cho từ "${currentWord.word}"`
         : `Đã gỡ "${currentWord.word}" khỏi danh sách lưu.`,
@@ -342,7 +342,7 @@ export function usePracticeSession() {
       submitReview(currentWord.id || currentWord.word, 1);
       addToast({
         type: "warning",
-        title: "Hết thời gian! ⏳",
+        title: "Hết thời gian!",
         message: `Đáp án đúng là: ${currentWord.meaning}`,
       });
     } else if (subMode === "writing") {
@@ -352,7 +352,7 @@ export function usePracticeSession() {
       playWordAudio(currentWord.word);
       addToast({
         type: "warning",
-        title: "Hết thời gian! ⏳",
+        title: "Hết thời gian!",
         message: `Từ vựng chính xác là: "${currentWord.word}"`,
       });
     } else if (subMode === "speaking") {
@@ -363,7 +363,7 @@ export function usePracticeSession() {
       playWordAudio(currentWord.word);
       addToast({
         type: "warning",
-        title: "Hết thời gian! ⏳",
+        title: "Hết thời gian!",
         message: `Từ vựng chính xác là: "${currentWord.word}"`,
       });
     }
@@ -437,7 +437,7 @@ export function usePracticeSession() {
 
     addToast({
       type: "success",
-      title: "Hoàn thành buổi ôn tập từ vựng! 🎉",
+      title: "Hoàn thành buổi ôn tập từ vựng!",
       message: `Tổng điểm thưởng: +${totalEarnedXp} XP • ${mins} phút thực hành!`,
     });
   }, [totalEarnedXp, addToast]);
