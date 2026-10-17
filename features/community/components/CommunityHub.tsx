@@ -310,7 +310,7 @@ function CommunityHubContent({ initialTab }: CommunityHubProps) {
           <button
             type="button"
             onClick={handleFocusPostComposer}
-            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-[#0059bb] dark:text-sky-400 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
             title="Viết bài mới"
             aria-label="Viết bài mới"
           >

@@ -11,10 +11,10 @@ interface FeedCategoryFilterProps {
 
 const FEED_CATEGORIES = [
   { id: "all", label: "Tất cả bài viết" },
-  { id: "#hoidap", label: "#Hỏi đáp" },
-  { id: "#chiase", label: "#Chia sẻ kinh nghiệm" },
-  { id: "#ielts", label: "#IELTS / TOEIC" },
-  { id: "#thaoluan", label: "#Thảo luận chung" },
+  { id: "#hoidap", label: "Hỏi đáp" },
+  { id: "#chiase", label: "Chia sẻ kinh nghiệm" },
+  { id: "#ielts", label: "IELTS / TOEIC" },
+  { id: "#thaoluan", label: "Thảo luận chung" },
 ];
 
 export const FeedCategoryFilter: React.FC<FeedCategoryFilterProps> = ({
