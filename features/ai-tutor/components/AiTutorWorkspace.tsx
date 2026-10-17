@@ -1092,7 +1092,7 @@ export default function AiTutorWorkspace() {
   };
 
   return (
-    <div className="w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
+    <div suppressHydrationWarning className="w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
       {/* 1. APP TOP HEADER (FIXED 56PX) */}
       <AppTopHeader
         rightDesktopContent={
@@ -1108,9 +1108,9 @@ export default function AiTutorWorkspace() {
               <span className="hidden sm:inline">Lịch sử</span>
             </button>
 
-            <span className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
+            <span suppressHydrationWarning className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
               <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-              <span>{formatElapsedTime(elapsedTime)}</span>
+              <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
             </span>
 
             {isSessionCompleted ? (
@@ -1218,9 +1218,9 @@ export default function AiTutorWorkspace() {
 
                   <div className="flex items-center gap-1.5 shrink-0">
                     {/* 1. Thời Gian Luyện Nói (Luôn hiện trên mobile < lg, desktop đã có ở AppTopHeader) */}
-                    <span className="lg:hidden h-7 px-2 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1 shrink-0">
+                    <span suppressHydrationWarning className="lg:hidden h-7 px-2 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1 shrink-0">
                       <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                      <span>{formatElapsedTime(elapsedTime)}</span>
+                      <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
                     </span>
 
                     {/* 2. Nút Chấm Bài / Buổi Mới (Luôn hiện trên mobile < lg, desktop đã có ở AppTopHeader) */}
@@ -1897,7 +1897,7 @@ export default function AiTutorWorkspace() {
                   <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 text-amber-500" /> Thời gian nói
                   </span>
-                  <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-mono tabular-nums">
+                  <p suppressHydrationWarning className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-mono tabular-nums">
                     {formatElapsedTime(elapsedTime)}
                   </p>
                 </div>

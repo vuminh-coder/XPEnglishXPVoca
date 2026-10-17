@@ -778,9 +778,9 @@ export default function AiConversationPage() {
               <span className="hidden sm:inline">Lịch sử</span>
             </button>
 
-            <span className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
+            <span suppressHydrationWarning className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
               <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-              <span>{formatElapsedTime(elapsedTime)}</span>
+              <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
             </span>
 
             {isSessionCompleted ? (
