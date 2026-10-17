@@ -68,10 +68,6 @@ export function ShadowingListingSkeleton() {
           <ShimmerBox className="h-9 w-44 sm:w-56 lg:w-64 xl:w-72 rounded-xl hidden lg:block" />
           {/* Action button shimmer */}
           <ShimmerBox className="h-9 w-24 sm:w-36 rounded-xl bg-blue-600/30 shrink-0" />
-          {/* Gamification Streak chip shimmer */}
-          <ShimmerBox className="h-8.5 w-12 rounded-xl bg-orange-500/20 shrink-0" />
-          {/* Gamification Gold chip shimmer */}
-          <ShimmerBox className="h-8.5 w-12 rounded-xl bg-amber-500/20 hidden xs:block shrink-0" />
           {/* User Avatar shimmer */}
           <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
         </div>

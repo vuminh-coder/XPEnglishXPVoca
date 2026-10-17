@@ -321,20 +321,21 @@ export function ShadowingListingView({
         searchProps={{
           value: listingSearch,
           onChange: setListingSearch,
-          placeholder: "Tìm bài nói theo tên, chủ đề...",
+          placeholder: "Tìm kiếm bài nói...",
           onClear: () => setListingSearch(""),
         }}
-        showGamificationStats={true}
         rightDesktopContent={
-          <button
-            type="button"
-            onClick={onOpenExplorerModal}
-            className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-          >
-            <BookOpen className="w-4 h-4" />
-            <span className="hidden sm:inline">Khám phá bài học</span>
-            <span className="sm:hidden">Khám phá</span>
-          </button>
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={onOpenExplorerModal}
+              className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span className="hidden sm:inline">Khám phá bài học</span>
+              <span className="sm:hidden">Khám phá</span>
+            </button>
+          </div>
         }
       >
         <StudySuiteNavTabs />
