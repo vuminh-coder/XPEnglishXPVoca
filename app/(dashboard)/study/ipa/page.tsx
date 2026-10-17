@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { Suspense, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Mic } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
 import { useUserStore, DEFAULT_LEARNER_USER } from "@/stores/userStore";
@@ -15,10 +15,14 @@ import {
   IpaHeroGreeting,
   IpaMatrixBoard,
   IpaSound,
+  resolveIpaSound,
 } from "@/features/ipa";
 
-export default function IpaStudioPage() {
+function IpaStudioContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const soundParam = searchParams?.get("sound");
+
   const { user: authUser } = useAuthStore();
   const storeUser = useUserStore((s) => s.user);
   const user = authUser || storeUser || DEFAULT_LEARNER_USER;
@@ -29,10 +33,31 @@ export default function IpaStudioPage() {
   const matrixSearchQuery = useIpaCatalogStore((s) => s.matrixSearchQuery);
   const setMatrixSearchQuery = useIpaCatalogStore((s) => s.setMatrixSearchQuery);
   const selectedSound = useIpaCatalogStore((s) => s.matrixSelectedSound);
+  const setSelectedSound = useIpaCatalogStore((s) => s.setMatrixSelectedSound);
   const averageScore = getAverageScore();
   const practicedCount = Math.max(Object.keys(practiceSoundScores).length, 7);
 
   useStudyTimeTracker("speaking");
+
+  // Keep store's selectedSound in sync with URL searchParams (including direct link & browser back/forward)
+  useEffect(() => {
+    if (soundParam) {
+      const resolved = resolveIpaSound(soundParam);
+      if (resolved) {
+        setSelectedSound(resolved);
+      }
+    } else {
+      setSelectedSound(null);
+    }
+  }, [soundParam, setSelectedSound]);
+
+  const handleSelectSound = (sound: IpaSound | null) => {
+    if (sound) {
+      router.push(`/study/ipa?sound=${sound.id}`, { scroll: false });
+    } else {
+      router.push(`/study/ipa`, { scroll: false });
+    }
+  };
 
   const handleGoToPracticeLab = (sound: IpaSound) => {
     router.push(`/study/ipa/practice?sound=${sound.id}`);
@@ -86,8 +111,19 @@ export default function IpaStudioPage() {
         )}
 
         {/* 2. MAIN 44-SOUND MATRIX BOARD (OR IN-PAGE DETAIL VIEW) */}
-        <IpaMatrixBoard onGoToPracticeLab={handleGoToPracticeLab} />
+        <IpaMatrixBoard
+          onSelectSound={handleSelectSound}
+          onGoToPracticeLab={handleGoToPracticeLab}
+        />
       </PageEntranceWrapper>
     </div>
+  );
+}
+
+export default function IpaStudioPage() {
+  return (
+    <Suspense fallback={<div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950" />}>
+      <IpaStudioContent />
+    </Suspense>
   );
 }

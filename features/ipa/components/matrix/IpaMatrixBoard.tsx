@@ -22,6 +22,7 @@ import {
   getSoundDisplayHint,
   getSoundCategoryTheme,
   getSoundMannerFeature,
+  resolveIpaSound,
 } from "../../data/ipaData";
 import { IpaSoundCardV2 } from "./IpaSoundCardV2";
 import { IpaSoundDetailModal } from "./IpaSoundDetailModal";
@@ -35,11 +36,13 @@ import { useIpaCatalogStore, IpaMatrixCategory } from "@/stores/ipaCatalogStore"
 
 export interface IpaMatrixBoardProps {
   onGoToPracticeLab?: (sound: IpaSound) => void;
+  onSelectSound?: (sound: IpaSound | null) => void;
   className?: string;
 }
 
 export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
   onGoToPracticeLab,
+  onSelectSound,
   className = "",
 }) => {
   const activeTab = useIpaCatalogStore((s) => s.matrixCategoryTab);
@@ -130,6 +133,29 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
   const [isPlayingIsolated, setIsPlayingIsolated] = useState(false);
   const [activePracticeWord, setActivePracticeWord] = useState<string | null>(null);
 
+  // Sync selected sound with URL query parameter on mount & popstate
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const syncSoundFromUrl = () => {
+        const params = new URLSearchParams(window.location.search);
+        const soundParam = params.get("sound");
+        if (soundParam) {
+          const resolved = resolveIpaSound(soundParam);
+          if (resolved) {
+            setSelectedSound(resolved);
+            return;
+          }
+        }
+        // If no sound query parameter is present, return to matrix board
+        setSelectedSound(null);
+      };
+
+      syncSoundFromUrl();
+      window.addEventListener("popstate", syncSoundFromUrl);
+      return () => window.removeEventListener("popstate", syncSoundFromUrl);
+    }
+  }, [setSelectedSound]);
+
   React.useEffect(() => {
     if (selectedSound) {
       setActivePracticeWord(selectedSound.keyWord);
@@ -140,6 +166,13 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
     stopIpaAudio();
     stopTTS();
     setSelectedSound(sound);
+    if (onSelectSound) {
+      onSelectSound(sound);
+    } else if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("sound", sound.id);
+      window.history.pushState(null, "", url.toString());
+    }
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -153,6 +186,13 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
     stopIpaAudio();
     stopTTS();
     setSelectedSound(null);
+    if (onSelectSound) {
+      onSelectSound(null);
+    } else if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("sound");
+      window.history.pushState(null, "", url.toString());
+    }
   };
 
   const handlePlayIsolatedSound = () => {

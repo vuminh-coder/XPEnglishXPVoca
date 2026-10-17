@@ -26,6 +26,7 @@ import {
   CONSONANTS,
   IpaSound,
   getSoundDisplayHint,
+  resolveIpaSound,
 } from "../../data/ipaData";
 import { IpaSoundBadge } from "../shared/IpaSoundBadge";
 import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
@@ -62,7 +63,18 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
   const recordPracticeScore = useIpaCatalogStore((s) => s.recordPracticeScore);
 
   const selectedSoundId = initialSoundId || storeSoundId || ALL_IPA_SOUNDS[0].id;
-  const setSelectedSoundId = setStoreSoundId;
+
+  const handleSelectSoundId = useCallback(
+    (id: string, updateUrl: boolean = true) => {
+      setStoreSoundId(id);
+      if (updateUrl && typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.searchParams.set("sound", id);
+        window.history.replaceState(null, "", url.toString());
+      }
+    },
+    [setStoreSoundId]
+  );
 
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
@@ -70,12 +82,31 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  // Sync initial sound or incoming initialSoundId prop
   useEffect(() => {
     if (initialSoundId) {
-      setSelectedSoundId(initialSoundId);
+      handleSelectSoundId(initialSoundId, true);
       setActiveWordTarget(null);
     }
-  }, [initialSoundId]);
+  }, [initialSoundId, handleSelectSoundId]);
+
+  // Sync with browser back/forward buttons (popstate)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handlePopState = () => {
+        const params = new URLSearchParams(window.location.search);
+        const soundParam = params.get("sound");
+        if (soundParam) {
+          const resolved = resolveIpaSound(soundParam);
+          if (resolved) {
+            handleSelectSoundId(resolved.id, false);
+          }
+        }
+      };
+      window.addEventListener("popstate", handlePopState);
+      return () => window.removeEventListener("popstate", handlePopState);
+    }
+  }, [handleSelectSoundId]);
 
   // Current Sound Object
   const currentSound = useMemo(() => {
@@ -116,15 +147,15 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
 
   const handlePrevSound = useCallback(() => {
     stopIpaAudio();
-    setSelectedSoundId(prevSound.id);
+    handleSelectSoundId(prevSound.id);
     setActiveWordTarget(null);
-  }, [prevSound]);
+  }, [prevSound, handleSelectSoundId]);
 
   const handleNextSound = useCallback(() => {
     stopIpaAudio();
-    setSelectedSoundId(nextSound.id);
+    handleSelectSoundId(nextSound.id);
     setActiveWordTarget(null);
-  }, [nextSound]);
+  }, [nextSound, handleSelectSoundId]);
 
   const handleCategoryChange = useCallback(
     (newCategory: SoundCategoryFilter) => {
@@ -137,11 +168,11 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
       // If current sound is not in the new category, switch to the first sound in that category
       if (!targetList.some((s) => s.id === selectedSoundId)) {
         stopIpaAudio();
-        setSelectedSoundId(targetList[0].id);
+        handleSelectSoundId(targetList[0].id);
         setActiveWordTarget(null);
       }
     },
-    [selectedSoundId]
+    [selectedSoundId, handleSelectSoundId]
   );
 
   // Check scroll boundary limits for auto-hiding scroll chevrons
@@ -365,7 +396,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   type="button"
                   onClick={() => {
                     stopIpaAudio();
-                    setSelectedSoundId(sound.id);
+                    handleSelectSoundId(sound.id);
                     setActiveWordTarget(null);
                   }}
                   className={`relative min-w-[50px] h-10 px-3 rounded-xl font-sans font-bold text-sm shrink-0 transition-all cursor-pointer flex flex-col items-center justify-center gap-0.5 ${

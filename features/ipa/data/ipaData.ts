@@ -1379,6 +1379,61 @@ export function getIpaSoundById(id: string): IpaSound | undefined {
   return ALL_IPA_SOUNDS.find((sound) => sound.id === id);
 }
 
+/**
+ * Resolve an IPA sound from a URL query parameter (by sound ID, symbol, slug, or keyword)
+ * Supports: 'c_p', 'p', '/p/', 'pen', 'v_i_long', 'i:', 'iː', 'sheep', etc.
+ */
+export function resolveIpaSound(param?: string | null): IpaSound | undefined {
+  if (!param) return undefined;
+  const rawParam = decodeURIComponent(param).trim().toLowerCase();
+  if (!rawParam) return undefined;
+
+  // Clean parameter: strip leading/trailing slashes (e.g. "/p/" -> "p")
+  const cleanParam = rawParam.replace(/^\/+|\/+$/g, "").trim();
+  if (!cleanParam) return undefined;
+
+  // 1. Direct ID match (e.g. "c_p", "v_i_long", "d_ay")
+  const byId = ALL_IPA_SOUNDS.find((s) => s.id.toLowerCase() === cleanParam);
+  if (byId) return byId;
+
+  // 2. Exact or normalized symbol match (e.g. "p", "b", "iː", "i:", "e", "uː", "u:")
+  const bySymbol = ALL_IPA_SOUNDS.find((s) => {
+    const sym = s.symbol.toLowerCase();
+    const symColons = sym.replace(/ː/g, ":");
+    const symNoLength = sym.replace(/ː/g, "");
+    return (
+      sym === cleanParam ||
+      symColons === cleanParam ||
+      symNoLength === cleanParam
+    );
+  });
+  if (bySymbol) return bySymbol;
+
+  // 3. Normalized ID match with prefix omitted (e.g. "p" -> "c_p", "i_long" -> "v_i_long", "ay" -> "d_ay")
+  const normalizedSlug = cleanParam.replace(/-/g, "_");
+  const byPrefix = ALL_IPA_SOUNDS.find(
+    (s) =>
+      s.id.toLowerCase() === `c_${normalizedSlug}` ||
+      s.id.toLowerCase() === `v_${normalizedSlug}` ||
+      s.id.toLowerCase() === `d_${normalizedSlug}`
+  );
+  if (byPrefix) return byPrefix;
+
+  // 4. Primary keyword match (e.g. "pen" for /p/, "see" for /iː/, "cup" for /ʌ/)
+  const byPrimaryKeyword = ALL_IPA_SOUNDS.find(
+    (s) => s.keyWord.toLowerCase() === cleanParam
+  );
+  if (byPrimaryKeyword) return byPrimaryKeyword;
+
+  // 5. Example word fallback match (e.g. "sheep" for /iː/)
+  const byExample = ALL_IPA_SOUNDS.find((s) =>
+    s.examples.some((ex) => ex.word.toLowerCase() === cleanParam)
+  );
+  if (byExample) return byExample;
+
+  return undefined;
+}
+
 const SOUND_DISPLAY_HINTS: Record<string, string> = {
   // 12 Monophthongs
   v_i_long: "i dài (cười)",

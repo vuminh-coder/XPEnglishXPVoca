@@ -12,6 +12,7 @@ import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAn
 import {
   IpaHeroGreeting,
   IpaDedicatedPracticeLab,
+  resolveIpaSound,
 } from "@/features/ipa";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
@@ -19,6 +20,8 @@ function PracticeLabContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const soundParam = searchParams?.get("sound") || undefined;
+  const resolvedSound = resolveIpaSound(soundParam);
+  const initialSoundId = resolvedSound?.id || undefined;
 
   const { user: authUser } = useAuthStore();
   const storeUser = useUserStore((s) => s.user);
@@ -88,7 +91,7 @@ function PracticeLabContent() {
         />
 
         {/* 2. DEDICATED PRACTICE LAB STUDIO (ĐÃ NÂNG CẤP CAO CẤP) */}
-        <IpaDedicatedPracticeLab initialSoundId={soundParam} />
+        <IpaDedicatedPracticeLab initialSoundId={initialSoundId} />
       </PageEntranceWrapper>
     </div>
   );

@@ -6445,6 +6445,12 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - **Dàn Phẳng 1 Hàng Tinh Gọn & Cặp Nút Nghe 50% - 50%**:
         * Hàng 1: Giếng biểu tượng âm, Badge cơ chế thanh quản và Badge đặc tính cấu âm nằm thẳng hàng ngang bên trái; Khối từ mẫu đại diện (`Từ mẫu: Pen /pen/`) đối xứng góc phải. Lược bỏ nhãn chữ dư thừa giúp giảm hơn 50% chiều cao khối, cực kỳ thoáng đãng trên cả mobile và desktop.
         * Hàng 2: Cặp nút hành động nhanh (`Nghe âm /{sound.symbol}/` và `Nghe từ: {sound.keyWord}`) được tinh chỉnh chiều cao gọn gàng `h-9 sm:h-10`, dàn đều 50% - 50% theo toàn bộ chiều rộng.
+      - **Đồng Bộ URL Query Parameter Chuẩn Hóa Theo Chuẩn Quốc Tế (`?sound=...`)**:
+        * Tự động phản ánh và đồng bộ mã âm chuẩn vào URL khi chọn âm trên Bảng ma trận IPA (`/study/ipa?sound=c_p`), cho phép chia sẻ liên kết trực tiếp, đánh dấu trang (bookmark) và hỗ trợ trọn vẹn điều hướng lịch sử trình duyệt Back/Forward (`popstate`).
+        * Khi bấm nút "Quay lại bảng âm", URL tự động gỡ bỏ tham số `sound` và trở về `/study/ipa` gốc.
+        * Khi bấm "Vào phòng học chuyên sâu", tự động chuyển tiếp chuẩn mực tới `/study/ipa/practice?sound=c_p`.
+        * Khi chuyển đổi qua lại giữa 44 âm ngay bên trong Phòng thực hành AI, URL tự động cập nhật qua `replaceState` mà không làm đầy lịch sử duyệt web.
+        * Xây dựng bộ phân giải thông minh đa năng `resolveIpaSound(param)`: tự động nhận diện cả sound ID (`c_p`), ký hiệu IPA (`p`, `iː`, `i:`), ký hiệu có dấu gạch chéo (`/p/`), slug rút gọn (`th_unvoiced`), từ khóa đại diện (`pen`, `see`) và từ vựng ví dụ (`sheep`).
       - **Trải Nghiệm Luyện Âm Trong Trang Tinh Gọn (In-Page Sound Studio)**:
         * Thay thế modal nổi choán màn hình bằng không gian hiển thị liền mạch trong trang, hạ thấp chiều cao khối nhận diện âm giúp người học tập trung ngay vào mục tiêu phát âm, thử giọng và kiểm tra micro.
         * Nút quay lại ("Bảng âm IPA") được neo trực quan ngay phía trên mục tiêu phát âm bên trái; Nút điều hướng vào phòng thực hành chuyên sâu ("Vào phòng luyện") bố trí đối xứng bên phải.

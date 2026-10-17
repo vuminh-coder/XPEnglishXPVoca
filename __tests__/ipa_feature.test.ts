@@ -26,6 +26,7 @@ import {
   IpaSagittalCrossSection,
   IpaFrontalLipShape,
   IpaAnatomyViewer,
+  resolveIpaSound,
 } from "@/features/ipa";
 
 describe("Interactive IPA Feature Data & Integrity Suite", () => {
@@ -292,6 +293,58 @@ describe("Interactive IPA Feature Data & Integrity Suite", () => {
     expect(typeof IpaSagittalCrossSection).toBe("function");
     expect(typeof IpaFrontalLipShape).toBe("function");
     expect(typeof IpaAnatomyViewer).toBe("function");
+  });
+
+  describe("resolveIpaSound URL query parameter resolver", () => {
+    it("should resolve sound by exact ID", () => {
+      const sound = resolveIpaSound("c_p");
+      expect(sound).toBeDefined();
+      expect(sound?.id).toBe("c_p");
+      expect(sound?.symbol).toBe("p");
+    });
+
+    it("should resolve sound by exact symbol or symbol with colons", () => {
+      const p = resolveIpaSound("p");
+      expect(p?.id).toBe("c_p");
+
+      const iLong = resolveIpaSound("iː");
+      expect(iLong?.id).toBe("v_i_long");
+
+      const iColon = resolveIpaSound("i:");
+      expect(iColon?.id).toBe("v_i_long");
+    });
+
+    it("should resolve sound when enclosed in slashes", () => {
+      const pSlash = resolveIpaSound("/p/");
+      expect(pSlash?.id).toBe("c_p");
+
+      const bSlash = resolveIpaSound("/b/");
+      expect(bSlash?.id).toBe("c_b");
+    });
+
+    it("should resolve sound by keyword", () => {
+      const pen = resolveIpaSound("pen");
+      expect(pen?.id).toBe("c_p");
+
+      const sheep = resolveIpaSound("sheep");
+      expect(sheep?.id).toBe("v_i_long");
+    });
+
+    it("should resolve sound by normalized slug without prefix", () => {
+      const th = resolveIpaSound("th_unvoiced");
+      expect(th?.id).toBe("c_th_unvoiced");
+
+      const ear = resolveIpaSound("ear");
+      expect(ear?.id).toBe("d_ear");
+    });
+
+    it("should return undefined for empty or invalid query values", () => {
+      expect(resolveIpaSound(undefined)).toBeUndefined();
+      expect(resolveIpaSound(null)).toBeUndefined();
+      expect(resolveIpaSound("")).toBeUndefined();
+      expect(resolveIpaSound("   ")).toBeUndefined();
+      expect(resolveIpaSound("non_existent_xyz")).toBeUndefined();
+    });
   });
 });
 
