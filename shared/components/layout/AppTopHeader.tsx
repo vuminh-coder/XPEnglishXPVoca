@@ -279,7 +279,7 @@ export function AppTopHeader({
 
   return (
     <div
-      className={`w-full h-14 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 ${
+      className={`w-full h-14 bg-gradient-to-b from-slate-100/90 via-slate-50/95 to-white/95 dark:from-slate-800/80 dark:via-slate-900/90 dark:to-slate-900/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 ${
         sticky ? "sticky top-0 z-30" : "relative"
       } ${className}`}
     >
