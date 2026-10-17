@@ -61,8 +61,8 @@ export function PracticeArenaNavigation({
         <span>Câu trước</span>
       </button>
 
-      {/* Feedback Status / Center Message */}
-      <div className="text-center px-1 flex-1 min-w-0 flex items-center justify-center">
+      {/* Feedback Status / Center Message (Desktop only - hidden on mobile to keep clean thumb-friendly navigation) */}
+      <div className="hidden sm:flex text-center px-1 flex-1 min-w-0 items-center justify-center">
         {subMode === "quiz" && qIsAnswered && (
           qIsCorrect ? (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300/80 dark:border-emerald-800/80 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-black shadow-xs animate-scale-in">

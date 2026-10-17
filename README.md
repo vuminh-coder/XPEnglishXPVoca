@@ -6591,6 +6591,7 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
    - **Phân nhóm Spacing & Grouping chuẩn Desktop**: 
      - Tách biệt rõ ràng 3 nhóm chức năng: Nhóm chỉ số bài học (`Câu 1/25`, `+0 XP`, `00:00`) ── Vách ngăn phân tách ── Nút hành động CTA (`Kết thúc` / `Luyện lại`) ── Vách ngăn phân tách ── Nhóm hồ sơ người dùng (`🔥 Streak`, `Avatar`).
      - Loại bỏ hiện tượng kẹp nút hành động giữa các chip thông số tĩnh, nâng cấp toàn diện tính thẩm mỹ và công thái học theo Quy tắc 3 & 18 UI/UX.
+   - **Khử khối phản hồi chật chội ở thanh điều hướng đáy Mobile (`PracticeArenaNavigation.tsx`)**: Ẩn khối badge phản hồi trạng thái ở giữa (`Chính xác! +10 XP`, `Chưa đúng!`, `Chuẩn xác!`) trên màn hình điện thoại (`hidden sm:flex`). Nhờ đó, 2 nút điều hướng `Câu trước` và `Câu tiếp theo / Bỏ qua` có đầy đủ không gian ngón tay cái thao tác thoải mái, không bị chèn ép ép dòng gây mất thẩm mỹ.
 
 ---
 
