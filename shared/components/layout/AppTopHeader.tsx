@@ -279,40 +279,31 @@ export function AppTopHeader({
 
   return (
     <div
-      className={`w-full h-14 bg-gradient-to-b from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
+      className={`w-full h-[50px] sm:h-14 bg-gradient-to-b from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-md px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4 select-none shrink-0 border-b border-slate-200/80 dark:border-slate-800 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
         sticky ? "sticky top-0 z-30" : "relative"
       } ${className}`}
     >
-      {/* ─── Fading Ambient Border Bottom (Hòa trộn êm ái với nền dưới chữ) ─── */}
-      <div
-        className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-slate-200/60 dark:via-slate-800/70 to-transparent pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-full inset-x-0 h-1.5 bg-gradient-to-b from-slate-900/[0.02] dark:from-black/15 to-transparent pointer-events-none"
-        aria-hidden="true"
-      />
       {/* ─── LEFT SECTION: Hamburger Toggle / Back + Custom Page Mode Switcher ─── */}
-      <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         {onBack ? (
           <button
             type="button"
             onClick={onBack}
-            className="w-10 h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
             aria-label="Quay lại"
             title="Quay lại"
           >
-            <ArrowLeft className="w-5.5 h-5.5 sm:w-5 sm:h-5 stroke-[2.2] sm:stroke-[2]" />
+            <ArrowLeft className="w-5 h-5 stroke-[2.2] sm:stroke-[2]" />
           </button>
         ) : (
           <button
             type="button"
             onClick={toggleSidebar}
-            className="lg:hidden w-10 h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
             aria-label="Mở danh mục thanh bên"
             title="Mở thanh bên"
           >
-            <Menu className="w-6 h-6 sm:w-5 sm:h-5 stroke-[2.2]" />
+            <Menu className="w-5.5 h-5.5 sm:w-5 sm:h-5 stroke-[2.2]" />
           </button>
         )}
 
@@ -371,20 +362,20 @@ export function AppTopHeader({
           <button
             type="button"
             onClick={() => setIsMobileSearchOpen(true)}
-            className="lg:hidden w-10 h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
             title="Mở tìm kiếm"
             aria-label="Mở tìm kiếm"
           >
-            <Search className="w-5.5 h-5.5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
+            <Search className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
           </button>
         ) : (
           <Link
             href="/vocabulary"
-            className="lg:hidden w-10 h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
             title="Tìm kiếm"
             aria-label="Tìm kiếm"
           >
-            <Search className="w-5.5 h-5.5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
+            <Search className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
           </Link>
         )}
 
