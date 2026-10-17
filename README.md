@@ -6279,6 +6279,14 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * TypeScript Verification (`npx tsc --noEmit`): **0 Lỗi (Zero Errors)**.
         * Toàn bộ các bộ kiểm thử liên quan (`streak_database_and_xp_level.test.ts`, `analytics_xp_standards.test.ts`): **PASS 100%**.
 
+  23. **Tối Ưu Hóa Bộ Chuyển Cấp Độ Kho Từ Vựng Trên Mobile ([`VocabularyThemesClientList.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/vocabulary/VocabularyThemesClientList.tsx))**:
+      - **Chia Đôi Độ Rộng (50/50 Split) Trên Mobile**:
+        * Nâng cấp bộ chuyển đổi cấp độ dạng Segmented Pill: trên thiết bị di động, container mở rộng toàn bộ chiều ngang (`w-full`) và hai nút "60 Cơ Bản" / "155 Nâng Cao" được phân bổ tỷ lệ cân đối chính xác 50% mỗi bên (`flex-1` kết hợp `justify-center`).
+        * Triệt tiêu hoàn toàn khoảng xám trống bất đối xứng ở bên phải trên màn hình điện thoại.
+        * Lớp trượt nổi `motion.div` mở rộng tự nhiên ôm trọn nửa nút tương ứng với hiệu ứng spring êm ái.
+      - **Bảo Toàn 100% Giao Diện Desktop**:
+        * Trên màn hình lớn (`sm:` trở lên), duy trì kích thước tự nhiên tinh gọn (`sm:w-auto`, `sm:inline-flex`, `sm:flex-initial`), hoàn toàn không làm xáo trộn bố cục danh mục từ vựng trên Desktop.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

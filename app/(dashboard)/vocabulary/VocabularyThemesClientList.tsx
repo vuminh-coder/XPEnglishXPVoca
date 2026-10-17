@@ -175,11 +175,11 @@ export default function VocabularyThemesClientList({
               {/* Action Controls: Level Mode Switcher + Smart Search Input Dock */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full md:w-auto shrink-0">
                 {/* Fluid Spring-Sliding Level Segmented Control with Real-Time Counters */}
-                <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1 shrink-0">
+                <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 flex sm:inline-flex items-center gap-1 w-full sm:w-auto shrink-0">
                   <button
                     type="button"
                     onClick={() => handleLevelChange("basic")}
-                    className="relative px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors select-none active:scale-[0.98] cursor-pointer flex items-center gap-1.5"
+                    className="relative flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors select-none active:scale-[0.98] cursor-pointer flex items-center justify-center gap-1.5"
                   >
                     {levelMode === "basic" && (
                       <motion.div
@@ -189,16 +189,16 @@ export default function VocabularyThemesClientList({
                       />
                     )}
                     <span
-                      className={`relative z-10 flex items-center gap-1.5 ${
+                      className={`relative z-10 flex items-center justify-center gap-1.5 ${
                         levelMode === "basic"
                           ? "text-[#0059bb] dark:text-sky-400 font-extrabold"
                           : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                       }`}
                     >
-                      <Compass className="w-3.5 h-3.5" />
-                      <span>60 Cơ Bản</span>
+                      <Compass className="w-3.5 h-3.5 shrink-0" />
+                      <span className="truncate">60 Cơ Bản</span>
                       {search.trim() !== "" && (
-                        <span className="px-1.5 py-0.2 rounded-md bg-blue-100 dark:bg-blue-900/60 text-[#0059bb] dark:text-sky-300 text-[10px] font-mono font-bold tabular-nums">
+                        <span className="px-1.5 py-0.2 rounded-md bg-blue-100 dark:bg-blue-900/60 text-[#0059bb] dark:text-sky-300 text-[10px] font-mono font-bold tabular-nums shrink-0">
                           {basicMatchesCount}
                         </span>
                       )}
@@ -208,7 +208,7 @@ export default function VocabularyThemesClientList({
                   <button
                     type="button"
                     onClick={() => handleLevelChange("advanced")}
-                    className="relative px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors select-none active:scale-[0.98] cursor-pointer flex items-center gap-1.5"
+                    className="relative flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors select-none active:scale-[0.98] cursor-pointer flex items-center justify-center gap-1.5"
                   >
                     {levelMode === "advanced" && (
                       <motion.div
@@ -218,16 +218,16 @@ export default function VocabularyThemesClientList({
                       />
                     )}
                     <span
-                      className={`relative z-10 flex items-center gap-1.5 ${
+                      className={`relative z-10 flex items-center justify-center gap-1.5 ${
                         levelMode === "advanced"
                           ? "text-[#0059bb] dark:text-sky-400 font-extrabold"
                           : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                       }`}
                     >
-                      <GraduationCap className="w-3.5 h-3.5" />
-                      <span>155 Nâng Cao</span>
+                      <GraduationCap className="w-3.5 h-3.5 shrink-0" />
+                      <span className="truncate">155 Nâng Cao</span>
                       {search.trim() !== "" && (
-                        <span className="px-1.5 py-0.2 rounded-md bg-blue-100 dark:bg-blue-900/60 text-[#0059bb] dark:text-sky-300 text-[10px] font-mono font-bold tabular-nums">
+                        <span className="px-1.5 py-0.2 rounded-md bg-blue-100 dark:bg-blue-900/60 text-[#0059bb] dark:text-sky-300 text-[10px] font-mono font-bold tabular-nums shrink-0">
                           {advancedMatchesCount}
                         </span>
                       )}
