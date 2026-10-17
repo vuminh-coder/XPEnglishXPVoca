@@ -17,6 +17,8 @@ import {
   CheckCircle2,
   Loader2,
   CalendarCheck,
+  Target,
+  Trophy,
 } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
 import { useUserStore, DEFAULT_LEARNER_USER } from "@/stores/userStore";
@@ -79,6 +81,7 @@ export default function DashboardPage() {
   const [selectedDayIndex, setSelectedDayIndexState] = useState<number | null>(4);
   const [leaderboardTab, setLeaderboardTabState] = useState<"week" | "month">("week");
   const [leaderboardCriterion, setLeaderboardCriterionState] = useState<"time" | "xp">("time");
+  const [mobileSideTab, setMobileSideTab] = useState<"quests" | "leaderboard">("quests");
 
   const [isCheckedInToday, setIsCheckedInToday] = useState<boolean>(false);
   const [activeDaysInWeek, setActiveDaysInWeek] = useState<string[]>([]);
@@ -733,7 +736,8 @@ export default function DashboardPage() {
                 </div>
                 <div className="min-w-0">
                   <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
-                    Phòng Luyện Writing AI & Dictation Audio Studio đã sẵn sàng!
+                    <span className="sm:hidden">Phòng Writing AI mới!</span>
+                    <span className="hidden sm:inline">Phòng Luyện Writing AI & Dictation Audio Studio đã sẵn sàng!</span>
                   </h3>
                   <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 hidden sm:block truncate">
                     Thực hành chép chính tả với bảng điều khiển âm thanh 44 sóng âm cao cấp và nhận gợi ý sửa lỗi từ AI.
@@ -825,25 +829,76 @@ export default function DashboardPage() {
               handleCheckIn={handleCheckIn}
             />
 
-            {/* 3.5. Community Leaderboard Widget with Spring Pills */}
-            <DashboardLeaderboardCard
-              leaderboardTab={leaderboardTab}
-              setLeaderboardTab={setLeaderboardTab}
-              leaderboardCriterion={leaderboardCriterion}
-              setLeaderboardCriterion={setLeaderboardCriterion}
-              isLoadingLeaderboard={isLoadingLeaderboard || !isMounted}
-              userRankInLeaderboard={userRankInLeaderboard}
-              user={user}
-              topLeaders={topLeaders}
-            />
+            {/* Mobile Tab Switcher for Quests & Leaderboard (< lg) to reduce vertical scroll fatigue */}
+            <div className="lg:hidden flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 gap-1 select-none">
+              <button
+                type="button"
+                onClick={() => setMobileSideTab("quests")}
+                className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                  mobileSideTab === "quests"
+                    ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-extrabold"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                <Target className="w-3.5 h-3.5 text-[#0059bb]" />
+                <span>Nhiệm vụ hôm nay</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileSideTab("leaderboard")}
+                className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                  mobileSideTab === "leaderboard"
+                    ? "bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-extrabold"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                }`}
+              >
+                <Trophy className="w-3.5 h-3.5 text-amber-500" />
+                <span>Bảng xếp hạng</span>
+              </button>
+            </div>
 
-            {/* 3.6. Daily Quests Card with Filter Sub-Tabs */}
-            <DashboardDailyQuestsCard
-              displayChallenges={displayChallenges}
-              isLoadingChallenges={isLoadingChallenges || !isMounted}
-              claimingChallengeId={claimingChallengeId}
-              handleClaimChallenge={handleClaimChallenge}
-            />
+            {/* Mobile View: Render only active tab to save ~400px scroll space */}
+            <div className="lg:hidden">
+              {mobileSideTab === "quests" ? (
+                <DashboardDailyQuestsCard
+                  displayChallenges={displayChallenges}
+                  isLoadingChallenges={isLoadingChallenges || !isMounted}
+                  claimingChallengeId={claimingChallengeId}
+                  handleClaimChallenge={handleClaimChallenge}
+                />
+              ) : (
+                <DashboardLeaderboardCard
+                  leaderboardTab={leaderboardTab}
+                  setLeaderboardTab={setLeaderboardTab}
+                  leaderboardCriterion={leaderboardCriterion}
+                  setLeaderboardCriterion={setLeaderboardCriterion}
+                  isLoadingLeaderboard={isLoadingLeaderboard || !isMounted}
+                  userRankInLeaderboard={userRankInLeaderboard}
+                  user={user}
+                  topLeaders={topLeaders}
+                />
+              )}
+            </div>
+
+            {/* Desktop View (>= lg): Both cards rendered stacked in full, 100% unchanged */}
+            <div className="hidden lg:flex flex-col gap-5 sm:gap-6">
+              <DashboardLeaderboardCard
+                leaderboardTab={leaderboardTab}
+                setLeaderboardTab={setLeaderboardTab}
+                leaderboardCriterion={leaderboardCriterion}
+                setLeaderboardCriterion={setLeaderboardCriterion}
+                isLoadingLeaderboard={isLoadingLeaderboard || !isMounted}
+                userRankInLeaderboard={userRankInLeaderboard}
+                user={user}
+                topLeaders={topLeaders}
+              />
+              <DashboardDailyQuestsCard
+                displayChallenges={displayChallenges}
+                isLoadingChallenges={isLoadingChallenges || !isMounted}
+                claimingChallengeId={claimingChallengeId}
+                handleClaimChallenge={handleClaimChallenge}
+              />
+            </div>
           </div>
         </div>
 

@@ -196,43 +196,50 @@ export function DashboardSkillChartCard({
       </div>
 
       {/* 5-Skill Segmented Tab Switcher with Spring LayoutId */}
-      <div
-        role="tablist"
-        className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between gap-1 overflow-x-auto no-scrollbar select-none"
-      >
-        {SKILL_TAB_CONFIGS.map((tab) => {
-          const isActive = activeSkillTab === tab.id;
-          const Icon = tab.Icon;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              id={`tab-${tab.id}`}
-              aria-selected={isActive}
-              onClick={() => setActiveSkillTab(tab.id)}
-              className={`relative flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 sm:gap-1.5 z-10 select-none ${
-                isActive
-                  ? "text-slate-900 dark:text-white shadow-2xs font-extrabold"
-                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium"
-              }`}
-            >
-              {isActive && (
-                <motion.div
-                  layoutId="activeSkillTabIndicator"
-                  transition={{
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 35,
-                  }}
-                  className="absolute inset-0 bg-white dark:bg-slate-900 rounded-lg -z-10 shadow-xs border border-slate-200/60 dark:border-slate-700/60"
-                />
-              )}
-              <Icon className="w-3.5 h-3.5 shrink-0" />
-              <span>{tab.label}</span>
-            </button>
-          );
-        })}
+      <div className="relative w-full">
+        <div
+          role="tablist"
+          className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between gap-1 overflow-x-auto no-scrollbar select-none"
+        >
+          {SKILL_TAB_CONFIGS.map((tab) => {
+            const isActive = activeSkillTab === tab.id;
+            const Icon = tab.Icon;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                id={`tab-${tab.id}`}
+                aria-selected={isActive}
+                onClick={() => setActiveSkillTab(tab.id)}
+                className={`relative flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 sm:gap-1.5 z-10 select-none ${
+                  isActive
+                    ? "text-slate-900 dark:text-white shadow-2xs font-extrabold"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium"
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="activeSkillTabIndicator"
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 35,
+                    }}
+                    className="absolute inset-0 bg-white dark:bg-slate-900 rounded-lg -z-10 shadow-xs border border-slate-200/60 dark:border-slate-700/60"
+                  />
+                )}
+                <Icon className="w-3.5 h-3.5 shrink-0" />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+        {/* Subtle Mobile Scroll Hint Fade at Right Edge */}
+        <div
+          className="sm:hidden pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-slate-100 dark:from-slate-800 to-transparent rounded-r-xl z-20"
+          aria-hidden="true"
+        />
       </div>
 
       {/* Interactive SVG Chart Waveform Canvas / 1:1 Shimmer Skeleton */}

@@ -65,8 +65,8 @@ export function DashboardHeroGreeting({
           </div>
         </div>
 
-        {/* Quick Shortlink Actions */}
-        <div className="flex items-center gap-2 shrink-0">
+        {/* Quick Shortlink Actions - Hidden on mobile (< sm) as BottomNav already provides direct tabs */}
+        <div className="hidden sm:flex items-center gap-2 shrink-0">
           <Link href="/myvideo">
             <button
               type="button"
@@ -114,7 +114,8 @@ export function DashboardHeroGreeting({
               </div>
             )}
             <div className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate leading-tight mt-0.5">
-              Chuỗi học liên tiếp
+              <span className="sm:hidden">Chuỗi ngày</span>
+              <span className="hidden sm:inline">Chuỗi học liên tiếp</span>
             </div>
           </div>
         </div>
@@ -133,7 +134,8 @@ export function DashboardHeroGreeting({
               </div>
             )}
             <div className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate leading-tight mt-0.5">
-              Thời gian luyện tập
+              <span className="sm:hidden">Thời gian học</span>
+              <span className="hidden sm:inline">Thời gian luyện tập</span>
             </div>
           </div>
         </div>
@@ -155,7 +157,8 @@ export function DashboardHeroGreeting({
               </div>
             )}
             <div className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate leading-tight mt-0.5">
-              Vốn từ đã tích lũy
+              <span className="sm:hidden">Từ tích lũy</span>
+              <span className="hidden sm:inline">Vốn từ đã tích lũy</span>
             </div>
           </div>
         </div>
@@ -189,7 +192,8 @@ export function DashboardHeroGreeting({
                 />
               </div>
               <div className="text-[9.5px] sm:text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate mt-1.5 leading-tight">
-                Tiến độ cấp độ Lv.{user?.level || 1}
+                <span className="sm:hidden">Tiến độ Lv.{user?.level || 1}</span>
+                <span className="hidden sm:inline">Tiến độ cấp độ Lv.{user?.level || 1}</span>
               </div>
             </div>
           </div>
