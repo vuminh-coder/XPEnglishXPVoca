@@ -6328,6 +6328,9 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Tách biệt rõ ràng 2 luồng: Dòng 1 cho nhãn "Gợi ý:" và từ vựng gợi ý (`words`), Dòng 2 cho mẫu câu mở đầu (`phrases`).
         * Giữ cố định đúng 2 dòng trên mobile, thiết lập chế độ lướt ngang mượt mà (`overflow-x-auto no-scrollbar whitespace-nowrap`) khi độ dài từ vựng hoặc mẫu câu vượt quá chiều rộng màn hình điện thoại, triệt tiêu hoàn toàn việc bị rớt xuống 3-4 dòng làm đẩy lệch khung nhập liệu và micro.
         * Bảo toàn 100% bố cục dòng linh hoạt (flex-wrap) trên Desktop (`lg:`).
+      - **Nâng Cấp Hình Dạng Bong Bóng Lời Thoại Bất Đối Xứng (Asymmetric Speech Bubble Shape)**:
+        * Thay thế khối hộp chữ nhật đối xứng phẳng đơn điệu bằng hình dáng bong bóng hội thoại hiện đại chuẩn iOS / Duolingo (`rounded-2xl rounded-tl-xs` cho gia sư AI trỏ về phía Avatar, và `rounded-2xl rounded-tr-xs` cho học viên).
+        * Tối ưu bề mặt thẻ trắng sáng nổi bật (`bg-white dark:bg-slate-900 border border-slate-200/90 shadow-xs`) cùng độ rộng ôm sát văn bản (`w-fit`), mang lại cảm giác đàm thoại sinh động và trực quan cao cấp.
 
 ---
 

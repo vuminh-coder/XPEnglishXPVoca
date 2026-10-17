@@ -1226,16 +1226,16 @@ export default function AiTutorWorkspace() {
                         )}
 
                         <div
-                          className={`space-y-1.5 max-w-[88%] sm:max-w-[82%] ${
-                            isAi ? "" : "items-end flex flex-col"
+                          className={`space-y-1.5 max-w-[92%] sm:max-w-[85%] ${
+                            isAi ? "w-fit" : "items-end flex flex-col ml-auto w-fit"
                           }`}
                         >
-                          {/* Chat Bubble */}
+                          {/* Chat Bubble with Asymmetrical Speech Tail Shape */}
                           <div
-                            className={`p-3 rounded-xl text-xs sm:text-sm font-medium leading-relaxed shadow-2xs transition-all ${
+                            className={`p-3.5 sm:p-4 rounded-2xl text-xs sm:text-sm font-medium leading-relaxed shadow-xs transition-all w-fit ${
                               isAi
-                                ? "bg-slate-50/90 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800 text-slate-900 dark:text-white"
-                                : "bg-gradient-to-r from-[#0059bb] to-blue-600 text-white shadow-sm"
+                                ? "bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white rounded-tl-xs"
+                                : "bg-gradient-to-r from-[#0059bb] to-blue-600 text-white shadow-xs rounded-tr-xs"
                             }`}
                           >
                             {/* Word-by-word 1-Click Interactive Text Rendering for AI */}
