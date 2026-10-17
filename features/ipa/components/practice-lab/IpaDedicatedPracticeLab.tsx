@@ -17,7 +17,6 @@ import {
   Keyboard,
   Smile,
   MoveVertical,
-  Wind,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -29,7 +28,6 @@ import {
   getSoundDisplayHint,
   resolveIpaSound,
   getSoundCategoryTheme,
-  getSoundMannerFeature,
 } from "../../data/ipaData";
 import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
 import { IpaMouthAnatomySvg } from "../shared/IpaMouthAnatomySvg";
@@ -120,9 +118,8 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
     );
   }, [selectedSoundId]);
 
-  // Visual Theme & Manner of Articulation Features
+  // Visual Theme
   const theme = useMemo(() => getSoundCategoryTheme(currentSound), [currentSound]);
-  const mannerFeature = useMemo(() => getSoundMannerFeature(currentSound), [currentSound]);
 
   // Filtered sound list based on category filter
   const displayedSounds = useMemo(() => {
@@ -268,7 +265,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
         {/* Top Navigation & Category Filter Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           {/* Category Filter Tabs with Micro Badges */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl overflow-x-auto hide-scrollbar w-full sm:w-auto">
+          <div className="grid grid-cols-4 sm:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl overflow-x-auto hide-scrollbar w-full sm:w-auto">
             {(
               [
                 { id: "all", label: "Tất cả", shortLabel: "Tất cả", count: 44, icon: Layers },
@@ -284,17 +281,17 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   key={cat.id}
                   type="button"
                   onClick={() => handleCategoryChange(cat.id)}
-                  className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-1.5 py-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 ${
                     isActive
                       ? "bg-white dark:bg-slate-700 text-[#0059bb] dark:text-sky-300 shadow-2xs"
                       : "text-slate-500 hover:text-slate-800 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-750"
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5 opacity-80" />
-                  <span className="hidden sm:inline">{cat.label}</span>
-                  <span className="sm:hidden">{cat.shortLabel}</span>
+                  <Icon className="w-3.5 h-3.5 opacity-80 shrink-0 hidden md:inline" />
+                  <span className="hidden sm:inline truncate">{cat.label}</span>
+                  <span className="sm:hidden truncate">{cat.shortLabel}</span>
                   <span
-                    className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold ${
+                    className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold shrink-0 ${
                       isActive
                         ? "bg-blue-50 text-[#0059bb] dark:bg-sky-950/60 dark:text-sky-300"
                         : "bg-slate-200/70 text-slate-500 dark:bg-slate-750 dark:text-slate-400"
@@ -307,26 +304,20 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             })}
           </div>
 
-          {/* Stepper Row: Balanced on Mobile (Left Title + Right Stepper), Symmetrical on Desktop */}
-          <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-2 shrink-0">
-            {/* Mobile Left Context Indicator (Fills left void on mobile, hidden on desktop) */}
-            <div className="flex sm:hidden items-center gap-2 min-w-0">
-              <div className="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
-                <Volume2 className="w-3.5 h-3.5" />
-              </div>
-              <div className="flex items-center gap-1.5 truncate">
-                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate">
-                  Dải âm luyện
-                </span>
-                <span
-                  className={`text-[11px] font-bold font-mono px-1.5 py-0.5 rounded-md border ${theme.badgeBg} ${theme.textColor} shrink-0`}
-                >
-                  /{currentSound.symbol}/
-                </span>
-              </div>
+          {/* Stepper Controls Bar (Dàn đều 100% trên Mobile: Bên trái hiển thị thông tin âm, Bên phải hiển thị nút chuyển) */}
+          <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto shrink-0">
+            {/* Mobile-only Current Sound Indicator (Lấp đầy khoảng trống bên trái trên mobile, dàn đều 100%) */}
+            <div className="sm:hidden flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 font-semibold min-w-0">
+              <span className="text-slate-400 text-[11px] shrink-0">Đang chọn:</span>
+              <span className="font-mono font-bold text-[#0059bb] dark:text-sky-400 text-sm shrink-0">
+                /{currentSound.symbol}/
+              </span>
+              <span className="truncate text-[11px] text-slate-500 dark:text-slate-400">
+                ({currentSound.name})
+              </span>
             </div>
 
-            {/* Desktop Keyboard shortcut hint */}
+            {/* Keyboard shortcut hint */}
             <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70 select-none shadow-2xs">
               <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
                 <Keyboard className="w-4 h-4 stroke-[2.4] text-[#0059bb] dark:text-sky-400" />
@@ -360,7 +351,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                 <ChevronLeft className="w-4 h-4" />
               </button>
 
-              <div className="px-3 flex items-center gap-1 text-xs select-none">
+              <div className="px-2.5 sm:px-3 flex items-center gap-1 text-xs select-none">
                 <span className="font-bold font-mono text-[#0059bb] dark:text-sky-400 text-[13px]">
                   {(currentCategoryIndex + 1).toString().padStart(2, "0")}
                 </span>
@@ -409,10 +400,10 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             <ChevronLeft className="w-4 h-4" />
           </button>
 
-          {/* Sound Pills Strip with Responsive Padding */}
+          {/* Sound Pills Strip */}
           <div
             ref={scrollContainerRef}
-            className="flex items-center gap-2 overflow-x-auto py-1 px-3 sm:px-11 hide-scrollbar scroll-smooth"
+            className="flex items-center gap-2 overflow-x-auto py-1 px-11 hide-scrollbar scroll-smooth"
           >
             {displayedSounds.map((sound) => {
               const isSelected = sound.id === currentSound.id;
@@ -705,79 +696,56 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
         >
           {/* Card 1: Sound Identity & Master Acoustic Controller */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-            {/* Top Identity Row: Decoupled Badges */}
-            <div className="space-y-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-              {/* Badges strip: Voicing/Category Badge + Manner Feature Badge + Hint */}
-              <div className="flex flex-wrap items-center gap-2">
-                {/* Category / Voicing Micro-Badge */}
-                <span
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${theme.badgeBg} ${theme.textColor}`}
+            {/* Top Identity Row: Dàn đều, tinh giản triệt để, loại bỏ mã/vị trí/bật hơi thừa */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3.5">
+              {/* Left: Themed Sound Glyph & Essential Badge + Title */}
+              <div className="flex items-center gap-3.5 min-w-0">
+                <div
+                  className={`w-13 h-13 sm:w-15 sm:h-15 rounded-2xl flex items-center justify-center border font-sans font-black text-2xl sm:text-3xl select-none shrink-0 shadow-2xs transition-all ${theme.badgeBg} ${theme.textColor}`}
                 >
-                  <span className={`w-2 h-2 rounded-full ${theme.dotColor}`} />
-                  <span>{theme.name}</span>
-                </span>
-
-                {/* Manner of Articulation Feature Badge (e.g. 💨 Bật hơi) */}
-                {mannerFeature && (
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    <Wind className="w-3 h-3 text-[#0059bb] dark:text-sky-400" />
-                    <span>{mannerFeature}</span>
-                  </span>
-                )}
-
-                {/* Anatomical Display Hint */}
-                <span
-                  className="text-xs font-semibold text-slate-500 dark:text-slate-400 truncate"
-                  title={getSoundDisplayHint(currentSound)}
-                >
-                  {getSoundDisplayHint(currentSound)}
-                </span>
-              </div>
-
-              {/* Sound Glyph Well + Identity + Keyword Audio Target */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
-                {/* Left: Themed Sound Glyph & Title */}
-                <div className="flex items-center gap-3.5 min-w-0">
-                  <div
-                    className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center border font-sans font-black text-2xl sm:text-3xl select-none shrink-0 shadow-2xs transition-all ${theme.badgeBg} ${theme.textColor}`}
-                  >
-                    /{currentSound.symbol}/
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate">
-                      {currentSound.name}
-                    </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
-                      <span>
-                        Mã: <code className="font-mono font-bold text-slate-700 dark:text-slate-300">{currentSound.id}</code>
-                      </span>
-                      <span>•</span>
-                      <span>Vị trí #{currentIndex + 1}/44</span>
-                    </div>
-                  </div>
+                  /{currentSound.symbol}/
                 </div>
-
-                {/* Right: Keyword Anchor Card - Interactive Audio Button */}
-                <button
-                  type="button"
-                  onClick={() => speakLessonText(currentSound.keyWord, { accent, rate: playbackRate })}
-                  className="group/word px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-blue-50/80 dark:hover:bg-slate-800 border border-slate-200/70 hover:border-blue-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all cursor-pointer text-left sm:text-right space-y-0.5 shadow-2xs active:scale-[0.98] shrink-0 min-w-0"
-                  title={`Bấm để nghe phát âm từ mẫu: "${currentSound.keyWord}"`}
-                >
-                  <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 flex items-center sm:justify-end gap-1.5 group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-400 transition-colors whitespace-nowrap">
-                    <span>Từ mẫu đại diện</span>
-                    <Volume2 className="w-3.5 h-3.5 opacity-70 group-hover/word:opacity-100 shrink-0" />
-                  </div>
-                  <div className="flex items-center sm:justify-end gap-1.5 whitespace-nowrap">
-                    <span className="font-bold text-slate-900 dark:text-white text-base capitalize group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-300 transition-colors truncate max-w-[140px]">
-                      {currentSound.keyWord}
+                <div className="min-w-0 space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold border ${theme.badgeBg} ${theme.textColor}`}
+                    >
+                      <span className={`w-2 h-2 rounded-full ${theme.dotColor}`} />
+                      <span>{theme.name}</span>
                     </span>
-                    <span className="font-mono text-xs font-bold text-[#0059bb] dark:text-sky-400 shrink-0">
-                      {currentSound.keyWordPhonetic}
+                    <span
+                      className="text-xs font-semibold text-slate-400 dark:text-slate-500 truncate max-w-[180px] sm:max-w-none"
+                      title={getSoundDisplayHint(currentSound)}
+                    >
+                      {getSoundDisplayHint(currentSound)}
                     </span>
                   </div>
-                </button>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate">
+                    {currentSound.name}
+                  </h3>
+                </div>
               </div>
+
+              {/* Right: Keyword Anchor Card - Interactive Audio Button */}
+              <button
+                type="button"
+                onClick={() => speakLessonText(currentSound.keyWord, { accent, rate: playbackRate })}
+                className="group/word px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-blue-50/80 dark:hover:bg-slate-800 border border-slate-200/70 hover:border-blue-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all cursor-pointer text-left sm:text-right space-y-0.5 shadow-2xs active:scale-[0.98] shrink-0 min-w-0"
+                title={`Bấm để nghe phát âm từ mẫu: "${currentSound.keyWord}"`}
+              >
+                <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 flex items-center sm:justify-end gap-1.5 group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-400 transition-colors whitespace-nowrap">
+                  <span>Từ mẫu đại diện</span>
+                  <Volume2 className="w-3.5 h-3.5 opacity-70 group-hover/word:opacity-100 shrink-0" />
+                </div>
+                <div className="flex items-center sm:justify-end gap-1.5 whitespace-nowrap">
+                  <span className="font-bold text-slate-900 dark:text-white text-base capitalize group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-300 transition-colors truncate max-w-[140px]">
+                    {currentSound.keyWord}
+                  </span>
+                  <span className="font-mono text-xs font-bold text-[#0059bb] dark:text-sky-400 shrink-0">
+                    {currentSound.keyWordPhonetic}
+                  </span>
+                </div>
+              </button>
             </div>
 
             {/* Master Acoustic Comparison Stage */}
