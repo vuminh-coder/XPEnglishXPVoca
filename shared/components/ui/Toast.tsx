@@ -175,7 +175,7 @@ function renderToastTitle(title: string) {
       .trim();
     return (
       <span className="inline-flex items-center gap-1.5 flex-wrap">
-        <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-bold text-[11.5px] font-sans shadow-xs tracking-tight">
+        <span className="px-1.5 py-0.5 sm:px-2 rounded-full bg-emerald-600 text-white font-bold text-[10px] sm:text-[11.5px] font-sans shadow-xs tracking-tight">
           ĐÃ ĐẠT
         </span>
         {cleanRemainder && (
@@ -193,7 +193,7 @@ function renderToastTitle(title: string) {
       .trim();
     return (
       <span className="inline-flex items-center gap-1.5 flex-wrap">
-        <span className="px-2 py-0.5 rounded-full bg-rose-600 text-white font-bold text-[11.5px] font-sans shadow-xs tracking-tight">
+        <span className="px-1.5 py-0.5 sm:px-2 rounded-full bg-rose-600 text-white font-bold text-[10px] sm:text-[11.5px] font-sans shadow-xs tracking-tight">
           CHƯA ĐẠT
         </span>
         {cleanRemainder && (
@@ -209,7 +209,7 @@ function renderToastTitle(title: string) {
     const cleanRemainder = cleaned.replace(/^HOÀN THÀNH\s*(?:BÀI\s*)?/i, "").trim();
     return (
       <span className="inline-flex items-center gap-1.5 flex-wrap">
-        <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-bold text-[11.5px] font-sans shadow-xs tracking-tight">
+        <span className="px-1.5 py-0.5 sm:px-2 rounded-full bg-emerald-600 text-white font-bold text-[10px] sm:text-[11.5px] font-sans shadow-xs tracking-tight">
           HOÀN THÀNH
         </span>
         {cleanRemainder && (
@@ -230,7 +230,7 @@ export function ToastContainer() {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed top-14 sm:top-20 inset-x-3 sm:inset-x-auto sm:right-5 z-[9999] flex flex-col items-center sm:items-end gap-2.5 pointer-events-none">
+    <div className="fixed top-[52px] sm:top-20 right-3 sm:right-5 z-[9999] flex flex-col items-end gap-2 sm:gap-2.5 pointer-events-none">
       {toasts.map((toast, index) => {
         const visual = getToastVisual(toast);
         const cardStyle = getToastCardStyle(toast);
@@ -238,25 +238,25 @@ export function ToastContainer() {
         return (
           <div
             key={toast.id}
-            className="pointer-events-auto animate-fade-in-down transition-all w-full flex justify-center sm:justify-end"
+            className="pointer-events-auto animate-fade-in-down transition-all flex justify-end"
             style={{ animationDelay: `${index * 40}ms` }}
           >
             <div
-              className={`w-full max-w-[340px] sm:max-w-sm flex items-start gap-3 rounded-2xl border p-3 sm:p-4 shadow-xl backdrop-blur-2xl transition-all relative overflow-hidden group ${cardStyle}`}
+              className={`w-auto max-w-[250px] xs:max-w-[275px] sm:max-w-sm flex items-start gap-2 sm:gap-3 rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 shadow-lg sm:shadow-xl backdrop-blur-2xl transition-all relative overflow-hidden group ${cardStyle}`}
             >
               <div className="shrink-0 pt-0.5">
                 <div
-                  className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${visual.bg}`}
+                  className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 [&_svg]:w-3.5 [&_svg]:h-3.5 sm:[&_svg]:w-4.5 sm:[&_svg]:h-4.5 ${visual.bg}`}
                 >
                   {visual.icon}
                 </div>
               </div>
-              <div className="flex-1 min-w-0 pr-1">
-                <h4 className="text-[13.5px] sm:text-sm font-bold font-sans tracking-tight text-slate-900 dark:text-white leading-snug">
+              <div className="flex-1 min-w-0 pr-0.5 sm:pr-1">
+                <h4 className="text-xs sm:text-sm font-bold font-sans tracking-tight text-slate-900 dark:text-white leading-snug">
                   {renderToastTitle(toast.title)}
                 </h4>
                 {toast.message && (
-                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed font-normal font-sans">
+                  <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 mt-0.5 sm:mt-1 leading-relaxed font-normal font-sans line-clamp-2 sm:line-clamp-none">
                     {cleanEmoji(toast.message)}
                   </p>
                 )}
@@ -264,10 +264,10 @@ export function ToastContainer() {
               <button
                 type="button"
                 onClick={() => removeToast(toast.id)}
-                className="w-6 h-6 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center cursor-pointer shrink-0 -mr-1 -mt-0.5"
+                className="w-5 h-5 sm:w-6 sm:h-6 rounded-md sm:rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center cursor-pointer shrink-0 -mr-0.5 sm:-mr-1 -mt-0.5"
                 title="Đóng thông báo"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               </button>
             </div>
           </div>
