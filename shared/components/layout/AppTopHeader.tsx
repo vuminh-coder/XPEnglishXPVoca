@@ -47,7 +47,7 @@ export interface HeaderPillContainerProps {
 export function HeaderPillContainer({ children, className = "" }: HeaderPillContainerProps) {
   return (
     <div
-      className={`p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0 max-w-full overflow-x-auto scrollbar-none ${className}`}
+      className={`p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 hidden sm:inline-flex items-center gap-0.5 shrink-0 max-w-full overflow-x-auto scrollbar-none ${className}`}
     >
       {children}
     </div>
@@ -289,7 +289,7 @@ export function AppTopHeader({
           <button
             type="button"
             onClick={onBack}
-            className="w-10 h-10 rounded-full sm:rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
+            className="w-10 h-10 rounded-full sm:rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
             aria-label="Quay lại"
             title="Quay lại"
           >
@@ -299,7 +299,7 @@ export function AppTopHeader({
           <button
             type="button"
             onClick={toggleSidebar}
-            className="lg:hidden w-10 h-10 rounded-full sm:rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
+            className="lg:hidden w-10 h-10 rounded-full sm:rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
             aria-label="Mở danh mục thanh bên"
             title="Mở thanh bên"
           >
@@ -307,8 +307,26 @@ export function AppTopHeader({
           </button>
         )}
 
-        {/* Custom Mode Switcher Pill / Left Content Slot */}
-        {children || leftContent}
+        {/* Mobile Website Brand Name (< sm) in place of header tabs */}
+        {!onBack && (
+          <Link
+            href="/dashboard"
+            className="sm:hidden flex items-center gap-1 min-w-0 select-none group"
+            title="Trang chủ XP English"
+          >
+            <span className="text-[15px] xs:text-base font-black text-slate-900 dark:text-white flex items-center gap-1 truncate font-display leading-none tracking-tight">
+              <span className="text-[#0059bb]">XP</span> English
+              <span className="text-amber-500 font-normal">|</span>
+              <span className="text-amber-500 hidden xs:inline">XP Voca</span>
+              <span className="text-amber-500 xs:hidden">Voca</span>
+            </span>
+          </Link>
+        )}
+
+        {/* Custom Mode Switcher Pill / Left Content Slot (Hidden on mobile if on normal page with tabs) */}
+        <div className={`items-center gap-2 sm:gap-3 min-w-0 ${!onBack ? "hidden sm:flex" : "flex"}`}>
+          {children || leftContent}
+        </div>
       </div>
 
       {/* ─── RIGHT SECTION: Search, Gamification, Custom Actions, Quote & User Avatar ─── */}
@@ -345,7 +363,7 @@ export function AppTopHeader({
           <button
             type="button"
             onClick={() => setIsMobileSearchOpen(true)}
-            className="lg:hidden w-10 h-10 rounded-full sm:rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
+            className="lg:hidden w-10 h-10 rounded-full sm:rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
             title="Mở tìm kiếm"
             aria-label="Mở tìm kiếm"
           >
@@ -354,7 +372,7 @@ export function AppTopHeader({
         ) : (
           <Link
             href="/vocabulary"
-            className="lg:hidden w-10 h-10 rounded-full sm:rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-700 dark:text-slate-200 border border-slate-200/60 dark:border-slate-700/60 shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
+            className="lg:hidden w-10 h-10 rounded-full sm:rounded-xl bg-slate-100/90 hover:bg-slate-200/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/90 text-slate-700 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-95 shrink-0"
             title="Tìm kiếm"
             aria-label="Tìm kiếm"
           >
