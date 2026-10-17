@@ -40,24 +40,18 @@ interface AiConversationTopBarProps {
 
 const DIFFICULTY_CONFIG: Record<
   ConversationDifficulty,
-  { label: string; badgeClass: string; desc: string }
+  { label: string; desc: string }
 > = {
   Beginner: {
     label: "Beginner",
-    badgeClass:
-      "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200/70 dark:border-emerald-800/50",
     desc: "A1-A2: Câu ngắn gọn, từ vựng thông dụng dễ tiếp thu",
   },
   Intermediate: {
     label: "Intermediate",
-    badgeClass:
-      "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 border-blue-200/70 dark:border-blue-800/50",
     desc: "B1-B2: Giao tiếp tự nhiên, cụm từ đàm thoại hàng ngày",
   },
   Advanced: {
     label: "Advanced",
-    badgeClass:
-      "bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200/70 dark:border-purple-800/50",
     desc: "C1-C2: Thành ngữ bản xứ, từ vựng chuyên sâu & phản biện",
   },
 };
@@ -376,19 +370,15 @@ export function AiConversationTopBar({
                               onSelectDifficulty(diff);
                               setIsDifficultyOpen(false);
                             }}
-                            className={`w-full text-left p-2 rounded-xl flex items-center justify-between text-xs transition-all cursor-pointer ${
+                            className={`w-full text-left p-2.5 rounded-xl flex items-center justify-between text-xs transition-all cursor-pointer ${
                               isSelected
-                                ? "bg-slate-100 dark:bg-slate-800 font-bold"
-                                : "hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                                ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold border border-blue-200/70 dark:border-blue-800/50"
+                                : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-transparent"
                             }`}
                           >
-                            <div>
-                              <div className="flex items-center gap-1.5">
-                                <span
-                                  className={`px-1.5 py-0.5 rounded text-[10px] font-bold font-mono border ${cfg.badgeClass}`}
-                                >
-                                  {diff}
-                                </span>
+                            <div className="min-w-0 flex-1 pr-2">
+                              <div className="text-xs font-bold text-slate-900 dark:text-white">
+                                {diff}
                               </div>
                               <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                                 {cfg.desc}
