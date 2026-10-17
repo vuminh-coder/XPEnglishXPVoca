@@ -36,6 +36,8 @@ import {
   History,
   CheckCircle,
   ChevronDown,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 interface SuggestedWord {
@@ -231,6 +233,26 @@ export default function AiTutorWorkspace() {
   });
   const [showChatHistoryInSummary, setShowChatHistoryInSummary] = useState(false);
   const [showVoiceModal, setShowVoiceModal] = useState(false);
+  const [isHeroHidden, setIsHeroHidden] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        return localStorage.getItem("xp_ai_tutor_hero_hidden") === "true";
+      } catch {}
+    }
+    return false;
+  });
+
+  const toggleHeroHidden = useCallback(() => {
+    setIsHeroHidden((prev) => {
+      const next = !prev;
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem("xp_ai_tutor_hero_hidden", String(next));
+        } catch {}
+      }
+      return next;
+    });
+  }, []);
 
   // Practice timer state (Frame 0 Probe)
   const [elapsedTime, setElapsedTime] = useState(() => {
@@ -1107,73 +1129,111 @@ export default function AiTutorWorkspace() {
       {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS (FITS IN 1 SCREEN ON DESKTOP & DOCKED ABOVE BOTTOMNAV ON MOBILE) */}
       <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2 sm:px-5 lg:px-6 pt-1.5 sm:pt-3 lg:pt-3 pb-[50px] lg:pb-3 flex flex-col min-h-0 overflow-hidden space-y-1.5 sm:space-y-3">
         {/* 2.1. SLIM HERO STATUS STRIP (DASHBOARD BENTO STYLE) */}
-        <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <button
-              type="button"
-              onClick={() => setShowVoiceModal(true)}
-              className="shrink-0 relative cursor-pointer group"
-              title="Nhấp để đổi giọng nói / huấn luyện viên AI"
+        <AnimatePresence initial={false}>
+          {!isHeroHidden && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden shrink-0"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-blue-50 group-hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shadow-2xs font-mono transition-colors">
-                <span>{activePersonaObj.countryCode}</span>
+              <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-2 w-full sm:w-auto">
+                  <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                    <button
+                      type="button"
+                      onClick={() => setShowVoiceModal(true)}
+                      className="shrink-0 relative cursor-pointer group"
+                      title="Nhấp để đổi giọng nói / huấn luyện viên AI"
+                    >
+                      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-blue-50 group-hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shadow-2xs font-mono transition-colors">
+                        <span>{activePersonaObj.countryCode}</span>
+                      </div>
+                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white dark:border-slate-900" />
+                    </button>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                          {isSessionCompleted
+                            ? "Báo Cáo Buổi Luyện Nói"
+                            : `Đang trò chuyện cùng ${activePersonaObj.name}`}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setShowVoiceModal(true)}
+                          className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-mono border border-blue-200/60 dark:border-blue-800/40 shadow-2xs flex items-center gap-1 cursor-pointer transition-all"
+                          title="Nhấp để đổi giọng nói / huấn luyện viên AI"
+                        >
+                          <span>{activePersonaObj.role}</span>
+                          <ChevronDown className="w-3 h-3 text-[#0059bb] dark:text-sky-400" />
+                        </button>
+                      </div>
+                      <p className="text-xs font-medium text-slate-600 dark:text-slate-300 truncate">
+                        {isSessionCompleted
+                          ? `Đã hoàn thành buổi đánh giá cùng ${activePersonaObj.name} (${activePersonaObj.accent})`
+                          : "Nói tự do bằng Micro • Bấm Micro lần 1 để nói, bấm lại lần 2 để gửi tự động"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Nút Ẩn Khối Trên Mobile */}
+                  <button
+                    type="button"
+                    onClick={toggleHeroHidden}
+                    className="sm:hidden px-2 py-1 rounded-md text-xs font-bold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 transition-all flex items-center gap-1 shrink-0 cursor-pointer active:scale-95 shadow-2xs"
+                    title="Ẩn khối thông tin này để mở rộng khung chat"
+                  >
+                    <EyeOff className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                    <span className="text-[11px]">Ẩn khối</span>
+                  </button>
+                </div>
+
+                {/* Desktop Actions & Nút Ẩn Khối Desktop */}
+                <div className="hidden sm:flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={toggleHeroHidden}
+                    className="px-2.5 py-1 rounded-md text-xs font-bold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-2xs"
+                    title="Ẩn khối thông tin này để mở rộng phòng luyện"
+                  >
+                    <EyeOff className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                    <span>Ẩn khối</span>
+                  </button>
+                </div>
+
+                {/* Mobile Right Action */}
+                <div className="flex sm:hidden items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800 pt-2">
+                  <span className="px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                    <span>{formatElapsedTime(elapsedTime)}</span>
+                  </span>
+
+                  {isSessionCompleted ? (
+                    <button
+                      type="button"
+                      onClick={handleRestartNewSession}
+                      className="h-8 px-3 rounded-lg bg-[#0059bb] text-white text-xs font-bold flex items-center gap-1 shadow-2xs"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Buổi mới</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleFinishConversation}
+                      className="h-8 px-3 rounded-lg bg-emerald-600 text-white text-xs font-bold flex items-center gap-1 shadow-2xs"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>Chấm điểm</span>
+                    </button>
+                  )}
+                </div>
               </div>
-              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white dark:border-slate-900" />
-            </button>
-
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-                  {isSessionCompleted
-                    ? "Báo Cáo Buổi Luyện Nói"
-                    : `Đang trò chuyện cùng ${activePersonaObj.name}`}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setShowVoiceModal(true)}
-                  className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-mono border border-blue-200/60 dark:border-blue-800/40 shadow-2xs flex items-center gap-1 cursor-pointer transition-all"
-                  title="Nhấp để đổi giọng nói / huấn luyện viên AI"
-                >
-                  <span>{activePersonaObj.role}</span>
-                  <ChevronDown className="w-3 h-3 text-[#0059bb] dark:text-sky-400" />
-                </button>
-              </div>
-              <p className="text-xs font-medium text-slate-600 dark:text-slate-300 truncate">
-                {isSessionCompleted
-                  ? `Đã hoàn thành buổi đánh giá cùng ${activePersonaObj.name} (${activePersonaObj.accent})`
-                  : "Nói tự do bằng Micro • Bấm Micro lần 1 để nói, bấm lại lần 2 để gửi tự động"}
-              </p>
-            </div>
-          </div>
-
-          {/* Mobile Right Action */}
-          <div className="flex sm:hidden items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800 pt-2">
-            <span className="px-2.5 py-1 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-              <span>{formatElapsedTime(elapsedTime)}</span>
-            </span>
-
-            {isSessionCompleted ? (
-              <button
-                type="button"
-                onClick={handleRestartNewSession}
-                className="h-8 px-3 rounded-lg bg-[#0059bb] text-white text-xs font-bold flex items-center gap-1 shadow-2xs"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Buổi mới</span>
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleFinishConversation}
-                className="h-8 px-3 rounded-lg bg-emerald-600 text-white text-xs font-bold flex items-center gap-1 shadow-2xs"
-              >
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Chấm điểm</span>
-              </button>
-            )}
-          </div>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* 2.2. MAIN BENTO GRID: FITS STRICTLY IN DESKTOP VIEWPORT */}
         {!isSessionCompleted ? (
@@ -1200,6 +1260,38 @@ export default function AiTutorWorkspace() {
                   </button>
 
                   <div className="flex items-center gap-1.5 shrink-0">
+                    {/* Khi khối trên bị ẩn: Hiển thị Đồng hồ & Chấm điểm trên Mobile */}
+                    {isHeroHidden && (
+                      <div className="flex sm:hidden items-center gap-1.5 shrink-0">
+                        <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1">
+                          <Clock className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                          <span>{formatElapsedTime(elapsedTime)}</span>
+                        </span>
+
+                        {isSessionCompleted ? (
+                          <button
+                            type="button"
+                            onClick={handleRestartNewSession}
+                            className="h-7 px-2 rounded-md bg-[#0059bb] text-white text-xs font-bold flex items-center gap-1 shadow-2xs active:scale-95 transition-all"
+                            title="Buổi mới"
+                          >
+                            <RotateCcw className="w-3 h-3" />
+                            <span className="hidden xs:inline">Buổi mới</span>
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={handleFinishConversation}
+                            className="h-7 px-2 rounded-md bg-emerald-600 text-white text-xs font-bold flex items-center gap-1 shadow-2xs active:scale-95 transition-all"
+                            title="Chấm điểm buổi nói"
+                          >
+                            <CheckCircle2 className="w-3 h-3 stroke-[2.5]" />
+                            <span className="hidden xs:inline">Chấm điểm</span>
+                          </button>
+                        )}
+                      </div>
+                    )}
+
                     {/* Nút Đổi Giọng Nói với Icon Bot */}
                     <button
                       type="button"
@@ -1208,7 +1300,7 @@ export default function AiTutorWorkspace() {
                       title="Đổi giọng nói / Huấn luyện viên AI"
                     >
                       <Bot className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                      <span>Đổi giọng</span>
+                      <span className="hidden xs:inline">Đổi giọng</span>
                     </button>
 
                     {/* Sound Button */}
@@ -1219,7 +1311,7 @@ export default function AiTutorWorkspace() {
                         setSoundEnabled(next);
                         useAiSessionStore.getState().setTutorSession({ soundEnabled: next });
                       }}
-                      className={`px-2.5 py-1 rounded-md text-xs font-bold border transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer ${
+                      className={`px-2 py-1 sm:px-2.5 sm:py-1 rounded-md text-xs font-bold border transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer ${
                         soundEnabled
                           ? "bg-slate-50 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-[#0059bb]"
                           : "bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/30 text-rose-600 dark:text-rose-400"
@@ -1235,6 +1327,19 @@ export default function AiTutorWorkspace() {
                         {soundEnabled ? "Bật âm" : "Tắt âm"}
                       </span>
                     </button>
+
+                    {/* Nút Mở Lại Khối Trên (Khi Đang Bị Ẩn) */}
+                    {isHeroHidden && (
+                      <button
+                        type="button"
+                        onClick={toggleHeroHidden}
+                        className="px-2 py-1 rounded-md text-xs font-bold border border-slate-200/80 dark:border-slate-700 bg-slate-100 hover:bg-blue-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 hover:text-[#0059bb] dark:text-slate-300 dark:hover:text-sky-300 transition-all shadow-2xs flex items-center gap-1 cursor-pointer active:scale-95 shrink-0"
+                        title="Hiện lại khối thông tin gia sư"
+                      >
+                        <Eye className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                        <span className="text-[11px] hidden xs:inline">Hiện khối</span>
+                      </button>
+                    )}
                   </div>
                 </div>
 

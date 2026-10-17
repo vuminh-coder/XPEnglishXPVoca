@@ -6338,6 +6338,12 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Khóa chiều cao toàn khung nhìn chuẩn xác với `h-[100dvh] max-h-[100dvh] overflow-hidden` và phần đệm đáy `pb-[50px] lg:pb-3` khớp chính xác 1:1 với chiều cao thanh điều hướng `BottomNav`.
         * Neo vững chắc khối Gợi ý 2 dòng cùng dock Micro nhập liệu ở đáy thẻ (`shrink-0 border-t`), đảm bảo luôn nằm cố định sát mép trên của BottomNav và không bao giờ bị xê dịch hay đẩy lệch.
         * Thiết lập luồng tin nhắn hội thoại độc lập (`flex-1 min-h-0 overflow-y-auto overscroll-contain`), cho phép người học vuốt lướt mượt mà toàn bộ lịch sử trò chuyện trong không gian còn lại mà không làm ảnh hưởng đến khối gợi ý và thanh điều hướng.
+      - **Nút Ẩn / Hiện Khối Thông Tin Gia Sư AI Linh Hoạt (Hero Status Strip Hide & Restore Toggle)**:
+        * Tích hợp nút bấm trực quan `[ Ẩn khối ]` (kèm icon `EyeOff`) ngay góc trên bên phải của khối thông tin gia sư AI trên cả thiết bị di động lẫn máy tính.
+        * Khi nhấp `[ Ẩn khối ]`, khối thông tin thu gọn và biến mất mượt mà với hiệu ứng hoạt họa `AnimatePresence`, giải phóng thêm hơn 100px chiều cao cho màn hình hội thoại chat.
+        * Khi khối bị ẩn, thanh tiêu đề khung chat trên mobile tự động hiển thị đồng hồ đếm giờ, nút Chấm điểm và nút `[ Hiện khối ]` (icon `Eye`) để học viên dễ dàng mở lại khối bất cứ lúc nào mà không bị gián đoạn tiến độ luyện nói.
+        * Trạng thái ẩn/hiện được tự động ghi nhớ bền vững qua `localStorage` (`xp_ai_tutor_hero_hidden`), mang lại trải nghiệm học tập liền mạch.
+
 
 
 ---
