@@ -6454,8 +6454,10 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - **Đại Tu Toàn Diện Phòng Luyện Phát Âm Chuyên Sâu (`/study/ipa/practice?sound=...`)**:
         * **Triệt tiêu nghẽn cuộn trang trên Mobile (Mobile-First Dual-Tab Studio)**: Thiết kế bộ chuyển tab kép trực quan trên Mobile (`Luyện Âm & Ghi Âm` vs `Khẩu Hình & Chi Tiết`). Đưa phòng thu âm AI Microphone và danh sách từ vựng lên ngay vùng ngón tay cái (Thumb Zone), loại bỏ hoàn toàn việc phải cuộn qua 1,500px nội dung như trước đây.
         * **Tái cấu trúc lưới Desktop cân bằng 5/12 - 7/12 (Desktop Studio Grid)**: Phân bổ cột trái 5/12 (Sơ đồ giải phẫu vòm họng SVG, 4 nano-specs khẩu hình/vị trí lưỡi/độ mở hàm/dây thanh âm, cẩm nang cấu âm có thể đóng mở) và cột phải 7/12 (Giếng biểu tượng âm nhận diện theo chủ đề màu, cặp nút nghe 50/50 âm cô lập/từ mẫu, phòng thu âm AI và bộ thẻ từ vựng mẫu).
+        * **Cân bằng thanh điều khiển chọn âm Mobile (Balanced 2-Tier Header)**: Rút gọn nhãn tab trên mobile (`Tất cả 44`, `Âm đơn 12`, `Âm đôi 8`, `Phụ âm 24`) chống cắt chữ dở dang; Bổ khuyết khối ngữ cảnh âm đang chọn bên trái hàng 2 (`Dải âm luyện /{symbol}/`) tạo thế đối xứng hoàn hảo với cụm `< 21/44 >` bên phải, loại bỏ hoàn toàn 70% khoảng trắng chết (dead whitespace); Tinh chỉnh dải trượt âm thanh `px-3 sm:px-11` tối ưu chạm lướt tự nhiên trên màn hình di động.
         * **Tách rời nhãn ngữ âm (Decoupled Badges) & Quy chuẩn màu 60-30-10**: Tách biệt rõ ràng nhãn thanh quản (Vàng Amber `#f59e0b` cho Vô thanh, Xanh Emerald `#10b981` cho Hữu thanh) và nhãn phương thức cấu âm (Biểu tượng gió `Wind` kèm `💨 Bật hơi`, Rung, Xát...). Giếng biểu tượng âm mang màu nền semantic badge tương ứng, tạo điểm nhấn cao cấp và độ tương phản tuyệt đối.
         * **Tối ưu không gian & Khử trùng lặp điều hướng**: Loại bỏ widget chào mừng cồng kềnh `IpaHeroGreeting` (tiết kiệm 420px chiều cao màn hình) và gỡ bỏ thanh stepper số 3 dư thừa ở cuối trang. Bổ sung nút "Quay lại Bảng âm" trực tiếp trên `AppTopHeader` giúp luồng điều hướng liền mạch.
+
 
 
 

@@ -268,13 +268,13 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
         {/* Top Navigation & Category Filter Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           {/* Category Filter Tabs with Micro Badges */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl overflow-x-auto hide-scrollbar">
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl overflow-x-auto hide-scrollbar w-full sm:w-auto">
             {(
               [
-                { id: "all", label: "Tất cả", count: 44, icon: Layers },
-                { id: "monophthong", label: "Nguyên âm đơn", count: 12, icon: Volume2 },
-                { id: "diphthong", label: "Nguyên âm đôi", count: 8, icon: Sparkles },
-                { id: "consonant", label: "Phụ âm", count: 24, icon: Mic },
+                { id: "all", label: "Tất cả", shortLabel: "Tất cả", count: 44, icon: Layers },
+                { id: "monophthong", label: "Nguyên âm đơn", shortLabel: "Âm đơn", count: 12, icon: Volume2 },
+                { id: "diphthong", label: "Nguyên âm đôi", shortLabel: "Âm đôi", count: 8, icon: Sparkles },
+                { id: "consonant", label: "Phụ âm", shortLabel: "Phụ âm", count: 24, icon: Mic },
               ] as const
             ).map((cat) => {
               const Icon = cat.icon;
@@ -291,7 +291,8 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5 opacity-80" />
-                  <span>{cat.label}</span>
+                  <span className="hidden sm:inline">{cat.label}</span>
+                  <span className="sm:hidden">{cat.shortLabel}</span>
                   <span
                     className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold ${
                       isActive
@@ -306,9 +307,26 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             })}
           </div>
 
-          {/* Prev / Next Controls with Clean Counter & Keyboard Hint */}
-          <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
-            {/* Keyboard shortcut hint */}
+          {/* Stepper Row: Balanced on Mobile (Left Title + Right Stepper), Symmetrical on Desktop */}
+          <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-2 shrink-0">
+            {/* Mobile Left Context Indicator (Fills left void on mobile, hidden on desktop) */}
+            <div className="flex sm:hidden items-center gap-2 min-w-0">
+              <div className="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
+                <Volume2 className="w-3.5 h-3.5" />
+              </div>
+              <div className="flex items-center gap-1.5 truncate">
+                <span className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate">
+                  Dải âm luyện
+                </span>
+                <span
+                  className={`text-[11px] font-bold font-mono px-1.5 py-0.5 rounded-md border ${theme.badgeBg} ${theme.textColor} shrink-0`}
+                >
+                  /{currentSound.symbol}/
+                </span>
+              </div>
+            </div>
+
+            {/* Desktop Keyboard shortcut hint */}
             <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70 select-none shadow-2xs">
               <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
                 <Keyboard className="w-4 h-4 stroke-[2.4] text-[#0059bb] dark:text-sky-400" />
@@ -331,7 +349,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             </div>
 
             {/* Compact Prev / Counter / Next Bar */}
-            <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-xl border border-slate-200/70 dark:border-slate-700/70 shadow-2xs">
+            <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-xl border border-slate-200/70 dark:border-slate-700/70 shadow-2xs shrink-0">
               <button
                 type="button"
                 onClick={handlePrevSound}
@@ -391,10 +409,10 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             <ChevronLeft className="w-4 h-4" />
           </button>
 
-          {/* Sound Pills Strip */}
+          {/* Sound Pills Strip with Responsive Padding */}
           <div
             ref={scrollContainerRef}
-            className="flex items-center gap-2 overflow-x-auto py-1 px-11 hide-scrollbar scroll-smooth"
+            className="flex items-center gap-2 overflow-x-auto py-1 px-3 sm:px-11 hide-scrollbar scroll-smooth"
           >
             {displayedSounds.map((sound) => {
               const isSelected = sound.id === currentSound.id;
