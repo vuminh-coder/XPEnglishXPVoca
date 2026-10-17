@@ -242,21 +242,21 @@ export function ToastContainer() {
             style={{ animationDelay: `${index * 40}ms` }}
           >
             <div
-              className={`w-auto max-w-[250px] xs:max-w-[275px] sm:max-w-sm flex items-start gap-2 sm:gap-3 rounded-xl sm:rounded-2xl border p-2.5 sm:p-4 shadow-lg sm:shadow-xl backdrop-blur-2xl transition-all relative overflow-hidden group ${cardStyle}`}
+              className={`w-auto max-w-[205px] xs:max-w-[225px] sm:max-w-sm flex items-center sm:items-start gap-1.5 sm:gap-3 rounded-lg sm:rounded-2xl border px-2 py-1.5 sm:p-4 shadow-md sm:shadow-xl backdrop-blur-2xl transition-all relative overflow-hidden group ${cardStyle}`}
             >
-              <div className="shrink-0 pt-0.5">
+              <div className="shrink-0">
                 <div
-                  className={`w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 [&_svg]:w-3.5 [&_svg]:h-3.5 sm:[&_svg]:w-4.5 sm:[&_svg]:h-4.5 ${visual.bg}`}
+                  className={`w-5 h-5 sm:w-8 sm:h-8 rounded-md sm:rounded-xl flex items-center justify-center shrink-0 [&_svg]:w-3 [&_svg]:h-3 sm:[&_svg]:w-4.5 sm:[&_svg]:h-4.5 ${visual.bg}`}
                 >
                   {visual.icon}
                 </div>
               </div>
               <div className="flex-1 min-w-0 pr-0.5 sm:pr-1">
-                <h4 className="text-xs sm:text-sm font-bold font-sans tracking-tight text-slate-900 dark:text-white leading-snug">
+                <h4 className="text-[11px] sm:text-sm font-bold font-sans tracking-tight text-slate-900 dark:text-white leading-tight truncate sm:leading-snug">
                   {renderToastTitle(toast.title)}
                 </h4>
                 {toast.message && (
-                  <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 mt-0.5 sm:mt-1 leading-relaxed font-normal font-sans line-clamp-2 sm:line-clamp-none">
+                  <p className="text-[9.5px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 sm:mt-1 leading-tight font-normal font-sans truncate sm:whitespace-normal">
                     {cleanEmoji(toast.message)}
                   </p>
                 )}
@@ -264,10 +264,10 @@ export function ToastContainer() {
               <button
                 type="button"
                 onClick={() => removeToast(toast.id)}
-                className="w-5 h-5 sm:w-6 sm:h-6 rounded-md sm:rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center cursor-pointer shrink-0 -mr-0.5 sm:-mr-1 -mt-0.5"
+                className="w-4 h-4 sm:w-6 sm:h-6 rounded-md sm:rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors flex items-center justify-center cursor-pointer shrink-0 -mr-0.5 sm:-mr-1"
                 title="Đóng thông báo"
               >
-                <X className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                <X className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5" />
               </button>
             </div>
           </div>
