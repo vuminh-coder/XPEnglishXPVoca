@@ -18,6 +18,7 @@ import {
   Smile,
   MoveVertical,
   Wind,
+  LayoutGrid,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -266,14 +267,38 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
       <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2.5">
         {/* Top Navigation & Category Filter Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-          {/* Category Filter Tabs with Micro Badges */}
+          {/* Category Filter Tabs with Semantic Category Icons (Khử số đếm, hiển thị icon chuẩn xuyên suốt Mobile & Desktop) */}
           <div className="grid grid-cols-4 sm:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl overflow-x-auto hide-scrollbar w-full sm:w-auto">
             {(
               [
-                { id: "all", label: "Tất cả", shortLabel: "Tất cả", count: 44, icon: Layers },
-                { id: "monophthong", label: "Nguyên âm đơn", shortLabel: "Âm đơn", count: 12, icon: Volume2 },
-                { id: "diphthong", label: "Nguyên âm đôi", shortLabel: "Âm đôi", count: 8, icon: Sparkles },
-                { id: "consonant", label: "Phụ âm", shortLabel: "Phụ âm", count: 24, icon: Mic },
+                {
+                  id: "all",
+                  label: "Tất cả",
+                  shortLabel: "Tất cả",
+                  icon: LayoutGrid,
+                  iconColor: "text-[#0059bb] dark:text-sky-400",
+                },
+                {
+                  id: "monophthong",
+                  label: "Nguyên âm đơn",
+                  shortLabel: "Âm đơn",
+                  icon: Volume2,
+                  iconColor: "text-sky-500 dark:text-sky-400",
+                },
+                {
+                  id: "diphthong",
+                  label: "Nguyên âm đôi",
+                  shortLabel: "Âm đôi",
+                  icon: Sparkles,
+                  iconColor: "text-purple-600 dark:text-purple-400",
+                },
+                {
+                  id: "consonant",
+                  label: "Phụ âm",
+                  shortLabel: "Phụ âm",
+                  icon: Mic,
+                  iconColor: "text-emerald-600 dark:text-emerald-400",
+                },
               ] as const
             ).map((cat) => {
               const Icon = cat.icon;
@@ -286,21 +311,13 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   className={`px-1.5 py-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 ${
                     isActive
                       ? "bg-white dark:bg-slate-700 text-[#0059bb] dark:text-sky-300 shadow-2xs"
-                      : "text-slate-500 hover:text-slate-800 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-750"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/50 dark:hover:bg-slate-750"
                   }`}
+                  title={cat.label}
                 >
-                  <Icon className="w-3.5 h-3.5 opacity-80 shrink-0 hidden md:inline" />
+                  <Icon className={`w-3.5 h-3.5 shrink-0 ${cat.iconColor}`} />
                   <span className="hidden sm:inline truncate">{cat.label}</span>
                   <span className="sm:hidden truncate">{cat.shortLabel}</span>
-                  <span
-                    className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold shrink-0 ${
-                      isActive
-                        ? "bg-blue-50 text-[#0059bb] dark:bg-sky-950/60 dark:text-sky-300"
-                        : "bg-slate-200/70 text-slate-500 dark:bg-slate-750 dark:text-slate-400"
-                    }`}
-                  >
-                    {cat.count}
-                  </span>
                 </button>
               );
             })}
