@@ -230,7 +230,7 @@ export function ToastContainer() {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed top-16 sm:top-20 right-3 sm:right-5 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none">
+    <div className="fixed top-14 sm:top-20 inset-x-3 sm:inset-x-auto sm:right-5 z-[9999] flex flex-col items-center sm:items-end gap-2.5 pointer-events-none">
       {toasts.map((toast, index) => {
         const visual = getToastVisual(toast);
         const cardStyle = getToastCardStyle(toast);
@@ -238,11 +238,11 @@ export function ToastContainer() {
         return (
           <div
             key={toast.id}
-            className="pointer-events-auto animate-fade-in-down transition-all"
+            className="pointer-events-auto animate-fade-in-down transition-all w-full flex justify-center sm:justify-end"
             style={{ animationDelay: `${index * 40}ms` }}
           >
             <div
-              className={`flex items-start gap-3 rounded-2xl border p-3.5 sm:p-4 shadow-xl backdrop-blur-2xl transition-all relative overflow-hidden group ${cardStyle}`}
+              className={`w-full max-w-[340px] sm:max-w-sm flex items-start gap-3 rounded-2xl border p-3 sm:p-4 shadow-xl backdrop-blur-2xl transition-all relative overflow-hidden group ${cardStyle}`}
             >
               <div className="shrink-0 pt-0.5">
                 <div
