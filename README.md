@@ -568,7 +568,7 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
         - `/`: Trang chủ Landing Page giới thiệu hệ sinh thái học từ vựng thông minh.
         - `/login`, `/register`, `/forgot-password`: Cụm trang xác thực tài khoản chuẩn bảo mật.
         - `/settings`: Cài đặt hồ sơ, mục tiêu học tập hằng ngày và thông báo.
-        - `/ai/tutor`: Gia sư AI đàm thoại trực tiếp với 3 huấn luyện viên (Emma, Alex, Chloe).
+        - `/ai/tutor`: Gia sư AI đàm thoại trực tiếp với 3 huấn luyện viên (Emma, Alex, Chloe). Tối ưu giao diện mobile: ẩn cột phụ bên phải để tập trung tối đa vào luồng hội thoại Micro, bảo toàn 100% bố cục 2 cột trên Desktop.
         - `/study/reading`: Danh mục bài đọc hiểu cơ bản & nâng cao (Email, Thông báo, Báo chí).
         - `/study/plan`: Kế hoạch học tập, ma trận đóng góp 6 tháng (GitHub contribution style).
         - `/profile/achievements`: Kho huy hiệu thành tích chi tiết và thanh tiến độ mở khóa.
@@ -6316,6 +6316,14 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Tinh chỉnh kích thước cụm phím điều hướng (`w-8 h-8 sm:w-10 sm:h-10`, phím Play `w-10 h-10 sm:w-12 sm:h-12`, phím lặp lại `w-8 h-8`, phím tốc độ `h-7.5 sm:h-8.5`), đảm bảo 100% không tràn ngang trên mọi thiết bị di động (từ 360px đến 390px+).
         * Bảo toàn nguyên vẹn 100% kích thước và nút bấm trên Desktop (`sm:` và `lg:`).
       - **Tinh Giản Thanh Tab Chuyển Đổi Trên Mobile ([`StudioMobileTabBar.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/StudioMobileTabBar.tsx))**: Lược bỏ toàn bộ phần đếm số trong ngoặc đơn `(...)` trên hai tab ("Luyện nghe" và "Danh sách phụ đề"), triệt tiêu hiện tượng chữ bị tràn hoặc cắt bớt (ellipsis) trên các dòng điện thoại màn hình nhỏ (360px - 390px), mang lại giao diện tinh gọn, thoáng đãng và cân đối hoàn hảo.
+
+  28. **Tối Ưu Giao Diện Gia Sư Tiếng Anh AI Trên Mobile ([`AiTutorWorkspace.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/ai-tutor/components/AiTutorWorkspace.tsx) & [`FloatingAiChatbot.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/ai/components/FloatingAiChatbot/FloatingAiChatbot.tsx))**:
+      - **Ẩn Khối Sidebar Gia Sư AI Trên Mobile**:
+        * Thiết lập `hidden lg:flex lg:col-span-4` cho cột phải ("GIA SƯ AI", bộ chọn 3 Huấn luyện viên Emma / Alex / Chloe, danh sách từ vựng ngữ cảnh và mẫu câu mở đầu) khi xem trên thiết bị di động (< 1024px).
+        * Giải phóng hoàn toàn hơn 1000px chiều cao cuộn dọc dư thừa, loại bỏ trùng lặp nội dung (các gợi ý từ vựng đã được tích hợp trực tiếp ngay trên thanh phím Micro của khung chat).
+        * Bảo toàn 100% bố cục hai cột cân đối (8/12 và 4/12) trên máy tính để bàn (Desktop lg: trở lên).
+      - **Tự Động Ẩn `FloatingAiChatbot` Trên Các Phân Hệ AI Workspace (`/ai/tutor`, `/ai/conversation`)**:
+        * Ngăn chặn hiện tượng nút bong bóng chatbot trôi nổi che khuất thanh nhập liệu và dock Microphone nói tiếng Anh trên màn hình điện thoại hẹp.
 
 ---
 

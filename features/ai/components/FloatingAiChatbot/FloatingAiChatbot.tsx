@@ -146,8 +146,11 @@ export default function FloatingAiChatbot() {
       window.location.search.includes("lessonId=") ||
       pathname?.includes("/comprehension"));
 
-  // When dismissed by user, in exam mode, or active studio practice, render nothing on-screen (hotkey Ctrl + / will call it back)
-  if (!mounted || isDismissed || isExamMode || isStudioPractice) return null;
+  const isAiWorkspace =
+    pathname?.startsWith("/ai/tutor") || pathname?.startsWith("/ai/conversation");
+
+  // When dismissed by user, in exam mode, active studio practice, or dedicated AI workspace, render nothing on-screen
+  if (!mounted || isDismissed || isExamMode || isStudioPractice || isAiWorkspace) return null;
 
   const questCount = dbData?.dailyQuests?.filter((q) => !q.isCompleted).length ?? 0;
 

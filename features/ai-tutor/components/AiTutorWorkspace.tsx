@@ -1553,7 +1553,7 @@ export default function AiTutorWorkspace() {
             </div>
 
             {/* CỘT PHẢI: HIGH-END HARMONIOUS SIDEBAR (4/12) */}
-            <div className="lg:col-span-4 flex flex-col min-w-0 lg:h-full lg:min-h-0">
+            <div className="hidden lg:flex lg:col-span-4 flex-col min-w-0 lg:h-full lg:min-h-0">
               <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-2.5 lg:h-full lg:min-h-0 overflow-y-auto">
                 {/* 1. KHỐI CHỌN GIA SƯ AI & SPEED DOCK TRÊN CÙNG */}
                 <div className="space-y-2 shrink-0">
