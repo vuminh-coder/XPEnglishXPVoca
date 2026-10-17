@@ -153,7 +153,7 @@ export const IpaAnatomyViewer: React.FC<IpaAnatomyViewerProps> = ({
               Dây thanh
             </span>
             <span className={`text-xs font-medium line-clamp-1 mt-0.5 ${
-              isVoiced ? "text-teal-600 dark:text-teal-400" : "text-slate-600 dark:text-slate-400"
+              isVoiced ? "text-emerald-600 dark:text-emerald-400" : "text-amber-600 dark:text-amber-400"
             }`}>
               {isVoiced ? "Rung (Hữu thanh)" : "Không rung (Vô thanh)"}
             </span>

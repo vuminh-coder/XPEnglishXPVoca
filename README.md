@@ -6434,13 +6434,17 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Khi đã điểm danh: Chuyển sang icon tích xanh `CheckCircle2` (`text-emerald-600 dark:text-emerald-400`). Bấm vào sẽ nhận thông báo nhắc nhở duy trì chuỗi Streak thân thiện.
 
   31. **Tối Ưu Bảng Phiên Âm Quốc Tế IPA & Giao Diện Luyện Âm In-Page Tinh Gọn ([`IpaMatrixBoard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/ipa/components/matrix/IpaMatrixBoard.tsx) & [`ipaData.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/ipa/data/ipaData.ts))**:
-      - **Tách Rời 2 Badge Phân Loại Độc Lập ("Vô thanh" & "Bật hơi")**:
-        * Tách bạch hoàn toàn giữa **Cơ chế thanh quản (Voicing)** (`Vô thanh` / `Hữu thanh` với chấm màu chuẩn ngữ nghĩa) và **Đặc tính cấu âm (Articulation Manner)** (`Bật hơi`, `Thổi gió`, `Mím môi`, `Âm mũi`, `Cong lưỡi`... đi kèm icon gió `Wind` trên nền sky-50 dịu mắt).
-        * Định nghĩa từ điển đặc tính ngữ âm toàn diện cho 44 âm quốc tế `SOUND_MANNER_FEATURES` và hàm truy xuất `getSoundMannerFeature(sound)`.
-        * Triệt tiêu hoàn toàn tình trạng ghép dính chật chội `● p (bật hơi) • Vô thanh` và xóa bỏ việc lặp lại ký hiệu âm thừa thãi, nâng tầm trải nghiệm sư phạm ngữ âm trực quan chuẩn quốc tế.
-      - **Dàn Đều Bố Cục Đối Xứng & Cặp Nút Nghe Full Width 50% - 50%**:
-        * Hàng 1: Giếng biểu tượng âm `/{selectedSound.symbol}/` và cụm 2 badge phân loại nằm gọn gàng bên trái; Khối từ mẫu đại diện (`Pen /pen/`) được dàn sang đối xứng góc phải với nhãn phân định rõ ràng.
-        * Hàng 2: Cặp nút hành động nhanh (`Nghe âm /{sound.symbol}/` và `Nghe từ: {sound.keyWord}`) được dàn đều 50% - 50% theo toàn bộ chiều rộng (full width grid 2 cột) trên cả mobile và desktop, tối ưu thao tác chạm bằng ngón tay cái.
+      - **Chuẩn Hóa Màu Sắc Ngữ Nghĩa Hữu Thanh (Emerald) & Vô Thanh (Amber)**:
+        * Thay thế màu xám slate (dễ gây hiểu lầm thành trạng thái vô hiệu hóa disabled) và màu teal bằng hệ màu chức năng 10% chuẩn mực theo Quy tắc phối màu 60-30-10:
+          - **Hữu thanh (Voiced)**: Xanh ngọc **Emerald** (`#10b981`), biểu thị độ rung tràn đầy năng lượng của dây thanh quản.
+          - **Vô thanh (Voiceless)**: Vàng ngọc **Amber** (`#f59e0b`), biểu thị luồng hơi bật ra dứt khoát không rung.
+        * Đồng bộ màu sắc nhận diện xuyên suốt từ bảng ma trận tổng quát, thẻ âm con, chú giải thanh quản, bản đồ giải phẫu cắt dọc Sagittal 2D cho đến phòng luyện tập chuyên sâu Dedicated Practice Lab.
+      - **Thu Nhỏ Khối Biểu Tượng Âm & Màu Sắc Đồng Bộ Theo Âm**:
+        * Tinh chỉnh kích thước giếng biểu tượng âm `/{selectedSound.symbol}/` từ `w-13/w-15` (52px-60px) xuống kích thước chuẩn thanh thoát `w-10/w-11` (40px-44px), giảm cỡ chữ từ `text-2xl/3xl font-black` xuống `text-base/lg font-black`.
+        * Áp dụng màu nền viền và chữ động (`theme.badgeBg`, `theme.textColor`) phản ánh chính xác nhóm âm: Âm vô thanh `/p/` mang sắc vàng Amber ấm áp, âm hữu thanh `/b/` mang sắc xanh Emerald, âm dài `/iː/` mang sắc xanh Royal Blue, âm đôi `/eɪ/` mang sắc tím Purple. Triệt tiêu hoàn toàn lỗi ép cứng màu xanh thương hiệu gây hiểu nhầm phân loại.
+      - **Dàn Phẳng 1 Hàng Tinh Gọn & Cặp Nút Nghe 50% - 50%**:
+        * Hàng 1: Giếng biểu tượng âm, Badge cơ chế thanh quản và Badge đặc tính cấu âm nằm thẳng hàng ngang bên trái; Khối từ mẫu đại diện (`Từ mẫu: Pen /pen/`) đối xứng góc phải. Lược bỏ nhãn chữ dư thừa giúp giảm hơn 50% chiều cao khối, cực kỳ thoáng đãng trên cả mobile và desktop.
+        * Hàng 2: Cặp nút hành động nhanh (`Nghe âm /{sound.symbol}/` và `Nghe từ: {sound.keyWord}`) được tinh chỉnh chiều cao gọn gàng `h-9 sm:h-10`, dàn đều 50% - 50% theo toàn bộ chiều rộng.
       - **Trải Nghiệm Luyện Âm Trong Trang Tinh Gọn (In-Page Sound Studio)**:
         * Thay thế modal nổi choán màn hình bằng không gian hiển thị liền mạch trong trang, hạ thấp chiều cao khối nhận diện âm giúp người học tập trung ngay vào mục tiêu phát âm, thử giọng và kiểm tra micro.
         * Nút quay lại ("Bảng âm IPA") được neo trực quan ngay phía trên mục tiêu phát âm bên trái; Nút điều hướng vào phòng thực hành chuyên sâu ("Vào phòng luyện") bố trí đối xứng bên phải.
