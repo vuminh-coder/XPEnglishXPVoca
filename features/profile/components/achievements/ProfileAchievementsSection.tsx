@@ -119,7 +119,7 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
       </div>
 
       {/* Achievement Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-3">
         {filteredAchievements.map((ach, index) => {
           const iconConfig = ACHIEVEMENT_ICONS[ach.id];
           const isHiddenOnMobile = index >= 3 && !showAllMobile;
@@ -127,7 +127,7 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
           return (
             <div
               key={ach.id}
-              className={`p-2.5 sm:p-3.5 rounded-xl border transition-all duration-200 flex flex-col justify-between gap-2 ${
+              className={`p-2 sm:p-3.5 rounded-xl border transition-all duration-200 flex flex-col justify-between ${
                 isHiddenOnMobile ? "hidden sm:flex" : "flex"
               } ${
                 ach.unlocked
@@ -135,10 +135,10 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
                   : "bg-slate-50/60 dark:bg-slate-950/40 border-slate-200/60 dark:border-slate-800/50 opacity-75"
               }`}
             >
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex items-center gap-2.5">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2.5 min-w-0">
                   <div
-                    className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl border flex items-center justify-center shrink-0 shadow-2xs select-none ${
+                    className={`w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl border flex items-center justify-center shrink-0 shadow-2xs select-none ${
                       ach.unlocked
                         ? iconConfig
                           ? `${iconConfig.bgColor} ${iconConfig.color}`
@@ -146,7 +146,7 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
                         : "bg-slate-100 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700/60 text-slate-400 dark:text-slate-500"
                     }`}
                   >
-                    {iconConfig ? iconConfig.icon : <span className="text-sm sm:text-base">{ach.icon}</span>}
+                    {iconConfig ? iconConfig.icon : <span className="text-xs sm:text-base">{ach.icon}</span>}
                   </div>
                   <div className="min-w-0">
                     <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display leading-tight truncate">
@@ -169,8 +169,9 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
                 )}
               </div>
 
-              <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-1.5 sm:pt-2 text-[10px] sm:text-[11px] font-mono">
-                <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 font-extrabold border border-amber-300/40">
+              {/* Bottom XP row: Desktop only, eliminated on mobile to reduce height */}
+              <div className="hidden sm:flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-2 text-[11px] font-mono mt-2">
+                <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 font-extrabold border border-amber-300/40">
                   +{ach.xpBonus} XP
                 </span>
                 {ach.progress && !ach.unlocked && (
