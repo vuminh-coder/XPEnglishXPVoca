@@ -61,7 +61,7 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 h-14 pb-[env(safe-area-inset-bottom,0px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800 z-[var(--z-navbar)] flex items-center justify-around px-1 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-2px_16px_rgba(0,0,0,0.4)] select-none"
+      className="md:hidden fixed bottom-0 left-0 right-0 h-[50px] pb-[env(safe-area-inset-bottom,0px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800 z-[var(--z-navbar)] flex items-center justify-around px-1 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-2px_16px_rgba(0,0,0,0.4)] select-none"
       aria-label="Mobile navigation"
     >
       {tabs.map((tab) => {
@@ -85,19 +85,19 @@ export default function BottomNav() {
             {isActive && (
               <motion.div
                 layoutId="fbBottomNavActiveBar"
-                className="absolute top-0 inset-x-2.5 sm:inset-x-3.5 h-[3px] bg-[#0059bb] dark:bg-sky-400 rounded-b-full shadow-xs"
+                className="absolute top-0 inset-x-2.5 sm:inset-x-3.5 h-[2.5px] bg-[#0059bb] dark:bg-sky-400 rounded-b-full shadow-xs"
                 transition={{ type: "spring", stiffness: 450, damping: 35 }}
               />
             )}
 
             <div className="relative flex items-center justify-center">
               {tab.isProfile ? (
-                /* Profile Tab: Circular User Avatar with Active Ring */
+                /* Profile Tab: Facebook-style Avatar with distinct circular outer ring */
                 <div
-                  className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                  className={`rounded-full p-[1.5px] transition-all duration-200 flex items-center justify-center ${
                     isActive
-                      ? "ring-2 ring-[#0059bb] dark:ring-sky-400 shadow-2xs"
-                      : "ring-1.5 ring-slate-300 dark:ring-slate-700 opacity-80 group-hover:opacity-100"
+                      ? "border-2 border-[#0059bb] dark:border-sky-400 shadow-2xs"
+                      : "border-2 border-slate-300 dark:border-slate-600 group-hover:border-slate-400 dark:group-hover:border-slate-500"
                   }`}
                 >
                   <UserAvatar
@@ -106,13 +106,13 @@ export default function BottomNav() {
                     avatar={(user as any)?.avatar}
                     emoji={user?.avatarEmoji}
                     name={userName}
-                    size="w-6.5 h-6.5"
+                    size="w-[22px] h-[22px]"
                   />
                 </div>
               ) : (
                 /* Icon Tabs: Pure, High-Contrast Facebook Style (No text labels) */
                 <Icon
-                  className={`w-[23px] h-[23px] transition-all duration-200 ${
+                  className={`w-[22px] h-[22px] transition-all duration-200 ${
                     isActive
                       ? "text-[#0059bb] dark:text-sky-400 stroke-[2.3] scale-105"
                       : "text-slate-500 dark:text-slate-400 stroke-[1.8] group-hover:text-slate-800 dark:group-hover:text-slate-200"
