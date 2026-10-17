@@ -1058,7 +1058,7 @@ export default function AiTutorWorkspace() {
   };
 
   return (
-    <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
+    <div className="w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
       {/* 1. APP TOP HEADER (FIXED 56PX) */}
       <AppTopHeader
         rightDesktopContent={
@@ -1104,8 +1104,8 @@ export default function AiTutorWorkspace() {
         <AiSuiteNavTabs />
       </AppTopHeader>
 
-      {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS (FITS IN 1 SCREEN ON DESKTOP) */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2.5 sm:py-3.5 lg:py-3 flex flex-col min-h-0 lg:overflow-hidden space-y-2.5 sm:space-y-3 pb-24 lg:pb-3">
+      {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS (FITS IN 1 SCREEN ON DESKTOP & DOCKED ABOVE BOTTOMNAV ON MOBILE) */}
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2 sm:px-5 lg:px-6 pt-1.5 sm:pt-3 lg:pt-3 pb-[50px] lg:pb-3 flex flex-col min-h-0 overflow-hidden space-y-1.5 sm:space-y-3">
         {/* 2.1. SLIM HERO STATUS STRIP (DASHBOARD BENTO STYLE) */}
         <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -1178,10 +1178,10 @@ export default function AiTutorWorkspace() {
         {/* 2.2. MAIN BENTO GRID: FITS STRICTLY IN DESKTOP VIEWPORT */}
         {!isSessionCompleted ? (
           /* ===== VIEW 1: STUDIO BENTO GRID (8/12 - 4/12) ===== */
-          <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5 items-stretch min-w-0">
+          <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-3.5 items-stretch min-w-0 overflow-hidden">
             {/* CỘT TRÁI: VOICE CHAT STREAM & INPUT DOCK (8/12) */}
-            <div className="lg:col-span-8 flex flex-col min-w-0 lg:h-full lg:min-h-0">
-              <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2.5">
+            <div className="lg:col-span-8 flex flex-col min-w-0 h-full min-h-0 overflow-hidden">
+              <div className="p-2 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 h-full min-h-0 space-y-1.5 sm:space-y-2.5 overflow-hidden">
                 {/* Header Trong Khung Chat */}
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 gap-2 shrink-0">
                   <button
@@ -1239,7 +1239,7 @@ export default function AiTutorWorkspace() {
                 </div>
 
                 {/* Scrollable Chat Stream Box */}
-                <div className="flex-1 min-h-[280px] lg:min-h-0 overflow-y-auto space-y-3 p-1 pr-1.5 scrollbar-thin">
+                <div className="flex-1 min-h-0 overflow-y-auto space-y-2.5 sm:space-y-3 p-1 pr-1.5 scrollbar-thin overscroll-contain">
                   {messages.map((msg, idx) => {
                     const isAi = msg.role === "ai";
                     const isTranslated = showTranslations[msg.id];

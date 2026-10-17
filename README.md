@@ -6334,6 +6334,11 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - **Nút & Bảng Chọn Đổi Giọng Nói AI Tiện Lợi (Voice & Speed Picker Modal)**:
         * Tích hợp nút bấm trực quan có icon Bot ("Đổi giọng") kèm khả năng nhấp trực tiếp vào tên/avatar huấn luyện viên ở cả thanh Header khung chat và thanh Slim Hero Status.
         * Mở Bottom Sheet Modal mượt mà trên mobile (z-[99999] phủ toàn bộ khung nhìn), cho phép học viên đổi qua lại giữa 3 chất giọng bản xứ (Emma Anh Quốc, Alex Hoa Kỳ, Chloe Úc kèm nút nghe thử giọng) và tùy chỉnh 3 cấp độ tốc độ nói (0.75x, 1.0x, 1.25x) một cách dễ dàng.
+      - **Cố Định Khối Gợi Ý & Khung Micro Sát BottomNav, Cuộn Tin Nhắn Độc Lập (Pinned Mobile Dock & Streamlined Chat Scroll)**:
+        * Khóa chiều cao toàn khung nhìn chuẩn xác với `h-[100dvh] max-h-[100dvh] overflow-hidden` và phần đệm đáy `pb-[50px] lg:pb-3` khớp chính xác 1:1 với chiều cao thanh điều hướng `BottomNav`.
+        * Neo vững chắc khối Gợi ý 2 dòng cùng dock Micro nhập liệu ở đáy thẻ (`shrink-0 border-t`), đảm bảo luôn nằm cố định sát mép trên của BottomNav và không bao giờ bị xê dịch hay đẩy lệch.
+        * Thiết lập luồng tin nhắn hội thoại độc lập (`flex-1 min-h-0 overflow-y-auto overscroll-contain`), cho phép người học vuốt lướt mượt mà toàn bộ lịch sử trò chuyện trong không gian còn lại mà không làm ảnh hưởng đến khối gợi ý và thanh điều hướng.
+
 
 ---
 
