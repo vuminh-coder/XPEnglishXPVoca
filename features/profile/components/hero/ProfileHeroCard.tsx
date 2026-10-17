@@ -77,12 +77,12 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
           </div>
 
           {/* Identity Info */}
-          <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1">
+          <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1 pr-[118px] sm:pr-0">
             <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-              <h1 className="text-base sm:text-2xl font-black tracking-tight text-white font-display truncate">
+              <h1 className="text-sm sm:text-2xl font-black tracking-tight text-white font-display truncate">
                 {cleanName}
               </h1>
-              <span className="text-[9px] sm:text-xs font-black uppercase tracking-wider text-sky-200 bg-white/15 px-2 py-0.5 rounded-lg border border-white/20 font-display">
+              <span className="text-[9px] sm:text-xs font-black uppercase tracking-wider text-sky-200 bg-white/15 px-2 py-0.5 rounded-lg border border-white/20 font-display shrink-0">
                 {userTitle}
               </span>
             </div>
@@ -95,10 +95,33 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
           </div>
         </div>
 
-        {/* Right Column: Live Stats Pills (Desktop/Tablet) & Quick Mobile Actions */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          {/* Desktop/Tablet Stats Pill (Hidden on mobile to eliminate duplication with 4 Bento cards below) */}
-          <div className="hidden sm:flex items-center gap-3 bg-black/25 backdrop-blur-md px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-white/15 shadow-inner">
+        {/* Mobile-only action buttons: Anchored in Top-Right Corner */}
+        <div className="sm:hidden absolute top-3.5 right-3.5 flex items-center gap-1.5 z-30">
+          {onToggleEdit && (
+            <button
+              type="button"
+              onClick={onToggleEdit}
+              className="h-7 px-2.5 rounded-lg bg-white/20 hover:bg-white/30 text-white text-[11px] font-bold border border-white/25 flex items-center gap-1 transition-all cursor-pointer active:scale-95 shadow-2xs font-display backdrop-blur-xs"
+              title="Chỉnh sửa thông tin hồ sơ"
+            >
+              <Edit3 className="w-3 h-3 text-sky-200 stroke-[2.2]" />
+              <span>{isEditing ? "Đóng" : "Sửa hồ sơ"}</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={onShare}
+            className="w-7 h-7 rounded-lg bg-white/15 hover:bg-white/25 text-white border border-white/20 flex items-center justify-center cursor-pointer transition-colors shadow-2xs shrink-0 backdrop-blur-xs"
+            title="Chia sẻ hồ sơ"
+          >
+            <Share2 className="w-3 h-3 stroke-[2.2]" />
+          </button>
+        </div>
+
+        {/* Right Column: Live Stats Pills (Desktop/Tablet) */}
+        <div className="hidden sm:flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <div className="flex items-center gap-3 bg-black/25 backdrop-blur-md px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-white/15 shadow-inner">
             <div className="text-center px-1">
               <div className="text-[10px] text-blue-200 font-bold uppercase tracking-wider font-display">
                 Chuỗi Streak
@@ -120,30 +143,6 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
                 <span>{user.coins ?? 100}</span>
               </div>
             </div>
-          </div>
-
-          {/* Mobile-only action buttons (Edit profile & Share) */}
-          <div className="flex sm:hidden items-center gap-1.5">
-            {onToggleEdit && (
-              <button
-                type="button"
-                onClick={onToggleEdit}
-                className="h-7 px-2.5 rounded-lg bg-white/20 hover:bg-white/30 text-white text-[11px] font-bold border border-white/25 flex items-center gap-1 transition-all cursor-pointer active:scale-95 shadow-2xs font-display"
-                title="Chỉnh sửa thông tin hồ sơ"
-              >
-                <Edit3 className="w-3 h-3 text-sky-200 stroke-[2.2]" />
-                <span>{isEditing ? "Đóng" : "Sửa hồ sơ"}</span>
-              </button>
-            )}
-
-            <button
-              type="button"
-              onClick={onShare}
-              className="w-7 h-7 rounded-lg bg-white/15 hover:bg-white/25 text-white border border-white/20 flex items-center justify-center cursor-pointer transition-colors shadow-2xs shrink-0"
-              title="Chia sẻ hồ sơ"
-            >
-              <Share2 className="w-3 h-3 stroke-[2.2]" />
-            </button>
           </div>
         </div>
       </div>
