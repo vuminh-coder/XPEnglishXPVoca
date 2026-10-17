@@ -17,6 +17,7 @@ import {
   Keyboard,
   Smile,
   MoveVertical,
+  Wind,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -25,9 +26,9 @@ import {
   DIPHTHONGS,
   CONSONANTS,
   IpaSound,
-  getSoundDisplayHint,
   resolveIpaSound,
   getSoundCategoryTheme,
+  getSoundMannerFeature,
 } from "../../data/ipaData";
 import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
 import { IpaMouthAnatomySvg } from "../shared/IpaMouthAnatomySvg";
@@ -120,6 +121,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
 
   // Visual Theme
   const theme = useMemo(() => getSoundCategoryTheme(currentSound), [currentSound]);
+  const mannerFeature = useMemo(() => getSoundMannerFeature(currentSound), [currentSound]);
 
   // Filtered sound list based on category filter
   const displayedSounds = useMemo(() => {
@@ -693,55 +695,46 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
         >
           {/* Card 1: Sound Identity & Master Acoustic Controller */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-            {/* Top Identity Row: Dàn đều, tinh giản triệt để, loại bỏ mã/vị trí/bật hơi thừa */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3.5">
-              {/* Left: Themed Sound Glyph & Essential Badge + Title */}
-              <div className="flex items-center gap-3.5 min-w-0">
-                <div
-                  className={`w-13 h-13 sm:w-15 sm:h-15 rounded-2xl flex items-center justify-center border font-sans font-black text-2xl sm:text-3xl select-none shrink-0 shadow-2xs transition-all ${theme.badgeBg} ${theme.textColor}`}
-                >
-                  /{currentSound.symbol}/
+            {/* Top Identity Row: Phong cách Image 2 chuẩn IpaMatrixBoard (Giếng âm tinh gọn + 2 Badge độc lập + Từ mẫu đại diện) */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-slate-200/60 dark:border-slate-700/60">
+              {/* Bên trái: Giếng biểu tượng âm thu nhỏ + 2 Badge phân loại nằm ngang */}
+              <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap min-w-0">
+                {/* Giếng biểu tượng âm tinh gọn & đổi màu chuẩn theo phân loại âm */}
+                <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl ${theme.badgeBg} border shadow-2xs flex items-center justify-center shrink-0`}>
+                  <span className={`text-base sm:text-lg font-black font-sans ${theme.textColor} leading-none`}>
+                    /{currentSound.symbol}/
+                  </span>
                 </div>
-                <div className="min-w-0 space-y-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span
-                      className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold border ${theme.badgeBg} ${theme.textColor}`}
-                    >
-                      <span className={`w-2 h-2 rounded-full ${theme.dotColor}`} />
-                      <span>{theme.name}</span>
-                    </span>
-                    <span
-                      className="text-xs font-semibold text-slate-400 dark:text-slate-500 truncate max-w-[180px] sm:max-w-none"
-                      title={getSoundDisplayHint(currentSound)}
-                    >
-                      {getSoundDisplayHint(currentSound)}
-                    </span>
+
+                {/* Badge 1: Cơ chế thanh quản (Vô thanh / Hữu thanh / Loại nguyên âm) */}
+                <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border ${theme.badgeBg} ${theme.textColor}`}>
+                  <span className={`w-2 h-2 rounded-full shrink-0 ${theme.dotColor}`} />
+                  <span>{theme.name}</span>
+                </div>
+
+                {/* Badge 2: Đặc tính cấu âm tách riêng (Bật hơi, Thổi gió, Âm mũi...) */}
+                {mannerFeature && (
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-sky-50 dark:bg-sky-950/60 border border-sky-200/80 dark:border-sky-800/60 text-sky-700 dark:text-sky-300 shadow-2xs">
+                    <Wind className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+                    <span>{mannerFeature}</span>
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate">
-                    {currentSound.name}
-                  </h3>
-                </div>
+                )}
               </div>
 
-              {/* Right: Keyword Anchor Card - Interactive Audio Button */}
+              {/* Bên phải: Từ mẫu đại diện dàn gọn gàng sang góc đối xứng */}
               <button
                 type="button"
                 onClick={() => speakLessonText(currentSound.keyWord, { accent, rate: playbackRate })}
-                className="group/word px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-blue-50/80 dark:hover:bg-slate-800 border border-slate-200/70 hover:border-blue-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all cursor-pointer text-left sm:text-right space-y-0.5 shadow-2xs active:scale-[0.98] shrink-0 min-w-0"
-                title={`Bấm để nghe phát âm từ mẫu: "${currentSound.keyWord}"`}
+                className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 rounded-lg bg-slate-50/90 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-white/5 shrink-0 self-start sm:self-auto cursor-pointer transition-colors"
+                title={`Bấm để nghe từ mẫu: "${currentSound.keyWord}"`}
               >
-                <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 flex items-center sm:justify-end gap-1.5 group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-400 transition-colors whitespace-nowrap">
-                  <span>Từ mẫu đại diện</span>
-                  <Volume2 className="w-3.5 h-3.5 opacity-70 group-hover/word:opacity-100 shrink-0" />
-                </div>
-                <div className="flex items-center sm:justify-end gap-1.5 whitespace-nowrap">
-                  <span className="font-bold text-slate-900 dark:text-white text-base capitalize group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-300 transition-colors truncate max-w-[140px]">
-                    {currentSound.keyWord}
-                  </span>
-                  <span className="font-mono text-xs font-bold text-[#0059bb] dark:text-sky-400 shrink-0">
-                    {currentSound.keyWordPhonetic}
-                  </span>
-                </div>
+                <span className="text-xs text-slate-500 dark:text-slate-400">Từ mẫu:</span>
+                <span className="text-sm sm:text-base font-bold text-slate-900 dark:text-white capitalize font-sans">
+                  {currentSound.keyWord}
+                </span>
+                <span className={`font-mono text-xs font-bold ${theme.textColor}`}>
+                  {currentSound.keyWordPhonetic}
+                </span>
               </button>
             </div>
 
