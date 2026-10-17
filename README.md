@@ -6501,6 +6501,12 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       * Nhấp vào nút chủ đề mở Modal/Bottom Sheet cài đặt chủ đề, chọn huấn luyện viên AI (Persona) và độ khó phản xạ (Beginner, Intermediate, Advanced).
     - **Dải Gợi Ý Đúng 2 Dòng & Lướt Ngang (`AiConversationInputDock`)**:
       * Dòng 1 cho từ vựng gợi ý (`words`), Dòng 2 cho mẫu câu mở đầu (`phrases`) với khả năng lướt ngang mượt mà (`overflow-x-auto no-scrollbar whitespace-nowrap`), triệt tiêu việc rớt 3-4 dòng gây đẩy lệch Micro.
+    - **Tối Ưu & Tái Cấu Trúc Thanh Trạng Thái Desktop ([`AiConversationTopBar.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/ai/conversation/components/AiConversationTopBar.tsx))**:
+      * *Triệt tiêu thành phần trùng lặp*: Xóa bỏ hoàn toàn cụm đồng hồ bấm giờ (`01:32`) và nút bấm (`Chấm Điểm & Kết Thúc`) ở góc phải topbar trên Desktop vì `AppTopHeader` trên cùng đã hiển thị đầy đủ và tiện lợi.
+      * *Thay thế vị trí bằng cụm Huấn luyện viên AI & Độ khó*: Chuyển bộ chọn Persona (`Alex ⌄`) và bộ chọn độ khó (`Beginner 🎚️`) sang neo khít ở góc phải của thanh trạng thái thay cho vị trí vừa xóa.
+      * *Thanh lọc Icon & Bảng màu 60-30-10*: Thay thế toàn bộ emoji thô (như mũ lưỡi trai `🧢`) bằng biểu tượng vector Lucide chuyên nghiệp (`Bot`, `Briefcase`, `GraduationCap`, `Sparkles`), bọc trong thẻ icon tối giản bo góc; thay thế nền tím/xanh lá cây lệch tông bằng màu Slate thanh lịch viền tinh tế và điểm nhấn Xanh hoàng gia `#0059bb`.
+      * *Tích hợp tìm kiếm chủ đề*: Bổ sung thanh tìm kiếm nhanh (`Search` "Tìm kiếm chủ đề hội thoại...") ngay trong dropdown chọn chủ đề, cho phép gõ từ khóa lọc tức thì trong 20 kịch bản theo đúng Quy tắc UI/UX số 2 và 12.
+      * *Dọn dẹp chi tiết thừa*: Lược bỏ chấm xanh online chồng chéo, bỏ đoạn text lặp lại `• Đồng hành: Alex (Native Friend)` để giao diện cực kỳ thoáng đãng, sang trọng và chuẩn mực.
     - **Kiểm Thử Toàn Diện**:
       * Bộ kiểm thử chuyên biệt `__tests__/ai_conversation_mobile_ergonomics.test.ts` (10/10 tests PASS) và `__tests__/ai_conversation_standards.test.ts` (100% PASS).
 

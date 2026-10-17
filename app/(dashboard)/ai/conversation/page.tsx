@@ -19,6 +19,10 @@ import {
   X,
   SlidersHorizontal,
   Check,
+  Bot,
+  Briefcase,
+  GraduationCap,
+  Sparkles,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -1150,13 +1154,21 @@ export default function AiConversationPage() {
                               : "bg-slate-50 dark:bg-slate-800/60 border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300"
                           }`}
                         >
-                          <div className="w-7 h-7 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-xs font-bold font-mono shrink-0">
-                            {persona.countryCode}
+                          <div className="w-7 h-7 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0">
+                            {persona.id === "strict_interviewer" ? (
+                              <Briefcase className="w-3.5 h-3.5 text-blue-600" />
+                            ) : persona.id === "patient_tutor" ? (
+                              <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
+                            ) : persona.id === "challenging_debater" ? (
+                              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                            ) : (
+                              <Bot className="w-3.5 h-3.5 text-[#0059bb]" />
+                            )}
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="text-xs font-bold truncate">{persona.name}</div>
                             <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
-                              {persona.countryName}
+                              {persona.roleTitle}
                             </div>
                           </div>
                           {isSelected && <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />}
