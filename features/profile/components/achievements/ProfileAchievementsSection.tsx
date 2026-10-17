@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Award, GraduationCap, Flame, Swords, Target, Users, Brain, ChevronDown } from "lucide-react";
+import { Award, GraduationCap, Flame, Swords, Target, Users, Brain } from "lucide-react";
 import { AchievementItem } from "../../types";
 
 const ACHIEVEMENT_ICONS: Record<
@@ -55,8 +55,6 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
   setActiveTab,
   filteredAchievements,
 }) => {
-  const [showAllMobile, setShowAllMobile] = React.useState(false);
-
   return (
     <div className="p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2.5 sm:space-y-3.5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 dark:border-slate-800 pb-2.5 sm:pb-3">
@@ -120,16 +118,13 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
 
       {/* Achievement Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-3">
-        {filteredAchievements.map((ach, index) => {
+        {filteredAchievements.map((ach) => {
           const iconConfig = ACHIEVEMENT_ICONS[ach.id];
-          const isHiddenOnMobile = index >= 3 && !showAllMobile;
 
           return (
             <div
               key={ach.id}
               className={`p-2 sm:p-3.5 rounded-xl border transition-all duration-200 flex flex-col justify-between ${
-                isHiddenOnMobile ? "hidden sm:flex" : "flex"
-              } ${
                 ach.unlocked
                   ? "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 shadow-2xs hover:border-blue-400"
                   : "bg-slate-50/60 dark:bg-slate-950/40 border-slate-200/60 dark:border-slate-800/50 opacity-75"
@@ -184,18 +179,6 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
           );
         })}
       </div>
-
-      {/* Expand/Collapse Button on Mobile (Rule 7) */}
-      {filteredAchievements.length > 3 && (
-        <button
-          type="button"
-          onClick={() => setShowAllMobile(!showAllMobile)}
-          className="sm:hidden w-full py-2 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 text-[#0059bb] dark:text-sky-400 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer font-display"
-        >
-          <span>{showAllMobile ? "Thu gọn bớt" : `Xem thêm (${filteredAchievements.length - 3}) huy hiệu khác`}</span>
-          <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showAllMobile ? "rotate-180" : ""}`} />
-        </button>
-      )}
     </div>
   );
 };
