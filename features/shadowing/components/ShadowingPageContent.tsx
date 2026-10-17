@@ -1258,88 +1258,97 @@ export function ShadowingPageContent({
               }}
             />
           ) : (
-            <ShadowingStudioWorkspace
-              currentLesson={currentLesson}
-              rawIdParam={rawIdParam}
-              selectedLessonId={selectedLessonId}
-              isInPlaceSwitchingLesson={isInPlaceSwitchingLesson}
-              elapsedTime={elapsedTime}
-              onElapsedTimeTick={handleElapsedTimeTick}
-              currentSentenceIndex={currentSentenceIndex}
-              totalSentencesCount={totalSentencesCount}
-              sentencePlaybackTime={sentencePlaybackTime}
-              setSentencePlaybackTime={setSentencePlaybackTime}
-              playingSentenceText={playingSentenceText}
-              playbackSpeed={playbackSpeed}
-              setPlaybackSpeed={setPlaybackSpeed}
-              isRecording={isRecording}
-              recordingTime={recordingTime}
-              userAudioUrl={userAudioUrl}
-              isPlayingUserAudio={isPlayingUserAudio}
-              setIsPlayingUserAudio={setIsPlayingUserAudio}
-              userAudioPlayerRef={userAudioPlayerRef}
-              isAnalyzing={isAnalyzing}
-              liveAudioEnergy={liveAudioEnergy}
-              sentenceScores={sentenceScores}
-              aiAnalysisResult={aiAnalysisResult}
-              liveRecognizedWords={liveRecognizedWords}
-              liveWordStatuses={liveWordStatuses}
-              activeSpeechWordIndex={activeSpeechWordIndex}
-              activePlaybackWordIndex={activePlaybackWordIndex}
-              wordTrackContainerRef={wordTrackContainerRef}
-              wordTokenRefs={wordTokenRefs}
-              mobileStudioTab={mobileStudioTab}
-              setMobileStudioTab={setMobileStudioTab}
-              isCurrentSentenceBookmarked={isCurrentSentenceBookmarked}
-              handleToggleBookmark={handleToggleBookmark}
-              handleBackToListing={handleBackToListing}
-              onOpenReportModal={handleOpenReportModal}
-              fontSizeLevel={fontSizeLevel}
-              handleAdjustFontSize={handleAdjustFontSize}
-              autoNextSentence={autoNextSentence}
-              setAutoNextSentence={setAutoNextSentence}
-              hideTranslation={hideTranslation}
-              setHideTranslation={setHideTranslation}
-              handleWordClick={handleWordClick}
-              handlePlaySampleAudio={handlePlaySampleAudio}
-              handlePrevSentence={handlePrevSentence}
-              handleNextSentence={handleNextSentence}
-              startRecording={startRecording}
-              stopRecording={stopRecording}
-              handleResetCurrentSentence={handleResetCurrentSentence}
-              completedSentences={completedSentences}
-              onSelectTranscriptSentence={handleSelectTranscriptSentence}
-              onReplayTranscriptSentence={handleReplayTranscriptSentence}
-              onResetProgress={handleResetProgress}
-              recommendedLessons={lessonsList
-                .filter((l) => {
-                  if (l.id === currentLesson.id) return false;
-                  if (initialMode === "audio" || basePath.includes("/audio")) {
-                    const isVid =
-                      Boolean(l.isVideo) ||
-                      String(l.id).startsWith("vid_") ||
-                      String(l.id).startsWith("yt_") ||
-                      String(l.id).startsWith("video_") ||
-                      Boolean(l.audioUrl?.includes("youtube")) ||
-                      Boolean(l.audioUrl?.includes("youtu.be"));
-                    return !isVid;
-                  }
-                  return true;
-                })
-                .slice(0, 5)}
-              onSelectLesson={handleSelectLesson}
-              onShuffleRecommendations={handleShuffleRecommendations}
-              setPlayingSentenceText={setPlayingSentenceText}
-              currentVolume={currentVolume}
-              setCurrentVolume={handleVolumeChange}
-              currentAccent={currentAccent}
-              onAccentChange={handleAccentChange}
-              mediaDisplayMode={mediaDisplayMode}
-              onMediaDisplayModeChange={setMediaDisplayMode}
-              isMergedWithNext={isMergedWithNext}
-              onToggleMergeNext={() => setIsMergedWithNext((prev) => !prev)}
-              onToast={addToast}
-            />
+            <motion.div
+              key={`shadowing-studio-${selectedLessonId}`}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+              className="w-full h-full flex flex-col min-h-0"
+            >
+              <ShadowingStudioWorkspace
+                currentLesson={currentLesson}
+                rawIdParam={rawIdParam}
+                selectedLessonId={selectedLessonId}
+                isInPlaceSwitchingLesson={isInPlaceSwitchingLesson}
+                elapsedTime={elapsedTime}
+                onElapsedTimeTick={handleElapsedTimeTick}
+                currentSentenceIndex={currentSentenceIndex}
+                totalSentencesCount={totalSentencesCount}
+                sentencePlaybackTime={sentencePlaybackTime}
+                setSentencePlaybackTime={setSentencePlaybackTime}
+                playingSentenceText={playingSentenceText}
+                playbackSpeed={playbackSpeed}
+                setPlaybackSpeed={setPlaybackSpeed}
+                isRecording={isRecording}
+                recordingTime={recordingTime}
+                userAudioUrl={userAudioUrl}
+                isPlayingUserAudio={isPlayingUserAudio}
+                setIsPlayingUserAudio={setIsPlayingUserAudio}
+                userAudioPlayerRef={userAudioPlayerRef}
+                isAnalyzing={isAnalyzing}
+                liveAudioEnergy={liveAudioEnergy}
+                sentenceScores={sentenceScores}
+                aiAnalysisResult={aiAnalysisResult}
+                liveRecognizedWords={liveRecognizedWords}
+                liveWordStatuses={liveWordStatuses}
+                activeSpeechWordIndex={activeSpeechWordIndex}
+                activePlaybackWordIndex={activePlaybackWordIndex}
+                wordTrackContainerRef={wordTrackContainerRef}
+                wordTokenRefs={wordTokenRefs}
+                mobileStudioTab={mobileStudioTab}
+                setMobileStudioTab={setMobileStudioTab}
+                isCurrentSentenceBookmarked={isCurrentSentenceBookmarked}
+                handleToggleBookmark={handleToggleBookmark}
+                handleBackToListing={handleBackToListing}
+                onOpenReportModal={handleOpenReportModal}
+                fontSizeLevel={fontSizeLevel}
+                handleAdjustFontSize={handleAdjustFontSize}
+                autoNextSentence={autoNextSentence}
+                setAutoNextSentence={setAutoNextSentence}
+                hideTranslation={hideTranslation}
+                setHideTranslation={setHideTranslation}
+                handleWordClick={handleWordClick}
+                handlePlaySampleAudio={handlePlaySampleAudio}
+                handlePrevSentence={handlePrevSentence}
+                handleNextSentence={handleNextSentence}
+                startRecording={startRecording}
+                stopRecording={stopRecording}
+                handleResetCurrentSentence={handleResetCurrentSentence}
+                completedSentences={completedSentences}
+                onSelectTranscriptSentence={handleSelectTranscriptSentence}
+                onReplayTranscriptSentence={handleReplayTranscriptSentence}
+                onResetProgress={handleResetProgress}
+                recommendedLessons={lessonsList
+                  .filter((l) => {
+                    if (l.id === currentLesson.id) return false;
+                    if (initialMode === "audio" || basePath.includes("/audio")) {
+                      const isVid =
+                        Boolean(l.isVideo) ||
+                        String(l.id).startsWith("vid_") ||
+                        String(l.id).startsWith("yt_") ||
+                        String(l.id).startsWith("video_") ||
+                        Boolean(l.audioUrl?.includes("youtube")) ||
+                        Boolean(l.audioUrl?.includes("youtu.be"));
+                      return !isVid;
+                    }
+                    return true;
+                  })
+                  .slice(0, 5)}
+                onSelectLesson={handleSelectLesson}
+                onShuffleRecommendations={handleShuffleRecommendations}
+                setPlayingSentenceText={setPlayingSentenceText}
+                currentVolume={currentVolume}
+                setCurrentVolume={handleVolumeChange}
+                currentAccent={currentAccent}
+                onAccentChange={handleAccentChange}
+                mediaDisplayMode={mediaDisplayMode}
+                onMediaDisplayModeChange={setMediaDisplayMode}
+                isMergedWithNext={isMergedWithNext}
+                onToggleMergeNext={() => setIsMergedWithNext((prev) => !prev)}
+                onToast={addToast}
+              />
+            </motion.div>
           )}
         </>
       )}

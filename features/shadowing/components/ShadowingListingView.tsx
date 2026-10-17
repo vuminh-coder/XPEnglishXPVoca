@@ -91,6 +91,11 @@ export function ShadowingListingView({
     }, 180);
   };
 
+  const handleForceRefresh = async () => {
+    useAudioCatalogStore.getState().invalidateCache("all");
+    await useAudioCatalogStore.getState().fetchAudioLessons({ forceRefresh: true, mode: "audio" });
+  };
+
   const completedLessons = useMemo(() => {
     return lessonsList.filter(
       (l) =>
@@ -354,11 +359,44 @@ export function ShadowingListingView({
           />
         ) : (
           <>
-            {/* 2.1 MICRO-HERO PRACTICE STATS BENTO GRID (Rule 8 Wadhah Aloui & /analytics Standard) */}
+            {/* 2.1 CATEGORY TABS & FORCE REFRESH CONTROLS (MATCHING DICTATION PARITY) */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/80 dark:border-slate-800">
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+                {filterTabs.map((tab) => {
+                  const isActive = activeCategoryTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => handleSelectCategoryTab(tab.id)}
+                      className={`relative px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-bold transition-all cursor-pointer whitespace-nowrap select-none ${
+                        isActive
+                          ? "bg-[#0059bb] text-white shadow-xs"
+                          : "bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleForceRefresh}
+                className="h-8 px-3 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-semibold flex items-center gap-1.5 self-start sm:self-auto cursor-pointer transition-colors shadow-2xs shrink-0"
+                title="Làm mới danh mục bài học từ máy chủ"
+              >
+                <RefreshCw className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                <span>Làm mới</span>
+              </button>
+            </div>
+
+            {/* 2.2 MICRO-HERO PRACTICE STATS BENTO GRID (Rule 8 Wadhah Aloui & /analytics Standard) */}
         {isLoadingStats ? (
           <ShadowingListingHeroStatsSkeleton />
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 w-full">
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 w-full">
             {/* CARD 1: CÂU ĐÃ LUYỆN */}
             <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-blue-300 dark:hover:border-blue-700/50">
               <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
