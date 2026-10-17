@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, BookOpen, PenLine, Bot, Users, User } from "lucide-react";
+import { Home, BookOpen, Headphones, Bot, Users, User } from "lucide-react";
 import { motion } from "framer-motion";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
@@ -36,9 +36,9 @@ export default function BottomNav() {
       icon: BookOpen,
     },
     {
-      name: "Luyện tập",
-      path: "/study/practice",
-      icon: PenLine,
+      name: "Dictation",
+      path: "/study/dictation",
+      icon: Headphones,
     },
     {
       name: "AI Tutor",

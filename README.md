@@ -6287,6 +6287,11 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - **Bảo Toàn 100% Giao Diện Desktop**:
         * Trên màn hình lớn (`sm:` trở lên), duy trì kích thước tự nhiên tinh gọn (`sm:w-auto`, `sm:inline-flex`, `sm:flex-initial`), hoàn toàn không làm xáo trộn bố cục danh mục từ vựng trên Desktop.
 
+  24. **Cập Nhật Thanh Điều Hướng Đáy Mobile ([`BottomNav.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/BottomNav.tsx))**:
+      - **Thay thế Tab Luyện tập bằng Dictation**:
+        * Chuyển đổi tab thứ 3 trên BottomNav từ Luyện tập (`/study/practice`, icon `PenLine`) sang bài học **Dictation** (`/study/dictation`, icon `Headphones`), đồng bộ chuẩn xác với cấu trúc học tập cốt lõi của thanh bên Desktop.
+        * Kích hoạt trạng thái active chính xác khi người học truy cập `/study/dictation` với thanh chỉ báo đỉnh (Top Active Indicator Bar) và hiệu ứng chuyển đổi spring mượt mà.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)
