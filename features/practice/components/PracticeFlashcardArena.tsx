@@ -129,7 +129,7 @@ export function PracticeFlashcardArena({
                   onFlipCard();
                 }}
                 className="h-6 px-2 rounded-md bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/60 hover:border-[#0059bb] hover:text-[#0059bb] border border-slate-300 dark:border-slate-700 font-mono text-xs font-black text-slate-800 dark:text-slate-100 flex items-center justify-center shadow-xs shrink-0 cursor-pointer transition-all active:scale-95"
-                title="Lật mặt thẻ (Phím Space)"
+                title="Lật mặt thẻ phím Space"
               >
                 Space: Lật thẻ
               </button>
@@ -158,7 +158,7 @@ export function PracticeFlashcardArena({
             type="button"
             onClick={() => onRateFlashcard("again")}
             className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-rose-50/60 dark:hover:bg-rose-950/30 hover:border-rose-300 dark:hover:border-rose-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
-            title="Đánh giá Chưa nhớ (Phím 1)"
+            title="Đánh giá Chưa nhớ phím 1"
           >
             <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
               <span className="w-7 h-7 rounded-lg bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-rose-600 dark:text-rose-400 group-hover:scale-105 transition-transform">
@@ -178,7 +178,7 @@ export function PracticeFlashcardArena({
             type="button"
             onClick={() => onRateFlashcard("good")}
             className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-blue-50/60 dark:hover:bg-blue-950/30 hover:border-[#0059bb]/50 dark:hover:border-blue-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
-            title="Đánh giá Nhớ tốt (Phím 2)"
+            title="Đánh giá Nhớ tốt phím 2"
           >
             <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
               <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-[#0059bb] dark:text-sky-400 group-hover:scale-105 transition-transform">
@@ -198,7 +198,7 @@ export function PracticeFlashcardArena({
             type="button"
             onClick={() => onRateFlashcard("easy")}
             className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/30 hover:border-emerald-300 dark:hover:border-emerald-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
-            title="Đánh giá Rất dễ (Phím 3)"
+            title="Đánh giá Rất dễ phím 3"
           >
             <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
               <span className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition-transform">

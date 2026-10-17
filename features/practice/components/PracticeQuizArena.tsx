@@ -50,7 +50,7 @@ export function PracticeQuizArena({
               type="button"
               onClick={() => onPlayAudio(currentWord.word)}
               className="absolute left-full ml-3 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-50 dark:bg-blue-950/80 hover:bg-[#0059bb] hover:text-white text-[#0059bb] dark:text-sky-300 border border-blue-200/80 dark:border-blue-800/60 flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95 shrink-0"
-              title="Phát âm chuẩn (US)"
+              title="Phát âm chuẩn US"
             >
               <Volume2 className="w-4 h-4" />
             </button>
@@ -90,7 +90,7 @@ export function PracticeQuizArena({
                     if (quizOptions[idx]) onSelectOption(quizOptions[idx]);
                   }}
                   className="w-6 h-6 rounded-md bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/60 hover:border-[#0059bb] hover:text-[#0059bb] border border-slate-300 dark:border-slate-700 font-mono text-xs font-black text-slate-800 dark:text-slate-100 flex items-center justify-center shadow-xs shrink-0 cursor-pointer transition-all active:scale-95 disabled:opacity-40 disabled:pointer-events-none"
-                  title={`Chọn đáp án ${String.fromCharCode(65 + idx)} (Phím ${key})`}
+                  title={`Chọn đáp án ${String.fromCharCode(65 + idx)} phím ${key}`}
                 >
                   {key}
                 </button>

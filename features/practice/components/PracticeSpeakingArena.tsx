@@ -101,7 +101,7 @@ export function PracticeSpeakingArena({
                 onClick={onStartSpeaking}
                 disabled={isListening}
                 className="h-6 px-2 rounded-md bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/60 hover:border-[#0059bb] hover:text-[#0059bb] border border-slate-300 dark:border-slate-700 font-mono text-xs font-black text-slate-800 dark:text-slate-100 flex items-center justify-center shadow-xs shrink-0 cursor-pointer transition-all active:scale-95"
-                title="Thu âm phát âm (Phím Space)"
+                title="Thu âm phát âm phím Space"
               >
                 Space: Thu âm
               </button>

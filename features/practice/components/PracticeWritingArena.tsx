@@ -68,7 +68,7 @@ export function PracticeWritingArena({
                     .fill("_")
                     .join(" ")}
                 </strong>{" "}
-                ({currentWord.word.length} ký tự)
+                • {currentWord.word.length} ký tự
               </span>
             </div>
           )}
@@ -82,7 +82,7 @@ export function PracticeWritingArena({
                   : "bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-800 text-rose-800 dark:text-rose-200"
               }`}
             >
-              <span>{wIsCorrect ? "Chính xác! (+15 XP)" : "Chưa chính xác!"}</span>
+              <span>{wIsCorrect ? "Chính xác! +15 XP" : "Chưa chính xác!"}</span>
               <span className="font-mono text-base font-black uppercase text-slate-900 dark:text-white">
                 {currentWord.word}
               </span>
@@ -164,7 +164,7 @@ export function PracticeWritingArena({
               type="button"
               onClick={() => setWShowHint(true)}
               className="absolute right-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-900/60 hover:bg-amber-100 transition-colors cursor-pointer flex items-center gap-1 shadow-2xs active:scale-95"
-              title="Mở gợi ý chữ cái (-7 XP)"
+              title="Mở gợi ý chữ cái -7 XP"
             >
               <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
               <span>Gợi ý</span>

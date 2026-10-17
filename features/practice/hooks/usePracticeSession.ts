@@ -14,6 +14,7 @@ import { usePracticeCatalogStore, INITIAL_PRACTICE_VOCABS } from "@/stores/pract
 import { PracticeWord, SubMode, QuizOption, FlashcardRating } from "../types";
 import { getBookmarkedWords, toggleBookmark } from "../utils/bookmark";
 import { getDeterministicRandom } from "../utils/shuffle";
+import { stripParentheses } from "../utils/cleanText";
 import { usePracticeSpeech } from "./usePracticeSpeech";
 
 const QUESTION_TIME_LIMIT = 30;
@@ -178,7 +179,7 @@ export function usePracticeSession() {
     if (!currentWord) return [];
     const correctOpt: QuizOption = {
       id: "correct",
-      text: currentWord.meaning,
+      text: stripParentheses(currentWord.meaning),
       isCorrect: true,
     };
     const otherVocabs = vocabs.filter(
@@ -190,7 +191,7 @@ export function usePracticeSession() {
     const shuffledOthers = [...otherVocabs].sort(() => 0.5 - prng1()).slice(0, 3);
     const wrongOpts: QuizOption[] = shuffledOthers.map((v, i) => ({
       id: `wrong_${i}`,
-      text: v.meaning,
+      text: stripParentheses(v.meaning),
       isCorrect: false,
     }));
 
@@ -437,7 +438,7 @@ export function usePracticeSession() {
     addToast({
       type: "success",
       title: "Hoàn thành buổi ôn tập từ vựng! 🎉",
-      message: `Tổng điểm thưởng: +${totalEarnedXp} XP (${mins} phút thực hành)!`,
+      message: `Tổng điểm thưởng: +${totalEarnedXp} XP • ${mins} phút thực hành!`,
     });
   }, [totalEarnedXp, addToast]);
 

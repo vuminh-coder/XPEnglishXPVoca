@@ -2,6 +2,7 @@ export * from "./types";
 export * from "./utils/bookmark";
 export * from "./utils/similarity";
 export * from "./utils/shuffle";
+export * from "./utils/cleanText";
 export * from "./hooks/usePracticeSpeech";
 export * from "./hooks/usePracticeSession";
 export * from "./hooks/usePracticeKeyboard";

@@ -6564,6 +6564,15 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
    - Chuyển đổi dòng `Tiến độ: 1/25` bị lặp lại với Top Header sang tỷ lệ phần trăm `Hoàn thành: ${percent}%` kết hợp thanh progress bar tinh gọn.
    - Kiểm thử kỹ thuật: Toàn bộ các bài test phân hệ Luyện tập (`practice_standards.test.ts` & `practice_catalog_cache_swr.test.ts` - 17/17 tests PASS 100%).
 
+7. **Thanh Lọc Triệt Để Dấu Ngoặc Đơn `()` Gây Rối Mắt (Zero-Parentheses UI & Clean Data Pipeline)**:
+   - **Tiện ích làm sạch `stripParentheses` (`features/practice/utils/cleanText.ts`)**: Tự động lọc sạch các chú thích giải nghĩa trong dấu ngoặc đơn từ kho từ vựng (ví dụ: `xin chào (thông dụng và thân thiện nhất)` thành `xin chào`, `chào, xin chào (thân mật)` thành `chào, xin chào`), áp dụng đồng bộ trong `practiceCatalogStore.ts` và `usePracticeSession.ts` cho cả 4 lựa chọn Quiz, Flashcard, Writing, Speaking và Sidebar WordLab.
+   - **Header & Loại từ (`PracticeArenaHeader.tsx`)**: Bỏ các hậu tố viết tắt `(n.)`, `(v.)`, `(adj.)`, `(adv.)` rườm rà, chuẩn hóa thành `Danh từ`, `Động từ`, `Tính từ`, `Phó từ`. Bỏ ngoặc đơn ở tooltip `Lưu từ vựng này vào Sổ tay +5 XP`.
+   - **Thanh điều hướng & Huy hiệu phản hồi (`PracticeArenaNavigation.tsx`)**: Chuyển đổi `(+10 XP)`, `(+15 XP)`, `(100%)` thành định dạng mở hiện đại `+10 XP`, `+15 XP`, `100%`.
+   - **Gõ chính tả (`PracticeWritingArena.tsx`)**: Chuyển gợi ý độ dài từ `({length} ký tự)` thành `• ${length} ký tự`, chuẩn hóa huy hiệu `Chính xác! +15 XP` và tooltip `Mở gợi ý chữ cái -7 XP`.
+   - **Tooltips & Thao tác phím tắt (`PracticeFlashcardArena.tsx`, `PracticeQuizArena.tsx`, `PracticeSpeakingArena.tsx`)**: Chuẩn hóa tooltip thành `phím Space`, `phím 1/2/3/4`, `Phát âm chuẩn US`.
+   - **Tiêu đề trang (`layout.tsx`)**: Chuẩn hóa từ `Luyện Tập Từ Vựng (Practice)` thành `Luyện Tập Từ Vựng | XP English`.
+   - **Bộ kiểm thử tự động (`__tests__/practice_clean_text.test.ts`)**: 5 unit tests độc lập kiểm định khả năng khử ngoặc đơn đạt tỷ lệ vượt qua 100% (30/30 total practice tests pass).
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

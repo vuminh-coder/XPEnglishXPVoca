@@ -121,10 +121,10 @@ export function PracticeWordMetadataRow({
 
         {currentWord.type && (
           <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 text-xs font-medium font-mono border border-slate-200/60 dark:border-slate-700/60">
-            {currentWord.type === "noun" && "Danh từ (n.)"}
-            {currentWord.type === "verb" && "Động từ (v.)"}
-            {currentWord.type === "adjective" && "Tính từ (adj.)"}
-            {currentWord.type === "adverb" && "Phó từ (adv.)"}
+            {currentWord.type === "noun" && "Danh từ"}
+            {currentWord.type === "verb" && "Động từ"}
+            {currentWord.type === "adjective" && "Tính từ"}
+            {currentWord.type === "adverb" && "Phó từ"}
             {!["noun", "verb", "adjective", "adverb"].includes(currentWord.type) && currentWord.type}
           </span>
         )}
@@ -167,7 +167,7 @@ export function PracticeWordMetadataRow({
               ? "bg-amber-500 text-white shadow-amber-500/20"
               : "bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700"
           }`}
-          title={isCurrentBookmarked ? "Đã lưu vào Sổ tay từ vựng" : "Lưu từ vựng này vào Sổ tay (+5 XP)"}
+          title={isCurrentBookmarked ? "Đã lưu vào Sổ tay từ vựng" : "Lưu từ vựng này vào Sổ tay +5 XP"}
         >
           {isCurrentBookmarked ? (
             <BookmarkCheck className="w-3.5 h-3.5" />

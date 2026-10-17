@@ -59,7 +59,7 @@ export function PracticeWordLabSidebar({
                   ? "bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300"
                   : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-[#0059bb]"
               }`}
-              title={isCurrentBookmarked ? "Bỏ lưu từ" : "Lưu vào Sổ tay từ vựng (+5 XP)"}
+              title={isCurrentBookmarked ? "Bỏ lưu từ" : "Lưu vào Sổ tay từ vựng +5 XP"}
             >
               {isCurrentBookmarked ? (
                 <BookmarkCheck className="w-3.5 h-3.5 text-amber-500" />

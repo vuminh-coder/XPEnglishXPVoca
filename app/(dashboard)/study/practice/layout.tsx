@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Luyện Tập Từ Vựng (Practice)",
+  title: "Luyện Tập Từ Vựng | XP English",
   description:
     "Luyện tập từ vựng chuyên sâu với phương pháp Spaced Repetition SRS, flashcard tương tác và bài kiểm tra phản xạ đa dạng.",
 };

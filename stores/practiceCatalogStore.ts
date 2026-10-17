@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { PracticeWord, SubMode } from "@/features/practice/types";
+import { stripParentheses } from "@/features/practice/utils/cleanText";
 import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
 import { ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
 
@@ -35,11 +36,11 @@ export const INITIAL_PRACTICE_VOCABS: PracticeWord[] = BASIC_VOCABULARIES.slice(
   (item, idx) => ({
     id: item.id || `practice_vocab_${idx}`,
     word: item.word,
-    meaning: item.definitionVn || item.definition,
+    meaning: stripParentheses(item.definitionVn || item.definition),
     ipa: item.phonetic || "/.../",
     type: item.pos === "adj" ? "adjective" : item.pos || "noun",
     level: "A2",
-    topic: item.themeNameVn || "Từ vựng thường nhật",
+    topic: stripParentheses(item.themeNameVn || "Từ vựng thường nhật"),
     example: item.examples?.[0] || `She learned how to use the word ${item.word}.`,
     exampleVi:
       item.exampleTranslations?.[0] || `Cô ấy đã học cách sử dụng từ ${item.word}.`,
@@ -137,11 +138,11 @@ export const usePracticeCatalogStore = create<PracticeCatalogStoreState>((set, g
         localFallback = combinedMatches.slice(0, 25).map((item, idx) => ({
           id: item.id || `practice_vocab_${idx}`,
           word: item.word,
-          meaning: item.definitionVn || item.definition,
+          meaning: stripParentheses(item.definitionVn || item.definition),
           ipa: item.phonetic || "/.../",
           type: item.pos === "adj" ? "adjective" : item.pos || "noun",
           level: "A2",
-          topic: (item as any).themeNameVn || (item as any).themeId || "Từ vựng theo chủ đề",
+          topic: stripParentheses((item as any).themeNameVn || (item as any).themeId || "Từ vựng theo chủ đề"),
           example: item.examples?.[0] || `Practice using ${item.word}.`,
           exampleVi: item.exampleTranslations?.[0] || `Luyện tập từ ${item.word}.`,
         }));
@@ -150,11 +151,11 @@ export const usePracticeCatalogStore = create<PracticeCatalogStoreState>((set, g
       localFallback = ADVANCED_VOCABULARIES.slice(0, 25).map((item, idx) => ({
         id: item.id || `practice_vocab_adv_${idx}`,
         word: item.word,
-        meaning: item.definitionVn || item.definition,
+        meaning: stripParentheses(item.definitionVn || item.definition),
         ipa: item.phonetic || "/.../",
         type: item.pos === "adj" ? "adjective" : item.pos || "noun",
         level: "B2",
-        topic: (item as any).themeNameVn || (item as any).themeId || "Từ vựng nâng cao",
+        topic: stripParentheses((item as any).themeNameVn || (item as any).themeId || "Từ vựng nâng cao"),
         example: item.examples?.[0] || `Practice using ${item.word}.`,
         exampleVi: item.exampleTranslations?.[0] || `Luyện tập từ ${item.word}.`,
       }));
@@ -177,11 +178,11 @@ export const usePracticeCatalogStore = create<PracticeCatalogStoreState>((set, g
               const mapped: PracticeWord[] = list.map((item: any, idx: number) => ({
                 id: item.id || `vocab_${idx}`,
                 word: item.word,
-                meaning: item.definitionVn || item.definition,
+                meaning: stripParentheses(item.definitionVn || item.definition),
                 ipa: item.phonetic || item.ipa || "/.../",
                 type: item.pos === "adj" ? "adjective" : item.pos || "noun",
                 level: item.difficulty >= 3 ? "B2" : "A2",
-                topic: item.themeNameVn || item.themeNameEn || item.topic || "Từ vựng thường nhật",
+                topic: stripParentheses(item.themeNameVn || item.themeNameEn || item.topic || "Từ vựng thường nhật"),
                 example: item.examples?.[0] || item.example || `Practice using ${item.word}.`,
                 exampleVi: item.exampleTranslations?.[0] || item.exampleVi || `Luyện tập từ ${item.word}.`,
               }));
@@ -220,11 +221,11 @@ export const usePracticeCatalogStore = create<PracticeCatalogStoreState>((set, g
             const mapped: PracticeWord[] = list.map((item: any, idx: number) => ({
               id: item.id || `vocab_${idx}`,
               word: item.word,
-              meaning: item.definitionVn || item.definition,
+              meaning: stripParentheses(item.definitionVn || item.definition),
               ipa: item.phonetic || item.ipa || "/.../",
               type: item.pos === "adj" ? "adjective" : item.pos || "noun",
               level: item.difficulty >= 3 ? "B2" : "A2",
-              topic: item.themeNameVn || item.themeNameEn || item.topic || "Từ vựng thường nhật",
+              topic: stripParentheses(item.themeNameVn || item.themeNameEn || item.topic || "Từ vựng thường nhật"),
               example: item.examples?.[0] || item.example || `Practice using ${item.word}.`,
               exampleVi: item.exampleTranslations?.[0] || item.exampleVi || `Luyện tập từ ${item.word}.`,
             }));

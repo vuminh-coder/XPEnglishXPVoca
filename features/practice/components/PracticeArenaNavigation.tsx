@@ -67,7 +67,7 @@ export function PracticeArenaNavigation({
           qIsCorrect ? (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300/80 dark:border-emerald-800/80 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-black shadow-xs animate-scale-in">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
-              <span>Chính xác! (+10 XP)</span>
+              <span>Chính xác! +10 XP</span>
             </div>
           ) : (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-300/80 dark:border-rose-800/80 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-bold shadow-xs animate-scale-in max-w-full truncate">
@@ -86,7 +86,7 @@ export function PracticeArenaNavigation({
           wIsCorrect ? (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300/80 dark:border-emerald-800/80 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-black shadow-xs animate-scale-in">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
-              <span>Chính xác! (+15 XP)</span>
+              <span>Chính xác! +15 XP</span>
             </div>
           ) : (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-300/80 dark:border-rose-800/80 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-bold shadow-xs animate-scale-in max-w-full truncate">
@@ -105,7 +105,7 @@ export function PracticeArenaNavigation({
           sIsCorrect ? (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300/80 dark:border-emerald-800/80 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-black shadow-xs animate-scale-in">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
-              <span>Chuẩn xác! ({sAccuracy}%)</span>
+              <span>Chuẩn xác! {sAccuracy}%</span>
             </div>
           ) : (
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-300/80 dark:border-rose-800/80 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-bold shadow-xs animate-scale-in">
