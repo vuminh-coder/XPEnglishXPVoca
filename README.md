@@ -6292,6 +6292,12 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Chuyển đổi tab thứ 3 trên BottomNav từ Luyện tập (`/study/practice`, icon `PenLine`) sang bài học **Dictation** (`/study/dictation`, icon `Headphones`), đồng bộ chuẩn xác với cấu trúc học tập cốt lõi của thanh bên Desktop.
         * Kích hoạt trạng thái active chính xác khi người học truy cập `/study/dictation` với thanh chỉ báo đỉnh (Top Active Indicator Bar) và hiệu ứng chuyển đổi spring mượt mà.
 
+  25. **Tối Ưu Giao Diện Bài Nghe Dictation Trên Mobile ([`ListeningListingView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/ListeningListingView.tsx))**:
+      - **Ẩn Dải Tab Phân Loại & Nút Làm Mới Trên Mobile**:
+        * Khối thanh tab danh mục ("Tất cả bài học", "Cơ bản A1-A2", "Trung cấp B1-B2", v.v.) và nút "Làm mới" dữ liệu được thiết lập `hidden sm:flex`.
+        * Trên điện thoại di động, loại bỏ hoàn toàn tình trạng xếp chồng 2 tầng và nút "Làm mới" đứng lẻ loi, giúp nội dung danh mục bài học hiển thị tinh gọn ngay dưới thanh chọn chế độ.
+        * Trên máy tính (`sm:` trở lên), dải tab và nút "Làm mới" giữ nguyên 100% hiển thị nằm ngang cân đối.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

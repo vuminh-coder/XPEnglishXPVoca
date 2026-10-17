@@ -262,7 +262,7 @@ export function ListeningListingView({
         ) : (
           <>
             {/* 3. CATEGORY TABS & FORCE REFRESH CONTROLS (SWR & ZUSTAND INTEGRATION) */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/80 dark:border-slate-800">
+            <div className="hidden sm:flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/80 dark:border-slate-800">
               <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
                 {filterTabs.map((tab) => {
                   const isActive = activeCategoryTab === tab.id;
