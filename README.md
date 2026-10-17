@@ -6315,6 +6315,7 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Ẩn nút loa âm lượng trên mobile (`hidden sm:flex` do điện thoại dùng phím cứng volume), tiết kiệm 40px chiều rộng.
         * Tinh chỉnh kích thước cụm phím điều hướng (`w-8 h-8 sm:w-10 sm:h-10`, phím Play `w-10 h-10 sm:w-12 sm:h-12`, phím lặp lại `w-8 h-8`, phím tốc độ `h-7.5 sm:h-8.5`), đảm bảo 100% không tràn ngang trên mọi thiết bị di động (từ 360px đến 390px+).
         * Bảo toàn nguyên vẹn 100% kích thước và nút bấm trên Desktop (`sm:` và `lg:`).
+      - **Tinh Giản Thanh Tab Chuyển Đổi Trên Mobile ([`StudioMobileTabBar.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/StudioMobileTabBar.tsx))**: Lược bỏ toàn bộ phần đếm số trong ngoặc đơn `(...)` trên hai tab ("Luyện nghe" và "Danh sách phụ đề"), triệt tiêu hiện tượng chữ bị tràn hoặc cắt bớt (ellipsis) trên các dòng điện thoại màn hình nhỏ (360px - 390px), mang lại giao diện tinh gọn, thoáng đãng và cân đối hoàn hảo.
 
 ---
 

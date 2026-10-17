@@ -8,8 +8,8 @@ export interface StudioMobileTabBarProps {
   branch: "dictation" | "shadowing";
   activeTab: "practice" | "transcript";
   onTabChange: (tab: "practice" | "transcript") => void;
-  currentSentenceIndex: number;
-  totalSentencesCount: number;
+  currentSentenceIndex?: number;
+  totalSentencesCount?: number;
   className?: string;
 }
 
@@ -59,8 +59,7 @@ export const StudioMobileTabBar: React.FC<StudioMobileTabBarProps> = React.memo(
               <Mic className="w-3.5 h-3.5 shrink-0 relative z-10 text-[#0059bb] dark:text-sky-400" />
             )}
             <span className="relative z-10 truncate font-sans">
-              {isDictation ? "Luyện chép" : "Luyện nói"} (
-              {currentSentenceIndex + 1}/{totalSentencesCount})
+              {isDictation ? "Luyện nghe" : "Luyện nói"}
             </span>
           </button>
 
@@ -84,7 +83,7 @@ export const StudioMobileTabBar: React.FC<StudioMobileTabBarProps> = React.memo(
             )}
             <ListOrdered className="w-3.5 h-3.5 shrink-0 relative z-10 text-slate-500" />
             <span className="relative z-10 truncate font-sans">
-              Danh sách phụ đề ({totalSentencesCount})
+              Danh sách phụ đề
             </span>
           </button>
         </div>
