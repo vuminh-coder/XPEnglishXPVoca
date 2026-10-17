@@ -130,12 +130,24 @@ export default function FloatingAiChatbot() {
     });
   };
 
-  // Auto-hide when in Exam Prep testing room to avoid blocking the test timer, answer sheet & buttons
+  // Auto-hide when in Exam Prep testing room or active practice studio to avoid blocking controls & buttons
   const isExamMode =
     pathname?.startsWith("/study/exam-prep") || pathname?.startsWith("/study/exams");
 
-  // When dismissed by user or in exam mode, render nothing on-screen (hotkey Ctrl + / will call it back)
-  if (!mounted || isDismissed || isExamMode) return null;
+  const isStudioPractice =
+    Boolean(
+      pathname?.startsWith("/study/dictation") ||
+      pathname?.startsWith("/study/listening") ||
+      pathname?.startsWith("/study/shadowing") ||
+      pathname?.startsWith("/study/reading")
+    ) &&
+    typeof window !== "undefined" &&
+    (window.location.search.includes("id=") ||
+      window.location.search.includes("lessonId=") ||
+      pathname?.includes("/comprehension"));
+
+  // When dismissed by user, in exam mode, or active studio practice, render nothing on-screen (hotkey Ctrl + / will call it back)
+  if (!mounted || isDismissed || isExamMode || isStudioPractice) return null;
 
   const questCount = dbData?.dailyQuests?.filter((q) => !q.isCompleted).length ?? 0;
 

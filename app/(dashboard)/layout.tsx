@@ -19,13 +19,38 @@ export default function DashboardLayout({
     useUserStore.getState().checkSession();
   }, []);
 
-  const isExamWorkspaceActive = (pathname === "/study/exam-prep" || pathname?.startsWith("/study/exams")) && sidebarCollapsed;
+  const isExamWorkspaceActive =
+    (pathname === "/study/exam-prep" || pathname?.startsWith("/study/exams")) &&
+    sidebarCollapsed;
+
+  const [isClientStudioRoute, setIsClientStudioRoute] = React.useState(false);
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      setIsClientStudioRoute(
+        Boolean(
+          search.includes("id=") ||
+          search.includes("lessonId=") ||
+          pathname?.includes("/comprehension")
+        )
+      );
+    }
+  }, [pathname]);
+
+  const isStudioPracticeRoute = Boolean(
+    pathname?.startsWith("/study/dictation") ||
+    pathname?.startsWith("/study/listening") ||
+    pathname?.startsWith("/study/shadowing") ||
+    pathname?.startsWith("/study/reading")
+  );
+
   const isStudioWorkspaceActive =
-    (pathname?.startsWith("/study/dictation") ||
-      pathname?.startsWith("/study/listening") ||
-      pathname?.startsWith("/study/shadowing") ||
-      pathname?.startsWith("/study/reading")) &&
-    hideBottomNav;
+    (isStudioPracticeRoute && (hideBottomNav || isClientStudioRoute)) ||
+    (typeof window !== "undefined" &&
+      isStudioPracticeRoute &&
+      (window.location.search.includes("id=") ||
+        window.location.search.includes("lessonId=") ||
+        pathname?.includes("/comprehension")));
 
   return (
     <>

@@ -18,9 +18,46 @@ export default function BottomNav() {
   // Hide BottomNav on active exam screen or when studio pages explicitly request it
   const isExamActivePage =
     pathname?.match(/\/study\/exams\/[a-zA-Z0-9_-]+$/) ||
-    (pathname === "/study/exam-prep" && sidebarCollapsed);
+    (pathname === "/study/exam-prep" && sidebarCollapsed) ||
+    pathname?.includes("/comprehension");
 
-  if (isExamActivePage || hideBottomNav) return null;
+  const isStudioPracticeRoute = Boolean(
+    pathname?.startsWith("/study/dictation") ||
+    pathname?.startsWith("/study/listening") ||
+    pathname?.startsWith("/study/shadowing") ||
+    pathname?.startsWith("/study/reading")
+  );
+
+  const [hasLessonQuery, setHasLessonQuery] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const search = window.location.search;
+      setHasLessonQuery(
+        Boolean(
+          search.includes("id=") ||
+          search.includes("lessonId=") ||
+          pathname?.includes("/comprehension")
+        )
+      );
+    }
+  }, [pathname]);
+
+  const isClientStudio =
+    typeof window !== "undefined" &&
+    isStudioPracticeRoute &&
+    (window.location.search.includes("id=") ||
+      window.location.search.includes("lessonId=") ||
+      pathname?.includes("/comprehension"));
+
+  if (
+    isExamActivePage ||
+    hideBottomNav ||
+    isClientStudio ||
+    (isStudioPracticeRoute && hasLessonQuery)
+  ) {
+    return null;
+  }
 
   const userName = user?.fullName || user?.username || "Học viên XP Voca";
 

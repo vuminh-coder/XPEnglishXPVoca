@@ -6305,6 +6305,17 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Đồng bộ hóa 1:1 trạng thái Skeleton Loading trong `LoadingSkeletons.tsx` (`VideoListingSkeleton` và `ListeningListingSkeleton`) nhằm triệt tiêu hoàn toàn layout shift (CLS = 0) khi tải dữ liệu trên điện thoại.
         * Bảo toàn 100% giao diện đầy đủ với Hero Banner và dải CEFR trên máy tính (`sm:` trở lên).
 
+  27. **Khắc Phục Toàn Diện Lỗi Vỡ Giao Diện & Cuộn Trang Cho Phòng Luyện Dictation Video Trên Mobile (`/study/dictation/video?id=...`)**:
+      - **Ẩn Triệt Để `BottomNav` Khi Vào Studio Luyện Tập**: Nhận diện chính xác URL practice studio (`isStudioPracticeRoute && (hasLessonQuery || isClientStudio)`), gỡ bỏ hoàn toàn thanh BottomNav trên mobile để không che lấp các phím thao tác, bản dịch và ô nhập liệu dưới đáy màn hình.
+      - **Tự Động Ẩn `FloatingAiChatbot` Trong Không Gian Luyện Tập Di Động**: Khử xung đột che khuất phím chức năng (nút làm lại câu, xem chữ đầu, gợi ý) trên màn hình điện thoại hẹp (< 390px).
+      - **Thiết Lập Khung Nhìn 100dvh & Phân Cấp Cuộn Độc Quyền (Authoritative Scroll Hierarchy)**:
+        * Khóa cứng `.main-content.studio-workspace-active` ở chiều cao `100dvh` và `overflow: hidden`, cố định thanh Studio Header và thanh Tab chuyển đổi ("Luyện chép" / "Danh sách phụ đề") ở đỉnh màn hình.
+        * Thiết lập cuộn độc quyền bên trong cột bài học (`overflow-y-auto overscroll-contain pb-28 lg:pb-4`), triệt tiêu xung đột đa tầng cuộn lồng nhau (nested overflow-y scroll lock), cho phép học viên cuộn mượt mà xuống đọc trọn vẹn bản dịch tiếng Việt song ngữ, phiên âm IPA và danh sách từ vựng.
+      - **Tối Ưu Dock Điều Khiển Video Player Trên Điện Thoại ([`VideoCinemaFrame.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCinemaFrame.tsx))**:
+        * Ẩn nút loa âm lượng trên mobile (`hidden sm:flex` do điện thoại dùng phím cứng volume), tiết kiệm 40px chiều rộng.
+        * Tinh chỉnh kích thước cụm phím điều hướng (`w-8 h-8 sm:w-10 sm:h-10`, phím Play `w-10 h-10 sm:w-12 sm:h-12`, phím lặp lại `w-8 h-8`, phím tốc độ `h-7.5 sm:h-8.5`), đảm bảo 100% không tràn ngang trên mọi thiết bị di động (từ 360px đến 390px+).
+        * Bảo toàn nguyên vẹn 100% kích thước và nút bấm trên Desktop (`sm:` và `lg:`).
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

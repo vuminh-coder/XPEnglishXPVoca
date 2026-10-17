@@ -570,10 +570,10 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
         </div>
 
         {/* Transport & Setting Buttons Row */}
-        <div className="grid grid-cols-[auto_1fr_auto] sm:grid-cols-[1fr_auto_1fr] items-center gap-2 pt-0.5 select-none">
+        <div className="grid grid-cols-[auto_1fr_auto] sm:grid-cols-[1fr_auto_1fr] items-center gap-1 sm:gap-2 pt-0.5 select-none">
           {/* Left Zone: Segment counter badge */}
-          <div className="flex items-center gap-1.5 justify-start min-w-0">
-            <span className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-xs font-bold border border-slate-200/80 dark:border-slate-700/60 tabular-nums shrink-0 shadow-2xs">
+          <div className="flex items-center gap-1 sm:gap-1.5 justify-start min-w-0">
+            <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[11px] sm:text-xs font-bold border border-slate-200/80 dark:border-slate-700/60 tabular-nums shrink-0 shadow-2xs">
               #{segmentIndex + 1}/{totalSegments}
             </span>
 
@@ -586,16 +586,16 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
           </div>
 
           {/* Center Zone: Symmetrical Primary Transport Cluster */}
-          <div className="flex items-center justify-center gap-1.5 sm:gap-2.5">
+          <div className="flex items-center justify-center gap-1 sm:gap-2.5">
             {onPrev && (
               <button
                 type="button"
                 onClick={onPrev}
                 disabled={isPrevDisabled}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-25 disabled:pointer-events-none transition-all cursor-pointer active:scale-90"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-25 disabled:pointer-events-none transition-all cursor-pointer active:scale-90"
                 title="Câu trước đó (Ctrl + Left)"
               >
-                <SkipBack className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                <SkipBack className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             )}
 
@@ -603,10 +603,10 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
               <button
                 type="button"
                 onClick={handleRewind5s}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer active:scale-90"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer active:scale-90"
                 title="Tua lùi 5s (←)"
               >
-                <Rewind5sIcon className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
+                <Rewind5sIcon className="w-4.5 h-4.5 sm:w-5.5 sm:h-5.5" />
               </button>
             )}
 
@@ -614,13 +614,13 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
             <button
               type="button"
               onClick={onTogglePlay}
-              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#0059bb] hover:bg-[#004ba0] text-white flex items-center justify-center shadow-md shadow-blue-900/25 active:scale-95 transition-all cursor-pointer shrink-0 select-none group"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0059bb] hover:bg-[#004ba0] text-white flex items-center justify-center shadow-md shadow-blue-900/25 active:scale-95 transition-all cursor-pointer shrink-0 select-none group"
               title={isPlaying ? "Tạm dừng video (Space)" : "Phát video (Space)"}
             >
               {isPlaying ? (
-                <Pause className="w-5 h-5 sm:w-5.5 sm:h-5.5 fill-white stroke-white" />
+                <Pause className="w-4.5 h-4.5 sm:w-5.5 sm:h-5.5 fill-white stroke-white" />
               ) : (
-                <Play className="w-5 h-5 sm:w-5.5 sm:h-5.5 fill-white stroke-white ml-0.5" />
+                <Play className="w-4.5 h-4.5 sm:w-5.5 sm:h-5.5 fill-white stroke-white ml-0.5" />
               )}
             </button>
 
@@ -628,10 +628,10 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
               <button
                 type="button"
                 onClick={handleForward5s}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer active:scale-90"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-700 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer active:scale-90"
                 title="Tua nhanh 5s (→)"
               >
-                <Forward5sIcon className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
+                <Forward5sIcon className="w-4.5 h-4.5 sm:w-5.5 sm:h-5.5" />
               </button>
             )}
 
@@ -640,10 +640,10 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
                 type="button"
                 onClick={onNext}
                 disabled={isNextDisabled}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-25 disabled:pointer-events-none transition-all cursor-pointer active:scale-90"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-600 hover:text-slate-950 dark:text-slate-300 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-25 disabled:pointer-events-none transition-all cursor-pointer active:scale-90"
                 title="Câu tiếp theo (Enter / Ctrl + Right)"
               >
-                <SkipForward className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                <SkipForward className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             )}
           </div>
@@ -654,24 +654,24 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
             <button
               type="button"
               onClick={() => setIsLoopSentence((prev) => !prev)}
-              className={`w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
+              className={`w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
                 isLoopSentence
                   ? "bg-blue-500/10 border-blue-400/40 text-[#0059bb] dark:text-sky-400"
                   : "border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
               }`}
               title={isLoopSentence ? "Đang bật lặp lại câu này (A-B Loop)" : "Bật lặp lại câu này tự động"}
             >
-              <Repeat className="w-4 h-4" />
+              <Repeat className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
 
             {onSpeedChange && (
               <button
                 type="button"
                 onClick={cycleSpeed}
-                className="h-8 sm:h-8.5 px-2.5 rounded-full bg-slate-100/90 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700/80 text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 transition-all flex items-center gap-1 cursor-pointer shrink-0"
+                className="h-7.5 sm:h-8.5 px-2 sm:px-2.5 rounded-full bg-slate-100/90 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700/80 text-[10.5px] sm:text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 transition-all flex items-center gap-1 cursor-pointer shrink-0"
                 title="Thay đổi tốc độ phát (0.75x, 1x, 1.25x, 1.5x)"
               >
-                <Gauge className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                <Gauge className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-[#0059bb] dark:text-sky-400" />
                 <span>{playbackSpeed}x</span>
               </button>
             )}
@@ -680,7 +680,7 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
               <button
                 type="button"
                 onClick={toggleMute}
-                className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all cursor-pointer"
+                className="hidden sm:flex w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all cursor-pointer"
                 title={volume === 0 ? "Bật âm thanh" : "Tắt tiếng"}
               >
                 {volume === 0 ? (

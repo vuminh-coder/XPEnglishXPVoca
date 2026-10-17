@@ -794,14 +794,13 @@ export function DictationPageContent({
     if (selectedLessonId) {
       setSidebarCollapsed(true);
       setHideBottomNav(true);
+      return () => {
+        setHideBottomNav(false);
+      };
     } else {
       setHideBottomNav(false);
     }
   }, [selectedLessonId, setSidebarCollapsed, setHideBottomNav]);
-
-  useEffect(() => {
-    return () => setHideBottomNav(false);
-  }, [setHideBottomNav]);
 
   // Stabilize completedLessonIds key to prevent unnecessary re-computations
   const completedLessonIdsKey = useMemo(() => {
@@ -1502,7 +1501,7 @@ export function DictationPageContent({
     <div
       className={`w-full min-w-0 max-w-none font-sans ${
         selectedLessonId
-          ? "h-full max-h-screen overflow-hidden p-0"
+          ? "h-full max-h-[100dvh] overflow-hidden p-0"
           : "min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col"
       }`}
     >
@@ -1600,7 +1599,7 @@ export function DictationPageContent({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="w-full h-full flex flex-col"
+            className="w-full h-full flex flex-col min-h-0"
           >
             {currentSentence ? (
               <ListeningStudioWorkspace
