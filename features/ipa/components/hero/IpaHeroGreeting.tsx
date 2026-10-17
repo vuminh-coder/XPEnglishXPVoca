@@ -58,28 +58,28 @@ export const IpaHeroGreeting: React.FC<IpaHeroGreetingProps> = ({
     >
       {/* Upper Greeting Row with Avatar, Name & Toggle Switch */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="shrink-0">
+        <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+          <div className="shrink-0 hidden sm:block">
             <UserAvatar
               avatar={(user as any)?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
               imageUrl={user?.imageUrl}
               emoji={user?.avatarEmoji}
               name={displayName}
-              size="w-10 h-10 sm:w-12 sm:h-12"
+              size="w-11 h-11 sm:w-12 sm:h-12"
             />
           </div>
 
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
               <h1 className="text-sm sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white font-display truncate">
-                <span className="sm:hidden">Studio IPA</span>
-                <span className="hidden sm:inline">Studio Phát Âm IPA</span> • {displayName}
+                <span className="sm:hidden">Studio Phát Âm IPA</span>
+                <span className="hidden sm:inline">Studio Phát Âm IPA • {displayName}</span>
               </h1>
-              <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px] sm:text-xs font-semibold font-mono border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
+              <span className="px-1.5 sm:px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs font-semibold font-mono border border-slate-200/70 dark:border-slate-700/60 shadow-2xs shrink-0">
                 Lv.{user?.level || 1} • {userTitle}
               </span>
             </div>
-            <p className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-2 flex-wrap">
+            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-1.5 sm:gap-2 flex-wrap">
               <span>
                 Đã làm chủ <strong className="text-slate-800 dark:text-slate-200">{masteredCount}/{totalCount}</strong> âm
               </span>
@@ -89,8 +89,8 @@ export const IpaHeroGreeting: React.FC<IpaHeroGreetingProps> = ({
           </div>
         </div>
 
-        {/* Header Right: iOS-Style Smooth Spring Toggle Switch (Spans edge-to-edge on mobile) */}
-        <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800/80 shrink-0 select-none">
+        {/* Header Right: iOS-Style Smooth Spring Toggle Switch */}
+        <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800/80 w-full sm:w-auto shrink-0 select-none">
           <span
             onClick={handleToggle}
             className={`text-xs cursor-pointer select-none transition-colors duration-200 ${
@@ -106,16 +106,16 @@ export const IpaHeroGreeting: React.FC<IpaHeroGreetingProps> = ({
             role="switch"
             aria-checked={showMetrics}
             onClick={handleToggle}
-            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0059bb] active:scale-95 ${
+            className={`relative inline-flex h-5.5 sm:h-6 w-10 sm:w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0059bb] active:scale-95 ${
               showMetrics ? "bg-[#0059bb]" : "bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600"
             }`}
             title={showMetrics ? "Gạt tắt để ẩn các chỉ số (thu gọn)" : "Gạt bật để xem 4 thẻ chỉ số (mở rộng)"}
           >
             <span className="sr-only">Bật/Tắt hiển thị chỉ số chi tiết</span>
             <motion.span
-              animate={{ x: showMetrics ? 20 : 0 }}
+              animate={{ x: showMetrics ? 18 : 0 }}
               transition={{ type: "spring", stiffness: 600, damping: 32 }}
-              className="pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm ring-0"
+              className="pointer-events-none inline-block h-4.5 sm:h-5 w-4.5 sm:w-5 rounded-full bg-white shadow-sm ring-0"
             />
           </button>
         </div>
@@ -159,36 +159,36 @@ export const IpaHeroGreeting: React.FC<IpaHeroGreetingProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4"
+                className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
               >
               {/* Metric 1: Mastered Sounds */}
               <IpaMetricCard
-                icon={<BookmarkCheck className="w-5 h-5 stroke-[2.2]" />}
+                icon={<BookmarkCheck className="w-4.5 h-4.5 stroke-[2.2]" />}
                 iconBgClass="bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-800/50"
                 value={masteredCount}
-                unit={`/${totalCount} âm`}
-                label="Âm thuần thục"
+                unit={`/${totalCount}`}
+                label="Âm đã thuộc"
                 subText="Chuẩn Oxford"
                 onClick={() => onNavigateTab && onNavigateTab("matrix")}
               />
 
               {/* Metric 2: AI Fluency Score */}
               <IpaMetricCard
-                icon={<Target className="w-5 h-5 stroke-[2.2]" />}
+                icon={<Target className="w-4.5 h-4.5 stroke-[2.2]" />}
                 iconBgClass="bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/50"
                 value={averageScore}
                 unit="%"
-                label="Chuẩn xác AI"
+                label="Độ chuẩn xác AI"
                 subText="Khẩu hình & Cao độ"
                 onClick={() => onNavigateTab && onNavigateTab("practice_lab")}
               />
 
               {/* Metric 3: Minimal Pairs Completed */}
               <IpaMetricCard
-                icon={<Swords className="w-5 h-5 stroke-[2.2]" />}
+                icon={<Swords className="w-4.5 h-4.5 stroke-[2.2]" />}
                 iconBgClass="bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-200/60 dark:border-purple-800/50"
                 value={pairsLearnedCount}
-                unit="/12 cặp"
+                unit="/12"
                 label="Cặp âm đã học"
                 subText="Đấu trường tai nghe"
                 onClick={() => onNavigateTab && onNavigateTab("minimal_pairs")}
@@ -200,13 +200,13 @@ export const IpaHeroGreeting: React.FC<IpaHeroGreetingProps> = ({
                   <img
                     src="/images/streak-flame-crystal.png"
                     alt="Streak Flame"
-                    className="w-6 h-6 object-contain drop-shadow-[0_2px_4px_rgba(245,158,11,0.3)] select-none pointer-events-none"
+                    className="w-5 h-5 object-contain drop-shadow-[0_2px_4px_rgba(245,158,11,0.3)] select-none pointer-events-none"
                   />
                 }
                 iconBgClass="bg-amber-50 dark:bg-amber-950/60 border border-amber-200/60 dark:border-amber-800/50 p-1 overflow-hidden"
                 value={actualStreak}
                 unit="ngày"
-                label="Chuỗi phát âm"
+                label="Chuỗi luyện tập"
                 subText="Kỷ lục liên tiếp"
               />
               </motion.div>

@@ -26,13 +26,13 @@ export const IpaMetricCard: React.FC<IpaMetricCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5 sm:gap-3 transition-all hover:border-slate-300 dark:hover:border-slate-700 shadow-2xs group select-none ${
+      className={`p-2 sm:p-3.5 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2 sm:gap-3 transition-all hover:border-slate-300 dark:hover:border-slate-700 shadow-2xs group select-none ${
         onClick ? "cursor-pointer active:scale-95" : ""
       } ${className}`}
     >
       {/* Icon Well (Soft Square with concentric inner curve) */}
       <div
-        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform ${iconBgClass}`}
+        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform ${iconBgClass}`}
       >
         {icon}
       </div>

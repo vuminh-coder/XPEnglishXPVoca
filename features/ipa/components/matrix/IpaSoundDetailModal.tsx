@@ -55,72 +55,94 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
       }}
     >
       <div
-        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto hide-scrollbar rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-4 sm:p-6 space-y-5"
+        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto hide-scrollbar rounded-2xl sm:rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-3.5 sm:p-6 space-y-4 sm:space-y-5"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Bar */}
-        <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
-          <div className="flex items-center gap-4">
-            <div className="flex flex-col">
-              <div className="text-3xl sm:text-4xl font-black font-sans text-slate-900 dark:text-white tracking-wide leading-none">
-                /{sound.symbol}/
-              </div>
-              <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mt-1">
-                {getSoundDisplayHint(sound)}
-              </span>
-            </div>
-            <div className="space-y-1.5">
-              <IpaSoundBadge sound={sound} size="md" showCategoryTag />
-              <div className="flex items-center gap-2 text-xs pt-0.5">
-                <span className="text-slate-400 dark:text-slate-500 font-medium">Từ mẫu:</span>
-                <span className="font-bold text-slate-900 dark:text-white capitalize">
-                  {sound.keyWord}
-                </span>
-                <span className="font-mono text-[11px] font-semibold text-[#0059bb] dark:text-sky-400">
-                  {sound.keyWordPhonetic}
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex items-center justify-between sm:justify-start gap-3 sm:gap-4 w-full sm:w-auto">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="flex flex-col">
+                <div className="text-3xl sm:text-4xl font-black font-sans text-slate-900 dark:text-white tracking-wide leading-none">
+                  /{sound.symbol}/
+                </div>
+                <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mt-1">
+                  {getSoundDisplayHint(sound)}
                 </span>
               </div>
+              <div className="space-y-1 sm:space-y-1.5">
+                <IpaSoundBadge sound={sound} size="md" showCategoryTag />
+                <div className="flex items-center gap-1.5 sm:gap-2 text-xs pt-0.5">
+                  <span className="text-slate-400 dark:text-slate-500 font-medium">Từ mẫu:</span>
+                  <span className="font-bold text-slate-900 dark:text-white capitalize">
+                    {sound.keyWord}
+                  </span>
+                  <span className="font-mono text-[11px] font-semibold text-[#0059bb] dark:text-sky-400">
+                    {sound.keyWordPhonetic}
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                stopIpaAudio();
-                setIsPlayingIsolated(true);
-                playIpaIsolatedSound(sound.id, {
-                  onPlay: () => setIsPlayingIsolated(true),
-                  onEnd: () => setIsPlayingIsolated(false),
-                  onError: () => setIsPlayingIsolated(false),
-                });
-                setTimeout(() => setIsPlayingIsolated(false), 1400);
-              }}
-              className={`h-9 px-3 rounded-xl font-bold text-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
-                isPlayingIsolated
-                  ? "bg-[#0059bb] text-white ring-2 ring-blue-400/40 animate-pulse"
-                  : "bg-[#0059bb] hover:bg-[#004ba0] text-white shadow-2xs"
-              }`}
-              title={`Phát âm cô lập /${sound.symbol}/`}
-            >
-              <Volume2 className="w-3.5 h-3.5" />
-              <span>Âm /{sound.symbol}/</span>
-            </button>
-
-            <IpaAudioPlayButton
-              text={sound.keyWord}
-              size="md"
-              variant="secondary"
-              label={sound.keyWord}
-            />
-
+            {/* Close Button on Mobile (Top-Right) */}
             <button
               type="button"
               onClick={() => {
                 stopIpaAudio();
                 onClose();
               }}
-              className="w-8 h-8 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center cursor-pointer transition-colors"
+              className="sm:hidden w-8 h-8 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center cursor-pointer transition-colors shrink-0"
+              title="Đóng (Esc)"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Action Audio Buttons */}
+          <div className="flex items-center gap-2 justify-between sm:justify-end w-full sm:w-auto">
+            <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+              <button
+                type="button"
+                onClick={() => {
+                  stopIpaAudio();
+                  setIsPlayingIsolated(true);
+                  playIpaIsolatedSound(sound.id, {
+                    onPlay: () => setIsPlayingIsolated(true),
+                    onEnd: () => setIsPlayingIsolated(false),
+                    onError: () => setIsPlayingIsolated(false),
+                  });
+                  setTimeout(() => setIsPlayingIsolated(false), 1400);
+                }}
+                className={`h-9 px-3 rounded-xl font-bold text-xs flex-1 sm:flex-initial justify-center items-center gap-1.5 cursor-pointer active:scale-95 transition-all ${
+                  isPlayingIsolated
+                    ? "bg-[#0059bb] text-white ring-2 ring-blue-400/40 animate-pulse"
+                    : "bg-[#0059bb] hover:bg-[#004ba0] text-white shadow-2xs"
+                }`}
+                title={`Phát âm cô lập /${sound.symbol}/`}
+              >
+                <Volume2 className="w-3.5 h-3.5 shrink-0" />
+                <span>Âm /{sound.symbol}/</span>
+              </button>
+
+              <div className="flex-1 sm:flex-initial">
+                <IpaAudioPlayButton
+                  text={sound.keyWord}
+                  size="md"
+                  variant="secondary"
+                  label={sound.keyWord}
+                  className="w-full sm:w-auto justify-center"
+                />
+              </div>
+            </div>
+
+            {/* Desktop Close Button */}
+            <button
+              type="button"
+              onClick={() => {
+                stopIpaAudio();
+                onClose();
+              }}
+              className="hidden sm:flex w-8 h-8 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 items-center justify-center cursor-pointer transition-colors shrink-0"
               title="Đóng (Esc)"
             >
               <X className="w-4 h-4" />
@@ -176,7 +198,7 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
 
         {/* Word Examples Section */}
         <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2.5">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
             <span className="text-xs font-black uppercase tracking-wider text-slate-400 font-display">
               Từ vựng ví dụ thực tế ({sound.examples.length})
             </span>
@@ -187,7 +209,7 @@ export const IpaSoundDetailModal: React.FC<IpaSoundDetailModalProps> = ({
                   onClose();
                   onGoToPracticeLab(sound);
                 }}
-                className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer"
+                className="text-xs font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer self-start sm:self-auto"
               >
                 <span>Vào phòng thực hành chuyên sâu</span>
                 <ExternalLink className="w-3.5 h-3.5" />
