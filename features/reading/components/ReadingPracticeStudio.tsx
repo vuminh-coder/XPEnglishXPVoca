@@ -638,8 +638,8 @@ export function ReadingPracticeStudio({
               : "hidden lg:flex lg:flex-col lg:flex-[6]"
           } h-full overflow-y-auto p-4 sm:p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 space-y-6 bg-white dark:bg-slate-950 pb-20 lg:pb-8`}
         >
-          {/* Passage Meta Card (Double-Bezel Agency Design) */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+          {/* Passage Meta Card (Double-Bezel Agency Design - Ẩn trên mobile < lg để tối ưu không gian đọc) */}
+          <div className="hidden lg:flex p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
             <div className="flex items-center gap-3.5 min-w-0 flex-1">
               <div className="w-11 h-11 rounded-xl bg-white dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700 flex items-center justify-center text-2xl shrink-0 shadow-2xs">
                 {passage.icon}

@@ -6523,6 +6523,7 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
    - Chuẩn hóa khối fallback khi ảnh bìa lỗi với biểu tượng vector `BookOpen` trên nền gradient kính mờ cao cấp thay cho emoji thô.
 
 3. **Tối Ưu Công Thái Học Mobile & Triệt Tiêu Thanh Nộp Bài Che Khuất Văn Bản (`ReadingPracticeStudio.tsx`)**:
+   - Ẩn khối thẻ thông tin bài đọc (Passage Meta Card) trên Mobile (`hidden lg:flex`): Khối thẻ chứa icon, số từ, huy hiệu level và mẹo tra từ đã được lược bỏ hoàn toàn trên màn hình điện thoại (< lg), giải phóng hơn 140px không gian dọc giúp học viên vào đọc trực tiếp văn bản bài học ngay dưới thanh capsule.
    - Sửa lỗi thanh nộp bài nổi che khuất bài đọc: Thanh hành động cố định ở đáy màn hình (`Nộp bài & Chấm điểm tức thì`) giờ đây được ẩn hoàn toàn trên mobile khi học viên đang ở tab đọc bài (`mobileViewTab === "passage"`) hoặc tra từ điển (`mobileViewTab === "dictionary"`), giải phóng 100% không gian cuộn đọc văn bản.
    - Thêm `suppressHydrationWarning` cho đồng hồ bấm giờ `formatElapsed(elapsedSeconds)` để ngăn ngừa cảnh báo hydration mismatch giữa server và client.
    - Bộ chọn cỡ chữ (`A- A A+`) được tinh chỉnh co giãn linh hoạt (`hidden xs:flex`), ưu tiên khoảng thở hiển thị trọn vẹn tiêu đề bài đọc trên màn hình điện thoại nhỏ (< 380px).
