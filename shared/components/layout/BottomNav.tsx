@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
 import { prefetchRouteData } from "@/shared/utils/prefetchEngine";
+import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 
 export default function BottomNav() {
   const pathname = usePathname();
@@ -20,6 +21,8 @@ export default function BottomNav() {
     (pathname === "/study/exam-prep" && sidebarCollapsed);
 
   if (isExamActivePage || hideBottomNav) return null;
+
+  const userName = user?.fullName || user?.username || "Học viên XP Voca";
 
   const tabs = [
     {
@@ -46,17 +49,19 @@ export default function BottomNav() {
       name: "Cộng đồng",
       path: "/community",
       icon: Users,
+      badge: 1,
     },
     {
       name: "Cá nhân",
       path: "/profile",
       icon: User,
+      isProfile: true,
     },
   ];
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 h-[60px] pb-[env(safe-area-inset-bottom)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200/90 dark:border-slate-800 z-[var(--z-navbar)] flex items-center justify-around px-1.5 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_24px_rgba(0,0,0,0.4)]"
+      className="md:hidden fixed bottom-0 left-0 right-0 h-14 pb-[env(safe-area-inset-bottom,0px)] bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800 z-[var(--z-navbar)] flex items-center justify-around px-1 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-2px_16px_rgba(0,0,0,0.4)] select-none"
       aria-label="Mobile navigation"
     >
       {tabs.map((tab) => {
@@ -70,44 +75,57 @@ export default function BottomNav() {
             key={tab.path}
             href={tab.path}
             aria-current={isActive ? "page" : undefined}
+            aria-label={tab.name}
+            title={tab.name}
             onMouseEnter={() => prefetchRouteData(tab.path)}
             onTouchStart={() => prefetchRouteData(tab.path)}
-            className="relative flex flex-col items-center justify-center flex-1 h-[52px] max-w-[68px] rounded-xl transition-all duration-150 select-none group active:scale-90"
+            className="relative flex items-center justify-center flex-1 h-full cursor-pointer transition-transform duration-150 active:scale-90 group"
           >
-            {/* Active Dashboard-style Pill Indicator */}
+            {/* Facebook-style Top Active Indicator Bar (No clumsy pill box!) */}
             {isActive && (
               <motion.div
-                layoutId="mobileBottomNavActivePill"
-                className="absolute inset-x-0.5 inset-y-0.5 rounded-xl bg-blue-50/90 dark:bg-blue-950/70 border border-blue-200/70 dark:border-blue-800/60 shadow-2xs"
-                transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                layoutId="fbBottomNavActiveBar"
+                className="absolute top-0 inset-x-2.5 sm:inset-x-3.5 h-[3px] bg-[#0059bb] dark:bg-sky-400 rounded-b-full shadow-xs"
+                transition={{ type: "spring", stiffness: 450, damping: 35 }}
               />
             )}
 
-            <div className="relative z-10 flex flex-col items-center justify-center gap-0.5">
-              <div className="relative">
+            <div className="relative flex items-center justify-center">
+              {tab.isProfile ? (
+                /* Profile Tab: Circular User Avatar with Active Ring */
+                <div
+                  className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                    isActive
+                      ? "ring-2 ring-[#0059bb] dark:ring-sky-400 shadow-2xs"
+                      : "ring-1.5 ring-slate-300 dark:ring-slate-700 opacity-80 group-hover:opacity-100"
+                  }`}
+                >
+                  <UserAvatar
+                    avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+                    imageUrl={user?.imageUrl}
+                    avatar={(user as any)?.avatar}
+                    emoji={user?.avatarEmoji}
+                    name={userName}
+                    size="w-6.5 h-6.5"
+                  />
+                </div>
+              ) : (
+                /* Icon Tabs: Pure, High-Contrast Facebook Style (No text labels) */
                 <Icon
-                  className={`w-[19px] h-[19px] transition-transform duration-200 ${
+                  className={`w-[23px] h-[23px] transition-all duration-200 ${
                     isActive
                       ? "text-[#0059bb] dark:text-sky-400 stroke-[2.3] scale-105"
-                      : "text-slate-400 dark:text-slate-500 stroke-[1.8] group-hover:text-slate-600 dark:group-hover:text-slate-300"
+                      : "text-slate-500 dark:text-slate-400 stroke-[1.8] group-hover:text-slate-800 dark:group-hover:text-slate-200"
                   }`}
                 />
-                {/* Facebook-style Red Notification Accent Badge */}
-                {tab.path === "/community" && (
-                  <span className="absolute -top-1 -right-2 min-w-[14px] h-[14px] px-0.5 rounded-full bg-[#f43f5e] text-white text-[8.5px] font-bold font-mono flex items-center justify-center border border-white dark:border-slate-900 shadow-2xs pointer-events-none">
-                    1
-                  </span>
-                )}
-              </div>
-              <span
-                className={`text-[9.5px] leading-tight tracking-tight whitespace-nowrap transition-colors duration-200 font-sans ${
-                  isActive
-                    ? "text-[#0059bb] dark:text-sky-400 font-black"
-                    : "text-slate-500 dark:text-slate-400 font-bold group-hover:text-slate-700 dark:group-hover:text-slate-200"
-                }`}
-              >
-                {tab.name}
-              </span>
+              )}
+
+              {/* Facebook-style Red Notification Accent Badge */}
+              {tab.badge && (
+                <span className="absolute -top-1.5 -right-2 min-w-[15px] h-[15px] px-1 rounded-full bg-[#f43f5e] text-white text-[9px] font-bold font-mono flex items-center justify-center border border-white dark:border-slate-900 shadow-2xs pointer-events-none">
+                  {tab.badge}
+                </span>
+              )}
             </div>
           </Link>
         );
