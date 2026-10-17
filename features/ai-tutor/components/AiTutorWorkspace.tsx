@@ -1144,7 +1144,7 @@ export default function AiTutorWorkspace() {
               className="shrink-0 relative cursor-pointer group"
               title="Nhấp để đổi giọng nói / huấn luyện viên AI"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-blue-50 group-hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shadow-2xs font-mono transition-colors">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-50 group-hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shadow-2xs font-mono transition-colors">
                 <span>{activePersonaObj.countryCode}</span>
               </div>
               <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white dark:border-slate-900" />
@@ -1191,7 +1191,7 @@ export default function AiTutorWorkspace() {
                     className="flex items-center gap-2 min-w-0 text-left hover:opacity-85 transition-opacity cursor-pointer group"
                     title="Nhấp để đổi giọng nói / huấn luyện viên AI"
                   >
-                    <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold text-xs font-mono border border-blue-200/60 dark:border-blue-800/40 shrink-0">
+                    <span className="w-7 h-7 rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold text-xs font-mono border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center shrink-0">
                       {activePersonaObj.countryCode}
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
@@ -1259,7 +1259,7 @@ export default function AiTutorWorkspace() {
                         }`}
                       >
                         {isAi && (
-                          <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 mt-0.5 border border-blue-200/80 dark:border-blue-800/50 shadow-2xs text-xs font-mono font-bold">
+                          <div className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 mt-0.5 border border-blue-200/80 dark:border-blue-800/50 shadow-2xs text-xs font-mono font-bold">
                             <span>{activePersonaObj.countryCode}</span>
                           </div>
                         )}
@@ -1715,7 +1715,7 @@ export default function AiTutorWorkspace() {
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
                             <span
-                              className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-xs shrink-0 border ${
+                              className={`w-8 h-8 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 border ${
                                 isActive
                                   ? "bg-[#0059bb] text-white border-[#0059bb]"
                                   : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
@@ -2030,7 +2030,7 @@ export default function AiTutorWorkspace() {
                 {/* Coach Evaluation Card */}
                 <div className="p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/40 space-y-2">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-900 border border-blue-200/80 dark:border-blue-800 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shrink-0 shadow-2xs font-mono">
+                    <div className="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border border-blue-200/80 dark:border-blue-800 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shrink-0 shadow-2xs font-mono">
                       {activePersonaObj.countryCode}
                     </div>
                     <div className="min-w-0">
@@ -2133,7 +2133,7 @@ export default function AiTutorWorkspace() {
                       >
                         <div className="flex items-center gap-3 min-w-0">
                           <span
-                            className={`w-9 h-9 rounded-lg flex items-center justify-center font-mono font-bold text-xs shrink-0 border ${
+                            className={`w-9 h-9 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 border ${
                               isActive
                                 ? "bg-[#0059bb] text-white border-[#0059bb]"
                                 : "bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700"
