@@ -226,19 +226,39 @@ function CommunityHubContent({ initialTab }: CommunityHubProps) {
     }
   };
 
+  // Focus post composer helper (with polling to account for AnimatePresence tab switch)
+  const handleFocusPostComposer = () => {
+    const focusBox = () => {
+      const textarea = document.getElementById("post-textarea") || document.querySelector("textarea");
+      if (textarea) {
+        textarea.focus();
+        textarea.scrollIntoView({ behavior: "smooth", block: "center" });
+        return true;
+      }
+      return false;
+    };
+
+    if (activeTab !== "FEED") {
+      handleTabChange("FEED");
+      let attempts = 0;
+      const timer = setInterval(() => {
+        attempts++;
+        if (focusBox() || attempts >= 15) {
+          clearInterval(timer);
+        }
+      }, 50);
+    } else {
+      focusBox();
+    }
+  };
+
   // Adaptive Desktop CTA button based on active tab
   const renderHeaderRightContent = () => {
     if (activeTab === "FEED") {
       return (
         <button
           type="button"
-          onClick={() => {
-            const textarea = document.getElementById("post-textarea") || document.querySelector("textarea");
-            if (textarea) {
-              textarea.focus();
-              textarea.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
-          }}
+          onClick={handleFocusPostComposer}
           className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
         >
           <PenSquare className="w-3.5 h-3.5" />
@@ -284,7 +304,20 @@ function CommunityHubContent({ initialTab }: CommunityHubProps) {
   return (
     <PageEntranceWrapper className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans" suppressHydrationWarning>
       {/* 1. APP TOP HEADER INTEGRATION WITH SPRING SLIDING PILL */}
-      <AppTopHeader rightDesktopContent={renderHeaderRightContent()}>
+      <AppTopHeader
+        rightDesktopContent={renderHeaderRightContent()}
+        customMobileSearchReplacement={
+          <button
+            type="button"
+            onClick={handleFocusPostComposer}
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-[#0059bb] dark:text-sky-400 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+            title="Viết bài mới"
+            aria-label="Viết bài mới"
+          >
+            <PenSquare className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
+          </button>
+        }
+      >
         <HeaderPillContainer>
           <HeaderPillItem
             active={activeTab === "FEED"}
