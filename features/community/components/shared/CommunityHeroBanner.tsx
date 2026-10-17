@@ -29,14 +29,16 @@ export const CommunityHeroBanner: React.FC<CommunityHeroBannerProps> = ({
       <div className="absolute -left-10 -top-10 w-48 h-48 bg-indigo-400/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 space-y-2">
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 flex-nowrap whitespace-nowrap overflow-x-auto no-scrollbar">
-            {badgeLeft}
-            {badgeRight}
-          </div>
+        {(badgeLeft || badgeRight || mobileExtra) && (
+          <div className={`flex items-center justify-between gap-2 ${!mobileExtra ? "hidden sm:flex" : ""}`}>
+            <div className="hidden sm:flex items-center gap-2 flex-nowrap whitespace-nowrap overflow-x-auto no-scrollbar">
+              {badgeLeft}
+              {badgeRight}
+            </div>
 
-          {mobileExtra && <div className="sm:hidden shrink-0">{mobileExtra}</div>}
-        </div>
+            {mobileExtra && <div className="sm:hidden shrink-0">{mobileExtra}</div>}
+          </div>
+        )}
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-1">
           <div className="space-y-1 max-w-2xl">

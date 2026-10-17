@@ -69,12 +69,12 @@ export function CommunityFeedView({
       <CommunityHeroBanner
         gradientClass="from-[#0059bb] via-[#004fba] to-[#00388a]"
         badgeLeft={
-          <span className="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-white/15 text-white border border-white/20 flex items-center gap-1.5 font-display shrink-0 shadow-2xs">
+          <span className="hidden sm:inline-flex px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-white/15 text-white border border-white/20 items-center gap-1.5 font-display shrink-0 shadow-2xs">
             <Users className="w-3.5 h-3.5 text-sky-200" /> 1,240+ Học Viên Online
           </span>
         }
         badgeRight={
-          <span className="px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 flex items-center gap-1.5 font-display shrink-0 shadow-2xs">
+          <span className="hidden sm:inline-flex px-2.5 py-1 rounded-lg text-xs font-black uppercase tracking-wider bg-emerald-400/20 text-emerald-200 border border-emerald-300/30 items-center gap-1.5 font-display shrink-0 shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-emerald-300 fill-emerald-300" /> Thưởng +20 XP / Bài Đăng
           </span>
         }
@@ -190,8 +190,8 @@ export function CommunityFeedView({
           )}
         </div>
 
-        {/* Sidebar Column (lg:col-span-4) */}
-        <div className="lg:col-span-4 sticky top-4">
+        {/* Sidebar Column (Hidden on mobile < lg, sticky 4/12 on desktop >= lg) */}
+        <div className="hidden lg:block lg:col-span-4 sticky top-4">
           <CommunitySidebar user={user} />
         </div>
       </div>

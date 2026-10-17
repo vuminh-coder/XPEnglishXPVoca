@@ -31,7 +31,7 @@ export function CommunitySidebar({ user }: CommunitySidebarProps = {}) {
   };
 
   return (
-    <aside className="space-y-4">
+    <aside className="hidden lg:block space-y-4">
       {/* Widget 1: Top Learners Card */}
       <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3.5">
         <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
