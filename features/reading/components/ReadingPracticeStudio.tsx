@@ -690,8 +690,10 @@ export function ReadingPracticeStudio({
             mobileViewTab === "passage"
               ? "flex flex-col flex-1 lg:flex-[6]"
               : "hidden lg:flex lg:flex-col lg:flex-[6]"
-          } h-full overflow-y-auto p-4 sm:p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 space-y-6 bg-white dark:bg-slate-950 pb-20 lg:pb-8`}
+          } h-full min-h-0 relative flex flex-col border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden`}
         >
+          {/* VÙNG CUỘN NỘI DUNG BÀI ĐỌC */}
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6 pb-28 lg:pb-8">
           {/* Passage Meta Card (Double-Bezel Agency Design - Ẩn trên mobile < lg để tối ưu không gian đọc) */}
           <div className="hidden lg:flex p-4 sm:p-5 rounded-2xl bg-slate-50/80 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800/80 flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
             <div className="flex items-center gap-3.5 min-w-0 flex-1">
@@ -801,19 +803,20 @@ export function ReadingPracticeStudio({
               );
             })}
           </div>
+          </div>
 
-          {/* NÚT CHUYỂN SANG CÂU HỎI NHANH Ở ĐÁY BÀI ĐỌC (MOBILE ONLY) */}
-          <div className="block lg:hidden pt-4 pb-2">
+          {/* NÚT CHUYỂN SANG CÂU HỎI CỐ ĐỊNH Ở ĐÁY (MOBILE ONLY - DÍNH CHẶT Ở ĐÁY KHÔNG XÊ DỊCH) */}
+          <div className="block lg:hidden shrink-0 p-3 sm:p-4 border-t border-slate-200/80 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-lg z-20 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
             <button
               type="button"
               onClick={() => {
                 setMobileViewTab("questions");
                 setActiveRightTab("questions");
               }}
-              className="w-full py-3 px-4 rounded-xl bg-[#0059bb] hover:bg-blue-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm shadow-[#0059bb]/20 active:scale-98 transition-all cursor-pointer"
+              className="w-full h-11 rounded-xl bg-[#0059bb] hover:bg-blue-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-[#0059bb]/20 active:scale-98 transition-all cursor-pointer"
             >
               <FileText className="w-4 h-4" />
-              <span>Chuyển sang làm câu hỏi ({Object.keys(answers).length}/{passage.questions.length})</span>
+              <span>Chuyển sang làm câu hỏi</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </button>
           </div>
