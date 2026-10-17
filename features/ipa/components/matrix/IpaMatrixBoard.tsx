@@ -131,12 +131,12 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
     <div className={`space-y-5 select-none ${className}`}>
       {/* 1. TOP TOOLBAR: CATEGORY TABS + SPEED TOGGLE + SEARCH INPUT */}
       <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-        {/* Left: Category Segmented Switcher with Clear Meaningful Icons */}
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-white/5 overflow-x-auto hide-scrollbar">
+        {/* Left: Category Segmented Switcher with Clear Meaningful Icons (Full-width grid on mobile) */}
+        <div className="w-full sm:w-auto grid grid-cols-3 sm:flex items-center gap-1 p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-white/5">
           <button
             type="button"
             onClick={() => setActiveTab("all")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            className={`w-full justify-center px-1.5 xs:px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 sm:gap-1.5 text-center ${
               activeTab === "all"
                 ? "bg-white dark:bg-slate-700 text-[#0059bb] dark:text-sky-300 shadow-xs"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -148,7 +148,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab("vowels")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            className={`w-full justify-center px-1.5 xs:px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 sm:gap-1.5 text-center ${
               activeTab === "vowels"
                 ? "bg-white dark:bg-slate-700 text-[#0059bb] dark:text-sky-300 shadow-xs"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -160,7 +160,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab("consonants")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
+            className={`w-full justify-center px-1.5 xs:px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer whitespace-nowrap flex items-center gap-1 sm:gap-1.5 text-center ${
               activeTab === "consonants"
                 ? "bg-white dark:bg-slate-700 text-[#0059bb] dark:text-sky-300 shadow-xs"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -172,10 +172,10 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
         </div>
 
         {/* Right: Audio Speed Selector + Search Box */}
-        <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+        <div className="flex items-center gap-2 w-full md:w-auto">
           {/* Speed Toggle */}
-          <div className="flex items-center gap-1 px-2 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-white/5 text-xs">
-            <SlidersHorizontal className="w-3 h-3 text-slate-400 shrink-0" />
+          <div className="flex items-center gap-1 px-1.5 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-white/5 text-xs shrink-0">
+            <SlidersHorizontal className="w-3 h-3 text-slate-400 shrink-0 hidden xs:inline" />
             <span className="text-[11px] font-medium text-slate-400 px-0.5 hidden sm:inline">
               Tốc độ:
             </span>
@@ -200,7 +200,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
               }`}
               title="Phát chậm để nghe rõ khẩu hình"
             >
-              0.8x Chậm
+              0.8x
             </button>
           </div>
 
@@ -211,7 +211,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm âm (i:, th) hoặc từ..."
+              placeholder="Tìm âm (/i:/, /θ/) hoặc từ..."
               className="w-full pl-8 pr-7 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]"
             />
             {searchQuery && (
@@ -280,13 +280,13 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                     <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
                       Bảng Nguyên Âm
                     </h2>
-                    <p className="text-xs text-slate-400 font-medium mt-0.5">
+                    <p className="text-xs text-slate-400 font-medium mt-0.5 hidden sm:block">
                       Sắp xếp theo độ mở khẩu hình & vị trí lưỡi (Cao ➔ Vừa ➔ Thấp)
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 text-xs text-slate-500">
+                <div className="flex items-center gap-2.5 sm:gap-3 text-[11px] sm:text-xs text-slate-500">
                   <span className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-[#0059bb]" /> Âm dài
                   </span>
@@ -311,7 +311,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                   {monophthongsOrdered.map((sound) => (
                     <IpaSoundCardV2
                       key={sound.id}
@@ -337,7 +337,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                   {diphthongsOrdered.map((sound) => (
                     <IpaSoundCardV2
                       key={sound.id}
@@ -368,19 +368,21 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                     <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
                       Bảng Phụ Âm
                     </h2>
-                    <p className="text-xs text-slate-400 font-medium mt-0.5">
+                    <p className="text-xs text-slate-400 font-medium mt-0.5 hidden sm:block">
                       Sắp xếp theo cơ chế thanh quản & phương thức cấu âm (Hữu thanh / Vô thanh)
                     </p>
                   </div>
                 </div>
 
                 {/* Voicing Legend */}
-                <div className="flex items-center gap-3 text-xs text-slate-500">
+                <div className="flex items-center gap-2.5 sm:gap-3 text-[11px] sm:text-xs text-slate-500">
                   <span className="flex items-center gap-1.5 font-semibold text-emerald-600 dark:text-emerald-400">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> Hữu thanh (Rung cổ)
+                    <span className="w-2 h-2 rounded-full bg-emerald-500" /> Hữu thanh
+                    <span className="hidden sm:inline font-normal text-slate-400">(Rung cổ)</span>
                   </span>
                   <span className="flex items-center gap-1.5 font-semibold text-amber-600 dark:text-amber-400">
-                    <span className="w-2 h-2 rounded-full bg-amber-500" /> Vô thanh (Bật hơi)
+                    <span className="w-2 h-2 rounded-full bg-amber-500" /> Vô thanh
+                    <span className="hidden sm:inline font-normal text-slate-400">(Bật hơi)</span>
                   </span>
                 </div>
               </div>
@@ -397,7 +399,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                   {pairedConsonants.map((sound) => (
                     <IpaSoundCardV2
                       key={sound.id}
@@ -423,7 +425,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                   </span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                   {singleConsonants.map((sound) => (
                     <IpaSoundCardV2
                       key={sound.id}

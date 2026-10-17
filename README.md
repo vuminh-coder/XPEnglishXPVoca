@@ -6395,6 +6395,21 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Khi chưa điểm danh: Hiển thị icon lịch `CalendarCheck` kèm chấm thông báo phát sáng màu xanh (`animate-pulse`). Bấm 1 chạm ngay trên header sẽ tự động điểm danh, cộng +15 XP, +20 Vàng, +5 phút học và hiển thị Toast chúc mừng mà không cần cuộn trang.
         * Khi đã điểm danh: Chuyển sang icon tích xanh `CheckCircle2` (`text-emerald-600 dark:text-emerald-400`). Bấm vào sẽ nhận thông báo nhắc nhở duy trì chuỗi Streak thân thiện.
 
+  31. **Tối Ưu Toàn Diện Giao Diện Bảng Phiên Âm IPA Trên Mobile ([`/study/ipa`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/study/ipa/page.tsx), [`IpaMatrixBoard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/ipa/components/matrix/IpaMatrixBoard.tsx), [`IpaSoundCardV2.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/ipa/components/matrix/IpaSoundCardV2.tsx), [`IpaHeroGreeting.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/ipa/components/hero/IpaHeroGreeting.tsx))**:
+      - **3 Tab Danh Mục Chiếm 100% Full-Width Chia Đều 1/3 Trên Mobile**:
+        * Chuyển đổi cụm tab phân loại ("Tất cả", "Nguyên âm", "Phụ âm") từ flex co cụm sang lưới `w-full sm:w-auto grid grid-cols-3 sm:flex`, mỗi tab chiếm đúng 33.33% chiều rộng màn hình di động, căn giữa hoàn hảo và triệt tiêu khoảng xám trống bất đối xứng bên phải.
+        * Rút gọn nút tốc độ âm thanh từ `0.8x Chậm` thành `0.8x` tinh gọn, nhường không gian cho ô tìm kiếm co giãn linh hoạt (`flex-1`).
+      - **Thu Gọn Chiều Cao Thẻ Âm IPA Giảm Hơn 700px Cuộn Trang**:
+        * Giảm chiều cao tối thiểu của mỗi thẻ âm từ `min-h-[136px]` xuống `min-h-[104px] sm:min-h-[132px]`, giảm padding từ `p-3` xuống `p-2.5 sm:p-3`, ký hiệu phiên âm `text-[22px] sm:text-[28px]` và dòng hint cấu âm `text-[10px]`.
+        * Thu hẹp khoảng cách lưới từ `gap-2.5` xuống `gap-2 sm:gap-3`, giúp 44 thẻ âm hiển thị gọn gàng, tiết kiệm hơn 700px chiều dọc khi lướt trên điện thoại.
+      - **Tinh Gọn Tiêu Đề, Ẩn Mô Tả Hàn Lâm & Chú Giải Màu Sắc Gọn Gàng**:
+        * Ẩn các câu mô tả ngữ âm học hàn lâm dài dòng trên mobile (`hidden sm:block`) ở tiêu đề Bảng Nguyên Âm và Bảng Phụ Âm.
+        * Rút gọn chú giải màu sắc trên điện thoại thành "Hữu thanh", "Vô thanh", "Âm dài", "Âm ngắn", "Âm đôi".
+        * Tiêu đề chào mừng trên mobile hiển thị ngắn gọn `Studio IPA • {displayName}`, hàng nút gạt "Chỉ số chi tiết" mở rộng trọn vẹn 2 mép màn hình.
+      - **Kích Hoạt Tìm Kiếm IPA Trực Tiếp Trên Mobile Header**:
+        * Kết nối `searchProps` trong `AppTopHeader` với store `useIpaCatalogStore` kèm `hideDesktopInput: true`, cho phép học viên bấm icon kính lúp trên mobile header để mở Search Overlay tìm kiếm âm tức thì.
+
+
 
 
 
