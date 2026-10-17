@@ -37,7 +37,7 @@ export function PracticeSpeakingArena({
   return (
     <div className="flex-1 flex flex-col justify-between min-h-0 space-y-2.5">
       {/* Prompt Target Word Card */}
-      <div className="flex-1 min-h-[160px] sm:min-h-[185px] p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-slate-50 via-white to-blue-50/25 dark:from-slate-900 dark:via-slate-900/90 dark:to-blue-950/20 border border-slate-200/90 dark:border-slate-800 flex flex-col justify-between shadow-xs relative overflow-hidden">
+      <div className="flex-1 min-h-[160px] sm:min-h-[185px] p-4 sm:p-5 rounded-2xl bg-slate-50/60 dark:bg-slate-950/40 border border-slate-200/80 dark:border-slate-800/90 flex flex-col justify-between shadow-2xs relative overflow-hidden">
         {/* 1. TOP METADATA ROW */}
         <PracticeWordMetadataRow
           currentWord={currentWord}
@@ -111,21 +111,37 @@ export function PracticeSpeakingArena({
       </div>
 
       {/* 4. MICROPHONE ACTION & AI SPEECH ASSESSMENT HUB */}
-      <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex flex-col items-center justify-center text-center space-y-3 shrink-0 shadow-2xs">
-        <div className="flex items-center justify-center gap-3">
-          <button
-            type="button"
-            onClick={onStartSpeaking}
-            disabled={isListening}
-            className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-md transition-all cursor-pointer ${
-              isListening
-                ? "bg-rose-500 text-white animate-pulse ring-8 ring-rose-500/25 scale-105"
-                : "bg-[#0059bb] hover:bg-[#004899] text-white hover:scale-105 active:scale-95 shadow-[#0059bb]/25"
-            }`}
-            title="Bấm Micro để thu âm phát âm"
-          >
-            <Mic className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.2]" />
-          </button>
+      <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 flex flex-col items-center justify-center text-center space-y-3 shrink-0 shadow-2xs">
+        <div className="flex flex-col items-center justify-center gap-2.5">
+          <div className="relative flex items-center justify-center">
+            {isListening && (
+              <span className="absolute w-20 h-20 rounded-full bg-rose-500/20 animate-ping" />
+            )}
+            <button
+              type="button"
+              onClick={onStartSpeaking}
+              disabled={isListening}
+              className={`w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-md transition-all cursor-pointer relative z-10 ${
+                isListening
+                  ? "bg-rose-500 text-white animate-pulse ring-8 ring-rose-500/25 scale-105"
+                  : "bg-[#0059bb] hover:bg-[#004899] text-white hover:scale-105 active:scale-95 shadow-[#0059bb]/25"
+              }`}
+              title="Bấm Micro để thu âm phát âm"
+            >
+              <Mic className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.2]" />
+            </button>
+          </div>
+
+          {/* Voice Waveform Equalizer Bars when listening */}
+          {isListening && (
+            <div className="flex items-center gap-1 h-5 pt-1">
+              <span className="w-1 bg-rose-500 rounded-full animate-[bounce_0.6s_ease-in-out_infinite] h-3" />
+              <span className="w-1 bg-rose-500 rounded-full animate-[bounce_0.6s_ease-in-out_0.15s_infinite] h-5" />
+              <span className="w-1 bg-rose-500 rounded-full animate-[bounce_0.6s_ease-in-out_0.3s_infinite] h-4" />
+              <span className="w-1 bg-rose-500 rounded-full animate-[bounce_0.6s_ease-in-out_0.45s_infinite] h-5" />
+              <span className="w-1 bg-rose-500 rounded-full animate-[bounce_0.6s_ease-in-out_0.2s_infinite] h-2" />
+            </div>
+          )}
         </div>
 
         <div className="space-y-1">
@@ -144,16 +160,16 @@ export function PracticeSpeakingArena({
           )}
 
           {isAnswered && transcript && (
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-xs text-slate-600 dark:text-slate-300 font-medium">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-200 font-medium shadow-2xs animate-fade-in">
               <span>
-                Giọng thu: <strong>"{transcript}"</strong>
+                Giọng thu: <strong className="font-bold text-slate-900 dark:text-white">"{transcript}"</strong>
               </span>
-              <span className="font-mono font-bold">•</span>
+              <span className="text-slate-300 dark:text-slate-600">•</span>
               <span
-                className={`font-bold font-mono ${
+                className={`font-black font-mono px-2 py-0.5 rounded-md ${
                   isCorrect
-                    ? "text-emerald-600 dark:text-emerald-400"
-                    : "text-rose-600 dark:text-rose-400"
+                    ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60"
+                    : "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200/60"
                 }`}
               >
                 Độ khớp: {accuracy}%

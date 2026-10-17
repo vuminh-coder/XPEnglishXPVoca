@@ -6537,6 +6537,35 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
 
 ---
 
+### 95. Chuẩn Hóa Toàn Diện UI/UX Đấu Trường Luyện Tập Từ Vựng Studio (`/study/practice`)
+
+1. **Khắc Phục 100% Sự Cố Lộ Đáp Án (Anti-Spoiler Shielding - `PracticeWordLabSidebar.tsx`)**:
+   - Tích hợp lớp chắn bảo mật ngữ nghĩa (Semantic Spoiler Shield): Ở chế độ Quiz (Trắc nghiệm) và Flashcard (3D SRS), phần giải nghĩa tiếng Việt và câu dịch ví dụ được che mờ tự động cho đến khi học viên chọn đáp án hoặc lật thẻ, kèm nút "Xem trước" chủ động khi cần gợi ý.
+   - Ở chế độ Writing (Gõ chính tả): Từ tiếng Anh gốc, ký tự IPA và câu ví dụ tiếng Anh được mã hóa che chắn hoàn toàn dạng `H • • • •`, triệt tiêu dứt điểm việc học viên nhìn sang cột phải chép lại đáp án.
+
+2. **Làm Sạch Bố Cục Arena & Bỏ Viền Lồng Viền (Zero Nested Borders & Bento Minimalism)**:
+   - Thay thế các khung viền kép và nền gradient xám lỗi thời ở khối câu hỏi trung tâm bằng thẻ Bento phẳng cao cấp `bg-slate-50/60 dark:bg-slate-950/40 border border-slate-200/80 dark:border-slate-800/90`.
+   - Lược bỏ nút phát âm loa trùng lặp ở `PracticeArenaHeader`, giữ lại nút loa phát âm trực tiếp tự nhiên cạnh từ vựng.
+   - Tinh gọn huy hiệu in hoa cồng kềnh `[TỪ VỰNG TRỌNG TÂM]` thành tag `Từ vựng` thanh lịch.
+
+3. **Sửa Lỗi Cắt Cụt Chữ Đáp Án Trắc Nghiệm (`PracticeQuizArena.tsx`)**:
+   - Loại bỏ triệt để class `truncate` trên 4 ô đáp án A, B, C, D; thay bằng `leading-snug line-clamp-2 break-words` kèm chiều cao tối thiểu chuẩn mực `min-h-[64px]`. Học viên trên màn hình Desktop đọc được 100% đầy đủ ngữ nghĩa của mọi phương án dài.
+
+4. **Chuẩn Hóa Luồng Thẻ Ghi Nhớ 3D SRS (`PracticeFlashcardArena.tsx`)**:
+   - Thêm chỉ dẫn trực quan: "Bấm vào thẻ hoặc nhấn Space để lật mặt sau".
+   - Tắt bộ đếm ngược thời gian gây áp lực trên Flashcard để duy trì nhịp độ tự lượng giá thư thái chuẩn phương pháp Spaced Repetition.
+   - Thiết kế luồng nút CTA chuẩn Wadhah Aloui Rule 18: Khi chưa lật thẻ, hiển thị duy nhất 1 nút chính "Lật Thẻ Để Xem Nghĩa (Space)". Sau khi lật thẻ, hiển thị 3 nút đánh giá cấp độ nhớ ("Chưa nhớ +5 XP", "Nhớ tốt +10 XP", "Rất dễ +15 XP"), ngăn chặn hoàn toàn việc học viên đánh giá khi chưa xem mặt sau.
+
+5. **Tối Ưu Luồng Gõ Chính Tả & Sóng Âm Phát Âm AI (`PracticeWritingArena.tsx` & `PracticeSpeakingArena.tsx`)**:
+   - Writing: Bổ sung thanh phản hồi tức thì hiển thị kết quả đúng/sai cùng từ vựng và IPA chuẩn sau khi nộp bài. Nút điều hướng "Câu tiếp theo" được chuyển thành nút ghost phụ "Bỏ qua" khi chưa nộp bài, giải quyết triệt để xung đột 2 nút Primary.
+   - Speaking: Tích hợp hiệu ứng sóng âm hoạt họa (Waveform Equalizer 5-bar bounce) sinh động và vòng tròn phát sóng `animate-ping` khi Micro đang thu âm, cung cấp phản hồi trực quan rõ ràng.
+
+6. **Khử Trùng Lặp Chỉ Số Tiến Độ (`PracticeSubModeBar.tsx`)**:
+   - Chuyển đổi dòng `Tiến độ: 1/25` bị lặp lại với Top Header sang tỷ lệ phần trăm `Hoàn thành: ${percent}%` kết hợp thanh progress bar tinh gọn.
+   - Kiểm thử kỹ thuật: Toàn bộ các bài test phân hệ Luyện tập (`practice_standards.test.ts` & `practice_catalog_cache_swr.test.ts` - 17/17 tests PASS 100%).
+
+---
+
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)
 
 Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/layout failed (timeout)` trong môi trường phát triển (Dev HMR) và triển khai thực tế (Production Version Skew):

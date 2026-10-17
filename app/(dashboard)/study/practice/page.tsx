@@ -231,6 +231,18 @@ function PracticeContent() {
               isCurrentBookmarked={session.isCurrentBookmarked}
               onToggleBookmark={session.handleToggleBookmark}
               onPlayAudio={session.playWordAudio}
+              subMode={session.subMode}
+              isAnswered={
+                session.subMode === "quiz"
+                  ? session.qIsAnswered
+                  : session.subMode === "writing"
+                  ? session.wIsAnswered
+                  : session.subMode === "flashcard"
+                  ? session.fIsFlipped
+                  : session.subMode === "speaking"
+                  ? session.speech.isAnswered
+                  : false
+              }
             />
           </div>
         ) : (

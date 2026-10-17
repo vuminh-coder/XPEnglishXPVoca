@@ -38,6 +38,15 @@ export function PracticeArenaNavigation({
   onPrevQuestion,
   onNextQuestion,
 }: PracticeArenaNavigationProps) {
+  const isCurrentAnswered =
+    subMode === "quiz"
+      ? qIsAnswered
+      : subMode === "writing"
+      ? wIsAnswered
+      : subMode === "speaking"
+      ? sIsAnswered
+      : false;
+
   return (
     <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2.5 shrink-0">
       {/* Nút Câu Trước */}
@@ -107,14 +116,24 @@ export function PracticeArenaNavigation({
         )}
       </div>
 
-      {/* Nút Câu Tiếp Theo / Hoàn Thành */}
+      {/* Nút Câu Tiếp Theo / Bỏ Qua */}
       <button
         type="button"
         onClick={onNextQuestion}
-        className="h-9 px-3.5 sm:px-5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-2xs transition-all cursor-pointer active:scale-95 shrink-0"
-        title="Chuyển sang câu tiếp theo"
+        className={`h-9 px-3.5 sm:px-5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-2xs transition-all cursor-pointer active:scale-95 shrink-0 ${
+          isCurrentAnswered || subMode === "flashcard"
+            ? "bg-[#0059bb] hover:bg-[#004899] text-white shadow-xs"
+            : "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700"
+        }`}
+        title={isCurrentAnswered || subMode === "flashcard" ? "Chuyển sang câu tiếp theo" : "Bỏ qua câu này"}
       >
-        <span>{currentIndex + 1 < totalWords ? "Câu tiếp theo" : "Hoàn thành"}</span>
+        <span>
+          {currentIndex + 1 < totalWords
+            ? isCurrentAnswered || subMode === "flashcard"
+              ? "Câu tiếp theo"
+              : "Bỏ qua"
+            : "Hoàn thành"}
+        </span>
         <ChevronRight className="w-4 h-4" />
       </button>
     </div>

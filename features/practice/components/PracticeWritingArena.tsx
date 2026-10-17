@@ -37,7 +37,7 @@ export function PracticeWritingArena({
   return (
     <div className="flex-1 flex flex-col justify-between min-h-0 space-y-2.5">
       {/* Prompt Target Word Card */}
-      <div className="flex-1 min-h-[160px] sm:min-h-[185px] p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-slate-50 via-white to-blue-50/25 dark:from-slate-900 dark:via-slate-900/90 dark:to-blue-950/20 border border-slate-200/90 dark:border-slate-800 flex flex-col justify-between shadow-xs relative overflow-hidden">
+      <div className="flex-1 min-h-[160px] sm:min-h-[185px] p-4 sm:p-5 rounded-2xl bg-slate-50/60 dark:bg-slate-950/40 border border-slate-200/80 dark:border-slate-800/90 flex flex-col justify-between shadow-2xs relative overflow-hidden">
         {/* 1. TOP METADATA ROW */}
         <PracticeWordMetadataRow
           currentWord={currentWord}
@@ -51,13 +51,13 @@ export function PracticeWritingArena({
         {/* 2. CENTERPIECE MEANING & HINT AREA */}
         <div className="flex-1 flex flex-col items-center justify-center text-center my-auto py-2 space-y-2">
           <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-            Nghĩa tiếng Việt cần dịch sang tiếng Anh
+            Nghĩa tiếng Việt cần viết chính tả sang tiếng Anh
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-black text-slate-900 dark:text-white font-display leading-snug">
             {currentWord.meaning}
           </h2>
 
-          {wShowHint && (
+          {wShowHint && !wIsAnswered && (
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/40 text-amber-800 dark:text-amber-300 font-mono text-xs sm:text-sm font-bold shadow-2xs animate-fade-in">
               <Lightbulb className="w-4 h-4 text-amber-500 shrink-0" />
               <span>
@@ -70,6 +70,27 @@ export function PracticeWritingArena({
                 </strong>{" "}
                 ({currentWord.word.length} ký tự)
               </span>
+            </div>
+          )}
+
+          {/* Feedback Banner after answered */}
+          {wIsAnswered && (
+            <div
+              className={`inline-flex items-center gap-3 px-4 py-2 rounded-xl border text-sm font-bold shadow-2xs animate-fade-in ${
+                wIsCorrect
+                  ? "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200"
+                  : "bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-800 text-rose-800 dark:text-rose-200"
+              }`}
+            >
+              <span>{wIsCorrect ? "Chính xác! (+15 XP)" : "Chưa chính xác!"}</span>
+              <span className="font-mono text-base font-black uppercase text-slate-900 dark:text-white">
+                {currentWord.word}
+              </span>
+              {currentWord.ipa && (
+                <span className="font-mono text-xs font-normal opacity-80">
+                  {currentWord.ipa}
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -93,7 +114,7 @@ export function PracticeWritingArena({
             </span>
             <div className="flex items-center gap-1.5 shrink-0">
               <kbd className="px-2 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono text-xs font-black text-slate-800 dark:text-slate-100 flex items-center justify-center shadow-xs shrink-0">
-                Enter: Kiểm tra
+                Enter: {wIsAnswered ? "Câu tiếp theo" : "Kiểm tra"}
               </kbd>
             </div>
           </div>

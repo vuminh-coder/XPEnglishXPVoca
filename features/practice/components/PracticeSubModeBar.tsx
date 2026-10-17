@@ -81,10 +81,10 @@ export function PracticeSubModeBar({
 
       {/* Quick Progress Indicator */}
       <div className="hidden sm:flex items-center gap-3 pr-2">
-        <div className="flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400">
-          <span>Tiến độ:</span>
+        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-500 dark:text-slate-400">
+          <span>Hoàn thành:</span>
           <span className="text-slate-900 dark:text-white font-mono">
-            {currentIndex + 1}/{totalWords}
+            {Math.round(((currentIndex + 1) / Math.max(1, totalWords)) * 100)}%
           </span>
         </div>
         <div className="w-28 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">

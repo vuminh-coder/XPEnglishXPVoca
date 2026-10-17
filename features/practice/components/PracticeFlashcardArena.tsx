@@ -31,7 +31,7 @@ export function PracticeFlashcardArena({
       {/* 3D Flip Card Outer Container */}
       <div
         onClick={onFlipCard}
-        className="flex-1 min-h-[160px] sm:min-h-[185px] p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-slate-50 via-white to-blue-50/25 dark:from-slate-900 dark:via-slate-900/90 dark:to-blue-950/20 border border-slate-200/90 dark:border-slate-800 flex flex-col justify-between shadow-xs relative overflow-hidden cursor-pointer transition-all hover:border-[#0059bb] select-none group"
+        className="flex-1 min-h-[160px] sm:min-h-[185px] p-4 sm:p-5 rounded-2xl bg-slate-50/60 dark:bg-slate-950/40 border border-slate-200/80 dark:border-slate-800/90 flex flex-col justify-between shadow-2xs relative overflow-hidden cursor-pointer select-none group"
       >
         {/* 1. TOP METADATA ROW */}
         <PracticeWordMetadataRow
@@ -44,12 +44,12 @@ export function PracticeFlashcardArena({
         />
 
         {/* 2. CENTERPIECE DEDICATED 3D FLIPPABLE CARD */}
-        <div className="flex-1 w-full flex items-center justify-center my-auto py-1 [perspective:1000px]">
+        <div className="flex-1 w-full flex items-center justify-center my-auto py-2 [perspective:1000px]">
           <div
             className={`w-full max-w-2xl min-h-[140px] sm:min-h-[160px] p-5 sm:p-6 rounded-2xl border transition-all duration-500 [transform-style:preserve-3d] relative flex items-center justify-center text-center cursor-pointer select-none shadow-xs hover:border-[#0059bb]/60 ${
               fIsFlipped
                 ? "[transform:rotateY(180deg)] bg-blue-50/70 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-800/60"
-                : "bg-white/85 dark:bg-slate-900/85 border-slate-200/80 dark:border-slate-800 hover:bg-white dark:hover:bg-slate-900"
+                : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:shadow-sm"
             }`}
             onClick={(e) => {
               e.stopPropagation();
@@ -80,6 +80,11 @@ export function PracticeFlashcardArena({
                   {currentWord.ipa}
                 </p>
               )}
+
+              <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 pt-1 flex items-center gap-1.5">
+                <Layers className="w-3.5 h-3.5 text-[#0059bb]" />
+                <span>Bấm vào thẻ hoặc nhấn Space để lật mặt sau</span>
+              </p>
             </div>
 
             {/* BACK SIDE (Giải nghĩa + Ví dụ) */}
@@ -126,92 +131,89 @@ export function PracticeFlashcardArena({
                 className="h-6 px-2 rounded-md bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/60 hover:border-[#0059bb] hover:text-[#0059bb] border border-slate-300 dark:border-slate-700 font-mono text-xs font-black text-slate-800 dark:text-slate-100 flex items-center justify-center shadow-xs shrink-0 cursor-pointer transition-all active:scale-95"
                 title="Lật mặt thẻ (Phím Space)"
               >
-                Space
+                Space: Lật thẻ
               </button>
-              {["1", "2", "3"].map((key, idx) => {
-                const ratings: FlashcardRating[] = ["again", "good", "easy"];
-                return (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onRateFlashcard(ratings[idx]);
-                    }}
-                    className="w-6 h-6 rounded-md bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/60 hover:border-[#0059bb] hover:text-[#0059bb] border border-slate-300 dark:border-slate-700 font-mono text-xs font-black text-slate-800 dark:text-slate-100 flex items-center justify-center shadow-xs shrink-0 cursor-pointer transition-all active:scale-95"
-                    title={`Đánh giá mức độ nhớ (Phím ${key})`}
-                  >
-                    {key}
-                  </button>
-                );
-              })}
             </div>
           </div>
         </div>
       </div>
 
-      {/* SRS 3-Tier Rating Buttons */}
-      <div className="grid grid-cols-3 gap-2 shrink-0">
-        {/* Button 1: Chưa nhớ (Again) */}
+      {/* SRS Action Zone: Flip button before flipped, 3-tier rating after flipped */}
+      {!fIsFlipped ? (
         <button
           type="button"
-          onClick={() => onRateFlashcard("again")}
-          className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-rose-50/60 dark:hover:bg-rose-950/30 hover:border-rose-300 dark:hover:border-rose-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
-          title="Đánh giá Chưa nhớ (Phím 1)"
+          onClick={onFlipCard}
+          className="w-full h-13 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-sm sm:text-base font-black shadow-xs cursor-pointer transition-all active:scale-98 flex items-center justify-center gap-2.5 shrink-0"
         >
-          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-            <span className="w-7 h-7 rounded-lg bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-rose-600 dark:text-rose-400 group-hover:scale-105 transition-transform">
-              1
-            </span>
-            <span className="text-xs sm:text-base font-bold truncate text-slate-800 dark:text-slate-200 group-hover:text-rose-600 dark:group-hover:text-rose-400">
-              Chưa nhớ
-            </span>
-          </div>
-          <span className="px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 font-mono text-xs font-bold shrink-0 border border-rose-200/60 dark:border-rose-800/40 shadow-2xs">
-            +5 XP
-          </span>
+          <Layers className="w-4.5 h-4.5" />
+          <span>Lật Thẻ Để Xem Nghĩa</span>
+          <kbd className="px-1.5 py-0.5 rounded bg-white/20 text-white font-mono text-xs font-bold">
+            Space
+          </kbd>
         </button>
+      ) : (
+        <div className="grid grid-cols-3 gap-2 shrink-0 animate-fade-in">
+          {/* Button 1: Chưa nhớ (Again) */}
+          <button
+            type="button"
+            onClick={() => onRateFlashcard("again")}
+            className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-rose-50/60 dark:hover:bg-rose-950/30 hover:border-rose-300 dark:hover:border-rose-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
+            title="Đánh giá Chưa nhớ (Phím 1)"
+          >
+            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+              <span className="w-7 h-7 rounded-lg bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-rose-600 dark:text-rose-400 group-hover:scale-105 transition-transform">
+                1
+              </span>
+              <span className="text-xs sm:text-base font-bold truncate text-slate-800 dark:text-slate-200 group-hover:text-rose-600 dark:group-hover:text-rose-400">
+                Chưa nhớ
+              </span>
+            </div>
+            <span className="px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 font-mono text-xs font-bold shrink-0 border border-rose-200/60 dark:border-rose-800/40 shadow-2xs">
+              +5 XP
+            </span>
+          </button>
 
-        {/* Button 2: Nhớ tốt (Good) */}
-        <button
-          type="button"
-          onClick={() => onRateFlashcard("good")}
-          className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-blue-50/60 dark:hover:bg-blue-950/30 hover:border-[#0059bb]/50 dark:hover:border-blue-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
-          title="Đánh giá Nhớ tốt (Phím 2)"
-        >
-          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-            <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-[#0059bb] dark:text-sky-400 group-hover:scale-105 transition-transform">
-              2
+          {/* Button 2: Nhớ tốt (Good) */}
+          <button
+            type="button"
+            onClick={() => onRateFlashcard("good")}
+            className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-blue-50/60 dark:hover:bg-blue-950/30 hover:border-[#0059bb]/50 dark:hover:border-blue-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
+            title="Đánh giá Nhớ tốt (Phím 2)"
+          >
+            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+              <span className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-[#0059bb] dark:text-sky-400 group-hover:scale-105 transition-transform">
+                2
+              </span>
+              <span className="text-xs sm:text-base font-bold truncate text-slate-800 dark:text-slate-200 group-hover:text-[#0059bb] dark:group-hover:text-sky-400">
+                Nhớ tốt
+              </span>
+            </div>
+            <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-mono text-xs font-bold shrink-0 border border-blue-200/60 dark:border-blue-800/40 shadow-2xs">
+              +10 XP
             </span>
-            <span className="text-xs sm:text-base font-bold truncate text-slate-800 dark:text-slate-200 group-hover:text-[#0059bb] dark:group-hover:text-sky-400">
-              Nhớ tốt
-            </span>
-          </div>
-          <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-mono text-xs font-bold shrink-0 border border-blue-200/60 dark:border-blue-800/40 shadow-2xs">
-            +10 XP
-          </span>
-        </button>
+          </button>
 
-        {/* Button 3: Rất dễ (Easy) */}
-        <button
-          type="button"
-          onClick={() => onRateFlashcard("easy")}
-          className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/30 hover:border-emerald-300 dark:hover:border-emerald-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
-          title="Đánh giá Rất dễ (Phím 3)"
-        >
-          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-            <span className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition-transform">
-              3
+          {/* Button 3: Rất dễ (Easy) */}
+          <button
+            type="button"
+            onClick={() => onRateFlashcard("easy")}
+            className="p-3.5 sm:p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/60 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/30 hover:border-emerald-300 dark:hover:border-emerald-800/80 text-slate-800 dark:text-slate-200 font-bold transition-all cursor-pointer flex items-center justify-between gap-2 shadow-2xs active:scale-98 group"
+            title="Đánh giá Rất dễ (Phím 3)"
+          >
+            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+              <span className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/80 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition-transform">
+                3
+              </span>
+              <span className="text-xs sm:text-base font-bold truncate text-slate-800 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                Rất dễ
+              </span>
+            </div>
+            <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 font-mono text-xs font-bold shrink-0 border border-emerald-200/60 dark:border-emerald-800/40 shadow-2xs">
+              +15 XP
             </span>
-            <span className="text-xs sm:text-base font-bold truncate text-slate-800 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
-              Rất dễ
-            </span>
-          </div>
-          <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 font-mono text-xs font-bold shrink-0 border border-emerald-200/60 dark:border-emerald-800/40 shadow-2xs">
-            +15 XP
-          </span>
-        </button>
-      </div>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

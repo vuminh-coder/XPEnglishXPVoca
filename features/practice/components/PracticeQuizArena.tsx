@@ -31,7 +31,7 @@ export function PracticeQuizArena({
   return (
     <div className="flex-1 flex flex-col justify-between min-h-0 space-y-2.5">
       {/* Prompt Target Word Card */}
-      <div className="flex-1 min-h-[160px] sm:min-h-[185px] p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-slate-50 via-white to-blue-50/25 dark:from-slate-900 dark:via-slate-900/90 dark:to-blue-950/20 border border-slate-200/90 dark:border-slate-800 flex flex-col justify-between shadow-xs relative overflow-hidden">
+      <div className="flex-1 min-h-[160px] sm:min-h-[185px] p-4 sm:p-5 rounded-2xl bg-slate-50/60 dark:bg-slate-950/40 border border-slate-200/80 dark:border-slate-800/90 flex flex-col justify-between shadow-2xs relative overflow-hidden">
         {/* 1. TOP METADATA ROW */}
         <PracticeWordMetadataRow
           currentWord={currentWord}
@@ -125,19 +125,21 @@ export function PracticeQuizArena({
               type="button"
               disabled={qIsAnswered}
               onClick={() => onSelectOption(opt)}
-              className={`p-3.5 sm:p-4 rounded-xl border text-left text-sm sm:text-base font-bold transition-all cursor-pointer flex items-center justify-between gap-2.5 shadow-2xs active:scale-98 ${btnStyle}`}
+              className={`p-3.5 sm:p-4 rounded-xl border text-left min-h-[64px] font-bold transition-all cursor-pointer flex items-center justify-between gap-3 shadow-2xs active:scale-98 ${btnStyle}`}
             >
-              <div className="flex items-center gap-2.5 min-w-0">
+              <div className="flex items-center gap-3 min-w-0 flex-1">
                 <span className="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center text-xs font-black font-mono shrink-0 shadow-2xs">
                   {String.fromCharCode(65 + idx)}
                 </span>
-                <span className="truncate">{opt.text}</span>
+                <span className="text-sm sm:text-base font-semibold leading-snug line-clamp-2 break-words flex-1 text-slate-800 dark:text-slate-200">
+                  {opt.text}
+                </span>
               </div>
               {qIsAnswered && opt.isCorrect && (
-                <CheckCircle2 className="w-4.5 h-4.5 text-emerald-600 dark:text-emerald-400 shrink-0 stroke-[2.5]" />
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 stroke-[2.5]" />
               )}
               {qIsAnswered && isSelected && !opt.isCorrect && (
-                <X className="w-4.5 h-4.5 text-rose-600 dark:text-rose-400 shrink-0 stroke-[2.5]" />
+                <X className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0 stroke-[2.5]" />
               )}
             </button>
           );
