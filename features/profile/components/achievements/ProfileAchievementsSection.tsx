@@ -60,21 +60,24 @@ export const ProfileAchievementsSection: React.FC<ProfileAchievementsSectionProp
   return (
     <div className="p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2.5 sm:space-y-3.5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 dark:border-slate-800 pb-2.5 sm:pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0 shadow-2xs">
-            <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
+        <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0 shadow-2xs">
+              <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
+            </div>
+            <div>
+              <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+                Kho Huy Hiệu Thành Tích
+              </h2>
+              <p className="hidden sm:block text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                Mở khóa danh hiệu để nhận thêm XP và chứng nhận
+              </p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
-              <span>Kho Huy Hiệu Thành Tích</span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-black font-mono bg-blue-50 text-[#0059bb] dark:bg-blue-950/60 dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/40">
-                {unlockedCount}/{totalCount}
-              </span>
-            </h2>
-            <p className="hidden sm:block text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-              Mở khóa danh hiệu để nhận thêm XP và chứng nhận
-            </p>
-          </div>
+
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-black font-mono bg-blue-50 text-[#0059bb] dark:bg-blue-950/60 dark:text-sky-300 border border-blue-200/60 dark:border-blue-800/40 shrink-0 sm:ml-1">
+            {unlockedCount}/{totalCount}
+          </span>
         </div>
 
         {/* Category Tab Filters: Chia đều 3 phần và phong cách màu trắng */}
