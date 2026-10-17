@@ -1166,7 +1166,7 @@ export default function AiTutorWorkspace() {
                       {activePersonaObj.countryCode}
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
-                      {activePersonaObj.name} ({activePersonaObj.role})
+                      {activePersonaObj.name}
                     </span>
                     <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0059bb] transition-colors shrink-0" />
                   </button>

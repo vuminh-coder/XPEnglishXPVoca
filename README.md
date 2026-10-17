@@ -6342,6 +6342,10 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Ẩn hoàn toàn khối Hero thông tin gia sư trên màn hình di động (`hidden lg:flex`), loại bỏ các nút ẩn/hiện rườm rà, giải phóng hơn 110px chiều cao cho màn hình trò chuyện.
         * Tích hợp trực tiếp và cố định đồng hồ đếm giờ luyện nói (Clock) và nút Chấm điểm (Chấm bài / Buổi mới) ngay trên thanh tiêu đề khung chat mobile (`lg:hidden`).
         * Đảm bảo học viên luôn theo dõi được thời lượng thực tế và có thể nộp bài chấm điểm bất kỳ lúc nào chỉ bằng 1 cú chạm, đồng thời bảo toàn trọn vẹn 100% bố cục Desktop.
+      - **Tối Giản Tên Huấn Luyện Viên AI Trên Thanh Tiêu Đề Khung Chat**:
+        * Loại bỏ hoàn toàn phần ngoặc đơn và vai trò rườm rà `(British IELTS Coach)` bên cạnh tên huấn luyện viên (`Emma`), chỉ giữ lại tên ngắn gọn kèm cờ quốc gia `[UK] Emma` và icon mũi tên mở bảng chọn.
+        * Triệt tiêu hiện tượng chữ bị cắt cụt (`Emma (British IE...`), giúp thanh tiêu đề thoáng đãng, tinh tế và các nút điều khiển thời gian, chấm điểm, đổi giọng hiển thị trọn vẹn trên cùng 1 hàng.
+
 
 
 
