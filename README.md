@@ -6433,6 +6433,20 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Khi chưa điểm danh: Hiển thị icon lịch `CalendarCheck` kèm chấm thông báo phát sáng màu xanh (`animate-pulse`). Bấm 1 chạm ngay trên header sẽ tự động điểm danh, cộng +15 XP, +20 Vàng, +5 phút học và hiển thị Toast chúc mừng mà không cần cuộn trang.
         * Khi đã điểm danh: Chuyển sang icon tích xanh `CheckCircle2` (`text-emerald-600 dark:text-emerald-400`). Bấm vào sẽ nhận thông báo nhắc nhở duy trì chuỗi Streak thân thiện.
 
+  31. **Tối Ưu Bảng Phiên Âm Quốc Tế IPA & Giao Diện Luyện Âm In-Page Tinh Gọn ([`IpaMatrixBoard.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/ipa/components/matrix/IpaMatrixBoard.tsx) & [`ipaData.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/ipa/data/ipaData.ts))**:
+      - **Tách Rời 2 Badge Phân Loại Độc Lập ("Vô thanh" & "Bật hơi")**:
+        * Tách bạch hoàn toàn giữa **Cơ chế thanh quản (Voicing)** (`Vô thanh` / `Hữu thanh` với chấm màu chuẩn ngữ nghĩa) và **Đặc tính cấu âm (Articulation Manner)** (`Bật hơi`, `Thổi gió`, `Mím môi`, `Âm mũi`, `Cong lưỡi`... đi kèm icon gió `Wind` trên nền sky-50 dịu mắt).
+        * Định nghĩa từ điển đặc tính ngữ âm toàn diện cho 44 âm quốc tế `SOUND_MANNER_FEATURES` và hàm truy xuất `getSoundMannerFeature(sound)`.
+        * Triệt tiêu hoàn toàn tình trạng ghép dính chật chội `● p (bật hơi) • Vô thanh` và xóa bỏ việc lặp lại ký hiệu âm thừa thãi, nâng tầm trải nghiệm sư phạm ngữ âm trực quan chuẩn quốc tế.
+      - **Dàn Đều Bố Cục Đối Xứng & Cặp Nút Nghe Full Width 50% - 50%**:
+        * Hàng 1: Giếng biểu tượng âm `/{selectedSound.symbol}/` và cụm 2 badge phân loại nằm gọn gàng bên trái; Khối từ mẫu đại diện (`Pen /pen/`) được dàn sang đối xứng góc phải với nhãn phân định rõ ràng.
+        * Hàng 2: Cặp nút hành động nhanh (`Nghe âm /{sound.symbol}/` và `Nghe từ: {sound.keyWord}`) được dàn đều 50% - 50% theo toàn bộ chiều rộng (full width grid 2 cột) trên cả mobile và desktop, tối ưu thao tác chạm bằng ngón tay cái.
+      - **Trải Nghiệm Luyện Âm Trong Trang Tinh Gọn (In-Page Sound Studio)**:
+        * Thay thế modal nổi choán màn hình bằng không gian hiển thị liền mạch trong trang, hạ thấp chiều cao khối nhận diện âm giúp người học tập trung ngay vào mục tiêu phát âm, thử giọng và kiểm tra micro.
+        * Nút quay lại ("Bảng âm IPA") được neo trực quan ngay phía trên mục tiêu phát âm bên trái; Nút điều hướng vào phòng thực hành chuyên sâu ("Vào phòng luyện") bố trí đối xứng bên phải.
+        * Tinh giản `AppTopHeader` trên trang `/study/ipa`: loại bỏ nút icon đóng thừa thãi và chuỗi liên tục gây chật chội, giữ không gian tối đa cho việc học ngữ âm.
+
+
 
 
 

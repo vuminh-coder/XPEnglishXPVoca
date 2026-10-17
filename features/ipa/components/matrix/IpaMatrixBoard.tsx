@@ -11,6 +11,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Sparkles,
+  Wind,
 } from "lucide-react";
 import {
   ALL_IPA_SOUNDS,
@@ -19,6 +20,8 @@ import {
   CONSONANTS,
   IpaSound,
   getSoundDisplayHint,
+  getSoundCategoryTheme,
+  getSoundMannerFeature,
 } from "../../data/ipaData";
 import { IpaSoundCardV2 } from "./IpaSoundCardV2";
 import { IpaSoundDetailModal } from "./IpaSoundDetailModal";
@@ -167,6 +170,9 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
 
   // IN-PAGE SOUND DETAIL VIEW (NO FLOATING MODAL, CLEAN PRONUNCIATION & MICRO LAB)
   if (selectedSound) {
+    const theme = getSoundCategoryTheme(selectedSound);
+    const mannerFeature = getSoundMannerFeature(selectedSound);
+
     return (
       <div className={`space-y-3.5 sm:space-y-5 select-none ${className}`}>
         {/* TOP ACTION ROW: NÚT QUAY LẠI (NẰM BÊN TRÊN MỤC TIÊU PHÁT ÂM) + NÚT VÀO PHÒNG HỌC (VỊ TRÍ HỢP LÝ BÊN PHẢI) */}
@@ -197,43 +203,68 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
 
         {/* 1. MỤC TIÊU PHÁT ÂM THỬ GIỌNG VÀ MICRO */}
         <div className="p-3.5 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-          {/* Target sound identity & quick audio listeners (Dàn đều 2 bên cân đối) */}
-          <div className="p-3 sm:p-4 rounded-2xl bg-slate-50/90 dark:bg-slate-800/50 border border-slate-200/80 dark:border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
-            {/* Nhóm nhận diện âm & Từ mẫu */}
-            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-              {/* Giếng biểu tượng âm (Sound Tile Well) */}
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900 border border-blue-200/80 dark:border-blue-800/60 shadow-xs flex items-center justify-center shrink-0">
-                <span className="text-2xl sm:text-3xl font-black font-sans text-[#0059bb] dark:text-sky-300 leading-none">
-                  /{selectedSound.symbol}/
-                </span>
+          {/* Target sound identity & quick audio listeners (Dàn đều 2 bên & Tách riêng Vô thanh / Bật hơi) */}
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-slate-50/90 dark:bg-slate-800/50 border border-slate-200/80 dark:border-white/5 space-y-3 sm:space-y-3.5">
+            {/* Hàng 1: Giếng âm + 2 Badge tách riêng độc lập + Từ mẫu đại diện (Dàn đều 2 bên) */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200/60 dark:border-slate-700/60">
+              {/* Bên trái: Giếng biểu tượng âm + 2 Badge phân loại tách riêng */}
+              <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+                {/* Giếng biểu tượng âm */}
+                <div className="w-13 h-13 sm:w-15 sm:h-15 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900 border border-blue-200/80 dark:border-blue-800/60 shadow-xs flex items-center justify-center shrink-0">
+                  <span className="text-2xl sm:text-3xl font-black font-sans text-[#0059bb] dark:text-sky-300 leading-none">
+                    /{selectedSound.symbol}/
+                  </span>
+                </div>
+
+                {/* 2 Badge tách riêng biệt: Vô thanh & Bật hơi */}
+                <div className="space-y-1.5 min-w-0">
+                  <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                    Đặc tính ngữ âm
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {/* Badge 1: Cơ chế thanh quản (Vô thanh / Hữu thanh / Loại nguyên âm) */}
+                    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border ${theme.badgeBg} ${theme.textColor}`}>
+                      <span className={`w-2 h-2 rounded-full shrink-0 ${theme.dotColor}`} />
+                      <span>{theme.name}</span>
+                    </div>
+
+                    {/* Badge 2: Đặc tính cấu âm tách riêng (Bật hơi, Thổi gió, Âm mũi...) */}
+                    {mannerFeature && (
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold bg-sky-50 dark:bg-sky-950/60 border border-sky-200/80 dark:border-sky-800/60 text-sky-700 dark:text-sky-300 shadow-2xs">
+                        <Wind className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+                        <span>{mannerFeature}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
 
-              {/* Thông tin phân loại & Từ mẫu */}
-              <div className="space-y-1 min-w-0 flex-1">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <IpaSoundBadge sound={selectedSound} size="md" showCategoryTag />
-                </div>
-                <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 flex-wrap">
-                  <span>Từ mẫu:</span>
-                  <span className="font-bold text-slate-900 dark:text-white capitalize text-sm">
+              {/* Bên phải: Từ mẫu đại diện dàn sang góc đối xứng */}
+              <div className="flex items-center sm:flex-col sm:items-end justify-between sm:justify-center gap-1.5 sm:gap-1 px-3 py-2 sm:p-0 rounded-xl bg-white/80 dark:bg-slate-900/60 sm:bg-transparent border border-slate-200/60 dark:border-white/5 sm:border-0 shrink-0">
+                <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                  Từ mẫu đại diện
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-base sm:text-lg font-black text-slate-900 dark:text-white capitalize font-sans">
                     {selectedSound.keyWord}
                   </span>
-                  <span className="font-mono text-xs font-semibold text-[#0059bb] dark:text-sky-400">
+                  <span className="font-mono text-xs sm:text-sm font-bold text-[#0059bb] dark:text-sky-400">
                     {selectedSound.keyWordPhonetic}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Cặp nút nghe dàn đều 2 bên (50% - 50% trên mobile, song song trên desktop) */}
-            <div className="grid grid-cols-2 gap-2 sm:gap-2.5 w-full md:w-auto md:min-w-[340px] shrink-0">
+            {/* Hàng 2: Cặp nút nghe nhanh dàn đều 50% - 50% toàn bộ chiều ngang */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 w-full">
               <button
                 type="button"
                 onClick={handlePlayIsolatedSound}
                 className={`h-10 sm:h-11 px-3 sm:px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all shadow-xs ${
                   isPlayingIsolated
                     ? "bg-[#0059bb] text-white ring-2 ring-blue-400/40 animate-pulse"
-                    : "bg-[#0059bb] hover:bg-[#004ba0] text-white"
+                    : "bg-[#0059bb] hover:bg-[#004ba0] text-white shadow-2xs"
                 }`}
                 title={`Nghe âm cô lập /${selectedSound.symbol}/`}
               >
@@ -246,7 +277,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                   text={selectedSound.keyWord}
                   size="md"
                   variant="secondary"
-                  label={`Từ: ${selectedSound.keyWord}`}
+                  label={`Nghe từ: ${selectedSound.keyWord}`}
                   className="w-full h-10 sm:h-11 justify-center rounded-xl font-bold text-xs shadow-2xs"
                 />
               </div>

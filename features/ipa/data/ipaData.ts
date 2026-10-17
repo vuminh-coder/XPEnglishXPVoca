@@ -1438,6 +1438,65 @@ export function getSoundDisplayHint(sound: IpaSound): string {
   return sound.name.replace(/\s*\((vô|hữu) thanh\)/gi, "").trim();
 }
 
+export const SOUND_MANNER_FEATURES: Record<string, string> = {
+  // 24 Consonants
+  c_p: "Bật hơi",
+  c_b: "Mím môi",
+  c_t: "Bật hơi",
+  c_d: "Đập nướu",
+  c_k: "Bật hơi",
+  c_g: "Gằn cổ",
+  c_ch: "Bật hơi",
+  c_j: "Rung bật",
+  c_f: "Cắn môi",
+  c_v: "Cắn môi",
+  c_th_unvoiced: "Thổi gió",
+  c_th_voiced: "Rung lưỡi",
+  c_s: "Xát nhẹ",
+  c_z: "Rung xát",
+  c_sh: "Thổi sâu",
+  c_zh: "Rung vòm",
+  c_m: "Âm mũi",
+  c_n: "Âm mũi",
+  c_ng: "Âm mũi",
+  c_h: "Hơi gió",
+  c_l: "Uốn lưỡi",
+  c_r: "Cong lưỡi",
+  c_w: "Chu môi",
+  c_j_glide: "Lướt nhẹ",
+
+  // 12 Monophthongs
+  v_i_long: "Căng mép",
+  v_i_short: "Thả lỏng",
+  v_u_short: "Hơi chu môi",
+  v_u_long: "Chu tròn môi",
+  v_e: "Mở vừa",
+  v_schwa: "Thả lỏng",
+  v_er_long: "Căng cổ họng",
+  v_o_long: "Tròn sâu",
+  v_ae: "Hạ quai hàm",
+  v_caret: "Bật dứt khoát",
+  v_a_long: "Mở rộng sâu",
+  v_o_short: "Tròn dứt khoát",
+
+  // 8 Diphthongs
+  d_ear: "Lướt i ➔ ơ",
+  d_ay: "Lướt e ➔ i",
+  d_cure: "Lướt u ➔ ơ",
+  d_oy: "Lướt o ➔ i",
+  d_oh: "Lướt ơ ➔ u",
+  d_air: "Lướt e ➔ ơ",
+  d_eye: "Lướt a ➔ i",
+  d_ow: "Lướt a ➔ u",
+};
+
+export function getSoundMannerFeature(sound: IpaSound): string {
+  if (SOUND_MANNER_FEATURES[sound.id]) {
+    return SOUND_MANNER_FEATURES[sound.id];
+  }
+  return "";
+}
+
 export interface SoundCategoryTheme {
   key: "long_vowel" | "short_vowel" | "diphthong" | "voiced_consonant" | "voiceless_consonant";
   name: string;
