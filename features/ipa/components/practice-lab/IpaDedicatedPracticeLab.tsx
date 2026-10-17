@@ -17,6 +17,7 @@ import {
   Keyboard,
   Smile,
   MoveVertical,
+  Wind,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -27,15 +28,16 @@ import {
   IpaSound,
   getSoundDisplayHint,
   resolveIpaSound,
+  getSoundCategoryTheme,
+  getSoundMannerFeature,
 } from "../../data/ipaData";
-import { IpaSoundBadge } from "../shared/IpaSoundBadge";
 import { IpaAudioPlayButton } from "../shared/IpaAudioPlayButton";
 import { IpaMouthAnatomySvg } from "../shared/IpaMouthAnatomySvg";
 import { IpaWordExampleCard } from "../shared/IpaWordExampleCard";
 import { IpaSpeechRecorder } from "../shared/IpaSpeechRecorder";
 import { playIpaIsolatedSound, stopIpaAudio } from "@/shared/utils/ipaAudioPlayer";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
-import { useIpaCatalogStore, IpaPracticeCategory, IpaAccent } from "@/stores/ipaCatalogStore";
+import { useIpaCatalogStore, IpaPracticeCategory } from "@/stores/ipaCatalogStore";
 
 export interface IpaDedicatedPracticeLabProps {
   initialSoundId?: string;
@@ -61,6 +63,9 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
   const isGuideOpen = useIpaCatalogStore((s) => s.practiceIsGuideOpen);
   const setIsGuideOpen = useIpaCatalogStore((s) => s.setPracticeIsGuideOpen);
   const recordPracticeScore = useIpaCatalogStore((s) => s.recordPracticeScore);
+
+  // Mobile-First Studio Mode: "speech" (Microphone & Words) vs "anatomy" (Khẩu hình & Chi tiết)
+  const [mobileStudioTab, setMobileStudioTab] = useState<"speech" | "anatomy">("speech");
 
   const selectedSoundId = initialSoundId || storeSoundId || ALL_IPA_SOUNDS[0].id;
 
@@ -88,7 +93,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
       handleSelectSoundId(initialSoundId, true);
       setActiveWordTarget(null);
     }
-  }, [initialSoundId, handleSelectSoundId]);
+  }, [initialSoundId, handleSelectSoundId, setActiveWordTarget]);
 
   // Sync with browser back/forward buttons (popstate)
   useEffect(() => {
@@ -114,6 +119,10 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
       ALL_IPA_SOUNDS.find((s) => s.id === selectedSoundId) || ALL_IPA_SOUNDS[0]
     );
   }, [selectedSoundId]);
+
+  // Visual Theme & Manner of Articulation Features
+  const theme = useMemo(() => getSoundCategoryTheme(currentSound), [currentSound]);
+  const mannerFeature = useMemo(() => getSoundMannerFeature(currentSound), [currentSound]);
 
   // Filtered sound list based on category filter
   const displayedSounds = useMemo(() => {
@@ -149,13 +158,13 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
     stopIpaAudio();
     handleSelectSoundId(prevSound.id);
     setActiveWordTarget(null);
-  }, [prevSound, handleSelectSoundId]);
+  }, [prevSound, handleSelectSoundId, setActiveWordTarget]);
 
   const handleNextSound = useCallback(() => {
     stopIpaAudio();
     handleSelectSoundId(nextSound.id);
     setActiveWordTarget(null);
-  }, [nextSound, handleSelectSoundId]);
+  }, [nextSound, handleSelectSoundId, setActiveWordTarget]);
 
   const handleCategoryChange = useCallback(
     (newCategory: SoundCategoryFilter) => {
@@ -172,7 +181,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
         setActiveWordTarget(null);
       }
     },
-    [selectedSoundId, handleSelectSoundId]
+    [selectedSoundId, handleSelectSoundId, setCategoryFilter, setActiveWordTarget]
   );
 
   // Check scroll boundary limits for auto-hiding scroll chevrons
@@ -251,7 +260,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
   }, [currentSound.id, playbackRate]);
 
   return (
-    <div className={`space-y-6 select-none ${className}`}>
+    <div className={`space-y-5 select-none ${className}`}>
       {/* ──────────────────────────────────────────────────────── */}
       {/* 1. FAST SOUND SELECTOR CAROUSEL WITH CATEGORY TABS */}
       {/* ──────────────────────────────────────────────────────── */}
@@ -299,7 +308,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
 
           {/* Prev / Next Controls with Clean Counter & Keyboard Hint */}
           <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
-            {/* Keyboard shortcut hint with bold tactile icons */}
+            {/* Keyboard shortcut hint */}
             <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/70 dark:border-slate-700/70 select-none shadow-2xs">
               <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
                 <Keyboard className="w-4 h-4 stroke-[2.4] text-[#0059bb] dark:text-sky-400" />
@@ -356,7 +365,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
           </div>
         </div>
 
-        {/* Scrollable Sound Pills with Safe-Zone & Desktop Controls */}
+        {/* Scrollable Sound Pills Strip with Safe-Zone & Desktop Controls */}
         <div className="relative group/carousel">
           {/* Left Gradient Edge Mask */}
           <div
@@ -365,7 +374,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             }`}
           />
 
-          {/* Desktop scroll left button with safe placement */}
+          {/* Desktop scroll left button */}
           <button
             type="button"
             onClick={() => {
@@ -382,7 +391,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             <ChevronLeft className="w-4 h-4" />
           </button>
 
-          {/* Sound Pills Strip with Safe px-11 Buffer to Never Overlap */}
+          {/* Sound Pills Strip */}
           <div
             ref={scrollContainerRef}
             className="flex items-center gap-2 overflow-x-auto py-1 px-11 hide-scrollbar scroll-smooth"
@@ -409,7 +418,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                   <span className="leading-none tracking-normal font-sans antialiased text-[15px] pt-0.5">
                     {sound.symbol}
                   </span>
-                  {/* Elegant Category Nano Accent Bar */}
+                  {/* Semantic Category Nano Accent Bar */}
                   <span
                     className={`w-3.5 h-[2.5px] rounded-full transition-all ${
                       isSelected
@@ -428,7 +437,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             })}
           </div>
 
-          {/* Desktop scroll right button with safe placement */}
+          {/* Desktop scroll right button */}
           <button
             type="button"
             onClick={() => {
@@ -455,63 +464,302 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
       </div>
 
       {/* ──────────────────────────────────────────────────────── */}
-      {/* 2. DEDICATED BALANCED STUDIO (6/12 - 6/12) */}
+      {/* MOBILE-FIRST DUAL-TAB SWITCHER (Visible ONLY on Mobile < lg) */}
+      {/* ──────────────────────────────────────────────────────── */}
+      <div className="lg:hidden flex items-center p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
+        <button
+          type="button"
+          onClick={() => setMobileStudioTab("speech")}
+          className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            mobileStudioTab === "speech"
+              ? "bg-white dark:bg-slate-700 text-[#0059bb] dark:text-sky-300 shadow-2xs"
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+          }`}
+        >
+          <Mic className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+          <span>Luyện Âm & Ghi Âm</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setMobileStudioTab("anatomy")}
+          className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            mobileStudioTab === "anatomy"
+              ? "bg-white dark:bg-slate-700 text-[#0059bb] dark:text-sky-300 shadow-2xs"
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+          }`}
+        >
+          <Smile className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+          <span>Khẩu Hình & Chi Tiết</span>
+        </button>
+      </div>
+
+      {/* ──────────────────────────────────────────────────────── */}
+      {/* 2. DEDICATED BALANCED STUDIO GRID (Desktop: 5/12 - 7/12) */}
       {/* ──────────────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
         {/* ──────────────────────────────────────────────────────── */}
-        {/* LEFT COLUMN: SOUND IDENTITY, ACOUSTICS & ANATOMY (6/12) */}
+        {/* LEFT COLUMN: ANATOMY & ARTICULATION (Mobile: Anatomy Tab | Desktop: 5/12) */}
         {/* ──────────────────────────────────────────────────────── */}
-        <div className="lg:col-span-6 space-y-5">
-          {/* Card 1: Sound Identity & Master Acoustic Controller */}
+        <div
+          className={`space-y-5 ${
+            mobileStudioTab === "anatomy" ? "block" : "hidden"
+          } lg:block lg:col-span-5`}
+        >
+          {/* Card: Anatomical Graphic & Consolidated 4-Quadrant Spec Sheet */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-            {/* Top Identity Row */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3.5">
-              <div className="space-y-1.5 min-w-0">
-                <div className="flex items-center gap-2 min-w-0">
-                  <IpaSoundBadge sound={currentSound} size="md" variant="classification" className="shrink-0" />
-                  <span
-                    className="text-xs font-semibold text-slate-500 dark:text-slate-400 truncate whitespace-nowrap"
-                    title={getSoundDisplayHint(currentSound)}
-                  >
-                    {getSoundDisplayHint(currentSound)}
-                  </span>
+            {/* Header Title */}
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
+                  <Smile className="w-4 h-4" />
                 </div>
-                <div className="flex items-baseline gap-1.5 select-none min-w-0 whitespace-nowrap">
-                  <span className="text-2xl sm:text-3xl font-light text-slate-300 dark:text-slate-600 font-sans shrink-0">
-                    /
-                  </span>
-                  <span className="text-4xl sm:text-5xl font-bold font-sans tracking-normal text-slate-900 dark:text-white shrink-0">
-                    {currentSound.symbol}
-                  </span>
-                  <span className="text-2xl sm:text-3xl font-light text-slate-300 dark:text-slate-600 font-sans shrink-0">
-                    /
-                  </span>
-                  <span className="ml-1 text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 truncate">
-                    ({currentSound.name})
-                  </span>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white font-sans tracking-tight">
+                    Giải Phẫu Khẩu Hình Chuẩn
+                  </h3>
+                  <p className="text-[11px] text-slate-400">
+                    Sơ đồ mặt cắt vòm họng và chỉ số cấu âm
+                  </p>
                 </div>
               </div>
 
-              {/* Keyword Anchor Card - Interactive Audio Button */}
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-mono">
+                /{currentSound.symbol}/
+              </span>
+            </div>
+
+            {/* Sơ đồ khẩu hình SVG */}
+            <IpaMouthAnatomySvg sound={currentSound} />
+
+            {/* Consolidated 4-Quadrant Spec Sheet (Clean & Balanced Typography with Top-Right Icon Micro-Badges) */}
+            <div className="grid grid-cols-2 gap-2.5 pt-1">
+              {/* Quadrant 1: Khẩu hình môi */}
+              <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col justify-between min-h-[82px] transition-colors hover:border-slate-300 dark:hover:border-slate-600">
+                <div className="flex items-center justify-between gap-1.5">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none">
+                    Khẩu hình môi
+                  </span>
+                  <div className="w-6 h-6 rounded-md bg-blue-50/90 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
+                    <Smile className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
+                  {currentSound.mouthShape}
+                </p>
+              </div>
+
+              {/* Quadrant 2: Vị trí lưỡi */}
+              <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col justify-between min-h-[82px] transition-colors hover:border-slate-300 dark:hover:border-slate-600">
+                <div className="flex items-center justify-between gap-1.5">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none">
+                    Vị trí lưỡi
+                  </span>
+                  <div className="w-6 h-6 rounded-md bg-blue-50/90 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
+                    <Layers className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
+                  {currentSound.tonguePosition}
+                </p>
+              </div>
+
+              {/* Quadrant 3: Độ mở hàm */}
+              <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col justify-between min-h-[82px] transition-colors hover:border-slate-300 dark:hover:border-slate-600">
+                <div className="flex items-center justify-between gap-1.5">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none">
+                    Độ mở hàm
+                  </span>
+                  <div className="w-6 h-6 rounded-md bg-blue-50/90 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
+                    <MoveVertical className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
+                  {currentSound.jawOpening}
+                </p>
+              </div>
+
+              {/* Quadrant 4: Dây thanh âm */}
+              <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col justify-between min-h-[82px] transition-colors hover:border-slate-300 dark:hover:border-slate-600">
+                <div className="flex items-center justify-between gap-1.5">
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none">
+                    Dây thanh âm
+                  </span>
+                  <div className="w-6 h-6 rounded-md bg-blue-50/90 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
+                    <Mic className="w-3.5 h-3.5" />
+                  </div>
+                </div>
+                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed flex items-center gap-1.5">
+                  <span
+                    className={`w-2 h-2 rounded-full shrink-0 ${
+                      currentSound.voicing === "voiced"
+                        ? "bg-emerald-500"
+                        : "bg-amber-500"
+                    }`}
+                  />
+                  <span>
+                    {currentSound.voicing === "voiced"
+                      ? "Dây thanh rung (Hữu thanh)"
+                      : "Không rung dây thanh (Vô thanh)"}
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            {/* Collapsible Articulation Pedagogical Guide */}
+            <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
               <button
                 type="button"
-                onClick={() => speakLessonText(currentSound.keyWord, { accent, rate: playbackRate })}
-                className="group/word px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-blue-50/80 dark:hover:bg-slate-800 border border-slate-200/70 hover:border-blue-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all cursor-pointer text-left sm:text-right space-y-0.5 shadow-2xs active:scale-[0.98] shrink-0 min-w-0"
-                title={`Bấm để nghe phát âm từ mẫu: "${currentSound.keyWord}"`}
+                onClick={() => setIsGuideOpen(!isGuideOpen)}
+                className="w-full py-2.5 px-3 sm:px-3.5 rounded-xl bg-slate-50/90 dark:bg-slate-800/60 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-700/80 hover:border-blue-200 dark:hover:border-blue-800/80 text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 flex items-center justify-between transition-all cursor-pointer group shadow-2xs active:scale-[0.99]"
+                aria-expanded={isGuideOpen}
               >
-                <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 flex items-center sm:justify-end gap-1.5 group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-400 transition-colors whitespace-nowrap">
-                  <span>Từ mẫu đại diện</span>
-                  <Volume2 className="w-3.5 h-3.5 opacity-70 group-hover/word:opacity-100 shrink-0" />
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
+                    <BookOpen className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-xs font-bold font-sans">
+                    Cẩm nang cấu âm & Mẹo độc quyền
+                  </span>
                 </div>
-                <div className="flex items-center sm:justify-end gap-1.5 whitespace-nowrap">
-                  <span className="font-bold text-slate-900 dark:text-white text-base capitalize group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-300 transition-colors truncate max-w-[140px]">
-                    {currentSound.keyWord}
-                  </span>
-                  <span className="font-mono text-xs font-bold text-[#0059bb] dark:text-sky-400 shrink-0">
-                    {currentSound.keyWordPhonetic}
-                  </span>
+                <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#0059bb] dark:text-sky-400">
+                  <span>{isGuideOpen ? "Ẩn cẩm nang" : "Mở cẩm nang"}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-300 ${
+                      isGuideOpen ? "rotate-180" : ""
+                    }`}
+                  />
                 </div>
               </button>
+
+              {/* Animated Expandable Body */}
+              <AnimatePresence>
+                {isGuideOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    className="overflow-hidden space-y-2.5 pt-3"
+                  >
+                    {/* 1. Technical Guide */}
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                      <span className="font-bold text-slate-900 dark:text-white mr-1.5">
+                        Kỹ thuật phát âm chuẩn:
+                      </span>
+                      {currentSound.vietnameseGuide}
+                    </div>
+
+                    {/* 2. Pro Tip */}
+                    <div className="p-3 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/40 flex items-start gap-2.5">
+                      <Lightbulb className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5" />
+                      <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                        <span className="font-bold text-[#0059bb] dark:text-sky-400 mr-1.5">
+                          Mẹo vàng ghi nhớ:
+                        </span>
+                        {currentSound.practiceTip}
+                      </div>
+                    </div>
+
+                    {/* 3. Common Mistake Warning */}
+                    <div className="p-3 rounded-xl bg-rose-50/80 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900/40 flex items-start gap-2.5">
+                      <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+                      <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                        <span className="font-bold text-rose-600 dark:text-rose-400 mr-1.5">
+                          Lỗi sai người Việt hay gặp:
+                        </span>
+                        {currentSound.commonMistakes}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
+        {/* ──────────────────────────────────────────────────────── */}
+        {/* RIGHT COLUMN: IDENTITY, SPEECH LAB & WORD DECK (Mobile: Speech Tab | Desktop: 7/12) */}
+        {/* ──────────────────────────────────────────────────────── */}
+        <div
+          className={`space-y-5 ${
+            mobileStudioTab === "speech" ? "block" : "hidden"
+          } lg:block lg:col-span-7`}
+        >
+          {/* Card 1: Sound Identity & Master Acoustic Controller */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
+            {/* Top Identity Row: Decoupled Badges */}
+            <div className="space-y-3 border-b border-slate-100 dark:border-slate-800 pb-4">
+              {/* Badges strip: Voicing/Category Badge + Manner Feature Badge + Hint */}
+              <div className="flex flex-wrap items-center gap-2">
+                {/* Category / Voicing Micro-Badge */}
+                <span
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border ${theme.badgeBg} ${theme.textColor}`}
+                >
+                  <span className={`w-2 h-2 rounded-full ${theme.dotColor}`} />
+                  <span>{theme.name}</span>
+                </span>
+
+                {/* Manner of Articulation Feature Badge (e.g. 💨 Bật hơi) */}
+                {mannerFeature && (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                    <Wind className="w-3 h-3 text-[#0059bb] dark:text-sky-400" />
+                    <span>{mannerFeature}</span>
+                  </span>
+                )}
+
+                {/* Anatomical Display Hint */}
+                <span
+                  className="text-xs font-semibold text-slate-500 dark:text-slate-400 truncate"
+                  title={getSoundDisplayHint(currentSound)}
+                >
+                  {getSoundDisplayHint(currentSound)}
+                </span>
+              </div>
+
+              {/* Sound Glyph Well + Identity + Keyword Audio Target */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+                {/* Left: Themed Sound Glyph & Title */}
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div
+                    className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center border font-sans font-black text-2xl sm:text-3xl select-none shrink-0 shadow-2xs transition-all ${theme.badgeBg} ${theme.textColor}`}
+                  >
+                    /{currentSound.symbol}/
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white truncate">
+                      {currentSound.name}
+                    </div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                      <span>
+                        Mã: <code className="font-mono font-bold text-slate-700 dark:text-slate-300">{currentSound.id}</code>
+                      </span>
+                      <span>•</span>
+                      <span>Vị trí #{currentIndex + 1}/44</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Keyword Anchor Card - Interactive Audio Button */}
+                <button
+                  type="button"
+                  onClick={() => speakLessonText(currentSound.keyWord, { accent, rate: playbackRate })}
+                  className="group/word px-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 hover:bg-blue-50/80 dark:hover:bg-slate-800 border border-slate-200/70 hover:border-blue-300 dark:border-slate-800 dark:hover:border-slate-700 transition-all cursor-pointer text-left sm:text-right space-y-0.5 shadow-2xs active:scale-[0.98] shrink-0 min-w-0"
+                  title={`Bấm để nghe phát âm từ mẫu: "${currentSound.keyWord}"`}
+                >
+                  <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 flex items-center sm:justify-end gap-1.5 group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-400 transition-colors whitespace-nowrap">
+                    <span>Từ mẫu đại diện</span>
+                    <Volume2 className="w-3.5 h-3.5 opacity-70 group-hover/word:opacity-100 shrink-0" />
+                  </div>
+                  <div className="flex items-center sm:justify-end gap-1.5 whitespace-nowrap">
+                    <span className="font-bold text-slate-900 dark:text-white text-base capitalize group-hover/word:text-[#0059bb] dark:group-hover/word:text-sky-300 transition-colors truncate max-w-[140px]">
+                      {currentSound.keyWord}
+                    </span>
+                    <span className="font-mono text-xs font-bold text-[#0059bb] dark:text-sky-400 shrink-0">
+                      {currentSound.keyWordPhonetic}
+                    </span>
+                  </div>
+                </button>
+              </div>
             </div>
 
             {/* Master Acoustic Comparison Stage */}
@@ -596,162 +844,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             </div>
           </div>
 
-          {/* Card 2: Anatomical Graphic & Consolidated 4-Quadrant Spec Sheet */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-            {/* Sơ đồ khẩu hình SVG */}
-            <IpaMouthAnatomySvg sound={currentSound} />
-
-            {/* Consolidated 4-Quadrant Spec Sheet (Clean & Balanced Typography with Top-Right Icon Micro-Badges) */}
-            <div className="grid grid-cols-2 gap-2.5 pt-1">
-              {/* Quadrant 1: Khẩu hình môi */}
-              <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col justify-between min-h-[82px] transition-colors hover:border-slate-300 dark:hover:border-slate-600">
-                <div className="flex items-center justify-between gap-1.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none">
-                    Khẩu hình môi
-                  </span>
-                  <div className="w-6 h-6 rounded-md bg-blue-50/90 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
-                    <Smile className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
-                  {currentSound.mouthShape}
-                </p>
-              </div>
-
-              {/* Quadrant 2: Vị trí lưỡi */}
-              <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col justify-between min-h-[82px] transition-colors hover:border-slate-300 dark:hover:border-slate-600">
-                <div className="flex items-center justify-between gap-1.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none">
-                    Vị trí lưỡi
-                  </span>
-                  <div className="w-6 h-6 rounded-md bg-blue-50/90 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
-                    <Layers className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
-                  {currentSound.tonguePosition}
-                </p>
-              </div>
-
-              {/* Quadrant 3: Độ mở hàm */}
-              <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col justify-between min-h-[82px] transition-colors hover:border-slate-300 dark:hover:border-slate-600">
-                <div className="flex items-center justify-between gap-1.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none">
-                    Độ mở hàm
-                  </span>
-                  <div className="w-6 h-6 rounded-md bg-blue-50/90 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
-                    <MoveVertical className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed">
-                  {currentSound.jawOpening}
-                </p>
-              </div>
-
-              {/* Quadrant 4: Dây thanh âm */}
-              <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex flex-col justify-between min-h-[82px] transition-colors hover:border-slate-300 dark:hover:border-slate-600">
-                <div className="flex items-center justify-between gap-1.5">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none">
-                    Dây thanh âm
-                  </span>
-                  <div className="w-6 h-6 rounded-md bg-blue-50/90 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
-                    <Mic className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 mt-2 leading-relaxed flex items-center gap-1.5">
-                  <span
-                    className={`w-2 h-2 rounded-full shrink-0 ${
-                      currentSound.voicing === "voiced"
-                        ? "bg-emerald-500"
-                        : "bg-amber-500"
-                    }`}
-                  />
-                  <span>
-                    {currentSound.voicing === "voiced"
-                      ? "Dây thanh rung (Hữu thanh)"
-                      : "Không rung dây thanh (Vô thanh)"}
-                  </span>
-                </p>
-              </div>
-            </div>
-
-            {/* Collapsible Articulation Pedagogical Guide (Hidden by default with intuitive toggle) */}
-            <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
-              <button
-                type="button"
-                onClick={() => setIsGuideOpen(!isGuideOpen)}
-                className="w-full py-2.5 px-3 sm:px-3.5 rounded-xl bg-slate-50/90 dark:bg-slate-800/60 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-700/80 hover:border-blue-200 dark:hover:border-blue-800/80 text-slate-700 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 flex items-center justify-between transition-all cursor-pointer group shadow-2xs active:scale-[0.99]"
-                aria-expanded={isGuideOpen}
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100/70 dark:border-blue-900/50">
-                    <BookOpen className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-xs font-bold font-sans">
-                    Cẩm nang cấu âm & Mẹo độc quyền
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#0059bb] dark:text-sky-400">
-                  <span>{isGuideOpen ? "Ẩn cẩm nang" : "Mở cẩm nang"}</span>
-                  <ChevronDown
-                    className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                      isGuideOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </div>
-              </button>
-
-              {/* Animated Expandable Body */}
-              <AnimatePresence>
-                {isGuideOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="overflow-hidden space-y-2.5 pt-3"
-                  >
-                    {/* 1. Technical Guide */}
-                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                      <span className="font-bold text-slate-900 dark:text-white mr-1.5">
-                        Kỹ thuật phát âm chuẩn:
-                      </span>
-                      {currentSound.vietnameseGuide}
-                    </div>
-
-                    {/* 2. Pro Tip */}
-                    <div className="p-3 rounded-xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/40 flex items-start gap-2.5">
-                      <Lightbulb className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5" />
-                      <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                        <span className="font-bold text-[#0059bb] dark:text-sky-400 mr-1.5">
-                          Mẹo vàng ghi nhớ:
-                        </span>
-                        {currentSound.practiceTip}
-                      </div>
-                    </div>
-
-                    {/* 3. Common Mistake Warning */}
-                    <div className="p-3 rounded-xl bg-rose-50/80 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900/40 flex items-start gap-2.5">
-                      <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                      <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                        <span className="font-bold text-rose-600 dark:text-rose-400 mr-1.5">
-                          Lỗi sai người Việt hay gặp:
-                        </span>
-                        {currentSound.commonMistakes}
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-
-        {/* ──────────────────────────────────────────────────────── */}
-        {/* RIGHT COLUMN: AI SPEECH LAB & WORD DECK (6/12) */}
-        {/* ──────────────────────────────────────────────────────── */}
-        <div className="lg:col-span-6 space-y-5">
-          {/* Card 1: AI Microphone Studio Card */}
+          {/* Card 2: AI Microphone Studio Card */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <div className="flex items-center gap-2">
@@ -784,7 +877,7 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
             />
           </div>
 
-          {/* Card 2: Word Examples Practice Deck */}
+          {/* Card 3: Word Examples Practice Deck */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5">
             <div className="flex items-center justify-between">
               <div>
@@ -812,78 +905,6 @@ export const IpaDedicatedPracticeLab: React.FC<IpaDedicatedPracticeLabProps> = (
                 );
               })}
             </div>
-          </div>
-
-          {/* Card 3: Studio Progression & Symmetrical Sound Navigation Stepper */}
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2.5 sm:gap-3 shadow-2xs">
-            {/* Prev Sound Button */}
-            <button
-              type="button"
-              onClick={handlePrevSound}
-              className="group h-10 px-3 sm:px-3.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800/80 shadow-2xs transition-all duration-200 flex items-center gap-2 cursor-pointer active:scale-98 shrink-0"
-              title={`Âm trước: /${prevSound.symbol}/ (Phím ←)`}
-              aria-label={`Âm trước: /${prevSound.symbol}/`}
-            >
-              <ArrowLeft className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0059bb] dark:text-slate-500 dark:group-hover:text-sky-400 transition-colors" />
-              <div className="flex flex-col items-start leading-none text-left">
-                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium select-none">
-                  Âm trước
-                </span>
-                <span className="text-xs font-bold font-mono text-slate-800 dark:text-slate-200 group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors mt-0.5">
-                  /{prevSound.symbol}/
-                </span>
-              </div>
-            </button>
-
-            {/* Centered Counter & KBD Shortcut Pills */}
-            <div className="text-center min-w-0 px-1">
-              <div className="flex items-center justify-center gap-1.5 text-xs select-none">
-                <span className="font-semibold text-slate-500 dark:text-slate-400 text-xs">Âm</span>
-                <span className="font-bold font-mono text-[#0059bb] dark:text-sky-400 text-sm sm:text-base">
-                  {(currentCategoryIndex + 1).toString().padStart(2, "0")}
-                </span>
-                <span className="text-slate-300 dark:text-slate-600 font-mono text-xs">/</span>
-                <span className="text-slate-500 dark:text-slate-400 font-mono text-xs sm:text-sm">
-                  {displayedSounds.length.toString().padStart(2, "0")}
-                </span>
-              </div>
-              <div className="flex items-center justify-center gap-1.5 mt-1.5 text-slate-500 dark:text-slate-400">
-                <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 select-none">
-                  Phím:
-                </span>
-                <kbd
-                  className="w-5.5 h-5.5 rounded-md bg-white dark:bg-slate-700 border border-slate-200/90 dark:border-slate-600 flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-2xs"
-                  title="Phím mũi tên trái: Âm trước"
-                >
-                  <ArrowLeft className="w-3.5 h-3.5 stroke-[2.5]" />
-                </kbd>
-                <kbd
-                  className="w-5.5 h-5.5 rounded-md bg-white dark:bg-slate-700 border border-slate-200/90 dark:border-slate-600 flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-2xs"
-                  title="Phím mũi tên phải: Âm tiếp theo"
-                >
-                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                </kbd>
-              </div>
-            </div>
-
-            {/* Next Sound Button */}
-            <button
-              type="button"
-              onClick={handleNextSound}
-              className="group h-10 px-3 sm:px-3.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-800/80 shadow-2xs transition-all duration-200 flex items-center gap-2 cursor-pointer active:scale-98 shrink-0"
-              title={`Âm tiếp theo: /${nextSound.symbol}/ (Phím →)`}
-              aria-label={`Âm tiếp theo: /${nextSound.symbol}/`}
-            >
-              <div className="flex flex-col items-end leading-none text-right">
-                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium select-none">
-                  Âm sau
-                </span>
-                <span className="text-xs font-bold font-mono text-slate-800 dark:text-slate-200 group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors mt-0.5">
-                  /{nextSound.symbol}/
-                </span>
-              </div>
-              <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0059bb] dark:text-slate-500 dark:group-hover:text-sky-400 transition-colors" />
-            </button>
           </div>
         </div>
       </div>

@@ -3,14 +3,13 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Coins, Flame } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
 import { useUserStore, DEFAULT_LEARNER_USER } from "@/stores/userStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { IpaSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import {
-  IpaHeroGreeting,
   IpaDedicatedPracticeLab,
   resolveIpaSound,
 } from "@/features/ipa";
@@ -43,54 +42,22 @@ function PracticeLabContent() {
       {/* 0. UNIVERSAL TOP ACTION & NAVIGATION HEADER BAR */}
       <AppTopHeader
         rightDesktopContent={
-          <div className="flex items-center gap-2">
-            <Link
-              href="/shop"
-              className="h-9 px-3 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800 text-amber-700 dark:text-amber-300 font-bold text-xs flex items-center gap-1.5 shadow-2xs hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all cursor-pointer"
-              title="Cửa hàng vật phẩm & Số Vàng"
-            >
-              <Coins className="w-4 h-4 text-amber-500" />
-              <span>
-                {user?.coins ?? 0}{" "}
-                <span className="font-medium text-[11px] text-amber-600/80 dark:text-amber-400/80">
-                  Vàng
-                </span>
-              </span>
-            </Link>
-
-            <Link
-              href="/analytics"
-              className="h-9 px-3 rounded-xl bg-orange-50 dark:bg-orange-950/60 border border-orange-200/80 dark:border-orange-800 text-orange-600 dark:text-orange-400 font-bold text-xs flex items-center gap-1.5 shadow-2xs hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-all cursor-pointer"
-              title="Xem chuỗi ngày học liên tục"
-            >
-              <Flame className="w-4 h-4 text-orange-500 fill-orange-500" />
-              <span>
-                {user?.currentStreak || 1}{" "}
-                <span className="font-medium text-[11px] text-orange-500/80">
-                  Ngày
-                </span>
-              </span>
-            </Link>
-          </div>
+          <Link
+            href="/study/ipa"
+            className="h-9 px-3.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+            title="Quay lại danh mục 44 âm IPA"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+            <span>Quay lại Bảng âm</span>
+          </Link>
         }
       >
         <IpaSuiteNavTabs />
       </AppTopHeader>
 
       {/* MAIN CANVAS WITH STAGGERED ENTRANCE */}
-      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">
-        {/* 1. HERO GREETING BANNER CHỨA AVATAR & 4 BENTO STAT CARDS (GIỮ NGUYÊN THEO YÊU CẦU) */}
-        <IpaHeroGreeting
-          user={user}
-          masteredCount={18}
-          totalCount={44}
-          averageScore={88}
-          pairsLearnedCount={7}
-          streakDays={user?.currentStreak || 1}
-          onNavigateTab={handleNavigateTab}
-        />
-
-        {/* 2. DEDICATED PRACTICE LAB STUDIO (ĐÃ NÂNG CẤP CAO CẤP) */}
+      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2.5 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3 sm:py-5 pb-24 sm:pb-8">
+        {/* DEDICATED FOCUSED PRACTICE LAB STUDIO */}
         <IpaDedicatedPracticeLab initialSoundId={initialSoundId} />
       </PageEntranceWrapper>
     </div>

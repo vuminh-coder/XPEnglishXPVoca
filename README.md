@@ -6451,10 +6451,12 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Khi bấm "Vào phòng học chuyên sâu", tự động chuyển tiếp chuẩn mực tới `/study/ipa/practice?sound=c_p`.
         * Khi chuyển đổi qua lại giữa 44 âm ngay bên trong Phòng thực hành AI, URL tự động cập nhật qua `replaceState` mà không làm đầy lịch sử duyệt web.
         * Xây dựng bộ phân giải thông minh đa năng `resolveIpaSound(param)`: tự động nhận diện cả sound ID (`c_p`), ký hiệu IPA (`p`, `iː`, `i:`), ký hiệu có dấu gạch chéo (`/p/`), slug rút gọn (`th_unvoiced`), từ khóa đại diện (`pen`, `see`) và từ vựng ví dụ (`sheep`).
-      - **Trải Nghiệm Luyện Âm Trong Trang Tinh Gọn (In-Page Sound Studio)**:
-        * Thay thế modal nổi choán màn hình bằng không gian hiển thị liền mạch trong trang, hạ thấp chiều cao khối nhận diện âm giúp người học tập trung ngay vào mục tiêu phát âm, thử giọng và kiểm tra micro.
-        * Nút quay lại ("Bảng âm IPA") được neo trực quan ngay phía trên mục tiêu phát âm bên trái; Nút điều hướng vào phòng thực hành chuyên sâu ("Vào phòng luyện") bố trí đối xứng bên phải.
-        * Tinh giản `AppTopHeader` trên trang `/study/ipa`: loại bỏ nút icon đóng thừa thãi và chuỗi liên tục gây chật chội, giữ không gian tối đa cho việc học ngữ âm.
+      - **Đại Tu Toàn Diện Phòng Luyện Phát Âm Chuyên Sâu (`/study/ipa/practice?sound=...`)**:
+        * **Triệt tiêu nghẽn cuộn trang trên Mobile (Mobile-First Dual-Tab Studio)**: Thiết kế bộ chuyển tab kép trực quan trên Mobile (`Luyện Âm & Ghi Âm` vs `Khẩu Hình & Chi Tiết`). Đưa phòng thu âm AI Microphone và danh sách từ vựng lên ngay vùng ngón tay cái (Thumb Zone), loại bỏ hoàn toàn việc phải cuộn qua 1,500px nội dung như trước đây.
+        * **Tái cấu trúc lưới Desktop cân bằng 5/12 - 7/12 (Desktop Studio Grid)**: Phân bổ cột trái 5/12 (Sơ đồ giải phẫu vòm họng SVG, 4 nano-specs khẩu hình/vị trí lưỡi/độ mở hàm/dây thanh âm, cẩm nang cấu âm có thể đóng mở) và cột phải 7/12 (Giếng biểu tượng âm nhận diện theo chủ đề màu, cặp nút nghe 50/50 âm cô lập/từ mẫu, phòng thu âm AI và bộ thẻ từ vựng mẫu).
+        * **Tách rời nhãn ngữ âm (Decoupled Badges) & Quy chuẩn màu 60-30-10**: Tách biệt rõ ràng nhãn thanh quản (Vàng Amber `#f59e0b` cho Vô thanh, Xanh Emerald `#10b981` cho Hữu thanh) và nhãn phương thức cấu âm (Biểu tượng gió `Wind` kèm `💨 Bật hơi`, Rung, Xát...). Giếng biểu tượng âm mang màu nền semantic badge tương ứng, tạo điểm nhấn cao cấp và độ tương phản tuyệt đối.
+        * **Tối ưu không gian & Khử trùng lặp điều hướng**: Loại bỏ widget chào mừng cồng kềnh `IpaHeroGreeting` (tiết kiệm 420px chiều cao màn hình) và gỡ bỏ thanh stepper số 3 dư thừa ở cuối trang. Bổ sung nút "Quay lại Bảng âm" trực tiếp trên `AppTopHeader` giúp luồng điều hướng liền mạch.
+
 
 
 
