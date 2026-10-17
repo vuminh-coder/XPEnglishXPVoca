@@ -15,6 +15,8 @@ interface ProfileEditDrawerProps {
   setSelectedEmoji: (val: string) => void;
   availableEmojis: readonly string[];
   onSubmit: (e: React.FormEvent) => void;
+  equippedHat?: boolean;
+  onToggleEquippedHat?: () => void;
 }
 
 export const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
@@ -28,6 +30,8 @@ export const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
   setSelectedEmoji,
   availableEmojis,
   onSubmit,
+  equippedHat = false,
+  onToggleEquippedHat,
 }) => {
   if (!isOpen) return null;
 
@@ -125,6 +129,34 @@ export const ProfileEditDrawer: React.FC<ProfileEditDrawerProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Avatar Accessory: Graduation Hat */}
+        {onToggleEquippedHat && (
+          <div className="flex items-center justify-between p-3 rounded-xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200/60 dark:border-purple-900/40">
+            <div className="flex items-center gap-2.5">
+              <span className="text-xl">🎓</span>
+              <div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white font-display">
+                  Nón Cử Nhân Avatar
+                </div>
+                <div className="text-[10px] text-slate-500 dark:text-slate-400">
+                  Phụ kiện vinh danh hiển thị góc avatar
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={onToggleEquippedHat}
+              className={`px-3 py-1 rounded-xl text-xs font-bold cursor-pointer transition-all font-display ${
+                equippedHat
+                  ? "bg-purple-600 text-white shadow-xs"
+                  : "bg-white dark:bg-slate-800 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-700"
+              }`}
+            >
+              {equippedHat ? "Đang Đeo ✓" : "Trang Bị"}
+            </button>
+          </div>
+        )}
 
         {/* Primary Action Button (Rule 18 & 19) */}
         <div className="flex justify-end gap-2 pt-2.5 border-t border-slate-100 dark:border-slate-800">

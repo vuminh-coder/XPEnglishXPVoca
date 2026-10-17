@@ -78,7 +78,7 @@ export default function ProfilePage() {
       </AppTopHeader>
 
       {/* ─── MAIN CONTAINER (Fluid Ultra-Wide Canvas) ─── */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2.5 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-2.5 sm:space-y-4 pt-1">
         {/* 1. HERO SPOTLIGHT PROFILE STAGE CARD (rounded-2xl) */}
         <MotionItem>
           <ProfileHeroCard
@@ -122,13 +122,15 @@ export default function ProfilePage() {
             setSelectedEmoji={setSelectedEmoji}
             availableEmojis={availableEmojis}
             onSubmit={handleSaveProfile}
+            equippedHat={equippedHat}
+            onToggleEquippedHat={toggleEquippedHat}
           />
         </MotionItem>
 
         {/* 4. BENTO GRID 8/12 & 4/12 MAIN CONTENT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 items-start">
-          {/* ─── LEFT COLUMN (8/12): SKILLS + ACHIEVEMENTS + INVENTORY ─── */}
-          <div className="lg:col-span-8 space-y-3.5 sm:space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-2.5 sm:gap-4 items-start">
+          {/* ─── LEFT COLUMN (8/12 on Desktop, Full Width on Mobile): SKILLS + ACHIEVEMENTS ─── */}
+          <div className="lg:col-span-8 space-y-2.5 sm:space-y-4">
             <MotionItem>
               <ProfileSkillBreakdown skillMinutes={skillMinutes} />
             </MotionItem>
@@ -143,17 +145,20 @@ export default function ProfilePage() {
               />
             </MotionItem>
 
-            <MotionItem>
-              <ProfileInventorySection
-                streakFreezes={user.streakFreezes ?? 0}
-                equippedHat={equippedHat}
-                onToggleEquippedHat={toggleEquippedHat}
-              />
-            </MotionItem>
+            {/* Inventory Section: Shown on Desktop, hidden on Mobile to eliminate bloat */}
+            <div className="hidden lg:block">
+              <MotionItem>
+                <ProfileInventorySection
+                  streakFreezes={user.streakFreezes ?? 0}
+                  equippedHat={equippedHat}
+                  onToggleEquippedHat={toggleEquippedHat}
+                />
+              </MotionItem>
+            </div>
           </div>
 
-          {/* ─── RIGHT COLUMN (4/12): LEVEL PROGRESSION & QUICK LINKS ─── */}
-          <div className="lg:col-span-4 space-y-3.5 sm:space-y-4">
+          {/* ─── RIGHT COLUMN (4/12): LEVEL PROGRESSION & QUICK LINKS (Desktop Only) ─── */}
+          <div className="hidden lg:block lg:col-span-4 space-y-3.5 sm:space-y-4">
             <MotionItem>
               <ProfileTitleProgression
                 level={user.level || 1}
