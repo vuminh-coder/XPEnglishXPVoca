@@ -324,7 +324,7 @@ export function ReadingCatalogView() {
       </AppTopHeader>
 
       {/* 2. STATS & HERO BANNER (CHUẨN 60-30-10 & AGENCY MINIMALISM) */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 pt-3.5 sm:pt-4 space-y-4">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 pt-3.5 sm:pt-4">
         <div className="px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/90 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 shadow-2xs">
           <div className="flex items-center gap-3 min-w-0">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0059bb] text-white flex items-center justify-center shrink-0 shadow-sm shadow-[#0059bb]/20">
@@ -361,7 +361,7 @@ export function ReadingCatalogView() {
         </div>
 
         {/* 2.2 CATEGORY FILTER TABS (Preserved in Zustand Store - Ẩn trên mobile để tối ưu màn hình) */}
-        <div className="hidden sm:flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar">
+        <div className="hidden sm:flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar mt-3.5 sm:mt-4">
           {categoryTabs.map((tab) => {
             const isActive = activeCategoryTab === tab.id;
             return (
@@ -383,7 +383,7 @@ export function ReadingCatalogView() {
       </div>
 
       {/* 3. PASSAGES CANVAS */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-8">
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 pt-2.5 sm:pt-4 pb-6 sm:pb-8 space-y-8">
         {/* CASE A: SEARCH RESULTS */}
         {searchFilteredPassages ? (
           <div className="space-y-4">

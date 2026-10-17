@@ -64,7 +64,7 @@ export function ReadingListingSkeleton() {
       </div>
 
       {/* 2. STATS & HERO BANNER + CATEGORY FILTER TABS CONTAINER */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 pt-3.5 sm:pt-4 space-y-4">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 pt-3.5 sm:pt-4">
         {/* Stats & Hero Banner Skeleton */}
         <div className="px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/90 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 shadow-2xs">
           <div className="flex items-center gap-3 min-w-0">
@@ -91,7 +91,7 @@ export function ReadingListingSkeleton() {
         </div>
 
         {/* Category Filter Tabs Bar Skeleton (5 Tabs 1:1 - Ẩn trên mobile để khớp component) */}
-        <div className="hidden sm:flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar">
+        <div className="hidden sm:flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar mt-3.5 sm:mt-4">
           <div className="h-8 w-28 rounded-xl bg-[#0059bb]/30 shrink-0" />
           <div className="h-8 w-28 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shrink-0" />
           <div className="h-8 w-32 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shrink-0" />
@@ -101,7 +101,7 @@ export function ReadingListingSkeleton() {
       </div>
 
       {/* 3. MAIN PASSAGES CANVAS SKELETON */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-8 pb-20">
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 pt-2.5 sm:pt-4 pb-6 sm:pb-8 space-y-8 pb-20">
         {/* HÀNG 1: BÀI ĐỌC CƠ BẢN (A1 - A2) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/80 dark:border-slate-800">
