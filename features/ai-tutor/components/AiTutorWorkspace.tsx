@@ -22,6 +22,7 @@ import {
   Sparkles,
   CheckCircle2,
   Clock,
+  Shuffle,
   Bot,
   Square,
   Send,
@@ -492,17 +493,46 @@ export default function AiTutorWorkspace() {
     setShowTranslations((prev) => ({ ...prev, [msgId]: !prev[msgId] }));
   };
 
-  const speakText = (text: string, customSpeed?: number) => {
+  const speakText = (
+    text: string,
+    customSpeed?: number,
+    targetPersona?: Persona
+  ) => {
     if (!soundEnabled || !text) return;
+    const persona = targetPersona || activePersonaObj;
     setIsSpeaking(true);
     speakLessonText(text, {
-      lessonId: `ai_tutor_${currentPersona}`,
-      speakerIndex: activePersonaObj.speakerIndex,
-      accent: activePersonaObj.accent,
+      lessonId: `ai_tutor_${persona.id}`,
+      speakerIndex: persona.speakerIndex,
+      accent: persona.accent,
       rate: customSpeed || speechSpeed,
       onEnd: () => setIsSpeaking(false),
       onError: () => setIsSpeaking(false),
     });
+  };
+
+  const handleCycleNextPersona = () => {
+    const personaIds: ("emma" | "alex" | "chloe")[] = ["emma", "alex", "chloe"];
+    const currentIndex = personaIds.indexOf(currentPersona);
+    const nextIndex = (currentIndex + 1) % personaIds.length;
+    const nextId = personaIds[nextIndex];
+    handleSelectPersona(nextId);
+
+    const nextPersona = PERSONAS.find((p) => p.id === nextId);
+    if (nextPersona) {
+      addToast({
+        type: "info",
+        title: `Đổi giọng: ${nextPersona.name} (${nextPersona.countryName} ${nextPersona.flag})`,
+        message: `${nextPersona.role} • Giọng chuẩn ${nextPersona.accent}`,
+      });
+      if (soundEnabled) {
+        speakText(
+          `Hello! I'm ${nextPersona.name}. Let's practice English together!`,
+          speechSpeed,
+          nextPersona
+        );
+      }
+    }
   };
 
   // 1-Click Interactive Dictionary with lookupWordDeep
@@ -1203,14 +1233,14 @@ export default function AiTutorWorkspace() {
                       )}
                     </div>
 
-                    {/* 3. Nút Đổi Giọng Nói với Icon Bot */}
+                    {/* 3. Nút Đổi Giọng Nói: 1-Chạm Đổi Ngay Luân Phiên (Emma -> Alex -> Chloe) */}
                     <button
                       type="button"
-                      onClick={() => setShowVoiceModal(true)}
+                      onClick={handleCycleNextPersona}
                       className="px-2 py-1 sm:px-2.5 sm:py-1 rounded-md text-xs font-bold border border-blue-200/80 dark:border-blue-800/50 bg-blue-50/80 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all shadow-2xs flex items-center gap-1 cursor-pointer active:scale-95"
-                      title="Đổi giọng nói / Huấn luyện viên AI"
+                      title={`Đang là ${activePersonaObj.name} (${activePersonaObj.countryName}) • Bấm để đổi ngay sang giọng tiếp theo`}
                     >
-                      <Bot className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                      <Shuffle className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
                       <span className="hidden sm:inline">Đổi giọng</span>
                     </button>
 
