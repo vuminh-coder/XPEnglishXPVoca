@@ -347,10 +347,10 @@ export function AiConversationTopBar({
                 className="h-8.5 px-2.5 rounded-xl bg-slate-50 hover:bg-slate-100/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/80 border border-slate-200/90 dark:border-slate-700 hover:border-[#0059bb] text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all active:scale-95"
                 title="Chọn độ khó hội thoại"
               >
-                <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold font-mono border ${DIFFICULTY_CONFIG[activeLevel].badgeClass}`}>
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
                   {activeLevel}
                 </span>
-                <SlidersHorizontal className="w-3 h-3 text-slate-400" />
+                <SlidersHorizontal className="w-3 h-3 text-slate-400 shrink-0" />
               </button>
 
               <AnimatePresence>
@@ -406,9 +406,7 @@ export function AiConversationTopBar({
               </AnimatePresence>
             </div>
           ) : (
-            <span
-              className={`px-2 py-0.5 rounded-lg text-xs font-bold font-mono border shadow-2xs ${DIFFICULTY_CONFIG[activeLevel].badgeClass}`}
-            >
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
               {activeLevel}
             </span>
           )}
