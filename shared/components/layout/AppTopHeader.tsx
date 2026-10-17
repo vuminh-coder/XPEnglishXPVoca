@@ -177,6 +177,8 @@ export interface AppTopHeaderProps {
   rightExtraActions?: React.ReactNode;
   /** Optional desktop-specific right content (e.g. search bars & action buttons) */
   rightDesktopContent?: React.ReactNode;
+  /** Custom replacement for the mobile search button (e.g. Share button on Profile page) */
+  customMobileSearchReplacement?: React.ReactNode;
   /** Whether to hide Theme toggle & Avatar on desktop (default: false) */
   hideThemeAndAvatarOnDesktop?: boolean;
   /** Whether header is sticky on top (default: true) */
@@ -195,6 +197,7 @@ export function AppTopHeader({
   showGamificationStats = false,
   rightExtraActions,
   rightDesktopContent,
+  customMobileSearchReplacement,
   hideThemeAndAvatarOnDesktop = false,
   sticky = true,
   className = "",
@@ -357,8 +360,10 @@ export function AppTopHeader({
           </div>
         )}
 
-        {/* 2. Mobile Search Icon Trigger (Below lg) */}
-        {searchProps ? (
+        {/* 2. Mobile Search Icon Trigger or Custom Replacement (Below lg) */}
+        {customMobileSearchReplacement ? (
+          customMobileSearchReplacement
+        ) : searchProps ? (
           <button
             type="button"
             onClick={() => setIsMobileSearchOpen(true)}

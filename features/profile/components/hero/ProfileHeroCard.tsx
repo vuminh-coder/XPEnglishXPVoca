@@ -77,7 +77,7 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
           </div>
 
           {/* Identity Info */}
-          <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1 pr-[118px] sm:pr-0">
+          <div className="space-y-0.5 sm:space-y-1 min-w-0 flex-1 pt-6 sm:pt-0">
             <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
               <h1 className="text-sm sm:text-2xl font-black tracking-tight text-white font-display truncate">
                 {cleanName}
@@ -95,9 +95,9 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
           </div>
         </div>
 
-        {/* Mobile-only action buttons: Anchored in Top-Right Corner */}
-        <div className="sm:hidden absolute top-3.5 right-3.5 flex items-center gap-1.5 z-30">
-          {onToggleEdit && (
+        {/* Mobile-only action button: Sửa hồ sơ anchored in Top-Right Corner */}
+        {onToggleEdit && (
+          <div className="sm:hidden absolute top-2 right-2 z-30">
             <button
               type="button"
               onClick={onToggleEdit}
@@ -107,17 +107,8 @@ export const ProfileHeroCard: React.FC<ProfileHeroCardProps> = ({
               <Edit3 className="w-3 h-3 text-sky-200 stroke-[2.2]" />
               <span>{isEditing ? "Đóng" : "Sửa hồ sơ"}</span>
             </button>
-          )}
-
-          <button
-            type="button"
-            onClick={onShare}
-            className="w-7 h-7 rounded-lg bg-white/15 hover:bg-white/25 text-white border border-white/20 flex items-center justify-center cursor-pointer transition-colors shadow-2xs shrink-0 backdrop-blur-xs"
-            title="Chia sẻ hồ sơ"
-          >
-            <Share2 className="w-3 h-3 stroke-[2.2]" />
-          </button>
-        </div>
+          </div>
+        )}
 
         {/* Right Column: Live Stats Pills (Desktop/Tablet) */}
         <div className="hidden sm:flex items-center gap-2 sm:gap-2.5 shrink-0">
