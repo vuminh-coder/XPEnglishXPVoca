@@ -6389,6 +6389,13 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Bổ sung thuộc tính `hideDesktopInput?: boolean` vào `HeaderSearchProps` trong [`AppTopHeader.tsx`](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx).
         * Khi `hideDesktopInput: true`, ô tìm kiếm trên thanh header desktop (`lg:flex`) được ẩn đi, tránh gây dư thừa hiển thị với thanh tìm kiếm trung tâm (Single-Tier Control Dock) đã có sẵn phím tắt `Cmd+K` và bộ đếm kết quả ở thân trang, đồng thời giữ thanh header luôn rộng rãi cho `VocabSuiteNavTabs` và nút Luyện Trí Nhớ Flashcards.
 
+  30. **Tối Ưu Mobile Top Header Trang Bảng Điều Khiển Học Tập ([`app/(dashboard)/dashboard/page.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/(dashboard)/dashboard/page.tsx))**:
+      - **Thay Thế Nút Kính Lúp Bằng Nút Điểm Danh Nhanh 1-Chạm (`customMobileSearchReplacement`)**:
+        * Trên trang Dashboard (`/dashboard`), nút kính lúp trước đây là liên kết tĩnh chuyển hướng sang kho từ vựng. Đã thay thế triệt để bằng nút Điểm Danh Nhanh thông minh.
+        * Khi chưa điểm danh: Hiển thị icon lịch `CalendarCheck` kèm chấm thông báo phát sáng màu xanh (`animate-pulse`). Bấm 1 chạm ngay trên header sẽ tự động điểm danh, cộng +15 XP, +20 Vàng, +5 phút học và hiển thị Toast chúc mừng mà không cần cuộn trang.
+        * Khi đã điểm danh: Chuyển sang icon tích xanh `CheckCircle2` (`text-emerald-600 dark:text-emerald-400`). Bấm vào sẽ nhận thông báo nhắc nhở duy trì chuỗi Streak thân thiện.
+
+
 
 
 

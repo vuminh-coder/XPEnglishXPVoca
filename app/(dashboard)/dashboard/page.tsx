@@ -691,6 +691,27 @@ export default function DashboardPage() {
             )}
           </div>
         }
+        customMobileSearchReplacement={
+          <button
+            type="button"
+            onClick={handleCheckIn}
+            disabled={isCheckingIn || isLoadingCheckin}
+            className="lg:hidden relative w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0 disabled:opacity-60"
+            title={isCheckedInToday ? "Đã điểm danh hôm nay" : "Điểm danh nhận thưởng (+15 XP)"}
+            aria-label={isCheckedInToday ? "Đã điểm danh hôm nay" : "Điểm danh nhận thưởng (+15 XP)"}
+          >
+            {isCheckingIn ? (
+              <Loader2 className="w-5 h-5 sm:w-4.5 sm:h-4.5 animate-spin text-emerald-600 dark:text-emerald-400" />
+            ) : isCheckedInToday ? (
+              <CheckCircle2 className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.4] text-emerald-600 dark:text-emerald-400" />
+            ) : (
+              <>
+                <CalendarCheck className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2] text-slate-800 dark:text-slate-200" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900 animate-pulse" />
+              </>
+            )}
+          </button>
+        }
       >
         <HeaderPillContainer>
           <HeaderPillItem
