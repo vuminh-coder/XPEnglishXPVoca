@@ -88,7 +88,7 @@ export function ListeningListingSkeleton() {
         </div>
 
         {/* 3. CATEGORY TABS & FORCE REFRESH CONTROLS (Exact 1:1 with ListeningListingView) */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/80 dark:border-slate-800">
+        <div className="hidden sm:flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/80 dark:border-slate-800">
           <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
             <ShimmerBox className="h-8 w-28 rounded-xl bg-[#0059bb]/30" />
             <ShimmerBox className="h-8 w-28 rounded-xl" />
@@ -279,7 +279,7 @@ export function VideoListingSkeleton() {
         </div>
 
         {/* 1. HERO SPOTLIGHT & RECOMMENDATION BANNER SKELETON */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-3.5">
+        <div className="hidden sm:flex p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs relative overflow-hidden flex-col md:flex-row md:items-center justify-between gap-3.5">
           <div className="space-y-2 max-w-xl">
             <ShimmerBox className="h-7 w-80 sm:w-96 rounded-lg bg-blue-500/20" />
             <ShimmerBox className="h-4 w-full rounded" />
@@ -305,7 +305,7 @@ export function VideoListingSkeleton() {
           {/* Sub-Filters: Search input + CEFR Levels 7 pills */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
             <ShimmerBox className="h-10 w-full max-w-md rounded-xl" />
-            <div className="h-10 flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60 shrink-0">
+            <div className="hidden sm:flex h-10 items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60 shrink-0">
               {[1, 2, 3, 4, 5, 6, 7].map((lvl) => (
                 <ShimmerBox key={lvl} className="h-8 w-9 sm:w-11 rounded-lg" />
               ))}

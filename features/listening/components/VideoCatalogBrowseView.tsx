@@ -222,7 +222,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
   return (
     <div className="space-y-6 sm:space-y-7">
       {/* 1. HERO SPOTLIGHT & RECOMMENDATION BANNER */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs relative overflow-hidden">
+      <div className="hidden sm:block p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs relative overflow-hidden">
         {/* Ambient subtle light-blue gradient accent */}
         <div className="absolute top-0 right-0 w-96 h-full bg-gradient-to-l from-blue-50/70 via-sky-50/20 to-transparent dark:from-blue-950/20 dark:via-transparent dark:to-transparent pointer-events-none" />
 
@@ -368,7 +368,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             )}
           </div>
 
-          <div className="flex items-center gap-2.5 overflow-x-auto">
+          <div className="hidden sm:flex items-center gap-2.5 overflow-x-auto shrink-0">
             {/* CEFR Level filter with Apple-grade motion sliding indicator */}
             <div className="h-10 flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60 shadow-2xs relative">
               {CEFR_LEVELS.map((lvl) => {

@@ -6298,6 +6298,13 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
         * Trên điện thoại di động, loại bỏ hoàn toàn tình trạng xếp chồng 2 tầng và nút "Làm mới" đứng lẻ loi, giúp nội dung danh mục bài học hiển thị tinh gọn ngay dưới thanh chọn chế độ.
         * Trên máy tính (`sm:` trở lên), dải tab và nút "Làm mới" giữ nguyên 100% hiển thị nằm ngang cân đối.
 
+  26. **Tối Ưu Kho Video Tuyển Chọn Trên Mobile ([`VideoCatalogBrowseView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCatalogBrowseView.tsx) & [`LoadingSkeletons.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/LoadingSkeletons.tsx))**:
+      - **Ẩn Hero Spotlight Banner & Dải Bộ Lọc Cấp Độ CEFR Trên Mobile**:
+        * Thiết lập `hidden sm:block` cho khối Hero Spotlight Banner ("Kho Phim Điện Ảnh & Video Kéo Dài Trên 5 Phút", tiêu đề, mô tả và nút "Đề Xuất Video Mới") để giải phóng hoàn toàn chiều cao dọc màn hình đầu tiên trên điện thoại.
+        * Thiết lập `hidden sm:flex` cho dải nút lọc cấp độ CEFR 7 pill ("Tất cả", "A1", "A2", "B1", "B2", "C1", "C2") trên thiết bị di động, nhường toàn bộ không gian cho thanh tìm kiếm thông minh mở rộng đầy màn hình và hàng chip danh mục.
+        * Đồng bộ hóa 1:1 trạng thái Skeleton Loading trong `LoadingSkeletons.tsx` (`VideoListingSkeleton` và `ListeningListingSkeleton`) nhằm triệt tiêu hoàn toàn layout shift (CLS = 0) khi tải dữ liệu trên điện thoại.
+        * Bảo toàn 100% giao diện đầy đủ với Hero Banner và dải CEFR trên máy tính (`sm:` trở lên).
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)
