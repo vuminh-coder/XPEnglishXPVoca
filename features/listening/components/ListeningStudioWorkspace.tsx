@@ -163,7 +163,7 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
               <Link
                 href={`/study/dictation/video/${currentLesson.id}/comprehension`}
                 className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/60 hover:bg-violet-100 dark:hover:bg-violet-900/60 border border-violet-200/90 dark:border-violet-800/60 shadow-2xs transition-all active:scale-95"
-                title="Làm bài trắc nghiệm đọc hiểu AI (+40 XP)"
+                title="Làm bài trắc nghiệm đọc hiểu AI • +40 XP"
               >
                 <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400" />
                 <span>Đọc hiểu AI</span>
@@ -173,6 +173,7 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
               isActive={true}
               initialSeconds={elapsedTime}
               onSecondsUpdate={onElapsedTimeTick}
+              className="hidden"
             />
           </div>
         }

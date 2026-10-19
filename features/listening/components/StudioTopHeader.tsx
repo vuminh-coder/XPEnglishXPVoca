@@ -13,6 +13,8 @@ import {
   Keyboard,
 } from "lucide-react";
 import { formatLevelBadge } from "./InteractiveTranscriptSidebar";
+import { useUserStore } from "@/stores/userStore";
+import { UserAvatar, formatCleanName } from "@/shared/components/feedback/UserAvatar";
 
 interface StudioTopHeaderProps {
   title: string;
@@ -44,6 +46,9 @@ export function StudioTopHeader({
   const isListening = currentMode === "listening" || (currentMode as string) === "dictation";
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showKeyboardModal, setShowKeyboardModal] = useState(false);
+
+  const user = useUserStore((s) => s.user);
+  const userName = formatCleanName(user?.name, user?.email);
 
   const isVideoLesson =
     String(lessonQueryId).startsWith("vid_") ||
@@ -89,7 +94,7 @@ export function StudioTopHeader({
         )}
 
         <h2
-          className="text-sm sm:text-base lg:text-[15px] font-bold text-slate-900 dark:text-white font-sans truncate min-w-0 max-w-[150px] xs:max-w-[240px] sm:max-w-none"
+          className="text-sm sm:text-base lg:text-[15px] font-bold text-slate-900 dark:text-white font-sans truncate min-w-0 max-w-[170px] xs:max-w-[240px] sm:max-w-none"
           title={title}
         >
           {title}
@@ -116,7 +121,7 @@ export function StudioTopHeader({
         <div className="hidden xl:block w-[1px] h-4 bg-slate-200 dark:bg-slate-700 shrink-0 mx-0.5" />
 
         {/* Mode Switcher pill directly next to title */}
-        <div className="p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-0.5 shrink-0 ml-0.5 relative">
+        <div className="hidden sm:inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-0.5 shrink-0 ml-0.5 relative">
           {/* Dictation Tab Link */}
           <Link
             href={dictationTargetUrl}
@@ -212,11 +217,11 @@ export function StudioTopHeader({
         )}
       </div>
 
-      {/* 2. Right side: Extra actions & Studio Toolbar Icons */}
-      <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+      {/* 2. Right side: Extra actions, Toolbar Icons & User Avatar */}
+      <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
         {rightExtraActions}
 
-        {/* 3. Far Right Studio Toolbar Icons */}
+        {/* 3. Studio Toolbar Icons */}
         <div className="hidden md:flex items-center gap-0.5 text-slate-400 dark:text-slate-500 border-l border-slate-200 dark:border-slate-800 pl-2">
           <button
             type="button"
@@ -243,6 +248,23 @@ export function StudioTopHeader({
             <Keyboard className="w-4 h-4" />
           </button>
         </div>
+
+        {/* 4. User Profile Avatar Link */}
+        <Link
+          href="/profile"
+          className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:ring-2 hover:ring-[#0059bb]/30 transition-all cursor-pointer active:scale-95 shrink-0"
+          title="Hồ sơ cá nhân"
+        >
+          <UserAvatar
+            avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+            imageUrl={user?.imageUrl}
+            avatar={(user as any)?.avatar}
+            emoji={user?.avatarEmoji}
+            name={userName}
+            size="w-7 h-7 sm:w-8 sm:h-8"
+            className="ring-1.5 ring-slate-200/90 dark:ring-slate-700 shadow-2xs"
+          />
+        </Link>
       </div>
 
       {/* KEYBOARD SHORTCUTS MODAL */}

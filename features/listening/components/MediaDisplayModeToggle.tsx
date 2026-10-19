@@ -23,7 +23,7 @@ export const MediaDisplayModeToggle: React.FC<MediaDisplayModeToggleProps> = ({
 
   return (
     <div
-      className={`inline-flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs relative select-none ${className} ${
+      className={`inline-flex items-center p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs relative select-none ${className} ${
         disabled ? "opacity-50 pointer-events-none" : ""
       }`}
       role="group"
@@ -33,7 +33,7 @@ export const MediaDisplayModeToggle: React.FC<MediaDisplayModeToggleProps> = ({
       <button
         type="button"
         onClick={() => onModeChange("audio")}
-        className={`relative flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer z-10 ${
+        className={`relative flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer z-10 ${
           isAudio
             ? "text-[#0059bb] dark:text-sky-300"
             : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -48,14 +48,14 @@ export const MediaDisplayModeToggle: React.FC<MediaDisplayModeToggleProps> = ({
           />
         )}
         <Headphones className="w-3.5 h-3.5 relative z-10" />
-        <span className="relative z-10">Audio</span>
+        <span className="hidden sm:inline relative z-10">Audio</span>
       </button>
 
       {/* Video Mode Pill */}
       <button
         type="button"
         onClick={() => onModeChange("video")}
-        className={`relative flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer z-10 ${
+        className={`relative flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-lg text-xs font-bold transition-colors cursor-pointer z-10 ${
           !isAudio
             ? "text-[#0059bb] dark:text-sky-300"
             : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -70,7 +70,7 @@ export const MediaDisplayModeToggle: React.FC<MediaDisplayModeToggleProps> = ({
           />
         )}
         <Video className="w-3.5 h-3.5 relative z-10" />
-        <span className="relative z-10">Video</span>
+        <span className="hidden sm:inline relative z-10">Video</span>
       </button>
     </div>
   );

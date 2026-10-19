@@ -40,12 +40,14 @@ export type { VideoCatalogCategory, VideoCatalogLessonItem };
 
 interface VideoCatalogBrowseViewProps {
   onSelectVideoLesson?: (lesson: VideoCatalogLessonItem) => void;
+  practiceMode?: "dictation" | "shadowing";
 }
 
 const CEFR_LEVELS = ["Tất cả", "A1", "A2", "B1", "B2", "C1", "C2"];
 
 export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
   onSelectVideoLesson,
+  practiceMode = "dictation",
 }) => {
   // Global SWR Cache & Filter Store
   const categories = useVideoCatalogStore((s) => s.categories);
@@ -230,13 +232,21 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
           <div>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/40 text-rose-700 dark:text-rose-300 text-[11px] font-bold uppercase tracking-wider mb-1.5">
               <Film className="w-3 h-3 text-rose-600 dark:text-rose-400" />
-              <span>Kho Phim Điện Ảnh & Video Kéo Dài Trên 5 Phút</span>
+              <span>
+                {practiceMode === "shadowing"
+                  ? "Luyện Nói & Nhại Âm Chuẩn Bản Xứ Qua Video"
+                  : "Kho Phim Điện Ảnh & Video Kéo Dài Trên 5 Phút"}
+              </span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
-              Luyện Nghe & Đọc Hiểu Đa Giác Quan Qua YouTube
+              {practiceMode === "shadowing"
+                ? "Luyện Nói & Nhại Âm Đa Giác Quan Qua YouTube"
+                : "Luyện Nghe & Đọc Hiểu Đa Giác Quan Qua YouTube"}
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mt-1 leading-relaxed">
-              Trích đoạn phim lãng mạn, sitcom hài hước, hoạt hình Pixar và bài học truyền cảm hứng đạt hàng triệu view, phân câu rõ ràng và bài tập đọc hiểu AI.
+              {practiceMode === "shadowing"
+                ? "Luyện phát âm, ngữ điệu và phản xạ nói tự nhiên theo người bản xứ qua trích đoạn phim ảnh, TED Talks và bài học truyền cảm hứng đạt hàng triệu view."
+                : "Trích đoạn phim lãng mạn, sitcom hài hước, hoạt hình Pixar và bài học truyền cảm hứng đạt hàng triệu view, phân câu rõ ràng và bài tập đọc hiểu AI."}
             </p>
           </div>
 
@@ -667,7 +677,7 @@ const VideoCardItem: React.FC<{
               e.stopPropagation();
             }}
             className="group/ai h-8 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-violet-700 dark:text-slate-300 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/70 dark:bg-slate-800/80 dark:hover:bg-violet-950/40 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
-            title="Làm bài trắc nghiệm đọc hiểu AI (+25 XP)"
+            title="Làm bài trắc nghiệm đọc hiểu AI • +25 XP"
           >
             <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
             <span>Đọc hiểu AI</span>

@@ -6630,6 +6630,24 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - Nâng tầng hiển thị lên `z-50`, ngăn chặn hoàn toàn nút bấm bị che khuất bởi các thành phần trôi nổi.
       - Gia tăng khoảng đệm an toàn đáy trên màn hình câu hỏi (`pb-20 lg:pb-0`) giúp học viên cuộn xem hết nội dung mà không bị thanh điều hướng che lấp.
 
+12. **Chuẩn Hóa Chuyên Sâu Header & UI/UX Video Shadowing Hub & Studio (`/study/shadowing/video`)**:
+    - **Tối ưu thanh đỉnh Video Shadowing Hub (`ShadowingListingView.tsx` & `VideoCatalogBrowseView.tsx`)**:
+      - Thiết lập `showGamificationStats={false}` và `hideMobileSearch={true}` trên `AppTopHeader`, loại bỏ hoàn toàn các chip streak flame và coin +XP gây rối mắt, đồng thời triệt tiêu nút tìm kiếm mobile xung đột với thanh tìm kiếm dock của video.
+      - Tích hợp `<StudySuiteNavTabs showPracticeTab={true} />` bảo đảm hiển thị đầy đủ 4 tab: Dictation, Shadowing, Luyện từ vựng và Thi thử đề.
+      - Kết nối tìm kiếm trực tiếp trên thanh đỉnh máy tính với kho video YouTube qua `useVideoCatalogStore.getState().setFilter("searchQuery", val)`.
+      - Khử toàn diện dấu ngoặc đơn ở các tab phân loại bài học: Chuyển `Cơ bản (A1-A2)`, `Trung cấp (B1-B2)`, `Nâng cao (C1-C2)` thành định dạng mở `Cơ bản • A1-A2`, `Trung cấp • B1-B2`, `Nâng cao • C1-C2`.
+      - Tùy biến Hero Spotlight chuyên biệt cho Shadowing: Bổ sung prop `practiceMode="shadowing"`, cập nhật huy hiệu "Luyện Nói & Nhại Âm Chuẩn Bản Xứ Qua Video", tiêu đề "Luyện Nói & Nhại Âm Đa Giác Quan Qua YouTube" và nội dung hướng dẫn luyện phát âm, phản xạ theo ngữ điệu người bản xứ.
+      - Chuẩn hóa tooltip thẻ video từ `(+25 XP)` thành `• +25 XP`.
+    - **Cải cách công thái học thanh đỉnh Studio Workspace (`StudioTopHeader.tsx` & `ShadowingStudioWorkspace.tsx`)**:
+      - Khắc phục triệt để lỗi ép nghẽn tiêu đề bài học trên màn hình di động (375px - 430px) từ 1 ký tự cụt ngủn lên hơn 25 ký tự hiển thị thoáng đãng:
+        + Ẩn thanh chuyển đổi chế độ (`Dictation`/`Shadowing`) trên màn hình điện thoại hẹp (`hidden sm:inline-flex`), bảo toàn 100% trên Desktop/Tablet.
+        + Tinh gọn công tắc chuyển Audio/Video (`MediaDisplayModeToggle.tsx`): Hiển thị icon thuần túy trên mobile (`hidden sm:inline` cho nhãn chữ "Audio"/"Video"), đệm gọn `p-0.5 sm:p-1` và `px-2 sm:px-3`, giải phóng hơn 80px không gian hàng ngang.
+        + Mở rộng bề rộng tiêu đề: `max-w-[170px] xs:max-w-[240px] sm:max-w-none min-w-0`, cắt lửng ellipsis mềm mại.
+      - Đưa nút Avatar học viên (`UserAvatar` chuẩn `w-7 h-7 sm:w-8 sm:h-8`) lên góc phải thanh đỉnh studio, liên kết trực tiếp tới trang hồ sơ cá nhân `/profile`.
+      - Ẩn hoàn toàn khối đồng hồ thời gian gây áp lực trên thanh đỉnh (`className="hidden"` trên `StudioTimerBadge`), trong khi vẫn duy trì đếm giây ngầm để tính toán thời lượng bài học khi hoàn thành.
+      - Khử dấu ngoặc đơn ở thanh công cụ câu học (`StudioSentenceToolbar.tsx`): Chuyển `"Ghép câu kế tiếp (+1)"` thành `"Ghép câu kế tiếp • +1"`.
+      - Đồng bộ ẩn khối timer badge và chuẩn hóa tooltip `(+40 XP)` -> `• +40 XP` trên cả Dictation Studio (`ListeningStudioWorkspace.tsx`).
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

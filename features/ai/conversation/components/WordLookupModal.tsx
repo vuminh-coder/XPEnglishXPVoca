@@ -41,9 +41,11 @@ export function WordLookupModal({
                   </span>
                 )}
               </div>
-              <p className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 leading-snug">
-                {wordData.meaning.replace(/\s*\([^)]*\)/g, "")}
-              </p>
+              {wordData.meaning && (
+                <p className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 leading-snug">
+                  {wordData.meaning.replace(/\s*\([^)]*\)/g, "")}
+                </p>
+              )}
             </div>
 
             {/* Action Buttons: Lưu Sổ Tay, Đóng (Có viền đồng bộ) */}

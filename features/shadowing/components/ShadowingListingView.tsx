@@ -29,7 +29,7 @@ import {
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
-import { useAudioCatalogStore, type AudioCategoryTab } from "@/stores";
+import { useAudioCatalogStore, useVideoCatalogStore, type AudioCategoryTab } from "@/stores";
 
 export type ShadowingCategoryTab = "all" | "basic" | "intermediate" | "advanced" | "completed";
 
@@ -169,9 +169,9 @@ export function ShadowingListingView({
 
   const filterTabs: { id: ShadowingCategoryTab; label: string }[] = [
     { id: "all", label: "Tất cả bài học" },
-    { id: "basic", label: "Cơ bản (A1-A2)" },
-    { id: "intermediate", label: "Trung cấp (B1-B2)" },
-    { id: "advanced", label: "Nâng cao (C1-C2)" },
+    { id: "basic", label: "Cơ bản • A1-A2" },
+    { id: "intermediate", label: "Trung cấp • B1-B2" },
+    { id: "advanced", label: "Nâng cao • C1-C2" },
     { id: "completed", label: "Đã hoàn thành" },
   ];
 
@@ -318,11 +318,26 @@ export function ShadowingListingView({
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
       {/* 1. CONTINUOUS FULL-WIDTH TOP BAR (AppTopHeader) */}
       <AppTopHeader
+        showGamificationStats={false}
+        hideMobileSearch={true}
         searchProps={{
           value: listingSearch,
-          onChange: setListingSearch,
-          placeholder: "Tìm kiếm bài nói...",
-          onClear: () => setListingSearch(""),
+          onChange: (val) => {
+            setListingSearch(val);
+            if (effectiveHubMode === "video") {
+              useVideoCatalogStore.getState().setFilter("searchQuery", val);
+            }
+          },
+          placeholder:
+            effectiveHubMode === "video"
+              ? "Tìm video YouTube..."
+              : "Tìm kiếm bài nói...",
+          onClear: () => {
+            setListingSearch("");
+            if (effectiveHubMode === "video") {
+              useVideoCatalogStore.getState().setFilter("searchQuery", "");
+            }
+          },
         }}
         rightDesktopContent={
           <div className="flex items-center gap-2.5 shrink-0">
@@ -338,7 +353,7 @@ export function ShadowingListingView({
           </div>
         }
       >
-        <StudySuiteNavTabs />
+        <StudySuiteNavTabs showPracticeTab={true} />
       </AppTopHeader>
 
       {/* 2. MAIN LISTING CONTENT CANVAS WITH STAGGER ENTRANCE */}
@@ -354,6 +369,7 @@ export function ShadowingListingView({
 
         {effectiveHubMode === "video" ? (
           <VideoCatalogBrowseView
+            practiceMode="shadowing"
             onSelectVideoLesson={(video) => {
               onSelectLesson(video.id);
             }}

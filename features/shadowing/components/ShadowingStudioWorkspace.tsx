@@ -314,6 +314,7 @@ function ShadowingStudioWorkspaceComponent({
               isActive={true}
               initialSeconds={elapsedTime}
               onSecondsUpdate={onElapsedTimeTick}
+              className="hidden"
             />
           </div>
         }

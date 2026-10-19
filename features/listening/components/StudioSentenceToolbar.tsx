@@ -97,7 +97,7 @@ export const StudioSentenceToolbar: React.FC<StudioSentenceToolbarProps> = React
             >
               <Combine className="w-3.5 h-3.5" />
               <span>
-                {isMergedWithNext ? "Tách câu đơn" : "Ghép câu kế tiếp (+1)"}
+                {isMergedWithNext ? "Tách câu đơn" : "Ghép câu kế tiếp • +1"}
               </span>
             </button>
           )}
