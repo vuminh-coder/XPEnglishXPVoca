@@ -165,4 +165,31 @@ describe("Shadowing & Dictation Dual Branch Routing & Skeleton Parity Suite", ()
     // Must NOT contain the old single button deviation for shadowing
     expect(content).not.toContain("Luyện Nhại Âm");
   });
+
+  it("verifies loading skeleton tabs across dictation and shadowing render real icons and prevent 2-line wraps", async () => {
+    const fs = await import("fs");
+    const path = await import("path");
+
+    const listeningSkeletonPath = path.resolve(process.cwd(), "features/listening/components/LoadingSkeletons.tsx");
+    const shadowingSkeletonPath = path.resolve(process.cwd(), "features/shadowing/components/LoadingSkeletons.tsx");
+
+    const listeningContent = fs.readFileSync(listeningSkeletonPath, "utf-8");
+    const shadowingContent = fs.readFileSync(shadowingSkeletonPath, "utf-8");
+
+    // Both skeletons must use whitespace-nowrap to prevent text wrapping into 2 lines
+    expect(listeningContent).toContain("whitespace-nowrap");
+    expect(shadowingContent).toContain("whitespace-nowrap");
+
+    // Both skeletons must NOT use round dots (w-4 h-4 rounded-full) for the mode tabs
+    expect(listeningContent).not.toContain('<div className="w-4 h-4 rounded-full bg-[#0059bb]/20');
+    expect(listeningContent).not.toContain('<div className="w-4 h-4 rounded-full bg-slate-300');
+    expect(shadowingContent).not.toContain('<div className="w-4 h-4 rounded-full bg-[#0059bb]/20');
+    expect(shadowingContent).not.toContain('<div className="w-4 h-4 rounded-full bg-slate-300');
+
+    // Both skeletons must render actual icons
+    expect(listeningContent).toContain("<Headphones");
+    expect(listeningContent).toContain("<Video");
+    expect(shadowingContent).toContain("<Mic");
+    expect(shadowingContent).toContain("<Video");
+  });
 });

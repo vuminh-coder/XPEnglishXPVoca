@@ -6739,6 +6739,13 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Xử lý xung đột tiền tố IPv6 Windows Winsock làm timeout kết nối PostgreSQL Neon sau 20 giây.
    - Triển khai cơ chế phân giải IPv4 tự động (`resolveIpv4Sync`) và định tuyến endpoint Neon SNI (`endpoint=<endpointId>;<password>`), rút ngắn thời gian kết nối Neon CSDL từ hơn 20s xuống 236ms, trả về HTTP 200 tức thì cho `/api/video-catalog/categories`.
 
+3. **Chuẩn Hóa Khung Xương Shimmer Tabs & Khử Triệt Để Lỗi Rớt 2 Dòng Chữ (`LoadingSkeletons.tsx`)**:
+   - Thay thế toàn bộ các dấu chấm tròn giả lập cũ (`w-4 h-4 rounded-full`) trên 2 phân hệ Dictation và Shadowing bằng icon chuẩn nhận diện trực quan:
+     - **Dictation**: `<Headphones>` cho "Bài Nghe Tiêu Chuẩn" và `<Video>` cho "Kho Video Tuyển Chọn".
+     - **Shadowing**: `<Mic>` cho "Nhại Âm Tiêu Chuẩn" và `<Video>` cho "Nhại Âm Video".
+   - Bổ sung thuộc tính `whitespace-nowrap`, đệm `px-1.5 xs:px-2.5 sm:px-4 py-2` và cỡ chữ linh hoạt `text-[11px] xs:text-xs sm:text-sm` trên lưới `grid grid-cols-2 sm:flex`, triệt tiêu dứt điểm lỗi nhãn chữ bị rớt xuống 2 dòng trên màn hình điện thoại di động.
+   - Thiết lập `hidden md:flex` cho phụ đề Sparkles bên phải, đảm bảo bố cục khung xương khớp 100% với component thực tế `StudyMediaHubTabs.tsx`, đạt Zero Cumulative Layout Shift (0px CLS).
+
 ---
 
 ## 🌐 Production Deployment Status
