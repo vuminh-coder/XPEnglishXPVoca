@@ -94,18 +94,6 @@ export function ListeningListingSkeleton() {
           </div>
         </div>
 
-        {/* 3. CATEGORY TABS & FORCE REFRESH CONTROLS (Exact 1:1 with ListeningListingView) */}
-        <div className="hidden sm:flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200/80 dark:border-slate-800">
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-            <ShimmerBox className="h-8 w-28 rounded-xl bg-[#0059bb]/30" />
-            <ShimmerBox className="h-8 w-28 rounded-xl" />
-            <ShimmerBox className="h-8 w-28 rounded-xl" />
-            <ShimmerBox className="h-8 w-32 rounded-xl hidden sm:block" />
-            <ShimmerBox className="h-8 w-28 rounded-xl hidden md:block" />
-          </div>
-          <ShimmerBox className="h-8 w-24 rounded-xl self-start sm:self-auto shrink-0" />
-        </div>
-
         {/* ROW 1: BÀI HỌC CƠ BẢN (A1 - A2) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">

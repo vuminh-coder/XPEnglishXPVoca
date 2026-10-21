@@ -6777,6 +6777,15 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Đưa cụm 2 nút mũi tên cuộn ngang (`<ChevronLeft>` và `<ChevronRight>`) áp sát vào góc mép phải màn hình (`flex items-center gap-1.5 sm:gap-2 shrink-0`).
    - Mở rộng toàn diện không gian hiển thị tiêu đề chủ đề bên trái, triệt tiêu tình trạng chữ bị cắt cụt trên điện thoại di động, đồng thời biến toàn bộ cụm icon và tiêu đề thành nút bấm tương tác (`onClick={() => onViewCategory(categorySlug)}`) trực quan và mượt mà.
 
+### 21. Tối Giản Hóa Bố Cục Danh Mục Bài Học Tiêu Chuẩn Giữa Dictation & Shadowing
+
+1. **Loại Bỏ Thanh Toolbar Tab Danh Mục & Nút Làm Mới Trùng Lặp**:
+   - Gỡ bỏ hoàn toàn thanh danh mục tab ngang kèm nút "Làm mới" (`[ Tất cả bài học ] [ Cơ bản (A1-A2) ] [ Trung cấp (B1-B2) ] [ Nâng cao (C1-C2) ] [ Đã hoàn thành ]` ... `[ 🔄 Làm mới ]`) tại cả 2 trang [ListeningListingView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/ListeningListingView.tsx) và [ShadowingListingView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingListingView.tsx).
+   - Thiết kế mới chuyển tiếp mượt mà, trực diện từ thanh chuyển đổi phân hệ [StudyMediaHubTabs.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/StudyMediaHubTabs.tsx) vào thẳng hệ thống 3 hàng bài học tuyển chọn theo cấp độ (Hàng 1: Cơ bản A1-A2, Hàng 2: Trung cấp B1-B2, Hàng 3: Nâng cao C1-C2) có sẵn nút đổi bài ngẫu nhiên độc lập.
+2. **Đồng Bộ Hoàn Toàn Khung Xương Shimmer (Zero Layout Shift - 0px CLS)**:
+   - Cập nhật [LoadingSkeletons.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/LoadingSkeletons.tsx) cho `ListeningListingSkeleton`, loại bỏ dải shimmer của thanh tab danh mục, đảm bảo khớp 100% hình học không gian với `ListeningListingView` và `ShadowingListingSkeleton`.
+   - Triệt tiêu 100% hiện tượng lệch layout hay giật cục khi nạp trang.
+
 ---
 
 ## 🌐 Production Deployment Status
