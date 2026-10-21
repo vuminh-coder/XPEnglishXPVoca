@@ -687,9 +687,7 @@ export default function MyVideoPage() {
               isImporting={isImporting}
               importError={importError}
               setImportError={setImportError}
-              hasActiveVideo={Boolean(activeVideo)}
               onImport={handleImportYouTube}
-              onOpenXpSubModal={() => setShowXpSubModal(true)}
             />
 
             {/* 3. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE */}

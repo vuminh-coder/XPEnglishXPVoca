@@ -28,6 +28,17 @@ const CATEGORIES = [
   "General",
 ];
 
+const CATEGORY_LABELS: Record<string, string> = {
+  "Tất cả": "Tất cả",
+  Communication: "Giao tiếp",
+  "TED Talks": "TED Talks",
+  Business: "Kinh doanh",
+  Movies: "Phim ảnh",
+  News: "Tin tức",
+  "IELTS/TOEIC": "IELTS / TOEIC",
+  General: "Tổng hợp",
+};
+
 export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
   videos,
   activeVideoId,
@@ -44,15 +55,14 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
   return (
     <div className="space-y-4">
       {/* Search & Category Filter Bar */}
-      <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
+      <div className="p-3.5 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
         <div className="flex flex-col md:flex-row items-stretch md:items-end justify-between gap-3">
           {/* Search Box with UI/UX Rule 6 External Label (Hidden on mobile < sm, unified via AppTopHeader) */}
           <div className="hidden sm:block flex-1 min-w-0 space-y-1.5">
             <label
               htmlFor="video-search-input"
-              className="text-[11px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-display"
+              className="text-[11px] font-bold text-slate-700 dark:text-slate-300 font-display"
             >
-              <Search className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
               Tìm kiếm video bài học:
             </label>
             <div className="relative">
@@ -114,7 +124,7 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                   : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              {cat === "Communication" ? "Giao tiếp" : cat === "General" ? "Tổng hợp" : cat}
+              {CATEGORY_LABELS[cat] || cat}
             </button>
           ))}
         </div>

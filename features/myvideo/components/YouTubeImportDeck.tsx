@@ -5,7 +5,6 @@ import {
   X,
   Loader2,
   Plus,
-  Sparkles,
   HelpCircle,
 } from "lucide-react";
 import { YouTubeVideoItem } from "@/stores/videoStore";
@@ -21,8 +20,8 @@ export interface YouTubeImportDeckProps {
   importError: string | null;
   setImportError: (err: string | null) => void;
   onImport: (e: React.FormEvent) => void;
-  hasActiveVideo: boolean;
-  onOpenXpSubModal: () => void;
+  hasActiveVideo?: boolean;
+  onOpenXpSubModal?: () => void;
 }
 
 export function YouTubeImportDeck({
@@ -36,24 +35,18 @@ export function YouTubeImportDeck({
   importError,
   setImportError,
   onImport,
-  hasActiveVideo,
-  onOpenXpSubModal,
 }: YouTubeImportDeckProps) {
   return (
-    <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5 gap-1.5">
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-mono font-bold text-xs border border-blue-200/60 dark:border-blue-800/40">
-            1-CLICK IMPORT
-          </span>
-          <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display flex items-center gap-1.5">
-            <LinkIcon className="w-4 h-4 text-[#0059bb]" />
-            <span>Trích xuất phụ đề YouTube tự động</span>
+    <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
+      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
+            <LinkIcon className="w-3.5 h-3.5" />
+          </div>
+          <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+            Trích xuất phụ đề từ YouTube
           </h3>
         </div>
-        <span className="text-[11px] font-medium text-slate-400 hidden sm:block">
-          Hỗ trợ phụ đề Song Ngữ Anh - Việt & Tra từ thông minh
-        </span>
       </div>
 
       <form onSubmit={onImport} className="space-y-3">
@@ -140,20 +133,6 @@ export function YouTubeImportDeck({
                 <option value="Hard">Khó (Hard)</option>
               </select>
             </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {hasActiveVideo && (
-              <button
-                type="button"
-                onClick={onOpenXpSubModal}
-                className="w-full sm:w-auto px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/25 text-[11px] font-bold flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95 shadow-2xs"
-                title="Mở bảng điều khiển trích xuất phụ đề thông minh"
-              >
-                <Sparkles className="w-3.5 h-3.5 fill-purple-500/40 text-purple-600 dark:text-purple-400" />
-                <span>XP-Sub AI Engine</span>
-              </button>
-            )}
           </div>
         </div>
       </form>

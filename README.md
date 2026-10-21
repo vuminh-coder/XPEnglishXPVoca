@@ -6829,6 +6829,28 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
 4. **Đồng Bộ Khung Xương Nạp Trang Đạt Chuẩn 0px CLS (`loading.tsx`)**:
    - Cập nhật khung xương top bar trong [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvideo/loading.tsx) với Shimmer 4 tab bên trái, Shimmer nút tìm kiếm di động và Shimmer nút hành động chính bên phải, loại bỏ 100% hiện tượng lệch khung khi nạp trang.
 
+### 24. Thanh Lọc Chuyên Sâu Các Phần Tử Thừa Thãi & Tối Ưu Không Gian Trực Diện Trên Trang /myvideo
+
+1. **Khử Trùng Lặp Nút "XP-Sub AI Engine" (UI/UX Rule 18)**:
+   - Loại bỏ nút bấm tím `XP-Sub AI Engine` trùng lặp trong [YouTubeImportDeck.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/YouTubeImportDeck.tsx).
+   - Tập trung duy nhất một nút `XP-Sub AI Engine` tại nhóm Quick Actions trên [VideoHeroMetricsBanner.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/VideoHeroMetricsBanner.tsx), đồng cấp với `Phím tắt` và `Nhập SRT`, giúp giao diện mạch lạc và triệt tiêu xung đột nút bấm.
+
+2. **Xóa Bỏ Huy Hiệu Tiếp Thị Khẩu Hiệu & Mô Tả Lặp Lại**:
+   - Loại bỏ huy hiệu tiếp thị rườm rà `Chuẩn 12 Tiêu Chí · Phụ đề 1-Click · Dictation AI` khỏi [VideoHeroMetricsBanner.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/VideoHeroMetricsBanner.tsx) tương tự chuẩn giao diện Dictation/Shadowing.
+   - Loại bỏ badge `1-CLICK IMPORT` và văn bản phụ lặp lại trong [YouTubeImportDeck.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/YouTubeImportDeck.tsx).
+   - Rút gọn tiêu đề và phần mô tả súc tích, mang phong cách sản phẩm học tập chuyên nghiệp cao cấp.
+
+3. **Nâng Cấp Dải Số Liệu Siêu Tinh Gọn (Slim Metric Strip - Tiết Kiệm > 85px Chiều Cao)**:
+   - Thay thế 4 thẻ Bento Metrics cồng kềnh bằng dải chip thông số siêu mỏng (Slim Metric Strip) chiều cao chỉ ~48px (giảm hơn 60% diện tích chiếm dụng).
+   - Đưa Trình phát Video YouTube và Khay học tương tác lên ngay tầm mắt người học (Above the Fold) trên Desktop và hiển thị khung bài học ngay khi mở trang trên Mobile.
+
+4. **Xóa Trùng Lặp Icon Tìm Kiếm & Chuẩn Hóa Nhãn Danh Mục (`VideoLibraryGrid.tsx`)**:
+   - Xóa bỏ icon `Search` trùng lặp ở nhãn ngoài (external label), chỉ giữ icon tìm kiếm tinh tế bên trong ô nhập liệu.
+   - Chuẩn hóa toàn bộ nhãn danh mục phân loại sang tiếng Việt đồng bộ: `Giao tiếp`, `Kinh doanh`, `Phim ảnh`, `Tin tức`, `Tổng hợp`, `IELTS / TOEIC`, `TED Talks`.
+
+5. **Đồng Bộ Khung Xương Nạp Trang Tuyệt Đối (`loading.tsx`)**:
+   - Cập nhật [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvideo/loading.tsx) với dải Shimmer 4 số liệu siêu mỏng và khung Shimmer trích xuất YouTube chuẩn xác, giữ vững 0px CLS.
+
 ---
 
 ## 🌐 Production Deployment Status

@@ -28,34 +28,31 @@ export default function MyVideoLoading() {
       {/* MAIN CANVAS */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">
         
-        {/* 1. HERO SPOTLIGHT & 4 MICRO-METRIC DOUBLE-BEZEL CARDS SKELETON */}
-        <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-2 max-w-xl">
-              <div className="flex items-center gap-2">
-                <div className="h-5 w-48 rounded-md bg-blue-500/20" />
-                <div className="h-5 w-52 rounded-md bg-slate-100 dark:bg-slate-800 hidden sm:block" />
-              </div>
-              <div className="h-6 w-72 sm:w-96 rounded-md bg-slate-200 dark:bg-slate-700" />
-              <div className="h-3.5 w-full sm:w-80 rounded-md bg-slate-100 dark:bg-slate-800" />
+        {/* 1. HERO SPOTLIGHT & SLIM COMPACT METRICS SKELETON */}
+        <div className="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md space-y-3">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
+            <div className="space-y-1.5 max-w-xl">
+              <div className="h-5 w-44 rounded-md bg-blue-500/20" />
+              <div className="h-5 sm:h-6 w-64 sm:w-80 rounded-md bg-slate-200 dark:bg-slate-700" />
+              <div className="h-3.5 w-full sm:w-72 rounded-md bg-slate-100 dark:bg-slate-800" />
             </div>
 
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 pt-0.5">
-              <div className="h-8 w-20 rounded-xl bg-slate-100 dark:bg-slate-800" />
-              <div className="h-8 w-24 rounded-xl bg-slate-100 dark:bg-slate-800" />
+              <div className="h-7 w-16 sm:w-20 rounded-xl bg-slate-100 dark:bg-slate-800" />
+              <div className="h-7 w-20 sm:w-24 rounded-xl bg-slate-100 dark:bg-slate-800" />
             </div>
           </div>
 
           <div className="h-px bg-slate-100 dark:bg-slate-800 w-full" />
 
-          {/* 4 Metric Cards Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+          {/* Slim 4 Metric Row Skeleton */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="p-2.5 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5 sm:gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-slate-200 dark:bg-slate-800 shrink-0" />
-                <div className="min-w-0 flex-1 space-y-1.5">
-                  <div className="h-5 w-16 rounded-md bg-slate-200 dark:bg-slate-700" />
-                  <div className="h-3 w-20 sm:w-24 rounded-md bg-slate-100 dark:bg-slate-800" />
+              <div key={i} className="px-3 py-2 rounded-xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800 flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-800 shrink-0" />
+                <div className="min-w-0 flex-1 space-y-1">
+                  <div className="h-3.5 w-14 rounded bg-slate-200 dark:bg-slate-700" />
+                  <div className="h-2.5 w-16 rounded bg-slate-100 dark:bg-slate-800" />
                 </div>
               </div>
             ))}
@@ -63,23 +60,24 @@ export default function MyVideoLoading() {
         </div>
 
         {/* 2. YOUTUBE IMPORT STUDIO DECK SKELETON */}
-        <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md space-y-3.5">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
-            <div className="h-4 w-64 rounded-md bg-blue-500/20" />
-            <div className="h-3 w-48 rounded-md bg-slate-100 dark:bg-slate-800 hidden sm:block" />
+        <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md space-y-3">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-lg bg-blue-500/20" />
+              <div className="h-4 w-44 rounded-md bg-slate-200 dark:bg-slate-700" />
+            </div>
           </div>
 
           <div className="space-y-3">
             <div className="flex flex-col sm:flex-row gap-2.5">
-              <div className="h-11 flex-1 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800" />
-              <div className="h-11 w-full sm:w-44 rounded-xl bg-[#0059bb]/40" />
+              <div className="h-10 flex-1 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800" />
+              <div className="h-10 w-full sm:w-40 rounded-xl bg-[#0059bb]/40" />
             </div>
             <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="h-7 w-28 rounded-lg bg-slate-100 dark:bg-slate-800" />
-                <div className="h-7 w-24 rounded-lg bg-slate-100 dark:bg-slate-800" />
+                <div className="h-6 w-28 rounded-lg bg-slate-100 dark:bg-slate-800" />
+                <div className="h-6 w-24 rounded-lg bg-slate-100 dark:bg-slate-800" />
               </div>
-              <div className="h-7 w-32 rounded-lg bg-amber-500/20" />
             </div>
           </div>
         </div>
