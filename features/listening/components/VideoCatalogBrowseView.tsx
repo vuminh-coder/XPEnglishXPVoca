@@ -714,7 +714,7 @@ interface HorizontalVideoTopicRowProps {
   title: string;
   icon: React.ReactNode;
   categorySlug: string;
-  themeColor: "rose" | "amber" | "blue" | "purple" | "emerald";
+  themeColor?: "rose" | "amber" | "blue" | "purple" | "emerald";
   lessons: VideoCatalogLessonItem[];
   practiceMode?: "dictation" | "shadowing";
   onSelectVideoLesson?: (lesson: VideoCatalogLessonItem) => void;
@@ -725,7 +725,6 @@ function HorizontalVideoTopicRow({
   title,
   icon,
   categorySlug,
-  themeColor,
   lessons,
   practiceMode = "dictation",
   onSelectVideoLesson,
@@ -766,37 +765,25 @@ function HorizontalVideoTopicRow({
     }
   };
 
-  const getThemeClasses = () => {
-    switch (themeColor) {
-      case "rose":
-        return "bg-rose-50 hover:bg-rose-100/80 dark:bg-rose-950/40 dark:hover:bg-rose-900/50 text-rose-700 dark:text-rose-300 border-rose-200/70 dark:border-rose-800/50";
-      case "amber":
-        return "bg-amber-50 hover:bg-amber-100/80 dark:bg-amber-950/40 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-300 border-amber-200/70 dark:border-amber-800/50";
-      case "blue":
-        return "bg-blue-50 hover:bg-blue-100/80 dark:bg-blue-950/40 dark:hover:bg-blue-900/50 text-[#0059bb] dark:text-sky-300 border-blue-200/70 dark:border-blue-800/50";
-      case "purple":
-        return "bg-purple-50 hover:bg-purple-100/80 dark:bg-purple-950/40 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 border-purple-200/70 dark:border-purple-800/50";
-      case "emerald":
-        return "bg-emerald-50 hover:bg-emerald-100/80 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 border-emerald-200/70 dark:border-emerald-800/50";
-      default:
-        return "bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700";
-    }
-  };
-
   if (lessons.length === 0) return null;
 
   return (
     <div className="space-y-3.5 pt-1">
       {/* Row Header */}
       <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
-        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+        <button
+          type="button"
+          onClick={() => onViewCategory(categorySlug)}
+          className="flex items-center gap-2 sm:gap-2.5 min-w-0 text-left group cursor-pointer hover:opacity-85 transition-opacity"
+          title={`Xem tất cả video ${title}`}
+        >
           {icon}
-          <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight truncate">
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight truncate group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors">
             {title}
           </h3>
-        </div>
+        </button>
 
-        {/* Row Header Actions: Navigation & View All */}
+        {/* Row Header Actions: Navigation chevrons aligned to corner */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
             type="button"
@@ -817,14 +804,6 @@ function HorizontalVideoTopicRow({
             aria-label="Cuộn sang phải"
           >
             <ChevronRight className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            onClick={() => onViewCategory(categorySlug)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer transition-all border ${getThemeClasses()}`}
-          >
-            <span>Xem Video Chủ Đề</span>
-            <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>

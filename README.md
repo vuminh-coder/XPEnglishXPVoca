@@ -6758,6 +6758,10 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
      - Ở chế độ Audio tiêu chuẩn: Liên kết tức thì với bộ lọc danh sách bài nghe `listingSearch`.
 3. **Đồng Bộ Khung Xương Shimmer Nạp Trang (Zero CLS)**:
    - Cập nhật [LoadingSkeletons.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/LoadingSkeletons.tsx) cho cả `ListeningListingSkeleton` và `VideoListingSkeleton`, bổ sung Shimmer nút tìm kiếm di động (`<ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />`) và Shimmer UserAvatar, đảm bảo bố cục khung xương trùng khớp 100% với giao diện đã tải xong, loại bỏ hoàn toàn hiện tượng giật cục bố cục (0px CLS).
+4. **Tinh Gọn Tiêu Đề Dải Hàng Chủ Đề Video (Topic Row Header Optimization)**:
+   - Xóa bỏ nút phụ "Xem Video Chủ Đề" rườm rà tại dải hàng ngang [VideoCatalogBrowseView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCatalogBrowseView.tsx).
+   - Đưa cụm 2 nút mũi tên cuộn ngang (`<ChevronLeft>` và `<ChevronRight>`) áp sát vào góc mép phải màn hình (`flex items-center gap-1.5 sm:gap-2 shrink-0`).
+   - Mở rộng toàn diện không gian hiển thị tiêu đề chủ đề bên trái, triệt tiêu tình trạng chữ bị cắt cụt trên điện thoại di động, đồng thời biến toàn bộ cụm icon và tiêu đề thành nút bấm tương tác (`onClick={() => onViewCategory(categorySlug)}`) trực quan và mượt mà.
 
 ---
 
