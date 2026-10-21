@@ -32,7 +32,6 @@ export default function MyVideoLoading() {
         <div className="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md space-y-3">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
             <div className="space-y-1.5 max-w-xl">
-              <div className="h-5 w-44 rounded-md bg-blue-500/20" />
               <div className="h-5 sm:h-6 w-64 sm:w-80 rounded-md bg-slate-200 dark:bg-slate-700" />
               <div className="h-3.5 w-full sm:w-72 rounded-md bg-slate-100 dark:bg-slate-800" />
             </div>
