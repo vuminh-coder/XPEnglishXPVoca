@@ -6851,6 +6851,10 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
 5. **Đồng Bộ Khung Xương Nạp Trang Tuyệt Đối (`loading.tsx`)**:
    - Cập nhật [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvideo/loading.tsx) với dải Shimmer 4 số liệu siêu mỏng và khung Shimmer trích xuất YouTube chuẩn xác, giữ vững 0px CLS.
 
+6. **Xóa Cụm 3 Nút Quick Actions & Bổ Sung Icon YouTube Đỏ Nhận Diện Thương Hiệu**:
+   - Xóa bỏ cụm 3 nút Quick Action `[ Phím tắt ? ]`, `[ Nhập SRT ]`, `[ XP-Sub AI Engine ]` trên [VideoHeroMetricsBanner.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/VideoHeroMetricsBanner.tsx) giúp phần đầu trang thông thoáng, không bị co kéo hay rớt dòng trên di động.
+   - Trang bị icon YouTube màu đỏ chính thức kèm chữ `YOUTUBE VIDEO STUDIO` cho khối huy hiệu và bổ sung icon YouTube cùng từ khóa `Video YouTube` cho tiêu đề chính.
+
 ---
 
 ## 🌐 Production Deployment Status

@@ -36,11 +36,6 @@ export default function MyVideoLoading() {
               <div className="h-5 sm:h-6 w-64 sm:w-80 rounded-md bg-slate-200 dark:bg-slate-700" />
               <div className="h-3.5 w-full sm:w-72 rounded-md bg-slate-100 dark:bg-slate-800" />
             </div>
-
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 pt-0.5">
-              <div className="h-7 w-16 sm:w-20 rounded-xl bg-slate-100 dark:bg-slate-800" />
-              <div className="h-7 w-20 sm:w-24 rounded-xl bg-slate-100 dark:bg-slate-800" />
-            </div>
           </div>
 
           <div className="h-px bg-slate-100 dark:bg-slate-800 w-full" />

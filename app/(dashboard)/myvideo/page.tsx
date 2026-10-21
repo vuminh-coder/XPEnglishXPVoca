@@ -661,19 +661,13 @@ export default function MyVideoPage() {
 
       {/* MAIN DASHBOARD CANVAS */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">
-        {/* 1. HERO SPOTLIGHT & 4 MICRO-METRIC DOUBLE-BEZEL CARDS */}
+        {/* 1. HERO SPOTLIGHT & SLIM METRICS BANNER */}
             <VideoHeroMetricsBanner
               savedVideosCount={savedVideos.length}
               totalMinutes={totalMinutes}
               totalSubtitlesCount={totalSubtitlesCount}
               favoriteCount={favoriteCount}
               avgProgress={avgProgress}
-              onOpenShortcuts={() => setShowShortcutsModal(true)}
-              onOpenSrtImport={() => setShowSrtImportModal(true)}
-              hasActiveVideo={Boolean(activeVideo)}
-              hasActiveSubtitleResult={Boolean(activeSubtitleResult)}
-              onOpenXpSubModal={() => setShowXpSubModal(true)}
-              onOpenExportModal={() => setShowExportModal(true)}
             />
 
             {/* 2. YOUTUBE IMPORT STUDIO DECK */}
