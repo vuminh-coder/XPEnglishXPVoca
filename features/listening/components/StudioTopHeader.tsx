@@ -48,7 +48,7 @@ export function StudioTopHeader({
   const [showKeyboardModal, setShowKeyboardModal] = useState(false);
 
   const user = useUserStore((s) => s.user);
-  const userName = formatCleanName(user?.name, user?.email);
+  const userName = formatCleanName(user?.fullName || user?.username || user?.email || "Học viên");
 
   const isVideoLesson =
     String(lessonQueryId).startsWith("vid_") ||

@@ -242,6 +242,7 @@ export function ListeningListingView({
               setListingSearch("");
             }
           },
+          hideDesktopInput: effectiveHubMode === "video",
         }}
         rightDesktopContent={
           <div className="flex items-center gap-2.5 shrink-0">

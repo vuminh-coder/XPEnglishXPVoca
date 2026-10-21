@@ -986,6 +986,16 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
         * **Khối Từ Vựng Ví Dụ Thực Tế**: Dàn lưới danh sách từ vựng thực tế ở phía dưới kèm nút nghe âm thanh và khả năng bấm chọn từ để thử giọng micro trực tiếp.
         * Bấm `Quay lại bảng âm` sẽ đưa học viên trở về ma trận 44 âm nguyên vẹn chỉ trong 1 thao tác.
 
+64. **Khử Trùng Lặp Thanh Tìm Kiếm Desktop Khi Đã Có In-Page Search Toolbar & Bảo Toàn Tìm Kiếm Mobile (`AppTopHeader.tsx`, `/study/shadowing`, `/study/dictation`)**:
+    - **Tự Động Ẩn Khối Tìm Kiếm Desktop Trùng Lặp Trên Header (`hideDesktopInput: effectiveHubMode === "video"`)**:
+      - Khi duyệt các trang có thanh tìm kiếm nội dung trong trang (như nhánh Video Catalog của Luyện Nói Shadowing `/study/shadowing/video` và Luyện Nghe Chính Tả Dictation `/study/dictation/video`), `AppTopHeader` tự động ẩn ô nhập tìm kiếm desktop (`lg:hidden`).
+      - Triệt tiêu 100% tình trạng người học thấy đồng thời 2 thanh tìm kiếm trùng lặp trên cùng màn hình máy tính (1 thanh trên Header và 1 thanh ngay trên danh sách video).
+      - Nhánh Audio của cả 2 trang vẫn bảo toàn ô tìm kiếm desktop trên `AppTopHeader` do nhánh này không có thanh tìm kiếm nội trang.
+    - **Bảo Toàn Nút Tìm Kiếm Di Động Độc Lập (`🔍`)**:
+      - Trên thiết bị di động, nút kính lúp tìm kiếm ở góc trên `AppTopHeader` vẫn được bảo toàn nguyên vẹn, kích hoạt khung trượt tìm kiếm toàn màn hình đồng bộ tương tự `/study/ipa`.
+    - **Đồng Bộ Khung Xương Tải Trang Triệt Tiêu Layout Shift (0px CLS)**:
+      - Cập nhật cả 2 skeleton loader `ShadowingVideoListingSkeleton.tsx` và `VideoListingSkeleton.tsx` loại bỏ shimmer search box desktop, bảo đảm chuyển đổi mượt mà 0px CLS giữa khung xương và dữ liệu thật.
+
 ---
 
 
@@ -2530,7 +2540,7 @@ Toàn bộ 37 đề thi trong thư mục `lib/data/exam-papers/` đã được r
 1. **Studio-Aligned Continuous Top Bar Header (`AppTopHeader` 56px Baseline)**:
    - Chiều cao chuẩn `h-14` (56px) với viền đáy `border-b border-slate-200/90 dark:border-slate-800` chạy thẳng tắp mép-sang-mép (Edge-to-Edge), khớp 100% với Header Sidebar và Top Header của Dashboard.
    - **Trên Mobile**: Tự động trang bị nút **Hamburger Menu (`Menu` 3 gạch ngang)** mở nhanh Sidebar, cụm Mode Switcher Pill theo từng trang (Trang Luyện Đọc: `[ 📖 Luyện Đọc ] [ 🎧 Luyện Nghe ] [ 🎙️ Luyện Nói ]`; Trang Luyện Nghe: `[ 🎧 Luyện Nghe ] [ 🎙️ Luyện Nói ]`; Trang Shadowing: `[ 📖 Luyện Đọc ] [ 🎧 Luyện Nghe ] [ 🎙️ Luyện Nói ]`), nút chuyển đổi **Chế độ Sáng / Tối (`Sun` / `Moon`)**, và **Avatar người dùng** liên kết trực tiếp tới `/profile`. Khi vào phòng đọc bài (`?id=...`), tự động chuyển sang nút **Back (`ArrowLeft`)** + Tiêu đề bài + Badge CEFR + Bộ điều khiển studio (Timer / Font Zoomer / Toggle dịch).
-   - **Trên Desktop**: Giữ nguyên vẹn 100% thanh tìm kiếm nhanh `h-9 rounded-xl` (`w-44 xs:w-56 sm:w-72`), nút hành động chính (Tạo bài AI / Khám phá 100+ bài), và các điều khiển studio riêng của từng trang.
+   - **Trên Desktop**: Giữ nguyên vẹn 100% thanh tìm kiếm nhanh `h-9 rounded-xl` (`w-44 xs:w-56 sm:w-72`), nút hành động chính (Tạo bài AI / Khám phá 100+ bài), và các điều khiển studio riêng của từng trang. Đối với các trang có thanh tìm kiếm nội trang chuyên biệt (In-Page Search Toolbar ở nhánh Video của Luyện Nghe và Shadowing), ô tìm kiếm desktop trên `AppTopHeader` được tự động ẩn (`hideDesktopInput: effectiveHubMode === "video"`) để triệt tiêu việc hiển thị 2 ô tìm kiếm trùng lặp trên cùng một màn hình máy tính, đồng thời khung xương loading (Skeletons `VideoListingSkeleton` & `ShadowingVideoListingSkeleton`) được đồng bộ 100% để đảm bảo 0px CLS.
 
 2. **Spacious Zero-Clutter Studio Canvas**:
    - Loại bỏ các khối hộp thông số rườm rà chiếm diện tích, tạo không gian thoáng đãng tập trung trực diện vào bài học.

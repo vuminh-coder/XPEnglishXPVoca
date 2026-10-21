@@ -489,7 +489,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                 <IpaSoundCardV2
                   key={sound.id}
                   sound={sound}
-                  isSelected={selectedSound?.id === sound.id}
+                  isSelected={false}
                   rate={playbackRate}
                   onSelect={handleSelectSound}
                   onOpenDetail={handleOpenDetailModal}
@@ -552,7 +552,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                     <IpaSoundCardV2
                       key={sound.id}
                       sound={sound}
-                      isSelected={selectedSound?.id === sound.id}
+                      isSelected={false}
                       rate={playbackRate}
                       onSelect={handleSelectSound}
                       onOpenDetail={handleOpenDetailModal}
@@ -578,7 +578,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                     <IpaSoundCardV2
                       key={sound.id}
                       sound={sound}
-                      isSelected={selectedSound?.id === sound.id}
+                      isSelected={false}
                       rate={playbackRate}
                       onSelect={handleSelectSound}
                       onOpenDetail={handleOpenDetailModal}
@@ -638,7 +638,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                     <IpaSoundCardV2
                       key={sound.id}
                       sound={sound}
-                      isSelected={selectedSound?.id === sound.id}
+                      isSelected={false}
                       rate={playbackRate}
                       onSelect={handleSelectSound}
                       onOpenDetail={handleOpenDetailModal}
@@ -664,7 +664,7 @@ export const IpaMatrixBoard: React.FC<IpaMatrixBoardProps> = ({
                     <IpaSoundCardV2
                       key={sound.id}
                       sound={sound}
-                      isSelected={selectedSound?.id === sound.id}
+                      isSelected={false}
                       rate={playbackRate}
                       onSelect={handleSelectSound}
                       onOpenDetail={handleOpenDetailModal}

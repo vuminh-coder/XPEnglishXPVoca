@@ -742,8 +742,6 @@ export function ShadowingVideoListingSkeleton() {
         <div className="flex items-center gap-2 sm:gap-2.5">
           {/* Mobile search button shimmer */}
           <ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />
-          {/* Desktop search input shimmer */}
-          <ShimmerBox className="h-9 w-44 sm:w-56 lg:w-64 xl:w-72 rounded-xl hidden lg:block" />
           {/* Action button shimmer */}
           <ShimmerBox className="h-9 w-24 sm:w-36 rounded-xl bg-blue-600/30 shrink-0" />
           {/* User Avatar shimmer */}

@@ -263,8 +263,6 @@ export function VideoListingSkeleton() {
         <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           {/* Mobile search button shimmer */}
           <ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />
-          {/* Desktop search input shimmer */}
-          <ShimmerBox className="h-9 w-44 xs:w-56 sm:w-72 rounded-xl hidden lg:block" />
           {/* User Avatar shimmer */}
           <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
         </div>
