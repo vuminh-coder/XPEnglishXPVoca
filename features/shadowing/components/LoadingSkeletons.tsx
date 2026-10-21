@@ -94,9 +94,6 @@ export function ShadowingListingSkeleton() {
           </div>
         </div>
 
-        {/* HERO STATS BENTO SKELETON (Exact 1:1 with ShadowingListingView) */}
-        <ShadowingListingHeroStatsSkeleton />
-
         {/* ROW 1: BÀI HỌC CƠ BẢN (A1 - A2) */}
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">

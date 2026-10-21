@@ -996,6 +996,10 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
     - **Đồng Bộ Khung Xương Tải Trang Triệt Tiêu Layout Shift (0px CLS)**:
       - Cập nhật cả 2 skeleton loader `ShadowingVideoListingSkeleton.tsx` và `VideoListingSkeleton.tsx` loại bỏ shimmer search box desktop, bảo đảm chuyển đổi mượt mà 0px CLS giữa khung xương và dữ liệu thật.
 
+65. **Tinh Gọn Giao Diện Luyện Nói & Luyện Nghe Video / Audio (`VideoCatalogBrowseView.tsx` & `ShadowingListingView.tsx`)**:
+    - **Ghép Biểu Tượng `Film` Trực Tiếp Vào Tiêu Đề `h2`**: Xóa bỏ hoàn toàn khối pill badge rườm rà phía trên tiêu đề banner hero video; giữ lại icon `Film` và ghép trực tiếp vào trước tiêu đề `h2` (`flex items-center gap-2`), giúp bố cục tiêu đề gọn gàng, thoáng đãng và hiện đại.
+    - **Lược Bỏ Khối 4 Thẻ Bento Thống Kê Nhanh Tại Trang Shadowing**: Xóa bỏ hoàn toàn cụm 4 thẻ Bento thông số phụ ("Đã luyện Shadowing", "Chuẩn phát âm AI", "Bài học hoàn thành", "Thời gian thực hành") khỏi [`ShadowingListingView.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingListingView.tsx) và đồng bộ gỡ bỏ `<ShadowingListingHeroStatsSkeleton />` khỏi [`LoadingSkeletons.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/LoadingSkeletons.tsx). Giao diện danh mục bài học giờ đây chuyển tiếp trực diện vào danh sách bài học với **0px CLS**, đồng bộ thẩm mỹ tinh gọn với trang Dictation.
+
 ---
 
 

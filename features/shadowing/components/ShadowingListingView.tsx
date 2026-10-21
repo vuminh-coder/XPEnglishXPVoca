@@ -24,7 +24,6 @@ import { VideoCatalogBrowseView } from "@/features/listening/components/VideoCat
 import { StudyMediaHubTabs } from "@/features/listening/components/StudyMediaHubTabs";
 import {
   LessonCardShimmer,
-  ShadowingListingHeroStatsSkeleton,
 } from "@/features/shadowing/components/LoadingSkeletons";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
@@ -307,20 +306,6 @@ export function ShadowingListingView({
     );
   };
 
-  const computedStats = useMemo(() => {
-    if (stats) return stats;
-    let sentences = 0;
-    completedLessons.forEach((l) => {
-      sentences += l.totalSentences || l.transcript?.length || 10;
-    });
-    return {
-      sentencesPracticed: sentences > 0 ? sentences : completedLessons.length * 10,
-      averageFluency: 92,
-      studyMinutes: Math.max(15, completedLessons.length * 8),
-      completedLessonsCount: completedLessons.length,
-    };
-  }, [stats, completedLessons]);
-
   return (
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
       {/* 1. CONTINUOUS FULL-WIDTH TOP BAR (AppTopHeader) */}
@@ -418,76 +403,6 @@ export function ShadowingListingView({
                 <span>Làm mới</span>
               </button>
             </div>
-
-            {/* 2.2 MICRO-HERO PRACTICE STATS BENTO GRID (Rule 8 Wadhah Aloui & /analytics Standard) */}
-        {isLoadingStats ? (
-          <ShadowingListingHeroStatsSkeleton />
-        ) : (
-          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 w-full">
-            {/* CARD 1: CÂU ĐÃ LUYỆN */}
-            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-blue-300 dark:hover:border-blue-700/50">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
-                <Mic className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-                  {computedStats.sentencesPracticed}{" "}
-                  <span className="text-xs font-bold text-slate-500 font-sans">câu</span>
-                </div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">
-                  Đã luyện Shadowing
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 2: ĐỘ TRÔI CHẢY */}
-            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-emerald-300 dark:hover:border-emerald-700/50">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 shadow-2xs">
-                <Target className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-                  {computedStats.averageFluency}%
-                </div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">
-                  Chuẩn phát âm AI
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 3: BÀI HOÀN THÀNH */}
-            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-700/50">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 shadow-2xs">
-                <Trophy className="w-5 h-5 text-amber-500 fill-amber-400" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-                  {computedStats.completedLessonsCount}{" "}
-                  <span className="text-xs font-bold text-slate-500 font-sans">bài</span>
-                </div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">
-                  Bài học hoàn thành
-                </div>
-              </div>
-            </div>
-
-            {/* CARD 4: THỜI GIAN THỰC HÀNH */}
-            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-purple-300 dark:hover:border-purple-700/50">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 shadow-2xs">
-                <Clock className="w-5 h-5 stroke-[2.2]" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-                  {computedStats.studyMinutes}{" "}
-                  <span className="text-xs font-bold text-slate-500 font-sans">phút</span>
-                </div>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">
-                  Thời gian thực hành
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Search Results Feedback (If Searching) */}
         {searchFilteredLessons && (

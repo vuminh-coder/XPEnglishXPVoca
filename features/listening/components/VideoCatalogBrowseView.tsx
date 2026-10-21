@@ -230,18 +230,13 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-3.5">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-800/40 text-rose-700 dark:text-rose-300 text-[11px] font-bold uppercase tracking-wider mb-1.5">
-              <Film className="w-3 h-3 text-rose-600 dark:text-rose-400" />
+            <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2 sm:gap-2.5">
+              <Film className="w-5 h-5 sm:w-6 sm:h-6 text-rose-600 dark:text-rose-400 shrink-0" />
               <span>
                 {practiceMode === "shadowing"
-                  ? "Luyện Nói & Nhại Âm Chuẩn Bản Xứ Qua Video"
-                  : "Kho Phim Điện Ảnh & Video Kéo Dài Trên 5 Phút"}
+                  ? "Luyện Nói & Nhại Âm Đa Giác Quan Qua YouTube"
+                  : "Luyện Nghe & Đọc Hiểu Đa Giác Quan Qua YouTube"}
               </span>
-            </div>
-            <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
-              {practiceMode === "shadowing"
-                ? "Luyện Nói & Nhại Âm Đa Giác Quan Qua YouTube"
-                : "Luyện Nghe & Đọc Hiểu Đa Giác Quan Qua YouTube"}
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mt-1 leading-relaxed">
               {practiceMode === "shadowing"
