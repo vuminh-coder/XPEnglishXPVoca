@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   Link as LinkIcon,
   X,
@@ -7,8 +7,93 @@ import {
   Plus,
   HelpCircle,
   ChevronDown,
+  MessageSquare,
+  Briefcase,
+  Sparkles,
+  Film,
+  Newspaper,
+  GraduationCap,
+  Layers,
+  Check,
 } from "lucide-react";
 import { YouTubeVideoItem } from "@/stores/videoStore";
+
+interface CategoryOption {
+  value: YouTubeVideoItem["category"];
+  labelVn: string;
+  labelEn: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  bgLight: string;
+}
+
+const CATEGORY_OPTIONS: CategoryOption[] = [
+  {
+    value: "Communication",
+    labelVn: "Giao tiếp",
+    labelEn: "Communication",
+    icon: MessageSquare,
+    color: "text-blue-600 dark:text-sky-400",
+    bgLight: "bg-blue-50 dark:bg-blue-950/60",
+  },
+  {
+    value: "Business",
+    labelVn: "Kinh doanh",
+    labelEn: "Business",
+    icon: Briefcase,
+    color: "text-amber-600 dark:text-amber-400",
+    bgLight: "bg-amber-50 dark:bg-amber-950/60",
+  },
+  {
+    value: "TED Talks",
+    labelVn: "TED Talks",
+    labelEn: "Tư duy & Thuyết trình",
+    icon: Sparkles,
+    color: "text-purple-600 dark:text-purple-400",
+    bgLight: "bg-purple-50 dark:bg-purple-950/60",
+  },
+  {
+    value: "Movies",
+    labelVn: "Phim ảnh",
+    labelEn: "Movies & Cinema",
+    icon: Film,
+    color: "text-rose-600 dark:text-rose-400",
+    bgLight: "bg-rose-50 dark:bg-rose-950/60",
+  },
+  {
+    value: "News",
+    labelVn: "Tin tức",
+    labelEn: "News & Thời sự",
+    icon: Newspaper,
+    color: "text-emerald-600 dark:text-emerald-400",
+    bgLight: "bg-emerald-50 dark:bg-emerald-950/60",
+  },
+  {
+    value: "IELTS/TOEIC",
+    labelVn: "IELTS / TOEIC",
+    labelEn: "Academic & Exam Prep",
+    icon: GraduationCap,
+    color: "text-indigo-600 dark:text-indigo-400",
+    bgLight: "bg-indigo-50 dark:bg-indigo-950/60",
+  },
+  {
+    value: "General",
+    labelVn: "Tổng hợp",
+    labelEn: "Đời sống & Kiến thức",
+    icon: Layers,
+    color: "text-slate-600 dark:text-slate-400",
+    bgLight: "bg-slate-100 dark:bg-slate-800",
+  },
+];
+
+function removeVietnameseAccents(str: string): string {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .toLowerCase();
+}
 
 export interface YouTubeImportDeckProps {
   youtubeInput: string;
@@ -37,6 +122,82 @@ export function YouTubeImportDeck({
   setImportError,
   onImport,
 }: YouTubeImportDeckProps) {
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [categorySearch, setCategorySearch] = useState("");
+  const [highlightedCategoryIdx, setHighlightedCategoryIdx] = useState(0);
+  const categoryComboboxRef = useRef<HTMLDivElement>(null);
+  const categoryInputRef = useRef<HTMLInputElement>(null);
+
+  // Close combobox when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        categoryComboboxRef.current &&
+        !categoryComboboxRef.current.contains(e.target as Node)
+      ) {
+        setIsCategoryOpen(false);
+        setCategorySearch("");
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const selectedOption = useMemo(() => {
+    return (
+      CATEGORY_OPTIONS.find((opt) => opt.value === importCategory) ||
+      CATEGORY_OPTIONS[0]
+    );
+  }, [importCategory]);
+
+  const filteredCategories = useMemo(() => {
+    if (!categorySearch.trim()) return CATEGORY_OPTIONS;
+    const q = removeVietnameseAccents(categorySearch.trim());
+    return CATEGORY_OPTIONS.filter((opt) => {
+      const vn = removeVietnameseAccents(opt.labelVn);
+      const en = opt.labelEn.toLowerCase();
+      const val = opt.value.toLowerCase();
+      return vn.includes(q) || en.includes(q) || val.includes(q);
+    });
+  }, [categorySearch]);
+
+  const handleSelectCategory = (val: YouTubeVideoItem["category"]) => {
+    setImportCategory(val);
+    setIsCategoryOpen(false);
+    setCategorySearch("");
+  };
+
+  const handleCategoryKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!isCategoryOpen) {
+      if (e.key === "ArrowDown" || e.key === "Enter") {
+        e.preventDefault();
+        setIsCategoryOpen(true);
+      }
+      return;
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedCategoryIdx((prev) =>
+        prev < filteredCategories.length - 1 ? prev + 1 : 0
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedCategoryIdx((prev) =>
+        prev > 0 ? prev - 1 : filteredCategories.length - 1
+      );
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (filteredCategories[highlightedCategoryIdx]) {
+        handleSelectCategory(filteredCategories[highlightedCategoryIdx].value);
+      }
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setIsCategoryOpen(false);
+      setCategorySearch("");
+    }
+  };
+
   return (
     <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
       <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
@@ -103,34 +264,154 @@ export function YouTubeImportDeck({
           </div>
         </div>
 
-        {/* Category & Level Selectors - Balanced 2-Column Dock (UI/UX Rule 14 & Rule 6) */}
+        {/* Category & Level Selectors - Balanced 2-Column Dock (UI/UX Rule 14, Rule 6 & Rule 2) */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 text-xs">
-          {/* Cụm 1: Chủ đề (Phân loại) */}
-          <div className="flex items-center gap-2">
+          {/* Cụm 1: Chủ đề - Ô input gợi ý thông minh (Smart Suggestion Combobox - UI/UX Rule 2) */}
+          <div ref={categoryComboboxRef} className="flex items-center gap-2 relative">
             <label
-              htmlFor="import-category-select"
-              className="text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0 font-display"
+              htmlFor="import-category-input"
+              className="text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0 font-display cursor-pointer"
+              onClick={() => {
+                setIsCategoryOpen(true);
+                categoryInputRef.current?.focus();
+              }}
             >
               Chủ đề:
             </label>
-            <div className="relative">
-              <select
-                id="import-category-select"
-                value={importCategory}
-                onChange={(e) => setImportCategory(e.target.value as any)}
-                className="py-1.5 pl-3 pr-7 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden hover:bg-slate-200/70 dark:hover:bg-slate-700/70 transition-colors shadow-2xs appearance-none"
+            <div className="relative w-full sm:w-64">
+              <div
+                className={`flex items-center gap-2 py-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border transition-all cursor-pointer ${
+                  isCategoryOpen
+                    ? "border-[#0059bb] ring-2 ring-[#0059bb]/20 bg-white dark:bg-slate-900 shadow-xs"
+                    : "border-slate-200 dark:border-slate-700 hover:bg-slate-200/70 dark:hover:bg-slate-700/70 shadow-2xs"
+                }`}
+                onClick={() => {
+                  if (!isCategoryOpen) {
+                    setIsCategoryOpen(true);
+                    setCategorySearch("");
+                    categoryInputRef.current?.focus();
+                  }
+                }}
               >
-                <option value="Communication">Giao tiếp (Communication)</option>
-                <option value="Business">Kinh doanh (Business)</option>
-                <option value="TED Talks">TED Talks</option>
-                <option value="Movies">Phim ảnh (Movies)</option>
-                <option value="News">Tin tức (News)</option>
-                <option value="IELTS/TOEIC">IELTS / TOEIC</option>
-                <option value="General">Tổng hợp (General)</option>
-              </select>
-              <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-slate-400">
-                <ChevronDown className="w-3.5 h-3.5" />
+                {/* Active Category Icon */}
+                <div
+                  className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 ${selectedOption.bgLight} ${selectedOption.color}`}
+                >
+                  <selectedOption.icon className="w-3.5 h-3.5" />
+                </div>
+
+                {/* Input with live search or selected title */}
+                <input
+                  ref={categoryInputRef}
+                  id="import-category-input"
+                  type="text"
+                  value={isCategoryOpen ? categorySearch : `${selectedOption.labelVn} (${selectedOption.value})`}
+                  onChange={(e) => {
+                    setCategorySearch(e.target.value);
+                    if (!isCategoryOpen) setIsCategoryOpen(true);
+                    setHighlightedCategoryIdx(0);
+                  }}
+                  onFocus={() => {
+                    setIsCategoryOpen(true);
+                    setCategorySearch("");
+                    setHighlightedCategoryIdx(0);
+                  }}
+                  onKeyDown={handleCategoryKeyDown}
+                  placeholder="Tìm hoặc chọn chủ đề..."
+                  className="w-full bg-transparent text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-hidden cursor-text placeholder:text-slate-400 placeholder:font-normal"
+                />
+
+                {/* Clear or Toggle Chevron */}
+                {isCategoryOpen && categorySearch ? (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCategorySearch("");
+                      categoryInputRef.current?.focus();
+                    }}
+                    className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded cursor-pointer shrink-0"
+                    title="Xóa tìm kiếm"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsCategoryOpen((prev) => !prev);
+                      if (!isCategoryOpen) {
+                        setCategorySearch("");
+                        categoryInputRef.current?.focus();
+                      }
+                    }}
+                    className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5 rounded cursor-pointer shrink-0"
+                  >
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                        isCategoryOpen ? "rotate-180 text-[#0059bb]" : ""
+                      }`}
+                    />
+                  </button>
+                )}
               </div>
+
+              {/* FLOATING SMART SUGGESTION DROPDOWN */}
+              {isCategoryOpen && (
+                <div className="absolute left-0 top-full mt-1.5 w-full min-w-[260px] sm:min-w-[280px] bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl shadow-xl shadow-slate-300/40 dark:shadow-black/70 p-1.5 z-40 max-h-64 overflow-y-auto space-y-0.5 animate-in fade-in-0 zoom-in-95 duration-150">
+                  <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 mb-1">
+                    <span>Gợi ý chủ đề</span>
+                    <span>{filteredCategories.length} mục</span>
+                  </div>
+
+                  {filteredCategories.length > 0 ? (
+                    filteredCategories.map((opt, idx) => {
+                      const isSelected = opt.value === importCategory;
+                      const isHighlighted = idx === highlightedCategoryIdx;
+                      const IconComp = opt.icon;
+
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onMouseEnter={() => setHighlightedCategoryIdx(idx)}
+                          onClick={() => handleSelectCategory(opt.value)}
+                          className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between gap-2 text-xs transition-colors cursor-pointer ${
+                            isHighlighted
+                              ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
+                              : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60"
+                          } ${isSelected ? "font-bold text-[#0059bb] dark:text-sky-400" : ""}`}
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div
+                              className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 ${opt.bgLight} ${opt.color}`}
+                            >
+                              <IconComp className="w-3.5 h-3.5" />
+                            </div>
+                            <div className="flex flex-col min-w-0">
+                              <span className="truncate font-bold leading-tight">
+                                {opt.labelVn}
+                              </span>
+                              <span className="text-[10px] text-slate-400 truncate leading-tight font-normal">
+                                {opt.labelEn}
+                              </span>
+                            </div>
+                          </div>
+
+                          {isSelected && (
+                            <Check className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                          )}
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <div className="py-4 text-center text-xs text-slate-400">
+                      Không tìm thấy chủ đề phù hợp
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
