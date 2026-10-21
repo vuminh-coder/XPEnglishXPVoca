@@ -61,10 +61,16 @@ export function ListeningListingSkeleton() {
           </div>
         </div>
 
-        {/* Right Desktop Content: Search Input + Nút Tạo bài AI */}
-        <div className="flex items-center gap-2.5 shrink-0">
-          <ShimmerBox className="h-9 w-44 xs:w-56 sm:w-72 rounded-xl" />
+        {/* Right Content: Search Input + Nút Tạo bài AI + User Avatar */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          {/* Mobile search button shimmer */}
+          <ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />
+          {/* Desktop search input shimmer */}
+          <ShimmerBox className="h-9 w-44 xs:w-56 sm:w-72 rounded-xl hidden lg:block" />
+          {/* Action button shimmer */}
           <ShimmerBox className="h-9 w-24 sm:w-28 rounded-xl bg-blue-600/30 dark:bg-blue-500/20" />
+          {/* User Avatar shimmer */}
+          <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
         </div>
       </div>
 
@@ -254,8 +260,13 @@ export function VideoListingSkeleton() {
             <ShimmerBox className="h-7 w-24 rounded-lg hidden lg:block" />
           </div>
         </div>
-        <div className="flex items-center gap-2.5 shrink-0">
-          <ShimmerBox className="h-9 w-44 xs:w-56 sm:w-72 rounded-xl" />
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          {/* Mobile search button shimmer */}
+          <ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />
+          {/* Desktop search input shimmer */}
+          <ShimmerBox className="h-9 w-44 xs:w-56 sm:w-72 rounded-xl hidden lg:block" />
+          {/* User Avatar shimmer */}
+          <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
         </div>
       </div>
 

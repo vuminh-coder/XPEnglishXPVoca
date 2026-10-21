@@ -6746,6 +6746,19 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Bổ sung thuộc tính `whitespace-nowrap`, đệm `px-1.5 xs:px-2.5 sm:px-4 py-2` và cỡ chữ linh hoạt `text-[11px] xs:text-xs sm:text-sm` trên lưới `grid grid-cols-2 sm:flex`, triệt tiêu dứt điểm lỗi nhãn chữ bị rớt xuống 2 dòng trên màn hình điện thoại di động.
    - Thiết lập `hidden md:flex` cho phụ đề Sparkles bên phải, đảm bảo bố cục khung xương khớp 100% với component thực tế `StudyMediaHubTabs.tsx`, đạt Zero Cumulative Layout Shift (0px CLS).
 
+### 20. Chuẩn Hóa Tìm Kiếm Di Động Đỉnh Trang (AppTopHeader Mobile Search Parity) Giữa Dictation & Shadowing Khớp Chuẩn IPA
+
+1. **Chuyển Đổi Vị Trí Ô Tìm Kiếm Trên Thiết Bị Di Động**:
+   - Ẩn hoàn toàn khối ô tìm kiếm nội trang cồng kềnh trên màn hình mobile (`hidden sm:flex` tại [VideoCatalogBrowseView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/VideoCatalogBrowseView.tsx)) nhằm giải phóng tối đa không gian hiển thị danh sách video và chủ đề.
+   - Kích hoạt nút biểu tượng tìm kiếm kính lúp di động trên thanh đỉnh `AppTopHeader` (`hideMobileSearch={false}` tại [ListeningListingView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/ListeningListingView.tsx) và [ShadowingListingView.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingListingView.tsx)) tương tự trang Bảng Phiên Âm Quốc Tế [IPA Pronunciation](file:///e:/XP%20English%20%20XP%20Voca/features/ipa/components/IpaHeader.tsx).
+2. **Trải Nghiệm Tương Tác Kính Lúp Mượt Mà (Overlay Search Expansion)**:
+   - Khi học viên bấm vào icon kính lúp trên mobile, thanh đỉnh `AppTopHeader` tự động bung rộng toàn chiều ngang màn hình kèm nút xóa nhanh `[X]` và focus trực tiếp vào ô nhập.
+   - Đồng bộ trạng thái tìm kiếm 2 chiều theo thời gian thực (Real-time synchronization):
+     - Ở chế độ Video: Liên kết trực tiếp với bộ lọc tìm kiếm `useVideoCatalogStore.filters.searchQuery`.
+     - Ở chế độ Audio tiêu chuẩn: Liên kết tức thì với bộ lọc danh sách bài nghe `listingSearch`.
+3. **Đồng Bộ Khung Xương Shimmer Nạp Trang (Zero CLS)**:
+   - Cập nhật [LoadingSkeletons.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/LoadingSkeletons.tsx) cho cả `ListeningListingSkeleton` và `VideoListingSkeleton`, bổ sung Shimmer nút tìm kiếm di động (`<ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />`) và Shimmer UserAvatar, đảm bảo bố cục khung xương trùng khớp 100% với giao diện đã tải xong, loại bỏ hoàn toàn hiện tượng giật cục bố cục (0px CLS).
+
 ---
 
 ## 🌐 Production Deployment Status

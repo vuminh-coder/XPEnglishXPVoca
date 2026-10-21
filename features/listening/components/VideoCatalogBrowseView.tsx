@@ -354,8 +354,8 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
           </div>
         </div>
 
-        {/* Sub-Filters: Search + Level + Sort */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        {/* Sub-Filters: Search + Level + Sort (Hidden on mobile, unified via AppTopHeader) */}
+        <div className="hidden sm:flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           {/* Search Input (Standardized h-10) */}
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />

@@ -29,6 +29,7 @@ import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { VideoCatalogBrowseView } from "./VideoCatalogBrowseView";
 import { StudyMediaHubTabs } from "./StudyMediaHubTabs";
 import { useAudioCatalogStore, AudioCategoryTab } from "@/stores/audioCatalogStore";
+import { useVideoCatalogStore } from "@/stores";
 
 export type ListeningCategoryTab = AudioCategoryTab;
 
@@ -107,6 +108,7 @@ export function ListeningListingView({
   const setActiveCategoryTab = useAudioCatalogStore((s) => s.setActiveCategoryTab);
   const intermediateSeed = useAudioCatalogStore((s) => s.filters.shuffleSeedIntermediate);
   const setIntermediateSeed = useAudioCatalogStore((s) => s.setShuffleSeedIntermediate);
+  const videoSearchQuery = useVideoCatalogStore((s) => s.filters.searchQuery);
   const [isSwitchingCategory, setIsSwitchingCategory] = useState(false);
   const [mainHubMode, setMainHubMode] = useState<"standard" | "video_catalog">("standard");
 
@@ -219,13 +221,14 @@ export function ListeningListingView({
       {/* 1. CONTINUOUS FULL-WIDTH TOP BAR (AppTopHeader) */}
       <AppTopHeader
         showGamificationStats={false}
-        hideMobileSearch={true}
+        hideMobileSearch={false}
         searchProps={{
-          value: listingSearch,
+          value: effectiveHubMode === "video" ? videoSearchQuery : listingSearch,
           onChange: (val) => {
-            setListingSearch(val);
             if (effectiveHubMode === "video") {
               useVideoCatalogStore.getState().setFilter("searchQuery", val);
+            } else {
+              setListingSearch(val);
             }
           },
           placeholder:
@@ -233,9 +236,10 @@ export function ListeningListingView({
               ? "Tìm video YouTube..."
               : "Tìm kiếm bài nghe...",
           onClear: () => {
-            setListingSearch("");
             if (effectiveHubMode === "video") {
               useVideoCatalogStore.getState().setFilter("searchQuery", "");
+            } else {
+              setListingSearch("");
             }
           },
         }}

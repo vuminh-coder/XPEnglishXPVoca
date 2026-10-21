@@ -79,6 +79,7 @@ export function ShadowingListingView({
   const setActiveCategoryTab = useAudioCatalogStore((s) => s.setActiveCategoryTab);
   const [isSwitchingCategory, setIsSwitchingCategory] = useState(false);
   const [mainHubMode, setMainHubMode] = useState<"standard" | "video_catalog">("standard");
+  const videoSearchQuery = useVideoCatalogStore((s) => s.filters.searchQuery);
 
   const effectiveHubMode =
     activeHubMode ||
@@ -325,13 +326,14 @@ export function ShadowingListingView({
       {/* 1. CONTINUOUS FULL-WIDTH TOP BAR (AppTopHeader) */}
       <AppTopHeader
         showGamificationStats={false}
-        hideMobileSearch={true}
+        hideMobileSearch={false}
         searchProps={{
-          value: listingSearch,
+          value: effectiveHubMode === "video" ? videoSearchQuery : listingSearch,
           onChange: (val) => {
-            setListingSearch(val);
             if (effectiveHubMode === "video") {
               useVideoCatalogStore.getState().setFilter("searchQuery", val);
+            } else {
+              setListingSearch(val);
             }
           },
           placeholder:
@@ -339,9 +341,10 @@ export function ShadowingListingView({
               ? "Tìm video YouTube..."
               : "Tìm kiếm bài nói...",
           onClear: () => {
-            setListingSearch("");
             if (effectiveHubMode === "video") {
               useVideoCatalogStore.getState().setFilter("searchQuery", "");
+            } else {
+              setListingSearch("");
             }
           },
         }}
