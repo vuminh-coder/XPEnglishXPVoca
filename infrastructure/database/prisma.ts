@@ -1,4 +1,27 @@
 import { PrismaClient, Prisma } from '@prisma/client';
+import { execSync } from 'child_process';
+
+/**
+ * Resolves an IPv4 address for a hostname synchronously on platforms (like Windows)
+ * where IPv6 routing might be broken/black-holed by the local ISP, causing 20s+ P2024 connection pool timeouts.
+ */
+function resolveIpv4Sync(hostname: string): string | null {
+  try {
+    const stdout = execSync(`nslookup ${hostname}`, { timeout: 2000, encoding: 'utf8' });
+    const matches = stdout.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) || [];
+    const candidates = matches.filter(
+      (ip) =>
+        !ip.startsWith('192.168.') &&
+        !ip.startsWith('127.') &&
+        !ip.startsWith('10.') &&
+        !ip.startsWith('172.') &&
+        !ip.startsWith('0.')
+    );
+    return candidates[0] || null;
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Enhanced Database URL Optimizer.
@@ -31,11 +54,25 @@ function getOptimizedDatabaseUrl(): string | undefined {
     }
 
     if (!parsed.searchParams.has('pool_timeout')) {
-      parsed.searchParams.set('pool_timeout', '20');
+      parsed.searchParams.set('pool_timeout', '30');
     }
     if (!parsed.searchParams.has('connect_timeout')) {
       parsed.searchParams.set('connect_timeout', '15');
     }
+
+    // On Windows development environments where Windows Winsock prefix policy prioritizes IPv6
+    // over unroutable/black-holed local ISP IPv6 paths, resolve to IPv4 directly with Neon endpoint routing.
+    if (process.platform === 'win32' && parsed.hostname.includes('neon.tech')) {
+      const ipv4 = resolveIpv4Sync(parsed.hostname);
+      if (ipv4) {
+        const endpointId = parsed.hostname.split('-pooler')[0].split('.')[0];
+        parsed.hostname = ipv4;
+        if (!parsed.password.startsWith('endpoint=')) {
+          parsed.password = `endpoint=${endpointId};${parsed.password}`;
+        }
+      }
+    }
+
     return parsed.toString();
   } catch {
     return url;
