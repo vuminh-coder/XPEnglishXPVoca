@@ -41,14 +41,14 @@ export function YouTubeImportDeck({
 }: YouTubeImportDeckProps) {
   return (
     <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
-      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5 gap-1.5">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-mono font-bold text-xs border border-blue-200/60 dark:border-blue-800/40">
             1-CLICK IMPORT
           </span>
           <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display flex items-center gap-1.5">
             <LinkIcon className="w-4 h-4 text-[#0059bb]" />
-            Trích xuất phụ đề YouTube tự động
+            <span>Trích xuất phụ đề YouTube tự động</span>
           </h3>
         </div>
         <span className="text-[11px] font-medium text-slate-400 hidden sm:block">
@@ -110,32 +110,36 @@ export function YouTubeImportDeck({
         </div>
 
         {/* Category & Level Selectors */}
-        <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[11px] font-bold text-slate-400">Phân loại:</span>
-            <select
-              value={importCategory}
-              onChange={(e) => setImportCategory(e.target.value as any)}
-              className="py-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden"
-            >
-              <option value="Communication">Giao tiếp (Communication)</option>
-              <option value="Business">Kinh doanh (Business)</option>
-              <option value="TED Talks">TED Talks</option>
-              <option value="Movies">Phim ảnh (Movies)</option>
-              <option value="News">Tin tức (News)</option>
-              <option value="IELTS/TOEIC">IELTS/TOEIC</option>
-              <option value="General">Tổng hợp (General)</option>
-            </select>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+          <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
+            <div className="col-span-2 sm:col-span-1 flex items-center gap-1.5">
+              <span className="text-[11px] font-bold text-slate-400 shrink-0">Phân loại:</span>
+              <select
+                value={importCategory}
+                onChange={(e) => setImportCategory(e.target.value as any)}
+                className="w-full sm:w-auto py-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden"
+              >
+                <option value="Communication">Giao tiếp (Communication)</option>
+                <option value="Business">Kinh doanh (Business)</option>
+                <option value="TED Talks">TED Talks</option>
+                <option value="Movies">Phim ảnh (Movies)</option>
+                <option value="News">Tin tức (News)</option>
+                <option value="IELTS/TOEIC">IELTS/TOEIC</option>
+                <option value="General">Tổng hợp (General)</option>
+              </select>
+            </div>
 
-            <select
-              value={importLevel}
-              onChange={(e) => setImportLevel(e.target.value as any)}
-              className="py-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden"
-            >
-              <option value="Easy">Dễ (Easy)</option>
-              <option value="Medium">Trung bình (Medium)</option>
-              <option value="Hard">Khó (Hard)</option>
-            </select>
+            <div className="col-span-2 sm:col-span-1">
+              <select
+                value={importLevel}
+                onChange={(e) => setImportLevel(e.target.value as any)}
+                className="w-full sm:w-auto py-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden"
+              >
+                <option value="Easy">Dễ (Easy)</option>
+                <option value="Medium">Trung bình (Medium)</option>
+                <option value="Hard">Khó (Hard)</option>
+              </select>
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
@@ -143,7 +147,7 @@ export function YouTubeImportDeck({
               <button
                 type="button"
                 onClick={onOpenXpSubModal}
-                className="px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/25 text-[11px] font-bold flex items-center gap-1 cursor-pointer transition-all active:scale-95 shadow-2xs"
+                className="w-full sm:w-auto px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/25 text-[11px] font-bold flex items-center justify-center gap-1 cursor-pointer transition-all active:scale-95 shadow-2xs"
                 title="Mở bảng điều khiển trích xuất phụ đề thông minh"
               >
                 <Sparkles className="w-3.5 h-3.5 fill-purple-500/40 text-purple-600 dark:text-purple-400" />

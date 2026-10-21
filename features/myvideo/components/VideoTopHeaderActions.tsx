@@ -48,11 +48,12 @@ export function VideoTopHeaderActions({
         <button
           type="button"
           onClick={onOpenXpSubModal}
-          className="h-8 px-3 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/25 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95"
+          className="h-8 px-2.5 sm:px-3 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-500/25 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95"
           title="Trích xuất phụ đề thông minh bằng XP-Sub AI Engine"
         >
           <Sparkles className="w-3.5 h-3.5 fill-purple-500/40 text-purple-600 dark:text-purple-400" />
-          <span>XP-Sub AI Engine</span>
+          <span className="hidden xl:inline">XP-Sub AI Engine</span>
+          <span className="xl:hidden">XP-Sub AI</span>
         </button>
       )}
 
@@ -60,11 +61,12 @@ export function VideoTopHeaderActions({
         <button
           type="button"
           onClick={onOpenExportModal}
-          className="h-8 px-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer active:scale-95"
+          className="h-8 px-2.5 sm:px-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer active:scale-95"
           title="Xem báo cáo và tải file phụ đề song ngữ"
         >
           <FileCode className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-          <span>Xuất Subtitles</span>
+          <span className="hidden xl:inline">Xuất Subtitles</span>
+          <span className="xl:hidden">Xuất Sub</span>
         </button>
       )}
     </div>

@@ -90,14 +90,14 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
         </div>
 
         {/* Media Control Dock */}
-        <div className="py-2 px-3.5 bg-slate-50 dark:bg-slate-950 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2 shrink-0 select-none">
+        <div className="py-2 px-2.5 sm:px-3.5 bg-slate-50 dark:bg-slate-950 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-1 sm:gap-2 shrink-0 select-none overflow-x-auto no-scrollbar">
           {/* Left: 5 Audio/Video Control Buttons */}
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-0.5 sm:gap-1.5 shrink-0">
             {/* Nút 1: Shuffle */}
             <button
               type="button"
               onClick={jumpToRandomSubtitle}
-              className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 transition-all cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 transition-all cursor-pointer"
               title="Tráo câu ngẫu nhiên (Shuffle Subtitle - Phím S)"
             >
               <Shuffle className="w-4 h-4" />
@@ -107,7 +107,7 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
             <button
               type="button"
               onClick={jumpToPrevSubtitle}
-              className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 transition-all cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 transition-all cursor-pointer"
               title="Câu trước (Previous Cue - Phím ← / J)"
             >
               <SkipBack className="w-4 h-4 fill-current" />
@@ -131,7 +131,7 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
             <button
               type="button"
               onClick={jumpToNextSubtitle}
-              className="p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 transition-all cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800 transition-all cursor-pointer"
               title="Câu sau (Next Cue - Phím → / L)"
             >
               <SkipForward className="w-4 h-4 fill-current" />
@@ -141,7 +141,7 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
             <button
               type="button"
               onClick={toggleLoopSentence}
-              className={`p-2 rounded-lg transition-all cursor-pointer ${
+              className={`p-1.5 sm:p-2 rounded-lg transition-all cursor-pointer ${
                 isLoopingSentence
                   ? "text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800/60 shadow-2xs"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-slate-800"
@@ -153,14 +153,14 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
           </div>
 
           {/* Right: Speed Switcher Dock */}
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1 shrink-0">
             <div className="flex items-center p-0.5 rounded-lg bg-slate-200/80 dark:bg-slate-900 border border-slate-300/80 dark:border-slate-700/60 gap-0.5 shrink-0">
               {[0.75, 1.0, 1.25, 1.5].map((speed) => (
                 <button
                   key={speed}
                   type="button"
                   onClick={() => changePlaybackSpeed(speed)}
-                  className={`px-2 py-1 rounded-md text-[11px] font-bold font-mono transition-all cursor-pointer ${
+                  className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md text-[10px] sm:text-[11px] font-bold font-mono transition-all cursor-pointer ${
                     playbackSpeed === speed
                       ? "bg-[#0059bb] text-white shadow-2xs"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"

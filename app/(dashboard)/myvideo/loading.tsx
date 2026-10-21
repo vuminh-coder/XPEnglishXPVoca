@@ -44,22 +44,22 @@ export default function MyVideoLoading() {
               <div className="h-3.5 w-full sm:w-80 rounded-md bg-slate-100 dark:bg-slate-800" />
             </div>
 
-            <div className="lg:hidden flex items-center gap-2 shrink-0">
-              <div className="h-9 w-24 rounded-xl bg-slate-100 dark:bg-slate-800" />
-              <div className="h-9 w-32 rounded-xl bg-emerald-500/20" />
+            <div className="sm:hidden flex items-center gap-1.5 shrink-0 pt-0.5">
+              <div className="h-8 w-20 rounded-xl bg-slate-100 dark:bg-slate-800" />
+              <div className="h-8 w-24 rounded-xl bg-emerald-500/20" />
             </div>
           </div>
 
           <div className="h-px bg-slate-100 dark:bg-slate-800 w-full" />
 
           {/* 4 Metric Cards Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="p-3 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-slate-200 dark:bg-slate-800 shrink-0" />
+              <div key={i} className="p-2.5 sm:p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 flex items-center gap-2.5 sm:gap-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-slate-200 dark:bg-slate-800 shrink-0" />
                 <div className="min-w-0 flex-1 space-y-1.5">
                   <div className="h-5 w-16 rounded-md bg-slate-200 dark:bg-slate-700" />
-                  <div className="h-3 w-24 rounded-md bg-slate-100 dark:bg-slate-800" />
+                  <div className="h-3 w-20 sm:w-24 rounded-md bg-slate-100 dark:bg-slate-800" />
                 </div>
               </div>
             ))}

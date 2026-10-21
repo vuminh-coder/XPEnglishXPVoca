@@ -6786,6 +6786,27 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Cập nhật [LoadingSkeletons.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/LoadingSkeletons.tsx) cho `ListeningListingSkeleton`, loại bỏ dải shimmer của thanh tab danh mục, đảm bảo khớp 100% hình học không gian với `ListeningListingView` và `ShadowingListingSkeleton`.
    - Triệt tiêu 100% hiện tượng lệch layout hay giật cục khi nạp trang.
 
+### 22. Tương Thích Toàn Diện Mọi Kích Thước Màn Hình Cho Trang Video Của Tôi (`/myvideo`)
+
+1. **Chuẩn Hóa Thanh Điều Hướng Đỉnh Trang (AppTopHeader & Search Parity)**:
+   - Kích hoạt biểu tượng tìm kiếm kính lúp di động trên thanh đỉnh `AppTopHeader` (`hideMobileSearch={false}`), liên thông 2 chiều trực tiếp với `searchQuery`. Desktop hiển thị ô tìm kiếm chuyên dụng nội trang (`hideDesktopInput: true`), triệt tiêu 100% tình trạng nhân đôi ô tìm kiếm trên máy tính.
+   - Bổ sung huy hiệu Gamification chuỗi Streak 🔥 và số Vàng 🪙 (`showGamificationStats={true}`) tạo sự nhất quán thương hiệu giữa tất cả các phân hệ học tập.
+   - Tối ưu hóa độ dài nhãn của các nút hành động [VideoTopHeaderActions.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/VideoTopHeaderActions.tsx) tự động thu gọn (`XP-Sub AI`, `Xuất Sub`) trên màn hình máy tính bảng và laptop cỡ vừa.
+2. **Khắc Phục Triệt Để Lỗi Tràn Chữ & Trùng Nút Trên Hero Banner (`VideoHeroMetricsBanner.tsx`)**:
+   - Chuyển đổi breakpoint các nút tác vụ nhanh từ `lg:hidden` sang `sm:hidden`, chấm dứt hoàn toàn hiện tượng nhân đôi nút bấm (`Phím tắt`, `Nhập SRT`) trên màn hình tablet (640px - 1023px).
+   - Tích hợp thêm các nút tác vụ thông minh `XP-Sub AI` và `Xuất Sub` vào hàng nút bấm di động, trao quyền truy cập tính năng đầy đủ cho học viên trên điện thoại.
+   - Khắc phục lỗi cắt cụt chữ (truncation ellipsis) trên lưới 4 thẻ Bento chỉ số: thu nhỏ kích thước icon linh hoạt (`w-8 h-8 sm:w-10 sm:h-10`), thay thế chữ phụ đề ngắn gọn (`Bài học`, `Thời lượng`, `Phụ đề câu`, `thích`), triệt tiêu 100% tình trạng chữ bị cắt thành `Bộ sưu tập b...` hay `2 yêu...`.
+3. **Cải Tiến Công Thái Học Trích Xuất Video (`YouTubeImportDeck.tsx`)**:
+   - Tái cấu trúc khu vực chọn Phân loại và Cấp độ sang bố cục linh hoạt `grid grid-cols-2 sm:flex`, mở rộng chiều ngang 100% trên điện thoại giúp học viên bấm chọn dễ dàng mà không bị co kéo hay rớt dòng vụn vặt.
+   - Căn chỉnh huy hiệu `1-CLICK IMPORT` và tiêu đề trích xuất phụ đề YouTube thẳng hàng, ngăn tràn lề trên màn hình nhỏ.
+4. **Tối Ưu Dock Điều Khiển Video Đa Nền Tảng (`VideoPlayerStudio.tsx`)**:
+   - Thu gọn padding và kích thước cụm nút điều khiển phát/dừng/lặp câu và dock chọn tốc độ (`0.75x`, `1x`, `1.25x`, `1.5x`), bổ sung cơ chế chống tràn ngang `overflow-x-auto no-scrollbar`. Toàn bộ 5 nút phát và 4 nút tốc độ nằm gọn trên một hàng duy nhất trên mọi màn hình từ 320px trở lên.
+5. **Nâng Cấp Khay Học Tương Tác Đa Năng (`InteractiveStudyDock.tsx`)**:
+   - Tối ưu hóa tên nhãn 4 tab chuyển đổi thích ứng thông minh: hiển thị `AI Quiz` và `Playlist` trên điện thoại (thay vì `AI Thẻ & Quiz` và `Playlist (N)`), triệt tiêu hoàn toàn hiện tượng chữ bị cắt thành `AI Thẻ & ...`.
+   - Giới hạn chiều cao cuộn nội dung độc lập `max-h-[500px] sm:max-h-[560px] lg:max-h-none overflow-y-auto` trên thiết bị di động, ngăn tình trạng danh sách 50+ phụ đề kéo dài vô tận làm trôi toàn bộ trang web.
+6. **Đồng Bộ Khung Xương Shimmer (`loading.tsx`)**:
+   - Cập nhật khung xương nạp trang [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvideo/loading.tsx) đồng bộ hoàn toàn với các kích thước và breakpoint mới, đạt chuẩn Zero Cumulative Layout Shift (0px CLS).
+
 ---
 
 ## 🌐 Production Deployment Status

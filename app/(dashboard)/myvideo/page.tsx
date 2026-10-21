@@ -626,8 +626,15 @@ export default function MyVideoPage() {
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
       {/* 0. UNIVERSAL 56PX (h-14) TOP ACTION & NAVIGATION HEADER BAR */}
       <AppTopHeader
-        showGamificationStats={false}
-        hideMobileSearch={true}
+        showGamificationStats={true}
+        hideMobileSearch={false}
+        searchProps={{
+          value: searchQuery,
+          onChange: setSearchQuery,
+          placeholder: "Tìm video hoặc kênh...",
+          onClear: () => setSearchQuery(""),
+          hideDesktopInput: true,
+        }}
         rightDesktopContent={
           <VideoTopHeaderActions
             onOpenShortcuts={() => setShowShortcutsModal(true)}
@@ -653,6 +660,10 @@ export default function MyVideoPage() {
               avgProgress={avgProgress}
               onOpenShortcuts={() => setShowShortcutsModal(true)}
               onOpenSrtImport={() => setShowSrtImportModal(true)}
+              hasActiveVideo={Boolean(activeVideo)}
+              hasActiveSubtitleResult={Boolean(activeSubtitleResult)}
+              onOpenXpSubModal={() => setShowXpSubModal(true)}
+              onOpenExportModal={() => setShowExportModal(true)}
             />
 
             {/* 2. YOUTUBE IMPORT STUDIO DECK */}
