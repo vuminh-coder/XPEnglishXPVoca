@@ -70,8 +70,8 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
   toggleShadowingRecord,
 }) => {
   return (
-    <div className="flex flex-col h-full">
-      <div className="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 overflow-hidden flex flex-col h-full min-h-0">
+    <div className="flex flex-col w-full">
+      <div className="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 overflow-hidden flex flex-col min-h-[500px]">
         {/* Header Tabs Segmented Dock - 2 CORE STUDY TABS */}
         <div className="p-1 sm:p-1.5 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 grid grid-cols-2 gap-1.5 shrink-0">
           <button
@@ -102,7 +102,7 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
         </div>
 
         {/* Scrollable Content Container */}
-        <div className="p-3.5 sm:p-4 space-y-3 overflow-y-auto flex-1 min-h-0 max-h-[500px] sm:max-h-[560px] lg:max-h-none">
+        <div className="p-3 sm:p-3.5 space-y-3 overflow-y-auto flex-1 max-h-[560px] lg:max-h-[620px]">
           {/* TAB 1: PHỤ ĐỀ SONG NGỮ 1-CLICK TRA TỪ */}
           {rightPanelTab === "subtitles" && (
             <SubtitlesTabPane
@@ -139,6 +139,7 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
               waveformBars={waveformBars}
               shadowingScore={shadowingScore}
               toggleShadowingRecord={toggleShadowingRecord}
+              handleSeekTo={handleSeekTo}
             />
           )}
         </div>

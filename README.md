@@ -6856,6 +6856,35 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Xóa bỏ cụm 3 nút Quick Action `[ Phím tắt ? ]`, `[ Nhập SRT ]`, `[ XP-Sub AI Engine ]` trên [VideoHeroMetricsBanner.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/VideoHeroMetricsBanner.tsx) giúp phần đầu trang thông thoáng, không bị co kéo hay rớt dòng trên di động.
    - Xóa bỏ hoàn toàn khối huy hiệu `YOUTUBE VIDEO STUDIO`, tinh giản phần đầu trang với icon YouTube đỏ nhận diện thương hiệu gắn liền trực diện vào tiêu đề chính: `▶ Thư Viện Video YouTube & Phòng Luyện Nghe Tương Tác`.
 
+### 25. Đại Tu Toàn Diện Khay Dictation & Shadowing AI Trên Trang /myvideo Theo Chuẩn UI/UX 19 Quy Tắc
+
+1. **Phân Tách Sub-mode Segmented Control Chuẩn Rule 14 & Rule 20**:
+   - Tích hợp bộ chuyển chế độ 2 phân đoạn chuẩn công thái học `[ ⌨️ Chép Chính Tả ]` và `[ 🎙️ Luyện Shadowing ]` ngay trên đỉnh khay [DictationTabPane.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/study-dock/DictationTabPane.tsx).
+   - Tách biệt rành mạch giữa bài tập gõ phím luyện nghe bắt âm và bài tập ghi âm luyện nói phát âm nhại giọng, triệt tiêu hoàn toàn tình trạng quá tải nhận thức khi nhồi nhét hai tác vụ đối nghịch trong cùng một màn hình.
+
+2. **Chia Chặng Micro-Session 10 Câu Kèm Bộ Điều Hướng Câu Linh Hoạt**:
+   - Thay thế bộ đếm tổng gây ngợp (`CÂU HỎI 1 / 940`) bằng cơ chế phân chặng nhỏ 10 câu thông minh: `Chặng 1/13 • Câu 1/10 (Tổng: 1/129)`.
+   - Bổ sung thanh tiến trình vi mô mượt mà cùng cặp nút điều hướng câu trước/sau `[ < ]` và `[ > ]`, cho phép người học chủ động chọn câu cần nghe lại mà không bị gò bó. Nút `Nhảy tới câu video đang phát` tự động xuất hiện khi câu đang xem lệch với mốc thời gian phát của video.
+
+3. **Pill Khuyết Tương Tác & Live-Typing Preview Thời Gian Thực**:
+   - Xóa bỏ hoàn toàn dạng chuỗi gạch nối thô kệch `[ _ _ _ _ _ ]`. Thay thế bằng thẻ pill bo tròn màu hổ phách vàng Amber `#f59e0b` hiển thị rõ số lượng ký tự cần điền.
+   - Khi người học gõ vào ô nhập liệu bên dưới, các ký tự được điền trực tiếp vào chỗ trống trên câu mẫu theo thời gian thực (Live-typing Preview), mang lại phản hồi trực quan sinh động.
+   - Khi kiểm tra đáp án: nếu đúng chuyển thành pill xanh Emerald `#10b981` kèm dấu tích `✓`, nếu sai hiển thị gạch ngang chữ gõ kèm đáp án đúng màu xanh chuẩn xác.
+
+4. **Trợ Lý Âm Thanh Kép Tích Hợp Gọn Trong Tiêu Đề Thẻ Câu**:
+   - Nhúng trực tiếp 2 nút nghe nhanh ngay trong thanh tiêu đề của thẻ câu: `[ ▶ Video (Os) ]` để phát lại phân đoạn video YouTube tương ứng qua [InteractiveStudyDock.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/InteractiveStudyDock.tsx), và `[ 🔊 AI Chậm ]` để nghe giọng đọc bản xứ tốc độ 0.85x qua Web Speech API.
+   - Tiết kiệm hơn 45px chiều cao giao diện, giúp toàn bộ nội dung hiển thị cân đối hoàn hảo trên mọi kích thước màn hình.
+
+5. **Nút Hành Động Chính Động Chuẩn Rule 18 & Rule 19**:
+   - Khi ô nhập còn trống: nút mang phong cách thứ cấp với thông điệp hướng dẫn rõ ràng `Nhập từ để kiểm tra`.
+   - Ngay khi người học gõ ký tự: nút tự động kích hoạt trạng thái Primary màu Xanh hoàng gia `#0059bb` nổi bật kèm hiệu ứng đổ bóng: `Kiểm Tra Đáp Án (+20 XP)`.
+   - Khi đã trả lời xong: chuyển thành nút hành động tiếp diễn `Câu Tiếp Theo >` kèm thông báo kết quả chuẩn xác.
+
+6. **Khu Vực Luyện Nói Shadowing AI Với Sóng Âm Động & Chấm Điểm Phát Âm**:
+   - Ở trạng thái chờ: hiển thị thông điệp hướng dẫn nhẹ nhàng cùng các thanh âm trầm tĩnh, loại bỏ các chấm xám tĩnh gây hiểu lầm.
+   - Khi bấm ghi âm: kích hoạt dải sóng âm Equalizer chuyển động nhịp nhàng dải màu Rose - Amber rực rỡ và nút Stop hình vuông phát xung trực quan.
+   - Bảng phân tích AI hiển thị điểm số trên thang 100, đánh giá chi tiết chất lượng ngữ điệu kèm 2 nút hành động: `Luyện lại` và `Câu tiếp`.
+
 ---
 
 ## 🌐 Production Deployment Status

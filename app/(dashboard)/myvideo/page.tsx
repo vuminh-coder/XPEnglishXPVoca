@@ -670,7 +670,7 @@ export default function MyVideoPage() {
 
             {/* 3. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE */}
             {activeVideo && (
-              <div className="grid grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-stretch">
+              <div className="grid grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-start">
                 {/* CỘT TRÁI (1.62fr): VIDEO PLAYER STUDIO */}
                 <VideoPlayerStudio
                   activeVideo={activeVideo}

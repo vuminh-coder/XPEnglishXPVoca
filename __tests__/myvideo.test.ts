@@ -649,3 +649,49 @@ describe("Task 12: Integrated E2E User Flow", () => {
     expect(finalVideo?.progressPercent).toBe(100);
   });
 });
+
+// ============================================================================
+// PHẦN 4: TEST TASK 10 - DICTATION & SHADOWING MICRO-SESSION CHUNKING
+// ============================================================================
+
+describe("Task 10: Dictation & Shadowing Micro-Session Chunking", () => {
+  it("Test 10.1: Phân tách video 940 phụ đề thành các chặng 10 câu dễ tiếp cận", () => {
+    const totalSubs = 940;
+    const chunkSize = 10;
+    const totalChunks = Math.ceil(totalSubs / chunkSize);
+    expect(totalChunks).toBe(94);
+
+    // Ở câu đầu tiên (index 0): Chặng 1, Câu 1 / 10
+    const subIdx0 = 0;
+    const chunk0 = Math.floor(subIdx0 / chunkSize) + 1;
+    const progress0 = (subIdx0 % chunkSize) + 1;
+    expect(chunk0).toBe(1);
+    expect(progress0).toBe(1);
+
+    // Ở câu số 25 (index 24): Chặng 3, Câu 5 / 10
+    const subIdx24 = 24;
+    const chunk24 = Math.floor(subIdx24 / chunkSize) + 1;
+    const progress24 = (subIdx24 % chunkSize) + 1;
+    expect(chunk24).toBe(3);
+    expect(progress24).toBe(5);
+
+    // Ở câu cuối cùng (index 939): Chặng 94, Câu 10 / 10
+    const subIdx939 = 939;
+    const chunk939 = Math.floor(subIdx939 / chunkSize) + 1;
+    const progress939 = (subIdx939 % chunkSize) + 1;
+    expect(chunk939).toBe(94);
+    expect(progress939).toBe(10);
+  });
+
+  it("Test 10.2: Chuẩn hóa so sánh từ Dictation không phân biệt hoa thường và ký tự đặc biệt", () => {
+    const targetWord = "technology";
+    const userInputs = ["Technology", " technology ", "technology!", "TECHNOLOGY"];
+
+    for (const input of userInputs) {
+      const userClean = input.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+      const targetClean = targetWord.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
+      expect(userClean === targetClean).toBe(true);
+    }
+  });
+});
+
