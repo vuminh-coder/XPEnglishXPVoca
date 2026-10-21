@@ -120,10 +120,7 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
             }`}
           >
             <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0 animate-pulse" />
-            <span className="truncate">
-              <span className="sm:hidden">AI Quiz</span>
-              <span className="hidden sm:inline">AI Thẻ & Quiz</span>
-            </span>
+            <span className="truncate">AI Quiz</span>
           </button>
 
           <button

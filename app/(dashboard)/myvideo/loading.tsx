@@ -67,11 +67,9 @@ export default function MyVideoLoading() {
               <div className="h-10 flex-1 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800" />
               <div className="h-10 w-full sm:w-40 rounded-xl bg-[#0059bb]/40" />
             </div>
-            <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-              <div className="flex items-center gap-2">
-                <div className="h-6 w-28 rounded-lg bg-slate-100 dark:bg-slate-800" />
-                <div className="h-6 w-24 rounded-lg bg-slate-100 dark:bg-slate-800" />
-              </div>
+            <div className="flex items-center justify-between gap-3 pt-2.5 border-t border-slate-100 dark:border-slate-800">
+              <div className="h-7 w-36 rounded-lg bg-slate-100 dark:bg-slate-800" />
+              <div className="h-7 w-44 rounded-lg bg-slate-100 dark:bg-slate-800" />
             </div>
           </div>
         </div>

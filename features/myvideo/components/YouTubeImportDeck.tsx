@@ -6,6 +6,7 @@ import {
   Loader2,
   Plus,
   HelpCircle,
+  ChevronDown,
 } from "lucide-react";
 import { YouTubeVideoItem } from "@/stores/videoStore";
 
@@ -102,36 +103,61 @@ export function YouTubeImportDeck({
           </div>
         </div>
 
-        {/* Category & Level Selectors */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
-          <div className="grid grid-cols-2 sm:flex sm:items-center gap-2">
-            <div className="col-span-2 sm:col-span-1 flex items-center gap-1.5">
-              <span className="text-[11px] font-bold text-slate-400 shrink-0">Phân loại:</span>
+        {/* Category & Level Selectors - Balanced 2-Column Dock (UI/UX Rule 14 & Rule 6) */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 text-xs">
+          {/* Cụm 1: Chủ đề (Phân loại) */}
+          <div className="flex items-center gap-2">
+            <label
+              htmlFor="import-category-select"
+              className="text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0 font-display"
+            >
+              Chủ đề:
+            </label>
+            <div className="relative">
               <select
+                id="import-category-select"
                 value={importCategory}
                 onChange={(e) => setImportCategory(e.target.value as any)}
-                className="w-full sm:w-auto py-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden"
+                className="py-1.5 pl-3 pr-7 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden hover:bg-slate-200/70 dark:hover:bg-slate-700/70 transition-colors shadow-2xs appearance-none"
               >
                 <option value="Communication">Giao tiếp (Communication)</option>
                 <option value="Business">Kinh doanh (Business)</option>
                 <option value="TED Talks">TED Talks</option>
                 <option value="Movies">Phim ảnh (Movies)</option>
                 <option value="News">Tin tức (News)</option>
-                <option value="IELTS/TOEIC">IELTS/TOEIC</option>
+                <option value="IELTS/TOEIC">IELTS / TOEIC</option>
                 <option value="General">Tổng hợp (General)</option>
               </select>
+              <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-slate-400">
+                <ChevronDown className="w-3.5 h-3.5" />
+              </div>
             </div>
+          </div>
 
-            <div className="col-span-2 sm:col-span-1">
-              <select
-                value={importLevel}
-                onChange={(e) => setImportLevel(e.target.value as any)}
-                className="w-full sm:w-auto py-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer focus:outline-hidden"
-              >
-                <option value="Easy">Dễ (Easy)</option>
-                <option value="Medium">Trung bình (Medium)</option>
-                <option value="Hard">Khó (Hard)</option>
-              </select>
+          {/* Cụm 2: Độ khó (Segmented Control 3 nút bấm trực diện chuẩn Rule 14) */}
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 shrink-0 font-display">
+              Độ khó:
+            </span>
+            <div className="p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 inline-flex items-center gap-0.5">
+              {[
+                { id: "Easy" as const, label: "Dễ", color: "text-emerald-700 dark:text-emerald-400" },
+                { id: "Medium" as const, label: "Trung bình", color: "text-sky-700 dark:text-sky-400" },
+                { id: "Hard" as const, label: "Khó", color: "text-amber-700 dark:text-amber-400" },
+              ].map((lvl) => (
+                <button
+                  key={lvl.id}
+                  type="button"
+                  onClick={() => setImportLevel(lvl.id)}
+                  className={`px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
+                    importLevel === lvl.id
+                      ? `bg-white dark:bg-slate-900 shadow-2xs ${lvl.color}`
+                      : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+                  }`}
+                >
+                  {lvl.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
