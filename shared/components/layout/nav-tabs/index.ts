@@ -5,3 +5,4 @@ export * from "./ProfileSuiteNavTabs";
 export * from "./ShopSuiteNavTabs";
 export * from "./IpaSuiteNavTabs";
 export * from "./GameSuiteNavTabs";
+export * from "./VideoSuiteNavTabs";

@@ -15,6 +15,8 @@ import {
 import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
+import { VideoSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
+import { Plus } from "lucide-react";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 import dynamic from "next/dynamic";
@@ -633,7 +635,29 @@ export default function MyVideoPage() {
           onClear: () => setSearchQuery(""),
           hideDesktopInput: true,
         }}
-      />
+        rightDesktopContent={
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                const input = document.getElementById("youtube-url-input");
+                if (input) {
+                  input.scrollIntoView({ behavior: "smooth", block: "center" });
+                  input.focus();
+                }
+              }}
+              className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
+              title="Nhập thêm video YouTube mới để học"
+            >
+              <Plus className="w-4 h-4 stroke-[2.5]" />
+              <span className="hidden sm:inline">Thêm video mới</span>
+              <span className="sm:hidden">Thêm video</span>
+            </button>
+          </div>
+        }
+      >
+        <VideoSuiteNavTabs />
+      </AppTopHeader>
 
       {/* MAIN DASHBOARD CANVAS */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">

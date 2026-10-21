@@ -46,8 +46,8 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
       {/* Search & Category Filter Bar */}
       <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3.5">
         <div className="flex flex-col md:flex-row items-stretch md:items-end justify-between gap-3">
-          {/* Search Box with UI/UX Rule 6 External Label */}
-          <div className="flex-1 min-w-0 space-y-1.5">
+          {/* Search Box with UI/UX Rule 6 External Label (Hidden on mobile < sm, unified via AppTopHeader) */}
+          <div className="hidden sm:block flex-1 min-w-0 space-y-1.5">
             <label
               htmlFor="video-search-input"
               className="text-[11px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-display"

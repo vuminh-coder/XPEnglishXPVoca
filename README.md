@@ -6807,17 +6807,27 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
 6. **Đồng Bộ Khung Xương Shimmer (`loading.tsx`)**:
    - Cập nhật khung xương nạp trang [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvideo/loading.tsx) đồng bộ hoàn toàn với các kích thước và breakpoint mới, đạt chuẩn Zero Cumulative Layout Shift (0px CLS).
 
-### 23. Tinh Gọn AppTopHeader & Cấu Trúc Lại Cụm Nút Hành Động Trên Trang /myvideo
+### 23. Đồng Bộ Chuyên Sâu AppTopHeader Mobile & Desktop Trên Trang /myvideo Theo Chuẩn Dictation
 
-1. **Loại Bỏ Hoàn Toàn Các Thành Phần Không Liên Quan Trên `AppTopHeader`**:
-   - **Gỡ bỏ `<VocabSuiteNavTabs />`**: Triệt tiêu dải tab từ vựng vốn không thuộc không gian học video (Danh sách từ, Sổ từ của tôi, Lịch ôn tập).
-   - **Ẩn Huy Hiệu Gamification (`showGamificationStats={false}`)**: Xóa bỏ cụm chip ngọn lửa chuỗi Streak và Vàng trên thanh Header đỉnh nhằm giữ sự tập trung tối đa cho người học video, đồng bộ với tiêu chuẩn của các trang luyện tập chuyên sâu (`/study/dictation`, `/study/shadowing`).
-   - **Xóa Bỏ Cụm Nút Trùng Lặp Trên Header (`rightDesktopContent`)**: Gỡ bỏ cụm nút `VideoTopHeaderActions` khỏi thanh điều hướng toàn cục, trả lại không gian tối giản, tinh tế cho `AppTopHeader`.
-2. **Quy Hoạch Cụm Nút Thao Tác Nhanh Vào Hero Banner (`VideoHeroMetricsBanner.tsx`)**:
-   - Chuyển toàn bộ 4 nút hành động (`Phím tắt ?`, `Nhập SRT`, `XP-Sub AI Engine`, `Xuất Subtitles`) hiển thị đồng nhất và đẹp mắt trên góc phải của `VideoHeroMetricsBanner` trên cả Mobile, Tablet và Desktop.
-   - Nhãn nút được co giãn linh hoạt (`XP-Sub AI` / `XP-Sub AI Engine`, `Xuất Sub` / `Xuất Subtitles`) phù hợp từng kích thước màn hình.
-3. **Đồng Bộ Hóa Khung Xương Nạp Trang (`loading.tsx`)**:
-   - Tinh gọn khung xương top bar trong [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvideo/loading.tsx), đảm bảo chuyển cảnh vào trang thực tế đạt 0px CLS hoàn hảo.
+1. **Dải Tab Điều Hướng Đỉnh Chuyên Biệt (`VideoSuiteNavTabs.tsx`)**:
+   - Khởi tạo bộ tab điều hướng cao cấp [VideoSuiteNavTabs.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/nav-tabs/VideoSuiteNavTabs.tsx) tuân thủ nghiêm ngặt quy tắc kiến trúc ≤ 4 Tabs Cap (`layoutId="videoSuiteNavActiveTab"`):
+     - `[ 🎬 Video của tôi (Active) ]` (`/myvideo`): Không gian YouTube Studio cá nhân hóa với phụ đề song ngữ và kho bài đã lưu.
+     - `[ 🎧 Dictation ]` (`/study/dictation/video`): Nhánh nghe chép chính tả video YouTube tuyển chọn.
+     - `[ 🎙️ Shadowing ]` (`/study/shadowing/video`): Nhánh luyện nói nhại âm video YouTube với phân tích chấm điểm AI.
+     - `[ 📑 Kho từ vựng ]` (`/vocabulary`): Kho từ điển chủ đề lưu trữ toàn bộ từ vựng tra cứu từ video.
+   - **Trên Desktop (≥ 640px)**: Hiển thị bộ dock phân đoạn chuyển động mượt mà với nền sáng và bóng đổ trượt thông minh.
+   - **Trên Mobile (< 640px)**: Tự động ẩn dải tab trên đỉnh (`hidden sm:inline-flex`), bảo vệ khoảng trống hiển thị cho Hamburger, Logo thương hiệu và nút tìm kiếm.
+
+2. **Nút Hành Động Chính Duy Nhất (`rightDesktopContent`) Chuẩn UI/UX Rule 18 & 19**:
+   - Áp dụng nút Primary CTA nổi bật duy nhất `[ + Thêm video mới ]` màu Xanh hoàng gia `#0059bb` (kèm icon `Plus` stroke 2.5).
+   - Tự động cuộn mượt và kích hoạt focus trực tiếp vào ô nhập link `youtube-url-input` khi người học bấm nút, mang lại trải nghiệm 1-click liền mạch như nút `[ + Tạo bài AI ]` của trang Dictation.
+
+3. **Cơ Chế Tìm Kiếm Khử Trùng Lặp Triệt Để Giữa Mobile & Desktop**:
+   - **Trên Mobile (< 640px)**: Nút kính lúp `Search` trên `AppTopHeader` (`hideMobileSearch={false}`) mở lớp phủ toàn màn hình tìm kiếm tức thì. Khung tìm kiếm nội trang trong [VideoLibraryGrid.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/VideoLibraryGrid.tsx) được ẩn trên di động (`hidden sm:block`) để triệt tiêu hoàn toàn tình trạng 2 ô tìm kiếm xuất hiện cùng lúc.
+   - **Trên Desktop (≥ 640px)**: Ẩn thanh tìm kiếm đỉnh (`hideDesktopInput: true`) vì người học đã có sẵn thanh tìm kiếm trực diện với nhãn ngoài chuẩn Rule 6 trong thân trang.
+
+4. **Đồng Bộ Khung Xương Nạp Trang Đạt Chuẩn 0px CLS (`loading.tsx`)**:
+   - Cập nhật khung xương top bar trong [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvideo/loading.tsx) với Shimmer 4 tab bên trái, Shimmer nút tìm kiếm di động và Shimmer nút hành động chính bên phải, loại bỏ 100% hiện tượng lệch khung khi nạp trang.
 
 ---
 
