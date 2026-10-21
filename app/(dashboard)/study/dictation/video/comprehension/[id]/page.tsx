@@ -1,6 +1,7 @@
 "use client";
 
 import React, { use, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   VideoComprehensionStudioView,
   VideoComprehensionStudioSkeleton,
@@ -11,10 +12,16 @@ interface PageProps {
 }
 
 function VideoComprehensionPageInner({ lessonId }: { lessonId: string }) {
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
+  const onBackUrl = from === "shadowing"
+    ? `/study/shadowing/video?id=${lessonId}`
+    : `/study/dictation/video?id=${lessonId}`;
+
   return (
     <VideoComprehensionStudioView
       lessonId={lessonId}
-      onBackUrl={`/study/dictation/video?id=${lessonId}`}
+      onBackUrl={onBackUrl}
     />
   );
 }

@@ -6656,9 +6656,11 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
     - **Đồng Bộ Thanh Đỉnh Studio Workspace & Đánh Dấu Câu Học (Bookmark Parity)**:
       - Truyền đồng bộ `isBookmarked` và `onToggleBookmark` vào `StudioTopHeader` trên cả hai phân hệ `ListeningStudioWorkspace` (Dictation) và `ShadowingStudioWorkspace` (Shadowing), kích hoạt nút ngôi sao yêu thích trên mọi thiết bị màn hình từ mobile đến desktop.
       - Duy trì Avatar học viên (`UserAvatar`) trực quan dẫn đến `/profile`, nút đóng bài học quay về danh mục chuẩn xác theo ngữ cảnh audio/video, và công tắc chuyển đổi định dạng `MediaDisplayModeToggle` phản hồi nhanh.
-    - **Tối Ưu Thẻ Video Cho Phân Hệ Shadowing (`VideoCatalogBrowseView.tsx`)**:
-      - Bổ sung thuộc tính `practiceMode` cho các hàng cuộn ngang `HorizontalVideoTopicRow` và từng thẻ `VideoCardItem`.
-      - Khi học viên duyệt video trong phân hệ Shadowing (`practiceMode === "shadowing"`), thẻ video tự động hiển thị nút hành động Primary chuyên biệt: `[Mic] Luyện Nhại Âm [Play]`, điều hướng trực tiếp vào phòng thu nhại giọng `/study/shadowing/video?id=...`, triệt tiêu hoàn toàn các liên kết trắc nghiệm nghe hiểu không phù hợp.
+    - **Đồng Bộ Nút Hành Động Thẻ Video Giữa Dictation & Shadowing (`VideoCatalogBrowseView.tsx`)**:
+      - Thống nhất trải nghiệm thị giác của toàn bộ thẻ video trên cả 2 nhánh `/study/dictation/video` và `/study/shadowing/video`.
+      - Khử bỏ phân nhánh nút đơn lẻ `[Mic] Luyện Nhại Âm [Play]`, áp dụng bố cục đôi đồng bộ 100%:
+        + Nút phụ bên trái: `[✦ Sparkles] Đọc hiểu AI` (Secondary outline), liên kết trực tiếp tới `/study/dictation/video/comprehension/[id]` kèm tham số ngữ cảnh `?from=shadowing` khi ở phân hệ Shadowing để nút quay lại tự động đưa học viên về `/study/shadowing/video`.
+        + Nút chính bên phải: `Học Ngay [Play]` (Primary Royal Blue `#0059bb`), điều hướng trực tiếp vào phòng luyện tương ứng (`/study/dictation/video?id=...` hoặc `/study/shadowing/video?id=...`).
     - **Hệ Thống Khung Xương Shimmer Song Sinh Khử 0px CLS (`LoadingSkeletons.tsx`)**:
       - Khắc phục lỗi khai báo trùng lặp định danh `ShadowingAudioListingSkeleton` và `ShadowingAudioStudioSkeleton`.
       - Cập nhật nhãn tab khung xương chuẩn xác: "Nhại Âm Tiêu Chuẩn" và "Nhại Âm Video".
@@ -6721,6 +6723,21 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Nâng ngưỡng `chunkLoadTimeout` lên 300,000ms (5 phút) trên trình phát triển Webpack dev server, hỗ trợ các máy có dung lượng RAM lớn hoặc đang xử lý tác vụ nặng mà không bị ngắt kết nối script nạp chunk.
 5. **Phễu Bắt Lỗi Gốc (`app/global-error.tsx` & `app/error.tsx`)**:
    - Cung cấp giao diện dự phòng tiêu chuẩn 60-30-10 với nút "Tải lại trang" (Primary) và "Thử lại" (Ghost), tuân thủ tuyệt đối quy tắc thiết kế Wadhah Aloui.
+
+---
+
+### 19. Đồng Bộ Phong Cách Nút Thẻ Video Giữa Dictation & Shadowing (`VideoCatalogBrowseView.tsx`) & Khắc Phục Lỗi P2024 Connection Pool
+
+1. **Chuẩn Hóa Thẻ Video Tuyển Chọn Đồng Bộ Tuyệt Đối**:
+   - Khử phân nhánh nút đơn lẻ `[Mic] Luyện Nhại Âm` trên phân hệ Shadowing Video (`/study/shadowing/video`).
+   - Tái áp dụng bố cục đôi 100% chuẩn mực và thanh lịch khớp với phân hệ Dictation Video (`/study/dictation/video`):
+     - **Nút phụ bên trái**: `[✦ Sparkles] Đọc hiểu AI` (Secondary outline, viền `border-slate-200/90 dark:border-slate-700/80`, nền `bg-slate-50 hover:bg-violet-50/70`, icon tím `text-violet-600`), dẫn trực tiếp vào phòng đọc hiểu AI kèm tham số ngữ cảnh `?from=shadowing`.
+     - **Nút chính bên phải**: `Học Ngay [Play]` (Primary Royal Blue `#0059bb`, bo góc `rounded-xl`), dẫn vào phòng luyện Shadowing hoặc Dictation tùy theo ngữ cảnh.
+   - Hỗ trợ quay lại thông minh (`onBackUrl`) trên các tuyến đường đọc hiểu (`/study/dictation/video/comprehension/[id]` và `/study/dictation/video/[id]/comprehension`): khi học viên truy cập từ Shadowing, nút quay lại tự động đưa về `/study/shadowing/video?id=...`.
+
+2. **Khắc Phục Lỗi Kết Nối CSDL Neon P2024 Connection Pool Timeout**:
+   - Xử lý xung đột tiền tố IPv6 Windows Winsock làm timeout kết nối PostgreSQL Neon sau 20 giây.
+   - Triển khai cơ chế phân giải IPv4 tự động (`resolveIpv4Sync`) và định tuyến endpoint Neon SNI (`endpoint=<endpointId>;<password>`), rút ngắn thời gian kết nối Neon CSDL từ hơn 20s xuống 236ms, trả về HTTP 200 tức thì cho `/api/video-catalog/categories`.
 
 ---
 

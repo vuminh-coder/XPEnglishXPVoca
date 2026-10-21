@@ -151,4 +151,18 @@ describe("Shadowing & Dictation Dual Branch Routing & Skeleton Parity Suite", ()
     expect(videoTabTitle).not.toContain("(Video)");
     expect(videoTabTitle).not.toContain("(video)");
   });
+
+  it("verifies video card action buttons maintain parity with Đọc hiểu AI and Học Ngay", async () => {
+    const fs = await import("fs");
+    const path = await import("path");
+    const filePath = path.resolve(process.cwd(), "features/listening/components/VideoCatalogBrowseView.tsx");
+    const content = fs.readFileSync(filePath, "utf-8");
+
+    // Must include unified buttons
+    expect(content).toContain("Đọc hiểu AI");
+    expect(content).toContain("Học Ngay");
+
+    // Must NOT contain the old single button deviation for shadowing
+    expect(content).not.toContain("Luyện Nhại Âm");
+  });
 });

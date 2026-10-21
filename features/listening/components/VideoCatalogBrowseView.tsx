@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
-  Mic,
   Search,
   Sparkles,
   Play,
@@ -681,32 +680,30 @@ const VideoCardItem: React.FC<{
         </div>
 
         <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
-          {practiceMode === "shadowing" ? (
-            <div className="w-full h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
-              <Mic className="w-3.5 h-3.5 text-white shrink-0" />
-              <span>Luyện Nhại Âm</span>
-              <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform ml-auto" />
-            </div>
-          ) : (
-            <>
-              <Link
-                href={`/study/dictation/video/comprehension/${lesson.id}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                className="group/ai h-8 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-violet-700 dark:text-slate-300 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/70 dark:bg-slate-800/80 dark:hover:bg-violet-950/40 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
-                title="Làm bài trắc nghiệm đọc hiểu AI • +25 XP"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
-                <span>Đọc hiểu AI</span>
-              </Link>
+          <Link
+            href={`/study/dictation/video/comprehension/${lesson.id}${
+              practiceMode === "shadowing" ? "?from=shadowing" : ""
+            }`}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className="group/ai h-8 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-violet-700 dark:text-slate-300 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/70 dark:bg-slate-800/80 dark:hover:bg-violet-950/40 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
+            title="Làm bài trắc nghiệm đọc hiểu AI • +25 XP"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
+            <span>Đọc hiểu AI</span>
+          </Link>
 
-              <div className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
-                <span>Học Ngay</span>
-                <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform" />
-              </div>
-            </>
-          )}
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelectVideoLesson?.(lesson);
+            }}
+            className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn"
+          >
+            <span>Học Ngay</span>
+            <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform" />
+          </div>
         </div>
       </div>
     </motion.div>
