@@ -1,19 +1,16 @@
 "use client";
 import React from "react";
-import { BookOpen, Brain, ListVideo, Sparkles } from "lucide-react";
+import { BookOpen, Brain } from "lucide-react";
 import { YouTubeVideoItem } from "@/stores/videoStore";
 import { WordLookupData } from "./shared/WordLookupCard";
 import { SubtitlesTabPane } from "./study-dock/SubtitlesTabPane";
 import { DictationTabPane } from "./study-dock/DictationTabPane";
-import { PlaylistTabPane } from "./study-dock/PlaylistTabPane";
-import { StudySetTabPane } from "./study-dock/StudySetTabPane";
-import { useVideoStudySet } from "../hooks/useVideoStudySet";
 
 export interface InteractiveStudyDockProps {
   activeVideo: YouTubeVideoItem;
-  savedVideos: YouTubeVideoItem[];
-  rightPanelTab: "subtitles" | "dictation" | "studyset" | "playlist";
-  setRightPanelTab: (tab: "subtitles" | "dictation" | "studyset" | "playlist") => void;
+  savedVideos?: YouTubeVideoItem[];
+  rightPanelTab: "subtitles" | "dictation";
+  setRightPanelTab: (tab: "subtitles" | "dictation") => void;
   // Subtitles Tab Props
   wordLookupData: WordLookupData | null;
   setWordLookupData: (data: WordLookupData | null) => void;
@@ -41,15 +38,10 @@ export interface InteractiveStudyDockProps {
   waveformBars: number[];
   shadowingScore: number | null;
   toggleShadowingRecord: () => void;
-  // Study Set AI Props
-  studySetHook: ReturnType<typeof useVideoStudySet>;
-  // Playlist Tab Props
-  onSelectVideo: (video: YouTubeVideoItem) => void;
 }
 
 export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
   activeVideo,
-  savedVideos,
   rightPanelTab,
   setRightPanelTab,
   wordLookupData,
@@ -76,67 +68,36 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
   waveformBars,
   shadowingScore,
   toggleShadowingRecord,
-  studySetHook,
-  onSelectVideo,
 }) => {
   return (
     <div className="flex flex-col h-full">
       <div className="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 overflow-hidden flex flex-col h-full min-h-0">
-        {/* Header Tabs Segmented Dock - 4 TABS WITH SEMANTIC STYLING */}
-        <div className="p-1 sm:p-1.5 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 grid grid-cols-4 gap-1 shrink-0">
+        {/* Header Tabs Segmented Dock - 2 CORE STUDY TABS */}
+        <div className="p-1 sm:p-1.5 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 grid grid-cols-2 gap-1.5 shrink-0">
           <button
             type="button"
             onClick={() => setRightPanelTab("subtitles")}
-            className={`py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1 ${
+            className={`py-2 px-3 rounded-lg text-xs sm:text-sm font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-2 ${
               rightPanelTab === "subtitles"
-                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-sm"
+                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
-            <BookOpen className="w-3.5 h-3.5 shrink-0" />
+            <BookOpen className="w-4 h-4 shrink-0 text-[#0059bb] dark:text-sky-400" />
             <span className="truncate">Phụ Đề</span>
           </button>
 
           <button
             type="button"
             onClick={() => setRightPanelTab("dictation")}
-            className={`py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1 ${
+            className={`py-2 px-3 rounded-lg text-xs sm:text-sm font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-2 ${
               rightPanelTab === "dictation"
-                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-sm"
+                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
-            <Brain className="w-3.5 h-3.5 text-purple-500 shrink-0" />
+            <Brain className="w-4 h-4 text-purple-500 shrink-0" />
             <span className="truncate">Dictation</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setRightPanelTab("studyset")}
-            className={`py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1 relative ${
-              rightPanelTab === "studyset"
-                ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm"
-                : "text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-300"
-            }`}
-          >
-            <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0 animate-pulse" />
-            <span className="truncate">AI Quiz</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setRightPanelTab("playlist")}
-            className={`py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-1 ${
-              rightPanelTab === "playlist"
-                ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-sm"
-                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-            }`}
-          >
-            <ListVideo className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">
-              <span className="sm:hidden">Playlist</span>
-              <span className="hidden sm:inline">Playlist ({savedVideos.length})</span>
-            </span>
           </button>
         </div>
 
@@ -178,23 +139,6 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
               waveformBars={waveformBars}
               shadowingScore={shadowingScore}
               toggleShadowingRecord={toggleShadowingRecord}
-            />
-          )}
-
-          {/* TAB 3: ✨ AI THẺ FLASHCARD & VIDEO QUIZ */}
-          {rightPanelTab === "studyset" && (
-            <StudySetTabPane
-              activeVideo={activeVideo}
-              studySetHook={studySetHook}
-            />
-          )}
-
-          {/* TAB 4: PLAYLIST VIDEO ĐÃ LƯU */}
-          {rightPanelTab === "playlist" && (
-            <PlaylistTabPane
-              savedVideos={savedVideos}
-              activeVideo={activeVideo}
-              onSelectVideo={onSelectVideo}
             />
           )}
         </div>

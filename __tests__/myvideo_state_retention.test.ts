@@ -54,12 +54,12 @@ describe("MyVideo Page State Retention (0ms Instant Render)", () => {
       });
 
       useVideoStore.getState().setSession({
-        rightPanelTab: "studyset",
+        rightPanelTab: "dictation",
       });
 
       const { session } = useVideoStore.getState();
       expect(session.searchQuery).toBe("Technology");
-      expect(session.rightPanelTab).toBe("studyset");
+      expect(session.rightPanelTab).toBe("dictation");
     });
   });
 

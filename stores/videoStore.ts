@@ -27,7 +27,7 @@ export interface YouTubeVideoItem {
 
 export interface MyVideoSessionState {
   activeVideoId: string | null;
-  rightPanelTab: "subtitles" | "dictation" | "studyset" | "playlist";
+  rightPanelTab: "subtitles" | "dictation";
   subViewMode: "rolling" | "full";
   searchQuery: string;
   selectedCategory: string;

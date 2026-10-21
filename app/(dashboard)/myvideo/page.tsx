@@ -31,7 +31,6 @@ import {
   useYouTubePlayerSync,
   useVideoExercises,
   useWordLookup,
-  useVideoStudySet,
 } from "@/features/myvideo";
 
 // Lazy-loaded modals for reduced initial bundle footprint
@@ -100,11 +99,12 @@ export default function MyVideoPage() {
     []
   );
 
-  const [rightPanelTab, setRightPanelTabState] = useState<"subtitles" | "dictation" | "studyset" | "playlist">(() => {
-    return useVideoStore.getState().session.rightPanelTab || "subtitles";
+  const [rightPanelTab, setRightPanelTabState] = useState<"subtitles" | "dictation">(() => {
+    const saved = useVideoStore.getState().session.rightPanelTab;
+    return saved === "dictation" ? "dictation" : "subtitles";
   });
 
-  const setRightPanelTab = useCallback((tab: "subtitles" | "dictation" | "studyset" | "playlist") => {
+  const setRightPanelTab = useCallback((tab: "subtitles" | "dictation") => {
     setRightPanelTabState(tab);
     useVideoStore.getState().setSession({ rightPanelTab: tab });
   }, []);
@@ -283,14 +283,6 @@ export default function MyVideoPage() {
     onPauseVideo: pauseVideo,
   });
 
-  // Hook 4: AI Video Study Set (Flashcards & Quizzes Generator)
-  const studySetHook = useVideoStudySet({
-    activeVideo,
-    user,
-    awardXp,
-    addToast,
-  });
-
   // Select video & reset sub-states
   const selectVideoAndOpenSubtitles = useCallback(
     (video: YouTubeVideoItem) => {
@@ -451,14 +443,6 @@ export default function MyVideoPage() {
         case "2":
           e.preventDefault();
           setRightPanelTab("dictation");
-          break;
-        case "3":
-          e.preventDefault();
-          setRightPanelTab("studyset");
-          break;
-        case "4":
-          e.preventDefault();
-          setRightPanelTab("playlist");
           break;
         case "?":
           e.preventDefault();
@@ -735,8 +719,6 @@ export default function MyVideoPage() {
                   waveformBars={waveformBars}
                   shadowingScore={shadowingScore}
                   toggleShadowingRecord={toggleShadowingRecord}
-                  studySetHook={studySetHook}
-                  onSelectVideo={handleSelectVideoWithScroll}
                 />
               </div>
             )}

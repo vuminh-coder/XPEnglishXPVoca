@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Keyboard, X, Play, RotateCcw, Shuffle, Sparkles, Brain, BookOpen, ListVideo } from "lucide-react";
+import { Keyboard, X, Play, RotateCcw, Shuffle, Sparkles, Brain, BookOpen } from "lucide-react";
 
 interface KeyboardShortcutsModalProps {
   isOpen: boolean;
@@ -55,12 +55,6 @@ const SHORTCUTS: ShortcutItem[] = [
     description: "Mở Tab 2: Dictation AI & Shadowing",
     category: "study",
     icon: <Brain className="w-3.5 h-3.5 text-purple-500" />,
-  },
-  {
-    keys: ["3"],
-    description: "Mở Tab 3: Danh sách Playlist video",
-    category: "study",
-    icon: <ListVideo className="w-3.5 h-3.5 text-emerald-500" />,
   },
   {
     keys: ["Enter"],
