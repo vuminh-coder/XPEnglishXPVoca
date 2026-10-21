@@ -58,42 +58,51 @@ export function VideoHeroMetricsBanner({
           </p>
         </div>
 
-        {/* Quick Action Buttons (Mobile fallback < sm: 640px) */}
-        <div className="sm:hidden flex items-center gap-1.5 shrink-0 flex-wrap pt-0.5">
+        {/* Quick Action Buttons (Universal across Mobile, Tablet, and Desktop) */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 flex-wrap pt-0.5">
           <button
             type="button"
             onClick={onOpenShortcuts}
-            className="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs active:scale-95"
+            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs active:scale-95 cursor-pointer transition-all"
+            title="Xem danh sách phím tắt học nhanh (Phím ?)"
           >
-            <Keyboard className="w-3.5 h-3.5 text-slate-500" />
+            <Keyboard className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
             <span>Phím tắt</span>
+            <kbd className="hidden sm:inline-block px-1 py-0.2 rounded bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 font-mono text-[9px]">
+              ?
+            </kbd>
           </button>
           <button
             type="button"
             onClick={onOpenSrtImport}
-            className="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1 transition-all shadow-2xs cursor-pointer active:scale-95 border border-slate-200/70 dark:border-slate-700/60"
+            className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs active:scale-95 cursor-pointer transition-all"
+            title="Nhập file phụ đề .SRT hoặc .VTT"
           >
-            <Upload className="w-3.5 h-3.5 text-slate-500" />
+            <Upload className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
             <span>Nhập SRT</span>
           </button>
           {hasActiveVideo && onOpenXpSubModal && (
             <button
               type="button"
               onClick={onOpenXpSubModal}
-              className="px-2.5 py-1.5 rounded-xl bg-purple-500/10 text-purple-700 dark:text-purple-300 text-xs font-bold flex items-center gap-1 border border-purple-500/25 shadow-2xs active:scale-95"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-700 dark:text-purple-300 text-xs font-bold flex items-center gap-1.5 border border-purple-500/25 shadow-2xs active:scale-95 cursor-pointer transition-all"
+              title="Trích xuất phụ đề thông minh bằng XP-Sub AI Engine"
             >
               <Sparkles className="w-3.5 h-3.5 fill-purple-500/40 text-purple-600 dark:text-purple-400" />
-              <span>XP-Sub AI</span>
+              <span className="hidden sm:inline">XP-Sub AI Engine</span>
+              <span className="sm:hidden">XP-Sub AI</span>
             </button>
           )}
           {hasActiveSubtitleResult && onOpenExportModal && (
             <button
               type="button"
               onClick={onOpenExportModal}
-              className="px-2.5 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-1 border border-emerald-500/25 shadow-2xs active:scale-95"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-1.5 border border-emerald-500/25 shadow-2xs active:scale-95 cursor-pointer transition-all"
+              title="Xem báo cáo và tải file phụ đề song ngữ"
             >
               <Upload className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 rotate-180" />
-              <span>Xuất Sub</span>
+              <span className="hidden sm:inline">Xuất Subtitles</span>
+              <span className="sm:hidden">Xuất Sub</span>
             </button>
           )}
         </div>

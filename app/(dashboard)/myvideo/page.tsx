@@ -15,7 +15,6 @@ import {
 import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
-import { VocabSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 import dynamic from "next/dynamic";
@@ -27,7 +26,6 @@ import {
   VideoLibraryGrid,
   VideoHeroMetricsBanner,
   YouTubeImportDeck,
-  VideoTopHeaderActions,
   useYouTubePlayerSync,
   useVideoExercises,
   useWordLookup,
@@ -626,7 +624,7 @@ export default function MyVideoPage() {
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
       {/* 0. UNIVERSAL 56PX (h-14) TOP ACTION & NAVIGATION HEADER BAR */}
       <AppTopHeader
-        showGamificationStats={true}
+        showGamificationStats={false}
         hideMobileSearch={false}
         searchProps={{
           value: searchQuery,
@@ -635,19 +633,7 @@ export default function MyVideoPage() {
           onClear: () => setSearchQuery(""),
           hideDesktopInput: true,
         }}
-        rightDesktopContent={
-          <VideoTopHeaderActions
-            onOpenShortcuts={() => setShowShortcutsModal(true)}
-            onOpenSrtImport={() => setShowSrtImportModal(true)}
-            onOpenXpSubModal={() => setShowXpSubModal(true)}
-            onOpenExportModal={() => setShowExportModal(true)}
-            hasActiveVideo={Boolean(activeVideo)}
-            hasActiveSubtitleResult={Boolean(activeSubtitleResult)}
-          />
-        }
-      >
-        <VocabSuiteNavTabs />
-      </AppTopHeader>
+      />
 
       {/* MAIN DASHBOARD CANVAS */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">

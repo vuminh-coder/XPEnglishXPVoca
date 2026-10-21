@@ -6,26 +6,15 @@ export default function MyVideoLoading() {
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12 animate-pulse">
       {/* 0. TOP ACTION HEADER SKELETON (56PX) */}
       <div className="w-full h-14 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/90 dark:border-slate-800 flex items-center justify-between px-3 sm:px-6 lg:px-8 shrink-0">
-        {/* Left Pills Container */}
+        {/* Left Section Skeleton */}
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 lg:hidden shrink-0" />
-          <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 flex items-center gap-1">
-            <div className="h-7 w-28 sm:w-32 rounded-lg bg-white dark:bg-slate-900 shadow-2xs" />
-            <div className="h-7 w-20 rounded-lg bg-slate-200/50 dark:bg-slate-700/50 hidden sm:block" />
-            <div className="h-7 w-20 rounded-lg bg-slate-200/50 dark:bg-slate-700/50 hidden sm:block" />
-            <div className="h-7 w-24 rounded-lg bg-slate-200/50 dark:bg-slate-700/50 hidden sm:block" />
-          </div>
         </div>
 
-        {/* Right Desktop Actions & Daily Quote Skeleton */}
+        {/* Right Section Skeleton */}
         <div className="flex items-center gap-2.5 shrink-0">
-          <div className="hidden lg:flex items-center gap-2">
-            <div className="h-8 w-24 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60" />
-            <div className="h-8 w-32 rounded-xl bg-purple-500/15 border border-purple-500/25" />
-          </div>
-          <div className="hidden xl:flex items-center gap-2 h-8 w-64 rounded-xl bg-slate-100/60 dark:bg-slate-800/60" />
           <div className="h-8 w-8 rounded-xl bg-slate-100 dark:bg-slate-800 lg:hidden shrink-0" />
-          <div className="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 lg:hidden shrink-0" />
+          <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0" />
         </div>
       </div>
 
@@ -44,9 +33,9 @@ export default function MyVideoLoading() {
               <div className="h-3.5 w-full sm:w-80 rounded-md bg-slate-100 dark:bg-slate-800" />
             </div>
 
-            <div className="sm:hidden flex items-center gap-1.5 shrink-0 pt-0.5">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 pt-0.5">
               <div className="h-8 w-20 rounded-xl bg-slate-100 dark:bg-slate-800" />
-              <div className="h-8 w-24 rounded-xl bg-emerald-500/20" />
+              <div className="h-8 w-24 rounded-xl bg-slate-100 dark:bg-slate-800" />
             </div>
           </div>
 

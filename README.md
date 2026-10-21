@@ -6807,6 +6807,18 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
 6. **Đồng Bộ Khung Xương Shimmer (`loading.tsx`)**:
    - Cập nhật khung xương nạp trang [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvideo/loading.tsx) đồng bộ hoàn toàn với các kích thước và breakpoint mới, đạt chuẩn Zero Cumulative Layout Shift (0px CLS).
 
+### 23. Tinh Gọn AppTopHeader & Cấu Trúc Lại Cụm Nút Hành Động Trên Trang /myvideo
+
+1. **Loại Bỏ Hoàn Toàn Các Thành Phần Không Liên Quan Trên `AppTopHeader`**:
+   - **Gỡ bỏ `<VocabSuiteNavTabs />`**: Triệt tiêu dải tab từ vựng vốn không thuộc không gian học video (Danh sách từ, Sổ từ của tôi, Lịch ôn tập).
+   - **Ẩn Huy Hiệu Gamification (`showGamificationStats={false}`)**: Xóa bỏ cụm chip ngọn lửa chuỗi Streak và Vàng trên thanh Header đỉnh nhằm giữ sự tập trung tối đa cho người học video, đồng bộ với tiêu chuẩn của các trang luyện tập chuyên sâu (`/study/dictation`, `/study/shadowing`).
+   - **Xóa Bỏ Cụm Nút Trùng Lặp Trên Header (`rightDesktopContent`)**: Gỡ bỏ cụm nút `VideoTopHeaderActions` khỏi thanh điều hướng toàn cục, trả lại không gian tối giản, tinh tế cho `AppTopHeader`.
+2. **Quy Hoạch Cụm Nút Thao Tác Nhanh Vào Hero Banner (`VideoHeroMetricsBanner.tsx`)**:
+   - Chuyển toàn bộ 4 nút hành động (`Phím tắt ?`, `Nhập SRT`, `XP-Sub AI Engine`, `Xuất Subtitles`) hiển thị đồng nhất và đẹp mắt trên góc phải của `VideoHeroMetricsBanner` trên cả Mobile, Tablet và Desktop.
+   - Nhãn nút được co giãn linh hoạt (`XP-Sub AI` / `XP-Sub AI Engine`, `Xuất Sub` / `Xuất Subtitles`) phù hợp từng kích thước màn hình.
+3. **Đồng Bộ Hóa Khung Xương Nạp Trang (`loading.tsx`)**:
+   - Tinh gọn khung xương top bar trong [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/myvideo/loading.tsx), đảm bảo chuyển cảnh vào trang thực tế đạt 0px CLS hoàn hảo.
+
 ---
 
 ## 🌐 Production Deployment Status
