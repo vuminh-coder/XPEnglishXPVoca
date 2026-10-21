@@ -142,7 +142,7 @@ export function ExamFilterToolbar({
           />
           <input
             type="text"
-            placeholder="Tìm theo tên đề thi, mã đề • ví dụ: TOEIC 2026, IELTS 4K, ETS..."
+            placeholder="Tìm đề thi: TOEIC, IELTS, ETS..."
             aria-label="Tìm kiếm tên đề thi"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

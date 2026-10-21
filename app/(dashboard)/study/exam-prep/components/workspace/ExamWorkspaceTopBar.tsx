@@ -1,6 +1,7 @@
 import React from "react";
 import { ChevronLeft, FileText, Sliders, Clock } from "lucide-react";
 import { ExamPaper } from "@/features/exam-prep/data/exam-papers/types";
+import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 
 export interface ExamWorkspaceTopBarProps {
   selectedExam: ExamPaper;
@@ -42,13 +43,13 @@ export function ExamWorkspaceTopBar({
           <span className="px-1.5 sm:px-2.5 py-0.5 rounded-md text-[9px] sm:text-[10px] font-black bg-[#0059bb] text-white shadow-2xs shrink-0 font-mono tracking-wider">
             {selectedExam.categoryBadge || "EXAM"}
           </span>
-          <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate max-w-[170px] xs:max-w-[210px] sm:max-w-xs md:max-w-md lg:max-w-lg">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate max-w-[120px] xs:max-w-[180px] sm:max-w-xs md:max-w-md lg:max-w-lg">
             {selectedExam.title}
           </h2>
         </div>
       </div>
 
-      {/* Right Section: Toggle Answer Sheet + Timer + Submit Button */}
+      {/* Right Section: Toggle Answer Sheet + Timer + Submit Button + User Avatar */}
       <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
         {/* Toggle Answer Sheet Panel Button (Desktop) */}
         <button
@@ -89,7 +90,11 @@ export function ExamWorkspaceTopBar({
         >
           <span>Nộp bài<span className="hidden sm:inline"> ngay</span></span>
         </button>
+
+        {/* User Profile Avatar */}
+        <UserAvatar className="w-7 h-7 sm:w-8 sm:h-8 shrink-0 ml-0.5 sm:ml-1" />
       </div>
     </div>
   );
 }
+

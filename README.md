@@ -6680,6 +6680,19 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - Trang Sổ Từ & Lịch Ôn Tập (`myvocab/page.tsx` & `ReviewWorkspace.tsx`): Áp dụng chuẩn header tối giản `showGamificationStats={false}` và `hideMobileSearch={true}`.
       - Trang Mini Games, Phòng Học Nhóm & Đấu Trường 1v1 (`games/page.tsx`, `rooms/page.tsx`, `pvp/page.tsx`): Chuẩn hóa thanh điều hướng `AppTopHeader`, đồng bộ cờ hiển thị tránh tràn hàng trên mọi độ phân giải.
 
+15. **Chuẩn Hóa Chuyên Sâu Thanh Đỉnh (Top Header Parity), Khung Xương 0px CLS & Công Thái Học Mobile Cho Phòng Luyện Thi Chuẩn Hóa (`/study/exam-prep`)**:
+    - **Tích Hợp Nút Tạo Đề Mới AI Trên Di Động (`AppTopHeader`)**:
+      - Bổ sung `rightMobileContent` vào `AppTopHeader` trên giao diện danh mục đề thi (`ExamPrepContent`), cho phép học viên trên thiết bị di động truy cập trực tiếp nút "Tạo AI" bên cạnh Avatar học viên, không còn bị ẩn mất như phiên bản cũ.
+    - **Đồng Bộ Avatar Học Viên Vào Thanh Đỉnh Phòng Thi (`ExamWorkspaceTopBar.tsx`)**:
+      - Tích hợp `UserAvatar` vào góc phải thanh đỉnh phòng thi làm bài, liên kết trực tiếp tới `/profile`, đảm bảo tính nhất quán 100% với các Studio phòng học (`Dictation`, `Shadowing`, `Reading`).
+      - Căn chỉnh giới hạn độ dài tiêu đề bài thi trên các màn hình nhỏ hẹp (`max-w-[120px] xs:max-w-[180px] sm:max-w-xs`), ngăn ngừa tuyệt đối hiện tượng tràn hàng hay vỡ bố cục khi có đồng hồ đếm ngược và nút nộp bài.
+    - **Chuẩn Hóa Khung Xương Shimmer Triệt Tiêu 0px CLS (`ExamPrepSkeleton.tsx`)**:
+      - Loại bỏ triệt để các chip gamification streak và coin trên `ExamHubSkeleton` để khớp hoàn hảo 1:1 với trạng thái `showGamificationStats={false}` của trang thật, triệt tiêu 100% hiện tượng xô lệch bố cục khi nạp trang.
+      - Bổ sung Shimmer `UserAvatar` cho cả `ExamHubSkeleton` và `ExamWorkspaceSkeleton`.
+    - **Nâng Cấp Công Thái Học Thanh Điều Hướng Đáy & Ô Tìm Kiếm (`ExamMobileThumbBar.tsx` & `ExamFilterToolbar.tsx`)**:
+      - Bổ sung đệm an toàn `env(safe-area-inset-bottom)` cho thanh điều hướng ngón tay cái `ExamMobileThumbBar`, bảo đảm các nút chuyển câu, gắn cờ và mở phiếu trả lời không bị che lấp bởi thanh gạt điều hướng của iOS/Android.
+      - Tinh gọn placeholder tìm kiếm thành `"Tìm đề thi: TOEIC, IELTS, ETS..."` hiển thị sắc nét, vừa vặn không bị cắt cụt trên mọi kích thước màn hình.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

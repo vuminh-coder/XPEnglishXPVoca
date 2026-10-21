@@ -421,14 +421,36 @@ function ExamPrepContent() {
                 {configMode === "AI_GEN" ? (
                   <>
                     <X className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Đóng Tạo Đề</span>
-                    <span className="sm:hidden">Đóng</span>
+                    <span>Đóng Tạo Đề</span>
                   </>
                 ) : (
                   <>
                     <Wand2 className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Tạo Đề Mới AI</span>
-                    <span className="sm:hidden">Tạo AI</span>
+                    <span>Tạo Đề Mới AI</span>
+                  </>
+                )}
+              </button>
+            }
+            rightMobileContent={
+              <button
+                type="button"
+                onClick={() => setConfigMode(configMode === "AI_GEN" ? "PRESET" : "AI_GEN")}
+                className={`h-8 px-2.5 rounded-xl text-xs font-bold shadow-xs flex items-center gap-1 cursor-pointer active:scale-95 transition-all shrink-0 ${
+                  configMode === "AI_GEN"
+                    ? "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                    : "bg-[#0059bb] text-white"
+                }`}
+                title={configMode === "AI_GEN" ? "Đóng studio tạo đề AI" : "Mở studio biên soạn đề AI"}
+              >
+                {configMode === "AI_GEN" ? (
+                  <>
+                    <X className="w-3.5 h-3.5" />
+                    <span>Đóng</span>
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="w-3.5 h-3.5" />
+                    <span>Tạo AI</span>
                   </>
                 )}
               </button>

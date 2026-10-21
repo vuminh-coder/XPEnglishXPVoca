@@ -35,15 +35,10 @@ export function ExamHubSkeleton() {
           </div>
         </div>
 
-        {/* Right: CTA Tạo Đề Mới AI + Gamification Chips + User Profile Menu */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <ShimmerBox className="h-9 w-28 sm:w-32 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/20 hidden sm:block" />
-          {/* Gamification Chips: Streak + Coins */}
-          <div className="flex items-center gap-1.5 shrink-0">
-            <ShimmerBox className="h-8 sm:h-9 w-12 sm:w-14 rounded-xl bg-orange-400/15 border border-orange-200/50" />
-            <ShimmerBox className="h-8 sm:h-9 w-12 sm:w-14 rounded-xl bg-amber-400/15 border border-amber-200/50 hidden xs:block" />
-          </div>
-          <ShimmerCircle className="w-8 h-8 shrink-0" />
+        {/* Right: CTA Tạo Đề Mới AI + User Profile Menu */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <ShimmerBox className="h-8.5 sm:h-9 w-20 sm:w-32 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/20" />
+          <ShimmerCircle className="w-7 h-7 sm:w-8 sm:h-8 shrink-0" />
         </div>
       </header>
 
@@ -397,11 +392,12 @@ export function ExamWorkspaceSkeleton({
           </div>
         </div>
 
-        {/* Right: Toggle Phiếu + Đồng hồ đếm ngược + Nộp bài */}
+        {/* Right: Toggle Phiếu + Đồng hồ đếm ngược + Nộp bài + Avatar */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           <ShimmerBox className="h-8 w-24 rounded-xl hidden sm:block" />
           <ShimmerBox className="h-8 w-24 sm:w-28 rounded-xl bg-slate-100 dark:bg-slate-800" />
-          <ShimmerBox className="h-8 sm:h-9 w-22 sm:w-26 rounded-xl bg-[#0059bb]/40" />
+          <ShimmerBox className="h-8 sm:h-9 w-20 sm:w-26 rounded-xl bg-[#0059bb]/40" />
+          <ShimmerCircle className="w-7 h-7 sm:w-8 sm:h-8 shrink-0 ml-0.5" />
         </div>
       </header>
 
