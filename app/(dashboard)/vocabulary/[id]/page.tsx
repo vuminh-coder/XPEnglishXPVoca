@@ -386,6 +386,8 @@ export default function ThemeDetailPage({
 
       {/* 0. BRAND TOP HEADER (Unified 56px Baseline with Theme Title + Mode Switcher Pills) */}
       <AppTopHeader
+        showGamificationStats={false}
+        hideMobileSearch={true}
         onBack={() => router.push("/vocabulary")}
         rightDesktopContent={
           <button

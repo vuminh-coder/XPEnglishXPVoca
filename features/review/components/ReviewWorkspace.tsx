@@ -407,6 +407,8 @@ export default function ReviewPage() {
       
       {/* ─── 0. UNIVERSAL APP TOP HEADER (56px Baseline) ─── */}
       <AppTopHeader
+        showGamificationStats={false}
+        hideMobileSearch={true}
         rightDesktopContent={
           <div className="flex items-center gap-2">
             <Link

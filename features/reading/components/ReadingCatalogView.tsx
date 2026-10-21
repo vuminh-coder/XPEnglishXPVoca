@@ -313,6 +313,8 @@ export function ReadingCatalogView() {
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-20">
       {/* 1. TOP HEADER WITH NAV TABS & SEARCH */}
       <AppTopHeader
+        showGamificationStats={false}
+        hideMobileSearch={true}
         searchProps={{
           value: listingSearch,
           onChange: setListingSearch,

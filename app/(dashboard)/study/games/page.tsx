@@ -161,7 +161,8 @@ export default function GamesPage() {
       {/* 1. Universal Top Navigation & Action Header (Dashboard Standard - Max 4 Tabs) */}
       <AppTopHeader
         onBack={activeGame ? () => setActiveGame(null) : undefined}
-        showGamificationStats={true}
+        showGamificationStats={false}
+        hideMobileSearch={true}
         rightDesktopContent={
           activeGame ? (
             <div className="flex items-center gap-2">

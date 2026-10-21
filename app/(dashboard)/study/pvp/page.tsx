@@ -69,7 +69,7 @@ export default function PvpQuizArenaPage() {
   return (
     <PageEntranceWrapper className="min-h-screen bg-slate-50 dark:bg-[#070709] text-slate-900 dark:text-slate-100 pb-16">
       {/* App Top Header with Semantic Header Pills */}
-      <AppTopHeader>
+      <AppTopHeader showGamificationStats={false} hideMobileSearch={true}>
         <HeaderPillContainer>
           <HeaderPillItem href="/dashboard" icon={<Home className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />} label="Trang chủ" />
           <HeaderPillItem href="/study/games" icon={<Gamepad2 className="w-3.5 h-3.5 text-[#0059bb]" />} label="Mini Games" hideOnSmall />

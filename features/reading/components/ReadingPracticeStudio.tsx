@@ -29,9 +29,11 @@ import {
   Lightbulb,
   Layers,
 } from "lucide-react";
+import Link from "next/link";
 import { useUserStore } from "@/stores/userStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { useUiStore } from "@/stores/uiStore";
+import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
 import { lookupWordDeep, DeepWordDefinition } from "@/features/vocabulary/data/deepDictionary";
 import {
@@ -115,6 +117,8 @@ export function ReadingPracticeStudio({
   const router = useRouter();
   const { addToast } = useNotificationStore();
   const { awardXp } = useUserStore();
+  const user = useUserStore((s) => s.user);
+  const userName = user?.fullName || user?.username || "Học viên XP Voca";
 
   // Full-width Studio Mode: collapse sidebar & hide bottom nav
   useEffect(() => {
@@ -541,9 +545,8 @@ export function ReadingPracticeStudio({
 
         {/* Right: Timer, Font Sizer & Bilingual Switcher */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          {/* Practice Timer */}
-          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-mono font-bold text-xs border border-slate-200/80 dark:border-slate-700/60 shadow-2xs">
-            <Clock className="w-3.5 h-3.5 text-slate-400 stroke-[2.2]" />
+          {/* Practice Timer (Hidden from top header to remove time pressure) */}
+          <div className="hidden" aria-hidden="true">
             <span suppressHydrationWarning>{formatElapsed(elapsedSeconds)}</span>
           </div>
 
@@ -629,6 +632,23 @@ export function ReadingPracticeStudio({
             )}
             <span className="hidden sm:inline">{showBilingual ? "Gốc" : "Song ngữ"}</span>
           </button>
+
+          {/* User Profile Avatar Link */}
+          <Link
+            href="/profile"
+            className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full hover:ring-2 hover:ring-[#0059bb]/30 transition-all cursor-pointer active:scale-95 shrink-0"
+            title="Hồ sơ cá nhân"
+          >
+            <UserAvatar
+              avatarUrl={user?.avatarUrl || user?.imageUrl || (user as any)?.avatar}
+              imageUrl={user?.imageUrl}
+              avatar={(user as any)?.avatar}
+              emoji={user?.avatarEmoji}
+              name={userName}
+              size="w-7 h-7 sm:w-8 sm:h-8"
+              className="ring-1.5 ring-slate-200/90 dark:ring-slate-700 shadow-2xs"
+            />
+          </Link>
         </div>
       </header>
 

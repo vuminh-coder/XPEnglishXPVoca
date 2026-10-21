@@ -626,7 +626,8 @@ export default function MyVideoPage() {
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
       {/* 0. UNIVERSAL 56PX (h-14) TOP ACTION & NAVIGATION HEADER BAR */}
       <AppTopHeader
-        hideThemeAndAvatarOnDesktop={true}
+        showGamificationStats={false}
+        hideMobileSearch={true}
         rightDesktopContent={
           <VideoTopHeaderActions
             onOpenShortcuts={() => setShowShortcutsModal(true)}

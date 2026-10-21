@@ -6665,6 +6665,21 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - Đồng bộ hoàn hảo thanh đỉnh khung xương với thanh tìm kiếm desktop, nút hành động và Shimmer UserAvatar.
       - Loại bỏ khung xương con nhộng đồng hồ cũ, tái cấu trúc shimmer công tắc `MediaDisplayModeToggle` dạng 2-pill đàn hồi, đảm bảo quá trình nạp trang không có bất kỳ hiện tượng xô lệch bố cục nào (Zero CLS).
 
+14. **Chuẩn Hóa Đồng Bộ Toàn Hệ Thống AppTopHeader & Khử Khối Thời Gian Gây Áp Lực (`/study/reading`, `/ai`, `/myvideo`, `/vocabulary`, `/review`, `/study/games`, `/study/rooms`, `/study/pvp`)**:
+    - **Phân Hệ Đọc Hiểu (Reading Comprehension Suite: `/study/reading` & `/study/reading/[id]`)**:
+      - Tinh gọn Header danh mục (`ReadingCatalogView.tsx`): Thêm `showGamificationStats={false}` và `hideMobileSearch={true}` để triệt tiêu các chip gamification và nút tìm kiếm di động thừa.
+      - Nâng cấp Studio đọc hiểu (`ReadingPracticeStudio.tsx`): Ẩn hoàn toàn khối đồng hồ thời gian đếm giây gây áp lực trên thanh đỉnh, tích hợp Avatar học viên (`UserAvatar` dạng tròn liên kết tới `/profile`), bảo toàn đếm giờ ngầm cho báo cáo kết quả.
+      - Cập nhật khung xương Shimmer (`LoadingSkeletons.tsx`): Đồng bộ loại bỏ chip gamification trên `ReadingListingSkeleton` và thêm Shimmer UserAvatar trên `ReadingStudioSkeleton` (0px CLS).
+    - **Phân Hệ AI Trò Chuyện & Gia Sư AI (`/ai/tutor` & `/ai/conversation`)**:
+      - Khử hoàn toàn khối đồng hồ đếm thời gian trên thanh đỉnh `AppTopHeader` và thanh tiêu đề di động (`AiTutorWorkspace.tsx` & `ai/conversation/page.tsx`), duy trì tính toán ngầm thời lượng học phục vụ đồng bộ CSDL và thẻ ôn tập SM-2.
+      - Bổ sung `showGamificationStats={false}` và `hideMobileSearch={true}` để tập trung tối đa vào luồng hội thoại với AI.
+    - **Khắc Phục Lỗi Ẩn Avatar Học Viên Trên Trang Video Của Tôi (`/myvideo`)**:
+      - Xóa bỏ cờ `hideThemeAndAvatarOnDesktop={true}` tại `app/(dashboard)/myvideo/page.tsx`, giúp Avatar học viên hiển thị rõ nét trên màn hình máy tính desktop, đồng thời thiết lập `showGamificationStats={false}` và `hideMobileSearch={true}`.
+    - **Chuẩn Hóa Từ Vựng, Lịch Ôn Tập, Trò Chơi & Đấu Trường (`/vocabulary`, `/review`, `/study/games`, `/study/rooms`, `/study/pvp`)**:
+      - Trang Chủ Đề Từ Vựng (`VocabularyThemesClientList.tsx` & `vocabulary/[id]/page.tsx`): Làm sạch placeholder tìm kiếm, thay thế dấu ngoặc đơn bằng dấu chấm bullet tinh tế, bổ sung `showGamificationStats={false}` và `hideMobileSearch={true}`.
+      - Trang Sổ Từ & Lịch Ôn Tập (`myvocab/page.tsx` & `ReviewWorkspace.tsx`): Áp dụng chuẩn header tối giản `showGamificationStats={false}` và `hideMobileSearch={true}`.
+      - Trang Mini Games, Phòng Học Nhóm & Đấu Trường 1v1 (`games/page.tsx`, `rooms/page.tsx`, `pvp/page.tsx`): Chuẩn hóa thanh điều hướng `AppTopHeader`, đồng bộ cờ hiển thị tránh tràn hàng trên mọi độ phân giải.
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

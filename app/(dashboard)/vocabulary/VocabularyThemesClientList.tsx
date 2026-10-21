@@ -136,13 +136,15 @@ export default function VocabularyThemesClientList({
     <PageEntranceWrapper className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans">
       {/* 0. BRAND TOP HEADER (Unified 56px Baseline with Pill Actions) */}
       <AppTopHeader
+        showGamificationStats={false}
+        hideMobileSearch={true}
         searchProps={{
           value: search,
           onChange: setSearch,
           placeholder:
             levelMode === "basic"
-              ? "Tìm 60 chủ đề cơ bản (IT, gia đình, đồ ăn...)"
-              : "Tìm 155 chủ đề nâng cao (AI, tài chính, y tế...)",
+              ? "Tìm 60 chủ đề cơ bản • IT, gia đình, đồ ăn..."
+              : "Tìm 155 chủ đề nâng cao • AI, tài chính, y tế...",
           onClear: () => setSearch(""),
           hideDesktopInput: true,
         }}

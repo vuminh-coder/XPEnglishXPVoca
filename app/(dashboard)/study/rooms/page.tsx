@@ -357,6 +357,8 @@ export default function StudyRoomsPage() {
     <div className="space-y-6 pb-20 font-sans antialiased text-slate-800 dark:text-slate-200" suppressHydrationWarning>
       {/* ─── APP TOP HEADER (56px Baseline) ─── */}
       <AppTopHeader
+        showGamificationStats={false}
+        hideMobileSearch={true}
         rightDesktopContent={
           <HeaderPillContainer>
             <HeaderPillItem

@@ -211,6 +211,8 @@ export default function MyVocabularyPage() {
     >
       {/* ─── APP TOP HEADER (56px Baseline with VocabSuiteNavTabs) ─── */}
       <AppTopHeader
+        showGamificationStats={false}
+        hideMobileSearch={true}
         rightDesktopContent={
           <Link
             href="/study/practice"

@@ -52,13 +52,9 @@ export function ReadingListingSkeleton() {
           </div>
         </div>
 
-        {/* Right: Search Input + Gamification Chips + Avatar */}
+        {/* Right: Search Input + Avatar */}
         <div className="flex items-center gap-2.5 shrink-0">
           <div className="h-9 w-44 xs:w-56 sm:w-72 rounded-xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80" />
-          <div className="flex items-center gap-1.5 shrink-0">
-            <div className="h-8.5 w-12 rounded-xl bg-orange-400/15 border border-orange-200/50" />
-            <div className="h-8.5 w-12 rounded-xl bg-amber-400/15 border border-amber-200/50 hidden xs:block" />
-          </div>
           <div className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
         </div>
       </div>
@@ -154,10 +150,11 @@ export function ReadingStudioSkeleton() {
           <div className="h-5 w-12 rounded-md bg-emerald-500/20 shrink-0" />
           <div className="h-4 w-40 sm:w-64 rounded-md bg-slate-200 dark:bg-slate-800 truncate" />
         </div>
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           <div className="h-8 w-20 rounded-lg bg-slate-100 dark:bg-slate-800" />
-          <div className="hidden sm:flex h-8 w-24 rounded-lg bg-slate-100 dark:bg-slate-800" />
-          <div className="h-8 w-28 rounded-lg bg-slate-100 dark:bg-slate-800" />
+          <div className="hidden xs:flex h-8 w-20 rounded-lg bg-slate-100 dark:bg-slate-800" />
+          <div className="h-8 w-20 rounded-lg bg-slate-100 dark:bg-slate-800" />
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full ring-1.5 ring-slate-200/90 dark:ring-slate-700 bg-slate-200 dark:bg-slate-800 shrink-0" />
         </div>
       </div>
 

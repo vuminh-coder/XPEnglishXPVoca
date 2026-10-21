@@ -778,6 +778,8 @@ export default function AiConversationPage() {
     >
       {/* 1. APP TOP HEADER (FIXED 56PX) */}
       <AppTopHeader
+        showGamificationStats={false}
+        hideMobileSearch={true}
         rightDesktopContent={
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
             {/* Lịch Sử Buổi Học Button */}
@@ -791,11 +793,8 @@ export default function AiConversationPage() {
               <span className="hidden sm:inline">Lịch sử</span>
             </button>
 
-            <span
-              suppressHydrationWarning
-              className="px-3 py-1.5 rounded-xl bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs"
-            >
-              <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+            {/* Time badge hidden to eliminate time pressure per user ergonomics standard */}
+            <span className="hidden" aria-hidden="true">
               <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
             </span>
 
@@ -897,12 +896,8 @@ export default function AiConversationPage() {
                   }
                   headerRightMobileContent={
                     <>
-                      {/* Timer capsule */}
-                      <span
-                        suppressHydrationWarning
-                        className="h-7 px-1.5 xs:px-2 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/25 text-xs font-bold font-mono tabular-nums flex items-center gap-1 shrink-0"
-                      >
-                        <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                      {/* Timer capsule (Hidden to remove time pressure) */}
+                      <span className="hidden" aria-hidden="true">
                         <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
                       </span>
 
