@@ -80,7 +80,13 @@ export function ShadowingListingView({
   const [isSwitchingCategory, setIsSwitchingCategory] = useState(false);
   const [mainHubMode, setMainHubMode] = useState<"standard" | "video_catalog">("standard");
 
-  const effectiveHubMode = activeHubMode || (mainHubMode === "video_catalog" ? "video" : "audio");
+  const effectiveHubMode =
+    activeHubMode ||
+    (basePath?.includes("/video")
+      ? "video"
+      : mainHubMode === "video_catalog"
+      ? "video"
+      : "audio");
 
   const handleSelectCategoryTab = (tabId: ShadowingCategoryTab) => {
     if (tabId === activeCategoryTab) return;

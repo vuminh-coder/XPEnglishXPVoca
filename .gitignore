@@ -12,6 +12,10 @@
 
 # testing
 /coverage
+/*.png
+/*.mp3
+/cast_away_*
+/scratch/
 
 # next.js
 /.next/

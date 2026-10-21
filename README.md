@@ -6648,6 +6648,23 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
       - Khử dấu ngoặc đơn ở thanh công cụ câu học (`StudioSentenceToolbar.tsx`): Chuyển `"Ghép câu kế tiếp (+1)"` thành `"Ghép câu kế tiếp • +1"`.
       - Đồng bộ ẩn khối timer badge và chuẩn hóa tooltip `(+40 XP)` -> `• +40 XP` trên cả Dictation Studio (`ListeningStudioWorkspace.tsx`).
 
+13. **Đồng Bộ Chuyên Sâu Thanh Đỉnh (Top Header Parity) & Khung Xương 0px CLS Giữa Toàn Bộ Hệ Thống Dictation & Shadowing (`/study/dictation` & `/study/shadowing`)**:
+    - **Chuẩn Hóa Đồng Bộ Tuyệt Đối Thanh Đỉnh Hub (4 URLs)**:
+      - Áp dụng chuẩn header tinh gọn trên cả 4 màn hình: `/study/dictation/audio`, `/study/dictation/video`, `/study/shadowing/audio`, và `/study/shadowing/video`.
+      - Tắt hoàn toàn các khối thống kê gây phân tâm (`showGamificationStats={false}`) và ẩn nút tìm kiếm di động trùng lặp (`hideMobileSearch={true}`).
+      - Tự động nhận diện ngữ cảnh đường dẫn (`effectiveHubMode`): hiển thị placeholder tìm kiếm thông minh ("Tìm video YouTube..." khi ở chế độ video vs "Tìm kiếm bài nghe..." / "Tìm kiếm bài nói..." khi ở chế độ audio) và liên kết thời gian thực với kho video YouTube qua `useVideoCatalogStore`.
+    - **Đồng Bộ Thanh Đỉnh Studio Workspace & Đánh Dấu Câu Học (Bookmark Parity)**:
+      - Truyền đồng bộ `isBookmarked` và `onToggleBookmark` vào `StudioTopHeader` trên cả hai phân hệ `ListeningStudioWorkspace` (Dictation) và `ShadowingStudioWorkspace` (Shadowing), kích hoạt nút ngôi sao yêu thích trên mọi thiết bị màn hình từ mobile đến desktop.
+      - Duy trì Avatar học viên (`UserAvatar`) trực quan dẫn đến `/profile`, nút đóng bài học quay về danh mục chuẩn xác theo ngữ cảnh audio/video, và công tắc chuyển đổi định dạng `MediaDisplayModeToggle` phản hồi nhanh.
+    - **Tối Ưu Thẻ Video Cho Phân Hệ Shadowing (`VideoCatalogBrowseView.tsx`)**:
+      - Bổ sung thuộc tính `practiceMode` cho các hàng cuộn ngang `HorizontalVideoTopicRow` và từng thẻ `VideoCardItem`.
+      - Khi học viên duyệt video trong phân hệ Shadowing (`practiceMode === "shadowing"`), thẻ video tự động hiển thị nút hành động Primary chuyên biệt: `[Mic] Luyện Nhại Âm [Play]`, điều hướng trực tiếp vào phòng thu nhại giọng `/study/shadowing/video?id=...`, triệt tiêu hoàn toàn các liên kết trắc nghiệm nghe hiểu không phù hợp.
+    - **Hệ Thống Khung Xương Shimmer Song Sinh Khử 0px CLS (`LoadingSkeletons.tsx`)**:
+      - Khắc phục lỗi khai báo trùng lặp định danh `ShadowingAudioListingSkeleton` và `ShadowingAudioStudioSkeleton`.
+      - Cập nhật nhãn tab khung xương chuẩn xác: "Nhại Âm Tiêu Chuẩn" và "Nhại Âm Video".
+      - Đồng bộ hoàn hảo thanh đỉnh khung xương với thanh tìm kiếm desktop, nút hành động và Shimmer UserAvatar.
+      - Loại bỏ khung xương con nhộng đồng hồ cũ, tái cấu trúc shimmer công tắc `MediaDisplayModeToggle` dạng 2-pill đàn hồi, đảm bảo quá trình nạp trang không có bất kỳ hiện tượng xô lệch bố cục nào (Zero CLS).
+
 ---
 
 ### 🛡️ Cơ Chế Tự Phục Hồi & Tối Ưu Tải Gói Giao Diện Gốc (Root Layout Resilience & Chunk Load Protection)

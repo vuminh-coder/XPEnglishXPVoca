@@ -80,11 +80,11 @@ export function ShadowingListingSkeleton() {
           <div className="flex items-center gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
             <div className="px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold flex items-center gap-2 bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs">
               <div className="w-4 h-4 rounded-full bg-[#0059bb]/20 dark:bg-sky-400/20" />
-              <span>Bài Nghe Tiêu Chuẩn</span>
+              <span>Nhại Âm Tiêu Chuẩn</span>
             </div>
             <div className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-400">
               <div className="w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-700" />
-              <span>Kho Video Tuyển Chọn</span>
+              <span>Nhại Âm Video</span>
             </div>
           </div>
           <div className="flex items-center gap-1.5">
@@ -283,14 +283,14 @@ export function ShadowingStudioSkeleton() {
           </div>
         </div>
 
-        {/* Right: Clock Timer Pill & 3 Studio Toolbar Icons */}
-        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-          <ShimmerBox className="h-7 w-20 rounded-full bg-amber-500/15 dark:bg-amber-500/20" />
+        {/* Right: Studio Toolbar Icons & User Profile Avatar */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           <div className="hidden md:flex items-center gap-0.5 text-slate-400 dark:text-slate-500 border-l border-slate-200 dark:border-slate-800 pl-2">
-            {[1, 2, 3].map((i) => (
+            {[1, 2].map((i) => (
               <ShimmerBox key={i} className="w-7 h-7 rounded-md" />
             ))}
           </div>
+          <ShimmerBox className="w-7 h-7 sm:w-8 sm:h-8 rounded-full ring-1.5 ring-slate-200/90 dark:ring-slate-700 shrink-0" />
         </div>
       </div>
 
@@ -738,23 +738,30 @@ export function ShadowingVideoListingSkeleton() {
             <ShimmerBox className="h-7 w-24 rounded-lg hidden lg:block" />
           </div>
         </div>
-        <div className="flex items-center gap-2.5 shrink-0">
-          <ShimmerBox className="h-9 w-44 xs:w-56 sm:w-72 rounded-xl" />
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Mobile search button shimmer */}
+          <ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />
+          {/* Desktop search input shimmer */}
+          <ShimmerBox className="h-9 w-44 sm:w-56 lg:w-64 xl:w-72 rounded-xl hidden lg:block" />
+          {/* Action button shimmer */}
+          <ShimmerBox className="h-9 w-24 sm:w-36 rounded-xl bg-blue-600/30 shrink-0" />
+          {/* User Avatar shimmer */}
+          <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
         </div>
       </div>
 
       {/* 2. MAIN CONTENT CANVAS SKELETON */}
       <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
-        {/* VIEW MODE PILL TOGGLE (Kho Video Tuyển Chọn is ACTIVE) */}
+        {/* VIEW MODE PILL TOGGLE (Nhại Âm Video is ACTIVE) */}
         <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-3 flex-wrap">
           <div className="flex items-center gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
             <div className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 text-slate-400">
               <div className="w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-700" />
-              <span>Bài Nghe Tiêu Chuẩn</span>
+              <span>Nhại Âm Tiêu Chuẩn</span>
             </div>
             <div className="px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold flex items-center gap-2 bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs">
               <div className="w-4 h-4 rounded-full bg-[#0059bb]/20 dark:bg-sky-400/20" />
-              <span>Kho Video Tuyển Chọn</span>
+              <span>Nhại Âm Video</span>
             </div>
           </div>
           <div className="flex items-center gap-1.5">
@@ -874,23 +881,23 @@ export function ShadowingVideoStudioSkeleton() {
           </div>
         </div>
 
-        {/* Right Zone: MediaDisplayModeToggle + Timer + Icons */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        {/* Right Zone: MediaDisplayModeToggle + Icons + User Avatar */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           {/* MediaDisplayModeToggle [Audio / Video] Shimmer */}
-          <div className="hidden sm:inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-1 shrink-0">
-            <ShimmerBox className="h-5 sm:h-6 w-12 sm:w-14 rounded-lg" />
-            <ShimmerBox className="h-5 sm:h-6 w-12 sm:w-14 rounded-lg bg-white dark:bg-slate-900 shadow-2xs" />
+          <div className="inline-flex p-0.5 sm:p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 items-center gap-1 shrink-0">
+            <ShimmerBox className="h-5 sm:h-6 w-7 sm:w-14 rounded-lg" />
+            <ShimmerBox className="h-5 sm:h-6 w-7 sm:w-14 rounded-lg bg-white dark:bg-slate-900 shadow-2xs" />
           </div>
 
-          {/* Timer capsule */}
-          <ShimmerBox className="h-7 w-20 rounded-full bg-amber-500/15 dark:bg-amber-500/20 shrink-0" />
-
-          {/* 3 Toolbar Icons */}
+          {/* 2 Toolbar Icons */}
           <div className="hidden md:flex items-center gap-0.5 text-slate-400 dark:text-slate-500 border-l border-slate-200 dark:border-slate-800 pl-2">
-            {[1, 2, 3].map((i) => (
+            {[1, 2].map((i) => (
               <ShimmerBox key={i} className="w-7 h-7 rounded-md" />
             ))}
           </div>
+
+          {/* User Profile Avatar */}
+          <ShimmerBox className="w-7 h-7 sm:w-8 sm:h-8 rounded-full ring-1.5 ring-slate-200/90 dark:ring-slate-700 shrink-0" />
         </div>
       </div>
 
@@ -1234,4 +1241,3 @@ export function ShadowingSentenceLoadingSkeleton() {
     </div>
   );
 }
-

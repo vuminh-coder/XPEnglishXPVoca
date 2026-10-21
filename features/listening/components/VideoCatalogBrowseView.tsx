@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Video,
+  Mic,
   Search,
   Sparkles,
   Play,
@@ -475,6 +476,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             categorySlug="romance-cinema"
             themeColor="rose"
             lessons={romanceLessons}
+            practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
@@ -486,6 +488,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             categorySlug="inspirational-life"
             themeColor="amber"
             lessons={inspirationalLessons}
+            practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
@@ -497,6 +500,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             categorySlug="classic-sitcoms"
             themeColor="blue"
             lessons={sitcomLessons}
+            practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
@@ -508,6 +512,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             categorySlug="animation-pixar-disney"
             themeColor="purple"
             lessons={animationLessons}
+            practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
@@ -519,17 +524,19 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             categorySlug="ted-ed"
             themeColor="emerald"
             lessons={tedLessons}
+            practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
 
           {/* ROW 6: CÔNG NGHỆ, TÀI CHÍNH & PHỎNG VẤN QUỐC TẾ */}
           <HorizontalVideoTopicRow
-            title="Công Nghệ, Tài Chính & Phỏng Vấn Quốc Tế"
+            title="Công Nghệ, Tài Chính & Phỏng Vấn Quốc TẾ"
             icon={<Briefcase className="w-5 h-5 text-[#0059bb] dark:text-sky-400 shrink-0" />}
             categorySlug="career-business"
             themeColor="blue"
             lessons={businessTechLessons}
+            practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
@@ -541,6 +548,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             categorySlug="daily-conversations"
             themeColor="emerald"
             lessons={dailyLifeLessons}
+            practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
@@ -554,6 +562,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             <VideoCardItem
               key={lesson.id}
               lesson={lesson}
+              practiceMode={practiceMode}
               onSelectVideoLesson={onSelectVideoLesson}
             />
           ))}
@@ -584,9 +593,10 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
  */
 const VideoCardItem: React.FC<{
   lesson: VideoCatalogLessonItem;
+  practiceMode?: "dictation" | "shadowing";
   onSelectVideoLesson?: (lesson: VideoCatalogLessonItem) => void;
   className?: string;
-}> = ({ lesson, onSelectVideoLesson, className = "" }) => {
+}> = ({ lesson, practiceMode = "dictation", onSelectVideoLesson, className = "" }) => {
   return (
     <motion.div
       key={lesson.id}
@@ -671,22 +681,32 @@ const VideoCardItem: React.FC<{
         </div>
 
         <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
-          <Link
-            href={`/study/dictation/video/comprehension/${lesson.id}`}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className="group/ai h-8 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-violet-700 dark:text-slate-300 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/70 dark:bg-slate-800/80 dark:hover:bg-violet-950/40 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
-            title="Làm bài trắc nghiệm đọc hiểu AI • +25 XP"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
-            <span>Đọc hiểu AI</span>
-          </Link>
+          {practiceMode === "shadowing" ? (
+            <div className="w-full h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
+              <Mic className="w-3.5 h-3.5 text-white shrink-0" />
+              <span>Luyện Nhại Âm</span>
+              <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform ml-auto" />
+            </div>
+          ) : (
+            <>
+              <Link
+                href={`/study/dictation/video/comprehension/${lesson.id}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className="group/ai h-8 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-violet-700 dark:text-slate-300 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/70 dark:bg-slate-800/80 dark:hover:bg-violet-950/40 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
+                title="Làm bài trắc nghiệm đọc hiểu AI • +25 XP"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
+                <span>Đọc hiểu AI</span>
+              </Link>
 
-          <div className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
-            <span>Học Ngay</span>
-            <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform" />
-          </div>
+              <div className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
+                <span>Học Ngay</span>
+                <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform" />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </motion.div>
@@ -699,6 +719,7 @@ interface HorizontalVideoTopicRowProps {
   categorySlug: string;
   themeColor: "rose" | "amber" | "blue" | "purple" | "emerald";
   lessons: VideoCatalogLessonItem[];
+  practiceMode?: "dictation" | "shadowing";
   onSelectVideoLesson?: (lesson: VideoCatalogLessonItem) => void;
   onViewCategory: (categorySlug: string) => void;
 }
@@ -709,6 +730,7 @@ function HorizontalVideoTopicRow({
   categorySlug,
   themeColor,
   lessons,
+  practiceMode = "dictation",
   onSelectVideoLesson,
   onViewCategory,
 }: HorizontalVideoTopicRowProps) {
@@ -821,6 +843,7 @@ function HorizontalVideoTopicRow({
             <VideoCardItem
               key={lesson.id}
               lesson={lesson}
+              practiceMode={practiceMode}
               onSelectVideoLesson={onSelectVideoLesson}
               className="w-[85vw] sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-60px)/4)] shrink-0 snap-start"
             />

@@ -298,6 +298,8 @@ function ShadowingStudioWorkspaceComponent({
         level={currentLesson?.level || "All Levels"}
         currentMode="shadowing"
         lessonQueryId={rawIdParam || selectedLessonId || "1"}
+        isBookmarked={isCurrentSentenceBookmarked}
+        onToggleBookmark={handleToggleBookmark}
         accent={currentAccent}
         onAccentChange={onAccentChange}
         showAccentSwitcher={!isVideoLesson || mediaDisplayMode === "audio"}

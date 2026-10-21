@@ -110,7 +110,13 @@ export function ListeningListingView({
   const [isSwitchingCategory, setIsSwitchingCategory] = useState(false);
   const [mainHubMode, setMainHubMode] = useState<"standard" | "video_catalog">("standard");
 
-  const effectiveHubMode = activeHubMode || (mainHubMode === "video_catalog" ? "video" : "audio");
+  const effectiveHubMode =
+    activeHubMode ||
+    (basePath?.includes("/video")
+      ? "video"
+      : mainHubMode === "video_catalog"
+      ? "video"
+      : "audio");
 
   const handleSelectCategoryTab = (tabId: ListeningCategoryTab) => {
     if (tabId === activeCategoryTab) return;
@@ -212,11 +218,26 @@ export function ListeningListingView({
     <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
       {/* 1. CONTINUOUS FULL-WIDTH TOP BAR (AppTopHeader) */}
       <AppTopHeader
+        showGamificationStats={false}
+        hideMobileSearch={true}
         searchProps={{
           value: listingSearch,
-          onChange: setListingSearch,
-          placeholder: "Tìm kiếm bài nghe...",
-          onClear: () => setListingSearch(""),
+          onChange: (val) => {
+            setListingSearch(val);
+            if (effectiveHubMode === "video") {
+              useVideoCatalogStore.getState().setFilter("searchQuery", val);
+            }
+          },
+          placeholder:
+            effectiveHubMode === "video"
+              ? "Tìm video YouTube..."
+              : "Tìm kiếm bài nghe...",
+          onClear: () => {
+            setListingSearch("");
+            if (effectiveHubMode === "video") {
+              useVideoCatalogStore.getState().setFilter("searchQuery", "");
+            }
+          },
         }}
         rightDesktopContent={
           <div className="flex items-center gap-2.5 shrink-0">
