@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Trophy, Crown, Check, Lock, Sparkles, Gift } from "lucide-react";
+import { Trophy, Crown, Check, Lock } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState } from "../../types";
 import { ZiczacNodePopover } from "./ZiczacNodePopover";
 
@@ -90,19 +90,6 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
         </button>
       </div>
 
-      {/* 4. Milestone Ribbon Caption */}
-      <div
-        onClick={handleNodeClick}
-        className="mt-3 px-3 py-1 rounded-xl bg-amber-50 dark:bg-amber-950/70 border border-amber-300/80 dark:border-amber-700/80 text-center max-w-[200px] cursor-pointer shadow-2xs"
-      >
-        <span className="text-[10px] font-bold font-mono uppercase text-amber-700 dark:text-amber-400 tracking-wider flex items-center justify-center gap-1">
-          <Sparkles className="w-2.5 h-2.5 fill-amber-500" />
-          <span>MỐC {step.stepNumber}: TEST CHẶNG</span>
-        </span>
-        <p className="text-xs font-bold font-display text-slate-800 dark:text-slate-200 line-clamp-1 leading-tight mt-0.5">
-          {step.title}
-        </p>
-      </div>
     </div>
   );
 };

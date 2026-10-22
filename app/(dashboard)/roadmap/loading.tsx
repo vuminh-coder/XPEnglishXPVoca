@@ -102,7 +102,6 @@ export default function RoadmapLoading() {
               {/* Step 5 (Milestone Checkpoint Trophy Node) */}
               <div className="flex flex-col items-center">
                 <ShimmerBox className="w-24 h-24 rounded-full bg-amber-500/30" />
-                <ShimmerBox className="mt-3 h-5 w-40 rounded-xl bg-amber-500/20" />
               </div>
             </div>
           </div>
