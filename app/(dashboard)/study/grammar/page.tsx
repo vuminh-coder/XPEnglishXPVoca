@@ -37,8 +37,6 @@ export default function GrammarCatalogPage() {
     nextRecommendedTopic,
   } = useGrammarCatalog();
 
-  const isNextInProgress = getTopicStatus(nextRecommendedTopic.id) === "in_progress";
-
   // Global Hotkey Listener: Cmd+K / Ctrl+K / '/' to trigger search in AppTopHeader, Esc to clear
   React.useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
@@ -81,15 +79,12 @@ export default function GrammarCatalogPage() {
           <Link
             href={`/study/grammar/${nextRecommendedTopic.id}`}
             className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer font-display active:scale-95 shrink-0 max-w-[280px]"
-            title={`Vào học: ${nextRecommendedTopic.name}`}
+            title={`Tiếp tục: ${nextRecommendedTopic.name}`}
           >
             <Zap className="w-3.5 h-3.5 fill-current text-amber-300 shrink-0" />
             <span className="truncate">
-              {isNextInProgress
-                ? `Tiếp tục: ${nextRecommendedTopic.name}`
-                : `Học bài: ${nextRecommendedTopic.name}`}
+              Tiếp tục: {nextRecommendedTopic.name}
             </span>
-            <span className="text-[10px] font-mono opacity-80 shrink-0">+15 XP</span>
           </Link>
         }
       >
