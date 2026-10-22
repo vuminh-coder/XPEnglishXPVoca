@@ -119,9 +119,9 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                     const xPercent = getNodeHorizontalPercent(step.stepNumber);
                     const side = getShorterWidthSide(xPercent);
 
-                    // Step 1 of each unit (step 1, 6, 11, 16) is immediately below the Unit banner,
+                    // Step 1 of each unit is immediately below the Unit banner,
                     // so its popover displays downward (placement="bottom") to avoid top clipping / banner collision
-                    const isFirstStepInUnit = (step.stepNumber - 1) % 5 === 0;
+                    const isFirstStepInUnit = unit.steps[0]?.id === step.id;
                     const placement = isFirstStepInUnit ? "bottom" : "top";
 
                     return (
@@ -160,7 +160,7 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
       <div className="mt-14 mb-8 text-center space-y-2">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 text-xs font-bold font-display shadow-2xs">
           <Trophy className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-          <span>ĐÍCH ĐẾN: HOÀN THÀNH TOÀN DIỆN 20 CHẶNG HỌC TẬP</span>
+          <span>ĐÍCH ĐẾN: HOÀN THÀNH TOÀN DIỆN {steps.length} CHẶNG HỌC TẬP</span>
           <Sparkles className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
         </div>
         <p className="text-xs text-slate-500 dark:text-slate-400 font-sans">

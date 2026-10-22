@@ -1,4 +1,12 @@
-export type TaskSkillType = "LISTENING" | "READING" | "SPEAKING" | "WRITING" | "GRAMMAR" | "VOCAB";
+export type TaskSkillType =
+  | "LISTENING"
+  | "READING"
+  | "SPEAKING"
+  | "WRITING"
+  | "GRAMMAR"
+  | "VOCAB"
+  | "DUMBBELL"
+  | "STORY";
 
 export interface RoadmapTask {
   id: string;
@@ -30,13 +38,13 @@ export type ZiczacStepState = "COMPLETED" | "CURRENT" | "LOCKED";
 
 export interface ZiczacPathStep {
   id: string;
-  stepNumber: number; // 1..20
-  unitNumber: number; // 1..4
+  stepNumber: number; // 1..N
+  unitNumber: number; // 1..N
   unitTitle: string;
   title: string;
   description: string;
   skillType: TaskSkillType | "CHECKPOINT";
-  isCheckpoint: boolean; // true for steps 5, 10, 15, 20...
+  isCheckpoint: boolean; // true for milestone checkpoint at the end of a unit
   checkpointReviewScope?: string; // e.g. "Ôn tập & Đánh giá toàn diện Chặng 1 - 4"
   practicePath: string; // Real link to website feature: /vocabulary, /study/dictation, /study/grammar...
   xpReward: number;
@@ -47,9 +55,18 @@ export interface ZiczacPathStep {
   isCompleted?: boolean;
 }
 
+export interface ZiczacGuidebookPhrase {
+  phrase: string;
+  translation: string;
+}
+
 export interface ZiczacUnitGroup {
   unitNumber: number;
   unitTitle: string;
   unitSubtitle: string;
   steps: ZiczacPathStep[];
+  colorTheme?: "blue" | "emerald" | "purple" | "amber" | "rose";
+  guidebookObjectives?: string[];
+  guidebookGrammarTip?: string;
+  guidebookKeyPhrases?: ZiczacGuidebookPhrase[];
 }

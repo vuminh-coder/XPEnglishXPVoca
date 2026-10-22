@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { BookOpen, Sparkles, X } from "lucide-react";
+import { BookOpen, Sparkles, X, Lightbulb, Languages, CheckCircle2 } from "lucide-react";
 import { ZiczacUnitGroup } from "../../types";
 
 interface ZiczacUnitHeaderProps {
@@ -11,7 +11,6 @@ interface ZiczacUnitHeaderProps {
 export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
   const [showGuidebook, setShowGuidebook] = useState(false);
 
-  // Theme colors per unit
   // Theme colors per unit with high-contrast text and luminous badges
   const getUnitTheme = (unitNum: number) => {
     switch (unitNum) {
@@ -40,13 +39,21 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
           buttonBg: "bg-white hover:bg-purple-50 text-purple-700 border-b-2 border-slate-300 shadow-sm",
         };
       case 4:
-      default:
         return {
-          bg: "bg-amber-700",
-          border: "border-b-4 border-amber-900",
+          bg: "bg-amber-600 dark:bg-amber-700",
+          border: "border-b-4 border-amber-800",
           badge: "bg-white text-amber-950 font-black",
           subtitle: "text-amber-100",
           buttonBg: "bg-white hover:bg-amber-50 text-amber-800 border-b-2 border-slate-300 shadow-sm",
+        };
+      case 5:
+      default:
+        return {
+          bg: "bg-rose-600 dark:bg-rose-700",
+          border: "border-b-4 border-rose-800",
+          badge: "bg-amber-300 text-amber-950 font-black",
+          subtitle: "text-rose-100",
+          buttonBg: "bg-white hover:bg-rose-50 text-rose-700 border-b-2 border-slate-300 shadow-sm",
         };
     }
   };
@@ -94,8 +101,8 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
       {/* Guidebook Modal / Drawer */}
       {showGuidebook && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[88vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2 text-sm font-bold font-display text-slate-900 dark:text-white">
                 <Sparkles className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
                 <span>Sổ Tay Hướng Dẫn: {unit.unitTitle}</span>
@@ -109,25 +116,73 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
               </button>
             </div>
 
-            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
               {unit.unitSubtitle}
             </p>
 
+            {/* 1. Mục tiêu năng lực */}
             <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-              <h5 className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
-                Mục tiêu cần đạt:
-              </h5>
-              <ul className="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 list-disc pl-4">
-                <li>Hoàn thành 4 chặng rèn luyện kỹ năng độc lập.</li>
-                <li>Đạt từ 70% trở lên ở Cột Mốc Tổng Hợp để mở khóa phần thưởng.</li>
-                <li>Duy trì chuỗi học tập liên tục để tăng điểm XP nhanh nhất.</li>
+              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Mục tiêu năng lực:</span>
+              </div>
+              <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1.5 list-disc pl-4 font-sans">
+                {unit.guidebookObjectives && unit.guidebookObjectives.length > 0 ? (
+                  unit.guidebookObjectives.map((obj, idx) => (
+                    <li key={`obj-${idx}`}>{obj}</li>
+                  ))
+                ) : (
+                  <>
+                    <li>Hoàn thành {unit.steps.length} chặng rèn luyện kỹ năng độc lập.</li>
+                    <li>Đạt từ 70% trở lên ở Cột Mốc Tổng Hợp để mở khóa phần thưởng.</li>
+                    <li>Duy trì chuỗi học tập liên tục để tăng điểm XP nhanh nhất.</li>
+                  </>
+                )}
               </ul>
             </div>
+
+            {/* 2. Mẹo ngữ pháp / Quy tắc cốt lõi */}
+            {unit.guidebookGrammarTip && (
+              <div className="space-y-1.5 p-3 rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-800 dark:text-amber-300 uppercase tracking-wider font-mono">
+                  <Lightbulb className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+                  <span>Bí quyết ngữ pháp & phát âm:</span>
+                </div>
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-sans">
+                  {unit.guidebookGrammarTip}
+                </p>
+              </div>
+            )}
+
+            {/* 3. Cụm từ then chốt (Key Phrases) */}
+            {unit.guidebookKeyPhrases && unit.guidebookKeyPhrases.length > 0 && (
+              <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+                  <Languages className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+                  <span>Cụm từ then chốt (Key Phrases):</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {unit.guidebookKeyPhrases.map((item, idx) => (
+                    <div
+                      key={`phrase-${idx}`}
+                      className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 text-xs space-y-0.5"
+                    >
+                      <p className="font-bold text-[#0059bb] dark:text-sky-400 font-display">
+                        {item.phrase}
+                      </p>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 font-sans">
+                        {item.translation}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <button
               type="button"
               onClick={() => setShowGuidebook(false)}
-              className="w-full h-10 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white font-bold text-xs font-display cursor-pointer"
+              className="w-full h-10 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white font-bold text-xs font-display cursor-pointer transition-colors"
             >
               ĐÃ HIỂU
             </button>

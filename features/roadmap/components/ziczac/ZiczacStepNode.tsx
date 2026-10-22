@@ -11,6 +11,7 @@ import {
   PenTool,
   Trophy,
   Star,
+  Dumbbell,
 } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState } from "../../types";
 import { ZiczacNodePopover } from "./ZiczacNodePopover";
@@ -48,8 +49,12 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   const getSkillIcon = () => {
     const iconClass = "w-7 h-7 stroke-[2.4]";
     switch (step.skillType) {
-      case "VOCAB":
+      case "DUMBBELL":
+        return <Dumbbell className={iconClass} />;
+      case "STORY":
         return <BookOpen className={iconClass} />;
+      case "VOCAB":
+        return <Star className={iconClass} />;
       case "LISTENING":
         return <Headphones className={iconClass} />;
       case "GRAMMAR":

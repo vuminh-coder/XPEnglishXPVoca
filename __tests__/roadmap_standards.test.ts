@@ -85,13 +85,13 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       expect(roadmapModule.PhaseRoadmapCard).toBeDefined();
     }, 15000);
 
-    it("7. Curated Ziczac Pathway contains 20 curated stages with a milestone checkpoint every 5 stages", async () => {
+    it("7. Curated Ziczac Pathway supports dynamic unit lengths [5, 7, 6, 6, 4] with milestones at unit ends", async () => {
       const { CURATED_ROADMAP_STEPS, getCuratedUnitGroups } = await import("@/features/roadmap");
-      expect(CURATED_ROADMAP_STEPS.length).toBe(20);
+      expect(CURATED_ROADMAP_STEPS.length).toBe(28);
 
       const checkpoints = CURATED_ROADMAP_STEPS.filter((s) => s.isCheckpoint);
-      expect(checkpoints.length).toBe(4);
-      expect(checkpoints.map((c) => c.stepNumber)).toEqual([5, 10, 15, 20]);
+      expect(checkpoints.length).toBe(5);
+      expect(checkpoints.map((c) => c.stepNumber)).toEqual([5, 12, 18, 24, 28]);
 
       checkpoints.forEach((cp) => {
         expect(cp.skillType).toBe("CHECKPOINT");
@@ -100,10 +100,20 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       });
 
       const units = getCuratedUnitGroups();
-      expect(units.length).toBe(4);
+      expect(units.length).toBe(5);
+
+      // Verify dynamic unit lengths (Duolingo variable node model: not fixed to 5)
+      expect(units.map((u) => u.steps.length)).toEqual([5, 7, 6, 6, 4]);
+
       units.forEach((unit) => {
-        expect(unit.steps.length).toBe(5);
-        expect(unit.steps[4].isCheckpoint).toBe(true);
+        // Every unit ends with a milestone checkpoint
+        const lastStep = unit.steps[unit.steps.length - 1];
+        expect(lastStep.isCheckpoint).toBe(true);
+
+        // Every unit provides complete Guidebook data
+        expect(unit.guidebookObjectives?.length).toBeGreaterThanOrEqual(3);
+        expect(unit.guidebookGrammarTip).toBeTruthy();
+        expect(unit.guidebookKeyPhrases?.length).toBeGreaterThanOrEqual(2);
       });
     });
 
