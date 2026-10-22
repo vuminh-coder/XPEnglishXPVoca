@@ -36,6 +36,12 @@ export function useYouTubePlayerSync({
   const lastSeekTimestampRef = useRef<number>(0);
   const targetSeekTimeRef = useRef<number>(-1);
 
+  // Callback ref to avoid stale closures in sync loop
+  const onSubIndexChangeRef = useRef(onSubIndexChange);
+  useEffect(() => {
+    onSubIndexChangeRef.current = onSubIndexChange;
+  });
+
   // Playback States
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoopingSentence, setIsLoopingSentence] = useState(false);
@@ -77,22 +83,23 @@ export function useYouTubePlayerSync({
       if (!activeVideo || !activeVideo.subtitles[index]) return;
       const targetSub = activeVideo.subtitles[index];
 
-      onSubIndexChange?.(index);
+      onSubIndexChangeRef.current?.(index);
       setActiveSubIndex(index);
       setActiveWordIndex(0);
 
       setCurrentTime(targetSub.startTime);
       ytPlayerTimeRef.current = targetSub.startTime;
-      ytTimeLastUpdatedRef.current = Date.now();
+      ytTimeLastUpdatedRef.current = typeof performance !== "undefined" ? performance.now() : Date.now();
       lastSeekTimestampRef.current = Date.now();
       targetSeekTimeRef.current = targetSub.startTime;
 
       sendYtCommand("seekTo", [targetSub.startTime, true]);
       sendYtCommand("playVideo");
       ytPlayerStateRef.current = 1;
+      isPlayingRef.current = true;
       setIsPlaying(true);
     },
-    [activeVideo, sendYtCommand, onSubIndexChange]
+    [activeVideo, sendYtCommand]
   );
 
   const jumpToRandomSubtitle = useCallback(() => {
@@ -107,31 +114,36 @@ export function useYouTubePlayerSync({
   }, [activeVideo, jumpToSubtitleIndex, addToast]);
 
   const togglePlayPause = useCallback(() => {
-    if (isPlaying) {
+    const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+    if (isPlayingRef.current) {
       sendYtCommand("pauseVideo");
       ytPlayerStateRef.current = 2;
+      isPlayingRef.current = false;
       setIsPlaying(false);
-      ytTimeLastUpdatedRef.current = Date.now();
+      ytTimeLastUpdatedRef.current = now;
     } else {
       sendYtCommand("playVideo");
       ytPlayerStateRef.current = 1;
+      isPlayingRef.current = true;
       setIsPlaying(true);
-      ytTimeLastUpdatedRef.current = Date.now();
+      ytTimeLastUpdatedRef.current = now;
     }
-  }, [isPlaying, sendYtCommand]);
+  }, [sendYtCommand]);
 
   const pauseVideo = useCallback(() => {
+    const now = typeof performance !== "undefined" ? performance.now() : Date.now();
     sendYtCommand("pauseVideo");
     ytPlayerStateRef.current = 2;
+    isPlayingRef.current = false;
     setIsPlaying(false);
-    ytTimeLastUpdatedRef.current = Date.now();
+    ytTimeLastUpdatedRef.current = now;
   }, [sendYtCommand]);
 
   const changePlaybackSpeed = useCallback(
     (speed: number) => {
       setPlaybackSpeed(speed);
       sendYtCommand("setPlaybackRate", [speed]);
-      ytTimeLastUpdatedRef.current = Date.now();
+      ytTimeLastUpdatedRef.current = typeof performance !== "undefined" ? performance.now() : Date.now();
       addToast({
         type: "info",
         title: `Tốc độ: ${speed}x`,
@@ -161,10 +173,11 @@ export function useYouTubePlayerSync({
     ytTimeLastUpdatedRef.current = 0;
     setActiveWordIndex(0);
     setLoadedChunkCount(1);
+    isPlayingRef.current = false;
     setIsPlaying(false);
   }, []);
 
-  // YouTube postMessage handshake & state listener
+  // YouTube postMessage handshake & state listener with Buffering auto-heal
   useEffect(() => {
     const parseYtState = (val: any): number | null => {
       if (typeof val === "number") return val;
@@ -180,14 +193,23 @@ export function useYouTubePlayerSync({
 
       try {
         const data = typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+        const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+
         const state = parseYtState(data.info) ?? parseYtState(data);
         if (state !== null) {
           ytPlayerStateRef.current = state;
-          const ytPlaying = state === 1;
-          isPlayingRef.current = ytPlaying;
-          setIsPlaying(ytPlaying);
-          if (ytPlaying) {
-            ytTimeLastUpdatedRef.current = Date.now();
+          if (state === 1) {
+            // Playing
+            isPlayingRef.current = true;
+            setIsPlaying(true);
+            ytTimeLastUpdatedRef.current = now;
+          } else if (state === 2 || state === 0) {
+            // Paused or Ended
+            isPlayingRef.current = false;
+            setIsPlaying(false);
+          } else if (state === 3) {
+            // Buffering: transient network cache, do NOT cancel isPlaying
+            ytTimeLastUpdatedRef.current = now;
           }
         }
 
@@ -195,12 +217,19 @@ export function useYouTubePlayerSync({
         if (isDelivery && data?.info) {
           if (typeof data.info.currentTime === "number") {
             const incomingTime = data.info.currentTime;
-            const now = Date.now();
-            const isRecentSeek = now - lastSeekTimestampRef.current < 800;
+            const isRecentSeek = Date.now() - lastSeekTimestampRef.current < 800;
 
             // Reject stale in-flight messages from prior playback position
             if (isRecentSeek && targetSeekTimeRef.current >= 0 && Math.abs(incomingTime - targetSeekTimeRef.current) > 2.0) {
               return;
+            }
+
+            // Auto-heal: If incoming time is advancing and player is not paused, restore isPlaying
+            if (incomingTime > 0 && incomingTime > ytPlayerTimeRef.current && ytPlayerStateRef.current !== 2) {
+              if (!isPlayingRef.current) {
+                isPlayingRef.current = true;
+                setIsPlaying(true);
+              }
             }
 
             ytPlayerTimeRef.current = incomingTime;
@@ -215,28 +244,49 @@ export function useYouTubePlayerSync({
     return () => window.removeEventListener("message", handleYTMessage);
   }, []);
 
-  // Register YouTube listener with retry
+  // Register YouTube listener with continuous keepalive heartbeat
   useEffect(() => {
     if (!iframeRef.current || !activeVideo) return;
     ytListenerRegisteredRef.current = false;
-    let attempts = 0;
-    const maxAttempts = 15;
-    const tryRegister = () => {
-      if (ytListenerRegisteredRef.current || attempts >= maxAttempts) return;
-      attempts++;
+
+    const sendListeningPing = () => {
       try {
         iframeRef.current?.contentWindow?.postMessage(
           JSON.stringify({ event: "listening", id: "yt-player" }),
           "*"
         );
+        iframeRef.current?.contentWindow?.postMessage(
+          JSON.stringify({ event: "listening" }),
+          "*"
+        );
       } catch {}
     };
-    tryRegister();
-    const retryInterval = setInterval(tryRegister, 300);
-    return () => clearInterval(retryInterval);
-  }, [activeVideo]);
 
-  // Real-time synchronization loop (optimized: side-effects outside setState updater)
+    // Initial handshake ping
+    sendListeningPing();
+    const handshakeInterval = setInterval(() => {
+      if (!ytListenerRegisteredRef.current) {
+        sendListeningPing();
+      }
+    }, 350);
+
+    // Keepalive heartbeat: if playing but silence > 2s, ping YouTube
+    const keepaliveInterval = setInterval(() => {
+      if (isPlayingRef.current && ytTimeLastUpdatedRef.current > 0) {
+        const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+        if (now - ytTimeLastUpdatedRef.current > 2000) {
+          sendListeningPing();
+        }
+      }
+    }, 1500);
+
+    return () => {
+      clearInterval(handshakeInterval);
+      clearInterval(keepaliveInterval);
+    };
+  }, [activeVideo?.id]);
+
+  // Real-time synchronization loop (optimized: continuous self-clocking without arbitrary cutoffs)
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (activeVideo && activeVideo.subtitles.length > 0) {
@@ -245,27 +295,19 @@ export function useYouTubePlayerSync({
       let prevWordIdx = -1;
 
       timer = setInterval(() => {
-        if (iframeRef.current?.contentWindow) {
-          try {
-            iframeRef.current.contentWindow.postMessage(
-              JSON.stringify({ event: "command", func: "getCurrentTime", args: [] }),
-              "*"
-            );
-          } catch {}
-        }
-
+        const now = typeof performance !== "undefined" ? performance.now() : Date.now();
         const realTime = ytPlayerTimeRef.current;
-        const timeSinceUpdate = Date.now() - ytTimeLastUpdatedRef.current;
+        const timeSinceUpdateMs = ytTimeLastUpdatedRef.current > 0 ? now - ytTimeLastUpdatedRef.current : 0;
         const currentSpeed = playbackSpeedRef.current;
 
         const isPlayingActive =
           isPlayingRef.current && ytPlayerStateRef.current !== 2 && ytPlayerStateRef.current !== 0;
 
-        // Smooth time calculation — works for 0.0s and smoothly interpolates without stuttering
+        // Smooth continuous time calculation — self-clocking dead reckoning without 4-second cutoff
         let nextTime = Math.max(0, realTime);
-        if (isPlayingActive && ytTimeLastUpdatedRef.current > 0 && timeSinceUpdate < 4000) {
-          const elapsed = (timeSinceUpdate / 1000) * currentSpeed;
-          nextTime = parseFloat((realTime + elapsed).toFixed(3));
+        if (isPlayingActive && ytTimeLastUpdatedRef.current > 0) {
+          const elapsedSec = (timeSinceUpdateMs / 1000) * currentSpeed;
+          nextTime = parseFloat((realTime + elapsedSec).toFixed(3));
         }
 
         // Loop sentence — side-effect OUTSIDE updater (BUG-03 fix)
@@ -279,7 +321,7 @@ export function useYouTubePlayerSync({
             sendYtCommand("seekTo", [loopCue.startTime, true]);
             nextTime = loopCue.startTime;
             ytPlayerTimeRef.current = loopCue.startTime;
-            ytTimeLastUpdatedRef.current = Date.now();
+            ytTimeLastUpdatedRef.current = now;
             lastSeekTimestampRef.current = Date.now();
             targetSeekTimeRef.current = loopCue.startTime;
           }
@@ -313,7 +355,7 @@ export function useYouTubePlayerSync({
           }
         }
 
-        // Gap handling & Linger Window (prevents jarring flickering between sentences)
+        // Gap handling & Linger Window (prevents jarring flickering and premature freezing between sentences)
         if (matchedIdx === -1) {
           const prevCue = lo > 0 ? subs[lo - 1] : null;
           const nextCue = lo < subs.length ? subs[lo] : null;
@@ -322,13 +364,19 @@ export function useYouTubePlayerSync({
           if (prevCue && effectiveTime - prevCue.endTime < 0.20) {
             matchedIdx = lo - 1;
             isSpeakingNow = true;
-          // 2. Anticipation Window: If next cue is within 250ms, focus next cue as ready
+          // 2. Anticipation Window: If next cue is within 250ms, roll to next cue ready for audio
           } else if (nextCue && nextCue.startTime - effectiveTime < 0.25) {
             matchedIdx = lo;
             isSpeakingNow = false;
+          // 3. Before the first cue in video intro
           } else if (subs.length > 0 && effectiveTime < subs[0].startTime) {
             matchedIdx = 0;
             isSpeakingNow = false;
+          // 4. In silence gap between prevCue and nextCue: Retain prevCue in completed reading state
+          } else if (prevCue) {
+            matchedIdx = lo - 1;
+            isSpeakingNow = false;
+          // 5. Fallback if lo within bounds
           } else if (lo < subs.length && lo >= 0) {
             matchedIdx = lo;
             isSpeakingNow = false;
@@ -344,6 +392,7 @@ export function useYouTubePlayerSync({
         const currentSubIdx = activeSubIndexRef.current;
         if (matchedIdx !== -1 && matchedIdx !== currentSubIdx) {
           setActiveSubIndex(matchedIdx);
+          onSubIndexChangeRef.current?.(matchedIdx);
         }
 
         // Word-level karaoke highlighting
@@ -367,6 +416,10 @@ export function useYouTubePlayerSync({
             const elapsed = Math.max(0, Math.min(duration, effectiveTime - targetSub.startTime));
             newWordIdx = calculateCharacterWeightedWordIndex(targetSub.textEn, elapsed, duration);
           }
+        } else if (targetSub && !isSpeakingNow && effectiveTime >= targetSub.endTime) {
+          // Finished speaking this sentence — all words are past/read
+          const wordsCount = targetSub.textEn.split(/\s+/).filter(Boolean).length;
+          newWordIdx = wordsCount;
         }
 
         if (newWordIdx !== prevWordIdx) {
@@ -382,7 +435,7 @@ export function useYouTubePlayerSync({
       }, 35);
     }
     return () => clearInterval(timer);
-  }, [activeVideo, isLoopingSentence, currentSubIndex, sendYtCommand]);
+  }, [activeVideo?.id, isLoopingSentence, currentSubIndex, sendYtCommand]);
 
   // Background Web Speech AI Transcriber
   useEffect(() => {

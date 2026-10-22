@@ -71,6 +71,12 @@ describe("MyVideo Real-Time Playback & Subtitle Synchronization Tests", () => {
       if (isRecentSeek && this.targetSeekTime >= 0 && Math.abs(time - this.targetSeekTime) > 2.0) {
         return; // Stale message rejected
       }
+
+      // Auto-heal playback state if incomingTime is advancing
+      if (time > 0 && time > this.baseTime) {
+        this.isPlaying = true;
+      }
+
       this.baseTime = time;
       this.lastUpdated = now;
     }
@@ -79,7 +85,8 @@ describe("MyVideo Real-Time Playback & Subtitle Synchronization Tests", () => {
       const timeSinceUpdate = now - this.lastUpdated;
       let nextTime = Math.max(0, this.baseTime);
 
-      if (this.isPlaying && this.lastUpdated > 0 && timeSinceUpdate < 4000) {
+      // Continuous self-clocking: Never arbitrarily stops at 4000ms
+      if (this.isPlaying && this.lastUpdated > 0) {
         const elapsed = (timeSinceUpdate / 1000) * this.playbackSpeed;
         nextTime = parseFloat((this.baseTime + elapsed).toFixed(3));
       }
@@ -122,11 +129,21 @@ describe("MyVideo Real-Time Playback & Subtitle Synchronization Tests", () => {
         const prevCue = lo > 0 ? videoSubtitles[lo - 1] : null;
         const nextCue = lo < videoSubtitles.length ? videoSubtitles[lo] : null;
 
-        if (prevCue && nextTime - prevCue.endTime < 0.15) {
+        // 1. Linger window (200ms)
+        if (prevCue && nextTime - prevCue.endTime < 0.20) {
           matchedIdx = lo - 1;
           isSpeaking = true;
-        } else if (nextCue && nextCue.startTime - nextTime < 0.08) {
+        // 2. Anticipation window (250ms before next cue)
+        } else if (nextCue && nextCue.startTime - nextTime < 0.25) {
           matchedIdx = lo;
+          isSpeaking = false;
+        // 3. Before first cue
+        } else if (videoSubtitles.length > 0 && nextTime < videoSubtitles[0].startTime) {
+          matchedIdx = 0;
+          isSpeaking = false;
+        // 4. In silence gap between cues: Retain prevCue in completed reading state
+        } else if (prevCue) {
+          matchedIdx = lo - 1;
           isSpeaking = false;
         } else if (lo < videoSubtitles.length && lo >= 0) {
           matchedIdx = lo;
@@ -263,6 +280,71 @@ describe("MyVideo Real-Time Playback & Subtitle Synchronization Tests", () => {
 
       expect(engine.currentTime).toBe(0.0); // Reset to startTime of cue 0
       expect(engine.activeSubIndex).toBe(0);
+    });
+
+    it("never freezes after 4000ms: continuous self-clocking extrapolation even if postMessages are delayed", () => {
+      const engine = new RealtimeSubtitleEngine();
+      let now = 10000;
+      engine.play(1.0, now);
+
+      // Simulate 6.0 seconds passing without any YouTube postMessage (network jitter, tab in background, etc.)
+      now += 6000;
+      engine.tick(now);
+
+      // Time MUST continue advancing (1.0 + 6.0 = 7.0s), never stuck at baseTime or clamped at 4s!
+      expect(engine.currentTime).toBeCloseTo(7.0, 1);
+      expect(engine.activeSubIndex).toBe(1); // Should be inside cue 1 (4.5 - 8.0s)
+      expect(engine.isCueSpeaking).toBe(true);
+    });
+
+    it("retains previous sentence during silence gap and smoothly rolls at 250ms anticipation window", () => {
+      const engine = new RealtimeSubtitleEngine();
+      let now = 10000;
+      engine.play(0.0, now);
+
+      // Advance to 3.8s: in gap between cue 0 (ends at 3.5s) and cue 1 (starts at 4.5s)
+      now += 3800;
+      engine.tick(now);
+      expect(engine.currentTime).toBeCloseTo(3.8, 1);
+      // During gap (past linger 3.7s, but before anticipation 4.25s), cue 0 is comfortably retained for reading
+      expect(engine.activeSubIndex).toBe(0);
+      expect(engine.isCueSpeaking).toBe(false);
+
+      // Advance to 4.3s: inside 250ms anticipation window of cue 1 (4.5 - 0.25 = 4.25s)
+      now += 500; // 3.8 + 0.5 = 4.3s
+      engine.tick(now);
+      expect(engine.currentTime).toBeCloseTo(4.3, 1);
+      // Anticipation window rolls to cue 1 to prepare reader before speech starts
+      expect(engine.activeSubIndex).toBe(1);
+      expect(engine.isCueSpeaking).toBe(false);
+
+      // Advance to 4.6s: speech starts in cue 1
+      now += 300; // 4.3 + 0.3 = 4.6s
+      engine.tick(now);
+      expect(engine.currentTime).toBeCloseTo(4.6, 1);
+      expect(engine.activeSubIndex).toBe(1);
+      expect(engine.isCueSpeaking).toBe(true);
+    });
+
+    it("auto-heals playback and continues subtitle sync after transient buffering", () => {
+      const engine = new RealtimeSubtitleEngine();
+      let now = 10000;
+      engine.play(0.0, now);
+
+      // Simulate buffering: video stalled, isPlaying temporarily paused
+      engine.pause(now);
+      expect(engine.isPlaying).toBe(false);
+
+      // YouTube resumes delivering advancing times
+      now += 500;
+      engine.handleIncomingYTTime(1.5, now);
+      engine.tick(now);
+
+      // Engine should auto-heal to playing state and advance smoothly
+      expect(engine.isPlaying).toBe(true);
+      expect(engine.currentTime).toBeCloseTo(1.5, 1);
+      expect(engine.activeSubIndex).toBe(0);
+      expect(engine.isCueSpeaking).toBe(true);
     });
   });
 });

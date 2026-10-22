@@ -61,6 +61,7 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
         <div className="p-2 bg-slate-900 dark:bg-slate-950 border-b border-slate-800">
           <div className="relative aspect-video w-full max-h-[300px] sm:max-h-[340px] lg:max-h-[380px] rounded-xl bg-black overflow-hidden group flex items-center justify-center border border-slate-800/80">
             <iframe
+              id="yt-player"
               ref={iframeRef}
               src={`https://www.youtube.com/embed/${activeVideo.id}?enablejsapi=1&controls=1&rel=0&playsinline=1${
                 startTimestamp > 0 ? `&start=${startTimestamp}` : ""

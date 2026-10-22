@@ -46,7 +46,7 @@ export function SubtitlesTabPane({
     if (subViewMode === "full" && subItemRefs.current[activeSubIndex]) {
       subItemRefs.current[activeSubIndex]?.scrollIntoView({
         behavior: "smooth",
-        block: "center",
+        block: "nearest",
       });
     }
   }, [activeSubIndex, subViewMode]);
