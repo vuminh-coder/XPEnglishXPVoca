@@ -69,23 +69,17 @@ export const LessonTaskItem: React.FC<LessonTaskItemProps> = ({
               </button>
             </Link>
           ) : (
-            /* Chưa hoàn thành: XP reward + Primary CTA Button màu xanh thương hiệu #0059bb */
-            <>
-              <span className="px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 font-mono font-bold text-xs border border-amber-200/60 dark:border-amber-800/40 tabular-nums shrink-0">
-                +{task.xpReward} XP
-              </span>
-
-              <Link href={task.practicePath} onClick={(e) => e.stopPropagation()}>
-                <button
-                  type="button"
-                  className="h-8.5 px-4 bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold rounded-xl shadow-xs shadow-[#0059bb]/20 flex items-center gap-1.5 font-display transition-all cursor-pointer active:scale-95 shrink-0"
-                  title="Bắt đầu học bài này ngay"
-                >
-                  <Play className="w-3 h-3 fill-current" />
-                  <span>Luyện Ngay</span>
-                </button>
-              </Link>
-            </>
+            /* Chưa hoàn thành: Primary CTA Button màu xanh thương hiệu #0059bb */
+            <Link href={task.practicePath} onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                className="h-8.5 px-4 bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold rounded-xl shadow-xs shadow-[#0059bb]/20 flex items-center gap-1.5 font-display transition-all cursor-pointer active:scale-95 shrink-0"
+                title="Bắt đầu học bài này ngay"
+              >
+                <Play className="w-3 h-3 fill-current" />
+                <span>Luyện Ngay</span>
+              </button>
+            </Link>
           )}
         </div>
       </div>

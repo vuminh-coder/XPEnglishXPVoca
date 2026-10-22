@@ -152,11 +152,8 @@ export default function RoadmapLoading() {
                             /* Bài đã xong: Nút Ôn lại tinh gọn */
                             <ShimmerBox className="h-8.5 w-20 rounded-xl" />
                           ) : (
-                            /* Bài chưa xong: +XP badge + Nút Luyện ngay */
-                            <>
-                              <ShimmerBox className="h-6 w-14 rounded-lg bg-amber-500/20" />
-                              <ShimmerBox className="h-8.5 w-24 rounded-xl bg-[#0059bb]/40" />
-                            </>
+                            /* Bài chưa xong: Nút Luyện ngay */
+                            <ShimmerBox className="h-8.5 w-24 rounded-xl bg-[#0059bb]/40" />
                           )}
                         </div>
                       </div>

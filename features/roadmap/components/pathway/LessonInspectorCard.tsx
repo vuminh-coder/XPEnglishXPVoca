@@ -131,7 +131,7 @@ export const LessonInspectorCard: React.FC<LessonInspectorCardProps> = ({
                   className="w-full h-9 bg-[#0059bb] hover:bg-[#004899] text-white font-bold text-xs rounded-xl shadow-xs shadow-[#0059bb]/20 flex items-center justify-center gap-2 font-display cursor-pointer active:scale-95 transition-all"
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>Bắt Đầu Luyện Tập (+{selectedTask.xpReward} XP)</span>
+                  <span>Bắt Đầu Luyện Tập</span>
                   <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
                 </button>
               </Link>
