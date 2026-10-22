@@ -6,13 +6,12 @@ import {
   BookOpen,
   Lightbulb,
   Play,
-  ArrowRight,
   Sparkles,
   Clock,
   Target,
   Bot,
+  Check,
 } from "lucide-react";
-import { Badge } from "@/shared/components/ui";
 import { useAiChatbotStore } from "@/stores/aiChatbotStore";
 import { RoadmapTask } from "../../types";
 
@@ -39,12 +38,16 @@ export const LessonInspectorCard: React.FC<LessonInspectorCardProps> = ({
             <span>Chi Tiết Bài Học</span>
           </span>
           {selectedTask && (
-            <Badge
-              variant={selectedTask.isCompleted ? "success" : "warning"}
-              className="text-[10px] font-mono font-bold"
-            >
-              {selectedTask.isCompleted ? "Đã hoàn thành" : "Chưa hoàn thành"}
-            </Badge>
+            selectedTask.isCompleted ? (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200/70 dark:border-emerald-800/60">
+                <Check className="w-3 h-3 stroke-[2.5]" />
+                <span>Đã hoàn thành</span>
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200/70 dark:border-slate-700/60">
+                <span>Chưa hoàn thành</span>
+              </span>
+            )
           )}
         </div>
 
@@ -52,8 +55,8 @@ export const LessonInspectorCard: React.FC<LessonInspectorCardProps> = ({
           <div className="space-y-3">
             {/* Title & Description */}
             <div className="space-y-1">
-              <span className="text-[11px] font-bold font-mono text-[#0059bb] dark:text-sky-400">
-                Ngày {selectedTask.dayNum}
+              <span className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 font-display">
+                Ngày <span className="font-mono">{selectedTask.dayNum}</span>
               </span>
               <h3 className="text-sm font-bold font-display text-slate-900 dark:text-white leading-snug">
                 {selectedTask.title}
@@ -65,66 +68,67 @@ export const LessonInspectorCard: React.FC<LessonInspectorCardProps> = ({
 
             {/* 3 Quick Metric Chips: Thời lượng, Độ khó, Kỹ năng */}
             <div className="grid grid-cols-3 gap-1.5 text-center">
-              <div className="p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-                <div className="text-[10px] text-slate-400 font-medium flex items-center justify-center gap-0.5">
-                  <Clock className="w-3 h-3 stroke-[2.2]" />
+              <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium flex items-center justify-center gap-1">
+                  <Clock className="w-3 h-3 stroke-[2]" />
                   <span>Thời lượng</span>
                 </div>
-                <div className="text-xs font-bold font-mono text-slate-800 dark:text-slate-200 mt-0.5">
-                  {selectedTask.durationMinutes || 15} phút
+                <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-0.5">
+                  <span className="font-mono">{selectedTask.durationMinutes || 15}</span> phút
                 </div>
               </div>
 
-              <div className="p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-                <div className="text-[10px] text-slate-400 font-medium flex items-center justify-center gap-0.5">
-                  <Target className="w-3 h-3 stroke-[2.2]" />
+              <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium flex items-center justify-center gap-1">
+                  <Target className="w-3 h-3 stroke-[2]" />
                   <span>Độ khó</span>
                 </div>
-                <div className="text-xs font-bold font-mono text-emerald-600 dark:text-emerald-400 mt-0.5">
+                <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-0.5">
                   {selectedTask.difficulty || "Vừa sức"}
                 </div>
               </div>
 
-              <div className="p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-                <div className="text-[10px] text-slate-400 font-medium flex items-center justify-center gap-0.5">
-                  <Sparkles className="w-3 h-3 stroke-[2.2]" />
+              <div className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 font-medium flex items-center justify-center gap-1">
+                  <Sparkles className="w-3 h-3 stroke-[2]" />
                   <span>Kỹ năng</span>
                 </div>
-                <div className="text-xs font-bold font-mono text-amber-600 dark:text-amber-400 mt-0.5 truncate">
-                  {selectedTask.taskType || "General"}
+                <div className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-0.5 truncate">
+                  {selectedTask.taskType || "Tổng quát"}
                 </div>
               </div>
             </div>
 
-            {/* AI Tip Callout */}
-            <div className="p-2.5 rounded-xl bg-blue-50/50 dark:bg-slate-800/50 border border-blue-100/80 dark:border-slate-700/80 space-y-1">
-              <span className="text-[10px] font-bold text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1">
-                <Lightbulb className="w-3 h-3 text-amber-500 stroke-[2.2]" />
-                <span>Mẹo ăn điểm:</span>
-              </span>
+            {/* AI Tip Callout with integrated inline AI helper */}
+            <div className="p-2.5 rounded-xl bg-amber-50/40 dark:bg-amber-950/15 border border-amber-200/60 dark:border-amber-900/30 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 font-display flex items-center gap-1.5">
+                  <Lightbulb className="w-3.5 h-3.5 text-amber-500 stroke-[2.2]" />
+                  <span>Mẹo làm bài ăn điểm</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    useAiChatbotStore
+                      .getState()
+                      .openWithQuestion(
+                        `Phân tích bẫy đề thi và hướng dẫn mẹo làm bài chi tiết cho: ${selectedTask.title}`
+                      );
+                  }}
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-semibold text-purple-700 dark:text-purple-300 bg-purple-100/70 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/60 border border-purple-200/70 dark:border-purple-800/60 transition-all cursor-pointer font-display active:scale-95 shadow-2xs"
+                  title="Hỏi Gemini AI về mẹo làm bài này"
+                >
+                  <Bot className="w-3 h-3 text-purple-600 dark:text-purple-400 stroke-[2.2]" />
+                  <span>Hỏi AI</span>
+                </button>
+              </div>
               <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
                 {selectedTask.tips[0] || "Chú ý nghe kỹ từ khóa và loại bỏ các đáp án gây nhiễu."}
               </p>
             </div>
 
-            {/* AI Mentor Quick Consultation Helper */}
-            <button
-              type="button"
-              onClick={() => {
-                useAiChatbotStore
-                  .getState()
-                  .openWithQuestion(
-                    `Phân tích bẫy đề thi và hướng dẫn mẹo làm bài chi tiết cho: ${selectedTask.title}`
-                  );
-              }}
-              className="w-full py-1.5 px-2.5 rounded-xl text-[11px] font-semibold text-purple-700 dark:text-purple-300 bg-purple-50 hover:bg-purple-100/80 dark:bg-purple-950/40 dark:hover:bg-purple-900/50 border border-purple-200/60 dark:border-purple-800/40 flex items-center justify-center gap-1.5 transition-all cursor-pointer font-display active:scale-95"
-            >
-              <Bot className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 stroke-[2.2]" />
-              <span>Hỏi Gemini AI về bẫy đề bài này</span>
-            </button>
-
             {/* Action CTA Button */}
-            <div className="pt-1">
+            <div className="pt-0.5">
               <Link href={selectedTask.practicePath} className="w-full block">
                 <button
                   type="button"
@@ -132,7 +136,6 @@ export const LessonInspectorCard: React.FC<LessonInspectorCardProps> = ({
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
                   <span>Bắt Đầu Luyện Tập</span>
-                  <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
                 </button>
               </Link>
             </div>

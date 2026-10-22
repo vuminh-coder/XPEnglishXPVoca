@@ -173,7 +173,7 @@ export default function RoadmapLoading() {
                   <ShimmerBox className="w-4 h-4 rounded-md text-[#0059bb]" />
                   <ShimmerBox className="h-4 w-28 rounded-md" />
                 </div>
-                <ShimmerBox className="h-4 w-24 rounded-full bg-amber-500/20" />
+                <ShimmerBox className="h-4 w-20 rounded-full bg-slate-200/80 dark:bg-slate-700/80" />
               </div>
 
               {/* Title & Description */}
@@ -189,28 +189,28 @@ export default function RoadmapLoading() {
                 {[1, 2, 3].map((chip) => (
                   <div
                     key={chip}
-                    className="p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-1"
+                    className="p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-1"
                   >
                     <ShimmerBox className="h-2.5 w-12 mx-auto rounded" />
-                    <ShimmerBox className="h-3.5 w-8 mx-auto rounded font-mono" />
+                    <ShimmerBox className="h-3.5 w-10 mx-auto rounded" />
                   </div>
                 ))}
               </div>
 
-              {/* Compact AI Tip Callout */}
-              <div className="p-2.5 rounded-xl bg-blue-50/50 dark:bg-slate-800/50 border border-blue-100/80 dark:border-slate-700/80 space-y-1">
-                <div className="flex items-center gap-1">
-                  <ShimmerBox className="w-3 h-3 rounded-full bg-amber-500/30" />
-                  <ShimmerBox className="h-3 w-20 rounded-md" />
+              {/* AI Tip Callout with inline AI Helper shimmer */}
+              <div className="p-2.5 rounded-xl bg-amber-50/30 dark:bg-amber-950/15 border border-amber-200/50 dark:border-amber-900/30 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <ShimmerBox className="w-3.5 h-3.5 rounded-full bg-amber-500/30" />
+                    <ShimmerBox className="h-3 w-24 rounded-md" />
+                  </div>
+                  <ShimmerBox className="h-5 w-14 rounded-lg bg-purple-500/20" />
                 </div>
                 <ShimmerBox className="h-3 w-full rounded-md" />
               </div>
 
-              {/* AI Quick Consultation Helper Button */}
-              <ShimmerBox className="w-full h-7 rounded-xl bg-purple-500/15" />
-
               {/* Action CTA Button */}
-              <div className="pt-1">
+              <div className="pt-0.5">
                 <ShimmerBox className="w-full h-9 rounded-xl bg-[#0059bb]/40" />
               </div>
             </div>

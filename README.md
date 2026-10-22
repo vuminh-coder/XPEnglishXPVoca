@@ -625,7 +625,7 @@ Hệ thống được tối ưu hóa toàn diện theo chuẩn doanh nghiệp nh
         - `/premium`: Bảng so sánh 3 gói hội viên XP Pro (1 Tháng, 1 Năm, Trọn đời).
         - `/profile`: Hồ sơ học viên, cấp độ LV.1 Newbie, phân tích 5 kỹ năng và kho huy hiệu.
         - `/analytics`: Biểu đồ phân tích học tập chuyên sâu và thống kê thời lượng.
-        - `/roadmap`: Lộ trình học tập cá nhân hóa do AI đề xuất.
+        - `/roadmap`: Lộ trình học tập cá nhân hóa đa chặng (AI Pathway Hub). Tích hợp cấu trúc lưới Bento 8/12 + 4/12: Cột lộ trình chặng với bộ chuyển đổi `< Chặng X/Y >` trực tiếp trong thẻ, các mốc học tập Timeline liên kết với trạng thái hoàn thành mượt mà, và cột đồng hành cố định `LessonInspectorCard` chuẩn hóa thẻ chỉ số thời lượng/độ khó/kỹ năng bảng màu trung tính thanh lịch, nhãn trạng thái nhẹ nhàng (`Chưa hoàn thành` / `Đã hoàn thành`), khối mẹo làm bài ăn điểm tích hợp nút kích hoạt trợ lý Gemini AI tinh gọn (`Hỏi AI`), cùng nút CTA chính duy nhất `Bắt Đầu Luyện Tập`. Đồng bộ 1:1 cùng skeleton loader tại `app/(dashboard)/roadmap/loading.tsx` đảm bảo 0px CLS.
         - `/study/rooms`: Sảnh phòng tự học nhóm cộng đồng trực tuyến.
       - **Đợt 4 (Trang Chủ, Xác Thực, Cài Đặt & Phòng Đọc - Foundation & Settings Hub)**:
         - `/`: Trang chủ Landing Page giới thiệu hệ sinh thái học từ vựng thông minh.
