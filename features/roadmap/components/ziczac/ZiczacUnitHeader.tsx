@@ -12,37 +12,51 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
   const [showGuidebook, setShowGuidebook] = useState(false);
 
   // Theme colors per unit
+  // Theme colors per unit with high-contrast text and luminous badges
   const getUnitTheme = (unitNum: number) => {
     switch (unitNum) {
       case 1:
         return {
           bg: "bg-[#0059bb]",
           border: "border-b-4 border-[#003d82]",
-          buttonBg: "bg-white/15 hover:bg-white/25 text-white border-b-2 border-black/20",
+          badge: "bg-amber-300 text-amber-950 font-black",
+          subtitle: "text-blue-100",
+          buttonBg: "bg-white hover:bg-blue-50 text-[#0059bb] border-b-2 border-slate-300 shadow-sm",
         };
       case 2:
         return {
           bg: "bg-emerald-600",
           border: "border-b-4 border-emerald-800",
-          buttonBg: "bg-white/15 hover:bg-white/25 text-white border-b-2 border-black/20",
+          badge: "bg-amber-300 text-amber-950 font-black",
+          subtitle: "text-emerald-100",
+          buttonBg: "bg-white hover:bg-emerald-50 text-emerald-700 border-b-2 border-slate-300 shadow-sm",
         };
       case 3:
         return {
           bg: "bg-purple-600",
           border: "border-b-4 border-purple-800",
-          buttonBg: "bg-white/15 hover:bg-white/25 text-white border-b-2 border-black/20",
+          badge: "bg-amber-300 text-amber-950 font-black",
+          subtitle: "text-purple-100",
+          buttonBg: "bg-white hover:bg-purple-50 text-purple-700 border-b-2 border-slate-300 shadow-sm",
         };
       case 4:
       default:
         return {
-          bg: "bg-amber-600",
-          border: "border-b-4 border-amber-800",
-          buttonBg: "bg-white/15 hover:bg-white/25 text-white border-b-2 border-black/20",
+          bg: "bg-amber-700",
+          border: "border-b-4 border-amber-900",
+          badge: "bg-white text-amber-950 font-black",
+          subtitle: "text-amber-100",
+          buttonBg: "bg-white hover:bg-amber-50 text-amber-800 border-b-2 border-slate-300 shadow-sm",
         };
     }
   };
 
   const theme = getUnitTheme(unit.unitNumber);
+
+  // Split "Unit X: Title" into distinct Unit badge & Title
+  const match = unit.unitTitle.match(/^(Unit\s+\d+)(?::\s*(.*))?$/i);
+  const unitTag = match ? match[1] : `Unit ${unit.unitNumber}`;
+  const cleanTitle = match && match[2] ? match[2] : unit.unitTitle;
 
   return (
     <div className="relative w-full max-w-2xl sm:max-w-3xl mx-auto my-6 select-none">
@@ -50,11 +64,18 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
       <div
         className={`rounded-2xl p-4 sm:p-5 text-white ${theme.bg} ${theme.border} shadow-lg flex items-center justify-between gap-4`}
       >
-        <div className="space-y-1 min-w-0">
-          <h2 className="text-base sm:text-lg font-bold font-display leading-tight truncate">
-            {unit.unitTitle}
-          </h2>
-          <p className="text-xs text-white/85 line-clamp-1">
+        <div className="space-y-1.5 min-w-0">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <span
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs tracking-wider shadow-2xs ${theme.badge}`}
+            >
+              {unitTag}
+            </span>
+            <h2 className="text-base sm:text-lg font-extrabold font-display text-white leading-tight truncate">
+              {cleanTitle}
+            </h2>
+          </div>
+          <p className={`text-xs sm:text-[13px] ${theme.subtitle} font-medium line-clamp-1`}>
             {unit.unitSubtitle}
           </p>
         </div>
