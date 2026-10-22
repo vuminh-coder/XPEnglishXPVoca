@@ -32,10 +32,10 @@ export const LessonTaskItem: React.FC<LessonTaskItemProps> = ({
             : "bg-white dark:bg-slate-900 border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/50 shadow-2xs"
         }`}
       >
-        {/* Left: Task Content (Skill Badge + Full Title + Description) */}
+        {/* Left: Task Content (Skill Icon + Full Title + Description) */}
         <div className="space-y-1 min-w-0 flex-1">
-          <div className="flex items-center gap-2 flex-wrap min-w-0">
-            <RoadmapSkillBadge type={task.taskType} />
+          <div className="flex items-center gap-2 min-w-0">
+            <RoadmapSkillBadge type={task.taskType} iconOnly={true} />
 
             <h3
               className={`text-xs sm:text-sm font-bold font-display line-clamp-1 sm:line-clamp-2 leading-snug ${

@@ -145,10 +145,10 @@ export default function RoadmapLoading() {
                     {/* Lesson Task Card Item */}
                     <div className="flex-1 min-w-0">
                       <div className="p-3 sm:p-3.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                        {/* Left: Skill Badge + Full Title + Description */}
+                        {/* Left: Skill Icon + Full Title + Description */}
                         <div className="space-y-1 min-w-0 flex-1">
-                          <div className="flex items-center gap-2 flex-wrap min-w-0">
-                            <ShimmerBox className="h-5 w-20 rounded-md bg-blue-500/20" />
+                          <div className="flex items-center gap-2 min-w-0">
+                            <ShimmerBox className="w-4 h-4 rounded shrink-0" />
                             <ShimmerBox className="h-4.5 w-56 sm:w-72 rounded-md" />
                           </div>
                           <ShimmerBox className="h-3.5 w-44 sm:w-60 rounded-md" />

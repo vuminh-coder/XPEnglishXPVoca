@@ -6946,7 +6946,8 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
     - **Triệt Tiêu Thanh Điều Hướng Chặng Trùng Lặp & Khối Thưởng Rườm Rà (`PhaseCarouselSwiper.tsx` & `PhaseRoadmapCard.tsx`)**: Tích hợp các nút chuyển chặng `< 1/3 >` trực tiếp vào tiêu đề thẻ chặng [PhaseRoadmapCard.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/PhaseRoadmapCard.tsx), xóa bỏ hoàn toàn dải thanh điều hướng tách rời `Chặng Lộ Trình` ở phía trên, đồng thời loại bỏ khối huy hiệu thưởng `+200 XP & +80 Coin` giúp tiêu đề chặng thông thoáng và tập trung.
     - **Thống Nhất Card Thanh Tra Bài Học (`LessonInspectorCard.tsx`)**: Gom toàn bộ thông số bài học (Thời lượng, Độ khó, Kỹ năng), mẹo làm bài, nút hỏi nhanh AI và nút hành động chính vào một card `Chi Tiết Bài Học` duy nhất, loại bỏ khối thẻ `Trợ Lý AI Mentor` thứ hai gây phân tán thị giác, đồng thời bỏ chữ `+20 XP` trên nút luyện tập.
     - **Tinh Gọn Thẻ Bài Học & Xóa Nút Trùng Lặp (`LessonTaskItem.tsx`)**: Loại bỏ khối huy hiệu `+25 XP` màu hổ phách cạnh nút luyện tập giúp danh sách bài học đồng đều, gọn gàng; đồng thời xóa bỏ nút `Bắt Đầu Luyện Tập` trùng lặp trong ngăn kéo mở rộng khi xem mẹo làm bài trên mobile theo UI/UX Rule 18.
-    - **Đồng Bộ Skeleton Đạt 0px CLS (`loading.tsx`)**: Cập nhật lại khung xương nạp trang bám sát 1:1 cấu trúc Bento Grid mới, đảm bảo 0px Cumulative Layout Shift.
+    - **Chuyển Đổi Khối Huy Hiệu Kỹ Năng Thành Icon Tinh Gọn (`RoadmapSkillBadge.tsx` & `LessonTaskItem.tsx`)**: Lược bỏ khối badge có khung viền và chữ cồng kềnh (`[ 🎧 Luyện Nghe ]`, `[ 📖 Từ Vựng ]`), thay thế bằng icon ngữ nghĩa tinh gọn (`iconOnly={true}`) đặt liền mạch trước tiêu đề bài học, bảo toàn tooltip trợ năng (`title` / `aria-label`).
+    - **Đồng Bộ Skeleton Đạt 0px CLS (`loading.tsx`)**: Cập nhật lại khung xương nạp trang bám sát 1:1 cấu trúc Bento Grid mới và kích thước icon bài học, đảm bảo 0px Cumulative Layout Shift.
 
 ---
 
