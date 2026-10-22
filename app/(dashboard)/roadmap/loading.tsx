@@ -60,26 +60,7 @@ export default function RoadmapLoading() {
       </header>
 
       {/* 2. UNIFIED MAIN CONTAINER */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
-        {/* HERO BANNER SKELETON (~50px) */}
-        <div className="py-2.5 px-3.5 sm:py-3 sm:px-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-xl bg-[#0059bb]/30 text-white flex items-center justify-center shrink-0 shadow-xs">
-              <ShimmerBox className="w-4 h-4 rounded-md" />
-            </div>
-            <div className="flex items-center gap-2 min-w-0">
-              <ShimmerBox className="h-5 w-48 sm:w-64 rounded-md" />
-            </div>
-          </div>
-
-          {/* Right: Inline Progress */}
-          <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shrink-0 self-start sm:self-auto">
-            <ShimmerBox className="w-16 sm:w-24 h-1.5 rounded-full" />
-            <ShimmerBox className="h-4 w-10 rounded" />
-            <ShimmerBox className="h-3 w-16 rounded hidden sm:inline-block" />
-          </div>
-        </div>
-
+      <div className="w-full max-w-[1400px] 2xl:max-w-[1520px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 space-y-4 pt-1">
         {/* 3. FULL WIDTH DUOLINGO PATHWAY SKELETON (0px CLS) */}
         <div className="w-full min-w-0">
           <div className="w-full py-2 sm:py-4 space-y-10">
