@@ -101,10 +101,10 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                     const isSelected = selectedStepId === step.id;
                     const isPopoverOpen = activePopoverStepId === step.id;
 
-                    // 5th Step: Duolingo Checkpoint Trophy / Treasure Chest Milestone
+                    // Milestone Checkpoint Trophy: Centered with identical vertical rhythm & button size
                     if (step.isCheckpoint) {
                       return (
-                        <div key={step.id} className="pt-2 pb-4 flex justify-center">
+                        <div key={step.id} className="relative w-full flex items-center justify-center min-h-[96px]">
                           <ZiczacMilestoneCheckpoint
                             step={step}
                             state={state}
