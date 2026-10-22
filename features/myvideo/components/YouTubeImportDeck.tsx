@@ -121,13 +121,27 @@ export function YouTubeImportDeck({
   importError,
   setImportError,
   onImport,
+  hasActiveVideo,
 }: YouTubeImportDeckProps) {
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [categorySearch, setCategorySearch] = useState("");
   const [highlightedCategoryIdx, setHighlightedCategoryIdx] = useState(0);
   const categoryComboboxRef = useRef<HTMLDivElement>(null);
   const categoryInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isImporting) {
+      setIsMobileExpanded(true);
+    }
+  }, [isImporting]);
+
+  useEffect(() => {
+    const handleOpen = () => setIsMobileExpanded(true);
+    window.addEventListener("open-youtube-import", handleOpen);
+    return () => window.removeEventListener("open-youtube-import", handleOpen);
+  }, []);
 
   const selectedOption = useMemo(() => {
     return (
@@ -213,17 +227,50 @@ export function YouTubeImportDeck({
   };
 
   return (
-    <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
-      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
-            <LinkIcon className="w-3.5 h-3.5" />
-          </div>
-          <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-            Trích xuất phụ đề từ YouTube
-          </h3>
+    <div className="space-y-3">
+      {hasActiveVideo && !isMobileExpanded && (
+        <div className="md:hidden">
+          <button
+            type="button"
+            onClick={() => setIsMobileExpanded(true)}
+            className="w-full py-2.5 px-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 hover:border-[#0059bb]/50 transition-all cursor-pointer"
+          >
+            <div className="flex items-center gap-2 text-[#0059bb] dark:text-sky-400">
+              <LinkIcon className="w-3.5 h-3.5" />
+              <span>Nhập video YouTube khác</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-slate-400 text-[11px] font-medium">
+              <span>Mở form</span>
+              <ChevronDown className="w-3.5 h-3.5" />
+            </div>
+          </button>
         </div>
-      </div>
+      )}
+
+      <div
+        className={`${
+          hasActiveVideo && !isMobileExpanded ? "hidden md:block " : ""
+        }p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3`}
+      >
+        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
+              <LinkIcon className="w-3.5 h-3.5" />
+            </div>
+            <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
+              Trích xuất phụ đề từ YouTube
+            </h3>
+          </div>
+          {hasActiveVideo && (
+            <button
+              type="button"
+              onClick={() => setIsMobileExpanded(false)}
+              className="md:hidden text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-medium py-1 px-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+            >
+              Thu gọn
+            </button>
+          )}
+        </div>
 
       <form onSubmit={onImport} className="space-y-3">
         {/* External Label (UI/UX Rule 6) */}
@@ -491,6 +538,7 @@ export function YouTubeImportDeck({
           <span>{importError}</span>
         </div>
       )}
+      </div>
     </div>
   );
 }

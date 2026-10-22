@@ -622,6 +622,7 @@ export default function MyVideoPage() {
             <button
               type="button"
               onClick={() => {
+                window.dispatchEvent(new CustomEvent("open-youtube-import"));
                 const input = document.getElementById("youtube-url-input");
                 if (input) {
                   input.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -642,7 +643,7 @@ export default function MyVideoPage() {
       </AppTopHeader>
 
       {/* MAIN DASHBOARD CANVAS */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-2.5 sm:py-6 pb-24 sm:pb-8 space-y-3 sm:space-y-6">
         {/* 1. HERO SPOTLIGHT & SLIM METRICS BANNER */}
             <VideoHeroMetricsBanner
               savedVideosCount={savedVideos.length}
@@ -650,6 +651,7 @@ export default function MyVideoPage() {
               totalSubtitlesCount={totalSubtitlesCount}
               favoriteCount={favoriteCount}
               avgProgress={avgProgress}
+              hasActiveVideo={Boolean(activeVideo)}
             />
 
             {/* 2. YOUTUBE IMPORT STUDIO DECK */}
@@ -664,6 +666,7 @@ export default function MyVideoPage() {
               importError={importError}
               setImportError={setImportError}
               onImport={handleImportYouTube}
+              hasActiveVideo={Boolean(activeVideo)}
             />
 
             {/* 3. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE */}

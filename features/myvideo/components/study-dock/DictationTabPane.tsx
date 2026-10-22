@@ -211,7 +211,7 @@ export function DictationTabPane({
             disabled={dictationAnswered}
             autoComplete="off"
             spellCheck={false}
-            placeholder="Gõ từ còn thiếu vào đây (Enter)..."
+            placeholder="Nhập từ còn thiếu..."
             className="flex-1 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-900 dark:text-white bg-transparent placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-hidden disabled:opacity-60"
           />
 

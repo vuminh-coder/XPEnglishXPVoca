@@ -35,25 +35,30 @@ export function VideoHeroMetricsBanner({
   totalSubtitlesCount,
   favoriteCount,
   avgProgress,
+  hasActiveVideo,
 }: VideoHeroMetricsBannerProps) {
   return (
-    <div className="p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
+    <div
+      className={`${
+        hasActiveVideo ? "hidden md:block " : ""
+      }p-3 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3`}
+    >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5 sm:gap-4">
         <div className="space-y-1.5 min-w-0">
           <h1 className="text-sm sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white font-display flex items-center gap-2">
             <YouTubeIcon className="w-4 h-4 sm:w-5 sm:h-5 text-rose-600 shrink-0" />
             <span>Thư Viện Video YouTube & Phòng Luyện Nghe Tương Tác</span>
           </h1>
-          <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-            Kho video YouTube tích hợp phụ đề song ngữ, tra từ 1-click & luyện nói Shadowing AI.
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 hidden sm:block">
+            Kho video YouTube tích hợp phụ đề song ngữ, tra từ 1-click & luyện nói nhại âm.
           </p>
         </div>
       </div>
 
-      <div className="h-px bg-slate-100 dark:bg-slate-800 w-full" />
+      <div className="h-px bg-slate-100 dark:bg-slate-800 w-full hidden sm:block" />
 
-      {/* Slim Compact Metric Strip (High-Efficiency, Saves 80px+ Vertical Space) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+      {/* Slim Compact Metric Strip (Hidden on mobile < sm to prioritize active video space) */}
+      <div className="hidden sm:grid sm:grid-cols-4 gap-2 sm:gap-3">
         <div className="px-3 py-2 rounded-xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800 flex items-center gap-2.5 transition-all hover:border-amber-300 dark:hover:border-amber-800/60 shadow-2xs group">
           <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
             <Video className="w-3.5 h-3.5 stroke-[2.2]" />
