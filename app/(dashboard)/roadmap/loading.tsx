@@ -48,14 +48,10 @@ export default function RoadmapLoading() {
           </div>
         </div>
 
-        {/* Right Desktop: Nút CTA "Học Bài Tiếp Theo" + Gamification Chips + Avatar */}
+        {/* Right Desktop: Nút CTA "Học Bài Tiếp Theo" + Mobile Avatar */}
         <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           <ShimmerBox className="h-9 w-36 sm:w-40 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/20 hidden sm:block" />
-          <div className="flex items-center gap-1.5 shrink-0">
-            <ShimmerBox className="h-8 sm:h-9 w-12 sm:w-14 rounded-xl bg-orange-400/15 border border-orange-200/50" />
-            <ShimmerBox className="h-8 sm:h-9 w-12 sm:w-14 rounded-xl bg-amber-400/15 border border-amber-200/50 hidden xs:block" />
-          </div>
-          <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
+          <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0 lg:hidden" />
         </div>
       </header>
 

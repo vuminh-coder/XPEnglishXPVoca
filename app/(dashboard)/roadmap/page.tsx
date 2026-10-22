@@ -56,7 +56,7 @@ export default function RoadmapPage() {
         {/* APP TOP HEADER INTEGRATION */}
         <AppTopHeader
           showDailyQuote={false}
-          showGamificationStats={true}
+          showGamificationStats={false}
           rightDesktopContent={
             <div className="flex items-center gap-2">
               <button
@@ -143,7 +143,7 @@ export default function RoadmapPage() {
       {/* 1. APP TOP HEADER INTEGRATION */}
       <AppTopHeader
         showDailyQuote={false}
-        showGamificationStats={true}
+        showGamificationStats={false}
         rightDesktopContent={
           <Link
             href={nextUncompletedTask?.practicePath || "/study/dictation"}
