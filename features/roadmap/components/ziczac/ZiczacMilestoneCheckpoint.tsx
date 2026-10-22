@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Trophy, Crown, Lock } from "lucide-react";
+import { Trophy, Crown } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState } from "../../types";
 import { ZiczacNodePopover } from "./ZiczacNodePopover";
 
@@ -97,14 +97,28 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
           {/* Specular Gloss Curve */}
           <div className="absolute inset-x-4 top-2 h-7 bg-white/25 rounded-t-full pointer-events-none" />
 
-          {/* Icon */}
+          {/* Icon: Luôn hiển thị Trophy/Crown (không dùng icon ổ khóa); khi LOCKED nút ở dạng xám không màu, khi CURRENT/COMPLETED mới bật màu sắc */}
           <div className="relative z-10 flex items-center justify-center">
-            {isLocked ? (
-              <Lock className="w-8 h-8 stroke-[2.2]" />
-            ) : step.stepNumber === 20 ? (
-              <Crown className="w-11 h-11 fill-amber-100 stroke-[2.2]" />
+            {step.stepNumber === 28 ? (
+              <Crown
+                className={`w-11 h-11 stroke-[2.2] ${
+                  isLocked
+                    ? "text-slate-400 dark:text-slate-500 fill-transparent"
+                    : isCompleted
+                    ? "fill-emerald-100 text-white"
+                    : "fill-amber-100 text-white"
+                }`}
+              />
             ) : (
-              <Trophy className="w-11 h-11 fill-amber-100 stroke-[2.2]" />
+              <Trophy
+                className={`w-11 h-11 stroke-[2.2] ${
+                  isLocked
+                    ? "text-slate-400 dark:text-slate-500 fill-transparent"
+                    : isCompleted
+                    ? "fill-emerald-100 text-white"
+                    : "fill-amber-100 text-white"
+                }`}
+              />
             )}
           </div>
         </button>

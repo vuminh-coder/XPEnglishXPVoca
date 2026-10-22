@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import {
-  Lock,
   Headphones,
   BookOpen,
   BookMarked,
@@ -165,13 +164,9 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
           {/* Specular 3D Gloss Curve on Top Half */}
           <div className="absolute inset-x-3 top-1.5 h-6 bg-white/20 rounded-t-full pointer-events-none" />
 
-          {/* Icon: Khi hoàn thành giữ nguyên icon kỹ năng, màu xanh ngọc sáng lên */}
+          {/* Icon: Luôn hiển thị biểu tượng kỹ năng tương ứng (không dùng icon ổ khóa); khi LOCKED nút ở dạng xám không màu, khi CURRENT/COMPLETED mới bật màu sắc */}
           <div className="relative z-10 flex items-center justify-center">
-            {isLocked ? (
-              <Lock className="w-6 h-6 stroke-[2.2]" />
-            ) : (
-              getSkillIcon()
-            )}
+            {getSkillIcon()}
           </div>
         </button>
 
