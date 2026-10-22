@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Gift, Check, TrendingUp, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, TrendingUp, ChevronLeft, ChevronRight } from "lucide-react";
 import { TargetRoadmapPhase, RoadmapTask } from "../../types";
 import { LessonTaskItem } from "./LessonTaskItem";
 
@@ -28,7 +28,6 @@ export const PhaseRoadmapCard: React.FC<PhaseRoadmapCardProps> = ({
 }) => {
   const phaseCompletedCount = phase.tasks.filter((t) => t.isCompleted).length;
   const phaseTotalCount = phase.tasks.length;
-  const isPhaseDone = phaseCompletedCount === phaseTotalCount && phaseTotalCount > 0;
   const progressPercent = Math.round((phaseCompletedCount / (phaseTotalCount || 1)) * 100);
 
   // Bóc tách chữ "Chặng X" để đổi màu nổi bật và xóa bỏ khối badge nền xanh
@@ -49,7 +48,7 @@ export const PhaseRoadmapCard: React.FC<PhaseRoadmapCardProps> = ({
 
   return (
     <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-      {/* 1. PHASE HEADER & NAVIGATION & CHEST REWARD */}
+      {/* 1. PHASE HEADER & NAVIGATION */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
         <div className="space-y-1 min-w-0">
           <h2 className="text-base sm:text-lg font-bold font-display truncate">
@@ -65,50 +64,34 @@ export const PhaseRoadmapCard: React.FC<PhaseRoadmapCardProps> = ({
           </p>
         </div>
 
-        {/* Phase Navigation Switcher & Chest Unlock Reward Badge */}
-        <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-center">
-          {totalPhases !== undefined && totalPhases > 1 && (
-            <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
-              <button
-                type="button"
-                disabled={phaseIndex === 0}
-                onClick={onPrevPhase}
-                className="w-7 h-7 rounded-lg border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-2xs"
-                title="Chặng trước"
-                aria-label="Chặng trước"
-              >
-                <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
-              </button>
-              <span className="text-xs font-mono font-bold px-1.5 text-slate-700 dark:text-slate-300 tabular-nums select-none">
-                {(phaseIndex ?? 0) + 1}/{totalPhases}
-              </span>
-              <button
-                type="button"
-                disabled={phaseIndex === totalPhases - 1}
-                onClick={onNextPhase}
-                className="w-7 h-7 rounded-lg border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-2xs"
-                title="Chặng tiếp theo"
-                aria-label="Chặng tiếp theo"
-              >
-                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-              </button>
-            </div>
-          )}
-
-          {/* Chest Unlock Reward Badge */}
-          <div
-            className={`px-3 py-1.5 rounded-xl border flex items-center gap-2 shrink-0 transition-all ${
-              isPhaseDone
-                ? "bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-700/80 text-amber-800 dark:text-amber-200 shadow-xs"
-                : "bg-slate-50 dark:bg-slate-800/60 border-slate-200/80 dark:border-slate-700/80 text-slate-600 dark:text-slate-400"
-            }`}
-          >
-            <Gift className={`w-4 h-4 stroke-[2.2] ${isPhaseDone ? "text-amber-500 fill-amber-400" : "text-amber-500"}`} />
-            <span className="text-xs font-mono font-bold tabular-nums">
-              +{phase.chestRewardXp} XP & +{phase.chestRewardCoins} Coin
+        {/* Phase Navigation Switcher */}
+        {totalPhases !== undefined && totalPhases > 1 && (
+          <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs shrink-0 self-end sm:self-center">
+            <button
+              type="button"
+              disabled={phaseIndex === 0}
+              onClick={onPrevPhase}
+              className="w-7 h-7 rounded-lg border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-2xs"
+              title="Chặng trước"
+              aria-label="Chặng trước"
+            >
+              <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
+            </button>
+            <span className="text-xs font-mono font-bold px-1.5 text-slate-700 dark:text-slate-300 tabular-nums select-none">
+              {(phaseIndex ?? 0) + 1}/{totalPhases}
             </span>
+            <button
+              type="button"
+              disabled={phaseIndex === totalPhases - 1}
+              onClick={onNextPhase}
+              className="w-7 h-7 rounded-lg border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-2xs"
+              title="Chặng tiếp theo"
+              aria-label="Chặng tiếp theo"
+            >
+              <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+            </button>
           </div>
-        </div>
+        )}
       </div>
 
       {/* 2. PHASE PROGRESS BAR */}

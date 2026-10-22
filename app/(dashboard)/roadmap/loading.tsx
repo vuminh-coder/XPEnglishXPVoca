@@ -97,15 +97,11 @@ export default function RoadmapLoading() {
                   <ShimmerBox className="h-3.5 w-60 sm:w-80 rounded-md" />
                 </div>
 
-                <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-center">
-                  {/* Phase Switcher Navigation */}
-                  <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
-                    <ShimmerBox className="w-7 h-7 rounded-lg" />
-                    <ShimmerBox className="w-8 h-4 rounded-md" />
-                    <ShimmerBox className="w-7 h-7 rounded-lg" />
-                  </div>
-                  {/* Chest Reward */}
-                  <ShimmerBox className="h-8 w-36 rounded-xl bg-amber-500/20" />
+                {/* Phase Switcher Navigation */}
+                <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs shrink-0 self-end sm:self-center">
+                  <ShimmerBox className="w-7 h-7 rounded-lg" />
+                  <ShimmerBox className="w-8 h-4 rounded-md" />
+                  <ShimmerBox className="w-7 h-7 rounded-lg" />
                 </div>
               </div>
 
