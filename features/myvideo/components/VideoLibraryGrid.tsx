@@ -196,7 +196,7 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                 </div>
 
                 {/* Info Card */}
-                <div className="p-4 space-y-2.5">
+                <div className="p-3 sm:p-4 space-y-2 sm:space-y-2.5">
                   <div className="flex items-center justify-between gap-2">
                     <span className="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-800">
                       {video.category}
@@ -231,7 +231,7 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
               </div>
 
               {/* Actions Footer */}
-              <div className="p-3.5 bg-slate-50 dark:bg-slate-950/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div className="p-2.5 sm:p-3.5 bg-slate-50 dark:bg-slate-950/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                 <button
                   type="button"
                   onClick={() => onRemoveVideo(video.id)}

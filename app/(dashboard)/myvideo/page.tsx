@@ -16,7 +16,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { VideoSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
-import { Plus } from "lucide-react";
+import { Plus, Video, Layers, ArrowRight, Play } from "lucide-react";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 import dynamic from "next/dynamic";
@@ -145,6 +145,9 @@ export default function MyVideoPage() {
     setSelectedFilterState(filter);
     useVideoStore.getState().setSession({ selectedFilter: filter });
   }, []);
+
+  // Mobile View Mode Switcher state: "player" (focus study) vs "library" (browse & manage)
+  const [mobileViewMode, setMobileViewMode] = useState<"player" | "library">("player");
 
   // Track study time when a video is actively loaded
   useStudyTimeTracker("dictation", { activeCondition: activeVideo !== null });
@@ -322,7 +325,8 @@ export default function MyVideoPage() {
   const handleSelectVideoWithScroll = useCallback(
     (video: YouTubeVideoItem) => {
       selectVideoAndOpenSubtitles(video);
-      window.scrollTo({ top: 220, behavior: "smooth" });
+      setMobileViewMode("player");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     [selectVideoAndOpenSubtitles]
   );
@@ -622,6 +626,7 @@ export default function MyVideoPage() {
             <button
               type="button"
               onClick={() => {
+                setMobileViewMode("library");
                 window.dispatchEvent(new CustomEvent("open-youtube-import"));
                 const input = document.getElementById("youtube-url-input");
                 if (input) {
@@ -644,100 +649,178 @@ export default function MyVideoPage() {
 
       {/* MAIN DASHBOARD CANVAS */}
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-2.5 sm:py-6 pb-24 sm:pb-8 space-y-3 sm:space-y-6">
+        {/* MOBILE VIEW MODE SEGMENTED CONTROL (lg:hidden - Rule 14 & 20) */}
+        {activeVideo && (
+          <div className="lg:hidden p-1 rounded-xl bg-slate-200/80 dark:bg-slate-800/80 grid grid-cols-2 gap-1 select-none shadow-2xs">
+            <button
+              type="button"
+              onClick={() => setMobileViewMode("player")}
+              className={`py-2 px-3 rounded-lg text-xs font-bold font-display transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                mobileViewMode === "player"
+                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+            >
+              <Video className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+              <span>Phòng Học ({rightPanelTab === "dictation" ? "Dictation" : "Phụ đề"})</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileViewMode("library")}
+              className={`py-2 px-3 rounded-lg text-xs font-bold font-display transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                mobileViewMode === "library"
+                  ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+              }`}
+            >
+              <Layers className="w-4 h-4 text-amber-500" />
+              <span>Thư Viện ({savedVideos.length} video)</span>
+            </button>
+          </div>
+        )}
+
         {/* 1. HERO SPOTLIGHT & SLIM METRICS BANNER */}
-            <VideoHeroMetricsBanner
-              savedVideosCount={savedVideos.length}
-              totalMinutes={totalMinutes}
-              totalSubtitlesCount={totalSubtitlesCount}
-              favoriteCount={favoriteCount}
-              avgProgress={avgProgress}
-              hasActiveVideo={Boolean(activeVideo)}
+        <div className={activeVideo && mobileViewMode === "player" ? "hidden lg:block" : ""}>
+          <VideoHeroMetricsBanner
+            savedVideosCount={savedVideos.length}
+            totalMinutes={totalMinutes}
+            totalSubtitlesCount={totalSubtitlesCount}
+            favoriteCount={favoriteCount}
+            avgProgress={avgProgress}
+            hasActiveVideo={Boolean(activeVideo)}
+          />
+        </div>
+
+        {/* 2. YOUTUBE IMPORT STUDIO DECK */}
+        <div className={activeVideo && mobileViewMode === "player" ? "hidden lg:block" : ""}>
+          <YouTubeImportDeck
+            youtubeInput={youtubeInput}
+            setYoutubeInput={setYoutubeInput}
+            importCategory={importCategory}
+            setImportCategory={setImportCategory}
+            importLevel={importLevel}
+            setImportLevel={setImportLevel}
+            isImporting={isImporting}
+            importError={importError}
+            setImportError={setImportError}
+            onImport={handleImportYouTube}
+            hasActiveVideo={Boolean(activeVideo)}
+          />
+        </div>
+
+        {/* 3. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE */}
+        {activeVideo && (
+          <div
+            className={`${
+              mobileViewMode === "library" ? "hidden lg:grid " : "grid "
+            }grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-stretch`}
+          >
+            {/* CỘT TRÁI (1.62fr): VIDEO PLAYER STUDIO */}
+            <VideoPlayerStudio
+              activeVideo={activeVideo}
+              iframeRef={iframeRef}
+              isPlaying={isPlaying}
+              togglePlayPause={togglePlayPause}
+              jumpToRandomSubtitle={jumpToRandomSubtitle}
+              jumpToPrevSubtitle={jumpToPrevSubtitle}
+              jumpToNextSubtitle={jumpToNextSubtitle}
+              isLoopingSentence={isLoopingSentence}
+              toggleLoopSentence={toggleLoopSentence}
+              playbackSpeed={playbackSpeed}
+              changePlaybackSpeed={changePlaybackSpeed}
+              toggleFavorite={toggleFavorite}
+              onDeleteVideo={handleDeleteVideo}
+              addToast={addToast}
             />
 
-            {/* 2. YOUTUBE IMPORT STUDIO DECK */}
-            <YouTubeImportDeck
-              youtubeInput={youtubeInput}
-              setYoutubeInput={setYoutubeInput}
-              importCategory={importCategory}
-              setImportCategory={setImportCategory}
-              importLevel={importLevel}
-              setImportLevel={setImportLevel}
-              isImporting={isImporting}
-              importError={importError}
-              setImportError={setImportError}
-              onImport={handleImportYouTube}
-              hasActiveVideo={Boolean(activeVideo)}
-            />
+            {/* CỘT PHẢI (1fr): INTERACTIVE MULTI-TAB DOCK */}
+            <div className="space-y-3">
+              <InteractiveStudyDock
+                activeVideo={activeVideo}
+                savedVideos={savedVideos}
+                rightPanelTab={rightPanelTab}
+                setRightPanelTab={setRightPanelTab}
+                wordLookupData={wordLookupData}
+                setWordLookupData={setWordLookupData}
+                handleWordClick={handleWordClick}
+                handleSaveWordToNotebook={handleSaveWordToNotebook}
+                subViewMode={subViewMode}
+                setSubViewMode={setSubViewMode}
+                activeSubIndex={activeSubIndex}
+                activeWordIndex={activeWordIndex}
+                isCueSpeaking={isCueSpeaking}
+                handleSeekTo={(_, index) => jumpToSubtitleIndex(index)}
+                currentSubIndex={currentSubIndex}
+                setCurrentSubIndex={setCurrentSubIndex}
+                dictationInput={dictationInput}
+                setDictationInput={setDictationInput}
+                dictationAnswered={dictationAnswered}
+                dictationCorrect={dictationCorrect}
+                showHint={showHint}
+                setShowHint={setShowHint}
+                handleCheckDictation={handleCheckDictation}
+                handleNextDictation={handleNextDictation}
+                isRecording={isRecording}
+                waveformBars={waveformBars}
+                shadowingScore={shadowingScore}
+                toggleShadowingRecord={toggleShadowingRecord}
+              />
 
-            {/* 3. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE */}
-            {activeVideo && (
-              <div className="grid grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-stretch">
-                {/* CỘT TRÁI (1.62fr): VIDEO PLAYER STUDIO */}
-                <VideoPlayerStudio
-                  activeVideo={activeVideo}
-                  iframeRef={iframeRef}
-                  isPlaying={isPlaying}
-                  togglePlayPause={togglePlayPause}
-                  jumpToRandomSubtitle={jumpToRandomSubtitle}
-                  jumpToPrevSubtitle={jumpToPrevSubtitle}
-                  jumpToNextSubtitle={jumpToNextSubtitle}
-                  isLoopingSentence={isLoopingSentence}
-                  toggleLoopSentence={toggleLoopSentence}
-                  playbackSpeed={playbackSpeed}
-                  changePlaybackSpeed={changePlaybackSpeed}
-                  toggleFavorite={toggleFavorite}
-                  onDeleteVideo={handleDeleteVideo}
-                  addToast={addToast}
-                />
-
-                {/* CỘT PHẢI (1fr): INTERACTIVE MULTI-TAB DOCK */}
-                <InteractiveStudyDock
-                  activeVideo={activeVideo}
-                  savedVideos={savedVideos}
-                  rightPanelTab={rightPanelTab}
-                  setRightPanelTab={setRightPanelTab}
-                  wordLookupData={wordLookupData}
-                  setWordLookupData={setWordLookupData}
-                  handleWordClick={handleWordClick}
-                  handleSaveWordToNotebook={handleSaveWordToNotebook}
-                  subViewMode={subViewMode}
-                  setSubViewMode={setSubViewMode}
-                  activeSubIndex={activeSubIndex}
-                  activeWordIndex={activeWordIndex}
-                  isCueSpeaking={isCueSpeaking}
-                  handleSeekTo={(_, index) => jumpToSubtitleIndex(index)}
-                  currentSubIndex={currentSubIndex}
-                  setCurrentSubIndex={setCurrentSubIndex}
-                  dictationInput={dictationInput}
-                  setDictationInput={setDictationInput}
-                  dictationAnswered={dictationAnswered}
-                  dictationCorrect={dictationCorrect}
-                  showHint={showHint}
-                  setShowHint={setShowHint}
-                  handleCheckDictation={handleCheckDictation}
-                  handleNextDictation={handleNextDictation}
-                  isRecording={isRecording}
-                  waveformBars={waveformBars}
-                  shadowingScore={shadowingScore}
-                  toggleShadowingRecord={toggleShadowingRecord}
-                />
+              {/* Quick Jump to Library button at bottom of mobile study screen */}
+              <div className="lg:hidden pt-0.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileViewMode("library");
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="w-full py-2.5 px-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-2xs hover:border-[#0059bb]/60 flex items-center justify-between cursor-pointer active:scale-98 transition-all"
+                >
+                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                    <Layers className="w-4 h-4 text-amber-500 shrink-0" />
+                    <span>Xem thêm video trong thư viện ({savedVideos.length} bài)</span>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                </button>
               </div>
-            )}
+            </div>
+          </div>
+        )}
 
-            {/* 4. SEARCH & VIDEO LIBRARY GRID */}
-            <VideoLibraryGrid
-              videos={filteredVideos}
-              activeVideoId={activeVideo?.id}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              selectedFilter={selectedFilter}
-              setSelectedFilter={setSelectedFilter}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              onSelectVideo={handleSelectVideoWithScroll}
-              onToggleFavorite={toggleFavorite}
-              onRemoveVideo={removeVideo}
-            />
+        {/* 4. SEARCH & VIDEO LIBRARY GRID */}
+        <div className={activeVideo && mobileViewMode === "player" ? "hidden lg:block" : "space-y-3"}>
+          {activeVideo && mobileViewMode === "library" && (
+            <div className="lg:hidden pb-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileViewMode("player");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="w-full py-2 px-3 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-[#0059bb] dark:text-sky-400 text-xs font-bold flex items-center justify-between cursor-pointer active:scale-98 transition-all"
+              >
+                <div className="flex items-center gap-2 truncate">
+                  <Play className="w-3.5 h-3.5 fill-current shrink-0" />
+                  <span className="truncate">Đang học: {activeVideo.title}</span>
+                </div>
+                <span className="text-[11px] font-medium shrink-0 ml-2">Quay lại phòng học →</span>
+              </button>
+            </div>
+          )}
+          <VideoLibraryGrid
+            videos={filteredVideos}
+            activeVideoId={activeVideo?.id}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            selectedFilter={selectedFilter}
+            setSelectedFilter={setSelectedFilter}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            onSelectVideo={handleSelectVideoWithScroll}
+            onToggleFavorite={toggleFavorite}
+            onRemoveVideo={removeVideo}
+          />
+        </div>
       </div>
 
       {/* MODALS */}
