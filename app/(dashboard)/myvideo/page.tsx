@@ -16,7 +16,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { VideoSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
-import { Plus, Video, Layers, ArrowRight, Play } from "lucide-react";
+import { Plus, Video, Layers, Play } from "lucide-react";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 import dynamic from "next/dynamic";
@@ -734,56 +734,36 @@ export default function MyVideoPage() {
             />
 
             {/* CỘT PHẢI (1fr): INTERACTIVE MULTI-TAB DOCK */}
-            <div className="space-y-3">
-              <InteractiveStudyDock
-                activeVideo={activeVideo}
-                savedVideos={savedVideos}
-                rightPanelTab={rightPanelTab}
-                setRightPanelTab={setRightPanelTab}
-                wordLookupData={wordLookupData}
-                setWordLookupData={setWordLookupData}
-                handleWordClick={handleWordClick}
-                handleSaveWordToNotebook={handleSaveWordToNotebook}
-                subViewMode={subViewMode}
-                setSubViewMode={setSubViewMode}
-                activeSubIndex={activeSubIndex}
-                activeWordIndex={activeWordIndex}
-                isCueSpeaking={isCueSpeaking}
-                handleSeekTo={(_, index) => jumpToSubtitleIndex(index)}
-                currentSubIndex={currentSubIndex}
-                setCurrentSubIndex={setCurrentSubIndex}
-                dictationInput={dictationInput}
-                setDictationInput={setDictationInput}
-                dictationAnswered={dictationAnswered}
-                dictationCorrect={dictationCorrect}
-                showHint={showHint}
-                setShowHint={setShowHint}
-                handleCheckDictation={handleCheckDictation}
-                handleNextDictation={handleNextDictation}
-                isRecording={isRecording}
-                waveformBars={waveformBars}
-                shadowingScore={shadowingScore}
-                toggleShadowingRecord={toggleShadowingRecord}
-              />
-
-              {/* Quick Jump to Library button at bottom of mobile study screen */}
-              <div className="lg:hidden pt-0.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileViewMode("library");
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                  className="w-full py-2.5 px-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 shadow-2xs hover:border-[#0059bb]/60 flex items-center justify-between cursor-pointer active:scale-98 transition-all"
-                >
-                  <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                    <Layers className="w-4 h-4 text-amber-500 shrink-0" />
-                    <span>Xem thêm video trong thư viện</span>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
-                </button>
-              </div>
-            </div>
+            <InteractiveStudyDock
+              activeVideo={activeVideo}
+              savedVideos={savedVideos}
+              rightPanelTab={rightPanelTab}
+              setRightPanelTab={setRightPanelTab}
+              wordLookupData={wordLookupData}
+              setWordLookupData={setWordLookupData}
+              handleWordClick={handleWordClick}
+              handleSaveWordToNotebook={handleSaveWordToNotebook}
+              subViewMode={subViewMode}
+              setSubViewMode={setSubViewMode}
+              activeSubIndex={activeSubIndex}
+              activeWordIndex={activeWordIndex}
+              isCueSpeaking={isCueSpeaking}
+              handleSeekTo={(_, index) => jumpToSubtitleIndex(index)}
+              currentSubIndex={currentSubIndex}
+              setCurrentSubIndex={setCurrentSubIndex}
+              dictationInput={dictationInput}
+              setDictationInput={setDictationInput}
+              dictationAnswered={dictationAnswered}
+              dictationCorrect={dictationCorrect}
+              showHint={showHint}
+              setShowHint={setShowHint}
+              handleCheckDictation={handleCheckDictation}
+              handleNextDictation={handleNextDictation}
+              isRecording={isRecording}
+              waveformBars={waveformBars}
+              shadowingScore={shadowingScore}
+              toggleShadowingRecord={toggleShadowingRecord}
+            />
           </div>
         )}
 
