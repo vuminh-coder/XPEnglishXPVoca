@@ -133,23 +133,23 @@ describe("MyVideo Full Subtitle Pipeline & Audio Anticipation Lead Time Tests", 
   });
 
   // --------------------------------------------------------------------------
-  // TEST GROUP 4: Audio Anticipation Lead Time (+200ms)
+  // TEST GROUP 4: Audio Anticipation Lead Time (+400ms / 0.4s)
   // --------------------------------------------------------------------------
-  describe("Audio Anticipation Lead Time (+200ms)", () => {
-    it("exports standard SUBTITLE_AUDIO_ANTICIPATION_LEAD_SEC as 0.200 (200ms)", () => {
-      expect(SUBTITLE_AUDIO_ANTICIPATION_LEAD_SEC).toBe(0.2);
+  describe("Audio Anticipation Lead Time (+400ms / 0.4s)", () => {
+    it("exports standard SUBTITLE_AUDIO_ANTICIPATION_LEAD_SEC as 0.400 (400ms)", () => {
+      expect(SUBTITLE_AUDIO_ANTICIPATION_LEAD_SEC).toBe(0.4);
     });
 
-    it("anticipates upcoming sentence 200ms before raw video audio onset", () => {
+    it("anticipates upcoming sentence 400ms before raw video audio onset", () => {
       const subs = [
         { startTime: 2.0, endTime: 5.0, textEn: "Hello world" },
         { startTime: 6.0, endTime: 9.0, textEn: "Second sentence" },
       ];
 
-      // At video player time t = 1.800s:
-      // Without lead time: effectiveTime = 1.800s -> Cue 0 (startTime 2.0) has NOT started yet!
-      // WITH 200ms Lead Time: effectiveTime = 1.800s + 0.200s = 2.000s -> Cue 0 IS ACTIVATED!
-      const playerNextTime = 1.8;
+      // At video player time t = 1.600s:
+      // Without lead time: effectiveTime = 1.600s -> Cue 0 (startTime 2.0) has NOT started yet!
+      // WITH 400ms (0.4s) Lead Time: effectiveTime = 1.600s + 0.400s = 2.000s -> Cue 0 IS ACTIVATED!
+      const playerNextTime = 1.6;
       const effectiveTime = parseFloat((playerNextTime + SUBTITLE_AUDIO_ANTICIPATION_LEAD_SEC).toFixed(3));
       expect(effectiveTime).toBe(2.0);
 
@@ -164,9 +164,9 @@ describe("MyVideo Full Subtitle Pipeline & Audio Anticipation Lead Time Tests", 
         { startTime: 7.0, endTime: 10.0, textEn: "Second sentence" },
       ];
 
-      // At video player time t = 4.900s:
-      // effectiveTime = 4.900s + 0.200s = 5.100s (past cue 0's endTime of 5.0s by 100ms)
-      const playerNextTime = 4.9;
+      // At video player time t = 4.700s:
+      // effectiveTime = 4.700s + 0.400s = 5.100s (past cue 0's endTime of 5.0s by 100ms)
+      const playerNextTime = 4.7;
       const effectiveTime = parseFloat((playerNextTime + SUBTITLE_AUDIO_ANTICIPATION_LEAD_SEC).toFixed(3));
       const cue0EndTime = subs[0].endTime;
       const diffFromEnd = effectiveTime - cue0EndTime;

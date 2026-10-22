@@ -6,12 +6,12 @@ import { calculateCharacterWeightedWordIndex } from "@/features/listening/servic
 import { backgroundWebSpeechTranscriber } from "@/features/shadowing/services/webSpeechTranscriber";
 
 /**
- * Audio Anticipation Lead Time in seconds (200ms).
+ * Audio Anticipation Lead Time in seconds (400ms / 0.4s).
  * In pedagogical video language learning and international caption standards (TED, Netflix),
- * subtitles lead audio onset by ~180-250ms so learners perceive text right as sound begins,
+ * subtitles lead audio onset by 400ms (0.4s) so learners perceive text right as sound begins,
  * canceling out YouTube iframe postMessage transmission latency and human cognitive reading delay.
  */
-export const SUBTITLE_AUDIO_ANTICIPATION_LEAD_SEC = 0.200;
+export const SUBTITLE_AUDIO_ANTICIPATION_LEAD_SEC = 0.400;
 
 export interface UseYouTubePlayerSyncProps {
   activeVideo: YouTubeVideoItem | null;
