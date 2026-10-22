@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
@@ -58,9 +58,6 @@ export default function VocabularyThemesClientList({
   const { levelMode, searchQuery: search, displayedCount } = filters;
   const setSearch = setSearchQuery;
 
-  // Search Input Ref
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
   // Source 1: Basic themes (A1-A2)
   const basicThemesList: ClientTheme[] = useMemo(() => {
     if (initialBasicThemes && initialBasicThemes.length > 0) return initialBasicThemes;
@@ -110,22 +107,23 @@ export default function VocabularyThemesClientList({
   // Opposite pool matches for Smart Discovery
   const oppositeMatchesCount = levelMode === "basic" ? advancedMatchesCount : basicMatchesCount;
 
-  // 3. Global Hotkey Listener: Cmd+K / Ctrl+K / '/' to focus, Esc to clear & blur
+  // 3. Global Hotkey Listener: Cmd+K / Ctrl+K / '/' to trigger search in AppTopHeader, Esc to clear
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        searchInputRef.current?.focus();
+        const searchBtn = document.querySelector<HTMLButtonElement>('button[title="Mở tìm kiếm"]');
+        searchBtn?.click();
         return;
       }
       if (e.key === "/" && !["INPUT", "TEXTAREA"].includes((e.target as HTMLElement)?.tagName)) {
         e.preventDefault();
-        searchInputRef.current?.focus();
+        const searchBtn = document.querySelector<HTMLButtonElement>('button[title="Mở tìm kiếm"]');
+        searchBtn?.click();
         return;
       }
       if (e.key === "Escape") {
         if (search) setSearch("");
-        searchInputRef.current?.blur();
       }
     };
     window.addEventListener("keydown", handleGlobalKeyDown);
@@ -184,8 +182,8 @@ export default function VocabularyThemesClientList({
                 </p>
               </div>
 
-              {/* Action Controls: Level Mode Switcher + Smart Search Input Dock */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full md:w-auto shrink-0">
+              {/* Action Controls: Level Mode Switcher & Active Filter Indicator */}
+              <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto shrink-0">
                 {/* Fluid Spring-Sliding Level Segmented Control with Real-Time Counters */}
                 <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 flex sm:inline-flex items-center gap-1 w-full sm:w-auto shrink-0">
                   <button
@@ -247,42 +245,21 @@ export default function VocabularyThemesClientList({
                   </button>
                 </div>
 
-                {/* Search Input Dock */}
-                <div className="relative w-full sm:w-64 lg:w-80 shrink-0">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    placeholder={
-                      levelMode === "basic"
-                        ? "Tìm 60 chủ đề cơ bản (IT, gia đình, đồ ăn...)"
-                        : "Tìm 155 chủ đề nâng cao (AI, tài chính, y tế...)"
-                    }
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full h-9.5 pl-10 pr-12 text-xs sm:text-sm font-medium rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-[#0059bb]/20 focus:border-[#0059bb] transition-all shadow-2xs"
-                  />
-
-                  {/* Right Action: Counter badge + Clear button (chỉ hiện khi có từ khóa) */}
-                  {search && (
-                    <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-                      <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 tabular-nums select-none">
-                        {filteredThemes.length}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSearch("");
-                          searchInputRef.current?.focus();
-                        }}
-                        className="p-1 rounded-md text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer transition-colors"
-                        title="Xóa từ khóa tìm kiếm (Esc)"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  )}
-                </div>
+                {/* Active Search Filter Badge (chỉ hiện khi người dùng tìm kiếm từ AppTopHeader) */}
+                {search.trim() !== "" && (
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-300 text-xs font-semibold shrink-0 animate-in fade-in duration-200">
+                    <Search className="w-3.5 h-3.5 shrink-0" />
+                    <span className="max-w-[140px] sm:max-w-[200px] truncate">&ldquo;{search}&rdquo;</span>
+                    <button
+                      type="button"
+                      onClick={() => setSearch("")}
+                      className="p-0.5 rounded-md text-[#0059bb]/70 hover:text-[#0059bb] hover:bg-blue-100 dark:hover:bg-blue-900/80 cursor-pointer transition-colors"
+                      title="Xóa bộ lọc tìm kiếm"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

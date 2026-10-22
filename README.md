@@ -6919,6 +6919,11 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Nâng cấp [AppTopHeader.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx): Khi trang kích hoạt cờ `searchProps.hideDesktopInput`, nút tìm kiếm kính lúp (`Search`) được hiển thị linh hoạt trên cả Desktop và Mobile (`${searchProps.hideDesktopInput ? "flex" : "lg:hidden"}`).
    - Khi học viên bấm vào nút tìm kiếm ở bất kỳ kích thước màn hình nào, thanh đỉnh `AppTopHeader` tự động bung rộng toàn chiều ngang màn hình (Expandable Search Overlay) với khả năng auto-focus, cho phép tìm kiếm tức thì ngay cả khi đã cuộn trang sâu xuống danh sách 155 chủ đề mà không cần kéo ngược lên đỉnh.
 
+7. **Xóa Bỏ Ô Tìm Kiếm Nội Trang Trùng Lặp Trên Kho Từ Vựng (`/vocabulary`)**:
+   - Loại bỏ hoàn toàn khối dock ô nhập tìm kiếm nội trang thừa thãi trong [VocabularyThemesClientList.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/vocabulary/VocabularyThemesClientList.tsx) (trước đây đặt cạnh bộ chuyển cấp độ).
+   - Đồng bộ hóa toàn bộ chức năng tìm kiếm thông qua nút tìm kiếm `[ 🔍 ]` trên thanh điều hướng đỉnh [AppTopHeader.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx), hỗ trợ overlay tìm kiếm toàn màn hình, bộ đếm số lượng chủ đề khớp kết quả theo thời gian thực và phím tắt toàn cục `Cmd+K` / `Ctrl+K` / `/`.
+   - Bổ sung huy hiệu chip lọc tìm kiếm thông minh `[ 🔍 "{từ khóa}" ✕ ]` xuất hiện tinh tế ngay cạnh bộ lọc cấp độ khi có từ khóa lọc, cho phép xem nhanh và xóa bộ lọc trực tiếp bằng 1 click mà không làm rối mắt hay vỡ bố cục trên cả di động và máy tính.
+
 ---
 
 ## 🌐 Production Deployment Status
