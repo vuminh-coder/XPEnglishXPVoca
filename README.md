@@ -6856,34 +6856,31 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Xóa bỏ cụm 3 nút Quick Action `[ Phím tắt ? ]`, `[ Nhập SRT ]`, `[ XP-Sub AI Engine ]` trên [VideoHeroMetricsBanner.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/VideoHeroMetricsBanner.tsx) giúp phần đầu trang thông thoáng, không bị co kéo hay rớt dòng trên di động.
    - Xóa bỏ hoàn toàn khối huy hiệu `YOUTUBE VIDEO STUDIO`, tinh giản phần đầu trang với icon YouTube đỏ nhận diện thương hiệu gắn liền trực diện vào tiêu đề chính: `▶ Thư Viện Video YouTube & Phòng Luyện Nghe Tương Tác`.
 
-### 25. Đại Tu Toàn Diện Khay Dictation & Shadowing AI Trên Trang /myvideo Theo Chuẩn UI/UX 19 Quy Tắc
+### 25. Tích Hợp Smart Suggestion Combobox Chọn Chủ Đề Video YouTube (UI/UX Rule 2)
 
-1. **Phân Tách Sub-mode Segmented Control Chuẩn Rule 14 & Rule 20**:
-   - Tích hợp bộ chuyển chế độ 2 phân đoạn chuẩn công thái học `[ ⌨️ Chép Chính Tả ]` và `[ 🎙️ Luyện Shadowing ]` ngay trên đỉnh khay [DictationTabPane.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/study-dock/DictationTabPane.tsx).
-   - Tách biệt rành mạch giữa bài tập gõ phím luyện nghe bắt âm và bài tập ghi âm luyện nói phát âm nhại giọng, triệt tiêu hoàn toàn tình trạng quá tải nhận thức khi nhồi nhét hai tác vụ đối nghịch trong cùng một màn hình.
+1. **Khắc Phục Hạn Chế Thẻ Select Mặc Định Trình Duyệt**:
+   - Thẻ `select` mặc định của hệ điều hành trước đây khó tùy biến kiểu dáng, không cho phép gõ phím tìm kiếm nhanh danh mục khi danh sách phân loại mở rộng.
+2. **Triển Khai Smart Suggestion Combobox (`YouTubeImportDeck.tsx`)**:
+   - Thay thế thẻ select bằng bộ Combobox tùy biến cao cấp hỗ trợ song song hai hình thức tương tác theo chuẩn UI/UX Rule 2: gõ từ khóa tìm kiếm nhanh trên bàn phím và cuộn chuột mượt mà chọn mục.
+   - Thiết kế nhãn icon đại diện trực quan cho từng danh mục (`MessageSquare`, `Briefcase`, `Film`, `Newspaper`, `GraduationCap`, `Mic2`, `Globe`).
+   - Tự động đóng menu thông minh khi click ra ngoài (click-outside listener) hoặc nhấn phím `Escape`.
 
-2. **Chia Chặng Micro-Session 10 Câu Kèm Bộ Điều Hướng Câu Linh Hoạt**:
-   - Thay thế bộ đếm tổng gây ngợp (`CÂU HỎI 1 / 940`) bằng cơ chế phân chặng nhỏ 10 câu thông minh: `Chặng 1/13 • Câu 1/10 (Tổng: 1/129)`.
-   - Bổ sung thanh tiến trình vi mô mượt mà cùng cặp nút điều hướng câu trước/sau `[ < ]` và `[ > ]`, cho phép người học chủ động chọn câu cần nghe lại mà không bị gò bó. Nút `Nhảy tới câu video đang phát` tự động xuất hiện khi câu đang xem lệch với mốc thời gian phát của video.
+### 26. Tinh Giản Bố Cục Dictation & Shadowing AI Trong Khay Học Tương Tác (`DictationTabPane.tsx`)
 
-3. **Pill Khuyết Tương Tác & Live-Typing Preview Thời Gian Thực**:
-   - Xóa bỏ hoàn toàn dạng chuỗi gạch nối thô kệch `[ _ _ _ _ _ ]`. Thay thế bằng thẻ pill bo tròn màu hổ phách vàng Amber `#f59e0b` hiển thị rõ số lượng ký tự cần điền.
-   - Khi người học gõ vào ô nhập liệu bên dưới, các ký tự được điền trực tiếp vào chỗ trống trên câu mẫu theo thời gian thực (Live-typing Preview), mang lại phản hồi trực quan sinh động.
-   - Khi kiểm tra đáp án: nếu đúng chuyển thành pill xanh Emerald `#10b981` kèm dấu tích `✓`, nếu sai hiển thị gạch ngang chữ gõ kèm đáp án đúng màu xanh chuẩn xác.
-
-4. **Trợ Lý Âm Thanh Kép Tích Hợp Gọn Trong Tiêu Đề Thẻ Câu**:
-   - Nhúng trực tiếp 2 nút nghe nhanh ngay trong thanh tiêu đề của thẻ câu: `[ ▶ Video (Os) ]` để phát lại phân đoạn video YouTube tương ứng qua [InteractiveStudyDock.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/InteractiveStudyDock.tsx), và `[ 🔊 AI Chậm ]` để nghe giọng đọc bản xứ tốc độ 0.85x qua Web Speech API.
-   - Tiết kiệm hơn 45px chiều cao giao diện, giúp toàn bộ nội dung hiển thị cân đối hoàn hảo trên mọi kích thước màn hình.
-
-5. **Nút Hành Động Chính Động Chuẩn Rule 18 & Rule 19**:
-   - Khi ô nhập còn trống: nút mang phong cách thứ cấp với thông điệp hướng dẫn rõ ràng `Nhập từ để kiểm tra`.
-   - Ngay khi người học gõ ký tự: nút tự động kích hoạt trạng thái Primary màu Xanh hoàng gia `#0059bb` nổi bật kèm hiệu ứng đổ bóng: `Kiểm Tra Đáp Án (+20 XP)`.
-   - Khi đã trả lời xong: chuyển thành nút hành động tiếp diễn `Câu Tiếp Theo >` kèm thông báo kết quả chuẩn xác.
-
-6. **Khu Vực Luyện Nói Shadowing AI Với Sóng Âm Động & Chấm Điểm Phát Âm**:
-   - Ở trạng thái chờ: hiển thị thông điệp hướng dẫn nhẹ nhàng cùng các thanh âm trầm tĩnh, loại bỏ các chấm xám tĩnh gây hiểu lầm.
-   - Khi bấm ghi âm: kích hoạt dải sóng âm Equalizer chuyển động nhịp nhàng dải màu Rose - Amber rực rỡ và nút Stop hình vuông phát xung trực quan.
-   - Bảng phân tích AI hiển thị điểm số trên thang 100, đánh giá chi tiết chất lượng ngữ điệu kèm 2 nút hành động: `Luyện lại` và `Câu tiếp`.
+1. **Căn Lề Trái Câu Hỏi & Huy Hiệu Ô Trống Khuyết Từ (UI/UX Rule 16)**:
+   - Thay đổi căn giữa gây ngắt dòng vụn vặt sang căn lề trái chuẩn xác (`text-left`) với phông chữ hiển thị rõ ràng, tương phản cao.
+   - Vị trí từ cần điền được tạo điểm nhấn bằng huy hiệu con nhộng phong cách hiện đại `[ _____ ]`. Khi đã trả lời, tự động chuyển thành huy hiệu xanh `✓ {từ}` hoặc đỏ `✗ {từ}` trực quan.
+   - Bản dịch tiếng Việt được bố trí ngay bên dưới với nhãn tag `DỊCH` tối giản, không chiếm diện tích.
+2. **Thanh Nhập Liệu Tích Hợp All-in-One (UI/UX Rule 6, 18, 19)**:
+   - Gộp ô nhập từ còn thiếu, nút mở gợi ý ký tự đầu (icon bóng đèn `Lightbulb`) và nút hành động chính (Kiểm tra / Câu tiếp theo) vào cùng một thanh điều khiển trực diện duy nhất.
+   - Loại bỏ nút kiểm tra cỡ lớn nằm độc lập phía dưới, tuân thủ nguyên tắc duy nhất một nút Primary nổi bật (UI/UX Rule 18).
+   - Khắc phục lỗi double Enter khiến bài kiểm tra bị tự động nhảy cóc sang câu tiếp theo.
+3. **Bổ Sung Nút Nghe Lại Câu Hỏi (`Volume2`)**:
+   - Bổ sung nút `Nghe lại` ngay cạnh bộ đếm câu (`CÂU X / Y`) giúp học viên nghe lại đoạn phát thanh của video YouTube tức thì mà không cần tìm kiếm timeline thủ công.
+4. **Thanh Luyện Nhại Giọng Shadowing AI Nhỏ Gọn & Triệt Tiêu Khoảng Trắng Thừa**:
+   - Tái cấu trúc khu vực Shadowing AI từ bố cục dọc cồng kềnh sang thanh ngang gọn gàng (Horizontal Pill Bar).
+   - Nút Micro chuyển sang kiểu dáng secondary tinh tế, chỉ nhấp nháy đỏ khi đang ghi âm (`isRecording`).
+   - Sóng âm thanh equalizer dàn ngang mượt mà, triệt tiêu hoàn toàn hơn 35% khoảng trắng thừa phía dưới khay học tương tác.
 
 ---
 

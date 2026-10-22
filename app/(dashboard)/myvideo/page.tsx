@@ -392,14 +392,12 @@ export default function MyVideoPage() {
       const state = keyboardStateRef.current;
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
-        if (e.key === "Enter" && state.rightPanelTab === "dictation") {
-          e.preventDefault();
-          if (state.dictationAnswered) {
-            state.handleNextDictation();
-          } else if (state.dictationInput.trim()) {
-            state.handleCheckDictation();
-          }
-        }
+        return;
+      }
+
+      if (e.key === "Enter" && state.rightPanelTab === "dictation" && state.dictationAnswered) {
+        e.preventDefault();
+        state.handleNextDictation();
         return;
       }
 
@@ -670,7 +668,7 @@ export default function MyVideoPage() {
 
             {/* 3. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE */}
             {activeVideo && (
-              <div className="grid grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-start">
+              <div className="grid grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-stretch">
                 {/* CỘT TRÁI (1.62fr): VIDEO PLAYER STUDIO */}
                 <VideoPlayerStudio
                   activeVideo={activeVideo}
