@@ -5,6 +5,7 @@ import {
   alignBilingualSubtitles,
   extractDictationWord,
   formatTimestampMs,
+  ParsedXmlItem,
 } from "@/features/listening/services/youtubeSubtitleParser";
 import { fetchLrclibSyncedLyrics } from "@/features/listening/services/lrclibLyricsService";
 
@@ -454,26 +455,42 @@ async function fetchInnertubeCaptionTracks(videoId: string): Promise<any[]> {
 
 /**
  * Batch Auto-Translate English Subtitles to Vietnamese via Server Google Translate API
- * Uses 100% Parallel Promise.all Execution (14x Speedup)
+ * 100% Sentence Coverage: Translates ONLY sentences lacking Vietnamese, eliminates 30% threshold bug,
+ * and includes per-item fallback to ensure 0 sentences are omitted.
  */
 async function autoTranslateSubtitlesToVn(subtitles: SubtitleItem[]): Promise<SubtitleItem[]> {
   if (!subtitles || subtitles.length === 0) return [];
-  const hasVnCount = subtitles.filter((s) => s.vietnamese && s.vietnamese.trim() !== s.english.trim()).length;
-  if (subtitles.length > 0 && hasVnCount / subtitles.length > 0.3) {
+
+  // Identify all subtitles that actually need Vietnamese translation
+  const indicesNeedingVn: number[] = [];
+  for (let i = 0; i < subtitles.length; i++) {
+    const s = subtitles[i];
+    if (!s.vietnamese || s.vietnamese.trim() === "" || s.vietnamese.trim() === s.english.trim()) {
+      indicesNeedingVn.push(i);
+    }
+  }
+
+  // 100% of subtitles already have valid Vietnamese translation!
+  if (indicesNeedingVn.length === 0) {
     return subtitles;
   }
 
   try {
-    const englishTexts = subtitles.map((s) => s.english);
+    const textsToTranslate = indicesNeedingVn.map((idx) => subtitles[idx].english);
     const chunkSize = 15;
-    const chunks: string[][] = [];
+    const chunks: { chunk: string[]; origIndices: number[] }[] = [];
 
-    for (let i = 0; i < englishTexts.length; i += chunkSize) {
-      chunks.push(englishTexts.slice(i, i + chunkSize));
+    for (let i = 0; i < textsToTranslate.length; i += chunkSize) {
+      chunks.push({
+        chunk: textsToTranslate.slice(i, i + chunkSize),
+        origIndices: indicesNeedingVn.slice(i, i + chunkSize),
+      });
     }
 
-    // Execute all translation chunks IN PARALLEL for 14x speedup!
-    const translatedChunkPromises = chunks.map(async (chunk) => {
+    const translatedResultsMap = new Map<number, string>();
+
+    // Parallel batch translation with per-chunk resilience
+    const chunkPromises = chunks.map(async ({ chunk, origIndices }) => {
       const joined = chunk.join(" ||| ");
       const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(joined)}`;
 
@@ -488,21 +505,47 @@ async function autoTranslateSubtitlesToVn(subtitles: SubtitleItem[]): Promise<Su
         if (res.ok) {
           const data = await res.json();
           const translatedRaw = Array.isArray(data?.[0]) ? data[0].map((item: any) => item?.[0] || "").join("") : "";
-          const parts = translatedRaw.split("|||").map((p: string) => p.trim());
+          const parts = translatedRaw.split(/\s*\|\|\|\s*/).map((p: string) => p.trim());
           if (parts.length === chunk.length) {
-            return parts;
+            for (let pIdx = 0; pIdx < parts.length; pIdx++) {
+              translatedResultsMap.set(origIndices[pIdx], parts[pIdx] || chunk[pIdx]);
+            }
+            return;
           }
         }
       } catch {}
-      return chunk;
+
+      // Fallback: translate individual items if batch split or delimiter failed
+      await Promise.all(
+        chunk.map(async (text, cIdx) => {
+          try {
+            const singleUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(text)}`;
+            const sRes = await fetch(singleUrl, {
+              headers: {
+                "User-Agent":
+                  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+              },
+            });
+            if (sRes.ok) {
+              const sData = await sRes.json();
+              const trans = Array.isArray(sData?.[0]) ? sData[0].map((it: any) => it?.[0] || "").join("").trim() : "";
+              if (trans) {
+                translatedResultsMap.set(origIndices[cIdx], trans);
+                return;
+              }
+            }
+          } catch {}
+          translatedResultsMap.set(origIndices[cIdx], text);
+        })
+      );
     });
 
-    const chunkResults = await Promise.all(translatedChunkPromises);
-    const translatedLines = chunkResults.flat();
+    await Promise.all(chunkPromises);
 
+    // Merge translated results back to their exact original indices
     return subtitles.map((sub, idx) => ({
       ...sub,
-      vietnamese: translatedLines[idx] || sub.english,
+      vietnamese: translatedResultsMap.get(idx) || sub.vietnamese || sub.english,
     }));
   } catch (e) {
     console.warn("[Auto-Translate Server Engine] Warning:", e);
@@ -572,6 +615,23 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
     }
   }
 
+  // Helper: Fetch TimedText with automatic format fallbacks (JSON3 -> srv1 -> raw)
+  const fetchRawTimedTextWithFormatFallback = async (urlStr: string): Promise<string> => {
+    const cleanBase = urlStr.replace(/\\u0026/g, "&").replace(/\\\//g, "/");
+    const fetchUrls = [
+      cleanBase.includes("fmt=") ? cleanBase : `${cleanBase}&fmt=json3`,
+      cleanBase.includes("fmt=") ? cleanBase.replace(/fmt=\w+/, "fmt=srv1") : `${cleanBase}&fmt=srv1`,
+      cleanBase,
+    ];
+    for (const url of fetchUrls) {
+      const result = await fetchWithProxyChain(url, { headers });
+      if (result && result.text && result.text.trim().length > 30 && !isRateLimitedHtml(result.text)) {
+        return result.text;
+      }
+    }
+    return "";
+  };
+
   if (captionTracks.length > 0) {
     extractedTracks = captionTracks.map((t: any) => ({
       lang: t.languageCode || "en",
@@ -579,71 +639,96 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
       baseUrl: (t.baseUrl || "").replace(/\\u0026/g, "&").replace(/\\\//g, "/"),
     }));
 
-    // Find English track (prefer manual over ASR, matching all en variants: en, en-US, en-GB, en-CA, en-AU)
-    let targetTrack = captionTracks.find(
+    // Identify candidate tracks
+    const manualEnTrack = captionTracks.find(
       (t: any) => (t.languageCode?.toLowerCase().startsWith("en") || t.vssId?.includes("en") || t.vssId?.includes("a.en")) && t.kind !== "asr"
     );
-    if (!targetTrack) {
-      targetTrack = captionTracks.find(
-        (t: any) => t.languageCode?.toLowerCase().startsWith("en") || t.vssId?.includes("en") || t.vssId?.includes("a.en")
-      );
-    }
-    if (!targetTrack) targetTrack = captionTracks[0];
+    const asrEnTrack = captionTracks.find(
+      (t: any) => (t.languageCode?.toLowerCase().startsWith("en") || t.vssId?.includes("en") || t.vssId?.includes("a.en")) && t.kind === "asr"
+    );
+    const anyEnTrack = captionTracks.find(
+      (t: any) => t.languageCode?.toLowerCase().startsWith("en") || t.vssId?.includes("en")
+    );
 
-    if (targetTrack && targetTrack.baseUrl) {
-      let baseUrl = targetTrack.baseUrl.replace(/\\u0026/g, "&").replace(/\\\//g, "/");
-      const isEnglishTrack = targetTrack.languageCode?.toLowerCase().startsWith("en") || targetTrack.vssId?.includes("en");
-      if (!isEnglishTrack && !baseUrl.includes("tlang=")) {
-        baseUrl += "&tlang=en";
-      }
+    let bestParsedEn: ParsedXmlItem[] = [];
+    let chosenTrack: any = null;
 
+    // Priority 1: If manual English track exists, evaluate its completeness
+    if (manualEnTrack && manualEnTrack.baseUrl) {
+      const rawManual = await fetchRawTimedTextWithFormatFallback(manualEnTrack.baseUrl);
+      if (rawManual) {
+        const parsedManual = parseTimedTextAny(rawManual);
+        bestParsedEn = parsedManual;
+        chosenTrack = manualEnTrack;
 
-      // Try multiple formats: json3 first (most reliable), then srv1 (XML)
-      const fetchUrls = [
-        baseUrl.includes("fmt=") ? baseUrl : `${baseUrl}&fmt=json3`,
-        baseUrl.includes("fmt=") ? baseUrl.replace(/fmt=\w+/, "fmt=srv1") : `${baseUrl}&fmt=srv1`,
-        baseUrl,
-      ];
-
-      for (const url of fetchUrls) {
-        const result = await fetchWithProxyChain(url, { headers });
-        if (result && result.text.trim().length > 50) {
-          rawContentEn = result.text;
-          console.log(`[Server TimedText EN] Fetched via ${result.tier} (${rawContentEn.length} chars)`);
-          break;
+        // Anti-abandoned manual trap:
+        // If manual track is short (< 25 cues) and an ASR track exists, test if ASR has far more content
+        if (parsedManual.length < 25 && asrEnTrack && asrEnTrack.baseUrl) {
+          const rawAsr = await fetchRawTimedTextWithFormatFallback(asrEnTrack.baseUrl);
+          if (rawAsr) {
+            const parsedAsr = parseTimedTextAny(rawAsr);
+            if (parsedAsr.length > parsedManual.length * 2.0) {
+              console.log(
+                `[Track Evaluation] Manual track only has ${parsedManual.length} cues, but ASR track has ${parsedAsr.length} cues. Upgrading to full ASR track to prevent dropping sentences!`
+              );
+              bestParsedEn = parsedAsr;
+              chosenTrack = asrEnTrack;
+            }
+          }
         }
       }
+    }
 
-      // Fetch Vietnamese track
-      const vnTrack = captionTracks.find((t: any) => t.languageCode?.startsWith("vi"));
-      if (vnTrack || targetTrack.baseUrl) {
-        const vnBaseUrl = vnTrack
-          ? (vnTrack.baseUrl || "").replace(/\\u0026/g, "&").replace(/\\\//g, "/")
-          : `${baseUrl}&tlang=vi`;
-        const vnFetchUrls = [
-          vnBaseUrl.includes("fmt=") ? vnBaseUrl : `${vnBaseUrl}&fmt=json3`,
-          vnBaseUrl.includes("fmt=") ? vnBaseUrl.replace(/fmt=\w+/, "fmt=srv1") : `${vnBaseUrl}&fmt=srv1`,
-        ];
+    // Priority 2: If manual wasn't available or returned 0 cues, try ASR track
+    if (bestParsedEn.length === 0 && asrEnTrack && asrEnTrack.baseUrl) {
+      const rawAsr = await fetchRawTimedTextWithFormatFallback(asrEnTrack.baseUrl);
+      if (rawAsr) {
+        bestParsedEn = parseTimedTextAny(rawAsr);
+        chosenTrack = asrEnTrack;
+      }
+    }
 
-        for (const url of vnFetchUrls) {
-          const vnResult = await fetchWithProxyChain(url, { headers });
-          if (vnResult && vnResult.text.trim().length > 30) {
-            rawContentVn = vnResult.text;
-            console.log(`[Server TimedText VN] Fetched via ${vnResult.tier} (${rawContentVn.length} chars)`);
+    // Priority 3: Try any remaining English track
+    if (bestParsedEn.length === 0 && anyEnTrack && anyEnTrack.baseUrl && anyEnTrack !== manualEnTrack && anyEnTrack !== asrEnTrack) {
+      const rawAny = await fetchRawTimedTextWithFormatFallback(anyEnTrack.baseUrl);
+      if (rawAny) {
+        bestParsedEn = parseTimedTextAny(rawAny);
+        chosenTrack = anyEnTrack;
+      }
+    }
+
+    // Priority 4: Loop through all other captionTracks (translated with &tlang=en if needed)
+    if (bestParsedEn.length === 0) {
+      for (const track of captionTracks) {
+        if (!track.baseUrl) continue;
+        let tUrl = track.baseUrl.replace(/\\u0026/g, "&").replace(/\\\//g, "/");
+        if (!track.languageCode?.toLowerCase().startsWith("en") && !tUrl.includes("tlang=")) {
+          tUrl += "&tlang=en";
+        }
+        const raw = await fetchRawTimedTextWithFormatFallback(tUrl);
+        if (raw) {
+          const parsed = parseTimedTextAny(raw);
+          if (parsed.length > 0) {
+            bestParsedEn = parsed;
+            chosenTrack = track;
             break;
           }
         }
       }
     }
-  }
 
-  // 2. Server parse success → Auto-Translate & Return Subtitles
-  if (rawContentEn) {
-    const parsedEn = parseTimedTextAny(rawContentEn);
-    const parsedVn = rawContentVn ? parseVnTimedTextAny(rawContentVn) : [];
+    // Process Vietnamese and return if English subtitles were successfully parsed
+    if (bestParsedEn.length > 0 && chosenTrack) {
+      const vnTrack = captionTracks.find((t: any) => t.languageCode?.startsWith("vi"));
+      const cleanChosenBase = (chosenTrack.baseUrl || "").replace(/\\u0026/g, "&").replace(/\\\//g, "/");
+      const vnBaseUrl = vnTrack
+        ? (vnTrack.baseUrl || "").replace(/\\u0026/g, "&").replace(/\\\//g, "/")
+        : `${cleanChosenBase}&tlang=vi`;
 
-    if (parsedEn.length > 0) {
-      const aligned = alignBilingualSubtitles(parsedEn, parsedVn);
+      const rawVn = await fetchRawTimedTextWithFormatFallback(vnBaseUrl);
+      const parsedVn = rawVn ? parseVnTimedTextAny(rawVn) : [];
+
+      const aligned = alignBilingualSubtitles(bestParsedEn, parsedVn);
       let subtitles: SubtitleItem[] = aligned.map((item, index) => ({
         id: index + 1,
         start: formatTimestampMs(item.startTime),

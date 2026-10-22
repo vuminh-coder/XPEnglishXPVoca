@@ -206,10 +206,26 @@ export function parseTimedTextXml(xmlStr: string): ParsedXmlItem[] {
   // Sort by startTime
   rawItems.sort((a, b) => a.startTime - b.startTime);
 
+  // Deduplicate exact repeating cues (e.g. ASR XML streaming duplicate lines within 0.8s)
+  const dedupedXml: { startTime: number; rawDur: number | null; textEn: string }[] = [];
+  for (const it of rawItems) {
+    if (dedupedXml.length === 0) {
+      dedupedXml.push({ ...it });
+      continue;
+    }
+    const prev = dedupedXml[dedupedXml.length - 1];
+    const timeDiff = it.startTime - prev.startTime;
+    if (timeDiff >= 0 && timeDiff < 0.8 && it.textEn.toLowerCase() === prev.textEn.toLowerCase()) {
+      if (it.rawDur) prev.rawDur = Math.max(prev.rawDur || 0, it.rawDur + timeDiff);
+    } else {
+      dedupedXml.push({ ...it });
+    }
+  }
+
   // Compute precise, non-overlapping durations and endTimes
-  const parsedResult: ParsedXmlItem[] = rawItems.map((item, i) => {
+  const parsedResult: ParsedXmlItem[] = dedupedXml.map((item, i) => {
     let duration: number;
-    const nextItem = rawItems[i + 1];
+    const nextItem = dedupedXml[i + 1];
 
     if (item.rawDur !== null && !isNaN(item.rawDur) && item.rawDur > 0) {
       duration = item.rawDur;
@@ -321,16 +337,27 @@ export function parseTimedTextJson3(jsonContent: string | object): ParsedXmlItem
       const prev = deduplicatedRaw[deduplicatedRaw.length - 1];
       const timeDiff = item.startTime - prev.startTime;
 
-      // ASR rolling prefix dedup: only merge if cue strictly extends prev within 0.8s
-      // or if prev was a tiny rolling fragment (<= 3 words) and timeDiff is tiny (< 0.5s)
+      // 1. Exact duplicate elimination: if cue text is identical within 1.2s, extend duration instead of repeating
+      if (timeDiff >= 0 && timeDiff < 1.2 && item.textEn.toLowerCase() === prev.textEn.toLowerCase()) {
+        if (item.rawDur) {
+          prev.rawDur = Math.max(prev.rawDur || 0, item.rawDur + timeDiff);
+        }
+        if (item.wordTimings && item.wordTimings.length >= (prev.wordTimings?.length || 0)) {
+          prev.wordTimings = item.wordTimings;
+        }
+        continue;
+      }
+
+      // 2. ASR rolling prefix dedup: merge if cue strictly extends prev within 1.2s
+      // or if prev was a short rolling prefix fragment (<= 4 words)
       const prevWords = prev.textEn.split(/\s+/).filter(Boolean);
       const isStrictExtension = item.textEn.startsWith(prev.textEn);
       const isShortRollingPrefix =
-        timeDiff >= 0 && timeDiff < 0.5 && prevWords.length <= 3 && item.textEn.includes(prev.textEn);
+        timeDiff >= 0 && timeDiff < 0.6 && prevWords.length <= 4 && item.textEn.includes(prev.textEn);
 
       if (
         timeDiff >= 0 &&
-        timeDiff < 0.8 &&
+        timeDiff < 1.2 &&
         item.textEn.length > prev.textEn.length &&
         (isStrictExtension || isShortRollingPrefix)
       ) {

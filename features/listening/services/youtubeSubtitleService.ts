@@ -311,7 +311,7 @@ async function fetchTracksOnClient(
   if (parsedEn.length === 0) return [];
 
   const aligned = alignBilingualSubtitles(parsedEn, parsedVn);
-  return aligned.map((item) => ({
+  const mapped = aligned.map((item) => ({
     startTime: item.startTime,
     endTime: item.endTime,
     textEn: item.textEn,
@@ -319,6 +319,80 @@ async function fetchTracksOnClient(
     dictationWord: extractDictationWord(item.textEn),
     wordTimings: item.wordTimings,
   }));
+
+  return await clientBatchTranslateMissingVn(mapped);
+}
+
+/**
+ * Client-side batch auto-translate for any sentences lacking Vietnamese translation
+ */
+async function clientBatchTranslateMissingVn(items: RawSubtitleItem[]): Promise<RawSubtitleItem[]> {
+  const missingIndices = items
+    .map((it, idx) => (!it.textVn || it.textVn.trim() === "" || it.textVn.trim() === it.textEn.trim() ? idx : -1))
+    .filter((idx) => idx !== -1);
+
+  if (missingIndices.length === 0) return items;
+
+  try {
+    const textsToTranslate = missingIndices.map((idx) => items[idx].textEn);
+    const chunkSize = 15;
+    const translatedMap = new Map<number, string>();
+
+    const chunkPromises = [];
+    for (let i = 0; i < textsToTranslate.length; i += chunkSize) {
+      const chunk = textsToTranslate.slice(i, i + chunkSize);
+      const origIndices = missingIndices.slice(i, i + chunkSize);
+
+      chunkPromises.push(
+        (async () => {
+          const joined = chunk.join(" ||| ");
+          const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(joined)}`;
+          try {
+            const res = await fetch(url);
+            if (res.ok) {
+              const data = await res.json();
+              const translatedRaw = Array.isArray(data?.[0]) ? data[0].map((item: any) => item?.[0] || "").join("") : "";
+              const parts = translatedRaw.split(/\s*\|\|\|\s*/).map((p: string) => p.trim());
+              if (parts.length === chunk.length) {
+                for (let pIdx = 0; pIdx < parts.length; pIdx++) {
+                  translatedMap.set(origIndices[pIdx], parts[pIdx] || chunk[pIdx]);
+                }
+                return;
+              }
+            }
+          } catch {}
+
+          // Fallback individual translation
+          await Promise.all(
+            chunk.map(async (txt, cIdx) => {
+              try {
+                const sUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(txt)}`;
+                const sRes = await fetch(sUrl);
+                if (sRes.ok) {
+                  const sData = await sRes.json();
+                  const trans = Array.isArray(sData?.[0]) ? sData[0].map((it: any) => it?.[0] || "").join("").trim() : "";
+                  if (trans) {
+                    translatedMap.set(origIndices[cIdx], trans);
+                    return;
+                  }
+                }
+              } catch {}
+              translatedMap.set(origIndices[cIdx], txt);
+            })
+          );
+        })()
+      );
+    }
+
+    await Promise.all(chunkPromises);
+
+    return items.map((it, idx) => ({
+      ...it,
+      textVn: translatedMap.get(idx) || it.textVn || it.textEn,
+    }));
+  } catch {
+    return items;
+  }
 }
 
 /**
@@ -352,7 +426,7 @@ async function fetchDirectCandidatesOnClient(videoId: string): Promise<RawSubtit
   if (parsedEn.length === 0) return [];
 
   const aligned = alignBilingualSubtitles(parsedEn, parsedVn);
-  return aligned.map((item) => ({
+  const mapped = aligned.map((item) => ({
     startTime: item.startTime,
     endTime: item.endTime,
     textEn: item.textEn,
@@ -360,4 +434,6 @@ async function fetchDirectCandidatesOnClient(videoId: string): Promise<RawSubtit
     dictationWord: extractDictationWord(item.textEn),
     wordTimings: item.wordTimings,
   }));
+
+  return await clientBatchTranslateMissingVn(mapped);
 }
