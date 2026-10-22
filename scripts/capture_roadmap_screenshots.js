@@ -19,7 +19,7 @@ async function main() {
   console.log('Capturing desktop screenshot...');
   await page.setViewport({ width: 1440, height: 1050 });
   await page.goto('http://localhost:3000/roadmap', { waitUntil: 'networkidle2' });
-  await new Promise(r => setTimeout(r, 2000));
+  await new Promise(r => setTimeout(r, 4000));
   await page.screenshot({ path: targetDesktop });
 
   // Guidebook Modal on Desktop

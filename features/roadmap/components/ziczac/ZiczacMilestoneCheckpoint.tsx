@@ -35,6 +35,11 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
   const isCurrent = state === "CURRENT";
   const isLocked = state === "LOCKED";
 
+  // Clean title without redundant prefix for the side label
+  const cleanTitle = step.title
+    .replace(/^CỘT MỐC TỔNG HỢP \d+:\s*/i, "")
+    .replace(/^HOÀN THÀNH TOÀN DIỆN:\s*/i, "");
+
   const handleNodeClick = () => {
     if (onSelect) onSelect(step);
     if (onTogglePopover) {
@@ -149,6 +154,16 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
             )}
           </div>
         </button>
+
+        {/* 4. Tên bài bên hông nút (Bên phải, thuần chữ không làm khối) */}
+        <div
+          onClick={handleNodeClick}
+          className="absolute top-1/2 -translate-y-1/2 left-[calc(100%+8px)] sm:left-[calc(100%+12px)] z-10 cursor-pointer w-[88px] sm:w-[170px] select-none text-left group/title"
+        >
+          <p className="text-[11px] sm:text-[13px] font-bold font-display text-slate-800 dark:text-slate-200 group-hover/title:text-[#0059bb] dark:group-hover/title:text-sky-400 leading-tight sm:leading-snug line-clamp-2 transition-colors">
+            {cleanTitle}
+          </p>
+        </div>
       </div>
     </div>
   );
