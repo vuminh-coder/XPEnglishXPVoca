@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import {
-  Check,
   Lock,
   Headphones,
   BookOpen,
@@ -80,16 +79,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
         </div>
       )}
 
-      {/* 2. FLOATING STAR RATING FOR COMPLETED NODE */}
-      {isCompleted && !showPopover && (
-        <div className="absolute -top-5 z-20 flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/80 border border-amber-300 dark:border-amber-700 shadow-2xs">
-          <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-500" />
-          <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-500" />
-          <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-500" />
-        </div>
-      )}
-
-      {/* 3. DUOLINGO POPOVER SPEECH BUBBLE ON CLICK */}
+      {/* 2. DUOLINGO POPOVER SPEECH BUBBLE ON CLICK */}
       {showPopover && (
         <ZiczacNodePopover
           step={step}
@@ -101,7 +91,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
         />
       )}
 
-      {/* 4. DUOLINGO CIRCULAR 3D STEP BUTTON (Vòng Tròn Nổi Duolingo) */}
+      {/* 3. DUOLINGO CIRCULAR 3D STEP BUTTON (Vòng Tròn Nổi Duolingo) */}
       <div className="relative">
         {/* Outer Progress Ring SVG for Current Node */}
         {isCurrent && (
@@ -145,11 +135,9 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
           {/* Specular 3D Gloss Curve on Top Half */}
           <div className="absolute inset-x-3 top-1.5 h-6 bg-white/20 rounded-t-full pointer-events-none" />
 
-          {/* Icon */}
+          {/* Icon: Khi hoàn thành giữ nguyên icon kỹ năng, màu xanh ngọc sáng lên */}
           <div className="relative z-10 flex items-center justify-center">
-            {isCompleted ? (
-              <Check className="w-8 h-8 stroke-[3.5]" />
-            ) : isLocked ? (
+            {isLocked ? (
               <Lock className="w-6 h-6 stroke-[2.2]" />
             ) : (
               getSkillIcon()
@@ -158,7 +146,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
         </button>
       </div>
 
-      {/* 5. Subtitle Label Beneath Node */}
+      {/* 4. Subtitle Label Beneath Node */}
       <div
         onClick={handleNodeClick}
         className="mt-2.5 px-2.5 py-0.5 text-center max-w-[130px] sm:max-w-[150px] cursor-pointer"

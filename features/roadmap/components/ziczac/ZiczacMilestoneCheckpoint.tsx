@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Trophy, Crown, Check, Lock } from "lucide-react";
+import { Trophy, Crown, Lock } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState } from "../../types";
 import { ZiczacNodePopover } from "./ZiczacNodePopover";
 
@@ -77,9 +77,7 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
 
           {/* Icon */}
           <div className="relative z-10 flex items-center justify-center">
-            {isCompleted ? (
-              <Check className="w-10 h-10 stroke-[3.5]" />
-            ) : isLocked ? (
+            {isLocked ? (
               <Lock className="w-8 h-8 stroke-[2.2]" />
             ) : step.stepNumber === 20 ? (
               <Crown className="w-11 h-11 fill-amber-100 stroke-[2.2]" />

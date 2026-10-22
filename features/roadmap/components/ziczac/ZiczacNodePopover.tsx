@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Play, Check, X, Sparkles, ExternalLink, BookOpen } from "lucide-react";
+import { Play, X, ExternalLink } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState } from "../../types";
 
 interface ZiczacNodePopoverProps {
