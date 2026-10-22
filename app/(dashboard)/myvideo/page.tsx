@@ -662,7 +662,7 @@ export default function MyVideoPage() {
               }`}
             >
               <Video className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
-              <span>Phòng Học ({rightPanelTab === "dictation" ? "Dictation" : "Phụ đề"})</span>
+              <span>Phòng Học</span>
             </button>
             <button
               type="button"
@@ -674,7 +674,7 @@ export default function MyVideoPage() {
               }`}
             >
               <Layers className="w-4 h-4 text-amber-500" />
-              <span>Thư Viện ({savedVideos.length} video)</span>
+              <span>Thư Viện</span>
             </button>
           </div>
         )}
@@ -778,7 +778,7 @@ export default function MyVideoPage() {
                 >
                   <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                     <Layers className="w-4 h-4 text-amber-500 shrink-0" />
-                    <span>Xem thêm video trong thư viện ({savedVideos.length} bài)</span>
+                    <span>Xem thêm video trong thư viện</span>
                   </div>
                   <ArrowRight className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
                 </button>
