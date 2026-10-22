@@ -49,21 +49,18 @@ export default function GrammarCatalogLoading() {
       </AppTopHeader>
 
       <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
-        {/* 1. Slim Title & Progress Tracker Skeleton */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 px-1 pt-1">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[#0059bb]/10 shrink-0" />
-            <div className="flex items-center gap-2">
-              <div className="h-5 w-48 sm:w-64 rounded-lg bg-slate-200 dark:bg-slate-800" />
-              <div className="h-4 w-20 rounded-full bg-slate-100 dark:bg-slate-800 hidden xs:block" />
+        {/* 1. SINGLE-TIER SLEEK CONTROL DOCK SKELETON */}
+        <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5 min-w-0">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/20 shrink-0" />
+              <div className="space-y-1.5 min-w-0">
+                <div className="h-5 sm:h-6 w-48 sm:w-64 rounded-lg bg-slate-200 dark:bg-slate-800" />
+                <div className="h-3.5 w-64 sm:w-96 rounded-md bg-slate-100 dark:bg-slate-800/80" />
+              </div>
             </div>
-          </div>
 
-          <div className="flex items-center gap-2.5 self-start sm:self-auto h-8 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs">
-            <div className="h-3 w-14 rounded bg-slate-200 dark:bg-slate-800" />
-            <div className="h-3 w-16 rounded bg-emerald-500/20" />
-            <div className="w-20 sm:w-28 h-2 rounded-full bg-slate-200 dark:bg-slate-800" />
-            <div className="h-3 w-8 rounded bg-slate-200 dark:bg-slate-800" />
+            <div className="h-8 w-44 rounded-xl bg-slate-100 dark:bg-slate-800 shrink-0" />
           </div>
         </div>
 
