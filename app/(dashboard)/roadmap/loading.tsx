@@ -66,9 +66,9 @@ export default function RoadmapLoading() {
           <div className="w-full py-2 sm:py-4 space-y-10">
             {/* Unit Header Banner Skeleton */}
             <div className="w-full max-w-2xl sm:max-w-3xl mx-auto h-24 rounded-2xl bg-[#0059bb]/30 p-4 flex items-center justify-between">
-              <div className="space-y-2">
-                <ShimmerBox className="h-3 w-32 rounded bg-white/30" />
+              <div className="space-y-1.5">
                 <ShimmerBox className="h-5 w-48 rounded bg-white/40" />
+                <ShimmerBox className="h-3.5 w-64 rounded bg-white/30" />
               </div>
               <ShimmerBox className="h-9 w-28 rounded-xl bg-white/30" />
             </div>

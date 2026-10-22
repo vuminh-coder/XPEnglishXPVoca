@@ -51,9 +51,6 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
         className={`rounded-2xl p-4 sm:p-5 text-white ${theme.bg} ${theme.border} shadow-lg flex items-center justify-between gap-4`}
       >
         <div className="space-y-1 min-w-0">
-          <div className="text-[11px] font-bold font-mono uppercase tracking-wider text-white/80">
-            PHẦN {unit.unitNumber} • BÀI {(unit.unitNumber - 1) * 5 + 1} - {unit.unitNumber * 5}
-          </div>
           <h2 className="text-base sm:text-lg font-bold font-display leading-tight truncate">
             {unit.unitTitle}
           </h2>
