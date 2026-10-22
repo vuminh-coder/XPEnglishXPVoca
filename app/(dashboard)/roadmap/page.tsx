@@ -106,9 +106,9 @@ export default function RoadmapPage() {
           </div>
         </div>
 
-        {/* 3. CENTERED DUOLINGO WINDING PATHWAY (Khối Lộ Trình Trung Tâm) */}
-        <div className="w-full max-w-2xl sm:max-w-3xl mx-auto min-w-0">
-          <div className="bg-transparent sm:bg-white/40 sm:dark:bg-slate-900/40 rounded-3xl sm:border sm:border-slate-200/60 sm:dark:border-slate-800/60 sm:p-6 lg:p-8">
+        {/* 3. FULL WIDTH DUOLINGO WINDING PATHWAY (Khối Lộ Trình Toàn Chiều Rộng, Không Border) */}
+        <div className="w-full min-w-0">
+          <div className="w-full py-2 sm:py-4">
             <ZiczacRoadmapPathway
               steps={ziczacSteps}
               selectedStepId={selectedStep?.id}

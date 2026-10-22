@@ -80,11 +80,11 @@ export default function RoadmapLoading() {
           </div>
         </div>
 
-        {/* 3. CENTERED DUOLINGO PATHWAY SKELETON */}
-        <div className="w-full max-w-2xl sm:max-w-3xl mx-auto min-w-0">
-          <div className="bg-transparent sm:bg-white/40 sm:dark:bg-slate-900/40 rounded-3xl sm:border sm:border-slate-200/60 sm:dark:border-slate-800/60 sm:p-6 lg:p-8 space-y-10">
+        {/* 3. FULL WIDTH DUOLINGO PATHWAY SKELETON (0px CLS) */}
+        <div className="w-full min-w-0">
+          <div className="w-full py-2 sm:py-4 space-y-10">
             {/* Unit Header Banner Skeleton */}
-            <div className="w-full max-w-xl mx-auto h-24 rounded-2xl bg-[#0059bb]/30 p-4 flex items-center justify-between">
+            <div className="w-full max-w-2xl sm:max-w-3xl mx-auto h-24 rounded-2xl bg-[#0059bb]/30 p-4 flex items-center justify-between">
               <div className="space-y-2">
                 <ShimmerBox className="h-3 w-32 rounded bg-white/30" />
                 <ShimmerBox className="h-5 w-48 rounded bg-white/40" />

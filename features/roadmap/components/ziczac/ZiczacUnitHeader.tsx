@@ -45,7 +45,7 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
   const theme = getUnitTheme(unit.unitNumber);
 
   return (
-    <div className="relative w-full max-w-xl mx-auto my-6 select-none">
+    <div className="relative w-full max-w-2xl sm:max-w-3xl mx-auto my-6 select-none">
       {/* Duolingo Section Header Banner */}
       <div
         className={`rounded-2xl p-4 sm:p-5 text-white ${theme.bg} ${theme.border} shadow-lg flex items-center justify-between gap-4`}
