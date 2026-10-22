@@ -71,7 +71,7 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
             >
               {unitTag}
             </span>
-            <h2 className="text-base sm:text-lg font-extrabold font-display text-white leading-tight truncate">
+            <h2 className="text-base sm:text-lg font-extrabold font-display text-white leading-tight">
               {cleanTitle}
             </h2>
           </div>

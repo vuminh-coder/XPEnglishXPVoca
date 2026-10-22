@@ -9,26 +9,47 @@ interface ZiczacMilestoneCheckpointProps {
   step: ZiczacPathStep;
   state: ZiczacStepState;
   isSelected: boolean;
-  onSelect: (step: ZiczacPathStep) => void;
+  isPopoverOpen?: boolean;
+  onTogglePopover?: (step: ZiczacPathStep) => void;
+  onClosePopover?: () => void;
+  onSelect?: (step: ZiczacPathStep) => void;
   onToggleComplete?: (stepId: string) => void;
+  placement?: "top" | "bottom";
 }
 
 export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps> = ({
   step,
   state,
   isSelected,
+  isPopoverOpen,
+  onTogglePopover,
+  onClosePopover,
   onSelect,
   onToggleComplete,
+  placement = "top",
 }) => {
-  const [showPopover, setShowPopover] = useState(false);
+  const [internalPopover, setInternalPopover] = useState(false);
+  const showPopover = isPopoverOpen !== undefined ? isPopoverOpen : internalPopover;
 
   const isCompleted = state === "COMPLETED";
   const isCurrent = state === "CURRENT";
   const isLocked = state === "LOCKED";
 
   const handleNodeClick = () => {
-    onSelect(step);
-    setShowPopover((prev) => !prev);
+    if (onSelect) onSelect(step);
+    if (onTogglePopover) {
+      onTogglePopover(step);
+    } else {
+      setInternalPopover((prev) => !prev);
+    }
+  };
+
+  const handleClose = () => {
+    if (onClosePopover) {
+      onClosePopover();
+    } else {
+      setInternalPopover(false);
+    }
   };
 
   return (
@@ -51,7 +72,8 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
         <ZiczacNodePopover
           step={step}
           state={state}
-          onClose={() => setShowPopover(false)}
+          placement={placement}
+          onClose={handleClose}
           onToggleComplete={(id) => {
             if (onToggleComplete) onToggleComplete(id);
           }}
@@ -87,7 +109,6 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
           </div>
         </button>
       </div>
-
     </div>
   );
 };

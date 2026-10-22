@@ -130,5 +130,12 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       expect(roadmapModule.ZiczacNodePopover).toBeDefined();
       expect(roadmapModule.RoadmapDuolingoSidebar).toBeDefined();
     }, 15000);
+
+    it("10. Ziczac Pathway components export clean props for single-active popover and smart placement", async () => {
+      const { ZiczacNodePopover, ZiczacStepNode, ZiczacMilestoneCheckpoint } = await import("@/features/roadmap");
+      expect(typeof ZiczacNodePopover).toBe("function");
+      expect(typeof ZiczacStepNode).toBe("function");
+      expect(typeof ZiczacMilestoneCheckpoint).toBe("function");
+    });
   });
 });

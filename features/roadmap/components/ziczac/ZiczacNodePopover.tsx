@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { Play, X, ExternalLink } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState } from "../../types";
@@ -10,24 +10,46 @@ interface ZiczacNodePopoverProps {
   state: ZiczacStepState;
   onClose: () => void;
   onToggleComplete: (stepId: string) => void;
+  placement?: "top" | "bottom";
 }
 
 /**
  * Duolingo-style Popover Speech Bubble
- * Nổi ngay trên node được chọn với mũi tên tam giác trỏ xuống node
+ * Nổi trên hoặc dưới node được chọn với mũi tên tam giác trỏ tới node
  */
 export const ZiczacNodePopover: React.FC<ZiczacNodePopoverProps> = ({
   step,
   state,
   onClose,
   onToggleComplete,
+  placement = "top",
 }) => {
   const isCompleted = state === "COMPLETED";
+  const isBottom = placement === "bottom";
+
+  // Close on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
 
   return (
-    <div className="absolute bottom-[calc(100%+14px)] left-1/2 -translate-x-1/2 z-40 w-72 sm:w-80 p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 shadow-xl shadow-slate-900/15 animate-in fade-in zoom-in-95 duration-150">
-      {/* Caret Triangle Pointing Down */}
-      <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-r-2 border-b-2 border-slate-200 dark:border-slate-700 rotate-45" />
+    <div
+      className={`absolute left-1/2 -translate-x-1/2 z-40 w-72 sm:w-80 p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 shadow-xl shadow-slate-900/15 animate-in fade-in zoom-in-95 duration-150 ${
+        isBottom ? "top-[calc(100%+16px)]" : "bottom-[calc(100%+16px)]"
+      }`}
+    >
+      {/* Caret Triangle Pointing To Node */}
+      {isBottom ? (
+        <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-l-2 border-t-2 border-slate-200 dark:border-slate-700 rotate-45" />
+      ) : (
+        <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 border-r-2 border-b-2 border-slate-200 dark:border-slate-700 rotate-45" />
+      )}
 
       {/* Header with Title and Close Button */}
       <div className="flex items-start justify-between gap-2 pb-2 border-b border-slate-100 dark:border-slate-800">

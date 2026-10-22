@@ -19,18 +19,27 @@ interface ZiczacStepNodeProps {
   step: ZiczacPathStep;
   state: ZiczacStepState;
   isSelected: boolean;
-  onSelect: (step: ZiczacPathStep) => void;
+  isPopoverOpen?: boolean;
+  onTogglePopover?: (step: ZiczacPathStep) => void;
+  onClosePopover?: () => void;
+  onSelect?: (step: ZiczacPathStep) => void;
   onToggleComplete?: (stepId: string) => void;
+  placement?: "top" | "bottom";
 }
 
 export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   step,
   state,
   isSelected,
+  isPopoverOpen,
+  onTogglePopover,
+  onClosePopover,
   onSelect,
   onToggleComplete,
+  placement = "top",
 }) => {
-  const [showPopover, setShowPopover] = useState(false);
+  const [internalPopover, setInternalPopover] = useState(false);
+  const showPopover = isPopoverOpen !== undefined ? isPopoverOpen : internalPopover;
 
   // Duolingo skill icons
   const getSkillIcon = () => {
@@ -60,8 +69,20 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   const isLocked = state === "LOCKED";
 
   const handleNodeClick = () => {
-    onSelect(step);
-    setShowPopover((prev) => !prev);
+    if (onSelect) onSelect(step);
+    if (onTogglePopover) {
+      onTogglePopover(step);
+    } else {
+      setInternalPopover((prev) => !prev);
+    }
+  };
+
+  const handleClose = () => {
+    if (onClosePopover) {
+      onClosePopover();
+    } else {
+      setInternalPopover(false);
+    }
   };
 
   return (
@@ -84,7 +105,8 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
         <ZiczacNodePopover
           step={step}
           state={state}
-          onClose={() => setShowPopover(false)}
+          placement={placement}
+          onClose={handleClose}
           onToggleComplete={(id) => {
             if (onToggleComplete) onToggleComplete(id);
           }}
