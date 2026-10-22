@@ -187,7 +187,7 @@ export interface AppTopHeaderProps {
   hideMobileSearch?: boolean;
   /** Custom replacement for the mobile search button (e.g. Share button on Profile page) */
   customMobileSearchReplacement?: React.ReactNode;
-  /** Whether to hide Theme toggle & Avatar on desktop (default: false) */
+  /** Whether to hide Theme toggle & Avatar on desktop (default: true) */
   hideThemeAndAvatarOnDesktop?: boolean;
   /** Whether to hide User Avatar on mobile screens (default: false) */
   hideAvatarOnMobile?: boolean;
@@ -213,7 +213,7 @@ export function AppTopHeader({
   mobileTitle,
   hideMobileSearch = false,
   customMobileSearchReplacement,
-  hideThemeAndAvatarOnDesktop = false,
+  hideThemeAndAvatarOnDesktop = true,
   hideAvatarOnMobile = false,
   hideGamificationOnMobile = false,
   sticky = true,
