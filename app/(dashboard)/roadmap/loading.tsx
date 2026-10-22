@@ -37,16 +37,14 @@ export default function RoadmapLoading() {
     <div className="space-y-4 pb-16 md:pb-8 px-0 select-none font-sans">
       {/* 1. APP TOP HEADER SKELETON (56px h-14 BASELINE) */}
       <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3 shadow-2xs">
-        {/* Left: Mobile Sidebar Trigger + 3 Header Pills (Lộ trình, Thống kê, Xếp hạng) */}
+        {/* Left: Mobile Sidebar Trigger + 2 Header Pills (Lộ trình học, Đổi mục tiêu) */}
         <div className="flex items-center gap-2">
           <ShimmerBox className="lg:hidden w-8 h-8 rounded-xl shrink-0" />
           <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60">
-            {/* Lộ trình (Active) */}
-            <ShimmerBox className="w-24 h-7 rounded-lg bg-[#0059bb]/20 dark:bg-sky-400/20" />
-            {/* Thống kê */}
-            <ShimmerBox className="w-24 h-7 rounded-lg hidden sm:block" />
-            {/* Xếp hạng */}
-            <ShimmerBox className="w-24 h-7 rounded-lg hidden md:block" />
+            {/* Lộ trình học (Active) */}
+            <ShimmerBox className="w-24 sm:w-28 h-7 rounded-lg bg-[#0059bb]/20 dark:bg-sky-400/20" />
+            {/* Đổi mục tiêu */}
+            <ShimmerBox className="w-24 sm:w-28 h-7 rounded-lg hidden sm:block" />
           </div>
         </div>
 
@@ -71,9 +69,8 @@ export default function RoadmapLoading() {
               <ShimmerBox className="w-4 h-4 rounded-md" />
             </div>
 
-            <div className="flex items-center gap-2 min-w-0 flex-wrap">
+            <div className="flex items-center gap-2 min-w-0">
               <ShimmerBox className="h-5 w-48 sm:w-64 rounded-md" />
-              <ShimmerBox className="h-5 w-24 rounded-md bg-slate-100 dark:bg-slate-800" />
             </div>
           </div>
 
@@ -86,29 +83,11 @@ export default function RoadmapLoading() {
 
         {/* 3. BENTO 8/12 + 4/12 GRID LAYOUT SKELETON */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
-          {/* CỘT TRÁI (8-COLS): PHASE CAROUSEL SWIPER & PHASE CARD */}
-          <div className="lg:col-span-8 min-w-0 space-y-3">
-            {/* 3.1. PhaseCarouselSwiper Top Controller Strip (~38px) */}
-            <div className="py-1.5 px-2.5 sm:py-2 sm:px-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between gap-2.5">
-              <div className="flex items-center gap-2 min-w-0">
-                <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center shrink-0 border border-blue-100 dark:border-blue-900/60 shadow-2xs">
-                  <ShimmerBox className="w-4 h-4 rounded-md" />
-                </div>
-                <ShimmerBox className="h-4 w-28 rounded-md" />
-              </div>
-
-              <div className="flex items-center gap-2.5 shrink-0">
-                <ShimmerBox className="h-4.5 w-16 rounded-md bg-[#0059bb]/20" />
-                <div className="flex items-center gap-1">
-                  <ShimmerBox className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg" />
-                  <ShimmerBox className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg" />
-                </div>
-              </div>
-            </div>
-
-            {/* 3.2. PhaseRoadmapCard Skeleton */}
+          {/* CỘT TRÁI (8-COLS): PHASE ROADMAP CARD */}
+          <div className="lg:col-span-8 min-w-0">
+            {/* PhaseRoadmapCard Skeleton */}
             <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-4">
-              {/* Phase Header & Chest Reward */}
+              {/* Phase Header & Phase Switcher & Chest Reward */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
                 <div className="space-y-1 min-w-0 flex-1">
                   <div className="flex items-center gap-2">
@@ -118,7 +97,16 @@ export default function RoadmapLoading() {
                   <ShimmerBox className="h-3.5 w-60 sm:w-80 rounded-md" />
                 </div>
 
-                <ShimmerBox className="h-7 w-36 rounded-xl bg-amber-500/20 shrink-0" />
+                <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-center">
+                  {/* Phase Switcher Navigation */}
+                  <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
+                    <ShimmerBox className="w-7 h-7 rounded-lg" />
+                    <ShimmerBox className="w-8 h-4 rounded-md" />
+                    <ShimmerBox className="w-7 h-7 rounded-lg" />
+                  </div>
+                  {/* Chest Reward */}
+                  <ShimmerBox className="h-8 w-36 rounded-xl bg-amber-500/20" />
+                </div>
               </div>
 
               {/* Phase Progress Bar */}
@@ -132,7 +120,7 @@ export default function RoadmapLoading() {
                 </div>
               </div>
 
-              {/* Timeline Pathway (4 Task Items với Milestone Nodes ngoài, KHÔNG có checkbox thừa trong card) */}
+              {/* Timeline Pathway (4 Task Items với Milestone Nodes ngoài) */}
               <div className="space-y-3.5 pt-2">
                 {[1, 2, 3, 4].map((taskNum, idx) => (
                   <div key={taskNum} className="relative flex items-start gap-3 sm:gap-3.5">
@@ -154,7 +142,7 @@ export default function RoadmapLoading() {
                       )}
                     </div>
 
-                    {/* Lesson Task Card Item (1:1 chuẩn xác không có checkbox trùng lặp) */}
+                    {/* Lesson Task Card Item */}
                     <div className="flex-1 min-w-0">
                       <div className="p-3 sm:p-3.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         {/* Left: Skill Badge + Full Title + Description */}
@@ -187,17 +175,16 @@ export default function RoadmapLoading() {
             </div>
           </div>
 
-          {/* CỘT PHẢI (4-COLS CỐ ĐỊNH ~430px): 2 BENTO CARDS 1:1 KHÔNG CUỘN LƯỚT */}
-          <aside className="hidden lg:block lg:col-span-4 sticky top-6 self-start space-y-3">
-            {/* CARD 1: CHI TIẾT BÀI HỌC (~235px) */}
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2.5">
+          {/* CỘT PHẢI (4-COLS CỐ ĐỊNH): 1 BENTO CARD CHI TIẾT BÀI HỌC DUY NHẤT */}
+          <aside className="hidden lg:block lg:col-span-4 sticky top-6 self-start">
+            <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-3.5">
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
                 <div className="flex items-center gap-1.5">
-                  <ShimmerBox className="w-3.5 h-3.5 rounded-md text-[#0059bb]" />
+                  <ShimmerBox className="w-4 h-4 rounded-md text-[#0059bb]" />
                   <ShimmerBox className="h-4 w-28 rounded-md" />
                 </div>
-                <ShimmerBox className="h-4 w-14 rounded-full bg-amber-500/20" />
+                <ShimmerBox className="h-4 w-24 rounded-full bg-amber-500/20" />
               </div>
 
               {/* Title & Description */}
@@ -208,40 +195,12 @@ export default function RoadmapLoading() {
                 <ShimmerBox className="h-3.5 w-3/4 rounded-md" />
               </div>
 
-              {/* Compact AI Tip Callout */}
-              <div className="p-2 rounded-xl bg-blue-50/50 dark:bg-slate-800/50 border border-blue-100/80 dark:border-slate-700/80 space-y-1">
-                <div className="flex items-center gap-1">
-                  <ShimmerBox className="w-3 h-3 rounded-full bg-amber-500/30" />
-                  <ShimmerBox className="h-3 w-20 rounded-md" />
-                </div>
-                <ShimmerBox className="h-3 w-full rounded-md" />
-              </div>
-
-              {/* Action CTA Button */}
-              <div className="pt-0.5">
-                <ShimmerBox className="w-full h-9 rounded-xl bg-[#0059bb]/40" />
-              </div>
-            </div>
-
-            {/* CARD 2: TRỢ LÝ AI MENTOR ĐỒNG HÀNH (~185px) */}
-            <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2.5">
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-5.5 h-5.5 rounded-lg bg-purple-50 dark:bg-purple-950/60 flex items-center justify-center shrink-0 border border-purple-200/60 dark:border-purple-800/40">
-                    <ShimmerBox className="w-3 h-3 rounded-md text-purple-600" />
-                  </div>
-                  <ShimmerBox className="h-4 w-28 rounded-md" />
-                </div>
-                <ShimmerBox className="h-4 w-18 rounded-full bg-purple-500/20" />
-              </div>
-
               {/* 3 Quick Metric Chips */}
               <div className="grid grid-cols-3 gap-1.5 text-center">
                 {[1, 2, 3].map((chip) => (
                   <div
                     key={chip}
-                    className="p-1 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-1"
+                    className="p-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-1"
                   >
                     <ShimmerBox className="h-2.5 w-12 mx-auto rounded" />
                     <ShimmerBox className="h-3.5 w-8 mx-auto rounded font-mono" />
@@ -249,14 +208,22 @@ export default function RoadmapLoading() {
                 ))}
               </div>
 
-              {/* AI Insight Box */}
-              <div className="p-2 rounded-xl bg-purple-50/50 dark:bg-slate-800/50 border border-purple-100/80 dark:border-slate-700/80 space-y-1">
+              {/* Compact AI Tip Callout */}
+              <div className="p-2.5 rounded-xl bg-blue-50/50 dark:bg-slate-800/50 border border-blue-100/80 dark:border-slate-700/80 space-y-1">
+                <div className="flex items-center gap-1">
+                  <ShimmerBox className="w-3 h-3 rounded-full bg-amber-500/30" />
+                  <ShimmerBox className="h-3 w-20 rounded-md" />
+                </div>
                 <ShimmerBox className="h-3 w-full rounded-md" />
-                <ShimmerBox className="h-3 w-4/5 rounded-md" />
               </div>
 
-              {/* Action Button: Ask AI Mentor */}
-              <ShimmerBox className="w-full h-8 rounded-xl bg-gradient-to-r from-purple-600/30 to-[#0059bb]/30" />
+              {/* AI Quick Consultation Helper Button */}
+              <ShimmerBox className="w-full h-7 rounded-xl bg-purple-500/15" />
+
+              {/* Action CTA Button */}
+              <div className="pt-1">
+                <ShimmerBox className="w-full h-9 rounded-xl bg-[#0059bb]/40" />
+              </div>
             </div>
           </aside>
         </div>

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Check, Play, Compass, ArrowRight, RotateCcw } from "lucide-react";
+import { Check, Play, Compass, RotateCcw } from "lucide-react";
 import { Badge } from "@/shared/components/ui";
 import { RoadmapTask } from "../../types";
 import { RoadmapSkillBadge } from "../shared/RoadmapSkillBadge";
@@ -110,17 +110,6 @@ export const LessonTaskItem: React.FC<LessonTaskItemProps> = ({
               </li>
             ))}
           </ul>
-
-          <Link href={task.practicePath} className="block pt-1">
-            <button
-              type="button"
-              className="w-full h-9 bg-[#0059bb] hover:bg-[#004899] text-white font-bold text-xs rounded-xl shadow-2xs flex items-center justify-center gap-1.5 font-display cursor-pointer active:scale-95 transition-all"
-            >
-              <Play className="w-3.5 h-3.5 fill-current" />
-              <span>Bắt Đầu Luyện Tập (+{task.xpReward} XP)</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </Link>
         </div>
       )}
     </div>

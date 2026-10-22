@@ -36,13 +36,10 @@ export const RoadmapHeroBanner: React.FC<RoadmapHeroBannerProps> = ({
             <Target className="w-4 h-4 stroke-[2.2]" />
           </div>
 
-          <div className="flex items-center gap-2 min-w-0 flex-wrap">
+          <div className="flex items-center gap-2 min-w-0">
             <h1 className="text-sm sm:text-base font-bold font-display tracking-tight text-slate-900 dark:text-white leading-none truncate">
               Thiết Kế Lộ Trình Học AI
             </h1>
-            <span className="px-2 py-0.5 rounded-md text-[11px] font-bold font-mono bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-800/40 shrink-0">
-              {userName}
-            </span>
           </div>
         </div>
 
@@ -71,13 +68,10 @@ export const RoadmapHeroBanner: React.FC<RoadmapHeroBannerProps> = ({
           <Compass className="w-4 h-4 stroke-[2.2]" />
         </div>
 
-        <div className="flex items-center gap-2 min-w-0 flex-wrap">
+        <div className="flex items-center gap-2 min-w-0">
           <h1 className="text-sm sm:text-base font-bold font-display tracking-tight text-slate-900 dark:text-white leading-none truncate">
             Lộ Trình Luyện Thi {currentActiveExam} {currentActiveScore}
           </h1>
-          <span className="px-2 py-0.5 rounded-md text-[11px] font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 font-mono shrink-0">
-            Học viên {userName}
-          </span>
         </div>
       </div>
 

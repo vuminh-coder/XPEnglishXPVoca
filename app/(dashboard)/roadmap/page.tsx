@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { Compass, Trophy, BarChart3, Play, Wand2, ArrowRight } from "lucide-react";
+import { Compass, Target, Play, Wand2, ArrowRight } from "lucide-react";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import {
   AppTopHeader,
@@ -80,19 +80,18 @@ export default function RoadmapPage() {
         >
           <HeaderPillContainer>
             <HeaderPillItem
-              active={true}
-              icon={<Compass className="w-3.5 h-3.5 text-amber-500" />}
-              label="Lộ trình"
+              active={!isFormOpen}
+              onClick={() => setIsFormOpen(false)}
+              layoutId="roadmapNavActiveTab"
+              icon={<Compass className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+              label="Lộ trình học"
             />
             <HeaderPillItem
-              href="/analytics"
-              icon={<BarChart3 className="w-3.5 h-3.5 text-blue-500" />}
-              label="Thống kê"
-            />
-            <HeaderPillItem
-              href="/community/leaderboard"
-              icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
-              label="Xếp hạng"
+              active={isFormOpen}
+              onClick={() => setIsFormOpen(true)}
+              layoutId="roadmapNavActiveTab"
+              icon={<Target className="w-3.5 h-3.5 text-amber-500" />}
+              label="Đổi mục tiêu"
             />
           </HeaderPillContainer>
         </AppTopHeader>
@@ -158,19 +157,18 @@ export default function RoadmapPage() {
       >
         <HeaderPillContainer>
           <HeaderPillItem
-            active={true}
-            icon={<Compass className="w-3.5 h-3.5 text-amber-500" />}
-            label="Lộ trình"
+            active={!isFormOpen}
+            onClick={() => setIsFormOpen(false)}
+            layoutId="roadmapNavActiveTab"
+            icon={<Compass className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />}
+            label="Lộ trình học"
           />
           <HeaderPillItem
-            href="/analytics"
-            icon={<BarChart3 className="w-3.5 h-3.5 text-blue-500" />}
-            label="Thống kê"
-          />
-          <HeaderPillItem
-            href="/community/leaderboard"
-            icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
-            label="Xếp hạng"
+            active={isFormOpen}
+            onClick={() => setIsFormOpen(true)}
+            layoutId="roadmapNavActiveTab"
+            icon={<Target className="w-3.5 h-3.5 text-amber-500" />}
+            label="Đổi mục tiêu"
           />
         </HeaderPillContainer>
       </AppTopHeader>

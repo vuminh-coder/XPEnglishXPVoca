@@ -14,7 +14,7 @@
 
 Dự án áp dụng mô hình **Feature-Based Modular Architecture** kết hợp **Next.js 16 App Router**:
 
-- **`features/`**: Chứa toàn bộ logic nghiệp vụ, components, hooks, services, data và utilities phân chia độc lập theo từng tính năng (`listening`, `shadowing`, `vocabulary`, `ipa`, `exam-prep`, `grammar`, `reading`, `study-rooms`, `gamification`, `community`, `ai-tutor`, `profile`, `premium`, `myvideo`).
+- **`features/`**: Chứa toàn bộ logic nghiệp vụ, components, hooks, services, data và utilities phân chia độc lập theo từng tính năng (`listening`, `shadowing`, `vocabulary`, `ipa`, `exam-prep`, `grammar`, `reading`, `study-rooms`, `gamification`, `community`, `ai-tutor`, `profile`, `premium`, `myvideo`, `roadmap`).
 - **`shared/`**: Chứa các thành phần dùng chung thực sự (`components/ui`, `components/layout`, `components/feedback`, `utils`, `constants`, `types`).
 - **`infrastructure/`**: Tách biệt mã nguồn tích hợp hệ thống bên ngoài (`api`, `auth`, `database`, `security`, `webrtc`).
 - **`stores/`**: Chứa toàn bộ các Zustand stores quản lý trạng thái tập trung.
@@ -6938,6 +6938,14 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Kết nối toàn bộ luồng tìm kiếm chuyên đề ngữ pháp với nút tìm kiếm `[ 🔍 ]` trên thanh điều hướng đỉnh [AppTopHeader.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx) qua `searchProps` (`hideDesktopInput: true`, `hideMobileSearch: false`), hỗ trợ mở rộng search overlay toàn màn hình, phím tắt toàn cục `Cmd+K` / `Ctrl+K` / `/` và lọc kết quả 60 chuyên đề theo thời gian thực.
    - Bổ sung nút xóa từ khóa tìm kiếm khi không có kết quả phù hợp trong [GrammarTopicGrid.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/grammar/components/catalog/GrammarTopicGrid.tsx).
    - Đồng bộ khung xương nạp trang [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/study/grammar/loading.tsx) bảo đảm 0px CLS.
+
+10. **Chuẩn Hóa & Loại Bỏ Khối Trùng Lặp, Bất Hợp Lý Trên Lộ Trình Học Cá Nhân Hóa (`/roadmap`)**:
+    - **Header Navigation Pills Contextual**: Thay thế các liên kết ngoài luồng (`Thống kê`, `Xếp hạng`) trong `AppTopHeader` bằng 2 tab ngữ cảnh trực tiếp của tính năng: `Lộ trình học` (xem pathway) và `Đổi mục tiêu` (mở form điều chỉnh mục tiêu thi và cấp độ).
+    - **Tối Giản Hero Banner**: Xóa bỏ badge hiển thị tên người dùng lặp lại vô nghĩa (`Học viên Học viên XP Voca`), giữ tiêu đề mục tiêu luyện thi sắc nét và mạch lạc.
+    - **Triệt Tiêu Thanh Điều Hướng Chặng Trùng Lặp (`PhaseCarouselSwiper.tsx`)**: Tích hợp các nút chuyển chặng `< 1/3 >` trực tiếp vào tiêu đề thẻ chặng [PhaseRoadmapCard.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/pathway/PhaseRoadmapCard.tsx) cạnh rương thưởng, xóa bỏ hoàn toàn dải thanh điều hướng tách rời `Chặng Lộ Trình` ở phía trên.
+    - **Thống Nhất Card Thanh Tra Bài Học (`LessonInspectorCard.tsx`)**: Gom toàn bộ thông số bài học (Thời lượng, Độ khó, Kỹ năng), mẹo làm bài, nút hỏi nhanh AI và nút hành động chính vào một card `Chi Tiết Bài Học` duy nhất, loại bỏ khối thẻ `Trợ Lý AI Mentor` thứ hai gây phân tán thị giác.
+    - **Loại Bỏ Nút Hành Động Trùng Lặp Trên Mobile (`LessonTaskItem.tsx`)**: Khi bấm mở mẹo làm bài trên điện thoại, loại bỏ nút `Bắt Đầu Luyện Tập` trùng lặp trong ngăn kéo mở rộng, chỉ giữ lại nút hành động chính trên thẻ bài học theo UI/UX Rule 18.
+    - **Đồng Bộ Skeleton Đạt 0px CLS (`loading.tsx`)**: Cập nhật lại khung xương nạp trang bám sát 1:1 cấu trúc Bento Grid mới, đảm bảo 0px Cumulative Layout Shift.
 
 ---
 

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
-import { ChevronLeft, ChevronRight, Compass } from "lucide-react";
 import { TargetRoadmapPhase, RoadmapTask } from "../../types";
 import { PhaseRoadmapCard } from "./PhaseRoadmapCard";
 
@@ -15,7 +14,7 @@ interface PhaseCarouselSwiperProps {
 /**
  * PhaseCarouselSwiper
  * Component lướt chuyển các chặng lộ trình (Horizontal Carousel & Swipeable Track)
- * Thanh điều hướng gọn gàng: Hiển thị chữ "Chặng X" và icon chuyển chặng nhảy số trực quan.
+ * Tích hợp trực tiếp thanh điều hướng vào tiêu đề PhaseRoadmapCard, triệt tiêu card thanh điều hướng trùng lặp bên trên.
  */
 export const PhaseCarouselSwiper: React.FC<PhaseCarouselSwiperProps> = ({
   phases,
@@ -66,59 +65,14 @@ export const PhaseCarouselSwiper: React.FC<PhaseCarouselSwiperProps> = ({
   }, [activeIndex, phases.length]);
 
   return (
-    <div className="space-y-3">
-      {/* 1. COMPACT TOP CAROUSEL CONTROLLER: Single-line Strip */}
-      <div className="py-1.5 px-2.5 sm:py-2 sm:px-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between gap-2.5">
-        {/* Left: Compact Title với icon Compass chuẩn phong cách Lộ Trình của web */}
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 border border-blue-100 dark:border-blue-900/60 shadow-2xs">
-            <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
-          </div>
-          <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
-            Chặng Lộ Trình
-          </span>
-        </div>
-
-        {/* Right: Phase Number Label & Next/Prev Switcher Icons */}
-        <div className="flex items-center gap-2.5 shrink-0">
-          {/* Chữ Chặng Mấy thuần túy, tăng cỡ chữ rõ nét */}
-          <span className="text-sm sm:text-base font-bold text-[#0059bb] dark:text-sky-400 font-display select-none tracking-tight">
-            Chặng {activeIndex + 1}
-          </span>
-
-          {/* Icon chuyển chặng sắc nét với stroke-[2.5] */}
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              disabled={activeIndex === 0}
-              onClick={() => scrollToPhase(activeIndex - 1)}
-              className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-2xs"
-              title="Chặng trước"
-              aria-label="Chặng trước"
-            >
-              <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
-            </button>
-            <button
-              type="button"
-              disabled={activeIndex === phases.length - 1}
-              onClick={() => scrollToPhase(activeIndex + 1)}
-              className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-2xs"
-              title="Chặng tiếp theo"
-              aria-label="Chặng tiếp theo"
-            >
-              <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. SWIPEABLE TRACK: Horizontal Scroll Snap Carousel */}
+    <div className="w-full min-w-0">
+      {/* SWIPEABLE TRACK: Horizontal Scroll Snap Carousel */}
       <div
         ref={containerRef}
         onScroll={handleScroll}
         className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-none gap-4 pb-0.5"
       >
-        {phases.map((phase) => (
+        {phases.map((phase, idx) => (
           <div
             key={phase.phaseNum}
             className="w-full min-w-full shrink-0 snap-center"
@@ -128,6 +82,10 @@ export const PhaseCarouselSwiper: React.FC<PhaseCarouselSwiperProps> = ({
               selectedTaskId={selectedTaskId}
               onSelectTask={onSelectTask}
               onToggleComplete={onToggleComplete}
+              phaseIndex={idx}
+              totalPhases={phases.length}
+              onPrevPhase={() => scrollToPhase(activeIndex - 1)}
+              onNextPhase={() => scrollToPhase(activeIndex + 1)}
             />
           </div>
         ))}
