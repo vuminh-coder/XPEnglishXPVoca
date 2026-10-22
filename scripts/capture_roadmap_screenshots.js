@@ -18,14 +18,14 @@ async function main() {
   console.log('Capturing desktop screenshot...');
   await page.setViewport({ width: 1440, height: 1050 });
   await page.goto('http://localhost:3000/roadmap', { waitUntil: 'networkidle2' });
-  await new Promise(r => setTimeout(r, 600));
+  await new Promise(r => setTimeout(r, 2000));
   await page.screenshot({ path: targetDesktop });
 
   // Mobile
   console.log('Capturing mobile screenshot...');
   await page.setViewport({ width: 390, height: 844 });
   await page.goto('http://localhost:3000/roadmap', { waitUntil: 'networkidle2' });
-  await new Promise(r => setTimeout(r, 600));
+  await new Promise(r => setTimeout(r, 2000));
   await page.screenshot({ path: targetMobile });
 
   await browser.close();
