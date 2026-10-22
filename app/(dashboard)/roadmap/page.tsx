@@ -1,136 +1,32 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
-import { Compass, Target, Play, Wand2 } from "lucide-react";
+import { Compass, Play, Trophy, CheckCircle2 } from "lucide-react";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { ProgressSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
-import { useAiChatbotStore } from "@/stores/aiChatbotStore";
 import {
   useRoadmapManager,
-  RoadmapHeroBanner,
-  PhaseRoadmapCard,
-  PhaseCarouselSwiper,
-  LessonInspectorCard,
-  GoalSelectionForm,
-  AiBlueprintPreview,
+  ZiczacRoadmapPathway,
+  RoadmapDuolingoSidebar,
 } from "@/features/roadmap";
 
 export default function RoadmapPage() {
   const {
-    user,
-    plan,
-    targetCategory,
-    setTargetCategory,
-    targetExam,
-    setTargetExam,
-    targetScore,
-    setTargetScore,
-    currentLevel,
-    setCurrentLevel,
-    weeklyHours,
-    setWeeklyHours,
-    isFormOpen,
-    setIsFormOpen,
-    phases,
-    selectedTask,
-    setSelectedTask,
-    handleGenerate,
-    handleToggleTaskCompleted,
+    ziczacSteps,
+    completedStepIds,
+    selectedStep,
+    setSelectedStep,
+    handleToggleStepCompleted,
+    nextActiveStep,
+    nextCheckpointStep,
+    stepsUntilNextCheckpoint,
     overallProgress,
-    nextUncompletedTask,
-    currentActiveExam,
-    currentActiveScore,
+    totalStepsCount,
+    completedStepsCount,
   } = useRoadmapManager();
 
-  // 1. STEP 1: GOAL SELECTION FORM (Bento Form 8 cols + AI Blueprint Preview 4 cols)
-  if (isFormOpen) {
-    return (
-      <PageEntranceWrapper
-        className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans"
-        suppressHydrationWarning
-      >
-        {/* APP TOP HEADER INTEGRATION */}
-        <AppTopHeader
-          onBack={() => setIsFormOpen(false)}
-          showDailyQuote={false}
-          showGamificationStats={false}
-          hideMobileSearch={true}
-          mobileTitle={
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-display">
-              Thiết Lập Mục Tiêu
-            </span>
-          }
-          leftContent={
-            <div className="hidden sm:flex items-center gap-2 text-xs font-bold font-display text-slate-800 dark:text-slate-200">
-              <span className="text-slate-400">Lộ Trình Học</span>
-              <span className="text-slate-300 dark:text-slate-700">/</span>
-              <span className="text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5">
-                <Target className="w-3.5 h-3.5 text-amber-500 stroke-[2.2]" />
-                <span>Thiết Lập Mục Tiêu AI</span>
-              </span>
-            </div>
-          }
-          rightDesktopContent={
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setIsFormOpen(false)}
-                className="h-9 px-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0 font-display"
-              >
-                <span>Hủy Bỏ</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleGenerate()}
-                className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white font-bold text-xs shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shrink-0 font-display"
-              >
-                <Wand2 className="w-3.5 h-3.5" />
-                <span>Tạo Lộ Trình AI</span>
-              </button>
-            </div>
-          }
-        />
-
-        {/* UNIFIED 7XL CONTAINER */}
-        <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
-          <RoadmapHeroBanner
-            mode="goal-setting"
-            userName={user?.fullName || "Học Viên"}
-            onOpenChatbot={() => useAiChatbotStore.getState().openRoadmapDirectly()}
-          />
-
-          {/* BENTO GRID: 8 COLS FORM + 4 COLS PREVIEW WIDGET */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
-            <div className="lg:col-span-8">
-              <GoalSelectionForm
-                targetCategory={targetCategory}
-                setTargetCategory={setTargetCategory}
-                targetExam={targetExam}
-                setTargetExam={setTargetExam}
-                targetScore={targetScore}
-                setTargetScore={setTargetScore}
-                currentLevel={currentLevel}
-                setCurrentLevel={setCurrentLevel}
-                weeklyHours={weeklyHours}
-                setWeeklyHours={setWeeklyHours}
-                hasExistingPlan={true}
-                onCancel={() => setIsFormOpen(false)}
-                onSubmit={handleGenerate}
-              />
-            </div>
-
-            <AiBlueprintPreview
-              targetExam={targetExam}
-              targetScore={targetScore}
-            />
-          </div>
-        </div>
-      </PageEntranceWrapper>
-    );
-  }
-
-  // 2. STEP 2: HIGH-END TAILORED ROADMAP PATHWAY
   return (
     <PageEntranceWrapper
       className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans"
@@ -144,28 +40,28 @@ export default function RoadmapPage() {
         mobileTitle={
           <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 font-display">
             <Compass className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
-            <span>Lộ Trình AI</span>
+            <span>Lộ Trình Duolingo</span>
           </div>
         }
         rightDesktopContent={
           <Link
-            href={nextUncompletedTask?.practicePath || "/study/dictation"}
+            href={nextActiveStep.practicePath}
             className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center justify-center gap-1.5 transition-all cursor-pointer font-display active:scale-95 shrink-0 max-w-[280px]"
-            title={`Tiếp tục: Ngày ${nextUncompletedTask?.dayNum || 1} - ${nextUncompletedTask?.title || "Bài học"}`}
+            title={`Tiếp tục: Chặng ${nextActiveStep.stepNumber} - ${nextActiveStep.title}`}
           >
             <Play className="w-3.5 h-3.5 fill-current shrink-0" />
             <span className="truncate">
-              Tiếp tục: Ngày {nextUncompletedTask?.dayNum || 1}
+              Học tiếp: Chặng {nextActiveStep.stepNumber}
             </span>
           </Link>
         }
         rightMobileContent={
           <Link
-            href={nextUncompletedTask?.practicePath || "/study/dictation"}
+            href={nextActiveStep.practicePath}
             className="h-8 px-2.5 rounded-lg bg-[#0059bb] text-white text-[11px] font-bold shadow-2xs flex items-center gap-1 transition-all cursor-pointer font-display active:scale-95 shrink-0"
           >
             <Play className="w-3 h-3 fill-current shrink-0" />
-            <span>Học tiếp</span>
+            <span>Chặng {nextActiveStep.stepNumber}</span>
           </Link>
         }
       >
@@ -173,30 +69,82 @@ export default function RoadmapPage() {
       </AppTopHeader>
 
       {/* 2. UNIFIED MAIN CONTAINER */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
-        <RoadmapHeroBanner
-          mode="pathway"
-          userName={user?.fullName || "Học Viên"}
-          currentActiveExam={currentActiveExam}
-          currentActiveScore={currentActiveScore}
-          overallProgress={overallProgress}
-          onOpenForm={() => setIsFormOpen(true)}
-        />
+      <div className="w-full max-w-[1400px] 2xl:max-w-[1520px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 space-y-4 pt-1">
+        {/* Compact Pathway Banner */}
+        <div className="py-2.5 px-3.5 sm:py-3 sm:px-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          {/* Left: Branding & Roadmap Title */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-[#0059bb] text-white flex items-center justify-center shrink-0 shadow-xs shadow-[#0059bb]/20">
+              <Compass className="w-4 h-4 stroke-[2.2]" />
+            </div>
 
-        {/* 3. BENTO 3/4 + 1/4 GRID LAYOUT: CAROUSEL TRACK + FIXED COMPANION INSPECTOR */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
-          {/* LEFT 8-COLS: HIGH-END TAILORED PHASES CAROUSEL SWIPER (Dạng lướt) */}
-          <div className="lg:col-span-8 min-w-0">
-            <PhaseCarouselSwiper
-              phases={phases}
-              selectedTaskId={selectedTask?.id}
-              onSelectTask={setSelectedTask}
-              onToggleComplete={handleToggleTaskCompleted}
+            <div className="flex items-center gap-2 min-w-0">
+              <h1 className="text-sm sm:text-base font-bold font-display tracking-tight text-slate-900 dark:text-white leading-none truncate">
+                Lộ Trình Học 20 Chặng
+              </h1>
+              <span className="hidden md:inline-block text-slate-300 dark:text-slate-700">•</span>
+              <span className="hidden md:inline-block text-xs text-slate-500 dark:text-slate-400 font-medium truncate">
+                Cứ 5 chặng có 1 Cột Mốc Tổng Hợp để kiểm tra lại các chặng đã qua
+              </span>
+            </div>
+          </div>
+
+          {/* Right: Inline Progress & Next Checkpoint Countdown */}
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 justify-between sm:justify-end flex-wrap">
+            {/* Milestone Badge Pill */}
+            {stepsUntilNextCheckpoint > 0 ? (
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 text-[11px] font-bold font-display">
+                <Trophy className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />
+                <span>Còn {stepsUntilNextCheckpoint} chặng tới Cột Mốc!</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold font-display">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                <span>Đã Chinh Phục Cột Mốc!</span>
+              </div>
+            )}
+
+            {/* Overall Progress Pill */}
+            <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
+              <div className="w-16 sm:w-20 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                  style={{ width: `${Math.min(100, Math.max(0, overallProgress))}%` }}
+                />
+              </div>
+              <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                {overallProgress}%
+              </span>
+              <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 hidden sm:inline">
+                ({completedStepsCount}/{totalStepsCount})
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. DUOLINGO BENTO GRID: S-CURVE PATHWAY (Left 8-cols) + DUOLINGO SIDEBAR (Right 4-cols) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+          {/* LEFT 8-COLS: DUOLINGO WINDING PATHWAY */}
+          <div className="lg:col-span-8 min-w-0 bg-transparent sm:bg-white/40 sm:dark:bg-slate-900/40 rounded-3xl sm:border sm:border-slate-200/60 sm:dark:border-slate-800/60 sm:p-6 lg:p-8">
+            <ZiczacRoadmapPathway
+              steps={ziczacSteps}
+              selectedStepId={selectedStep?.id}
+              completedStepIds={completedStepIds}
+              onSelectStep={setSelectedStep}
+              onToggleComplete={handleToggleStepCompleted}
             />
           </div>
 
-          {/* RIGHT 4-COLS: INSPECTOR COMPANION CARD (Desktop - Cố định) */}
-          <LessonInspectorCard selectedTask={selectedTask} />
+          {/* RIGHT 4-COLS: DUOLINGO GAMIFICATION SIDEBAR (Daily Quests, Chests, League) */}
+          <div className="lg:col-span-4 min-w-0">
+            <RoadmapDuolingoSidebar
+              completedStepsCount={completedStepsCount}
+              totalStepsCount={totalStepsCount}
+              overallProgress={overallProgress}
+              stepsUntilNextCheckpoint={stepsUntilNextCheckpoint}
+              nextCheckpointStep={nextCheckpointStep}
+            />
+          </div>
         </div>
       </div>
     </PageEntranceWrapper>

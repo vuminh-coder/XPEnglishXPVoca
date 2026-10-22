@@ -1,0 +1,124 @@
+"use client";
+
+import React, { useMemo } from "react";
+import { Sparkles, Trophy } from "lucide-react";
+import { ZiczacPathStep, ZiczacStepState } from "../../types";
+import { getCuratedUnitGroups } from "../../data/curatedRoadmapPathway";
+import { ZiczacStepNode } from "./ZiczacStepNode";
+import { ZiczacMilestoneCheckpoint } from "./ZiczacMilestoneCheckpoint";
+import { ZiczacUnitHeader } from "./ZiczacUnitHeader";
+
+interface ZiczacRoadmapPathwayProps {
+  steps: ZiczacPathStep[];
+  selectedStepId?: string;
+  completedStepIds: Set<string>;
+  onSelectStep: (step: ZiczacPathStep) => void;
+  onToggleComplete?: (stepId: string) => void;
+}
+
+/**
+ * Duolingo S-curve horizontal offset (%) for each step
+ */
+const getNodeHorizontalPercent = (stepNumber: number): number => {
+  // Duolingo alternating path pattern
+  const pattern = [50, 72, 54, 28, 50, 28, 54, 72, 50, 50];
+  const idx = (stepNumber - 1) % pattern.length;
+  return pattern[idx];
+};
+
+export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
+  steps,
+  selectedStepId,
+  completedStepIds,
+  onSelectStep,
+  onToggleComplete,
+}) => {
+  const units = useMemo(() => getCuratedUnitGroups(), []);
+
+  // Determine step state
+  const getStepState = (step: ZiczacPathStep, index: number): ZiczacStepState => {
+    if (completedStepIds.has(step.id)) {
+      return "COMPLETED";
+    }
+    const firstUnfinishedIndex = steps.findIndex((s) => !completedStepIds.has(s.id));
+    if (firstUnfinishedIndex === index || (firstUnfinishedIndex === -1 && index === 0)) {
+      return "CURRENT";
+    }
+    return "LOCKED";
+  };
+
+  return (
+    <div className="w-full relative py-2 select-none">
+      <div className="space-y-10 sm:space-y-12">
+        {units.map((unit) => {
+          return (
+            <div key={`unit-${unit.unitNumber}`} className="relative">
+              {/* 1. DUOLINGO UNIT HEADER BANNER */}
+              <ZiczacUnitHeader unit={unit} />
+
+              {/* 2. DUOLINGO S-CURVE PATHWAY STEPS */}
+              <div className="relative w-full max-w-sm sm:max-w-md mx-auto min-h-[460px] py-4">
+                <div className="space-y-10 sm:space-y-12 relative z-10">
+                  {unit.steps.map((step) => {
+                    const stepIndex = steps.findIndex((s) => s.id === step.id);
+                    const state = getStepState(step, stepIndex);
+                    const isSelected = selectedStepId === step.id;
+
+                    // 5th Step: Duolingo Checkpoint Trophy / Treasure Chest Milestone
+                    if (step.isCheckpoint) {
+                      return (
+                        <div key={step.id} className="pt-2 pb-4 flex justify-center">
+                          <ZiczacMilestoneCheckpoint
+                            step={step}
+                            state={state}
+                            isSelected={isSelected}
+                            onSelect={onSelectStep}
+                            onToggleComplete={onToggleComplete}
+                          />
+                        </div>
+                      );
+                    }
+
+                    // Regular Steps: Alternating S-Curve offset
+                    const xPercent = getNodeHorizontalPercent(step.stepNumber);
+
+                    return (
+                      <div
+                        key={step.id}
+                        className="relative w-full flex items-center min-h-[96px]"
+                      >
+                        <div
+                          className="absolute transform -translate-x-1/2"
+                          style={{ left: `${xPercent}%` }}
+                        >
+                          <ZiczacStepNode
+                            step={step}
+                            state={state}
+                            isSelected={isSelected}
+                            onSelect={onSelectStep}
+                            onToggleComplete={onToggleComplete}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Finishing Line Monument */}
+      <div className="mt-14 mb-8 text-center space-y-2">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 dark:bg-amber-950/70 border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 text-xs font-bold font-display shadow-2xs">
+          <Trophy className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+          <span>ĐÍCH ĐẾN: HOÀN THÀNH 20 CHẶNG</span>
+        </div>
+        <p className="text-xs text-slate-400 dark:text-slate-500">
+          Chinh phục tất cả các Cột Mốc để làm chủ kiến thức và nhận cúp vàng thành tích!
+        </p>
+      </div>
+    </div>
+  );
+};

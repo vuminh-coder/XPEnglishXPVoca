@@ -84,5 +84,51 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       expect(roadmapModule.LessonInspectorCard).toBeDefined();
       expect(roadmapModule.PhaseRoadmapCard).toBeDefined();
     }, 15000);
+
+    it("7. Curated Ziczac Pathway contains 20 curated stages with a milestone checkpoint every 5 stages", async () => {
+      const { CURATED_ROADMAP_STEPS, getCuratedUnitGroups } = await import("@/features/roadmap");
+      expect(CURATED_ROADMAP_STEPS.length).toBe(20);
+
+      const checkpoints = CURATED_ROADMAP_STEPS.filter((s) => s.isCheckpoint);
+      expect(checkpoints.length).toBe(4);
+      expect(checkpoints.map((c) => c.stepNumber)).toEqual([5, 10, 15, 20]);
+
+      checkpoints.forEach((cp) => {
+        expect(cp.skillType).toBe("CHECKPOINT");
+        expect(cp.checkpointReviewScope).toBeTruthy();
+        expect(cp.xpReward).toBeGreaterThanOrEqual(100);
+      });
+
+      const units = getCuratedUnitGroups();
+      expect(units.length).toBe(4);
+      units.forEach((unit) => {
+        expect(unit.steps.length).toBe(5);
+        expect(unit.steps[4].isCheckpoint).toBe(true);
+      });
+    });
+
+    it("8. All curated steps have real practicePath routes linking to actual website features", async () => {
+      const { CURATED_ROADMAP_STEPS } = await import("@/features/roadmap");
+      const validPrefixes = ["/vocabulary", "/study/dictation", "/study/grammar", "/study/shadowing", "/study/reading", "/study/practice", "/study/exam-prep"];
+
+      CURATED_ROADMAP_STEPS.forEach((step) => {
+        const hasValidRoute = validPrefixes.some((prefix) => step.practicePath.startsWith(prefix));
+        expect(hasValidRoute).toBe(true);
+        expect(step.title).toBeTruthy();
+        expect(step.description).toBeTruthy();
+        expect(step.xpReward).toBeGreaterThan(0);
+        expect(step.durationMinutes).toBeGreaterThan(0);
+      });
+    });
+
+    it("9. Exports all Ziczac Pathway interactive components and Duolingo gamification widgets", async () => {
+      const roadmapModule = await import("@/features/roadmap");
+      expect(roadmapModule.ZiczacRoadmapPathway).toBeDefined();
+      expect(roadmapModule.ZiczacStepNode).toBeDefined();
+      expect(roadmapModule.ZiczacMilestoneCheckpoint).toBeDefined();
+      expect(roadmapModule.ZiczacUnitHeader).toBeDefined();
+      expect(roadmapModule.ZiczacNodePopover).toBeDefined();
+      expect(roadmapModule.RoadmapDuolingoSidebar).toBeDefined();
+    }, 15000);
   });
 });

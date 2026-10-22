@@ -1,0 +1,108 @@
+"use client";
+
+import React, { useState } from "react";
+import { Trophy, Crown, Check, Lock, Sparkles, Gift } from "lucide-react";
+import { ZiczacPathStep, ZiczacStepState } from "../../types";
+import { ZiczacNodePopover } from "./ZiczacNodePopover";
+
+interface ZiczacMilestoneCheckpointProps {
+  step: ZiczacPathStep;
+  state: ZiczacStepState;
+  isSelected: boolean;
+  onSelect: (step: ZiczacPathStep) => void;
+  onToggleComplete?: (stepId: string) => void;
+}
+
+export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps> = ({
+  step,
+  state,
+  isSelected,
+  onSelect,
+  onToggleComplete,
+}) => {
+  const [showPopover, setShowPopover] = useState(false);
+
+  const isCompleted = state === "COMPLETED";
+  const isCurrent = state === "CURRENT";
+  const isLocked = state === "LOCKED";
+
+  const handleNodeClick = () => {
+    onSelect(step);
+    setShowPopover((prev) => !prev);
+  };
+
+  return (
+    <div className="relative flex flex-col items-center group select-none my-4">
+      {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE CHECKPOINT */}
+      {isCurrent && !showPopover && (
+        <div
+          onClick={handleNodeClick}
+          className="absolute -top-10 z-20 flex flex-col items-center cursor-pointer animate-bounce"
+        >
+          <div className="px-3.5 py-1 rounded-xl bg-amber-500 text-white text-[11px] font-bold font-display uppercase tracking-wider shadow-md shadow-amber-500/30">
+            THI THỬ TỔNG HỢP!
+          </div>
+          <div className="w-0 h-0 border-x-4 border-x-transparent border-t-6 border-t-amber-500" />
+        </div>
+      )}
+
+      {/* 2. POPOVER ON CLICK */}
+      {showPopover && (
+        <ZiczacNodePopover
+          step={step}
+          state={state}
+          onClose={() => setShowPopover(false)}
+          onToggleComplete={(id) => {
+            if (onToggleComplete) onToggleComplete(id);
+          }}
+        />
+      )}
+
+      {/* 3. DUOLINGO CIRCULAR 3D MILESTONE CHEST/TROPHY BUTTON */}
+      <div className="relative">
+        <button
+          type="button"
+          onClick={handleNodeClick}
+          aria-label={step.title}
+          className={`relative w-22 h-22 sm:w-24 sm:h-24 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer focus:outline-hidden ${
+            isCompleted
+              ? "bg-gradient-to-b from-emerald-400 to-emerald-500 text-white border-b-[8px] border-emerald-700 shadow-lg shadow-emerald-500/20 active:translate-y-[5px] active:border-b-[2px]"
+              : isCurrent
+              ? "bg-gradient-to-b from-amber-400 to-amber-500 text-white border-b-[8px] border-amber-700 shadow-xl shadow-amber-500/30 active:translate-y-[5px] active:border-b-[2px] scale-105"
+              : "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-b-[8px] border-slate-300 dark:border-slate-700 shadow-xs active:translate-y-[4px] active:border-b-[2px]"
+          }`}
+        >
+          {/* Specular Gloss Curve */}
+          <div className="absolute inset-x-4 top-2 h-7 bg-white/25 rounded-t-full pointer-events-none" />
+
+          {/* Icon */}
+          <div className="relative z-10 flex items-center justify-center">
+            {isCompleted ? (
+              <Check className="w-10 h-10 stroke-[3.5]" />
+            ) : isLocked ? (
+              <Lock className="w-8 h-8 stroke-[2.2]" />
+            ) : step.stepNumber === 20 ? (
+              <Crown className="w-11 h-11 fill-amber-100 stroke-[2.2]" />
+            ) : (
+              <Trophy className="w-11 h-11 fill-amber-100 stroke-[2.2]" />
+            )}
+          </div>
+        </button>
+      </div>
+
+      {/* 4. Milestone Ribbon Caption */}
+      <div
+        onClick={handleNodeClick}
+        className="mt-3 px-3 py-1 rounded-xl bg-amber-50 dark:bg-amber-950/70 border border-amber-300/80 dark:border-amber-700/80 text-center max-w-[200px] cursor-pointer shadow-2xs"
+      >
+        <span className="text-[10px] font-bold font-mono uppercase text-amber-700 dark:text-amber-400 tracking-wider flex items-center justify-center gap-1">
+          <Sparkles className="w-2.5 h-2.5 fill-amber-500" />
+          <span>MỐC {step.stepNumber}: TEST CHẶNG</span>
+        </span>
+        <p className="text-xs font-bold font-display text-slate-800 dark:text-slate-200 line-clamp-1 leading-tight mt-0.5">
+          {step.title}
+        </p>
+      </div>
+    </div>
+  );
+};
