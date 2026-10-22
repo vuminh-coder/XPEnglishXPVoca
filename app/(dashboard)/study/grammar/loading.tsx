@@ -67,21 +67,7 @@ export default function GrammarCatalogLoading() {
           </div>
         </div>
 
-        {/* 2. Toolbar Skeleton */}
-        <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-950 rounded-xl">
-            <div className="h-7 w-20 rounded-lg bg-white dark:bg-slate-800" />
-            <div className="h-7 w-28 rounded-lg bg-slate-200 dark:bg-slate-800/60" />
-            <div className="h-7 w-28 rounded-lg bg-slate-200 dark:bg-slate-800/60" />
-            <div className="h-7 w-32 rounded-lg bg-slate-200 dark:bg-slate-800/60" />
-            <div className="h-7 w-24 rounded-lg bg-slate-200 dark:bg-slate-800/60" />
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="h-9 w-20 rounded-xl bg-slate-100 dark:bg-slate-950 shrink-0" />
-          </div>
-        </div>
-
-        {/* 3. 3 Curated Rows Skeleton matching ListeningListingView */}
+        {/* 2. 3 Curated Rows Skeleton matching ListeningListingView */}
         <div className="space-y-8">
           {/* Row 1: Basic A1-A2 */}
           <div className="space-y-4">

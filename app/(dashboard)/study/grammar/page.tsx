@@ -8,7 +8,6 @@ import { AiSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import {
   useGrammarCatalog,
-  GrammarStudioToolbar,
   GrammarTopicGrid,
 } from "@/features/grammar";
 import { useGrammarProgressStore } from "@/stores/grammarProgressStore";
@@ -19,11 +18,9 @@ export default function GrammarCatalogPage() {
     searchQuery,
     setSearchQuery,
     filteredTopics,
-    counts,
     stats,
     getTopicStatus,
     isSwitchingCategory,
-    handleSelectLevelTab,
     allBasicTopics,
     allIntermediateTopics,
     allAdvancedTopics,
@@ -134,19 +131,7 @@ export default function GrammarCatalogPage() {
           </div>
         </div>
 
-        {/* 2. Studio Toolbar (Level Filters + Active Search Pill + Force Refresh) */}
-        <GrammarStudioToolbar
-          activeLevel={activeLevel}
-          onLevelChange={handleSelectLevelTab}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          counts={counts}
-          onRefresh={() => {
-            useGrammarProgressStore.getState().fetchServerProgress();
-          }}
-        />
-
-        {/* 3. Dictation-Style 3 Curated Rows & Level Grids */}
+        {/* 2. Dictation-Style 3 Curated Rows & Level Grids */}
         <GrammarTopicGrid
           topics={filteredTopics}
           getTopicStatus={getTopicStatus}
