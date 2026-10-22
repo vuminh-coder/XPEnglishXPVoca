@@ -6,3 +6,4 @@ export * from "./ShopSuiteNavTabs";
 export * from "./IpaSuiteNavTabs";
 export * from "./GameSuiteNavTabs";
 export * from "./VideoSuiteNavTabs";
+export * from "./ProgressSuiteNavTabs";

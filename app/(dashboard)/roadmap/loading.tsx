@@ -37,20 +37,28 @@ export default function RoadmapLoading() {
     <div className="space-y-4 pb-16 md:pb-8 px-0 select-none font-sans">
       {/* 1. APP TOP HEADER SKELETON (56px h-14 BASELINE) */}
       <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3 shadow-2xs">
-        {/* Left: Mobile Sidebar Trigger + 2 Header Pills (Lộ trình học, Đổi mục tiêu) */}
+        {/* Left: Mobile Sidebar Trigger + 3 Header Pills (Lộ trình, Thống kê, Xếp hạng) */}
         <div className="flex items-center gap-2">
           <ShimmerBox className="lg:hidden w-8 h-8 rounded-xl shrink-0" />
-          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60">
-            {/* Lộ trình học (Active) */}
-            <ShimmerBox className="w-24 sm:w-28 h-7 rounded-lg bg-[#0059bb]/20 dark:bg-sky-400/20" />
-            {/* Đổi mục tiêu */}
-            <ShimmerBox className="w-24 sm:w-28 h-7 rounded-lg hidden sm:block" />
+          <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 hidden sm:inline-flex">
+            {/* Lộ trình (Active) */}
+            <ShimmerBox className="w-20 sm:w-22 h-7 rounded-lg bg-[#0059bb]/20 dark:bg-sky-400/20" />
+            {/* Thống kê */}
+            <ShimmerBox className="w-20 sm:w-22 h-7 rounded-lg hidden sm:block" />
+            {/* Xếp hạng */}
+            <ShimmerBox className="w-20 sm:w-22 h-7 rounded-lg hidden sm:block" />
+          </div>
+          {/* Mobile Title Placeholder (< sm) */}
+          <div className="sm:hidden flex items-center gap-1.5">
+            <ShimmerBox className="w-4 h-4 rounded" />
+            <ShimmerBox className="w-20 h-4 rounded" />
           </div>
         </div>
 
-        {/* Right Desktop: Nút CTA "Học Bài Tiếp Theo" + Mobile Avatar */}
+        {/* Right Desktop: Nút CTA "Tiếp tục: Ngày X" + Mobile Action & Avatar */}
         <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          <ShimmerBox className="h-9 w-36 sm:w-40 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/20 hidden sm:block" />
+          <ShimmerBox className="h-9 w-36 sm:w-44 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/20 hidden sm:block" />
+          <ShimmerBox className="h-8 w-18 rounded-lg bg-[#0059bb]/30 sm:hidden" />
           <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0 lg:hidden" />
         </div>
       </header>

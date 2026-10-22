@@ -8,6 +8,7 @@ import { IpaSuiteNavTabs } from "@/shared/components/layout/nav-tabs/IpaSuiteNav
 import { ProfileSuiteNavTabs } from "@/shared/components/layout/nav-tabs/ProfileSuiteNavTabs";
 import { ShopSuiteNavTabs } from "@/shared/components/layout/nav-tabs/ShopSuiteNavTabs";
 import { VideoSuiteNavTabs } from "@/shared/components/layout/nav-tabs/VideoSuiteNavTabs";
+import { ProgressSuiteNavTabs } from "@/shared/components/layout/nav-tabs/ProgressSuiteNavTabs";
 
 // Mock next/navigation
 vi.mock("next/navigation", () => ({
@@ -87,5 +88,13 @@ describe("AppTopHeader Maximum 4 Tabs Architectural Rule (<= 4 tabs per header)"
     const children = el.props.children;
     expect(React.Children.count(children)).toBeLessThanOrEqual(4);
     expect(React.Children.count(children)).toBe(4);
+  });
+
+  it("verifies ProgressSuiteNavTabs renders <= 4 tabs (3 tabs for TIẾN ĐỘ suite)", () => {
+    const el = ProgressSuiteNavTabs({});
+    expect(React.isValidElement(el)).toBe(true);
+    const children = el.props.children;
+    expect(React.Children.count(children)).toBeLessThanOrEqual(4);
+    expect(React.Children.count(children)).toBe(3);
   });
 });

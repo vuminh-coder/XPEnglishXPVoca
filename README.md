@@ -1172,6 +1172,7 @@ Hệ thống áp dụng mô hình tổ chức CSS phân tầng kết hợp **Co-
     - **`ProfileSuiteNavTabs`**: Hợp nhất cho phân hệ Hồ sơ cá nhân (`/profile`, `/profile/achievements`, `/settings`) với 3 tab (`Hồ sơ`, `Thành tích`, `Cài đặt`) chia sẻ chung `layoutId="profileSuiteNavActiveTab"`.
     - **`ShopSuiteNavTabs`**: Hợp nhất cho phân hệ Cửa hàng (`/shop`, `/premium`) với 3 tab (`Cửa hàng`, `Nâng cấp Premium`, `Hồ sơ`) chia sẻ chung `layoutId="shopSuiteNavActiveTab"`.
     - **`IpaSuiteNavTabs`**: Hợp nhất cho phân hệ Bảng Phiên Âm Quốc Tế IPA (`/study/ipa`, `/study/ipa/practice`, `/study/ipa/minimal-pairs`) với 3 tab tinh gọn (`Bảng 44 Âm`, `Luyện Âm AI`, `Đấu Trường Cặp Âm`) chia sẻ chung `layoutId="ipaSuiteNavActiveTab"`.
+    - **`ProgressSuiteNavTabs`**: Hợp nhất cho phân hệ Tiến độ học tập (`/roadmap`, `/analytics`, `/community/leaderboard`) với 3 tab tinh gọn (`Lộ trình`, `Thống kê`, `Xếp hạng`) chia sẻ chung `layoutId="progressSuiteNavActiveTab"`.
   - **Cơ Chế Khử Triệt Để Xung Đột Hoạt Ảnh (Zero-Jank Spring Transition Engine)**:
     - Loại bỏ hoàn toàn xung đột giữa Tailwind `transition-all` và Framer Motion bounding-box transforms bằng `transition-colors duration-150 active:scale-[0.98]`.
     - Cấu hình lò xo cao cấp `transition={{ type: "spring", stiffness: 450, damping: 32, mass: 0.8 }}` giúp viên thuốc chỉ báo lướt êm ái giữa các tab mà không rung giật.
