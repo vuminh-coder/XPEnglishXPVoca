@@ -147,5 +147,36 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       expect(typeof ZiczacStepNode).toBe("function");
       expect(typeof ZiczacMilestoneCheckpoint).toBe("function");
     });
+
+    it("11. Duolingo S-curve pattern prevents straight lines: no consecutive identical offsets across all 28 steps", async () => {
+      const { CURATED_ROADMAP_STEPS, getNodeHorizontalPercent, getShorterWidthSide } = await import("@/features/roadmap");
+      
+      const stepPositions = CURATED_ROADMAP_STEPS.map((step) => {
+        const x = step.isCheckpoint ? 50 : getNodeHorizontalPercent(step.stepNumber);
+        const side = getShorterWidthSide(x);
+        return { stepNumber: step.stepNumber, isCheckpoint: step.isCheckpoint, x, side };
+      });
+
+      // 1. All regular steps stay strictly within mobile safe boundaries [33%, 67%]
+      stepPositions.forEach((pos) => {
+        expect(pos.x).toBeGreaterThanOrEqual(33);
+        expect(pos.x).toBeLessThanOrEqual(67);
+      });
+
+      // 2. CRITICAL: No two adjacent steps ever have the exact same horizontal position
+      for (let i = 0; i < stepPositions.length - 1; i++) {
+        const current = stepPositions[i];
+        const next = stepPositions[i + 1];
+        const diff = Math.abs(current.x - next.x);
+        expect(diff).toBeGreaterThanOrEqual(7); // Minimum 7% horizontal delta
+      }
+
+      // 3. CRITICAL: Unit 2 steps (6 to 12) never form a straight vertical line of 4 buttons
+      const unit2Steps = stepPositions.filter((p) => p.stepNumber >= 6 && p.stepNumber <= 12);
+      expect(unit2Steps.length).toBe(7);
+      const unit2XPositions = unit2Steps.map((p) => p.x);
+      // Verify steps 9, 10, 11, 12: they must be distinct and wave dynamically
+      expect(unit2XPositions.slice(3)).toEqual([58, 42, 33, 50]);
+    });
   });
 });

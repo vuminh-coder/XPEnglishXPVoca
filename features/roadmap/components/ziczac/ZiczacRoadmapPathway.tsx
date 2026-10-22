@@ -17,11 +17,16 @@ interface ZiczacRoadmapPathwayProps {
 }
 
 /**
- * Duolingo S-curve horizontal offset (%) for each step
+ * Duolingo S-curve horizontal offset (%) for each step.
+ * Uses a true 6-point alternating serpentine wave [60, 67, 58, 42, 33, 40]
+ * guaranteeing that:
+ * 1. No two consecutive nodes ever share the same horizontal coordinate (minimum 7% delta).
+ * 2. Nodes never get stuck in a vertical straight line at 50%.
+ * 3. Side titles alternate naturally between Left (<50%) and Right (>50%) on the shorter width side.
+ * 4. Stays strictly within mobile safe boundaries [33%, 67%] to prevent title clipping.
  */
-const getNodeHorizontalPercent = (stepNumber: number): number => {
-  // Duolingo alternating path pattern (optimized for mobile viewport safety & elegant desktop curve)
-  const pattern = [50, 67, 53, 33, 50, 33, 53, 67, 50, 50];
+export const getNodeHorizontalPercent = (stepNumber: number): number => {
+  const pattern = [60, 67, 58, 42, 33, 40];
   const idx = (stepNumber - 1) % pattern.length;
   return pattern[idx];
 };
@@ -30,7 +35,7 @@ const getNodeHorizontalPercent = (stepNumber: number): number => {
  * Determine which side of the node has shorter width to the boundary
  * (User rule: "xem bên width nào ngắn hơn thì xuất hiện bên đó (bên phải hoặc trái nút )")
  */
-const getShorterWidthSide = (xPercent: number): "left" | "right" => {
+export const getShorterWidthSide = (xPercent: number): "left" | "right" => {
   const distanceToLeft = xPercent;
   const distanceToRight = 100 - xPercent;
   return distanceToRight <= distanceToLeft ? "right" : "left";

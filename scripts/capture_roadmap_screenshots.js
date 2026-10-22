@@ -48,6 +48,16 @@ async function main() {
   await new Promise(r => setTimeout(r, 2000));
   await page.screenshot({ path: targetMobile });
 
+  // Mobile scrolled to Unit 2 (Steps 9, 10, 11, 12)
+  console.log('Capturing Unit 2 S-curve screenshot...');
+  await page.evaluate(() => {
+    // Scroll down to where Step 9 / Unit 2 is located
+    window.scrollTo({ top: 1200, behavior: 'instant' });
+  });
+  await new Promise(r => setTimeout(r, 1000));
+  const targetUnit2 = 'C:\\Users\\VU VAN MINH\\.gemini\\antigravity\\brain\\75160da0-6646-41c9-817c-8e932ebd6caa\\roadmap_unit2_ziczac_fixed.png';
+  await page.screenshot({ path: targetUnit2 });
+
   await browser.close();
   console.log('Finished capturing screenshots!');
 }
