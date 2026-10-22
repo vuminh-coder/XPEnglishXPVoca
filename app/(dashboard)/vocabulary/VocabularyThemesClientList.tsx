@@ -137,7 +137,7 @@ export default function VocabularyThemesClientList({
       {/* 0. BRAND TOP HEADER (Unified 56px Baseline with Pill Actions) */}
       <AppTopHeader
         showGamificationStats={false}
-        hideMobileSearch={true}
+        hideMobileSearch={false}
         searchProps={{
           value: search,
           onChange: setSearch,

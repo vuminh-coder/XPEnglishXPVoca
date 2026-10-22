@@ -6914,6 +6914,10 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
 5. **Khắc Phục Lỗi Mâu Thuẫn Kích Thước Mảng Dependency `useEffect` Khi Chuyển Tab (Fiber Hook Reconciliation)**:
    - Gán định danh phân lập `key="tab-subtitles"` cho `SubtitlesTabPane` và `key="tab-dictation"` cho `DictationTabPane` trong [InteractiveStudyDock.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/InteractiveStudyDock.tsx).
    - Ngăn chặn triệt để hiện tượng React Reconciler tái sử dụng chung fiber node tại cùng vị trí DOM khi hoán đổi tab, triệt tiêu hoàn toàn lỗi Console Error `The final argument passed to useEffect changed size between renders. Previous: [0], Incoming: [0, rolling]`.
+6. **Khôi Phục Nút Tìm Kiếm Thông Minh Trên Thanh Đỉnh `AppTopHeader` (`/vocabulary`)**:
+   - Khắc phục triệt để hiện tượng mất nút tìm kiếm trên trang Kho Từ Vựng: chuyển đổi cấu hình `hideMobileSearch={false}` trong [VocabularyThemesClientList.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/vocabulary/VocabularyThemesClientList.tsx).
+   - Nâng cấp [AppTopHeader.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx): Khi trang kích hoạt cờ `searchProps.hideDesktopInput`, nút tìm kiếm kính lúp (`Search`) được hiển thị linh hoạt trên cả Desktop và Mobile (`${searchProps.hideDesktopInput ? "flex" : "lg:hidden"}`).
+   - Khi học viên bấm vào nút tìm kiếm ở bất kỳ kích thước màn hình nào, thanh đỉnh `AppTopHeader` tự động bung rộng toàn chiều ngang màn hình (Expandable Search Overlay) với khả năng auto-focus, cho phép tìm kiếm tức thì ngay cả khi đã cuộn trang sâu xuống danh sách 155 chủ đề mà không cần kéo ngược lên đỉnh.
 
 ---
 
