@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, RefreshCw, CheckCircle2 } from "lucide-react";
+import { Search, RefreshCw, CheckCircle2, X } from "lucide-react";
 import { GrammarTopic, GrammarTopicStatus } from "../../types/grammarTypes";
 import { GrammarTopicCard, GrammarTopicCardShimmer } from "./GrammarTopicCard";
 import { useGrammarProgressStore, GrammarFilterLevel } from "@/stores/grammarProgressStore";
@@ -12,6 +12,7 @@ interface GrammarTopicGridProps {
   getTopicStatus: (id: string) => GrammarTopicStatus;
   activeLevel?: GrammarFilterLevel;
   searchQuery?: string;
+  onClearSearch?: () => void;
   isSwitchingCategory?: boolean;
   allBasicTopics?: GrammarTopic[];
   allIntermediateTopics?: GrammarTopic[];
@@ -33,6 +34,7 @@ export function GrammarTopicGrid({
   getTopicStatus,
   activeLevel = "all",
   searchQuery = "",
+  onClearSearch,
   isSwitchingCategory = false,
   allBasicTopics = [],
   allIntermediateTopics = [],
@@ -94,6 +96,16 @@ export function GrammarTopicGrid({
             <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
               Thử thay đổi từ khóa tìm kiếm hoặc bấm &quot;Tất Cả&quot; để xem toàn bộ 60 chuyên đề ngữ pháp.
             </p>
+            {onClearSearch && (
+              <button
+                type="button"
+                onClick={onClearSearch}
+                className="h-10 px-5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer active:scale-95 inline-flex items-center gap-1.5 mt-2"
+              >
+                <X className="w-4 h-4" />
+                <span>Xóa Từ Khóa Tìm Kiếm</span>
+              </button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">

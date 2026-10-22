@@ -107,27 +107,22 @@ export function GrammarStudioToolbar({
         })}
       </div>
 
-      {/* Search Input Box & Refresh Control */}
-      <div className="flex items-center gap-2 w-full md:max-w-md">
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-            aria-label="Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)"
-            placeholder="Tìm kiếm theo tên thì, cấu trúc, kỳ thi (TOEIC, IELTS)..."
-            className="w-full pl-10 pr-9 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 text-xs sm:text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-[#0059bb]/20 focus:border-[#0059bb] transition-all"
-          />
-          {searchQuery && (
+      {/* Right Action: Active Search Filter Pill + Force Refresh Button */}
+      <div className="flex items-center gap-2 shrink-0">
+        {searchQuery && searchQuery.trim() !== "" && onSearchChange && (
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-300 text-xs font-semibold shrink-0 animate-in fade-in duration-200">
+            <Search className="w-3.5 h-3.5 shrink-0" />
+            <span className="max-w-[140px] sm:max-w-[200px] truncate">&ldquo;{searchQuery}&rdquo;</span>
             <button
+              type="button"
               onClick={() => onSearchChange("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer p-0.5 rounded-md hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
+              className="p-0.5 rounded-md text-[#0059bb]/70 hover:text-[#0059bb] hover:bg-blue-100 dark:hover:bg-blue-900/80 cursor-pointer transition-colors"
+              title="Xóa bộ lọc tìm kiếm"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
-          )}
-        </div>
+          </div>
+        )}
 
         {onRefresh && (
           <button

@@ -6929,6 +6929,12 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Trên Desktop (≥ 1024px / `lg`), thanh bên cố định [Sidebar.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/Sidebar.tsx) đã có sẵn User Card đầy đủ với Avatar, Tên, Cấp độ và Menu tài khoản ở góc dưới bên trái. Việc ẩn Avatar trên thanh đỉnh giúp loại bỏ 100% tình trạng xuất hiện 2 Avatar song song trên một màn hình, mang lại giao diện tinh tế, gọn gàng và chuẩn mực UX cao cấp.
    - Trên Mobile và Tablet (< 1024px), khi Sidebar được ẩn trong drawer thì Avatar trên thanh đỉnh vẫn hiển thị 100% bình thường, cho phép mở nhanh menu cá nhân mà không cần mở drawer.
 
+9. **Đồng Bộ Luồng Tìm Kiếm & Xóa Ô Nhập Nội Trang Trên Cẩm Nang Ngữ Pháp (`/study/grammar`)**:
+   - Loại bỏ ô nhập `<input>` tìm kiếm nội trang thừa thãi trong [GrammarStudioToolbar.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/grammar/components/catalog/GrammarStudioToolbar.tsx), giúp thanh công cụ chỉ tập trung vào 5 pill cấp độ và nút làm mới dữ liệu.
+   - Kết nối toàn bộ luồng tìm kiếm chuyên đề ngữ pháp với nút tìm kiếm `[ 🔍 ]` trên thanh điều hướng đỉnh [AppTopHeader.tsx](file:///e:/XP%20English%20%20XP%20Voca/shared/components/layout/AppTopHeader.tsx) qua `searchProps` (`hideDesktopInput: true`, `hideMobileSearch: false`), hỗ trợ mở rộng search overlay toàn màn hình, phím tắt toàn cục `Cmd+K` / `Ctrl+K` / `/` và lọc kết quả thời gian thực.
+   - Tích hợp chip lọc chủ động `[ 🔍 "{từ khóa}" ✕ ]` trên thanh công cụ và nút xóa từ khóa tìm kiếm khi không có kết quả phù hợp trong [GrammarTopicGrid.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/grammar/components/catalog/GrammarTopicGrid.tsx).
+   - Đồng bộ khung xương nạp trang [loading.tsx](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/study/grammar/loading.tsx) bảo đảm 0px CLS.
+
 ---
 
 ## 🌐 Production Deployment Status

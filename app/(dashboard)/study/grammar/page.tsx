@@ -42,6 +42,29 @@ export default function GrammarCatalogPage() {
 
   const isNextInProgress = getTopicStatus(nextRecommendedTopic.id) === "in_progress";
 
+  // Global Hotkey Listener: Cmd+K / Ctrl+K / '/' to trigger search in AppTopHeader, Esc to clear
+  React.useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        const searchBtn = document.querySelector<HTMLButtonElement>('button[title="Mở tìm kiếm"]');
+        searchBtn?.click();
+        return;
+      }
+      if (e.key === "/" && !["INPUT", "TEXTAREA"].includes((e.target as HTMLElement)?.tagName)) {
+        e.preventDefault();
+        const searchBtn = document.querySelector<HTMLButtonElement>('button[title="Mở tìm kiếm"]');
+        searchBtn?.click();
+        return;
+      }
+      if (e.key === "Escape") {
+        if (searchQuery) setSearchQuery("");
+      }
+    };
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, [searchQuery, setSearchQuery]);
+
   return (
     <PageEntranceWrapper
       className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans"
@@ -49,6 +72,14 @@ export default function GrammarCatalogPage() {
     >
       {/* 4 Fixed Tabs in AppTopHeader matching Sidebar & other AI routes */}
       <AppTopHeader
+        hideMobileSearch={false}
+        searchProps={{
+          value: searchQuery,
+          onChange: setSearchQuery,
+          placeholder: "Tìm kiếm thì, cấu trúc ngữ pháp (TOEIC, IELTS)...",
+          onClear: () => setSearchQuery(""),
+          hideDesktopInput: true,
+        }}
         rightDesktopContent={
           <Link
             href={`/study/grammar/${nextRecommendedTopic.id}`}
@@ -103,7 +134,7 @@ export default function GrammarCatalogPage() {
           </div>
         </div>
 
-        {/* 2. Studio Toolbar (Level Filters + Search + Force Refresh) */}
+        {/* 2. Studio Toolbar (Level Filters + Active Search Pill + Force Refresh) */}
         <GrammarStudioToolbar
           activeLevel={activeLevel}
           onLevelChange={handleSelectLevelTab}
@@ -121,6 +152,7 @@ export default function GrammarCatalogPage() {
           getTopicStatus={getTopicStatus}
           activeLevel={activeLevel}
           searchQuery={searchQuery}
+          onClearSearch={() => setSearchQuery("")}
           isSwitchingCategory={isSwitchingCategory}
           allBasicTopics={allBasicTopics}
           allIntermediateTopics={allIntermediateTopics}

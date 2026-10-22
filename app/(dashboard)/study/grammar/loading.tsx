@@ -35,6 +35,7 @@ export default function GrammarCatalogLoading() {
     <div className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans animate-pulse">
       {/* Top Header Skeleton matching AiSuiteNavTabs */}
       <AppTopHeader
+        hideMobileSearch={false}
         rightDesktopContent={
           <div className="h-9 w-48 rounded-xl bg-slate-200 dark:bg-slate-800" />
         }
@@ -75,8 +76,7 @@ export default function GrammarCatalogLoading() {
             <div className="h-7 w-32 rounded-lg bg-slate-200 dark:bg-slate-800/60" />
             <div className="h-7 w-24 rounded-lg bg-slate-200 dark:bg-slate-800/60" />
           </div>
-          <div className="flex items-center gap-2 w-full md:max-w-md">
-            <div className="h-9 w-full rounded-xl bg-slate-100 dark:bg-slate-950" />
+          <div className="flex items-center gap-2 shrink-0">
             <div className="h-9 w-20 rounded-xl bg-slate-100 dark:bg-slate-950 shrink-0" />
           </div>
         </div>
