@@ -72,16 +72,17 @@ export default function RoadmapLoading() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0 justify-between sm:justify-end">
-            <ShimmerBox className="h-7 w-32 rounded-xl bg-amber-500/20 border border-amber-300/40" />
-            <ShimmerBox className="h-7 w-24 rounded-xl bg-slate-100 dark:bg-slate-800/80" />
+          {/* Right: Inline Progress */}
+          <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shrink-0 self-start sm:self-auto">
+            <ShimmerBox className="w-16 sm:w-24 h-1.5 rounded-full" />
+            <ShimmerBox className="h-4 w-10 rounded" />
+            <ShimmerBox className="h-3 w-16 rounded hidden sm:inline-block" />
           </div>
         </div>
 
-        {/* 3. DUOLINGO BENTO 8/12 + 4/12 GRID LAYOUT SKELETON */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
-          {/* CỘT TRÁI (8-COLS): DUOLINGO PATHWAY SKELETON */}
-          <div className="lg:col-span-8 min-w-0 space-y-10">
+        {/* 3. CENTERED DUOLINGO PATHWAY SKELETON */}
+        <div className="w-full max-w-2xl sm:max-w-3xl mx-auto min-w-0">
+          <div className="bg-transparent sm:bg-white/40 sm:dark:bg-slate-900/40 rounded-3xl sm:border sm:border-slate-200/60 sm:dark:border-slate-800/60 sm:p-6 lg:p-8 space-y-10">
             {/* Unit Header Banner Skeleton */}
             <div className="w-full max-w-xl mx-auto h-24 rounded-2xl bg-[#0059bb]/30 p-4 flex items-center justify-between">
               <div className="space-y-2">
@@ -121,41 +122,6 @@ export default function RoadmapLoading() {
               <div className="flex flex-col items-center">
                 <ShimmerBox className="w-24 h-24 rounded-full bg-amber-500/30" />
                 <ShimmerBox className="mt-3 h-5 w-40 rounded-xl bg-amber-500/20" />
-              </div>
-            </div>
-          </div>
-
-          {/* CỘT PHẢI (4-COLS): DUOLINGO GAMIFICATION SIDEBAR SKELETON */}
-          <div className="lg:col-span-4 min-w-0 space-y-4">
-            {/* Daily Quests Skeleton */}
-            <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 space-y-4">
-              <div className="flex items-center justify-between">
-                <ShimmerBox className="h-5 w-36 rounded-md" />
-                <ShimmerBox className="h-4 w-16 rounded" />
-              </div>
-              <div className="space-y-3">
-                <ShimmerBox className="h-6 w-full rounded-md" />
-                <ShimmerBox className="h-6 w-full rounded-md" />
-                <ShimmerBox className="h-6 w-full rounded-md" />
-              </div>
-            </div>
-
-            {/* Chest Milestone Reward Skeleton */}
-            <div className="p-5 rounded-3xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-300/80 space-y-3">
-              <ShimmerBox className="h-5 w-36 rounded-md bg-amber-500/20" />
-              <ShimmerBox className="h-12 w-full rounded-2xl bg-white dark:bg-slate-900" />
-            </div>
-
-            {/* Leaderboard Snippet Skeleton */}
-            <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 space-y-3">
-              <div className="flex items-center justify-between">
-                <ShimmerBox className="h-5 w-32 rounded-md" />
-                <ShimmerBox className="h-4 w-16 rounded" />
-              </div>
-              <div className="space-y-2">
-                <ShimmerBox className="h-5 w-full rounded" />
-                <ShimmerBox className="h-5 w-full rounded" />
-                <ShimmerBox className="h-5 w-full rounded" />
               </div>
             </div>
           </div>

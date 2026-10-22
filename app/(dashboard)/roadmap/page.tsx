@@ -89,60 +89,32 @@ export default function RoadmapPage() {
             </div>
           </div>
 
-          {/* Right: Inline Progress & Next Checkpoint Countdown */}
-          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 justify-between sm:justify-end flex-wrap">
-            {/* Milestone Badge Pill */}
-            {stepsUntilNextCheckpoint > 0 ? (
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 text-[11px] font-bold font-display">
-                <Trophy className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />
-                <span>Còn {stepsUntilNextCheckpoint} chặng tới Cột Mốc!</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold font-display">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                <span>Đã Chinh Phục Cột Mốc!</span>
-              </div>
-            )}
-
-            {/* Overall Progress Pill */}
-            <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
-              <div className="w-16 sm:w-20 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-emerald-500 rounded-full transition-all duration-500"
-                  style={{ width: `${Math.min(100, Math.max(0, overallProgress))}%` }}
-                />
-              </div>
-              <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
-                {overallProgress}%
-              </span>
-              <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 hidden sm:inline">
-                ({completedStepsCount}/{totalStepsCount})
-              </span>
+          {/* Right: Inline Progress */}
+          <div className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shrink-0 self-start sm:self-auto">
+            <div className="w-16 sm:w-24 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                style={{ width: `${Math.min(100, Math.max(0, overallProgress))}%` }}
+              />
             </div>
+            <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+              {overallProgress}%
+            </span>
+            <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 hidden sm:inline">
+              ({completedStepsCount}/{totalStepsCount} chặng)
+            </span>
           </div>
         </div>
 
-        {/* 3. DUOLINGO BENTO GRID: S-CURVE PATHWAY (Left 8-cols) + DUOLINGO SIDEBAR (Right 4-cols) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
-          {/* LEFT 8-COLS: DUOLINGO WINDING PATHWAY */}
-          <div className="lg:col-span-8 min-w-0 bg-transparent sm:bg-white/40 sm:dark:bg-slate-900/40 rounded-3xl sm:border sm:border-slate-200/60 sm:dark:border-slate-800/60 sm:p-6 lg:p-8">
+        {/* 3. CENTERED DUOLINGO WINDING PATHWAY (Khối Lộ Trình Trung Tâm) */}
+        <div className="w-full max-w-2xl sm:max-w-3xl mx-auto min-w-0">
+          <div className="bg-transparent sm:bg-white/40 sm:dark:bg-slate-900/40 rounded-3xl sm:border sm:border-slate-200/60 sm:dark:border-slate-800/60 sm:p-6 lg:p-8">
             <ZiczacRoadmapPathway
               steps={ziczacSteps}
               selectedStepId={selectedStep?.id}
               completedStepIds={completedStepIds}
               onSelectStep={setSelectedStep}
               onToggleComplete={handleToggleStepCompleted}
-            />
-          </div>
-
-          {/* RIGHT 4-COLS: DUOLINGO GAMIFICATION SIDEBAR (Daily Quests, Chests, League) */}
-          <div className="lg:col-span-4 min-w-0">
-            <RoadmapDuolingoSidebar
-              completedStepsCount={completedStepsCount}
-              totalStepsCount={totalStepsCount}
-              overallProgress={overallProgress}
-              stepsUntilNextCheckpoint={stepsUntilNextCheckpoint}
-              nextCheckpointStep={nextCheckpointStep}
             />
           </div>
         </div>
