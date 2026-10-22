@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Zap, BookMarked, Search, X } from "lucide-react";
+import { BookMarked, Search, X } from "lucide-react";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { AiSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { PageEntranceWrapper, MotionItem } from "@/shared/components/feedback/PageEntranceAnimation";
@@ -78,10 +78,9 @@ export default function GrammarCatalogPage() {
         rightDesktopContent={
           <Link
             href={`/study/grammar/${nextRecommendedTopic.id}`}
-            className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 transition-all cursor-pointer font-display active:scale-95 shrink-0 max-w-[280px]"
+            className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center justify-center transition-all cursor-pointer font-display active:scale-95 shrink-0 max-w-[280px]"
             title={`Tiếp tục: ${nextRecommendedTopic.name}`}
           >
-            <Zap className="w-3.5 h-3.5 fill-current text-amber-300 shrink-0" />
             <span className="truncate">
               Tiếp tục: {nextRecommendedTopic.name}
             </span>
