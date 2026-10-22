@@ -106,6 +106,7 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
           {/* TAB 1: PHỤ ĐỀ SONG NGỮ 1-CLICK TRA TỪ */}
           {rightPanelTab === "subtitles" && (
             <SubtitlesTabPane
+              key="tab-subtitles"
               activeVideo={activeVideo}
               subViewMode={subViewMode}
               setSubViewMode={setSubViewMode}
@@ -123,6 +124,7 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
           {/* TAB 2: DICTATION & SHADOWING AI */}
           {rightPanelTab === "dictation" && (
             <DictationTabPane
+              key="tab-dictation"
               activeVideo={activeVideo}
               currentSubIndex={currentSubIndex}
               setCurrentSubIndex={setCurrentSubIndex}

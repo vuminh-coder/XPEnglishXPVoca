@@ -6883,6 +6883,9 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Nút Micro chuyển sang kiểu dáng secondary tinh tế viền neutral, chỉ nhấp nháy đỏ khi đang ghi âm (`isRecording`).
    - Sóng âm thanh equalizer dàn ngang mượt mà, triệt tiêu hơn 35% khoảng trắng thừa phía dưới.
    - Khắc phục lỗi ngắt dòng chữ `XP)` trên huy hiệu điểm số (`25/100 (+15 XP)`) bằng `whitespace-nowrap shrink-0`, đảm bảo hiển thị thẳng hàng trên một dòng duy nhất trên mọi độ phân giải.
+5. **Khắc Phục Lỗi Mâu Thuẫn Kích Thước Mảng Dependency `useEffect` Khi Chuyển Tab (Fiber Hook Reconciliation)**:
+   - Gán định danh phân lập `key="tab-subtitles"` cho `SubtitlesTabPane` và `key="tab-dictation"` cho `DictationTabPane` trong [InteractiveStudyDock.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/myvideo/components/InteractiveStudyDock.tsx).
+   - Ngăn chặn triệt để hiện tượng React Reconciler tái sử dụng chung fiber node tại cùng vị trí DOM khi hoán đổi tab, triệt tiêu hoàn toàn lỗi Console Error `The final argument passed to useEffect changed size between renders. Previous: [0], Incoming: [0, rolling]`.
 
 ---
 
