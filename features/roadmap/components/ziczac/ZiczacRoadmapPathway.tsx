@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Sparkles, Trophy } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState } from "../../types";
 import { getCuratedUnitGroups } from "../../data/curatedRoadmapPathway";
@@ -35,18 +35,6 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
 }) => {
   const units = useMemo(() => getCuratedUnitGroups(), []);
 
-  // Single-active popover state across the entire pathway
-  const [activePopoverStepId, setActivePopoverStepId] = useState<string | null>(null);
-
-  const handleTogglePopover = (step: ZiczacPathStep) => {
-    onSelectStep(step);
-    setActivePopoverStepId((prev) => (prev === step.id ? null : step.id));
-  };
-
-  const handleClosePopover = () => {
-    setActivePopoverStepId(null);
-  };
-
   // Determine step state
   const getStepState = (step: ZiczacPathStep, index: number): ZiczacStepState => {
     if (completedStepIds.has(step.id)) {
@@ -61,15 +49,6 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
 
   return (
     <div className="w-full relative py-2 select-none">
-      {/* Transparent Click-Outside Backdrop when any popover is open */}
-      {activePopoverStepId && (
-        <div
-          className="fixed inset-0 z-30 bg-transparent cursor-default"
-          onClick={handleClosePopover}
-          aria-hidden="true"
-        />
-      )}
-
       <div className="space-y-10 sm:space-y-12">
         {units.map((unit) => {
           return (
@@ -84,7 +63,6 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                     const stepIndex = steps.findIndex((s) => s.id === step.id);
                     const state = getStepState(step, stepIndex);
                     const isSelected = selectedStepId === step.id;
-                    const isPopoverOpen = activePopoverStepId === step.id;
 
                     // 5th Step: Duolingo Checkpoint Trophy / Treasure Chest Milestone
                     if (step.isCheckpoint) {
@@ -94,12 +72,8 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                             step={step}
                             state={state}
                             isSelected={isSelected}
-                            isPopoverOpen={isPopoverOpen}
-                            onTogglePopover={handleTogglePopover}
-                            onClosePopover={handleClosePopover}
                             onSelect={onSelectStep}
                             onToggleComplete={onToggleComplete}
-                            placement="top"
                           />
                         </div>
                       );
@@ -107,11 +81,6 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
 
                     // Regular Steps: Alternating S-Curve offset
                     const xPercent = getNodeHorizontalPercent(step.stepNumber);
-
-                    // Step 1 of each unit (step 1, 6, 11, 16) is immediately below the Unit banner,
-                    // so its popover displays downward (placement="bottom") to avoid top clipping / banner collision
-                    const isFirstStepInUnit = (step.stepNumber - 1) % 5 === 0;
-                    const placement = isFirstStepInUnit ? "bottom" : "top";
 
                     return (
                       <div
@@ -126,12 +95,8 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                             step={step}
                             state={state}
                             isSelected={isSelected}
-                            isPopoverOpen={isPopoverOpen}
-                            onTogglePopover={handleTogglePopover}
-                            onClosePopover={handleClosePopover}
                             onSelect={onSelectStep}
                             onToggleComplete={onToggleComplete}
-                            placement={placement}
                           />
                         </div>
                       </div>

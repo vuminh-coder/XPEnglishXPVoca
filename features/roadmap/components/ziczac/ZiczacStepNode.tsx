@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import Link from "next/link";
 import {
   Lock,
   Headphones,
@@ -13,17 +14,17 @@ import {
   Star,
 } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState } from "../../types";
-import { ZiczacNodePopover } from "./ZiczacNodePopover";
 
 interface ZiczacStepNodeProps {
   step: ZiczacPathStep;
   state: ZiczacStepState;
-  isSelected: boolean;
+  isSelected?: boolean;
   isPopoverOpen?: boolean;
   onTogglePopover?: (step: ZiczacPathStep) => void;
   onClosePopover?: () => void;
   onSelect?: (step: ZiczacPathStep) => void;
   onToggleComplete?: (stepId: string) => void;
+  side?: "left" | "right";
   placement?: "top" | "bottom";
 }
 
@@ -31,16 +32,8 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   step,
   state,
   isSelected,
-  isPopoverOpen,
-  onTogglePopover,
-  onClosePopover,
   onSelect,
-  onToggleComplete,
-  placement = "top",
 }) => {
-  const [internalPopover, setInternalPopover] = useState(false);
-  const showPopover = isPopoverOpen !== undefined ? isPopoverOpen : internalPopover;
-
   // Duolingo skill icons
   const getSkillIcon = () => {
     const iconClass = "w-7 h-7 stroke-[2.4]";
@@ -68,52 +61,27 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   const isCurrent = state === "CURRENT";
   const isLocked = state === "LOCKED";
 
-  const handleNodeClick = () => {
+  const handleClick = () => {
     if (onSelect) onSelect(step);
-    if (onTogglePopover) {
-      onTogglePopover(step);
-    } else {
-      setInternalPopover((prev) => !prev);
-    }
-  };
-
-  const handleClose = () => {
-    if (onClosePopover) {
-      onClosePopover();
-    } else {
-      setInternalPopover(false);
-    }
   };
 
   return (
     <div className="relative flex flex-col items-center group select-none">
-      {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE NODE (If popover is closed) */}
-      {isCurrent && !showPopover && (
-        <div
-          onClick={handleNodeClick}
-          className="absolute -top-10 z-20 flex flex-col items-center cursor-pointer animate-bounce"
+      {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE NODE (Bấm vào bài luôn) */}
+      {isCurrent && (
+        <Link
+          href={step.practicePath}
+          onClick={handleClick}
+          className="absolute -top-10 z-20 flex flex-col items-center cursor-pointer animate-bounce group-hover:scale-105 transition-transform"
         >
           <div className="px-3 py-1 rounded-xl bg-[#0059bb] text-white text-[11px] font-bold font-display uppercase tracking-wider shadow-md shadow-[#0059bb]/30">
             BẮT ĐẦU!
           </div>
           <div className="w-0 h-0 border-x-4 border-x-transparent border-t-6 border-t-[#0059bb]" />
-        </div>
+        </Link>
       )}
 
-      {/* 2. DUOLINGO POPOVER SPEECH BUBBLE ON CLICK */}
-      {showPopover && (
-        <ZiczacNodePopover
-          step={step}
-          state={state}
-          placement={placement}
-          onClose={handleClose}
-          onToggleComplete={(id) => {
-            if (onToggleComplete) onToggleComplete(id);
-          }}
-        />
-      )}
-
-      {/* 3. DUOLINGO CIRCULAR 3D STEP BUTTON (Vòng Tròn Nổi Duolingo) */}
+      {/* 2. DUOLINGO CIRCULAR 3D STEP BUTTON (Bấm một cái vào bài luôn) */}
       <div className="relative">
         {/* Outer Progress Ring SVG for Current Node */}
         {isCurrent && (
@@ -142,9 +110,9 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
           </div>
         )}
 
-        <button
-          type="button"
-          onClick={handleNodeClick}
+        <Link
+          href={step.practicePath}
+          onClick={handleClick}
           aria-label={`Chặng ${step.stepNumber}: ${step.title}`}
           className={`relative w-18 h-18 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer focus:outline-hidden ${
             isCompleted
@@ -157,7 +125,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
           {/* Specular 3D Gloss Curve on Top Half */}
           <div className="absolute inset-x-3 top-1.5 h-6 bg-white/20 rounded-t-full pointer-events-none" />
 
-          {/* Icon: Khi hoàn thành giữ nguyên icon kỹ năng, màu xanh ngọc sáng lên */}
+          {/* Icon */}
           <div className="relative z-10 flex items-center justify-center">
             {isLocked ? (
               <Lock className="w-6 h-6 stroke-[2.2]" />
@@ -165,18 +133,19 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
               getSkillIcon()
             )}
           </div>
-        </button>
+        </Link>
       </div>
 
-      {/* 4. Subtitle Label Beneath Node */}
-      <div
-        onClick={handleNodeClick}
-        className="mt-2.5 px-2.5 py-0.5 text-center max-w-[130px] sm:max-w-[150px] cursor-pointer"
+      {/* 3. Subtitle Label Beneath Node (Bấm vào bài luôn) */}
+      <Link
+        href={step.practicePath}
+        onClick={handleClick}
+        className="mt-2.5 px-2.5 py-0.5 text-center max-w-[130px] sm:max-w-[150px] cursor-pointer group/title"
       >
-        <p className="text-xs font-bold font-display text-slate-800 dark:text-slate-200 line-clamp-1 leading-tight">
+        <p className="text-xs font-bold font-display text-slate-800 dark:text-slate-200 group-hover/title:text-[#0059bb] dark:group-hover/title:text-sky-400 line-clamp-1 leading-tight transition-colors">
           {step.title}
         </p>
-      </div>
+      </Link>
     </div>
   );
 };

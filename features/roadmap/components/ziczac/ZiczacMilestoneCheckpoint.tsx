@@ -1,19 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import Link from "next/link";
 import { Trophy, Crown, Lock } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState } from "../../types";
-import { ZiczacNodePopover } from "./ZiczacNodePopover";
 
 interface ZiczacMilestoneCheckpointProps {
   step: ZiczacPathStep;
   state: ZiczacStepState;
-  isSelected: boolean;
+  isSelected?: boolean;
   isPopoverOpen?: boolean;
   onTogglePopover?: (step: ZiczacPathStep) => void;
   onClosePopover?: () => void;
   onSelect?: (step: ZiczacPathStep) => void;
   onToggleComplete?: (stepId: string) => void;
+  side?: "left" | "right";
   placement?: "top" | "bottom";
 }
 
@@ -21,70 +22,37 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
   step,
   state,
   isSelected,
-  isPopoverOpen,
-  onTogglePopover,
-  onClosePopover,
   onSelect,
-  onToggleComplete,
-  placement = "top",
 }) => {
-  const [internalPopover, setInternalPopover] = useState(false);
-  const showPopover = isPopoverOpen !== undefined ? isPopoverOpen : internalPopover;
-
   const isCompleted = state === "COMPLETED";
   const isCurrent = state === "CURRENT";
   const isLocked = state === "LOCKED";
 
-  const handleNodeClick = () => {
+  const handleClick = () => {
     if (onSelect) onSelect(step);
-    if (onTogglePopover) {
-      onTogglePopover(step);
-    } else {
-      setInternalPopover((prev) => !prev);
-    }
-  };
-
-  const handleClose = () => {
-    if (onClosePopover) {
-      onClosePopover();
-    } else {
-      setInternalPopover(false);
-    }
   };
 
   return (
     <div className="relative flex flex-col items-center group select-none my-4">
-      {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE CHECKPOINT */}
-      {isCurrent && !showPopover && (
-        <div
-          onClick={handleNodeClick}
-          className="absolute -top-10 z-20 flex flex-col items-center cursor-pointer animate-bounce"
+      {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE CHECKPOINT (Bấm vào bài luôn) */}
+      {isCurrent && (
+        <Link
+          href={step.practicePath}
+          onClick={handleClick}
+          className="absolute -top-10 z-20 flex flex-col items-center cursor-pointer animate-bounce group-hover:scale-105 transition-transform"
         >
           <div className="px-3.5 py-1 rounded-xl bg-amber-500 text-white text-[11px] font-bold font-display uppercase tracking-wider shadow-md shadow-amber-500/30">
             THI THỬ TỔNG HỢP!
           </div>
           <div className="w-0 h-0 border-x-4 border-x-transparent border-t-6 border-t-amber-500" />
-        </div>
+        </Link>
       )}
 
-      {/* 2. POPOVER ON CLICK */}
-      {showPopover && (
-        <ZiczacNodePopover
-          step={step}
-          state={state}
-          placement={placement}
-          onClose={handleClose}
-          onToggleComplete={(id) => {
-            if (onToggleComplete) onToggleComplete(id);
-          }}
-        />
-      )}
-
-      {/* 3. DUOLINGO CIRCULAR 3D MILESTONE CHEST/TROPHY BUTTON */}
+      {/* 2. DUOLINGO CIRCULAR 3D MILESTONE CHEST/TROPHY BUTTON (Bấm một cái vào bài luôn) */}
       <div className="relative">
-        <button
-          type="button"
-          onClick={handleNodeClick}
+        <Link
+          href={step.practicePath}
+          onClick={handleClick}
           aria-label={step.title}
           className={`relative w-22 h-22 sm:w-24 sm:h-24 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer focus:outline-hidden ${
             isCompleted
@@ -107,8 +75,19 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
               <Trophy className="w-11 h-11 fill-amber-100 stroke-[2.2]" />
             )}
           </div>
-        </button>
+        </Link>
       </div>
+
+      {/* 3. Subtitle Label Beneath Checkpoint (Bấm vào bài luôn) */}
+      <Link
+        href={step.practicePath}
+        onClick={handleClick}
+        className="mt-2 px-2 text-center max-w-[160px] sm:max-w-[200px] cursor-pointer group/title"
+      >
+        <p className="text-xs font-bold font-display text-slate-800 dark:text-slate-200 group-hover/title:text-amber-600 dark:group-hover/title:text-amber-400 line-clamp-1 leading-tight transition-colors">
+          {step.title}
+        </p>
+      </Link>
     </div>
   );
 };
