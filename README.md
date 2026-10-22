@@ -6865,22 +6865,24 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
    - Thiết kế nhãn icon đại diện trực quan cho từng danh mục (`MessageSquare`, `Briefcase`, `Film`, `Newspaper`, `GraduationCap`, `Mic2`, `Globe`).
    - Tự động đóng menu thông minh khi click ra ngoài (click-outside listener) hoặc nhấn phím `Escape`.
 
-### 26. Tinh Giản Bố Cục Dictation & Shadowing AI Trong Khay Học Tương Tác (`DictationTabPane.tsx`)
+### 26. Tinh Giản Bố Cục Dictation & Luyện Nhại Giọng Trong Khay Học Tương Tác (`DictationTabPane.tsx`)
 
 1. **Căn Lề Trái Câu Hỏi & Huy Hiệu Ô Trống Khuyết Từ (UI/UX Rule 16)**:
    - Thay đổi căn giữa gây ngắt dòng vụn vặt sang căn lề trái chuẩn xác (`text-left`) với phông chữ hiển thị rõ ràng, tương phản cao.
    - Vị trí từ cần điền được tạo điểm nhấn bằng huy hiệu con nhộng phong cách hiện đại `[ _____ ]`. Khi đã trả lời, tự động chuyển thành huy hiệu xanh `✓ {từ}` hoặc đỏ `✗ {từ}` trực quan.
-   - Bản dịch tiếng Việt được bố trí ngay bên dưới với nhãn tag `DỊCH` tối giản, không chiếm diện tích.
-2. **Thanh Nhập Liệu Tích Hợp All-in-One (UI/UX Rule 6, 18, 19)**:
-   - Gộp ô nhập từ còn thiếu, nút mở gợi ý ký tự đầu (icon bóng đèn `Lightbulb`) và nút hành động chính (Kiểm tra / Câu tiếp theo) vào cùng một thanh điều khiển trực diện duy nhất.
-   - Loại bỏ nút kiểm tra cỡ lớn nằm độc lập phía dưới, tuân thủ nguyên tắc duy nhất một nút Primary nổi bật (UI/UX Rule 18).
+   - Bản dịch tiếng Việt được trình bày dạng chữ in đậm `Dịch:` liền mạch với câu văn, không đóng khung khối rườm rà.
+2. **Thanh Nhập Liệu Tích Hợp All-in-One Tinh Gọn (UI/UX Rule 6, 18, 19)**:
+   - Gộp ô nhập từ còn thiếu, nút mở gợi ý ký tự đầu (icon bóng đèn `Lightbulb`) và nút hành động chính (`Kiểm tra` / `Câu tiếp theo ➔`) vào cùng một thanh điều khiển trực diện duy nhất.
+   - Loại bỏ huy hiệu `+20XP` trên nút Kiểm tra và biểu ngữ kết quả giúp thanh điều khiển gọn gàng, thanh thoát và tập trung.
    - Khắc phục lỗi double Enter khiến bài kiểm tra bị tự động nhảy cóc sang câu tiếp theo.
-3. **Bổ Sung Nút Nghe Lại Câu Hỏi (`Volume2`)**:
-   - Bổ sung nút `Nghe lại` ngay cạnh bộ đếm câu (`CÂU X / Y`) giúp học viên nghe lại đoạn phát thanh của video YouTube tức thì mà không cần tìm kiếm timeline thủ công.
-4. **Thanh Luyện Nhại Giọng Shadowing AI Nhỏ Gọn & Triệt Tiêu Khoảng Trắng Thừa**:
-   - Tái cấu trúc khu vực Shadowing AI từ bố cục dọc cồng kềnh sang thanh ngang gọn gàng (Horizontal Pill Bar).
-   - Nút Micro chuyển sang kiểu dáng secondary tinh tế, chỉ nhấp nháy đỏ khi đang ghi âm (`isRecording`).
-   - Sóng âm thanh equalizer dàn ngang mượt mà, triệt tiêu hoàn toàn hơn 35% khoảng trắng thừa phía dưới khay học tương tác.
+3. **Bố Trí Lại Nút Nghe Lại Sang Phía Đối Diện & Xóa Bỏ Câu Đang Phát**:
+   - Chuyển nút `Nghe lại` sang cạnh phải của thanh meta trên cùng, đối xứng với bộ đếm `CÂU X / Y` bên trái, tạo sự cân bằng thị giác hoàn hảo.
+   - Xóa bỏ liên kết thừa `Câu đang phát` giúp thanh trạng thái thoáng đãng.
+4. **Thanh Luyện Nhại Giọng Nhỏ Gọn & Khắc Phục Lỗi Rớt Dòng Điểm Số**:
+   - Rút gọn tiêu đề từ `Luyện nhại giọng (Shadowing AI)` thành `Luyện nhại giọng`.
+   - Nút Micro chuyển sang kiểu dáng secondary tinh tế viền neutral, chỉ nhấp nháy đỏ khi đang ghi âm (`isRecording`).
+   - Sóng âm thanh equalizer dàn ngang mượt mà, triệt tiêu hơn 35% khoảng trắng thừa phía dưới.
+   - Khắc phục lỗi ngắt dòng chữ `XP)` trên huy hiệu điểm số (`25/100 (+15 XP)`) bằng `whitespace-nowrap shrink-0`, đảm bảo hiển thị thẳng hàng trên một dòng duy nhất trên mọi độ phân giải.
 
 ---
 

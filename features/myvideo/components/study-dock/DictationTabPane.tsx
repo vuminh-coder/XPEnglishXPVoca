@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import {
-  Target,
   Lightbulb,
   Sparkles,
   Mic,
@@ -142,38 +141,21 @@ export function DictationTabPane({
 
   return (
     <div className="space-y-3">
-      {/* 1. TOP META BAR: Question counter + Audio Replay + Sync Status */}
+      {/* 1. TOP META BAR: Question counter on left + Audio Replay on right */}
       <div className="flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400">
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200/80 dark:border-slate-700">
-            Câu {currentSubIndex + 1} / {activeVideo.subtitles.length}
-          </span>
-          {handleSeekTo && (
-            <button
-              type="button"
-              onClick={() => handleSeekTo(currentSub.startTime, currentSubIndex)}
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-              title="Nghe lại câu này trong video"
-            >
-              <Volume2 className="w-3.5 h-3.5" />
-              <span>Nghe lại</span>
-            </button>
-          )}
-        </div>
+        <span className="font-mono text-[11px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200/80 dark:border-slate-700">
+          Câu {currentSubIndex + 1} / {activeVideo.subtitles.length}
+        </span>
 
-        {currentSubIndex !== activeSubIndex && (
+        {handleSeekTo && (
           <button
             type="button"
-            onClick={() => {
-              setCurrentSubIndex(activeSubIndex);
-              setDictationInput("");
-              setShowHint(false);
-            }}
-            className="text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer"
-            title={`Nhảy tới câu video đang phát (#${activeSubIndex + 1})`}
+            onClick={() => handleSeekTo(currentSub.startTime, currentSubIndex)}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold text-[#0059bb] dark:text-sky-400 hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors cursor-pointer border border-transparent hover:border-blue-200 dark:hover:border-slate-700"
+            title="Nghe lại câu này trong video"
           >
-            <Target className="w-3 h-3 text-[#0059bb] dark:text-sky-400" />
-            <span>Câu đang phát (#{activeSubIndex + 1})</span>
+            <Volume2 className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+            <span>Nghe lại</span>
           </button>
         )}
       </div>
@@ -189,11 +171,9 @@ export function DictationTabPane({
           )}”
         </div>
         {currentSub.textVn && (
-          <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800/80 flex items-start gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-            <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 bg-slate-200/60 dark:bg-slate-800 px-1 py-0.2 rounded">
-              Dịch
-            </span>
-            <span className="leading-relaxed font-sans">{currentSub.textVn}</span>
+          <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800/80 text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-sans">
+            <strong className="font-bold text-slate-700 dark:text-slate-300 mr-1.5">Dịch:</strong>
+            <span>{currentSub.textVn}</span>
           </div>
         )}
       </div>
@@ -250,7 +230,7 @@ export function DictationTabPane({
             <Lightbulb className="w-4 h-4" />
           </button>
 
-          {/* Single Primary Action Button (Rule 18) */}
+          {/* Single Primary Action Button (Rule 18) - Removed +20XP */}
           {!dictationAnswered ? (
             <button
               type="button"
@@ -259,7 +239,6 @@ export function DictationTabPane({
               className="px-3.5 py-2 rounded-lg bg-[#0059bb] hover:bg-[#004899] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 shadow-2xs active:scale-95 cursor-pointer font-sans"
             >
               <span>Kiểm tra</span>
-              <span className="text-[10px] font-mono opacity-85 px-1 py-0.2 rounded bg-white/20">+20XP</span>
             </button>
           ) : (
             <button
@@ -300,24 +279,20 @@ export function DictationTabPane({
                 </>
               )}
             </div>
-            {dictationCorrect && (
-              <span className="font-mono text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                +20 XP
-              </span>
-            )}
           </div>
         )}
       </div>
 
-      {/* 4. COMPACT HORIZONTAL SHADOWING AI BAR (Rules 18, 20) */}
+      {/* 4. COMPACT HORIZONTAL SHADOWING BAR (Rules 18, 20) */}
       <div className="pt-3 border-t border-slate-200/70 dark:border-slate-800 space-y-2">
-        <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 dark:text-slate-400">
-          <span className="flex items-center gap-1.5 uppercase tracking-wider">
-            <Mic className="w-3.5 h-3.5 text-rose-500" /> Luyện nhại giọng (Shadowing AI)
+        <div className="flex items-center justify-between gap-2 text-[11px] font-bold text-slate-500 dark:text-slate-400">
+          <span className="flex items-center gap-1.5 uppercase tracking-wider shrink-0">
+            <Mic className="w-3.5 h-3.5 text-rose-500" /> Luyện nhại giọng
           </span>
           {shadowingScore !== null && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 font-mono text-[11px] font-bold border border-emerald-200 dark:border-emerald-800">
-              <Award className="w-3 h-3 text-emerald-600" /> {shadowingScore}/100 (+15 XP)
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 font-mono text-[11px] font-bold border border-emerald-200 dark:border-emerald-800 whitespace-nowrap shrink-0">
+              <Award className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              <span>{shadowingScore}/100 (+15 XP)</span>
             </span>
           )}
         </div>
