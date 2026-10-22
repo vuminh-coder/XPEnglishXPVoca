@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { List, Eye, Clock, Play, Volume2, Radio, ChevronDown, ChevronsDown } from "lucide-react";
+import { List, Eye, Clock, Play, Volume2, Radio, ChevronDown, ChevronsDown, Sparkles } from "lucide-react";
 import { YouTubeVideoItem } from "@/stores/videoStore";
 import { WordLookupCard, WordLookupData } from "../shared/WordLookupCard";
 
@@ -51,6 +51,10 @@ export function SubtitlesTabPane({
     }
   }, [activeSubIndex, subViewMode]);
 
+  const hasAiSubtitles = activeVideo.subtitles.some(
+    (s) => s.id.startsWith("ai_") || (s as any).isAiGenerated
+  );
+
   return (
     <div className="space-y-3">
       {/* Word Lookup Popup Card */}
@@ -63,9 +67,17 @@ export function SubtitlesTabPane({
 
       {/* Subtitle Mode Switcher Header — Always 1 Single Sleek Line */}
       <div className="flex items-center justify-between gap-2 overflow-hidden py-0.5">
-        <span className="text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider truncate whitespace-nowrap">
-          Click câu để nhảy · Tra từ
-        </span>
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className="text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider truncate whitespace-nowrap">
+            Click câu để nhảy · Tra từ
+          </span>
+          {hasAiSubtitles && (
+            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-200/60 dark:border-purple-800/50 text-[10px] font-bold shrink-0">
+              <Sparkles className="w-2.5 h-2.5" />
+              <span>Gemini AI</span>
+            </span>
+          )}
+        </div>
         <button
           type="button"
           onClick={() => setSubViewMode(subViewMode === "rolling" ? "full" : "rolling")}

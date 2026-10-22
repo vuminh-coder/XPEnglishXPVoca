@@ -8,6 +8,7 @@ import {
   ParsedXmlItem,
 } from "@/features/listening/services/youtubeSubtitleParser";
 import { fetchLrclibSyncedLyrics } from "@/features/listening/services/lrclibLyricsService";
+import { generateAiSubtitlesForVideo } from "@/features/myvideo/services/videoAiTranscribeService";
 
 export interface SubtitleItem {
   id: number;
@@ -19,6 +20,7 @@ export interface SubtitleItem {
   dictationWord: string;
   startSeconds: number;
   wordTimings?: { word: string; start: number; end: number }[];
+  isAiGenerated?: boolean;
 }
 
 export interface ExtractedTrack {
@@ -60,6 +62,7 @@ async function getOrFetchCaptions(videoId: string): Promise<any> {
       needClientFetch: result.needClientFetch || false,
       totalCount: result.subtitles?.length || 0,
       hasCaptions: true,
+      isAiGenerated: (result as any).isAiGenerated || false,
     };
 
     if (result.subtitles && result.subtitles.length > 0) {
@@ -843,6 +846,30 @@ async function fetchSubtitlesOrTracksOnServer(videoId: string): Promise<{
     return { tracks: extractedTracks, needClientFetch: true, title: videoTitle, authorName };
   }
 
-  // 6. No captions found at all → return empty
+  // 6. Ultimate Tier: Gemini Flash AI Video Subtitle Transcriber (100% Guaranteed Availability)
+  try {
+    const aiSubtitles = await generateAiSubtitlesForVideo({
+      videoId,
+      videoTitle: videoTitle || "Video Học Tiếng Anh YouTube",
+      authorName: authorName || "YouTube Creator",
+    });
+
+    if (aiSubtitles && aiSubtitles.length > 0) {
+      console.log(
+        `[Server AI Transcribe Engine] Successfully generated ${aiSubtitles.length} Gemini AI subtitles for video ${videoId} ("${videoTitle}")!`
+      );
+      return {
+        subtitles: aiSubtitles,
+        needClientFetch: false,
+        title: videoTitle || "Video Học Tiếng Anh YouTube",
+        authorName: authorName || "YouTube Creator",
+        isAiGenerated: true,
+      } as any;
+    }
+  } catch (e: any) {
+    console.warn("[Server AI Transcribe Engine] Warning:", e?.message || e);
+  }
+
+  // 7. No captions found at all → return empty
   return { subtitles: [], tracks: [], needClientFetch: false, title: videoTitle, authorName };
 }
