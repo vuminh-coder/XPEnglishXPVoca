@@ -31,7 +31,7 @@ export const ZiczacNodePopover: React.FC<ZiczacNodePopoverProps> = ({
 
   return (
     <div
-      className={`absolute left-1/2 -translate-x-1/2 z-50 w-[304px] sm:w-[336px] p-4 sm:p-4.5 rounded-[26px] sm:rounded-[28px] bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700/80 border-b-[6px] border-b-slate-300 dark:border-b-slate-800 shadow-[0_18px_38px_-8px_rgba(15,23,42,0.18),0_6px_16px_-4px_rgba(15,23,42,0.08)] dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.65)] pointer-events-none select-none transition-all duration-200 ease-out animate-in fade-in zoom-in-95 ${
+      className={`absolute left-1/2 -translate-x-1/2 z-50 w-[300px] sm:w-[332px] p-3.5 sm:p-4 rounded-[24px] sm:rounded-[26px] bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700/80 border-b-[5px] border-b-slate-300 dark:border-b-slate-800 shadow-[0_16px_36px_-8px_rgba(15,23,42,0.18),0_6px_16px_-4px_rgba(15,23,42,0.08)] dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.65)] pointer-events-none select-none transition-all duration-200 ease-out animate-in fade-in zoom-in-95 ${
         isBottom ? "top-[calc(100%+14px)]" : "bottom-[calc(100%+14px)]"
       }`}
     >
@@ -51,12 +51,12 @@ export const ZiczacNodePopover: React.FC<ZiczacNodePopoverProps> = ({
       </h4>
 
       {/* Description / Scope (2 concise lines, strictly no text cutting) */}
-      <p className="text-[11.5px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 mt-1.5 font-sans">
+      <p className="text-[11.5px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 mt-1 font-sans">
         {step.checkpointReviewScope || step.description}
       </p>
 
-      {/* Action Footer Hint with 2 Balanced 3D Tactile Mini-Blocks */}
-      <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2.5">
+      {/* Action Footer Hint with 2 Balanced 3D Tactile Mini-Blocks (Khoảng cách trên dưới gạch ngang tinh chỉnh gọn gàng) */}
+      <div className="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
         {/* Left Block: 3D Tactile Status Badge (Đồng bộ kiểu dáng 3D giống nút bên cạnh nhưng khác màu sắc) */}
         {isCompleted ? (
           <div className="relative inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold font-display text-[11px] bg-emerald-500 text-white border-b-[3px] border-emerald-700 shadow-xs shadow-emerald-600/20 whitespace-nowrap shrink-0">
