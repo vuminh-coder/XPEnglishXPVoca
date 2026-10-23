@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState, ZiczacStepProgress } from "../../types";
 
 export interface ZiczacNodePopoverProps {
@@ -16,7 +16,7 @@ export interface ZiczacNodePopoverProps {
 
 /**
  * Lightweight Duolingo-style Hover Information Card
- * Hiển thị súc tích khi hover: thông tin bài học, mô tả những gì sẽ làm và điểm thưởng XP.
+ * Hiển thị súc tích khi hover: thông tin bài học và mô tả những gì sẽ làm.
  * Khi click, người học vào thẳng bài học 1-click mà không bị cản trở bởi modal rườm rà.
  */
 export const ZiczacNodePopover: React.FC<ZiczacNodePopoverProps> = ({
@@ -41,19 +41,8 @@ export const ZiczacNodePopover: React.FC<ZiczacNodePopoverProps> = ({
         <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3.5 h-3.5 bg-white dark:bg-slate-900 border-r-2 border-b-2 border-slate-200 dark:border-slate-700 rotate-45" />
       )}
 
-      {/* Header Tag & XP Reward */}
-      <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-slate-100 dark:border-slate-800">
-        <span className="text-[10.5px] font-bold font-mono uppercase tracking-wider text-[#0059bb] dark:text-sky-400">
-          {step.isCheckpoint ? "Cột Mốc Tổng Hợp" : `Chặng ${step.stepNumber}`}
-        </span>
-        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-[10.5px] font-bold text-amber-600 dark:text-amber-400 font-mono">
-          <Sparkles className="w-3 h-3 text-amber-500 fill-amber-400" />
-          +{step.xpReward} XP
-        </span>
-      </div>
-
       {/* Title */}
-      <h4 className="text-xs sm:text-[13px] font-bold font-display text-slate-900 dark:text-white leading-snug mt-1.5">
+      <h4 className="text-xs sm:text-[13px] font-bold font-display text-slate-900 dark:text-white leading-snug">
         {step.title}
       </h4>
 
