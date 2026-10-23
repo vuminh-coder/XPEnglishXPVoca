@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import {
   Headphones,
   BookOpen,
@@ -20,7 +21,9 @@ import { ZiczacNodePopover } from "./ZiczacNodePopover";
 interface ZiczacStepNodeProps {
   step: ZiczacPathStep;
   state: ZiczacStepState;
-  isSelected: boolean;
+  isSelected?: boolean;
+  isHovered?: boolean;
+  onHoverChange?: (hovered: boolean) => void;
   stepProgress?: ZiczacStepProgress;
   onAdvanceSession?: (stepId: string) => void;
   isPopoverOpen?: boolean;
@@ -36,6 +39,8 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   step,
   state,
   isSelected,
+  isHovered: isHoveredProp,
+  onHoverChange,
   stepProgress,
   onAdvanceSession,
   isPopoverOpen,
@@ -46,9 +51,20 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   side = "right",
   placement = "top",
 }) => {
-  const [internalPopover, setInternalPopover] = useState(false);
-  const showPopover = isPopoverOpen !== undefined ? isPopoverOpen : internalPopover;
+  const [internalHover, setInternalHover] = useState(false);
+  const activeHover = isHoveredProp !== undefined ? isHoveredProp : internalHover;
+  const showPopover = isPopoverOpen !== undefined ? isPopoverOpen : activeHover;
   const isLeft = side === "left";
+
+  const handleMouseEnter = () => {
+    setInternalHover(true);
+    onHoverChange?.(true);
+  };
+
+  const handleMouseLeave = () => {
+    setInternalHover(false);
+    onHoverChange?.(false);
+  };
 
   // Duolingo skill icons
   const getSkillIcon = () => {
@@ -87,26 +103,21 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
 
   const handleNodeClick = () => {
     if (onSelect) onSelect(step);
-    if (onTogglePopover) {
-      onTogglePopover(step);
-    } else {
-      setInternalPopover((prev) => !prev);
-    }
-  };
-
-  const handleClose = () => {
-    if (onClosePopover) {
-      onClosePopover();
-    } else {
-      setInternalPopover(false);
-    }
+    if (onTogglePopover) onTogglePopover(step);
   };
 
   return (
-    <div className={`relative flex flex-col items-center group select-none ${showPopover ? "z-40" : "z-10"}`}>
-      {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE NODE (If popover is closed) */}
+    <div
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
+      className={`relative flex flex-col items-center group select-none ${showPopover ? "z-40" : "z-10"}`}
+    >
+      {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE NODE (Khi chưa hover) */}
       {isCurrent && !showPopover && (
-        <div
+        <Link
+          href={step.practicePath}
           onClick={handleNodeClick}
           className="absolute -top-10 z-20 flex flex-col items-center cursor-pointer animate-bounce whitespace-nowrap"
         >
@@ -114,10 +125,10 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
             BẮT ĐẦU!
           </div>
           <div className="w-0 h-0 border-x-4 border-x-transparent border-t-6 border-t-[#0059bb]" />
-        </div>
+        </Link>
       )}
 
-      {/* 2. DUOLINGO POPOVER SPEECH BUBBLE ON CLICK */}
+      {/* 2. DUOLINGO HOVER INFORMATION SPEECH BUBBLE (Hiển thị tinh gọn khi hover) */}
       {showPopover && (
         <ZiczacNodePopover
           step={step}
@@ -125,7 +136,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
           placement={placement}
           stepProgress={stepProgress}
           onAdvanceSession={onAdvanceSession}
-          onClose={handleClose}
+          onClose={handleMouseLeave}
           onToggleComplete={(id) => {
             if (onToggleComplete) onToggleComplete(id);
           }}
@@ -168,8 +179,8 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
           </div>
         )}
 
-        <button
-          type="button"
+        <Link
+          href={step.practicePath}
           onClick={handleNodeClick}
           aria-label={`Chặng ${step.stepNumber}: ${step.title}`}
           className={`relative w-18 h-18 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer focus:outline-hidden ${
@@ -187,10 +198,11 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
           <div className="relative z-10 flex items-center justify-center">
             {getSkillIcon()}
           </div>
-        </button>
+        </Link>
 
         {/* 4. Tên bài bên hông nút (Bên width ngắn hơn: Phải hoặc Trái, thuần chữ không làm khối) */}
-        <div
+        <Link
+          href={step.practicePath}
           onClick={handleNodeClick}
           className={`absolute top-1/2 -translate-y-1/2 z-10 cursor-pointer w-[88px] sm:w-[170px] select-none group/title ${
             isLeft
@@ -201,7 +213,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
           <p className="text-[11px] sm:text-[13px] font-bold font-display text-slate-800 dark:text-slate-200 group-hover/title:text-[#0059bb] dark:group-hover/title:text-sky-400 leading-tight sm:leading-snug line-clamp-2 transition-colors">
             {step.title}
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );

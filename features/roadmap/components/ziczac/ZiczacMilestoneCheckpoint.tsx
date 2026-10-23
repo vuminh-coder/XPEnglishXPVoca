@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Trophy, Crown } from "lucide-react";
 import { ZiczacPathStep, ZiczacStepState, ZiczacStepProgress } from "../../types";
 import { ZiczacNodePopover } from "./ZiczacNodePopover";
@@ -8,7 +9,9 @@ import { ZiczacNodePopover } from "./ZiczacNodePopover";
 interface ZiczacMilestoneCheckpointProps {
   step: ZiczacPathStep;
   state: ZiczacStepState;
-  isSelected: boolean;
+  isSelected?: boolean;
+  isHovered?: boolean;
+  onHoverChange?: (hovered: boolean) => void;
   stepProgress?: ZiczacStepProgress;
   onAdvanceSession?: (stepId: string) => void;
   isPopoverOpen?: boolean;
@@ -23,6 +26,8 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
   step,
   state,
   isSelected,
+  isHovered: isHoveredProp,
+  onHoverChange,
   stepProgress,
   onAdvanceSession,
   isPopoverOpen,
@@ -32,8 +37,19 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
   onToggleComplete,
   placement = "top",
 }) => {
-  const [internalPopover, setInternalPopover] = useState(false);
-  const showPopover = isPopoverOpen !== undefined ? isPopoverOpen : internalPopover;
+  const [internalHover, setInternalHover] = useState(false);
+  const activeHover = isHoveredProp !== undefined ? isHoveredProp : internalHover;
+  const showPopover = isPopoverOpen !== undefined ? isPopoverOpen : activeHover;
+
+  const handleMouseEnter = () => {
+    setInternalHover(true);
+    onHoverChange?.(true);
+  };
+
+  const handleMouseLeave = () => {
+    setInternalHover(false);
+    onHoverChange?.(false);
+  };
 
   const isCompleted = state === "COMPLETED";
   const isCurrent = state === "CURRENT";
@@ -46,26 +62,21 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
 
   const handleNodeClick = () => {
     if (onSelect) onSelect(step);
-    if (onTogglePopover) {
-      onTogglePopover(step);
-    } else {
-      setInternalPopover((prev) => !prev);
-    }
-  };
-
-  const handleClose = () => {
-    if (onClosePopover) {
-      onClosePopover();
-    } else {
-      setInternalPopover(false);
-    }
+    if (onTogglePopover) onTogglePopover(step);
   };
 
   return (
-    <div className={`relative flex flex-col items-center group select-none ${showPopover ? "z-40" : "z-10"}`}>
-      {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE CHECKPOINT */}
+    <div
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
+      className={`relative flex flex-col items-center group select-none ${showPopover ? "z-40" : "z-10"}`}
+    >
+      {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE CHECKPOINT (Khi chưa hover) */}
       {isCurrent && !showPopover && (
-        <div
+        <Link
+          href={step.practicePath}
           onClick={handleNodeClick}
           className="absolute -top-10 z-20 flex flex-col items-center cursor-pointer animate-bounce whitespace-nowrap"
         >
@@ -73,10 +84,10 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
             THI THỬ TỔNG HỢP!
           </div>
           <div className="w-0 h-0 border-x-4 border-x-transparent border-t-6 border-t-amber-500" />
-        </div>
+        </Link>
       )}
 
-      {/* 2. POPOVER ON CLICK */}
+      {/* 2. DUOLINGO HOVER INFORMATION SPEECH BUBBLE */}
       {showPopover && (
         <ZiczacNodePopover
           step={step}
@@ -84,7 +95,7 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
           placement={placement}
           stepProgress={stepProgress}
           onAdvanceSession={onAdvanceSession}
-          onClose={handleClose}
+          onClose={handleMouseLeave}
           onToggleComplete={(id) => {
             if (onToggleComplete) onToggleComplete(id);
           }}
@@ -127,8 +138,8 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
           </div>
         )}
 
-        <button
-          type="button"
+        <Link
+          href={step.practicePath}
           onClick={handleNodeClick}
           aria-label={step.title}
           className={`relative w-18 h-18 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer focus:outline-hidden ${
@@ -166,17 +177,18 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
               />
             )}
           </div>
-        </button>
+        </Link>
 
         {/* 4. Tên bài bên hông nút (Bên phải, thuần chữ không làm khối) */}
-        <div
+        <Link
+          href={step.practicePath}
           onClick={handleNodeClick}
           className="absolute top-1/2 -translate-y-1/2 left-[calc(100%+8px)] sm:left-[calc(100%+12px)] z-10 cursor-pointer w-[88px] sm:w-[170px] select-none text-left group/title"
         >
           <p className="text-[11px] sm:text-[13px] font-bold font-display text-slate-800 dark:text-slate-200 group-hover/title:text-[#0059bb] dark:group-hover/title:text-sky-400 leading-tight sm:leading-snug line-clamp-2 transition-colors">
             {cleanTitle}
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );

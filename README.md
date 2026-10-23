@@ -24,6 +24,24 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
 
 ---
 
+## 🗺️ Lộ Trình Học Tập Duolingo S-Curve (`features/roadmap` & `/roadmap`)
+
+- **Kiến trúc S-Curve chuẩn hóa 24 Unit (144 chặng học):**
+  - Trải dài qua 24 chủ đề từ vựng cốt lõi A1–C1 (Chào hỏi & Giao tiếp lịch sự, Gia đình, Nghề nghiệp, Công nghệ, Du lịch, Môi trường, Kinh doanh, Học thuật...).
+  - Mỗi Unit gồm 6 chặng chuyên biệt với đường dẫn trực tiếp:
+    1. Chặng 1: Từ vựng cốt lõi (`/vocabulary?theme=...`)
+    2. Chặng 2: Nối cặp từ phản xạ (`/study/practice?mode=match_pairs&theme=...`)
+    3. Chặng 3: Ghép từ thành câu giao tiếp (`/study/practice?mode=sentence_builder&theme=...`)
+    4. Chặng 4: Nghe chép chính tả hội thoại (`/study/dictation?theme=...`)
+    5. Chặng 5: Luyện nói phát âm chuẩn bản xứ (`/study/practice?subMode=speaking&theme=...`)
+    6. Chặng 6: Cột mốc thi thử tổng hợp Unit (`/study/practice?mode=checkpoint&unit=...`)
+- **Tối ưu hóa UI/UX Tinh Gọn (Streamlined 1-Click & Non-blocking Hover Preview):**
+  - **Khi Hover (Desktop):** Hiển thị thẻ thông tin dạng speech bubble tinh gọn (`ZiczacNodePopover`) xem trước tiêu đề, mô tả hoạt động, phần thưởng XP và trạng thái; `pointer-events-none` và tự động đẩy stacking context `z-50` phía trên tránh che lấp các nút xung quanh.
+  - **Khi Click:** Điều hướng trực tiếp 1-click vào bài học tương ứng thông qua Next.js `<Link href={step.practicePath}>` mà không qua bất kỳ modal xác nhận, thanh đếm phiên hay dropdown rườm rà nào.
+  - **Mobile & Touch:** Bố cục ziczac sóng lượn chuẩn hóa an toàn `[33%, 67%]`, chạm 1 chạm để bắt đầu học ngay lập tức.
+
+---
+
 ## 📊 Quy Chuẩn Hiệu Năng Truy Vấn Cơ Sở Dữ Liệu (Database Query Performance Standard)
 
 > **Mục đích:** Quy chuẩn bắt buộc để thiết kế, phân tích và tối ưu Database Query trong toàn bộ dự án XP English & XP Voca.

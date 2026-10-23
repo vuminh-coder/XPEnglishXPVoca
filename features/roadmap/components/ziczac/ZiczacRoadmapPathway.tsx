@@ -55,18 +55,7 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
   onToggleComplete,
 }) => {
   const units = useMemo(() => getCuratedUnitGroups(), []);
-
-  // Single-active popover state across the entire pathway
-  const [activePopoverStepId, setActivePopoverStepId] = useState<string | null>(null);
-
-  const handleTogglePopover = (step: ZiczacPathStep) => {
-    onSelectStep(step);
-    setActivePopoverStepId((prev) => (prev === step.id ? null : step.id));
-  };
-
-  const handleClosePopover = () => {
-    setActivePopoverStepId(null);
-  };
+  const [hoveredStepId, setHoveredStepId] = useState<string | null>(null);
 
   // Determine step state
   const getStepState = (step: ZiczacPathStep, index: number): ZiczacStepState => {
@@ -82,15 +71,6 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
 
   return (
     <div className="w-full relative py-2 select-none">
-      {/* Transparent Click-Outside Backdrop when any popover is open */}
-      {activePopoverStepId && (
-        <div
-          className="fixed inset-0 z-30 bg-transparent cursor-default"
-          onClick={handleClosePopover}
-          aria-hidden="true"
-        />
-      )}
-
       <div className="space-y-10 sm:space-y-12">
         {units.map((unit) => {
           return (
@@ -99,13 +79,13 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
               <ZiczacUnitHeader unit={unit} />
 
               {/* 2. DUOLINGO S-CURVE PATHWAY STEPS */}
-              <div className="relative w-full max-w-sm sm:max-w-md mx-auto min-h-[460px] py-4">
+              <div className="relative w-full max-w-sm sm:max-w-md mx-auto min-h-[460px] pt-10 pb-4">
                 <div className="space-y-10 sm:space-y-12 relative z-10">
                   {unit.steps.map((step) => {
                     const stepIndex = steps.findIndex((s) => s.id === step.id);
                     const state = getStepState(step, stepIndex);
                     const isSelected = selectedStepId === step.id;
-                    const isPopoverOpen = activePopoverStepId === step.id;
+                    const isHovered = hoveredStepId === step.id;
                     const stepProg = getStepProgress ? getStepProgress(step.id) : undefined;
 
                     // Milestone Checkpoint Trophy: Centered with identical vertical rhythm & button size
@@ -114,18 +94,17 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                         <div
                           key={step.id}
                           className={`relative w-full flex items-center justify-center min-h-[96px] ${
-                            isPopoverOpen ? "z-40" : "z-10"
+                            isHovered ? "z-50" : "z-10"
                           }`}
                         >
                           <ZiczacMilestoneCheckpoint
                             step={step}
                             state={state}
                             isSelected={isSelected}
+                            isHovered={isHovered}
+                            onHoverChange={(hovered) => setHoveredStepId(hovered ? step.id : null)}
                             stepProgress={stepProg}
                             onAdvanceSession={onAdvanceSession}
-                            isPopoverOpen={isPopoverOpen}
-                            onTogglePopover={handleTogglePopover}
-                            onClosePopover={handleClosePopover}
                             onSelect={onSelectStep}
                             onToggleComplete={onToggleComplete}
                             placement="top"
@@ -138,21 +117,16 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                     const xPercent = getNodeHorizontalPercent(step.stepNumber);
                     const side = getShorterWidthSide(xPercent);
 
-                    // Step 1 of each unit is immediately below the Unit banner,
-                    // so its popover displays downward (placement="bottom") to avoid top clipping / banner collision
-                    const isFirstStepInUnit = unit.steps[0]?.id === step.id;
-                    const placement = isFirstStepInUnit ? "bottom" : "top";
-
                     return (
                       <div
                         key={step.id}
                         className={`relative w-full flex items-center min-h-[96px] ${
-                          isPopoverOpen ? "z-40" : "z-10"
+                          isHovered ? "z-50" : "z-10"
                         }`}
                       >
                         <div
                           className={`absolute transform -translate-x-1/2 ${
-                            isPopoverOpen ? "z-40" : "z-10"
+                            isHovered ? "z-50" : "z-10"
                           }`}
                           style={{ left: `${xPercent}%` }}
                         >
@@ -160,14 +134,13 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                             step={step}
                             state={state}
                             isSelected={isSelected}
+                            isHovered={isHovered}
+                            onHoverChange={(hovered) => setHoveredStepId(hovered ? step.id : null)}
                             stepProgress={stepProg}
                             onAdvanceSession={onAdvanceSession}
-                            isPopoverOpen={isPopoverOpen}
-                            onTogglePopover={handleTogglePopover}
-                            onClosePopover={handleClosePopover}
                             onSelect={onSelectStep}
                             onToggleComplete={onToggleComplete}
-                            placement={placement}
+                            placement="top"
                             side={side}
                           />
                         </div>
