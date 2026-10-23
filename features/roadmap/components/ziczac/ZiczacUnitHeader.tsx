@@ -68,24 +68,24 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
   const cleanTitle = match && match[2] ? match[2] : unit.unitTitle;
 
   return (
-    <div className="relative w-full max-w-3xl sm:max-w-4xl lg:max-w-5xl mx-auto my-6 select-none">
+    <div className="relative w-full max-w-3xl sm:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto my-6 sm:my-8 select-none">
       {/* Duolingo Section Header Banner: Split into 85% Unit Content & 15% Guidebook Interactive Block */}
       <div
         className={`rounded-2xl sm:rounded-3xl text-white ${theme.bg} ${theme.border} shadow-lg flex items-stretch overflow-hidden transition-all`}
       >
         {/* Part 1 (85%): Unit Badge, Title & Pedagogical Subtitle */}
-        <div className="w-[85%] p-4 sm:p-5 flex flex-col justify-center space-y-1.5 min-w-0">
-          <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="w-[85%] p-5 sm:p-6 lg:p-7 flex flex-col justify-center space-y-2 min-w-0">
+          <div className="flex items-center gap-3 flex-wrap">
             <span
-              className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs tracking-wider shadow-2xs ${theme.badge}`}
+              className={`inline-flex items-center px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-xl text-xs sm:text-sm font-black tracking-wider uppercase shadow-xs ${theme.badge}`}
             >
               {unitTag}
             </span>
-            <h2 className="text-base sm:text-lg lg:text-xl font-extrabold font-display text-white leading-tight">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-black font-display text-white leading-tight">
               {cleanTitle}
             </h2>
           </div>
-          <p className={`text-xs sm:text-[13px] ${theme.subtitle} font-medium line-clamp-1`}>
+          <p className={`text-xs sm:text-sm ${theme.subtitle} font-medium line-clamp-1`}>
             {unit.unitSubtitle}
           </p>
         </div>
@@ -94,11 +94,11 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
         <button
           type="button"
           onClick={() => setShowGuidebook(true)}
-          className="w-[15%] min-w-[76px] sm:min-w-[104px] bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all flex flex-col items-center justify-center p-2 sm:p-3 text-white group cursor-pointer text-center select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+          className="w-[15%] min-w-[84px] sm:min-w-[110px] bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all flex flex-col items-center justify-center p-3 sm:p-4 text-white group cursor-pointer text-center select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           title={`Mở sổ tay hướng dẫn: ${cleanTitle}`}
         >
-          <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-white stroke-[2.2] mb-1 group-hover:scale-110 transition-transform duration-200" />
-          <span className="text-[10px] sm:text-xs font-bold font-display uppercase tracking-wider whitespace-nowrap">
+          <BookOpen className="w-7 h-7 sm:w-8 sm:h-8 text-white stroke-[2.2] mb-1.5 group-hover:scale-110 transition-transform duration-200" />
+          <span className="text-[11px] sm:text-xs font-bold font-display uppercase tracking-wider whitespace-nowrap">
             HƯỚNG DẪN
           </span>
         </button>
