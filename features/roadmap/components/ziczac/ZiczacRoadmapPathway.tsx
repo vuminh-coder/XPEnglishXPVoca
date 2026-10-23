@@ -79,7 +79,7 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
               <ZiczacUnitHeader unit={unit} />
 
               {/* 2. DUOLINGO S-CURVE PATHWAY STEPS */}
-              <div className="relative w-full max-w-sm sm:max-w-md mx-auto min-h-[460px] pt-36 sm:pt-40 pb-6">
+              <div className="relative w-full max-w-sm sm:max-w-md mx-auto min-h-[460px] pt-10 pb-4">
                 <div className="space-y-10 sm:space-y-12 relative z-10">
                   {unit.steps.map((step) => {
                     const stepIndex = steps.findIndex((s) => s.id === step.id);
