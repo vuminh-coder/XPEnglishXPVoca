@@ -68,19 +68,20 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
   const cleanTitle = match && match[2] ? match[2] : unit.unitTitle;
 
   return (
-    <div className="relative w-full max-w-2xl sm:max-w-3xl mx-auto my-6 select-none">
-      {/* Duolingo Section Header Banner */}
+    <div className="relative w-full max-w-3xl sm:max-w-4xl lg:max-w-5xl mx-auto my-6 select-none">
+      {/* Duolingo Section Header Banner: Split into 85% Unit Content & 15% Guidebook Interactive Block */}
       <div
-        className={`rounded-2xl p-4 sm:p-5 text-white ${theme.bg} ${theme.border} shadow-lg flex items-center justify-between gap-4`}
+        className={`rounded-2xl sm:rounded-3xl text-white ${theme.bg} ${theme.border} shadow-lg flex items-stretch overflow-hidden transition-all`}
       >
-        <div className="space-y-1.5 min-w-0">
+        {/* Part 1 (85%): Unit Badge, Title & Pedagogical Subtitle */}
+        <div className="w-[85%] p-4 sm:p-5 flex flex-col justify-center space-y-1.5 min-w-0">
           <div className="flex items-center gap-2.5 flex-wrap">
             <span
               className={`inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs tracking-wider shadow-2xs ${theme.badge}`}
             >
               {unitTag}
             </span>
-            <h2 className="text-base sm:text-lg font-extrabold font-display text-white leading-tight">
+            <h2 className="text-base sm:text-lg lg:text-xl font-extrabold font-display text-white leading-tight">
               {cleanTitle}
             </h2>
           </div>
@@ -89,14 +90,19 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
           </p>
         </div>
 
-        {/* Guidebook Button */}
+        {/* Part 2 (15%): Integrated Guidebook Interactive Block */}
         <button
           type="button"
           onClick={() => setShowGuidebook(true)}
-          className={`h-9 px-3.5 rounded-xl text-xs font-bold font-display flex items-center gap-1.5 shrink-0 cursor-pointer transition-all active:translate-y-0.5 ${theme.buttonBg}`}
+          className="w-[15%] min-w-[76px] sm:min-w-[104px] border-l border-white/20 bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all flex flex-col items-center justify-center p-2 sm:p-3 text-white group cursor-pointer text-center select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+          title={`Mở sổ tay hướng dẫn: ${cleanTitle}`}
         >
-          <BookOpen className="w-3.5 h-3.5" />
-          <span>HƯỚNG DẪN</span>
+          <div className="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center mb-1 group-hover:bg-white/25 group-hover:scale-105 transition-all shadow-2xs">
+            <BookOpen className="w-4 h-4 text-white" />
+          </div>
+          <span className="text-[10px] sm:text-xs font-bold font-display uppercase tracking-wider whitespace-nowrap">
+            HƯỚNG DẪN
+          </span>
         </button>
       </div>
 

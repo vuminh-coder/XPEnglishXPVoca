@@ -7014,6 +7014,9 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
       Công thức `getNodeHorizontalPercent(stepNumber)` áp dụng mẫu luân phiên 6 điểm `[60, 67, 58, 42, 33, 40]`, kết hợp Cột mốc Checkpoint đặt cố định tại tâm `50%`. Đảm bảo khoảng cách ngang giữa 2 nút liền kề luôn $\ge 7\%$, giữ an toàn trong dải biên [33%, 67%] trên mobile và triệt tiêu vĩnh viễn lỗi 4 nút thẳng hàng.
     - **Quy Hoạch Trang Chuyên Biệt Phát Triển Sau: Interactive Practice Studio (`/study/sentence-builder`)**:
       Toàn bộ các chặng `SENTENCE` và `MATCH` trên lộ trình đã được cấu hình sẵn đường dẫn thực hành ngữ cảnh, sẵn sàng kết nối liền mạch vào trang Studio tương tác chuyên sâu gồm 3 chế độ: Ghép câu Word Bank Tiles 3D, Nối cặp từ siêu tốc và Điền khuyết đàm thoại.
+    - **Thiết Kế Banner Tiêu Đề Unit Tinh Gọn (85% Content - 15% Integrated Guidebook Cockpit)**:
+      * Mở rộng bề rộng banner tối đa (`max-w-3xl sm:max-w-4xl lg:max-w-5xl`) tạo cảm giác bề thế, cân xứng hoàn hảo với giao diện dashboard toàn màn hình.
+      * Chia khoang cấu trúc 2 phần tích hợp nguyên khối (`flex items-stretch overflow-hidden`): Khoang nội dung 85% chứa badge Unit, tên chủ đề đậm nét và mô tả sư phạm; Khoang 15% bên phải là phím tương tác "HƯỚNG DẪN" được phân tách bằng đường rãnh kính trong suốt `border-l border-white/20`, hiệu ứng xúc giác 3D nhạy bén và icon sổ tay `BookOpen` trực quan, thay thế hoàn toàn dạng nút nổi rời rạc trước đây.
     - **Bộ Kiểm Thử Chuẩn Mực Tuyệt Đối**: Cập nhật toàn diện [`__tests__/roadmap_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/roadmap_standards.test.ts) đạt **12/12 tests PASS 100%**, toàn hệ thống vượt qua **297/297 test files (2475/2475 passed tests)** và 0 lỗi TypeScript (`npx tsc --noEmit`).
 
 ---
