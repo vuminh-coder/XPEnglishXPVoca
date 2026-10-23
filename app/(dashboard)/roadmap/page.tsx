@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Compass, Play, Trophy, CheckCircle2 } from "lucide-react";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
@@ -13,6 +13,7 @@ import {
 } from "@/features/roadmap";
 
 export default function RoadmapPage() {
+  const [searchQuery, setSearchQuery] = useState("");
   const {
     ziczacSteps,
     completedStepIds,
@@ -23,11 +24,6 @@ export default function RoadmapPage() {
     handleAdvanceStepSession,
     getStepProgress,
     nextActiveStep,
-    nextCheckpointStep,
-    stepsUntilNextCheckpoint,
-    overallProgress,
-    totalStepsCount,
-    completedStepsCount,
   } = useRoadmapManager();
 
   return (
@@ -35,37 +31,27 @@ export default function RoadmapPage() {
       className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans"
       suppressHydrationWarning
     >
-      {/* 1. APP TOP HEADER INTEGRATION */}
+      {/* 1. MASTER TOP HEADER (AppTopHeader Standardized Like Dictation) */}
       <AppTopHeader
-        showDailyQuote={false}
         showGamificationStats={false}
-        hideMobileSearch={true}
-        mobileTitle={
-          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200 font-display">
-            <Compass className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[2.2]" />
-            <span>Lộ Trình Duolingo</span>
-          </div>
-        }
+        hideMobileSearch={false}
+        searchProps={{
+          value: searchQuery,
+          onChange: (val) => setSearchQuery(val),
+          placeholder: "Tìm kiếm bài học, chủ đề...",
+          onClear: () => setSearchQuery(""),
+        }}
         rightDesktopContent={
-          <Link
-            href={nextActiveStep.practicePath}
-            className="h-9 px-4 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-md shadow-[#0059bb]/20 flex items-center justify-center gap-1.5 transition-all cursor-pointer font-display active:scale-95 shrink-0 max-w-[280px]"
-            title={`Tiếp tục: Chặng ${nextActiveStep.stepNumber} - ${nextActiveStep.title}`}
-          >
-            <Play className="w-3.5 h-3.5 fill-current shrink-0" />
-            <span className="truncate">
-              Học tiếp: Chặng {nextActiveStep.stepNumber}
-            </span>
-          </Link>
-        }
-        rightMobileContent={
-          <Link
-            href={nextActiveStep.practicePath}
-            className="h-8 px-2.5 rounded-lg bg-[#0059bb] text-white text-[11px] font-bold shadow-2xs flex items-center gap-1 transition-all cursor-pointer font-display active:scale-95 shrink-0"
-          >
-            <Play className="w-3 h-3 fill-current shrink-0" />
-            <span>Chặng {nextActiveStep.stepNumber}</span>
-          </Link>
+          <div className="flex items-center gap-2.5 shrink-0">
+            <Link
+              href={nextActiveStep.practicePath}
+              className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 font-display"
+              title={`Tiếp tục: Chặng ${nextActiveStep.stepNumber} - ${nextActiveStep.title}`}
+            >
+              <Play className="w-3.5 h-3.5 fill-current shrink-0" />
+              <span>Học tiếp: Chặng {nextActiveStep.stepNumber}</span>
+            </Link>
+          </div>
         }
       >
         <ProgressSuiteNavTabs />
@@ -73,7 +59,7 @@ export default function RoadmapPage() {
 
       {/* 2. UNIFIED MAIN CONTAINER */}
       <div className="w-full max-w-[1400px] 2xl:max-w-[1520px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 space-y-4 pt-1">
-        {/* 3. FULL WIDTH DUOLINGO WINDING PATHWAY (Khối Lộ Trình Toàn Chiều Rộng, Không Border) */}
+        {/* 3. FULL WIDTH DUOLINGO WINDING PATHWAY */}
         <div className="w-full min-w-0">
           <div className="w-full py-2 sm:py-4">
             <ZiczacRoadmapPathway
@@ -85,6 +71,7 @@ export default function RoadmapPage() {
               onAdvanceSession={handleAdvanceStepSession}
               onSelectStep={setSelectedStep}
               onToggleComplete={handleToggleStepCompleted}
+              searchQuery={searchQuery}
             />
           </div>
         </div>

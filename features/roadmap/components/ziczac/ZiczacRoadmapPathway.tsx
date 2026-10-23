@@ -17,6 +17,7 @@ interface ZiczacRoadmapPathwayProps {
   onAdvanceSession?: (stepId: string) => void;
   onSelectStep: (step: ZiczacPathStep) => void;
   onToggleComplete?: (stepId: string) => void;
+  searchQuery?: string;
 }
 
 /**
@@ -53,8 +54,24 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
   onAdvanceSession,
   onSelectStep,
   onToggleComplete,
+  searchQuery,
 }) => {
-  const units = useMemo(() => getCuratedUnitGroups(), []);
+  const units = useMemo(() => {
+    const all = getCuratedUnitGroups();
+    if (!searchQuery?.trim()) return all;
+    const q = searchQuery.toLowerCase().trim();
+    return all.filter((u) => {
+      const titleMatch = u.unitTitle.toLowerCase().includes(q);
+      const subMatch = u.unitSubtitle.toLowerCase().includes(q);
+      const stepMatch = u.steps.some(
+        (s) =>
+          s.title.toLowerCase().includes(q) ||
+          s.description?.toLowerCase().includes(q) ||
+          s.skillType.toLowerCase().includes(q)
+      );
+      return titleMatch || subMatch || stepMatch;
+    });
+  }, [searchQuery]);
   const [hoveredStepId, setHoveredStepId] = useState<string | null>(null);
 
   // Determine step state
@@ -72,9 +89,22 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
   return (
     <div className="w-full relative py-2 select-none">
       <div className="space-y-10 sm:space-y-12">
-        {units.map((unit) => {
-          return (
-            <div key={`unit-${unit.unitNumber}`} className="relative">
+        {units.length === 0 ? (
+          <div className="py-20 text-center space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-400 mx-auto flex items-center justify-center">
+              <Sparkles className="w-6 h-6 stroke-[1.8] text-amber-500" />
+            </div>
+            <p className="text-sm font-bold text-slate-700 dark:text-slate-300">
+              Không tìm thấy chủ đề hoặc chặng nào khớp với &quot;{searchQuery}&quot;
+            </p>
+            <p className="text-xs text-slate-400 font-sans">
+              Hãy thử tìm theo tên chủ đề (VD: Giao tiếp, Ẩm thực, Sân bay) hoặc số Unit.
+            </p>
+          </div>
+        ) : (
+          units.map((unit) => {
+            return (
+              <div key={`unit-${unit.unitNumber}`} className="relative">
               {/* 1. DUOLINGO UNIT HEADER BANNER */}
               <ZiczacUnitHeader unit={unit} />
 
@@ -151,7 +181,8 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
               </div>
             </div>
           );
-        })}
+        })
+      )}
       </div>
 
       {/* Finishing Line Monument */}

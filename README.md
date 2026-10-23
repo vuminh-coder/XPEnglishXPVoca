@@ -7017,6 +7017,10 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
     - **Thiết Kế Banner Tiêu Đề Unit Tinh Gọn (85% Content - 15% Integrated Guidebook Cockpit)**:
       * Mở rộng bề rộng banner tối đa (`max-w-3xl sm:max-w-4xl lg:max-w-5xl xl:max-w-6xl`) với chiều cao cân đối chuẩn (`px-5 sm:px-6 lg:px-7 py-4 sm:py-5`), tạo cảm giác bề thế, đĩnh đạc và cân xứng hoàn hảo với giao diện dashboard toàn màn hình.
       * Chia khoang cấu trúc 2 phần tích hợp nguyên khối (`flex items-stretch overflow-hidden`): Khoang nội dung 85% chứa badge Unit phóng lớn nổi bật (`px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-xl text-xs sm:text-sm font-black`), tên chủ đề in đậm (`text-lg sm:text-xl lg:text-2xl font-black`) và mô tả sư phạm; Khoang 15% bên phải là phím tương tác "HƯỚNG DẪN" không viền cứng (borderless glassmorphism với `bg-white/10 hover:bg-white/20`), biểu tượng `BookOpen` phóng lớn sắc nét (`w-7 h-7 sm:w-8 sm:h-8 stroke-[2.2]`), thay thế hoàn toàn dạng nút nổi rời rạc trước đây.
+    - **Chuẩn Hóa AppTopHeader Theo Phong Cách Trang Dictation (`/roadmap`)**:
+      * Đồng bộ 100% cấu trúc thanh điều hướng đỉnh cao (56px) với trang Luyện Nghe Dictation (`/study/dictation/audio`).
+      * Desktop: Bên trái tích hợp bộ tab chuyển đổi tiến độ `ProgressSuiteNavTabs` (`[🧭 Lộ trình] [📊 Thống kê] [🏆 Xếp hạng]`), trung tâm tích hợp thanh tìm kiếm thời gian thực (`searchProps`) hỗ trợ lọc tức thì 24 Unit chủ đề và 144 chặng học, bên phải là nút CTA chính `[▶ Học tiếp: Chặng X]` quy chuẩn đồng bộ.
+      * Mobile: Loại bỏ tiêu đề cứng và nút phụ chật chội, hiển thị logo thương hiệu chính thống `XP English | XP Voca` ở trung tâm, kết hợp nút tìm kiếm `[🔍]` mở overlay toàn màn hình và avatar học viên `[🦉]`.
     - **Bộ Kiểm Thử Chuẩn Mực Tuyệt Đối**: Cập nhật toàn diện [`__tests__/roadmap_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/roadmap_standards.test.ts) đạt **12/12 tests PASS 100%**, toàn hệ thống vượt qua **297/297 test files (2475/2475 passed tests)** và 0 lỗi TypeScript (`npx tsc --noEmit`).
 
 ---
