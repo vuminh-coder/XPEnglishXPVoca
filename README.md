@@ -39,6 +39,12 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
   - **Khi Hover (Desktop):** Hiển thị thẻ thông tin dạng speech bubble tinh gọn (`ZiczacNodePopover`) xem trước tiêu đề, mô tả hoạt động, phần thưởng XP và trạng thái; `pointer-events-none` và tự động đẩy stacking context `z-50` phía trên tránh che lấp các nút xung quanh.
   - **Khi Click:** Điều hướng trực tiếp 1-click vào bài học tương ứng thông qua Next.js `<Link href={step.practicePath}>` mà không qua bất kỳ modal xác nhận, thanh đếm phiên hay dropdown rườm rà nào.
   - **Mobile & Touch:** Bố cục ziczac sóng lượn chuẩn hóa an toàn `[33%, 67%]`, chạm 1 chạm để bắt đầu học ngay lập tức.
+- **Hệ Thống Header 3D Vật Lý Đồng Bộ (3D Tactile AppTopHeader):**
+  - **Tactile Ridge Border:** Đường viền đáy 3D nổi bật `border-b-2 sm:border-b-[3px] border-b-slate-200/90 dark:border-b-slate-800 shadow-xs`.
+  - **Tactile Pill Tabs (`ProgressSuiteNavTabs` với `is3D={true}`):** Khung chứa nút kiểu 3D cơ học với viền nổi `border-2 border-b-[3px] border-b-slate-300 dark:border-b-slate-600 shadow-2xs`. Tab tích cực "Lộ trình" được nâng cao dạng phím 3D keycap nổi `bg-white dark:bg-slate-900 border-2 border-b-[3px] border-b-slate-300 dark:border-b-slate-600 shadow-xs translate-y-[-1px]`, các tab phụ có phản hồi ấn chìm `active:translate-y-0.5`.
+  - **Sunken Search Input:** Ô tìm kiếm chìm 3D xúc giác `bg-white dark:bg-slate-900/90 border-2 border-b-[3px] border-b-slate-300 dark:border-b-slate-600 focus:border-[#0059bb] focus:border-b-[#003d82] shadow-2xs`.
+  - **Primary CTA Push Button:** Nút hành động nhanh `[ ▶ Học tiếp: Chặng X ]` với khối nổi 3D xanh hoàng gia `bg-[#0059bb] border-b-[3.5px] border-[#003d82] active:border-b-0 active:translate-y-[3.5px] shadow-sm` đồng nhất tuyệt đối với ngôn ngữ thiết kế Duolingo của các nút tròn chặng học và banner Unit.
+  - **Mobile 3D Keycaps:** Nút mở Sidebar menu và nút kích hoạt tìm kiếm trên mobile được nâng cấp thành các phím 3D xúc giác `border-2 border-b-[3px] border-b-slate-300 active:border-b-0 active:translate-y-[2px] shadow-2xs`.
 
 ---
 
