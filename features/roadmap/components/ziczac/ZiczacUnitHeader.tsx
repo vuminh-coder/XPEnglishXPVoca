@@ -12,9 +12,11 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
   const [showGuidebook, setShowGuidebook] = useState(false);
 
   // Theme colors per unit with high-contrast text and luminous badges
-  const getUnitTheme = (unitNum: number) => {
-    switch (unitNum) {
-      case 1:
+  const getUnitTheme = (colorTheme?: string, unitNum: number = 1) => {
+    const cycleColors = ["blue", "emerald", "purple", "amber", "rose"] as const;
+    const resolvedColor = colorTheme || cycleColors[(unitNum - 1) % cycleColors.length];
+    switch (resolvedColor) {
+      case "blue":
         return {
           bg: "bg-[#0059bb]",
           border: "border-b-4 border-[#003d82]",
@@ -22,7 +24,7 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
           subtitle: "text-blue-100",
           buttonBg: "bg-white hover:bg-blue-50 text-[#0059bb] border-b-2 border-slate-300 shadow-sm",
         };
-      case 2:
+      case "emerald":
         return {
           bg: "bg-emerald-600",
           border: "border-b-4 border-emerald-800",
@@ -30,7 +32,7 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
           subtitle: "text-emerald-100",
           buttonBg: "bg-white hover:bg-emerald-50 text-emerald-700 border-b-2 border-slate-300 shadow-sm",
         };
-      case 3:
+      case "purple":
         return {
           bg: "bg-purple-600",
           border: "border-b-4 border-purple-800",
@@ -38,7 +40,7 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
           subtitle: "text-purple-100",
           buttonBg: "bg-white hover:bg-purple-50 text-purple-700 border-b-2 border-slate-300 shadow-sm",
         };
-      case 4:
+      case "amber":
         return {
           bg: "bg-amber-600 dark:bg-amber-700",
           border: "border-b-4 border-amber-800",
@@ -46,7 +48,7 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
           subtitle: "text-amber-100",
           buttonBg: "bg-white hover:bg-amber-50 text-amber-800 border-b-2 border-slate-300 shadow-sm",
         };
-      case 5:
+      case "rose":
       default:
         return {
           bg: "bg-rose-600 dark:bg-rose-700",
@@ -58,7 +60,7 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
     }
   };
 
-  const theme = getUnitTheme(unit.unitNumber);
+  const theme = getUnitTheme(unit.colorTheme, unit.unitNumber);
 
   // Split "Unit X: Title" into distinct Unit badge & Title
   const match = unit.unitTitle.match(/^(Unit\s+\d+)(?::\s*(.*))?$/i);

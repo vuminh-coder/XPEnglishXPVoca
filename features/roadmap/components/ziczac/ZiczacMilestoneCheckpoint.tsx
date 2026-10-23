@@ -41,7 +41,7 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
 
   // Clean title without redundant prefix for the side label
   const cleanTitle = step.title
-    .replace(/^CỘT MỐC TỔNG HỢP \d+:\s*/i, "")
+    .replace(/^CỘT MỐC (?:TỔNG HỢP|UNIT)\s+\d+:\s*/i, "")
     .replace(/^HOÀN THÀNH TOÀN DIỆN:\s*/i, "");
 
   const handleNodeClick = () => {

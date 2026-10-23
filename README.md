@@ -6973,10 +6973,30 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
 
 11. **Tái Thiết Kế Con Đường Học Tập Ziczac Chuẩn Phong Cách Duolingo (`/roadmap`)**:
     - **Con Đường Uốn Lượn S-Curve Với Nút Tròn 3D Duolingo ([`ZiczacStepNode.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/components/ziczac/ZiczacStepNode.tsx))**: Chuyển đổi các bài học thành các nút tròn 3D hoàn hảo (`rounded-full`, viền đáy 3D `border-b-[6px]` tạo độ lún khi bấm thật), tích hợp vòng tròn tiến độ SVG (`circular progress ring`) và bong bóng chỉ dẫn chuyển động `BẮT ĐẦU!` với mũi tên trỏ xuống node bài học đang học.
-    - **Bấm 1 Click Vào Thẳng Bài Học (Direct 1-Click Lesson Navigation)**: Lược bỏ hoàn toàn các khối popover/dialog trung gian cản trở tầm nhìn và che khuất lộ trình. Nhấp vào bất kỳ nút tròn 3D Duolingo nào (hoặc bong bóng "BẮT ĐẦU!", tiêu đề bài học bên dưới) sẽ lập tức chuyển hướng trực tiếp 1 click vào phòng luyện tập/bài học tương ứng (`practicePath`), tạo trải nghiệm học tập siêu tốc, mượt mà và không gián đoạn.
-    - **Tên Bài Đặt Bên Hông Nút Theo Chiều Rộng Ngắn Hơn (Side Title Typography, Không Làm Khối)**: Không để tên bài ở phía dưới nút gây chật chội trục dọc ziczac. Tên bài được đặt tinh tế ở bên hông nút (bên phải nếu node lệch phải, bên trái nếu node lệch trái theo quy tắc khoảng cách ngắn hơn tới mép biên), hiển thị thuần chữ không dùng khung viền khối, căn giữa theo trục đứng của nút tròn 3D và liên kết trực tiếp vào bài học.
+    - **Nút Locked Giữ Nguyên Biểu Tượng Kỹ Năng & Bật Màu Sắc Khi Đang Học / Hoàn Thành**: Không sử dụng biểu tượng ổ khóa che giấu kỹ năng; mọi nút luôn hiển thị biểu tượng kỹ năng tương ứng ở dạng xám không màu khi bị khóa (LOCKED), và chỉ bừng sáng màu sắc thương hiệu (Royal Blue khi CURRENT, Emerald khi COMPLETED) khi học viên mở khóa.
+    - **Tên Bài Đặt Bên Hông Nút Theo Chiều Rộng Ngắn Hơn (Side Title Typography, Không Làm Khối)**: Tên bài được đặt tinh tế ở bên hông nút (bên phải nếu node lệch phải, bên trái nếu node lệch trái theo quy tắc khoảng cách ngắn hơn tới mép biên), hiển thị thuần chữ không dùng khung viền khối, căn giữa theo trục đứng của nút tròn 3D và liên kết trực tiếp vào bài học.
     - **Giao Diện Full-Width Không Border & Xóa Bỏ Hero Banner**: Khối lộ trình chiếm trọn 100% chiều rộng màn hình, xóa bỏ hoàn toàn đường viền border và lược bỏ khối Hero Banner thừa thãi phía trên; mở đầu trang là dải banner khối màu sống động của Unit 1 dẫn dắt trực tiếp vào con đường học tập Duolingo mà không bị cản trở bởi bất kỳ thẻ đệm nào.
-    - **Giáo Trình 20 Chặng Cung Cấp Sẵn ([`curatedRoadmapPathway.ts`](file:///e:/XP%20English%20%20XP%20Voca/features/roadmap/data/curatedRoadmapPathway.ts))**: Toàn bộ lộ trình do hệ thống cung cấp chuẩn mực từ đầu, không bắt học viên phải qua form tạo lộ trình phức tạp.
+    - **Sổ Tay Hướng Dẫn (Guidebook Modal) Cho Từng Unit**: Tích hợp nút `HƯỚNG DẪN` trên banner mỗi Unit, hiển thị modal tra cứu Mục tiêu năng lực, Bí quyết ngữ pháp - phát âm và 4 Cụm từ then chốt (Key Phrases) song ngữ.
+
+12. **Tái Cấu Trúc Toàn Diện 24 Unit Chủ Đề Từ Vựng, Chặng Ghép Câu, Nối Từ & Quy Hoạch Interactive Practice Studio (`/roadmap` & `/study/sentence-builder`)**:
+    - **24 Unit Chủ Đề Từ Vựng Chuyên Sâu Trực Tiếp Từ Kho Dữ Liệu**:
+      Mỗi Unit là 1 chủ đề từ vựng độc lập được ánh xạ trực tiếp từ kho 60 chủ đề cơ bản A1 - A2 tại `features/vocabulary/data/topics/`. 24 Unit được phân bổ thành 4 Vùng Cung Sư Phạm chuẩn quốc tế:
+      * **Phần 1 (A1 Starter - Units 1 đến 6)**: Chào Hỏi & Giao Tiếp, Đại Từ & Giới Thiệu, Số Đếm & Thời Gian, Màu Sắc & Hình Khối, Gia Đình & Người Thân, Động Từ Sinh Hoạt Hằng Ngày.
+      * **Phần 2 (A1+ Explorer - Units 7 đến 12)**: Nhà Cửa & Đồ Dùng, Ẩm Thực & Món Ăn, Nấu Nướng & Nhà Bếp, Cảm Xúc & Tính Cách, Thời Gian & Các Mùa, Động Vật & Thú Cưng.
+      * **Phần 3 (A2 Connector - Units 13 đến 18)**: Cơ Thể & Vóc Dáng, Trang Phục & Phụ Kiện, Thành Phố & Chỉ Đường, Phương Tiện Giao Thông, Thời Tiết & Khí Hậu, Mua Sắm & Giá Cả.
+      * **Phần 4 (A2+ Champion - Units 19 đến 24)**: Trường Học & Giáo Dục, Nghề Nghiệp & Công Sở, Thể Thao & Rèn Luyện, Sức Khỏe & Y Tế, Khách Sạn & Lưu Trú, Sân Bay & Du Lịch Thế Giới.
+    - **Hệ Thống 6 Chặng Kỹ Năng Tương Tác Khép Kín Mỗi Unit (Tổng Cộng 144 Chặng Học Tập)**:
+      1. ⭐ **VOCAB**: Nạp từ vựng cốt lõi Flashcards kèm phiên âm IPA, audio bản xứ và đồng bộ SM-2.
+      2. 🔗 **MATCH**: Nối cặp từ phản xạ nhanh song ngữ Anh - Việt (Icon `Shuffle`), rèn luyện tốc độ nhận diện mặt chữ dưới 2 giây.
+      3. 🧩 **SENTENCE**: Ghép từ thành câu tiếng Anh hoàn chỉnh (Word Bank Builder - Icon `Puzzle`), kéo thả các khối từ thành câu chuẩn ngữ pháp S-V-O.
+      4. 🎧 **LISTENING**: Nghe đàm thoại & bắt âm chính tả theo chủ đề, nhận diện nối âm và âm đuôi.
+      5. 📖 **STORY** / 🎙️ **SPEAKING**: Đọc hiểu mẩu truyện ngắn ngữ cảnh hoặc Luyện nói Shadowing nhại âm chấm điểm bằng micro AI.
+      6. 🏆 **CHECKPOINT**: Cột mốc thi thử trắc nghiệm tổng hợp 15 câu 4 kỹ năng làm chủ toàn Unit để mở khóa Unit kế tiếp.
+    - **Toán Học Quỹ Đạo Lượn Sóng S-Curve Modulo 6 Tuyệt Đối Không Đường Thẳng**:
+      Công thức `getNodeHorizontalPercent(stepNumber)` áp dụng mẫu luân phiên 6 điểm `[60, 67, 58, 42, 33, 40]`, kết hợp Cột mốc Checkpoint đặt cố định tại tâm `50%`. Đảm bảo khoảng cách ngang giữa 2 nút liền kề luôn $\ge 7\%$, giữ an toàn trong dải biên [33%, 67%] trên mobile và triệt tiêu vĩnh viễn lỗi 4 nút thẳng hàng.
+    - **Quy Hoạch Trang Chuyên Biệt Phát Triển Sau: Interactive Practice Studio (`/study/sentence-builder`)**:
+      Toàn bộ các chặng `SENTENCE` và `MATCH` trên lộ trình đã được cấu hình sẵn đường dẫn thực hành ngữ cảnh, sẵn sàng kết nối liền mạch vào trang Studio tương tác chuyên sâu gồm 3 chế độ: Ghép câu Word Bank Tiles 3D, Nối cặp từ siêu tốc và Điền khuyết đàm thoại.
+    - **Bộ Kiểm Thử Chuẩn Mực Tuyệt Đối**: Cập nhật toàn diện [`__tests__/roadmap_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/roadmap_standards.test.ts) đạt **12/12 tests PASS 100%**, toàn hệ thống vượt qua **297/297 test files (2475/2475 passed tests)** và 0 lỗi TypeScript (`npx tsc --noEmit`).
 
 ---
 

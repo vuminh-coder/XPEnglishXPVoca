@@ -85,13 +85,15 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       expect(roadmapModule.PhaseRoadmapCard).toBeDefined();
     }, 15000);
 
-    it("7. Curated Ziczac Pathway supports dynamic unit lengths [5, 7, 6, 6, 4] with milestones at unit ends", async () => {
+    it("7. Curated Ziczac Pathway supports 24 Vocabulary Thematic Units (144 stages) with checkpoints at unit ends", async () => {
       const { CURATED_ROADMAP_STEPS, getCuratedUnitGroups } = await import("@/features/roadmap");
-      expect(CURATED_ROADMAP_STEPS.length).toBe(28);
+      expect(CURATED_ROADMAP_STEPS.length).toBe(144);
 
       const checkpoints = CURATED_ROADMAP_STEPS.filter((s) => s.isCheckpoint);
-      expect(checkpoints.length).toBe(5);
-      expect(checkpoints.map((c) => c.stepNumber)).toEqual([5, 12, 18, 24, 28]);
+      expect(checkpoints.length).toBe(24);
+      // Every 6th step is a milestone checkpoint (6, 12, 18, 24, ... 144)
+      const expectedCheckpointNums = Array.from({ length: 24 }, (_, i) => (i + 1) * 6);
+      expect(checkpoints.map((c) => c.stepNumber)).toEqual(expectedCheckpointNums);
 
       checkpoints.forEach((cp) => {
         expect(cp.skillType).toBe("CHECKPOINT");
@@ -99,13 +101,24 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
         expect(cp.xpReward).toBeGreaterThanOrEqual(100);
       });
 
+      // Verify presence of interactive SENTENCE and MATCH skill stages
+      const sentenceSteps = CURATED_ROADMAP_STEPS.filter((s) => s.skillType === "SENTENCE");
+      const matchSteps = CURATED_ROADMAP_STEPS.filter((s) => s.skillType === "MATCH");
+      const vocabSteps = CURATED_ROADMAP_STEPS.filter((s) => s.skillType === "VOCAB");
+      const listeningSteps = CURATED_ROADMAP_STEPS.filter((s) => s.skillType === "LISTENING");
+
+      expect(sentenceSteps.length).toBe(24);
+      expect(matchSteps.length).toBe(24);
+      expect(vocabSteps.length).toBe(24);
+      expect(listeningSteps.length).toBe(24);
+
       const units = getCuratedUnitGroups();
-      expect(units.length).toBe(5);
+      expect(units.length).toBe(24);
 
-      // Verify dynamic unit lengths (Duolingo variable node model: not fixed to 5)
-      expect(units.map((u) => u.steps.length)).toEqual([5, 7, 6, 6, 4]);
+      units.forEach((unit, idx) => {
+        expect(unit.unitNumber).toBe(idx + 1);
+        expect(unit.steps.length).toBe(6);
 
-      units.forEach((unit) => {
         // Every unit ends with a milestone checkpoint
         const lastStep = unit.steps[unit.steps.length - 1];
         expect(lastStep.isCheckpoint).toBe(true);
@@ -119,7 +132,15 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
 
     it("8. All curated steps have real practicePath routes linking to actual website features", async () => {
       const { CURATED_ROADMAP_STEPS } = await import("@/features/roadmap");
-      const validPrefixes = ["/vocabulary", "/study/dictation", "/study/grammar", "/study/shadowing", "/study/reading", "/study/practice", "/study/exam-prep"];
+      const validPrefixes = [
+        "/vocabulary",
+        "/study/dictation",
+        "/study/grammar",
+        "/study/shadowing",
+        "/study/reading",
+        "/study/practice",
+        "/study/exam-prep",
+      ];
 
       CURATED_ROADMAP_STEPS.forEach((step) => {
         const hasValidRoute = validPrefixes.some((prefix) => step.practicePath.startsWith(prefix));
@@ -148,7 +169,7 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       expect(typeof ZiczacMilestoneCheckpoint).toBe("function");
     });
 
-    it("11. Duolingo S-curve pattern prevents straight lines: no consecutive identical offsets across all 28 steps", async () => {
+    it("11. Duolingo S-curve pattern prevents straight lines: no consecutive identical offsets across all 144 steps", async () => {
       const { CURATED_ROADMAP_STEPS, getNodeHorizontalPercent, getShorterWidthSide } = await import("@/features/roadmap");
       
       const stepPositions = CURATED_ROADMAP_STEPS.map((step) => {
@@ -171,12 +192,11 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
         expect(diff).toBeGreaterThanOrEqual(7); // Minimum 7% horizontal delta
       }
 
-      // 3. CRITICAL: Unit 2 steps (6 to 12) never form a straight vertical line of 4 buttons
-      const unit2Steps = stepPositions.filter((p) => p.stepNumber >= 6 && p.stepNumber <= 12);
-      expect(unit2Steps.length).toBe(7);
-      const unit2XPositions = unit2Steps.map((p) => p.x);
-      // Verify steps 9, 10, 11, 12: they must be distinct and wave dynamically
-      expect(unit2XPositions.slice(3)).toEqual([58, 42, 33, 50]);
+      // 3. CRITICAL: Unit 1 steps (1 to 6) wave dynamically and end at checkpoint 50%
+      const unit1Steps = stepPositions.filter((p) => p.stepNumber >= 1 && p.stepNumber <= 6);
+      expect(unit1Steps.length).toBe(6);
+      const unit1XPositions = unit1Steps.map((p) => p.x);
+      expect(unit1XPositions).toEqual([60, 67, 58, 42, 33, 50]);
     });
 
     it("12. Multi-session progression and 300-word spaced repetition standards", async () => {

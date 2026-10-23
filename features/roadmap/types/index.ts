@@ -6,7 +6,9 @@ export type TaskSkillType =
   | "GRAMMAR"
   | "VOCAB"
   | "DUMBBELL"
-  | "STORY";
+  | "STORY"
+  | "SENTENCE"
+  | "MATCH";
 
 export interface RoadmapTask {
   id: string;
@@ -89,4 +91,6 @@ export interface ZiczacUnitGroup {
   guidebookObjectives?: string[];
   guidebookGrammarTip?: string;
   guidebookKeyPhrases?: ZiczacGuidebookPhrase[];
+  themeId?: string;
+  themeIcon?: string;
 }
