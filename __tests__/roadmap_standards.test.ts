@@ -140,6 +140,8 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
         "/study/reading",
         "/study/practice",
         "/study/exam-prep",
+        "/study/match",
+        "/study/sentence-builder",
       ];
 
       CURATED_ROADMAP_STEPS.forEach((step) => {

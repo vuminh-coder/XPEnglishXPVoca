@@ -28,6 +28,7 @@ import { safeSpeakText } from "@/shared/utils/mobileAudio";
 export interface SentenceBuilderGameProps {
   pool: any[];
   onBack: () => void;
+  backLabel?: string;
 }
 
 interface WordToken {
@@ -67,7 +68,11 @@ const FALLBACK_SENTENCES: SentenceCandidate[] = [
 
 const TOTAL_ROUNDS = 5;
 
-export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) {
+export function SentenceBuilderGame({
+  pool,
+  onBack,
+  backLabel,
+}: SentenceBuilderGameProps) {
   const { addToast } = useNotificationStore();
 
   const [packages, setPackages] = useState<SentenceScramblePackage[]>([]);
@@ -325,6 +330,7 @@ export function SentenceBuilderGame({ pool, onBack }: SentenceBuilderGameProps) 
         durationSeconds={durationSeconds || 1}
         maxCombo={correctCount}
         reviewItems={reviewItems}
+        backLabel={backLabel}
         onBack={onBack}
         onRestart={generateSentences}
       />

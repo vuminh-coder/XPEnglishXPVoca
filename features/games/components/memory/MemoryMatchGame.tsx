@@ -23,11 +23,12 @@ import { safeSpeakText } from "@/shared/utils/mobileAudio";
 export interface MemoryMatchGameProps {
   pool: any[];
   onBack: () => void;
+  backLabel?: string;
 }
 
 type DifficultyMode = 4 | 6 | 8;
 
-export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
+export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProps) {
   const { addToast } = useNotificationStore();
 
   const [difficulty, setDifficulty] = useState<DifficultyMode>(6);
@@ -242,6 +243,7 @@ export function MemoryMatchGame({ pool, onBack }: MemoryMatchGameProps) {
         durationSeconds={elapsedSeconds}
         maxCombo={difficulty}
         reviewItems={reviewItems}
+        backLabel={backLabel}
         onBack={onBack}
         onRestart={initGame}
       />

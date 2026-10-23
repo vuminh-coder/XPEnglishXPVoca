@@ -38,6 +38,7 @@ export interface GameResultScreenProps {
   durationSeconds?: number;
   maxCombo?: number;
   reviewItems?: GameReviewItem[];
+  backLabel?: string;
   onBack: () => void;
   onRestart: () => void;
 }
@@ -53,6 +54,7 @@ export function GameResultScreen({
   durationSeconds,
   maxCombo,
   reviewItems = [],
+  backLabel,
   onBack,
   onRestart,
 }: GameResultScreenProps) {
@@ -412,7 +414,7 @@ export function GameResultScreen({
             className="py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-2xs"
           >
             <ArrowLeft className="w-3.5 h-3.5 stroke-[2.2]" />
-            <span>Danh mục Games</span>
+            <span>{backLabel || "Danh mục Games"}</span>
           </button>
 
           <button

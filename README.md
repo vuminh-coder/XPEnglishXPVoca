@@ -27,17 +27,14 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
 ## 🗺️ Lộ Trình Học Tập Duolingo S-Curve (`features/roadmap` & `/roadmap`)
 
 - **Kiến trúc S-Curve chuẩn hóa 24 Unit (144 chặng học):**
-  - Trải dài qua 24 chủ đề từ vựng cốt lõi A1–A2+ được liên kết chính xác 100% với 60 module chủ đề trong `features/vocabulary/data/topics/`.
+  - Trải dài qua 24 chủ đề từ vựng cốt lõi A1–C1 (Chào hỏi & Giao tiếp lịch sự, Gia đình, Nghề nghiệp, Công nghệ, Du lịch, Môi trường, Kinh doanh, Học thuật...).
   - Mỗi Unit gồm 6 chặng chuyên biệt với đường dẫn trực tiếp:
-    1. Chặng 1: Từ vựng cốt lõi Flashcard 3D Studio (`/vocabulary/${themeId}`)
-    2. Chặng 2: Nối cặp từ phản xạ Duolingo Match Madness (`/study/practice?mode=match_pairs&themeId=...`)
-    3. Chặng 3: Ghép từ thành câu giao tiếp Duolingo Word Bank (`/study/practice?mode=sentence_builder&themeId=...`)
-    4. Chặng 4: Nghe chép chính tả hội thoại (`/study/dictation/audio?themeId=...`)
-    5. Chặng 5: Đọc hiểu mẩu truyện hoặc Luyện nói Shadowing (`/study/reading?theme=...` / `/study/shadowing?theme=...`)
-    6. Chặng 6: Cột mốc thi thử tổng hợp Unit (`/study/practice?mode=quiz&themeId=...`)
-- **Tích hợp Đấu Trường Luyện Tập Duolingo (`features/practice`):**
-  - **Match Pairs Arena:** Game nối cặp thẻ 3D chunky 2 cột (Anh - Việt), phát âm thanh Web Audio Ting khi đúng và Buzz khi sai, chuỗi combo liên hoàn, hiệu ứng tan biến và bảng tổng kết XP.
-  - **Sentence Builder Arena:** Game xếp khối từ thành câu (Word Bank), khay Answer Tray tương tác, âm thanh chạm Pop, phát âm TTS câu hoàn chỉnh và Banner phản hồi Duolingo trượt từ dưới lên.
+    1. Chặng 1: Từ vựng cốt lõi Flashcards Spaced Repetition (`/vocabulary/[themeId]`)
+    2. Chặng 2: Nối cặp từ phản xạ phòng Studio riêng biệt (`/study/match?theme=...&unit=...`)
+    3. Chặng 3: Ghép từ thành câu Word Bank phòng Studio riêng biệt (`/study/sentence-builder?theme=...&unit=...`)
+    4. Chặng 4: Nghe chép chính tả hội thoại (`/study/dictation?theme=...`)
+    5. Chặng 5: Đọc hiểu mẩu truyện (`/study/reading?theme=...`) & Luyện nói Shadowing (`/study/shadowing?theme=...`)
+    6. Chặng 6: Cột mốc thi thử tổng hợp Unit (`/study/practice?mode=checkpoint&unit=...`)
 - **Tối ưu hóa UI/UX Tinh Gọn (Streamlined 1-Click & Non-blocking Hover Preview):**
   - **Khi Hover (Desktop):** Hiển thị thẻ thông tin dạng speech bubble tinh gọn (`ZiczacNodePopover`) xem trước tiêu đề, mô tả hoạt động, phần thưởng XP và trạng thái; `pointer-events-none` và tự động đẩy stacking context `z-50` phía trên tránh che lấp các nút xung quanh.
   - **Khi Click:** Điều hướng trực tiếp 1-click vào bài học tương ứng thông qua Next.js `<Link href={step.practicePath}>` mà không qua bất kỳ modal xác nhận, thanh đếm phiên hay dropdown rườm rà nào.
