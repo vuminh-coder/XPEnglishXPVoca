@@ -94,12 +94,10 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
         <button
           type="button"
           onClick={() => setShowGuidebook(true)}
-          className="w-[15%] min-w-[76px] sm:min-w-[104px] border-l border-white/20 bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all flex flex-col items-center justify-center p-2 sm:p-3 text-white group cursor-pointer text-center select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+          className="w-[15%] min-w-[76px] sm:min-w-[104px] bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all flex flex-col items-center justify-center p-2 sm:p-3 text-white group cursor-pointer text-center select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           title={`Mở sổ tay hướng dẫn: ${cleanTitle}`}
         >
-          <div className="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center mb-1 group-hover:bg-white/25 group-hover:scale-105 transition-all shadow-2xs">
-            <BookOpen className="w-4 h-4 text-white" />
-          </div>
+          <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-white stroke-[2.2] mb-1 group-hover:scale-110 transition-transform duration-200" />
           <span className="text-[10px] sm:text-xs font-bold font-display uppercase tracking-wider whitespace-nowrap">
             HƯỚNG DẪN
           </span>
