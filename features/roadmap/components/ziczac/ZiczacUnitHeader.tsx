@@ -74,7 +74,7 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
         className={`rounded-2xl sm:rounded-3xl text-white ${theme.bg} ${theme.border} shadow-lg flex items-stretch overflow-hidden transition-all`}
       >
         {/* Part 1 (85%): Unit Badge, Title & Pedagogical Subtitle */}
-        <div className="w-[85%] p-5 sm:p-6 lg:p-7 flex flex-col justify-center space-y-2 min-w-0">
+        <div className="w-[85%] px-5 sm:px-6 lg:px-7 py-4 sm:py-5 flex flex-col justify-center space-y-1.5 min-w-0">
           <div className="flex items-center gap-3 flex-wrap">
             <span
               className={`inline-flex items-center px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-xl text-xs sm:text-sm font-black tracking-wider uppercase shadow-xs ${theme.badge}`}
@@ -94,11 +94,11 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
         <button
           type="button"
           onClick={() => setShowGuidebook(true)}
-          className="w-[15%] min-w-[84px] sm:min-w-[110px] bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all flex flex-col items-center justify-center p-3 sm:p-4 text-white group cursor-pointer text-center select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+          className="w-[15%] min-w-[84px] sm:min-w-[110px] bg-white/10 hover:bg-white/20 active:bg-white/25 transition-all flex flex-col items-center justify-center p-3 sm:p-3.5 text-white group cursor-pointer text-center select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
           title={`Mở sổ tay hướng dẫn: ${cleanTitle}`}
         >
-          <BookOpen className="w-7 h-7 sm:w-8 sm:h-8 text-white stroke-[2.2] mb-1.5 group-hover:scale-110 transition-transform duration-200" />
-          <span className="text-[11px] sm:text-xs font-bold font-display uppercase tracking-wider whitespace-nowrap">
+          <BookOpen className="w-7 h-7 sm:w-8 sm:h-8 text-white stroke-[2.2] mb-1 group-hover:scale-110 transition-transform duration-200" />
+          <span className="text-[11px] sm:text-xs font-bold font-display uppercase tracking-wider whitespace-nowrap leading-none">
             HƯỚNG DẪN
           </span>
         </button>
