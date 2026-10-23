@@ -592,6 +592,32 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
 ];
 
+/** Bài nghe chính tả cụ thể theo chủ đề (video lessons có sẵn); chủ đề khác về danh mục audio. */
+const DICTATION_LESSON_BY_THEME: Record<string, string> = {
+  t_basic_food_drinks: "vid_travel_restaurant_ordering",
+  t_basic_kitchen_utensils: "vid_oxford_food_cooking",
+  t_basic_jobs_occupations: "vid_careervidz_interview",
+  t_basic_health_medical: "vid_medical_consultation",
+  t_basic_hotel_accommodation: "vid_travel_hotel_checkin",
+  t_basic_airport_station_travel: "vid_airport_checkin",
+};
+
+/** Bài đọc hiểu (r1…r40, mức A1–B1) cho các Unit lẻ theo chủ đề. */
+const READING_PASSAGE_BY_THEME: Record<string, string> = {
+  t_basic_greetings: "r2",
+  t_basic_numbers: "r1",
+  t_basic_family: "r5",
+  t_basic_home_objects: "r6",
+  t_basic_kitchen_utensils: "r8",
+  t_basic_time_calendar: "r7",
+  t_basic_body_parts: "r29",
+  t_basic_places_directions: "r4",
+  t_basic_weather_nature: "r37",
+  t_basic_school_stationery: "r36",
+  t_basic_hobbies_sports: "r27",
+  t_basic_hotel_accommodation: "r30",
+};
+
 /**
  * Deterministically generates all stages (chặng) for each Unit.
  * Each Unit consists of 6 structured pedagogical stages:
@@ -741,7 +767,9 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       description: `Luyện đôi tai bắt âm nhạy bén, nhận diện âm đuôi và gõ chính tả câu đàm thoại thực tế theo chủ đề ${unit.title}.`,
       skillType: "LISTENING",
       isCheckpoint: false,
-      practicePath: `/study/dictation?theme=${unit.themeId}`,
+      practicePath: DICTATION_LESSON_BY_THEME[unit.themeId]
+        ? `/study/dictation?id=${DICTATION_LESSON_BY_THEME[unit.themeId]}`
+        : "/study/dictation/audio",
       xpReward: 30,
       coinsReward: 15,
       durationMinutes: 20,
@@ -787,8 +815,8 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       skillType: isSpeakingUnit ? "SPEAKING" : "STORY",
       isCheckpoint: false,
       practicePath: isSpeakingUnit
-        ? `/study/shadowing?theme=${unit.themeId}`
-        : `/study/reading?theme=${unit.themeId}`,
+        ? "/study/shadowing/audio"
+        : `/study/reading/${READING_PASSAGE_BY_THEME[unit.themeId] || "r1"}`,
       xpReward: 35,
       coinsReward: 15,
       durationMinutes: 15,
