@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import React, { useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Layers, Sparkles, BookOpen } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { MemoryMatchGame } from "@/features/games";
 import { BASIC_VOCABULARIES, BASIC_VOCABULARY_THEMES } from "@/features/vocabulary/data/basicVocabularies";
@@ -40,9 +40,9 @@ export default function MatchPairsClient() {
     ? currentTheme.name
     : unitParam
     ? `Unit ${unitParam}`
-    : "Chủ đề tự do";
+    : "Chá»§ Ä‘á» tá»± do";
 
-  const themeIcon = currentTheme?.icon || "⚡";
+  const themeIcon = currentTheme?.icon || "âš¡";
 
   return (
     <div className="w-full min-h-screen bg-slate-50/70 dark:bg-slate-950 flex flex-col font-sans select-none">
@@ -67,10 +67,10 @@ export default function MatchPairsClient() {
             <Link
               href="/roadmap"
               className="h-9 px-3.5 rounded-xl bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-800 dark:hover:bg-slate-700/90 text-slate-700 dark:text-slate-200 border border-slate-200/90 dark:border-slate-700 text-xs sm:text-sm font-bold shadow-2xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-              title="Quay lại Bản đồ Lộ trình"
+              title="Quay láº¡i Báº£n Ä‘á»“ Lá»™ trÃ¬nh"
             >
               <ArrowLeft className="w-4 h-4 stroke-[2.2]" />
-              <span>Lộ trình</span>
+              <span>Lá»™ trÃ¬nh</span>
             </Link>
           </div>
         }
@@ -81,45 +81,39 @@ export default function MatchPairsClient() {
               className="h-8 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200/90 dark:border-slate-700 text-[11px] font-bold flex items-center gap-1 shadow-2xs"
             >
               <ArrowLeft className="w-3.5 h-3.5 stroke-[2.2]" />
-              <span>Lộ trình</span>
+              <span>Lá»™ trÃ¬nh</span>
             </Link>
           </div>
         }
       />
 
-      {/* 2. SUB-BANNER / UNIT CONTEXT BAR */}
-      <div className="bg-white/90 dark:bg-slate-900/90 border-b border-slate-200/80 dark:border-slate-800 backdrop-blur-md px-4 py-2.5">
-        <div className="max-w-4xl mx-auto flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <span className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/60 flex items-center justify-center shrink-0 shadow-2xs">
-              <Layers className="w-4 h-4 stroke-[2.2]" />
-            </span>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
-                  Chặng 2: Nối Cặp Từ Phản Xạ
+      {/* 2. UNIT BANNER (đồng bộ ZiczacUnitHeader của Roadmap) */}
+      <div className="w-full max-w-2xl mx-auto px-4 sm:px-0 mt-5 sm:mt-6">
+        <div className="rounded-2xl sm:rounded-3xl bg-emerald-600 border-b-4 border-emerald-800 text-white shadow-lg flex items-stretch overflow-hidden">
+          <div className="flex-1 min-w-0 px-4 sm:px-5 py-3.5 sm:py-4 flex flex-col justify-center gap-1">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              {unitParam && (
+                <span className="inline-flex items-center px-3 py-1 rounded-xl bg-amber-300 text-amber-950 text-xs font-black tracking-wider uppercase shadow-xs">
+                  Unit {unitParam}
                 </span>
-                {unitParam && (
-                  <span className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 font-bold">
-                    Unit {unitParam}
-                  </span>
-                )}
-              </div>
-              <h1 className="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 truncate">
+              )}
+              <h1 className="text-base sm:text-xl font-black font-display leading-tight truncate">
                 {displayTitle}
               </h1>
             </div>
+            <p className="text-xs sm:text-sm text-emerald-100 font-medium line-clamp-1">
+              Chặng 2 · Nối cặp từ phản xạ Anh - Việt
+            </p>
           </div>
-
-          <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>Chạm 1 thẻ Anh và 1 thẻ Việt tương ứng</span>
+          <div className="w-[84px] sm:w-[104px] bg-white/10 flex flex-col items-center justify-center gap-0.5 text-center">
+            <span className="text-3xl sm:text-4xl leading-none" aria-hidden>{themeIcon}</span>
+            <span className="text-[10px] sm:text-[11px] font-bold font-display uppercase tracking-wider">Match</span>
           </div>
         </div>
       </div>
 
       {/* 3. GAME ARENA WORKSPACE */}
-      <main className="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
+      <main className="flex-1 w-full px-4 sm:px-6 py-5 sm:py-6 flex flex-col">
         <MemoryMatchGame
           pool={themeVocabs}
           onBack={() => router.push("/roadmap")}

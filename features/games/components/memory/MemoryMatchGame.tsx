@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -154,8 +154,8 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
           setRewards({ xp: res.xpGained, coins: res.coinsGained });
           addToast({
             type: "info",
-            title: `+${res.xpGained} XP & +${res.coinsGained} Vàng!`,
-            message: `Hoàn thành Memory Match (${difficulty} cặp) sau ${moves} lượt!`,
+            title: `+${res.xpGained} XP & +${res.coinsGained} VÃ ng!`,
+            message: `HoÃ n thÃ nh Memory Match (${difficulty} cáº·p) sau ${moves} lÆ°á»£t!`,
           });
         }
       });
@@ -234,8 +234,8 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
 
     return (
       <GameResultScreen
-        title="Trí Nhớ Siêu Việt!"
-        subtitle={`Bạn đã liên kết chính xác ${difficulty} cặp từ vựng trong ${moves} lượt lật thẻ và ${elapsedSeconds} giây.`}
+        title="TrÃ­ Nhá»› SiÃªu Viá»‡t!"
+        subtitle={`Báº¡n Ä‘Ã£ liÃªn káº¿t chÃ­nh xÃ¡c ${difficulty} cáº·p tá»« vá»±ng trong ${moves} lÆ°á»£t láº­t tháº» vÃ  ${elapsedSeconds} giÃ¢y.`}
         score={finalScore}
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
@@ -250,97 +250,97 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
     );
   }
 
+  const progressPct = difficulty ? (matchedPairs / difficulty) * 100 : 0;
+
+  const circleBtn =
+    "w-11 h-11 shrink-0 rounded-xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2";
+
   return (
-    <div className="space-y-4 sm:space-y-5 select-none max-w-2xl mx-auto">
-      {/* 1. Top Header Bar */}
-      <div className="flex items-center justify-between">
-        
+    <div className="select-none w-full max-w-2xl mx-auto flex flex-col gap-4 sm:gap-5">
+      {/* 1. Top bar: Mute + chunky progress + moves/time + restart */}
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={toggleAudio}
+          title={isMuted ? "Báº­t Ã¢m thanh" : "Táº¯t Ã¢m thanh"}
+          className={circleBtn}
+        >
+          {isMuted ? (
+            <VolumeX className="w-4 h-4 text-rose-500" />
+          ) : (
+            <Volume2 className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+          )}
+        </button>
 
-        <div className="flex items-center gap-2">
-          {/* Mute button */}
-          <button
-            type="button"
-            onClick={toggleAudio}
-            title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+        <div className="relative flex-1 h-4 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+          <motion.div
+            className="absolute inset-y-0 left-0 rounded-full bg-emerald-500"
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPct}%` }}
+            transition={{ type: "spring", stiffness: 80, damping: 15 }}
           >
-            {isMuted ? (
-              <VolumeX className="w-3.5 h-3.5 text-rose-500" />
-            ) : (
-              <Volume2 className="w-3.5 h-3.5 text-emerald-600" />
-            )}
-          </button>
+            <div className="absolute inset-x-2 top-[3px] h-[3px] rounded-full bg-white/35" />
+          </motion.div>
+        </div>
 
-          <Badge variant="primary" size="sm">
-            <Layers className="w-3 h-3 mr-1 stroke-[2.2]" />
-            {matchedPairs}/{difficulty} cặp
-          </Badge>
+        <div className="shrink-0 h-11 px-3 rounded-xl bg-emerald-100 dark:bg-emerald-950/50 border-2 border-b-4 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5 font-black font-display text-sm tabular-nums">
+          <Layers className="w-4 h-4" />
+          {matchedPairs}/{difficulty}
+        </div>
 
-          <Badge variant="neutral" size="sm">
-            {moves} lượt lật
-          </Badge>
+        <button
+          type="button"
+          onClick={initGame}
+          title="LÃ m má»›i bÃ n chÆ¡i"
+          className={circleBtn}
+        >
+          <RotateCcw className="w-4 h-4 text-slate-500 stroke-[2.4]" />
+        </button>
+      </div>
 
-          <Badge variant="neutral" size="sm">
-            <Timer className="w-3 h-3 mr-1 stroke-[2.2]" />
+      {/* 2. Heading + stats */}
+      <div className="flex items-center justify-between gap-2 px-1">
+        <h2 className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white">
+          Cháº¡m cÃ¡c cáº·p tá»« trÃ¹ng nghÄ©a
+        </h2>
+        <div className="flex items-center gap-2 text-[11px] sm:text-xs font-black font-display uppercase tracking-wider text-slate-400 tabular-nums">
+          <span>{moves} lÆ°á»£t</span>
+          <span className="inline-flex items-center gap-1">
+            <Timer className="w-3.5 h-3.5" />
             {elapsedSeconds}s
-          </Badge>
-
-          <button
-            type="button"
-            onClick={initGame}
-            title="Làm mới bàn chơi"
-            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
-          >
-            <RotateCcw className="w-3.5 h-3.5 stroke-[2.2]" />
-          </button>
+          </span>
         </div>
       </div>
 
-      {/* 2. Difficulty Mode Selector Pills */}
-      <div className="flex items-center justify-between px-1">
-        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-          Chọn cấp độ
-        </span>
-        <div className="flex items-center gap-1.5">
-          {([4, 6, 8] as DifficultyMode[]).map((mode) => (
+      {/* 3. Difficulty: segmented 3D buttons (hiá»ƒn thá»‹ trá»±c tiáº¿p 3 lá»±a chá»n) */}
+      <div className="grid grid-cols-3 gap-2.5">
+        {([4, 6, 8] as DifficultyMode[]).map((mode) => {
+          const active = difficulty === mode;
+          return (
             <button
               key={mode}
               type="button"
-              onClick={() => {
-                setDifficulty(mode);
-              }}
-              className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                difficulty === mode
-                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20"
-                  : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
+              onClick={() => setDifficulty(mode)}
+              className={`h-11 rounded-xl border-2 border-b-4 text-xs sm:text-sm font-black font-display uppercase tracking-wide cursor-pointer transition-all active:translate-y-[2px] active:border-b-2 ${
+                active
+                  ? "bg-[#0059bb] border-[#003d82] text-white shadow-md shadow-[#0059bb]/20"
+                  : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
               }`}
             >
-              {mode === 4 ? "Dễ (4 cặp)" : mode === 6 ? "Vừa (6 cặp)" : "Khó (8 cặp)"}
+              {mode === 4 ? "Dá»… Â· 4 cáº·p" : mode === 6 ? "Vá»«a Â· 6 cáº·p" : "KhÃ³ Â· 8 cáº·p"}
             </button>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
-      {/* 3. Progress Bar */}
-      <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-        <motion.div
-          className="h-full rounded-full bg-emerald-500"
-          initial={{ width: 0 }}
-          animate={{
-            width: `${(matchedPairs / difficulty) * 100}%`,
-          }}
-          transition={{ type: "spring", stiffness: 80, damping: 15 }}
-        />
-      </div>
-
-      {/* 4. 3D Card Grid Container */}
+      {/* 4. 3D card grid */}
       <div
-        className={`grid gap-2.5 sm:gap-3.5 ${
+        className={`grid gap-2.5 sm:gap-3 ${
           difficulty === 4
             ? "grid-cols-2 sm:grid-cols-4"
             : difficulty === 6
             ? "grid-cols-3 sm:grid-cols-4"
-            : "grid-cols-4 sm:grid-cols-4"
+            : "grid-cols-4"
         }`}
       >
         {cards.map((card, index) => {
@@ -353,58 +353,57 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
               onClick={() => flipCard(card.id)}
               tabIndex={0}
               role="button"
-              aria-label={`Thẻ số ${index + 1}${card.flipped || card.matched ? ': ' + card.text : ': Đang úp'}`}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flipCard(card.id); } }}
+              aria-label={`Tháº» sá»‘ ${index + 1}${isFlippedOrMatched ? ": " + card.text : ": Äang Ãºp"}`}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  flipCard(card.id);
+                }
+              }}
             >
               <motion.div
                 animate={{ rotateY: isFlippedOrMatched ? 180 : 0 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
                 className="w-full h-full relative [transform-style:preserve-3d]"
               >
-                {/* BACK FACE (Hidden card) */}
-                <div className="absolute inset-0 w-full h-full rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 border border-slate-200/90 dark:border-slate-700/80 shadow-2xs hover:shadow-md hover:border-emerald-500/50 flex flex-col items-center justify-center gap-1 [backface-visibility:hidden] transition-all">
-                  <div className="w-8 h-8 rounded-xl bg-white dark:bg-slate-700 shadow-2xs flex items-center justify-center text-slate-400 dark:text-slate-300 font-black text-sm">
+                {/* BACK FACE (Ãºp): 3D tile mÃ u thÆ°Æ¡ng hiá»‡u */}
+                <div className="absolute inset-0 w-full h-full rounded-2xl bg-[#0059bb] hover:bg-blue-600 border-b-[6px] border-[#003d82] shadow-md shadow-[#0059bb]/20 flex flex-col items-center justify-center [backface-visibility:hidden] transition-colors active:translate-y-[3px] active:border-b-[3px]">
+                  <div className="absolute inset-x-3 top-1.5 h-5 bg-white/20 rounded-t-full pointer-events-none" />
+                  <span className="relative text-2xl sm:text-3xl font-black font-display text-white/90">
                     XP
-                  </div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    Chạm lật
                   </span>
                 </div>
 
-                {/* FRONT FACE (Flipped or Matched Card) */}
+                {/* FRONT FACE (Ä‘Ã£ láº­t / Ä‘Ã£ khá»›p) */}
                 <div
-                  className={`absolute inset-0 w-full h-full rounded-2xl p-2.5 flex flex-col items-center justify-center text-center [transform:rotateY(180deg)] [backface-visibility:hidden] transition-all shadow-md ${
+                  className={`absolute inset-0 w-full h-full rounded-2xl p-2.5 flex flex-col items-center justify-center text-center [transform:rotateY(180deg)] [backface-visibility:hidden] border-2 border-b-[6px] ${
                     card.matched
-                      ? "bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-500 text-emerald-700 dark:text-emerald-300 ring-2 ring-emerald-500/20"
-                      : "bg-blue-50 dark:bg-blue-950/50 border-2 border-[#0059bb] dark:border-sky-500 text-[#0059bb] dark:text-sky-300 ring-2 ring-[#0059bb]/20"
+                      ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500 text-emerald-700 dark:text-emerald-300"
+                      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100"
                   }`}
                 >
-                  <div className="absolute top-1.5 left-2">
-                    <span
-                      className={`px-1.5 py-0.2 rounded text-[9px] font-black uppercase ${
-                        card.type === "word"
-                          ? "bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-300"
-                          : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                      }`}
-                    >
-                      {card.type === "word" ? "ENG" : "VIE"}
-                    </span>
-                  </div>
+                  <span
+                    className={`absolute top-1.5 left-2 px-1.5 rounded text-[9px] font-black uppercase tracking-wider ${
+                      card.type === "word"
+                        ? "bg-[#0059bb]/10 text-[#0059bb] dark:text-sky-300"
+                        : "bg-amber-400/20 text-amber-700 dark:text-amber-300"
+                    }`}
+                  >
+                    {card.type === "word" ? "EN" : "VI"}
+                  </span>
 
-                  <span className="text-xs sm:text-[13px] font-bold leading-snug line-clamp-3 px-1">
+                  <span className="text-sm sm:text-base font-black font-display leading-snug line-clamp-3 px-1">
                     {card.text}
                   </span>
 
                   {card.phonetic && card.type === "word" && (
-                    <span className="text-[10px] text-slate-400 font-mono mt-0.5">
+                    <span className="text-[10px] sm:text-xs text-slate-400 font-mono mt-0.5">
                       {card.phonetic}
                     </span>
                   )}
 
                   {card.matched && (
-                    <div className="absolute bottom-1 right-2">
-                      <Sparkles className="w-3 h-3 text-emerald-500" />
-                    </div>
+                    <Sparkles className="absolute bottom-1.5 right-2 w-3.5 h-3.5 text-emerald-500" />
                   )}
                 </div>
               </motion.div>
