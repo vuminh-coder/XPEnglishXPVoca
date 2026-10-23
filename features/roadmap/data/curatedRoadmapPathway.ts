@@ -29,6 +29,26 @@ export const CURATED_ROADMAP_STEPS: ZiczacPathStep[] = [
       "Luyện phát âm chuẩn phiên âm IPA của từng từ trước khi ghi nhớ nghĩa.",
       "Đặt ít nhất 1 câu ví dụ thực tế cho mỗi từ vựng mới học.",
     ],
+    totalSessions: 3,
+    dailyTargetWords: 20,
+    totalTargetWords: 300,
+    dailyPlanBreakdown: [
+      {
+        timeSlot: "5 phút đầu",
+        activity: "Nạp từ mới Flashcard",
+        detail: "Học 20 từ cốt lõi với phiên âm IPA, audio bản xứ và ảnh minh họa trực quan.",
+      },
+      {
+        timeSlot: "7 phút giữa",
+        activity: "Khắc sâu phản xạ",
+        detail: "Trắc nghiệm chọn nghĩa nhanh, nối từ ngữ cảnh và gõ chính tả nhận diện âm đuôi.",
+      },
+      {
+        timeSlot: "3 phút cuối",
+        activity: "Ứng dụng ngữ cảnh",
+        detail: "Đọc hiểu 2 mẩu hội thoại áp dụng từ mới và tự động đồng bộ vào hàng đợi SM-2.",
+      },
+    ],
   },
   {
     id: "step-2",
@@ -129,6 +149,9 @@ export const CURATED_ROADMAP_STEPS: ZiczacPathStep[] = [
       "Học từ theo cụm thay vì học từng từ đơn lẻ.",
       "Áp dụng phương pháp Flashcard lặp lại để ghi nhớ giới từ đi kèm.",
     ],
+    totalSessions: 3,
+    dailyTargetWords: 20,
+    totalTargetWords: 150,
   },
   {
     id: "step-7",

@@ -9,11 +9,13 @@ import {
   TargetRoadmapPhase,
   RoadmapTask,
   ZiczacPathStep,
+  ZiczacStepProgress,
 } from "../types";
 import { generateGoalSpecificRoadmap } from "../data/roadmapGenerators";
 import { CURATED_ROADMAP_STEPS } from "../data/curatedRoadmapPathway";
 
 const STORAGE_KEY_COMPLETED_STEPS = "xp_ziczac_completed_steps";
+const STORAGE_KEY_STEP_SESSIONS = "xp_ziczac_step_sessions";
 
 export function useRoadmapManager() {
   const { plan, isLoading, generatePlan, loadPlan } = useStudyPlanStore();
@@ -48,6 +50,24 @@ export function useRoadmapManager() {
     return new Set(["step-1", "step-2"]);
   });
 
+  // Multi-session progress state per step (e.g. 1/3, 2/3, 3/3 sessions)
+  const [stepSessions, setStepSessions] = useState<Record<string, number>>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY_STEP_SESSIONS);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && typeof parsed === "object") {
+            return parsed;
+          }
+        }
+      } catch {
+        // Fallback below
+      }
+    }
+    return { "step-1": 3, "step-2": 3, "step-3": 1 };
+  });
+
   // Selected Step for Inspector Companion
   const [selectedStep, setSelectedStep] = useState<ZiczacPathStep>(() => {
     return (
@@ -63,9 +83,21 @@ export function useRoadmapManager() {
         const next = new Set(prev);
         const step = ziczacSteps.find((s) => s.id === stepId);
         const willBeCompleted = !next.has(stepId);
+        const total = step?.totalSessions || (step?.isCheckpoint ? 1 : 3);
 
         if (willBeCompleted) {
           next.add(stepId);
+          // Set sessions to total
+          setStepSessions((prevSessions) => {
+            const updated = { ...prevSessions, [stepId]: total };
+            if (typeof window !== "undefined") {
+              try {
+                localStorage.setItem(STORAGE_KEY_STEP_SESSIONS, JSON.stringify(updated));
+              } catch {}
+            }
+            return updated;
+          });
+
           const xp = step ? step.xpReward : 25;
           useAuthStore.getState().awardXp(xp);
           useNotificationStore.getState().addToast({
@@ -75,6 +107,17 @@ export function useRoadmapManager() {
           });
         } else {
           next.delete(stepId);
+          // Reset sessions to 0
+          setStepSessions((prevSessions) => {
+            const updated = { ...prevSessions, [stepId]: 0 };
+            if (typeof window !== "undefined") {
+              try {
+                localStorage.setItem(STORAGE_KEY_STEP_SESSIONS, JSON.stringify(updated));
+              } catch {}
+            }
+            return updated;
+          });
+
           useNotificationStore.getState().addToast({
             type: "info",
             title: "Cập Nhật Trạng Thái",
@@ -97,6 +140,85 @@ export function useRoadmapManager() {
       });
     },
     [ziczacSteps]
+  );
+
+  // Compute step session progress
+  const getStepProgress = useCallback(
+    (stepId: string): ZiczacStepProgress => {
+      const step = ziczacSteps.find((s) => s.id === stepId);
+      const totalSessions = step?.totalSessions || (step?.isCheckpoint ? 1 : 3);
+      const isCompleted = completedStepIds.has(stepId);
+      const completedSessions = isCompleted
+        ? totalSessions
+        : Math.min(stepSessions[stepId] || 0, totalSessions);
+      const progressPercent =
+        totalSessions > 0
+          ? Math.min(100, Math.round((completedSessions / totalSessions) * 100))
+          : 0;
+
+      const wordsPerSession = step?.dailyTargetWords || 20;
+      const totalWords = step?.totalTargetWords;
+      const wordsLearned = totalWords
+        ? Math.min(totalWords, completedSessions * wordsPerSession)
+        : undefined;
+
+      return {
+        stepId,
+        completedSessions,
+        totalSessions,
+        progressPercent,
+        isCompleted,
+        wordsLearned,
+        totalWords,
+      };
+    },
+    [ziczacSteps, completedStepIds, stepSessions]
+  );
+
+  // Advance a single session within a step (e.g. Session 1 -> 2 -> 3)
+  const handleAdvanceStepSession = useCallback(
+    (stepId: string) => {
+      const step = ziczacSteps.find((s) => s.id === stepId);
+      const totalSessions = step?.totalSessions || (step?.isCheckpoint ? 1 : 3);
+      const current = stepSessions[stepId] || 0;
+      const nextSession = current + 1;
+
+      // Award session XP (+15 XP)
+      useAuthStore.getState().awardXp(15);
+
+      if (nextSession >= totalSessions) {
+        setStepSessions((prev) => {
+          const updated = { ...prev, [stepId]: totalSessions };
+          if (typeof window !== "undefined") {
+            try {
+              localStorage.setItem(STORAGE_KEY_STEP_SESSIONS, JSON.stringify(updated));
+            } catch {}
+          }
+          return updated;
+        });
+
+        if (!completedStepIds.has(stepId)) {
+          handleToggleStepCompleted(stepId);
+        }
+      } else {
+        setStepSessions((prev) => {
+          const updated = { ...prev, [stepId]: nextSession };
+          if (typeof window !== "undefined") {
+            try {
+              localStorage.setItem(STORAGE_KEY_STEP_SESSIONS, JSON.stringify(updated));
+            } catch {}
+          }
+          return updated;
+        });
+
+        useNotificationStore.getState().addToast({
+          type: "success",
+          title: `🌟 +15 XP VÒNG ${nextSession}/${totalSessions} HOÀN THÀNH!`,
+          message: `Đã hoàn thành phiên học. Tiếp tục để mở khóa chặng tiếp theo!`,
+        });
+      }
+    },
+    [ziczacSteps, stepSessions, completedStepIds, handleToggleStepCompleted]
   );
 
   // 2. Backward compatibility with legacy phase structure
@@ -243,9 +365,12 @@ export function useRoadmapManager() {
     // Ziczac Pathway
     ziczacSteps,
     completedStepIds,
+    stepSessions,
     selectedStep,
     setSelectedStep,
     handleToggleStepCompleted,
+    handleAdvanceStepSession,
+    getStepProgress,
     nextActiveStep,
     nextCheckpointStep,
     stepsUntilNextCheckpoint,

@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import { Sparkles, Trophy } from "lucide-react";
-import { ZiczacPathStep, ZiczacStepState } from "../../types";
+import { ZiczacPathStep, ZiczacStepState, ZiczacStepProgress } from "../../types";
 import { getCuratedUnitGroups } from "../../data/curatedRoadmapPathway";
 import { ZiczacStepNode } from "./ZiczacStepNode";
 import { ZiczacMilestoneCheckpoint } from "./ZiczacMilestoneCheckpoint";
@@ -12,6 +12,9 @@ interface ZiczacRoadmapPathwayProps {
   steps: ZiczacPathStep[];
   selectedStepId?: string;
   completedStepIds: Set<string>;
+  stepSessions?: Record<string, number>;
+  getStepProgress?: (stepId: string) => ZiczacStepProgress;
+  onAdvanceSession?: (stepId: string) => void;
   onSelectStep: (step: ZiczacPathStep) => void;
   onToggleComplete?: (stepId: string) => void;
 }
@@ -45,6 +48,9 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
   steps,
   selectedStepId,
   completedStepIds,
+  stepSessions,
+  getStepProgress,
+  onAdvanceSession,
   onSelectStep,
   onToggleComplete,
 }) => {
@@ -100,15 +106,23 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                     const state = getStepState(step, stepIndex);
                     const isSelected = selectedStepId === step.id;
                     const isPopoverOpen = activePopoverStepId === step.id;
+                    const stepProg = getStepProgress ? getStepProgress(step.id) : undefined;
 
                     // Milestone Checkpoint Trophy: Centered with identical vertical rhythm & button size
                     if (step.isCheckpoint) {
                       return (
-                        <div key={step.id} className="relative w-full flex items-center justify-center min-h-[96px]">
+                        <div
+                          key={step.id}
+                          className={`relative w-full flex items-center justify-center min-h-[96px] ${
+                            isPopoverOpen ? "z-40" : "z-10"
+                          }`}
+                        >
                           <ZiczacMilestoneCheckpoint
                             step={step}
                             state={state}
                             isSelected={isSelected}
+                            stepProgress={stepProg}
+                            onAdvanceSession={onAdvanceSession}
                             isPopoverOpen={isPopoverOpen}
                             onTogglePopover={handleTogglePopover}
                             onClosePopover={handleClosePopover}
@@ -132,16 +146,22 @@ export const ZiczacRoadmapPathway: React.FC<ZiczacRoadmapPathwayProps> = ({
                     return (
                       <div
                         key={step.id}
-                        className="relative w-full flex items-center min-h-[96px]"
+                        className={`relative w-full flex items-center min-h-[96px] ${
+                          isPopoverOpen ? "z-40" : "z-10"
+                        }`}
                       >
                         <div
-                          className="absolute transform -translate-x-1/2"
+                          className={`absolute transform -translate-x-1/2 ${
+                            isPopoverOpen ? "z-40" : "z-10"
+                          }`}
                           style={{ left: `${xPercent}%` }}
                         >
                           <ZiczacStepNode
                             step={step}
                             state={state}
                             isSelected={isSelected}
+                            stepProgress={stepProg}
+                            onAdvanceSession={onAdvanceSession}
                             isPopoverOpen={isPopoverOpen}
                             onTogglePopover={handleTogglePopover}
                             onClosePopover={handleClosePopover}

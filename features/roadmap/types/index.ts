@@ -36,6 +36,22 @@ export type TargetExam = "TOEIC" | "IELTS";
 
 export type ZiczacStepState = "COMPLETED" | "CURRENT" | "LOCKED";
 
+export interface DailyStudyPhase {
+  timeSlot: string;
+  activity: string;
+  detail: string;
+}
+
+export interface ZiczacStepProgress {
+  stepId: string;
+  completedSessions: number;
+  totalSessions: number;
+  progressPercent: number;
+  isCompleted: boolean;
+  wordsLearned?: number;
+  totalWords?: number;
+}
+
 export interface ZiczacPathStep {
   id: string;
   stepNumber: number; // 1..N
@@ -53,6 +69,10 @@ export interface ZiczacPathStep {
   difficulty: "Dễ" | "Trung bình" | "Khó";
   tips: string[];
   isCompleted?: boolean;
+  totalSessions?: number; // Số vòng học (sessions) cần để vượt qua chặng (mặc định 3)
+  dailyTargetWords?: number; // Số từ mục tiêu học mỗi ngày (e.g. 20)
+  totalTargetWords?: number; // Tổng số từ của chặng (e.g. 300)
+  dailyPlanBreakdown?: DailyStudyPhase[]; // Bảng phân bổ 3 bước học trong ngày
 }
 
 export interface ZiczacGuidebookPhrase {

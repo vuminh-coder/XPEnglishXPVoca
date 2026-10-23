@@ -12,13 +12,15 @@ import {
   Star,
   Dumbbell,
 } from "lucide-react";
-import { ZiczacPathStep, ZiczacStepState } from "../../types";
+import { ZiczacPathStep, ZiczacStepState, ZiczacStepProgress } from "../../types";
 import { ZiczacNodePopover } from "./ZiczacNodePopover";
 
 interface ZiczacStepNodeProps {
   step: ZiczacPathStep;
   state: ZiczacStepState;
   isSelected: boolean;
+  stepProgress?: ZiczacStepProgress;
+  onAdvanceSession?: (stepId: string) => void;
   isPopoverOpen?: boolean;
   onTogglePopover?: (step: ZiczacPathStep) => void;
   onClosePopover?: () => void;
@@ -32,6 +34,8 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   step,
   state,
   isSelected,
+  stepProgress,
+  onAdvanceSession,
   isPopoverOpen,
   onTogglePopover,
   onClosePopover,
@@ -93,7 +97,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   };
 
   return (
-    <div className="relative flex flex-col items-center group select-none">
+    <div className={`relative flex flex-col items-center group select-none ${showPopover ? "z-40" : "z-10"}`}>
       {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE NODE (If popover is closed) */}
       {isCurrent && !showPopover && (
         <div
@@ -113,6 +117,8 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
           step={step}
           state={state}
           placement={placement}
+          stepProgress={stepProgress}
+          onAdvanceSession={onAdvanceSession}
           onClose={handleClose}
           onToggleComplete={(id) => {
             if (onToggleComplete) onToggleComplete(id);
@@ -122,8 +128,8 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
 
       {/* 3. DUOLINGO CIRCULAR 3D STEP BUTTON (Vòng Tròn Nổi Duolingo) */}
       <div className="relative">
-        {/* Outer Progress Ring SVG for Current Node */}
-        {isCurrent && (
+        {/* Dynamic Progress Ring SVG: C = 2 * PI * 46 ~= 289. Phản ánh đúng số phiên 0% -> 33% -> 66% -> 100% */}
+        {(isCurrent || (stepProgress && stepProgress.completedSessions > 0 && !isCompleted)) && (
           <div className="absolute -inset-2 rounded-full pointer-events-none">
             <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
               <circle
@@ -138,10 +144,17 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
                 cx="50"
                 cy="50"
                 r="46"
-                className="stroke-[#0059bb] dark:stroke-sky-400"
+                className="stroke-[#0059bb] dark:stroke-sky-400 transition-all duration-500 ease-out"
                 strokeWidth="6"
                 strokeDasharray="289"
-                strokeDashoffset="120"
+                strokeDashoffset={Math.round(
+                  289 *
+                    (1 -
+                      (isCurrent && (!stepProgress || stepProgress.progressPercent === 0)
+                        ? 6
+                        : stepProgress?.progressPercent || 0) /
+                        100)
+                )}
                 strokeLinecap="round"
                 fill="none"
               />

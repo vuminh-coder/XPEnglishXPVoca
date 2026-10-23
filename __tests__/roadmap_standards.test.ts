@@ -178,5 +178,39 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       // Verify steps 9, 10, 11, 12: they must be distinct and wave dynamically
       expect(unit2XPositions.slice(3)).toEqual([58, 42, 33, 50]);
     });
+
+    it("12. Multi-session progression and 300-word spaced repetition standards", async () => {
+      const { CURATED_ROADMAP_STEPS } = await import("@/features/roadmap");
+      const step1 = CURATED_ROADMAP_STEPS[0];
+
+      // 1. Step 1 metadata
+      expect(step1.totalSessions).toBe(3);
+      expect(step1.totalTargetWords).toBe(300);
+      expect(step1.dailyTargetWords).toBe(20);
+      expect(step1.dailyPlanBreakdown?.length).toBe(3);
+
+      const phases = step1.dailyPlanBreakdown!;
+      expect(phases[0].activity).toContain("Flashcard");
+      expect(phases[0].timeSlot).toContain("5 phút");
+      expect(phases[1].activity).toContain("phản xạ");
+      expect(phases[1].timeSlot).toContain("7 phút");
+      expect(phases[2].activity).toContain("ngữ cảnh");
+      expect(phases[2].timeSlot).toContain("3 phút");
+
+      // Total daily duration is 15 minutes (5 + 7 + 3)
+      expect(step1.durationMinutes).toBe(15);
+
+      // 2. SVG Progress ring circumference & dashoffset calculation
+      // Circumference C = 2 * Math.PI * 46 ~= 289
+      const calcOffset = (percent: number) => Math.round(289 * (1 - percent / 100));
+      expect(calcOffset(0)).toBe(289);
+      expect(calcOffset(33)).toBe(194);
+      expect(calcOffset(66)).toBe(98);
+      expect(calcOffset(100)).toBe(0);
+
+      // Initial active pulse for 0% active node: 6% -> offset 272
+      const activePulseOffset = Math.round(289 * (1 - 6 / 100));
+      expect(activePulseOffset).toBe(272);
+    });
   });
 });

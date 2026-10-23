@@ -16,9 +16,12 @@ export default function RoadmapPage() {
   const {
     ziczacSteps,
     completedStepIds,
+    stepSessions,
     selectedStep,
     setSelectedStep,
     handleToggleStepCompleted,
+    handleAdvanceStepSession,
+    getStepProgress,
     nextActiveStep,
     nextCheckpointStep,
     stepsUntilNextCheckpoint,
@@ -77,6 +80,9 @@ export default function RoadmapPage() {
               steps={ziczacSteps}
               selectedStepId={selectedStep?.id}
               completedStepIds={completedStepIds}
+              stepSessions={stepSessions}
+              getStepProgress={getStepProgress}
+              onAdvanceSession={handleAdvanceStepSession}
               onSelectStep={setSelectedStep}
               onToggleComplete={handleToggleStepCompleted}
             />

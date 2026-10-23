@@ -22,10 +22,38 @@ async function main() {
   await new Promise(r => setTimeout(r, 4000));
   await page.screenshot({ path: targetDesktop });
 
+  // Desktop Popover on Step 1
+  console.log('Capturing Step 1 Session Popover screenshot...');
+  await page.evaluate(() => {
+    // Set step 1 to session 1 of 3 for clear progression visual
+    localStorage.setItem('xp_ziczac_step_sessions', JSON.stringify({ 'step-1': 1 }));
+    localStorage.setItem('xp_ziczac_completed_steps', JSON.stringify([]));
+  });
+  await page.reload({ waitUntil: 'networkidle2' });
+  await new Promise(r => setTimeout(r, 2000));
+  await page.evaluate(() => {
+    const btn = document.querySelector('button[aria-label*="Chặng 1"]');
+    if (btn) btn.click();
+  });
+  await new Promise(r => setTimeout(r, 1000));
+  const targetSessionPopover = 'C:\\Users\\VU VAN MINH\\.gemini\\antigravity\\brain\\75160da0-6646-41c9-817c-8e932ebd6caa\\roadmap_session_popover.png';
+  await page.screenshot({ path: targetSessionPopover });
+
+  // Expand 3-step daily plan
+  await page.evaluate(() => {
+    const buttons = Array.from(document.querySelectorAll('button'));
+    const planBtn = buttons.find(b => b.textContent && b.textContent.includes('Kế hoạch'));
+    if (planBtn) planBtn.click();
+  });
+  await new Promise(r => setTimeout(r, 800));
+  const targetSessionExpanded = 'C:\\Users\\VU VAN MINH\\.gemini\\antigravity\\brain\\75160da0-6646-41c9-817c-8e932ebd6caa\\roadmap_session_popover_expanded.png';
+  await page.screenshot({ path: targetSessionExpanded });
+
   // Guidebook Modal on Desktop
   console.log('Capturing Guidebook modal screenshot...');
-  // Click first button that contains HƯỚNG DẪN
+  // Click outside to close popover first
   await page.evaluate(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
     const buttons = Array.from(document.querySelectorAll('button'));
     const btn = buttons.find(b => b.textContent && b.textContent.includes('HƯỚNG DẪN'));
     if (btn) btn.click();
