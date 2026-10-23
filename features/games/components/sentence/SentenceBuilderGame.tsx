@@ -1,10 +1,9 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
-  Timer,
   Zap,
   Volume2,
   VolumeX,
@@ -13,10 +12,7 @@ import {
   SkipForward,
   HelpCircle,
   Delete,
-  Sparkles,
-  BookOpen,
 } from "lucide-react";
-import { Badge } from "@/shared/components/ui/Badge";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { SentenceScramblePackage, GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
@@ -46,23 +42,23 @@ interface SentenceCandidate {
 const FALLBACK_SENTENCES: SentenceCandidate[] = [
   {
     sentence: "Consistency is the key to mastering English vocabulary.",
-    translationVn: "Sự kiên trì là chìa khóa để làm chủ vốn từ vựng tiếng Anh.",
+    translationVn: "Sá»± kiÃªn trÃ¬ lÃ  chÃ¬a khÃ³a Ä‘á»ƒ lÃ m chá»§ vá»‘n tá»« vá»±ng tiáº¿ng Anh.",
   },
   {
     sentence: "Practicing everyday helps you build a strong habit.",
-    translationVn: "Luyện tập mỗi ngày giúp bạn xây dựng một thói quen vững chắc.",
+    translationVn: "Luyá»‡n táº­p má»—i ngÃ y giÃºp báº¡n xÃ¢y dá»±ng má»™t thÃ³i quen vá»¯ng cháº¯c.",
   },
   {
     sentence: "She is passionate about exploring new cultures and languages.",
-    translationVn: "Cô ấy rất đam mê tìm hiểu các nền văn hóa và ngôn ngữ mới.",
+    translationVn: "CÃ´ áº¥y ráº¥t Ä‘am mÃª tÃ¬m hiá»ƒu cÃ¡c ná»n vÄƒn hÃ³a vÃ  ngÃ´n ngá»¯ má»›i.",
   },
   {
     sentence: "Technology plays an essential role in modern education.",
-    translationVn: "Công nghệ đóng một vai trò thiết yếu trong nền giáo dục hiện đại.",
+    translationVn: "CÃ´ng nghá»‡ Ä‘Ã³ng má»™t vai trÃ² thiáº¿t yáº¿u trong ná»n giÃ¡o dá»¥c hiá»‡n Ä‘áº¡i.",
   },
   {
     sentence: "We should focus on improving our communication skills.",
-    translationVn: "Chúng ta nên tập trung vào việc nâng cao kỹ năng giao tiếp của mình.",
+    translationVn: "ChÃºng ta nÃªn táº­p trung vÃ o viá»‡c nÃ¢ng cao ká»¹ nÄƒng giao tiáº¿p cá»§a mÃ¬nh.",
   },
 ];
 
@@ -276,7 +272,7 @@ export function SentenceBuilderGame({
       word: pkg.originalSentence,
       definitionVn: pkg.translationVn,
       isCorrect: false,
-      userAnswer: "Bỏ qua",
+      userAnswer: "Bá» qua",
       correctAnswer: pkg.originalSentence,
     };
     setReviewItems((prev) => [...prev, review]);
@@ -307,8 +303,8 @@ export function SentenceBuilderGame({
           setRewards({ xp: res.xpGained, coins: res.coinsGained });
           addToast({
             type: "info",
-            title: `+${res.xpGained} XP & +${res.coinsGained} Vàng!`,
-            message: `Hoàn tất Sentence Builder: Ghép đúng ${correctCount}/${packages.length} câu!`,
+            title: `+${res.xpGained} XP & +${res.coinsGained} VÃ ng!`,
+            message: `HoÃ n táº¥t Sentence Builder: GhÃ©p Ä‘Ãºng ${correctCount}/${packages.length} cÃ¢u!`,
           });
         }
       });
@@ -321,8 +317,8 @@ export function SentenceBuilderGame({
 
     return (
       <GameResultScreen
-        title="Sentence Builder Hoàn Thành!"
-        subtitle={`Bạn đã sắp xếp chính xác ${correctCount}/${packages.length} câu tiếng Anh chuẩn cấu trúc và ngữ pháp.`}
+        title="Sentence Builder HoÃ n ThÃ nh!"
+        subtitle={`Báº¡n Ä‘Ã£ sáº¯p xáº¿p chÃ­nh xÃ¡c ${correctCount}/${packages.length} cÃ¢u tiáº¿ng Anh chuáº©n cáº¥u trÃºc vÃ  ngá»¯ phÃ¡p.`}
         score={score}
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
@@ -339,207 +335,257 @@ export function SentenceBuilderGame({
 
   const currentPkg = packages[currentIdx];
 
+
+  const progressPct = packages.length
+    ? ((currentIdx + (feedback ? 1 : 0)) / packages.length) * 100
+    : 0;
+
+  const slotCount = currentPkg ? currentPkg.tokens.length : 0;
+  const canSubmit = placedTokens.length > 0 && feedback === null;
+
+  // Duolingo 3D tactile tile base (Ä‘á»“ng bá»™ vá»›i nÃºt cháº·ng trÃªn Roadmap)
+  const tileBase =
+    "rounded-xl border-2 border-b-4 text-sm sm:text-base font-bold font-display transition-all duration-100 select-none";
+
+  const trayTone =
+    feedback === "correct"
+      ? "border-emerald-600 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-700"
+      : feedback === "wrong"
+      ? "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-700"
+      : "border-[#0059bb] bg-blue-50 text-[#0059bb] hover:bg-blue-100 cursor-pointer active:translate-y-[2px] active:border-b-2 dark:bg-blue-950/50 dark:text-sky-300 dark:border-sky-700";
+
+  const ghostBtn =
+    "h-11 px-4 rounded-xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-bold font-display uppercase tracking-wide flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:translate-y-0 disabled:active:border-b-4";
+
   return (
-    <div className="space-y-4 sm:space-y-5 select-none max-w-2xl mx-auto">
-      {/* 1. Header Bar */}
-      <div className="flex items-center justify-between">
-        
+    <div className="select-none w-full max-w-2xl mx-auto flex flex-col gap-4 sm:gap-5">
+      {/* 1. Top bar: Mute + chunky progress + score */}
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={toggleAudio}
+          title={isMuted ? "Báº­t Ã¢m thanh" : "Táº¯t Ã¢m thanh"}
+          className="w-11 h-11 shrink-0 rounded-xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2"
+        >
+          {isMuted ? (
+            <VolumeX className="w-4 h-4 text-rose-500" />
+          ) : (
+            <Volume2 className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+          )}
+        </button>
 
-        <div className="flex items-center gap-2">
-          {/* Mute button */}
-          <button
-            type="button"
-            onClick={toggleAudio}
-            title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
+        {/* Chunky progress bar */}
+        <div className="relative flex-1 h-4 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+          <motion.div
+            className="absolute inset-y-0 left-0 rounded-full bg-emerald-500"
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPct}%` }}
+            transition={{ type: "spring", stiffness: 80, damping: 15 }}
           >
-            {isMuted ? (
-              <VolumeX className="w-3.5 h-3.5 text-rose-500" />
-            ) : (
-              <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
-            )}
-          </button>
-
-          <Badge variant="primary" size="sm">
-            <Zap className="w-3 h-3 mr-1 text-amber-400 stroke-[2.5]" />
-            {score} điểm
-          </Badge>
-
-          <Badge variant="neutral" size="sm">
-            Câu {currentIdx + 1} / {packages.length}
-          </Badge>
-
-          <button
-            type="button"
-            onClick={generateSentences}
-            title="Làm mới ván mới"
-            className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all cursor-pointer active:scale-90"
-          >
-            <RotateCcw className="w-3.5 h-3.5 stroke-[2.2]" />
-          </button>
+            <div className="absolute inset-x-2 top-[3px] h-[3px] rounded-full bg-white/35" />
+          </motion.div>
         </div>
+
+        <div className="shrink-0 h-11 px-3 rounded-xl bg-amber-100 dark:bg-amber-950/50 border-2 border-b-4 border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 flex items-center gap-1.5 font-black font-display text-sm tabular-nums">
+          <Zap className="w-4 h-4 fill-amber-400 text-amber-500" />
+          {score}
+        </div>
+
+        <button
+          type="button"
+          onClick={generateSentences}
+          title="LÃ m má»›i vÃ¡n má»›i"
+          className="w-11 h-11 shrink-0 rounded-xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2"
+        >
+          <RotateCcw className="w-4 h-4 text-slate-500 stroke-[2.4]" />
+        </button>
       </div>
 
-      {/* 2. Progress Bar */}
-      <div className="h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-        <motion.div
-          className="h-full rounded-full bg-indigo-600"
-          initial={{ width: 0 }}
-          animate={{
-            width: packages.length ? `${((currentIdx + 1) / packages.length) * 100}%` : 0,
-          }}
-          transition={{ type: "spring", stiffness: 80, damping: 15 }}
-        />
-      </div>
-
-      {/* 3. Main Sentence Stage */}
+      {/* 2. Main sentence stage */}
       <AnimatePresence mode="wait">
         {currentPkg && (
           <motion.div
             key={`sentence-${currentIdx}`}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.15 }}
-            className="space-y-4"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18 }}
+            className="flex flex-col gap-4 sm:gap-5"
           >
-            {/* Meaning Cue Card */}
+            {/* Prompt header */}
+            <div className="flex items-center justify-between gap-2 px-1">
+              <h2 className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white">
+                Dá»‹ch cÃ¢u nÃ y sang tiáº¿ng Anh
+              </h2>
+              <span className="text-[11px] sm:text-xs font-black font-display uppercase tracking-wider text-slate-400 tabular-nums">
+                CÃ¢u {currentIdx + 1}/{packages.length}
+              </span>
+            </div>
+
+            {/* Meaning cue (speech bubble) */}
+            <div className="flex items-start gap-3">
+              <div className="shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#0059bb] border-b-4 border-[#003d82] flex items-center justify-center text-2xl shadow-md shadow-[#0059bb]/20">
+                <span aria-hidden>ðŸ¦‰</span>
+              </div>
+              <div className="relative flex-1 min-w-0 p-3.5 sm:p-4 rounded-2xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+                <div className="absolute -left-[7px] top-5 w-3 h-3 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
+                <p className="text-base sm:text-lg font-bold font-display text-slate-900 dark:text-white leading-relaxed">
+                  {currentPkg.translationVn}
+                </p>
+              </div>
+            </div>
+
+            {/* Answer tray */}
             <div
-              className={`p-6 sm:p-7 rounded-3xl text-center space-y-3 bg-white dark:bg-slate-900 border transition-all shadow-md ${
+              className={`p-3 sm:p-4 rounded-2xl border-2 border-b-4 bg-white dark:bg-slate-900 transition-colors ${
                 feedback === "correct"
-                  ? "border-emerald-500 ring-4 ring-emerald-500/15"
+                  ? "border-emerald-300 dark:border-emerald-800"
                   : feedback === "wrong"
-                  ? "border-rose-500 ring-4 ring-rose-500/15"
-                  : "border-slate-200/90 dark:border-slate-800"
+                  ? "border-rose-300 dark:border-rose-800"
+                  : "border-slate-200 dark:border-slate-700"
               }`}
             >
-              <div className="flex items-center justify-between text-xs font-bold text-slate-400 uppercase tracking-wider">
-                <span>Ghép các từ theo thứ tự đúng</span>
+              <div className="flex items-center justify-between mb-2.5">
+                <span className="text-[11px] font-black font-display uppercase tracking-wider text-slate-400">
+                  CÃ¢u cá»§a báº¡n
+                </span>
                 <button
                   type="button"
                   onClick={handleHintNext}
-                  className="py-1 px-2.5 rounded-full bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60 text-[11px] font-bold min-h-[44px] transition-all cursor-pointer flex items-center gap-1 active:scale-95 shadow-2xs"
+                  disabled={feedback !== null}
+                  className="h-8 px-2.5 rounded-lg bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 text-[11px] font-bold flex items-center gap-1 cursor-pointer transition-all active:scale-95 disabled:opacity-40"
                 >
-                  <HelpCircle className="w-3 h-3" />
-                  <span>Gợi ý từ tiếp</span>
+                  <HelpCircle className="w-3.5 h-3.5" />
+                  <span>Gá»£i Ã½</span>
                 </button>
               </div>
 
-              {/* Translation Meaning */}
-              <div className="p-3.5 rounded-2xl bg-indigo-50/60 dark:bg-indigo-950/30 border border-indigo-200/60 dark:border-indigo-800/40">
-                <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-relaxed">
-                  &ldquo;{currentPkg.translationVn}&rdquo;
-                </p>
-              </div>
-
-              {/* Placed Tokens Container (Sentence Tray) */}
-              <div className="space-y-1.5">
-                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-left">
-                  Câu của bạn (Chạm từ để bỏ ra)
-                </div>
-                <div className="min-h-[64px] p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/60 flex flex-wrap gap-2 items-center">
-                  {placedTokens.length === 0 ? (
-                    <span className="text-xs text-slate-400 italic mx-auto">
-                      Chọn các khối từ bên dưới để ghép thành câu hoàn chỉnh
-                    </span>
-                  ) : (
-                    placedTokens.map((token, idx) => (
-                      <motion.button
-                        key={`placed-${token.id}-${idx}`}
-                        whileTap={{ scale: 0.94 }}
-                        onClick={() => handleRemovePlacedToken(token, idx)}
-                        className="py-1.5 px-3 rounded-xl bg-white dark:bg-slate-800 border-2 border-indigo-600 dark:border-indigo-400 text-indigo-700 dark:text-indigo-300 text-xs sm:text-sm font-bold shadow-2xs cursor-pointer hover:bg-rose-50 hover:border-rose-400 transition-colors"
-                      >
-                        {token.word}
-                      </motion.button>
-                    ))
-                  )}
-                </div>
-              </div>
-
-              {/* Available Word Chips */}
-              <div className="space-y-1.5">
-                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-left">
-                  Khay từ vựng có sẵn
-                </div>
-                <div className="flex flex-wrap gap-2 justify-center p-3 rounded-2xl bg-slate-100/60 dark:bg-slate-800/30 border border-slate-200/60 dark:border-slate-800">
-                  {availableTokens.map((token) => (
+              <div className="flex flex-wrap gap-2 min-h-[56px] content-start">
+                {Array.from({ length: slotCount }).map((_, i) => {
+                  const token = placedTokens[i];
+                  return token ? (
                     <motion.button
-                      key={`avail-${token.id}`}
-                      whileTap={{ scale: token.isUsed ? 1 : 0.94 }}
-                      onClick={() => handleSelectToken(token)}
-                      disabled={token.isUsed}
-                      className={`py-2 px-3.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-150 shadow-2xs ${
-                        token.isUsed
-                          ? "bg-slate-200 dark:bg-slate-800 border border-transparent text-slate-400 dark:text-slate-600 opacity-40 cursor-default"
-                          : "bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50 cursor-pointer active:scale-95 shadow-2xs"
-                      }`}
+                      key={`placed-${token.id}-${i}`}
+                      type="button"
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      onClick={() => handleRemovePlacedToken(token, i)}
+                      className={`h-11 px-4 ${tileBase} ${trayTone}`}
                     >
                       {token.word}
                     </motion.button>
-                  ))}
-                </div>
+                  ) : (
+                    <div
+                      key={`slot-${i}`}
+                      className="h-11 w-14 sm:w-16 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40"
+                    />
+                  );
+                })}
               </div>
+            </div>
 
-              {/* Correct Feedback popup */}
-              {feedback === "correct" && (
-                <motion.div
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 text-center space-y-1"
-                >
-                  <div className="text-sm font-black text-emerald-700 dark:text-emerald-300 flex items-center justify-center gap-1.5 font-display">
-                    <span>Chính xác hoàn hảo!</span>
-                    <button
-                      type="button"
-                      onClick={() => speakSentence(currentPkg.originalSentence)}
-                      title="Nghe cả câu"
-                      className="p-2.5 rounded-xl min-w-[44px] min-h-[44px] flex items-center justify-center bg-emerald-200/60 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200 cursor-pointer"
-                    >
-                      <Volume2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                  <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
-                    {currentPkg.originalSentence}
-                  </p>
-                </motion.div>
-              )}
-
-              {/* Action Toolbar */}
-              <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-                <button
+            {/* Word bank */}
+            <div className="flex flex-wrap gap-2.5 justify-center py-1">
+              {availableTokens.map((token) => (
+                <motion.button
+                  key={`avail-${token.id}`}
                   type="button"
-                  onClick={handleClearAll}
-                  disabled={placedTokens.length === 0}
-                  className="py-2.5 px-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 disabled:opacity-40 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-2xs"
+                  whileTap={{ scale: token.isUsed ? 1 : 0.96 }}
+                  onClick={() => handleSelectToken(token)}
+                  disabled={token.isUsed || feedback !== null}
+                  className={`h-11 px-4 ${tileBase} ${
+                    token.isUsed
+                      ? "border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/60 text-transparent cursor-default"
+                      : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2 disabled:cursor-default"
+                  }`}
                 >
-                  <RotateCcw className="w-3.5 h-3.5 stroke-[2.2]" />
-                  <span>Xếp lại</span>
-                </button>
+                  {token.word}
+                </motion.button>
+              ))}
+            </div>
 
-                <button
-                  type="button"
-                  onClick={handleSkip}
-                  className="py-2.5 px-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-2xs"
-                >
-                  <SkipForward className="w-3.5 h-3.5 stroke-[2.2]" />
-                  <span>Bỏ qua</span>
-                </button>
-
+            {/* Bottom action zone (thumb-friendly): feedback OR actions */}
+            {feedback === null ? (
+              <div className="flex flex-col gap-3 pt-1">
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  disabled={placedTokens.length === 0}
-                  className="py-2.5 px-6 rounded-xl bg-[#0059bb] hover:bg-[#004799] disabled:opacity-50 text-white text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-md shadow-blue-500/20"
+                  disabled={!canSubmit}
+                  className={`w-full h-12 sm:h-14 rounded-2xl border-b-4 text-white text-sm sm:text-base font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
+                    canSubmit
+                      ? "bg-[#0059bb] hover:bg-blue-600 border-[#003d82] shadow-lg shadow-[#0059bb]/25 cursor-pointer active:translate-y-[3px] active:border-b-[1px]"
+                      : "bg-slate-200 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed"
+                  }`}
                 >
-                  <Check className="w-3.5 h-3.5 stroke-[2.8]" />
-                  <span>Kiểm tra câu</span>
+                  <Check className="w-5 h-5 stroke-[3]" />
+                  <span>Kiá»ƒm tra</span>
                 </button>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={handleClearAll}
+                    disabled={placedTokens.length === 0}
+                    className={ghostBtn}
+                  >
+                    <RotateCcw className="w-4 h-4 stroke-[2.4]" />
+                    <span>Xáº¿p láº¡i</span>
+                  </button>
+                  <button type="button" onClick={handleSkip} className={ghostBtn}>
+                    <SkipForward className="w-4 h-4 stroke-[2.4]" />
+                    <span>Bá» qua</span>
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`p-4 rounded-2xl border-2 border-b-4 flex items-center gap-3 ${
+                  feedback === "correct"
+                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200"
+                    : "border-rose-500 bg-rose-50 dark:bg-rose-950/50 text-rose-800 dark:text-rose-200"
+                }`}
+              >
+                <div
+                  className={`w-11 h-11 shrink-0 rounded-full flex items-center justify-center text-white shadow-sm ${
+                    feedback === "correct" ? "bg-emerald-500" : "bg-rose-500"
+                  }`}
+                >
+                  {feedback === "correct" ? (
+                    <Check className="w-6 h-6 stroke-[3]" />
+                  ) : (
+                    <Delete className="w-5 h-5 stroke-[2.6]" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0 space-y-0.5">
+                  <div className="flex items-center gap-2 text-base font-black font-display">
+                    <span>{feedback === "correct" ? "ChÃ­nh xÃ¡c hoÃ n háº£o!" : "ChÆ°a Ä‘Ãºng rá»“i!"}</span>
+                    {feedback === "correct" && (
+                      <span className="px-2 py-0.5 rounded-full bg-amber-300 text-amber-950 text-[11px] font-black">
+                        +20
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs sm:text-sm font-medium leading-snug">
+                    {feedback === "wrong" && <span className="font-bold">ÄÃ¡p Ã¡n Ä‘Ãºng: </span>}
+                    {currentPkg.originalSentence}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => speakSentence(currentPkg.originalSentence)}
+                  title="Nghe cáº£ cÃ¢u"
+                  className="w-11 h-11 shrink-0 rounded-xl bg-white/70 dark:bg-slate-900/60 border-2 border-b-4 border-current/30 flex items-center justify-center cursor-pointer active:translate-y-[2px] active:border-b-2 transition-all"
+                >
+                  <Volume2 className="w-5 h-5" />
+                </button>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
     </div>
   );
 }
+
