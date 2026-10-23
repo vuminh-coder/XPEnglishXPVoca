@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Brain, Layers, PenLine } from "lucide-react";
+import { Brain, Layers, PenLine, Sparkles, LayoutGrid } from "lucide-react";
 import { SubMode } from "../types";
 
 const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -36,16 +36,18 @@ export function PracticeSubModeBar({
   totalWords,
 }: PracticeSubModeBarProps) {
   const modes = [
-    { id: "quiz" as SubMode, labelMobile: "Quiz", labelDesktop: "Quiz | Trắc nghiệm", icon: Brain },
-    { id: "flashcard" as SubMode, labelMobile: "Flashcard", labelDesktop: "Flashcard | 3D SRS", icon: Layers },
-    { id: "writing" as SubMode, labelMobile: "Chính tả", labelDesktop: "Writing | Gõ chính tả", icon: PenLine },
-    { id: "speaking" as SubMode, labelMobile: "Phát âm", labelDesktop: "Speaking | Phát âm AI", icon: SpeakingIcon },
+    { id: "quiz" as SubMode, labelMobile: "Quiz", labelDesktop: "Trắc nghiệm", icon: Brain },
+    { id: "match_pairs" as SubMode, labelMobile: "Nối từ", labelDesktop: "Nối từ", icon: Sparkles },
+    { id: "sentence_builder" as SubMode, labelMobile: "Ghép câu", labelDesktop: "Ghép câu", icon: LayoutGrid },
+    { id: "flashcard" as SubMode, labelMobile: "Thẻ", labelDesktop: "Flashcard", icon: Layers },
+    { id: "writing" as SubMode, labelMobile: "Viết", labelDesktop: "Gõ chính tả", icon: PenLine },
+    { id: "speaking" as SubMode, labelMobile: "Nói", labelDesktop: "Phát âm AI", icon: SpeakingIcon },
   ];
 
   return (
     <div className="p-1 sm:p-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex items-center justify-between gap-2 shrink-0">
       {/* Segmented Switcher Buttons with Liquid Spring Sliding Pill */}
-      <div className="grid grid-cols-4 sm:flex sm:items-center gap-1 p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 w-full sm:w-auto relative">
+      <div className="grid grid-cols-6 sm:flex sm:items-center gap-0.5 sm:gap-1 p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 w-full sm:w-auto relative">
         {modes.map((m) => {
           const Icon = m.icon;
           const isActive = subMode === m.id;

@@ -27,24 +27,21 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
 ## 🗺️ Lộ Trình Học Tập Duolingo S-Curve (`features/roadmap` & `/roadmap`)
 
 - **Kiến trúc S-Curve chuẩn hóa 24 Unit (144 chặng học):**
-  - Trải dài qua 24 chủ đề từ vựng cốt lõi A1–C1 (Chào hỏi & Giao tiếp lịch sự, Gia đình, Nghề nghiệp, Công nghệ, Du lịch, Môi trường, Kinh doanh, Học thuật...).
+  - Trải dài qua 24 chủ đề từ vựng cốt lõi A1–A2+ được liên kết chính xác 100% với 60 module chủ đề trong `features/vocabulary/data/topics/`.
   - Mỗi Unit gồm 6 chặng chuyên biệt với đường dẫn trực tiếp:
-    1. Chặng 1: Từ vựng cốt lõi (`/vocabulary?theme=...`)
-    2. Chặng 2: Nối cặp từ phản xạ (`/study/practice?mode=match_pairs&theme=...`)
-    3. Chặng 3: Ghép từ thành câu giao tiếp (`/study/practice?mode=sentence_builder&theme=...`)
-    4. Chặng 4: Nghe chép chính tả hội thoại (`/study/dictation?theme=...`)
-    5. Chặng 5: Luyện nói phát âm chuẩn bản xứ (`/study/practice?subMode=speaking&theme=...`)
-    6. Chặng 6: Cột mốc thi thử tổng hợp Unit (`/study/practice?mode=checkpoint&unit=...`)
+    1. Chặng 1: Từ vựng cốt lõi Flashcard 3D Studio (`/vocabulary/${themeId}`)
+    2. Chặng 2: Nối cặp từ phản xạ Duolingo Match Madness (`/study/practice?mode=match_pairs&themeId=...`)
+    3. Chặng 3: Ghép từ thành câu giao tiếp Duolingo Word Bank (`/study/practice?mode=sentence_builder&themeId=...`)
+    4. Chặng 4: Nghe chép chính tả hội thoại (`/study/dictation/audio?themeId=...`)
+    5. Chặng 5: Đọc hiểu mẩu truyện hoặc Luyện nói Shadowing (`/study/reading?theme=...` / `/study/shadowing?theme=...`)
+    6. Chặng 6: Cột mốc thi thử tổng hợp Unit (`/study/practice?mode=quiz&themeId=...`)
+- **Tích hợp Đấu Trường Luyện Tập Duolingo (`features/practice`):**
+  - **Match Pairs Arena:** Game nối cặp thẻ 3D chunky 2 cột (Anh - Việt), phát âm thanh Web Audio Ting khi đúng và Buzz khi sai, chuỗi combo liên hoàn, hiệu ứng tan biến và bảng tổng kết XP.
+  - **Sentence Builder Arena:** Game xếp khối từ thành câu (Word Bank), khay Answer Tray tương tác, âm thanh chạm Pop, phát âm TTS câu hoàn chỉnh và Banner phản hồi Duolingo trượt từ dưới lên.
 - **Tối ưu hóa UI/UX Tinh Gọn (Streamlined 1-Click & Non-blocking Hover Preview):**
   - **Khi Hover (Desktop):** Hiển thị thẻ thông tin dạng speech bubble tinh gọn (`ZiczacNodePopover`) xem trước tiêu đề, mô tả hoạt động, phần thưởng XP và trạng thái; `pointer-events-none` và tự động đẩy stacking context `z-50` phía trên tránh che lấp các nút xung quanh.
   - **Khi Click:** Điều hướng trực tiếp 1-click vào bài học tương ứng thông qua Next.js `<Link href={step.practicePath}>` mà không qua bất kỳ modal xác nhận, thanh đếm phiên hay dropdown rườm rà nào.
   - **Mobile & Touch:** Bố cục ziczac sóng lượn chuẩn hóa an toàn `[33%, 67%]`, chạm 1 chạm để bắt đầu học ngay lập tức.
-- **Hệ Thống Header 3D Vật Lý Đồng Bộ (3D Tactile AppTopHeader):**
-  - **Tactile Ridge Border:** Đường viền đáy 3D nổi bật `border-b-2 sm:border-b-[3px] border-b-slate-200/90 dark:border-b-slate-800 shadow-xs`.
-  - **Tactile Pill Tabs (`ProgressSuiteNavTabs` với `is3D={true}`):** Khung chứa nút kiểu 3D cơ học với viền nổi `border-2 border-b-[3px] border-b-slate-300 dark:border-b-slate-600 shadow-2xs`. Tab tích cực "Lộ trình" được nâng cao dạng phím 3D keycap nổi `bg-white dark:bg-slate-900 border-2 border-b-[3px] border-b-slate-300 dark:border-b-slate-600 shadow-xs translate-y-[-1px]`, các tab phụ có phản hồi ấn chìm `active:translate-y-0.5`.
-  - **Sunken Search Input:** Ô tìm kiếm chìm 3D xúc giác `bg-white dark:bg-slate-900/90 border-2 border-b-[3px] border-b-slate-300 dark:border-b-slate-600 focus:border-[#0059bb] focus:border-b-[#003d82] shadow-2xs`.
-  - **Primary CTA Push Button:** Nút hành động nhanh `[ ▶ Học tiếp: Chặng X ]` với khối nổi 3D xanh hoàng gia `bg-[#0059bb] border-b-[3.5px] border-[#003d82] active:border-b-0 active:translate-y-[3.5px] shadow-sm` đồng nhất tuyệt đối với ngôn ngữ thiết kế Duolingo của các nút tròn chặng học và banner Unit.
-  - **Mobile 3D Keycaps:** Nút mở Sidebar menu và nút kích hoạt tìm kiếm trên mobile được nâng cấp thành các phím 3D xúc giác `border-2 border-b-[3px] border-b-slate-300 active:border-b-0 active:translate-y-[2px] shadow-2xs`.
 
 ---
 

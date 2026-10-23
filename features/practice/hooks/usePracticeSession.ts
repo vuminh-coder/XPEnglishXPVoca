@@ -96,7 +96,9 @@ export function usePracticeSession() {
       modeParam === "flashcard" ||
       modeParam === "writing" ||
       modeParam === "speaking" ||
-      modeParam === "quiz"
+      modeParam === "quiz" ||
+      modeParam === "match_pairs" ||
+      modeParam === "sentence_builder"
     ) {
       setSubMode(modeParam as SubMode);
     }

@@ -197,8 +197,6 @@ export interface AppTopHeaderProps {
   sticky?: boolean;
   /** Additional container classes */
   className?: string;
-  /** Whether to enable 3D tactile push styling for the header bar, buttons, and search input */
-  is3D?: boolean;
 }
 
 export function AppTopHeader({
@@ -220,7 +218,6 @@ export function AppTopHeader({
   hideGamificationOnMobile = false,
   sticky = true,
   className = "",
-  is3D = false,
 }: AppTopHeaderProps) {
   const pathname = usePathname();
   const { toggleSidebar, theme, setTheme } = useUiStore();
@@ -304,11 +301,9 @@ export function AppTopHeader({
 
   return (
     <div
-      className={`w-full h-[50px] sm:h-14 bg-gradient-to-b from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-md px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1.5 sm:gap-4 select-none shrink-0 ${
-        is3D
-          ? "border-b-2 sm:border-b-[3px] border-b-slate-200/90 dark:border-b-slate-800 shadow-[0_2px_4px_rgba(0,0,0,0.03)]"
-          : "border-b border-slate-200/80 dark:border-slate-800 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)]"
-      } ${sticky ? "sticky top-0 z-30" : "relative"} ${className}`}
+      className={`w-full h-[50px] sm:h-14 bg-gradient-to-b from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-md px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1.5 sm:gap-4 select-none shrink-0 border-b border-slate-200/80 dark:border-slate-800 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
+        sticky ? "sticky top-0 z-30" : "relative"
+      } ${className}`}
     >
       {/* ─── LEFT SECTION: Hamburger Toggle / Back + Custom Page Mode Switcher ─── */}
       <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
@@ -326,11 +321,7 @@ export function AppTopHeader({
           <button
             type="button"
             onClick={toggleSidebar}
-            className={`lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer shrink-0 ${
-              is3D
-                ? "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-2 border-slate-200/90 dark:border-slate-700/80 border-b-[3px] border-b-slate-300 dark:border-b-slate-600 active:border-b-0 active:translate-y-[2px] shadow-2xs"
-                : "bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs active:scale-90"
-            }`}
+            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
             aria-label="Mở danh mục thanh bên"
             title="Mở thanh bên"
           >
@@ -376,11 +367,7 @@ export function AppTopHeader({
               value={searchProps.value}
               onChange={(e) => searchProps.onChange(e.target.value)}
               placeholder={searchProps.placeholder || "Tìm kiếm bài học..."}
-              className={`w-full h-9 pl-9 pr-8 text-xs sm:text-sm font-medium rounded-xl text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-[#0059bb]/15 transition-all ${
-                is3D
-                  ? "bg-white dark:bg-slate-900/90 border-2 border-slate-200/90 dark:border-slate-700/80 border-b-[3px] border-b-slate-300 dark:border-b-slate-600 focus:border-[#0059bb] focus:border-b-[#003d82] shadow-2xs font-semibold"
-                  : "bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 focus:border-[#0059bb]"
-              }`}
+              className="w-full h-9 pl-9 pr-8 text-xs sm:text-sm font-medium rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/80 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/15 transition-all"
             />
             {searchProps.value && (
               <button
@@ -408,11 +395,7 @@ export function AppTopHeader({
               onClick={() => setIsMobileSearchOpen(true)}
               className={`${
                 searchProps.hideDesktopInput ? "flex" : "lg:hidden"
-              } w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer shrink-0 ${
-                is3D
-                  ? "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border-2 border-slate-200/90 dark:border-slate-700/80 border-b-[3px] border-b-slate-300 dark:border-b-slate-600 active:border-b-0 active:translate-y-[2px] shadow-2xs"
-                  : "bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs active:scale-90"
-              }`}
+              } w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0`}
               title="Mở tìm kiếm"
               aria-label="Mở tìm kiếm"
             >

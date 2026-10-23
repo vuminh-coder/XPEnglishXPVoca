@@ -13,6 +13,8 @@ import {
   PracticeFlashcardArena,
   PracticeWritingArena,
   PracticeSpeakingArena,
+  PracticeMatchPairsArena,
+  PracticeSentenceBuilderArena,
   PracticeArenaNavigation,
   PracticeWordLabSidebar,
   PracticeScoreCard,
@@ -228,26 +230,47 @@ function PracticeContent() {
                           onStartSpeaking={session.handleStartSpeaking}
                         />
                       )}
+
+                      {session.subMode === "match_pairs" && (
+                        <PracticeMatchPairsArena
+                          vocabs={session.vocabs}
+                          playWordAudio={session.playWordAudio}
+                          onNextStage={session.handleNextQuestion}
+                        />
+                      )}
+
+                      {session.subMode === "sentence_builder" && session.currentWord && (
+                        <PracticeSentenceBuilderArena
+                          currentWord={session.currentWord}
+                          vocabs={session.vocabs}
+                          playWordAudio={session.playWordAudio}
+                          onNextQuestion={session.handleNextQuestion}
+                          currentIndex={session.currentIndex}
+                          totalWords={session.vocabs.length}
+                        />
+                      )}
                     </motion.div>
                   </AnimatePresence>
                 </div>
 
-                {/* BOTTOM NAVIGATION ROW */}
-                <PracticeArenaNavigation
-                  currentIndex={session.currentIndex}
-                  totalWords={session.vocabs.length}
-                  subMode={session.subMode}
-                  currentWord={session.currentWord}
-                  qIsAnswered={session.qIsAnswered}
-                  qIsCorrect={session.qIsCorrect}
-                  wIsAnswered={session.wIsAnswered}
-                  wIsCorrect={session.wIsCorrect}
-                  sIsAnswered={session.speech.isAnswered}
-                  sIsCorrect={session.speech.isCorrect}
-                  sAccuracy={session.speech.accuracy}
-                  onPrevQuestion={session.handlePrevQuestion}
-                  onNextQuestion={session.handleNextQuestion}
-                />
+                {/* BOTTOM NAVIGATION ROW (Hidden in self-contained game modes) */}
+                {session.subMode !== "match_pairs" && session.subMode !== "sentence_builder" && (
+                  <PracticeArenaNavigation
+                    currentIndex={session.currentIndex}
+                    totalWords={session.vocabs.length}
+                    subMode={session.subMode}
+                    currentWord={session.currentWord}
+                    qIsAnswered={session.qIsAnswered}
+                    qIsCorrect={session.qIsCorrect}
+                    wIsAnswered={session.wIsAnswered}
+                    wIsCorrect={session.wIsCorrect}
+                    sIsAnswered={session.speech.isAnswered}
+                    sIsCorrect={session.speech.isCorrect}
+                    sAccuracy={session.speech.accuracy}
+                    onPrevQuestion={session.handlePrevQuestion}
+                    onNextQuestion={session.handleNextQuestion}
+                  />
+                )}
               </div>
             </div>
 

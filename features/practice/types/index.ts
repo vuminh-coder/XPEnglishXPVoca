@@ -1,4 +1,24 @@
-export type SubMode = "quiz" | "flashcard" | "writing" | "speaking";
+export type SubMode =
+  | "quiz"
+  | "flashcard"
+  | "writing"
+  | "speaking"
+  | "match_pairs"
+  | "sentence_builder";
+
+export interface MatchCardItem {
+  id: string; // unique card id, e.g. "word_123_en" or "word_123_vi"
+  vocabId: string;
+  text: string;
+  type: "en" | "vi";
+  matched: boolean;
+}
+
+export interface SentenceWordToken {
+  id: string;
+  text: string;
+  isDistractor?: boolean;
+}
 
 export interface PracticeWord {
   id: string;

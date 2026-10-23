@@ -51,7 +51,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 2,
-    themeId: "t_basic_pronouns",
+    themeId: "t_basic_introductions",
     themeIcon: "👤",
     title: "Giới Thiệu Bản Thân & Đại Từ",
     titleEn: "Self Introduction & Personal Pronouns",
@@ -170,7 +170,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   // =========================================================================
   {
     unitNumber: 7,
-    themeId: "t_basic_house",
+    themeId: "t_basic_home_objects",
     themeIcon: "🏠",
     title: "Nhà Cửa & Đồ Dùng Sinh Hoạt",
     titleEn: "House, Furniture & Home Appliances",
@@ -193,7 +193,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 8,
-    themeId: "t_basic_food",
+    themeId: "t_basic_food_drinks",
     themeIcon: "🍔",
     title: "Ẩm Thực, Món Ăn & Thức Uống",
     titleEn: "Food, Cuisine & Beverages",
@@ -216,7 +216,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 9,
-    themeId: "t_basic_kitchen",
+    themeId: "t_basic_kitchen_utensils",
     themeIcon: "🍳",
     title: "Nấu Nướng & Dụng Cụ Bếp",
     titleEn: "Cooking Methods & Kitchenware",
@@ -239,7 +239,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 10,
-    themeId: "t_basic_feelings",
+    themeId: "t_basic_emotions_adjectives",
     themeIcon: "😊",
     title: "Cảm Xúc, Tâm Trạng & Tính Cách",
     titleEn: "Emotions, Feelings & Personality",
@@ -262,7 +262,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 11,
-    themeId: "t_basic_calendar",
+    themeId: "t_basic_time_calendar",
     themeIcon: "📅",
     title: "Thời Gian, Lịch Trình & Các Mùa",
     titleEn: "Calendar, Months & Four Seasons",
@@ -312,7 +312,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   // =========================================================================
   {
     unitNumber: 13,
-    themeId: "t_basic_body",
+    themeId: "t_basic_body_parts",
     themeIcon: "💪",
     title: "Cơ Thể, Vóc Dáng & Ngoại Hình",
     titleEn: "Human Body, Health & Physical Appearance",
@@ -358,7 +358,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 15,
-    themeId: "t_basic_directions",
+    themeId: "t_basic_places_directions",
     themeIcon: "🧭",
     title: "Thành Phố, Địa Điểm & Chỉ Đường",
     titleEn: "City Locations, Navigation & Giving Directions",
@@ -381,7 +381,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 16,
-    themeId: "t_basic_transport",
+    themeId: "t_basic_transportation",
     themeIcon: "🚗",
     title: "Phương Tiện Giao Thông & Đi Lại",
     titleEn: "Transportation, Vehicles & Commuting",
@@ -404,7 +404,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 17,
-    themeId: "t_basic_weather",
+    themeId: "t_basic_weather_nature",
     themeIcon: "⛅",
     title: "Thời Tiết, Khí Hậu & Thiên Nhiên",
     titleEn: "Weather, Climate & Natural Phenomena",
@@ -427,7 +427,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 18,
-    themeId: "t_basic_shopping",
+    themeId: "t_basic_shopping_money",
     themeIcon: "🛍️",
     title: "Mua Sắm, Giá Cả & Tiền Tệ",
     titleEn: "Shopping, Prices, Currency & Discounts",
@@ -454,7 +454,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   // =========================================================================
   {
     unitNumber: 19,
-    themeId: "t_basic_school",
+    themeId: "t_basic_school_stationery",
     themeIcon: "🎓",
     title: "Trường Học, Giáo Dục & Học Tập",
     titleEn: "School, Education & Academic Subjects",
@@ -477,7 +477,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 20,
-    themeId: "t_basic_jobs",
+    themeId: "t_basic_jobs_occupations",
     themeIcon: "💼",
     title: "Nghề Nghiệp & Việc Làm Công Sở",
     titleEn: "Professions, Careers & Workplace",
@@ -500,7 +500,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 21,
-    themeId: "t_basic_sports",
+    themeId: "t_basic_hobbies_sports",
     themeIcon: "⚽",
     title: "Thể Thao, Sở Thích & Rèn Luyện",
     titleEn: "Sports, Fitness, Hobbies & Recreation",
@@ -523,7 +523,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 22,
-    themeId: "t_basic_health",
+    themeId: "t_basic_health_medical",
     themeIcon: "🏥",
     title: "Sức Khỏe, Khám Bệnh & Y Tế",
     titleEn: "Health, Medicine & Doctor Consultations",
@@ -546,7 +546,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 23,
-    themeId: "t_basic_hotel",
+    themeId: "t_basic_hotel_accommodation",
     themeIcon: "🏨",
     title: "Khách Sạn & Dịch Vụ Lưu Trú",
     titleEn: "Hotels, Accommodations & Hospitality",
@@ -569,7 +569,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
   {
     unitNumber: 24,
-    themeId: "t_basic_travel",
+    themeId: "t_basic_airport_station_travel",
     themeIcon: "✈️",
     title: "Sân Bay & Du Lịch Thế Giới",
     titleEn: "Airports, Global Travel & Grand Mastery",
@@ -619,7 +619,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       description: `Nắm vững các từ vựng căn bản của chủ đề ${unit.title} bằng phương pháp Flashcard Spaced Repetition kết hợp phiên âm IPA chuẩn xác.`,
       skillType: "VOCAB",
       isCheckpoint: false,
-      practicePath: `/vocabulary?theme=${unit.themeId}`,
+      practicePath: `/vocabulary/${unit.themeId}`,
       xpReward: 25,
       coinsReward: 10,
       durationMinutes: 15,
@@ -661,7 +661,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       description: `Rèn luyện tốc độ nhận diện mặt chữ và phản xạ song ngữ Anh - Việt tức thì dưới 2 giây/từ không cần suy nghĩ lâu.`,
       skillType: "MATCH",
       isCheckpoint: false,
-      practicePath: `/study/practice?mode=match_pairs&theme=${unit.themeId}`,
+      practicePath: `/study/practice?mode=match_pairs&themeId=${unit.themeId}`,
       xpReward: 30,
       coinsReward: 15,
       durationMinutes: 15,
@@ -701,7 +701,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       description: `Sắp xếp các khối từ vựng (Word Bank Tiles) thành câu hoàn chỉnh chuẩn ngữ pháp theo chủ đề ${unit.title}.`,
       skillType: "SENTENCE",
       isCheckpoint: false,
-      practicePath: `/study/practice?mode=sentence_builder&theme=${unit.themeId}`,
+      practicePath: `/study/practice?mode=sentence_builder&themeId=${unit.themeId}`,
       xpReward: 35,
       coinsReward: 15,
       durationMinutes: 15,
@@ -741,7 +741,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       description: `Luyện đôi tai bắt âm nhạy bén, nhận diện âm đuôi và gõ chính tả câu đàm thoại thực tế theo chủ đề ${unit.title}.`,
       skillType: "LISTENING",
       isCheckpoint: false,
-      practicePath: `/study/dictation?theme=${unit.themeId}`,
+      practicePath: `/study/dictation/audio?themeId=${unit.themeId}`,
       xpReward: 30,
       coinsReward: 15,
       durationMinutes: 20,
@@ -835,7 +835,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       skillType: "CHECKPOINT",
       isCheckpoint: true,
       checkpointReviewScope: `Kiểm tra toàn diện Chặng 1 đến 5: Từ vựng cốt lõi, Nối từ phản xạ, Ghép câu, Nghe chính tả và Đọc hiểu/Luyện nói chủ đề ${unit.title}.`,
-      practicePath: `/study/practice?mode=checkpoint&unit=${uNum}&theme=${unit.themeId}`,
+      practicePath: `/study/practice?mode=quiz&themeId=${unit.themeId}`,
       xpReward: 120,
       coinsReward: 60,
       durationMinutes: 25,

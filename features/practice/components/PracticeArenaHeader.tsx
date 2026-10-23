@@ -5,6 +5,8 @@ import {
   Brain,
   Layers,
   PenLine,
+  Sparkles,
+  LayoutGrid,
   Volume2,
   Clock,
   Bookmark,
@@ -53,6 +55,16 @@ export function PracticeArenaHeader({
         return {
           icon: <Brain className="w-3.5 h-3.5" />,
           title: "Chọn nghĩa tiếng Việt chính xác",
+        };
+      case "match_pairs":
+        return {
+          icon: <Sparkles className="w-3.5 h-3.5" />,
+          title: "Chạm nối cặp từ tiếng Anh & tiếng Việt",
+        };
+      case "sentence_builder":
+        return {
+          icon: <LayoutGrid className="w-3.5 h-3.5" />,
+          title: "Ghép các khối từ thành câu hoàn chỉnh",
         };
       case "flashcard":
         return {
