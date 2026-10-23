@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -154,8 +154,8 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
           setRewards({ xp: res.xpGained, coins: res.coinsGained });
           addToast({
             type: "info",
-            title: `+${res.xpGained} XP & +${res.coinsGained} VÃ ng!`,
-            message: `HoÃ n thÃ nh Memory Match (${difficulty} cáº·p) sau ${moves} lÆ°á»£t!`,
+            title: `+${res.xpGained} XP & +${res.coinsGained} Vàng!`,
+            message: `Hoàn thành Memory Match (${difficulty} cặp) sau ${moves} lượt!`,
           });
         }
       });
@@ -234,8 +234,8 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
 
     return (
       <GameResultScreen
-        title="TrÃ­ Nhá»› SiÃªu Viá»‡t!"
-        subtitle={`Báº¡n Ä‘Ã£ liÃªn káº¿t chÃ­nh xÃ¡c ${difficulty} cáº·p tá»« vá»±ng trong ${moves} lÆ°á»£t láº­t tháº» vÃ  ${elapsedSeconds} giÃ¢y.`}
+        title="Trí Nhớ Siêu Việt!"
+        subtitle={`Bạn đã liên kết chính xác ${difficulty} cặp từ vựng trong ${moves} lượt lật thẻ và ${elapsedSeconds} giây.`}
         score={finalScore}
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
@@ -262,7 +262,7 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
         <button
           type="button"
           onClick={toggleAudio}
-          title={isMuted ? "Báº­t Ã¢m thanh" : "Táº¯t Ã¢m thanh"}
+          title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
           className={circleBtn}
         >
           {isMuted ? (
@@ -291,7 +291,7 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
         <button
           type="button"
           onClick={initGame}
-          title="LÃ m má»›i bÃ n chÆ¡i"
+          title="Làm mới bàn chơi"
           className={circleBtn}
         >
           <RotateCcw className="w-4 h-4 text-slate-500 stroke-[2.4]" />
@@ -301,10 +301,10 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
       {/* 2. Heading + stats */}
       <div className="flex items-center justify-between gap-2 px-1">
         <h2 className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white">
-          Cháº¡m cÃ¡c cáº·p tá»« trÃ¹ng nghÄ©a
+          Chạm các cặp từ trùng nghĩa
         </h2>
         <div className="flex items-center gap-2 text-[11px] sm:text-xs font-black font-display uppercase tracking-wider text-slate-400 tabular-nums">
-          <span>{moves} lÆ°á»£t</span>
+          <span>{moves} lượt</span>
           <span className="inline-flex items-center gap-1">
             <Timer className="w-3.5 h-3.5" />
             {elapsedSeconds}s
@@ -312,7 +312,7 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
         </div>
       </div>
 
-      {/* 3. Difficulty: segmented 3D buttons (hiá»ƒn thá»‹ trá»±c tiáº¿p 3 lá»±a chá»n) */}
+      {/* 3. Difficulty: segmented 3D buttons (hiển thị trực tiếp 3 lựa chọn) */}
       <div className="grid grid-cols-3 gap-2.5">
         {([4, 6, 8] as DifficultyMode[]).map((mode) => {
           const active = difficulty === mode;
@@ -327,7 +327,7 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
                   : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
               }`}
             >
-              {mode === 4 ? "Dá»… Â· 4 cáº·p" : mode === 6 ? "Vá»«a Â· 6 cáº·p" : "KhÃ³ Â· 8 cáº·p"}
+              {mode === 4 ? "Dễ · 4 cặp" : mode === 6 ? "Vừa · 6 cặp" : "Khó · 8 cặp"}
             </button>
           );
         })}
@@ -353,7 +353,7 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
               onClick={() => flipCard(card.id)}
               tabIndex={0}
               role="button"
-              aria-label={`Tháº» sá»‘ ${index + 1}${isFlippedOrMatched ? ": " + card.text : ": Äang Ãºp"}`}
+              aria-label={`Thẻ số ${index + 1}${isFlippedOrMatched ? ": " + card.text : ": Đang úp"}`}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
@@ -366,7 +366,7 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
                 transition={{ duration: 0.35, ease: "easeOut" }}
                 className="w-full h-full relative [transform-style:preserve-3d]"
               >
-                {/* BACK FACE (Ãºp): 3D tile mÃ u thÆ°Æ¡ng hiá»‡u */}
+                {/* BACK FACE (úp): 3D tile màu thương hiệu */}
                 <div className="absolute inset-0 w-full h-full rounded-2xl bg-[#0059bb] hover:bg-blue-600 border-b-[6px] border-[#003d82] shadow-md shadow-[#0059bb]/20 flex flex-col items-center justify-center [backface-visibility:hidden] transition-colors active:translate-y-[3px] active:border-b-[3px]">
                   <div className="absolute inset-x-3 top-1.5 h-5 bg-white/20 rounded-t-full pointer-events-none" />
                   <span className="relative text-2xl sm:text-3xl font-black font-display text-white/90">
@@ -374,7 +374,7 @@ export function MemoryMatchGame({ pool, onBack, backLabel }: MemoryMatchGameProp
                   </span>
                 </div>
 
-                {/* FRONT FACE (Ä‘Ã£ láº­t / Ä‘Ã£ khá»›p) */}
+                {/* FRONT FACE (đã lật / đã khớp) */}
                 <div
                   className={`absolute inset-0 w-full h-full rounded-2xl p-2.5 flex flex-col items-center justify-center text-center [transform:rotateY(180deg)] [backface-visibility:hidden] border-2 border-b-[6px] ${
                     card.matched

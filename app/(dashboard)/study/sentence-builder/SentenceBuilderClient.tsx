@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -40,12 +40,12 @@ export default function SentenceBuilderClient() {
     ? currentTheme.name
     : unitParam
     ? `Unit ${unitParam}`
-    : "Chá»§ Ä‘á» tá»± do";
+    : "Chủ đề tự do";
 
-  const themeIcon = currentTheme?.icon || "âœï¸";
+  const themeIcon = currentTheme?.icon || "✍️";
 
   return (
-    <div className="w-full min-h-screen bg-slate-50/70 dark:bg-slate-950 flex flex-col font-sans select-none">
+    <div className="w-full pb-16 md:pb-8 bg-slate-50/70 dark:bg-slate-950 font-sans select-none">
       {/* 1. TOP HEADER (56PX) */}
       <AppTopHeader
         showGamificationStats={true}
@@ -67,10 +67,10 @@ export default function SentenceBuilderClient() {
             <Link
               href="/roadmap"
               className="h-9 px-3.5 rounded-xl bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-800 dark:hover:bg-slate-700/90 text-slate-700 dark:text-slate-200 border border-slate-200/90 dark:border-slate-700 text-xs sm:text-sm font-bold shadow-2xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-              title="Quay láº¡i Báº£n Ä‘á»“ Lá»™ trÃ¬nh"
+              title="Quay lại Bản đồ Lộ trình"
             >
               <ArrowLeft className="w-4 h-4 stroke-[2.2]" />
-              <span>Lá»™ trÃ¬nh</span>
+              <span>Lộ trình</span>
             </Link>
           </div>
         }
@@ -81,7 +81,7 @@ export default function SentenceBuilderClient() {
               className="h-8 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200/90 dark:border-slate-700 text-[11px] font-bold flex items-center gap-1 shadow-2xs"
             >
               <ArrowLeft className="w-3.5 h-3.5 stroke-[2.2]" />
-              <span>Lá»™ trÃ¬nh</span>
+              <span>Lộ trình</span>
             </Link>
           </div>
         }
@@ -113,13 +113,13 @@ export default function SentenceBuilderClient() {
       </div>
 
       {/* 3. GAME ARENA WORKSPACE */}
-      <main className="flex-1 w-full px-4 sm:px-6 py-5 sm:py-6 flex flex-col">
+      <div className="w-full max-w-2xl mx-auto px-4 sm:px-0 py-5 sm:py-6">
         <SentenceBuilderGame
           pool={themeVocabs}
           onBack={() => router.push("/roadmap")}
           backLabel="Tiếp tục Lộ trình"
         />
-      </main>
+      </div>
     </div>
   );
 }
