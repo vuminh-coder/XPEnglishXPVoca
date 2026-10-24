@@ -343,7 +343,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
       </div>
 
       {/* 2. 3D Companion Mascot & Speech Bubble */}
-      <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+      <div className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 w-full">
         {/* 3D Character Avatar (Free-standing) */}
         <div className="relative w-11 h-14 sm:w-13 sm:h-16 shrink-0 flex items-end justify-center select-none pointer-events-none">
           <div className="absolute bottom-0 w-9 sm:w-11 h-2 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[1px]" />
@@ -354,13 +354,13 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
           />
         </div>
 
-        {/* Speech Bubble */}
-        <div className="relative w-fit max-w-sm sm:max-w-md bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-xs">
+        {/* Speech Bubble (Spans width matching 2 columns below) */}
+        <div className="relative flex-1 min-w-0 bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl shadow-xs">
           <div className="absolute left-[-6px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200/90 dark:border-slate-700 -rotate-45" />
           <p className="text-xs sm:text-sm font-black font-display text-slate-800 dark:text-slate-100 tracking-tight">
             {speechText}
           </p>
-          <p className="text-[11px] text-slate-400 font-medium hidden sm:block truncate">
+          <p className="text-[11px] text-slate-400 font-medium truncate">
             {activeCharacter.name} · {activeCharacter.role}
           </p>
         </div>
