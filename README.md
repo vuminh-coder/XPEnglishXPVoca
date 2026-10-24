@@ -58,7 +58,7 @@ Trang Luyện Tập Từ Vựng được thiết kế lại toàn diện theo ch
   - Tự động ẩn Floating AI Chatbot trên toàn bộ các route Studio (`/study/practice`, `/study/word-link`, `/study/sentence-builder`) để giải phóng trọn vẹn khu vực tương tác thumb zone dưới đáy màn hình.
   - Ẩn thanh BottomNav trên mobile để dành trọn vẹn 100% không gian hiển thị cho bài luyện.
 - **Hệ thống Linh vật 3D & Bong bóng thoại Duolingo (`PracticeCompanionSpeech`):**
-  - Nhân vật 3D độc quyền (`XP_CHARACTERS`) đứng tự do với kích thước to rõ chuẩn hóa đồng bộ theo trang Ghép Từ Thành Câu (`w-20 h-26 sm:w-28 sm:h-36 lg:w-32 lg:h-40`), bóng đổ sàn tự nhiên và nhãn tên nhân vật.
+  - Nhân vật 3D độc quyền (`XP_CHARACTERS`) đứng tự do với kích thước to rõ chuẩn hóa đồng bộ theo trang Ghép Từ Thành Câu (`w-20 h-26 sm:w-28 sm:h-36 lg:w-32 lg:h-40`), bóng đổ sàn tự nhiên, loại bỏ nhãn tên nhân vật giúp giao diện tinh gọn, tập trung cao độ.
   - Bong bóng thoại tương tác khoang đệm rộng rãi (`px-4 py-3 sm:px-5 sm:py-3.5`), tích hợp bộ đôi icon phát âm kích thước to rõ (`w-7 h-7 sm:w-8 sm:h-8`): Loa (`Volume2` - phím A) tốc độ chuẩn và Ốc sên (`Snail` - phím S) phát âm chậm rãi; icon không màu nền hover tránh rối mắt; từ vựng mục tiêu phóng to sắc nét (`text-2xl sm:text-3xl lg:text-[32px] font-black font-display`); tự động ẩn bộ nút loa trong chế độ Flashcard nhằm tránh trùng lặp điều khiển với thẻ chính.
   - Lời thoại ngữ cảnh có gạch chân nét đứt (`border-dashed`) chỉ dẫn người học trực quan.
 - **Thanh Chuyển Tab 4 Chế Độ Đồng Nhất (`PracticeSubModeBar`):**

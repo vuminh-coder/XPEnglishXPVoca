@@ -23,9 +23,9 @@ export function PracticeQuizArena({
   onSelectOption,
 }: PracticeQuizArenaProps) {
   return (
-    <div className="flex-1 flex flex-col justify-center gap-2 sm:gap-2.5 min-h-0 select-none py-1">
-      {/* 4 Quiz Option Cards (Grid 1 column on xs, 2 columns on sm+) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
+    <div className="flex-1 flex flex-col justify-center min-h-0 select-none py-1">
+      {/* 4 Quiz Option Cards (Grid 1 column on xs, 2 columns on sm+ with generous column gap) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2.5 sm:gap-y-3 gap-x-4 sm:gap-x-6 md:gap-x-8">
         {quizOptions.map((opt, idx) => {
           const isSelected = qSelectedOpt === opt.id;
           const letter = String.fromCharCode(65 + idx);

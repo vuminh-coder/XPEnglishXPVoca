@@ -112,7 +112,7 @@ export function PracticeCompanionSpeech({
   return (
     <div className="flex items-center gap-3 sm:gap-4 shrink-0 w-full select-none">
       {/* 1. 3D Character Avatar (Full proportions matching Sentence Builder) */}
-      <div className="shrink-0 flex flex-col items-center">
+      <div className="shrink-0 flex items-center justify-center">
         <div className="relative w-20 h-26 sm:w-28 sm:h-36 lg:w-32 lg:h-40 flex items-end justify-center select-none pointer-events-none">
           {/* Soft floor shadow */}
           <div className="absolute bottom-0 w-16 sm:w-22 lg:w-24 h-2.5 sm:h-3 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
@@ -123,9 +123,6 @@ export function PracticeCompanionSpeech({
             loading="eager"
           />
         </div>
-        <span className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 mt-1">
-          {activeCharacter.name}
-        </span>
       </div>
 
       {/* 2. Speech Bubble (Matching SentenceBuilder layout & padding) */}
