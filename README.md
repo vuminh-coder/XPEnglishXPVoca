@@ -7110,7 +7110,7 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
       * Hỗ trợ tôn trọng thiết lập giảm chuyển động `useReducedMotion()`.
     - **Chuẩn hóa Bộ Điều Khiển Âm Thanh Đàm Thoại (`PracticeCompanionSpeech.tsx`):**
       * Thay icon rùa `Turtle` (ở kích thước nhỏ có fill dễ bị nhìn nhầm thành xe ô tô) sang icon ốc sên `Snail` sắc nét, thể hiện trực quan tốc độ chậm.
-      * Bổ sung nhãn văn bản tường minh "Chuẩn" và "Chậm" kèm kích thước vùng chạm tối thiểu 44x44px chuẩn công thái học.
+      * Tối giản bộ icon phát âm: Xóa bỏ chữ "Chuẩn" và "Chậm" thừa thãi, phóng lớn 2 icon Loa & Ốc sên sắc nét (`w-6 h-6 sm:w-7 sm:h-7`), loại bỏ hoàn toàn màu nền khi hover (`bg-transparent`) tạo cảm giác phẳng thanh lịch, thoáng đãng và liền mạch với bóng thoại linh vật.
 
 ---
 

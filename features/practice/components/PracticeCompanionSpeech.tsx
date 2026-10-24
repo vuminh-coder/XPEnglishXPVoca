@@ -142,25 +142,23 @@ export function PracticeCompanionSpeech({
                 onClick={() => speak(0.9)}
                 title={`Nghe giọng ${activeCharacter.name} - Tốc độ chuẩn (Phím A)`}
                 aria-label="Nghe phát âm chuẩn"
-                className="min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-0.5 rounded-xl text-sky-700 hover:text-sky-800 hover:bg-sky-50 dark:text-sky-300 dark:hover:text-sky-200 dark:hover:bg-sky-950/40 transition-all active:scale-90 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                className="w-8.5 h-8.5 sm:w-9.5 sm:h-9.5 flex items-center justify-center rounded-xl text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 transition-all active:scale-90 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
               >
-                <Volume2 className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" aria-hidden="true" />
-                <span className="text-[10px] font-bold leading-none">Chuẩn</span>
+                <Volume2 className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.2]" aria-hidden="true" />
               </button>
               <button
                 type="button"
                 onClick={() => speak(0.65)}
                 title="Nghe phát âm chậm rãi (Phím S)"
                 aria-label="Nghe phát âm chậm rãi"
-                className="min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-0.5 rounded-xl text-sky-700 hover:text-sky-800 hover:bg-sky-50 dark:text-sky-300 dark:hover:text-sky-200 dark:hover:bg-sky-950/40 transition-all active:scale-90 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                className="w-8.5 h-8.5 sm:w-9.5 sm:h-9.5 flex items-center justify-center rounded-xl text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 transition-all active:scale-90 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
               >
-                <Snail className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" aria-hidden="true" />
-                <span className="text-[10px] font-bold leading-none">Chậm</span>
+                <Snail className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.2]" aria-hidden="true" />
               </button>
             </div>
 
             {/* Vertical divider */}
-            <div className="h-8 w-[1.5px] bg-slate-200 dark:bg-slate-700 shrink-0" />
+            <div className="h-7 sm:h-8 w-[1.5px] bg-slate-200 dark:bg-slate-700 shrink-0" />
           </>
         )}
 
