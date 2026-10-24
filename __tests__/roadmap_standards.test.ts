@@ -140,7 +140,7 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
         "/study/reading",
         "/study/practice",
         "/study/exam-prep",
-        "/study/match",
+        "/study/match", "/study/word-link",
         "/study/sentence-builder",
       ];
 

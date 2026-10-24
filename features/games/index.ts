@@ -6,6 +6,7 @@ export * from "./components/hero/GameHeroBanner";
 export * from "./components/catalog/GameCatalogGrid";
 export * from "./components/scramble/WordScrambleGame";
 export * from "./components/memory/MemoryMatchGame";
+export * from "./components/wordlink/WordLinkGame";
 export * from "./components/wordle/WordleEnglishGame";
 export * from "./components/blitz/SpeedBlitzGame";
 export * from "./components/sentence/SentenceBuilderGame";

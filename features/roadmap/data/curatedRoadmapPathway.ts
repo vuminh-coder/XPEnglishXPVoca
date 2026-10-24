@@ -687,7 +687,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       description: `Rèn luyện tốc độ nhận diện mặt chữ và phản xạ song ngữ Anh - Việt tức thì dưới 2 giây/từ không cần suy nghĩ lâu.`,
       skillType: "MATCH",
       isCheckpoint: false,
-      practicePath: `/study/match?theme=${unit.themeId}&unit=${uNum}`,
+      practicePath: `/study/word-link?theme=${unit.themeId}&unit=${uNum}`,
       xpReward: 30,
       coinsReward: 15,
       durationMinutes: 15,

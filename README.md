@@ -30,7 +30,7 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
   - Trải dài qua 24 chủ đề từ vựng cốt lõi A1–C1 (Chào hỏi & Giao tiếp lịch sự, Gia đình, Nghề nghiệp, Công nghệ, Du lịch, Môi trường, Kinh doanh, Học thuật...).
   - Mỗi Unit gồm 6 chặng chuyên biệt với đường dẫn trực tiếp:
     1. Chặng 1: Từ vựng cốt lõi Flashcards Spaced Repetition (`/vocabulary/[themeId]`)
-    2. Chặng 2: Nối cặp từ phản xạ phòng Studio riêng biệt (`/study/match?theme=...&unit=...`)
+    2. Chặng 2: Nối từ Anh - Việt hai cột phòng Studio riêng biệt (`/study/word-link?theme=...&unit=...`) — trang lật thẻ /study/match vẫn giữ làm mini-game
     3. Chặng 3: Ghép từ thành câu Word Bank phòng Studio riêng biệt (`/study/sentence-builder?theme=...&unit=...`)
     4. Chặng 4: Nghe chép chính tả hội thoại (`/study/dictation?theme=...`)
     5. Chặng 5: Đọc hiểu mẩu truyện (`/study/reading?theme=...`) & Luyện nói Shadowing (`/study/shadowing?theme=...`)
