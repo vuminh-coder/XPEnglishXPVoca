@@ -52,8 +52,10 @@ Trang Luyện Tập Từ Vựng được thiết kế lại toàn diện theo ch
 
 - **Bố cục Single-Screen Viewport Fold (100dvh):**
   - Căn giữa tối ưu ergonomics (`max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6`), loại bỏ hoàn toàn hiện tượng cuộn dọc trên cả Desktop lẫn Mobile.
-  - Loại bỏ thanh `AppTopHeader` cồng kềnh, thay bằng thanh Studio Top Bar tinh gọn: Nút Thoát `[X]` trực tiếp về `/roadmap`, thanh tiến độ xanh Emerald có dải sáng specular highlight, nút bật/tắt âm thanh, nút mở nhanh Sổ tay từ vựng, huy hiệu đếm tiến trình `Câu X/Y` và nút luyện lại ván mới.
-  - Chuẩn hóa kích thước vùng chạm phím điều hướng trên cùng (Thoát, Âm thanh, Sổ tay, Luyện lại) đạt chuẩn tối thiểu 44×44px (`min-w-[44px] min-h-[44px] rounded-2xl`).
+  - **Đồng bộ hóa 1:1 Thanh Studio Top Bar theo trang Ghép Từ Thành Câu (`/study/sentence-builder`):**
+    * Nút Thoát `[X]` trực tiếp về `/roadmap` với kích thước chuẩn xác `w-9 h-9 sm:w-10 sm:h-10 rounded-xl`, icon `<X className="w-6 h-6 stroke-[2.6]" />`.
+    * Thanh tiến độ xanh Emerald bề thế (`h-3.5 sm:h-4 rounded-full bg-slate-200 dark:bg-slate-800`), hiệu ứng chuyển động lò xo spring physics (`stiffness: 80, damping: 15`), dải sáng phản quang `bg-white/40`.
+    * Cụm điều khiển phải đồng bộ: Huy hiệu thưởng `+XP` (`Sparkles`), nút bật/tắt âm thanh, huy hiệu đếm câu `X / Y` (`text-[#0059bb]` font display) và nút luyện lại ván mới cùng kích thước `w-9 h-9 sm:w-10 sm:h-10 rounded-xl`.
   - Nút Luyện lại hỗ trợ đặt lại bài học ngay lập tức về câu 1 mà không bị gián đoạn bởi khối nổi modal popup rườm rà.
   - Tự động ẩn Floating AI Chatbot trên toàn bộ các route Studio (`/study/practice`, `/study/word-link`, `/study/sentence-builder`) để giải phóng trọn vẹn khu vực tương tác thumb zone dưới đáy màn hình.
   - Ẩn thanh BottomNav trên mobile để dành trọn vẹn 100% không gian hiển thị cho bài luyện.
@@ -7125,6 +7127,10 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
       * **Triệt tiêu hiện tượng bóng thoại chèn lấn bộ Tab:** Trong CSS Flexbox, khi tổng chiều cao các phần tử con vượt quá viewport 605px, thuộc tính `justify-center` đẩy các phần tử phía trên đè lên thanh chọn chế độ. Bằng cách thu gọn chiều cao tổng thể xuống dưới 510px, toàn bộ bố cục vừa khít hoàn hảo trong khung 605px với khoảng đệm trên dưới thanh thoát.
       * **Tự động ẩn chip đếm ngược khi đã trả lời (`PracticeSpeakingArena.tsx`):** Chip đồng hồ đếm ngược `⏱ 0s` tự động ẩn sau khi học viên phát âm xong (`!isAnswered && ...`), giải phóng thêm 44px chiều cao dọc và thu nhỏ vòng thu âm mic xuống `w-28 h-28 sm:w-32 sm:h-32`.
     - **Đồng bộ xuyên suốt 4 Chế Độ Học (Quiz, Flashcard, Writing, Speaking):** Toàn bộ 4 tab đều sử dụng chung một ngôn ngữ phản hồi thị giác nhất quán, trực quan và giàu cảm hứng học tập.
+    - **Đồng bộ 1:1 Thanh Studio Top Bar theo trang Ghép Từ Thành Câu (`/study/sentence-builder`):**
+      * Nút Thoát `[X]`: Kích thước chuẩn `w-9 h-9 sm:w-10 sm:h-10 rounded-xl`, icon `<X className="w-6 h-6 stroke-[2.6]" />`.
+      * Thanh tiến độ xanh Emerald: Chiều cao bề thế `h-3.5 sm:h-4 rounded-full`, hiệu ứng chuyển động lò xo spring physics (`stiffness: 80, damping: 15`), dải phản quang specular `bg-white/40`.
+      * Cụm điều khiển phải: Huy hiệu thưởng `+XP` (`Sparkles`), nút bật/tắt âm thanh, huy hiệu đếm câu `X / Y` (`text-[#0059bb]` font display) và nút luyện lại ván mới cùng kích thước `w-9 h-9 sm:w-10 sm:h-10 rounded-xl`.
 
 ---
 
