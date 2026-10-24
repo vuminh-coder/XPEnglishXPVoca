@@ -342,48 +342,27 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
         </div>
       </div>
 
-      {/* 2. 3D Companion Mascot & Speech Bubble + Difficulty Selector */}
-      <div className="flex items-center justify-between gap-2.5 sm:gap-3 shrink-0">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          {/* 3D Character Avatar (Free-standing) */}
-          <div className="relative w-11 h-14 sm:w-13 sm:h-16 shrink-0 flex items-end justify-center select-none pointer-events-none">
-            <div className="absolute bottom-0 w-9 sm:w-11 h-2 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[1px]" />
-            <img
-              src={activeCharacter.avatarUrl}
-              alt={activeCharacter.name}
-              className="relative z-10 w-full h-full object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.14)]"
-            />
-          </div>
-
-          {/* Speech Bubble */}
-          <div className="relative w-fit max-w-xs sm:max-w-md bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-xs">
-            <div className="absolute left-[-6px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200/90 dark:border-slate-700 -rotate-45" />
-            <p className="text-xs sm:text-sm font-black font-display text-slate-800 dark:text-slate-100 tracking-tight truncate">
-              {speechText}
-            </p>
-            <p className="text-[11px] text-slate-400 font-medium hidden sm:block truncate">
-              {activeCharacter.name} · {activeCharacter.role}
-            </p>
-          </div>
+      {/* 2. 3D Companion Mascot & Speech Bubble */}
+      <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+        {/* 3D Character Avatar (Free-standing) */}
+        <div className="relative w-11 h-14 sm:w-13 sm:h-16 shrink-0 flex items-end justify-center select-none pointer-events-none">
+          <div className="absolute bottom-0 w-9 sm:w-11 h-2 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[1px]" />
+          <img
+            src={activeCharacter.avatarUrl}
+            alt={activeCharacter.name}
+            className="relative z-10 w-full h-full object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.14)]"
+          />
         </div>
 
-        {/* Segmented pair count */}
-        <div className="flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700 shrink-0">
-          {([4, 6, 8] as PairCount[]).map((n) => (
-            <button
-              key={n}
-              type="button"
-              onClick={() => setPairCount(n)}
-              className={`px-2.5 sm:px-3 py-1 rounded-xl text-xs font-black cursor-pointer transition-all ${
-                pairCount === n
-                  ? "bg-[#0059bb] text-white shadow-xs"
-                  : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              <span>{n}</span>
-              <span className="hidden sm:inline"> cặp</span>
-            </button>
-          ))}
+        {/* Speech Bubble */}
+        <div className="relative w-fit max-w-sm sm:max-w-md bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-xs">
+          <div className="absolute left-[-6px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200/90 dark:border-slate-700 -rotate-45" />
+          <p className="text-xs sm:text-sm font-black font-display text-slate-800 dark:text-slate-100 tracking-tight">
+            {speechText}
+          </p>
+          <p className="text-[11px] text-slate-400 font-medium hidden sm:block truncate">
+            {activeCharacter.name} · {activeCharacter.role}
+          </p>
         </div>
       </div>
 
