@@ -700,13 +700,13 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       dailyPlanBreakdown: [
         {
           timeSlot: "Phiên 1 (Phần 1)",
-          activity: "Nối 15 từ đầu",
-          detail: `Lướt và nối nhanh 15 từ vựng cơ bản đầu tiên của chủ đề ${unit.title}.`,
+          activity: "Nối từ cốt lõi Phần 1",
+          detail: `Lướt và nối nhanh nhóm từ vựng đầu tiên của chủ đề ${unit.title}.`,
         },
         {
           timeSlot: "Phiên 2 (Phần 2)",
-          activity: "Nối 15 từ tiếp theo",
-          detail: `Chinh phục 15 từ mở rộng còn lại của chủ đề ${unit.title} với tốc độ phản xạ cao.`,
+          activity: "Nối từ mở rộng Phần 2",
+          detail: `Chinh phục nhóm từ vựng tiếp theo của chủ đề ${unit.title} với tốc độ phản xạ cao.`,
         },
       ],
     });
@@ -735,13 +735,13 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       dailyPlanBreakdown: [
         {
           timeSlot: "Phiên 1 (Phần 1)",
-          activity: "Ghép câu từ vựng nhóm 1",
-          detail: `Thực hành ghép câu hoàn chỉnh ứng dụng 15 từ vựng đầu tiên của chủ đề ${unit.title}.`,
+          activity: "Ghép câu từ vựng Phần 1",
+          detail: `Thực hành ghép câu hoàn chỉnh ứng dụng nhóm từ vựng đầu tiên của chủ đề ${unit.title}.`,
         },
         {
           timeSlot: "Phiên 2 (Phần 2)",
-          activity: "Ghép câu từ vựng nhóm 2",
-          detail: `Nâng cao phản xạ ghép câu với 15 từ vựng nâng cao tiếp theo của chủ đề ${unit.title}.`,
+          activity: "Ghép câu từ vựng Phần 2",
+          detail: `Nâng cao phản xạ ghép câu với nhóm từ vựng tiếp theo của chủ đề ${unit.title}.`,
         },
       ],
     });

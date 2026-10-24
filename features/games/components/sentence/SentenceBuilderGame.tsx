@@ -16,9 +16,10 @@ import { gameAudio } from "../../utils/gameAudio";
 import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
+import { syncRoadmapSessionProgress } from "@/features/roadmap";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { getCharacterForRound, CompanionCharacter } from "../../data/characterRoster";
-import { synthesizeThemeSentences } from "../../utils/themeSentenceSynthesizer";
+import { synthesizeThemeSentences, fisherYatesShuffle } from "../../utils/themeSentenceSynthesizer";
 
 export interface SentenceBuilderGameProps {
   pool: any[];
@@ -43,29 +44,6 @@ interface SentenceCandidate {
   translationVn: string;
   word?: string;
 }
-
-const FALLBACK_SENTENCES: SentenceCandidate[] = [
-  {
-    sentence: "Consistency is the key to mastering English vocabulary.",
-    translationVn: "Sự kiên trì là chìa khóa để làm chủ vốn từ vựng tiếng Anh.",
-  },
-  {
-    sentence: "Practicing everyday helps you build a strong habit.",
-    translationVn: "Luyện tập mỗi ngày giúp bạn xây dựng một thói quen vững chắc.",
-  },
-  {
-    sentence: "She is passionate about exploring new cultures and languages.",
-    translationVn: "Cô ấy rất đam mê tìm hiểu các nền văn hóa và ngôn ngữ mới.",
-  },
-  {
-    sentence: "Technology plays an essential role in modern education.",
-    translationVn: "Công nghệ đóng một vai trò thiết yếu trong nền giáo dục hiện đại.",
-  },
-  {
-    sentence: "We should focus on improving our communication skills.",
-    translationVn: "Chúng ta nên tập trung vào việc nâng cao kỹ năng giao tiếp của mình.",
-  },
-];
 
 const TOTAL_ROUNDS = 5;
 const HINT_COST = 5;
@@ -186,8 +164,8 @@ export function SentenceBuilderGame({
       word,
       isUsed: false,
     }));
-    // Shuffle available tokens
-    setAvailableTokens([...raw].sort(() => 0.5 - Math.random()));
+    // Shuffle available tokens using Fisher-Yates
+    setAvailableTokens(fisherYatesShuffle(raw));
     setPlacedTokens([]);
     setFeedback(null);
   }, []);
@@ -378,8 +356,17 @@ export function SentenceBuilderGame({
           });
         }
       });
+
+      // Automatically synchronize session progress with the Roadmap S-Curve pathway
+      syncRoadmapSessionProgress({
+        themeId,
+        unitNumber,
+        skillType: "SENTENCE",
+        completedPart: currentPart || 1,
+        totalParts: totalParts || 2,
+      });
     }
-  }, [gameOver, score, addToast, reviewItems, packages.length]);
+  }, [gameOver, score, addToast, reviewItems, packages.length, themeId, unitNumber, currentPart, totalParts]);
 
   if (gameOver) {
     const correctCount = reviewItems.filter((i) => i.isCorrect).length;

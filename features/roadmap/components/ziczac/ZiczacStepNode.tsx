@@ -35,6 +35,27 @@ interface ZiczacStepNodeProps {
   placement?: "top" | "bottom";
 }
 
+/**
+ * Calculates dynamic practice URL based on session progress for multi-session steps (e.g. part 1 vs part 2)
+ */
+export function getStepPracticeUrl(
+  step: ZiczacPathStep,
+  stepProgress?: ZiczacStepProgress,
+  isCompleted?: boolean
+): string {
+  let url = step.practicePath;
+  if (stepProgress && stepProgress.completedSessions > 0 && !isCompleted) {
+    const nextPart = Math.min(stepProgress.completedSessions + 1, step.totalSessions || 2);
+    if (url.includes("part=")) {
+      url = url.replace(/part=\d+/, `part=${nextPart}`);
+    } else if (url.includes("/study/word-link") || url.includes("/study/sentence-builder")) {
+      const separator = url.includes("?") ? "&" : "?";
+      url = `${url}${separator}part=${nextPart}&totalParts=${step.totalSessions || 2}`;
+    }
+  }
+  return url;
+}
+
 export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   step,
   state,
@@ -101,21 +122,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   const isCurrent = state === "CURRENT";
   const isLocked = state === "LOCKED";
 
-  // Dynamic practice URL based on session progress for multi-session steps (e.g. part 1 vs part 2)
-  const getPracticeUrl = () => {
-    let url = step.practicePath;
-    if (stepProgress && stepProgress.completedSessions > 0 && !isCompleted) {
-      const nextPart = Math.min(stepProgress.completedSessions + 1, step.totalSessions || 2);
-      if (url.includes("part=")) {
-        url = url.replace(/part=\d+/, `part=${nextPart}`);
-      } else if (url.includes("/study/word-link") || url.includes("/study/sentence-builder")) {
-        const separator = url.includes("?") ? "&" : "?";
-        url = `${url}${separator}part=${nextPart}&totalParts=${step.totalSessions || 2}`;
-      }
-    }
-    return url;
-  };
-  const targetPracticeUrl = getPracticeUrl();
+  const targetPracticeUrl = getStepPracticeUrl(step, stepProgress, isCompleted);
 
   const handleNodeClick = () => {
     if (onSelect) onSelect(step);

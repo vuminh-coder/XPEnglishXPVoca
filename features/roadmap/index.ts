@@ -24,3 +24,6 @@ export * from "./components/duolingo-sidebar/RoadmapDuolingoSidebar";
 
 // Hooks
 export * from "./hooks/useRoadmapManager";
+
+// Utils
+export * from "./utils/roadmapSessionSync";

@@ -109,4 +109,68 @@ describe("themeSentenceSynthesizer utility", () => {
     // Key phrases of Unit 1 include "Nice to meet you", "How are you doing?", etc.
     expect(sentences.some((s) => s.includes("Nice to meet you") || s.includes("How are you"))).toBe(true);
   });
+
+  it("never uses bare word definition as sentence translation when exampleTranslations is missing", () => {
+    const vocabsWithoutTranslation: BasicVocabularyItem[] = [
+      {
+        id: "v1",
+        word: "family",
+        phonetic: "/ˈfæməli/",
+        definition: "a group of people related",
+        definitionVn: "gia đình",
+        pos: "noun",
+        difficulty: 1,
+        frequency: 5,
+        themeId: "t_basic_family",
+        themeNameVn: "Gia đình",
+        themeNameEn: "Family",
+        examples: ["I love my family deeply."],
+        // Note: exampleTranslations is omitted
+      },
+    ];
+
+    const results = synthesizeThemeSentences(vocabsWithoutTranslation, {
+      themeId: "t_basic_family",
+      unitNumber: 5,
+      targetCount: 3,
+    });
+
+    results.forEach((r) => {
+      // Translation must never be the bare word definition "gia đình"
+      expect(r.translationVn).not.toBe("gia đình");
+      // All translations must be meaningful sentences (> 8 chars)
+      expect(r.translationVn.length).toBeGreaterThan(8);
+    });
+  });
+
+  it("generates natural grammatical sentences for various parts of speech (adverb, preposition, pronoun, vowel/plural noun)", () => {
+    const diverseVocabs = [
+      { word: "apple", pos: "noun", definitionVn: "quả táo" },
+      { word: "clothes", pos: "noun", definitionVn: "quần áo" },
+      { word: "quickly", pos: "adverb", definitionVn: "nhanh chóng" },
+      { word: "under", pos: "preposition", definitionVn: "dưới" },
+      { word: "them", pos: "pronoun", definitionVn: "họ" },
+    ];
+
+    const results = synthesizeThemeSentences(diverseVocabs as any, { targetCount: 5 });
+    expect(results.length).toBe(5);
+
+    // Verify noun vowel handling: if "This is ... apple" appears, it must be "an apple", never "a apple"
+    const appleSentence = results.find((r) => r.word === "apple");
+    if (appleSentence?.sentence.includes("apple")) {
+      expect(appleSentence.sentence).not.toMatch(/\ba apple\b/i);
+    }
+
+    // Verify noun plural handling: "clothes" should not be "This is a clothes"
+    const clothesSentence = results.find((r) => r.word === "clothes");
+    if (clothesSentence?.sentence.includes("clothes")) {
+      expect(clothesSentence.sentence).not.toMatch(/\bThis is a clothes\b/i);
+    }
+
+    // Verify all results have valid sentence translations
+    results.forEach((r) => {
+      expect(r.translationVn.length).toBeGreaterThan(0);
+      expect(r.sentence.split(/\s+/).length).toBeGreaterThanOrEqual(3);
+    });
+  });
 });

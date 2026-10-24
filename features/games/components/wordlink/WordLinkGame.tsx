@@ -8,6 +8,7 @@ import { gameAudio } from "../../utils/gameAudio";
 import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
+import { syncRoadmapSessionProgress } from "@/features/roadmap";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { XP_CHARACTERS, CompanionCharacter } from "../../data/characterRoster";
 
@@ -32,7 +33,14 @@ interface LinkItem {
   review: GameReviewItem;
 }
 
-const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => 0.5 - Math.random());
+const shuffle = <T,>(arr: T[]): T[] => {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+};
 
 export function WordLinkGame({
   pool,
@@ -187,8 +195,17 @@ export function WordLinkGame({
           });
         }
       });
+
+      // Automatically synchronize session progress with the Roadmap S-Curve pathway
+      syncRoadmapSessionProgress({
+        themeId,
+        unitNumber,
+        skillType: "MATCH",
+        completedPart: currentPart || 1,
+        totalParts: totalParts || 2,
+      });
     },
-    [pairCount, addToast]
+    [pairCount, addToast, themeId, unitNumber, currentPart, totalParts]
   );
 
   const pickLeft = (pairId: string) => {

@@ -76,6 +76,35 @@ export function useRoadmapManager() {
     );
   });
 
+  // Listen for storage or external game completion events to update roadmap session states reactively
+  useEffect(() => {
+    const reloadSessionsFromStorage = () => {
+      try {
+        const savedSessions = localStorage.getItem(STORAGE_KEY_STEP_SESSIONS);
+        if (savedSessions) {
+          const parsed = JSON.parse(savedSessions);
+          if (parsed && typeof parsed === "object") {
+            setStepSessions(parsed);
+          }
+        }
+        const savedCompleted = localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS);
+        if (savedCompleted) {
+          const parsed = JSON.parse(savedCompleted);
+          if (Array.isArray(parsed)) {
+            setCompletedStepIds(new Set(parsed));
+          }
+        }
+      } catch {}
+    };
+
+    window.addEventListener("storage", reloadSessionsFromStorage);
+    window.addEventListener("roadmap_step_advanced", reloadSessionsFromStorage);
+    return () => {
+      window.removeEventListener("storage", reloadSessionsFromStorage);
+      window.removeEventListener("roadmap_step_advanced", reloadSessionsFromStorage);
+    };
+  }, []);
+
   // Toggle Ziczac step completed
   const handleToggleStepCompleted = useCallback(
     (stepId: string) => {
