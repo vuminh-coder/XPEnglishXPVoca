@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useCallback } from "react";
-import { Volume2, Turtle } from "lucide-react";
+import { Volume2, Snail } from "lucide-react";
 import { XP_CHARACTERS } from "@/features/games/data/characterRoster";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { PracticeWord, SubMode } from "../types";
@@ -142,23 +142,25 @@ export function PracticeCompanionSpeech({
                 onClick={() => speak(0.9)}
                 title={`Nghe giọng ${activeCharacter.name} - Tốc độ chuẩn (Phím A)`}
                 aria-label="Nghe phát âm chuẩn"
-                className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
+                className="min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-0.5 rounded-xl text-sky-700 hover:text-sky-800 hover:bg-sky-50 dark:text-sky-300 dark:hover:text-sky-200 dark:hover:bg-sky-950/40 transition-all active:scale-90 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
               >
-                <Volume2 className="w-5.5 h-5.5 sm:w-7 sm:h-7 fill-sky-500/20 stroke-[2.2]" />
+                <Volume2 className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" aria-hidden="true" />
+                <span className="text-[10px] font-bold leading-none">Chuẩn</span>
               </button>
               <button
                 type="button"
                 onClick={() => speak(0.65)}
                 title="Nghe phát âm chậm rãi (Phím S)"
                 aria-label="Nghe phát âm chậm rãi"
-                className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
+                className="min-w-[44px] min-h-[44px] flex flex-col items-center justify-center gap-0.5 rounded-xl text-sky-700 hover:text-sky-800 hover:bg-sky-50 dark:text-sky-300 dark:hover:text-sky-200 dark:hover:bg-sky-950/40 transition-all active:scale-90 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
               >
-                <Turtle className="w-5.5 h-5.5 sm:w-7 sm:h-7 fill-sky-500/20 stroke-[2.2]" />
+                <Snail className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" aria-hidden="true" />
+                <span className="text-[10px] font-bold leading-none">Chậm</span>
               </button>
             </div>
 
             {/* Vertical divider */}
-            <div className="h-6 w-[1.5px] bg-slate-200 dark:bg-slate-700 shrink-0" />
+            <div className="h-8 w-[1.5px] bg-slate-200 dark:bg-slate-700 shrink-0" />
           </>
         )}
 

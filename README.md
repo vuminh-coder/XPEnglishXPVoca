@@ -7090,6 +7090,27 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
       * **Bảo tồn trọn vẹn bo góc gốc**: Duy trì `rounded-2xl` cho khối pill bao ngoài và `rounded-xl` cho các nút bấm & con nhộng active theo đúng chỉ đạo thiết kế ban đầu.
       * **Tăng chiều cao chuẩn công thái học (+2px)**: Tăng chiều cao mỗi tab lên 2px (`h-[32px] sm:h-[34px]`) giúp diện tích bấm thoáng đãng, thân thiện với ngón tay cái trên di động lẫn chuột trên máy tính.
       * **Đồng bộ viền tinh tế chuẩn AppTopHeader**: Thay thế viền dập nổi 3D dày (`border-2 border-b-[3px] border-[#0059bb]`) bằng viền phẳng tinh giản nhẹ nhàng (`border border-slate-200/80 dark:border-slate-700/60 shadow-2xs`), đồng bộ hoàn hảo ngôn ngữ thiết kế giữa thanh đỉnh AppTopHeader và thanh tab chuyển chế độ trong đấu trường.
+    - **Mở Rộng Ví Dụ Ngữ Cảnh Trực Tiếp Lên Phía Trên Tại Thanh Đáy & Thu Gọn Kích Thước Nút (`PracticeBottomBar.tsx` - Chuẩn Hóa Theo Gợi Ý 2)**:
+      * **Trượt mở rộng lên phía trên mượt mà**: Khi nhấn nút "Xem ví dụ", khoang ví dụ thực tế trượt mở êm ái lên phía trên thanh đáy (`AnimatePresence` + spring animation), hiển thị trọn vẹn câu ví dụ tiếng Anh, bản dịch tiếng Việt và nút loa phát âm câu.
+      * **Triệt tiêu vĩnh viễn khối nổi popup modal**: Loại bỏ hoàn toàn modal phủ đen che kín màn hình (`PracticeWordLabDrawer`), loại bỏ mọi khối thừa không cần thiết (header rườm rà, nút lưu từ, SRS tip, profile card), chỉ tập trung 100% vào ngữ cảnh thực tế của từ vựng.
+      * **Bảo toàn 100% bố cục phía trên**: Khu vực phía trên thanh đáy (linh vật đồng hành, thẻ câu hỏi, bộ tab) hoàn toàn đứng yên, không bị xô lệch hay giật layout.
+      * **Thu gọn kích thước nút bấm thanh thoát**: Thu nhỏ kích cỡ cụm nút hành động từ `h-11 sm:h-12` (hơi to) xuống mức cân đối `h-9 sm:h-9.5` (36px - 38px), viền gờ `border-b-[3px]`, bo góc `rounded-xl`, giải phóng không gian và tạo sự tinh tế, đĩnh đạc cho toàn bộ thanh đáy trên cả máy tính lẫn điện thoại.
+
+15. **Đại Tu Chuyên Sâu UI/UX & Khắc Phục Lỗi Logic Chế Độ Phát Âm AI (`subMode=speaking`):**
+    - **Triệt tiêu xung đột trạng thái giữa Linh vật và Nút Mic (`usePracticeSpeech.ts`):**
+      * Khi học viên bấm nói lại, hệ thống lập tức dọn sạch `isAnswered`, `isCorrect`, `transcript` và `accuracy` của lượt trước. Khắc phục triệt để lỗi bóng thoại linh vật vẫn hô "Chưa đúng rồi!" trong lúc Mic đang "ĐANG NGHE".
+      * Bổ sung cơ chế `isStale` loại bỏ mọi sự kiện muộn từ recognizer cũ bị huỷ; bổ sung hàm `stopSpeaking` cho phép học viên chủ động dừng ghi âm.
+      * Loại bỏ hoàn toàn cơ chế tự động giả lập đỗ 96% khi trình duyệt không hỗ trợ Web Speech API; hiển thị cảnh báo trung thực để học viên chọn dùng Chrome/Edge hoặc Bỏ qua.
+    - **Hiển thị Huy hiệu Đếm ngược Thời gian & Tự động Tạm dừng khi Thu âm (`PracticeSpeakingArena.tsx` & `usePracticeSession.ts`):**
+      * Đưa `questionTimeLeft` hiển thị thành chip đếm ngược chuyên nghiệp dạng đồng hồ số có độ tương phản cao ngay phía trên nút Mic, đổi sang cảnh báo đỏ khi còn <= 5 giây.
+      * Tự động tạm dừng đếm ngược khi mic đang ở trạng thái `isListening` để học viên không bị trừ giờ oan uổng trong lúc đang phát âm; cấp lại thời gian 30s mới khi bấm thử lại.
+    - **Đồng bộ Bảng màu Chuẩn 60-30-10 & Tối ưu Không gian Sóng âm:**
+      * Thay thế màu đỏ hồng `rose-500` (vốn chỉ dành cho báo lỗi) ở trạng thái ghi âm bằng màu xanh hoàng gia `#0059bb` / `#003d82` kèm vòng sóng xanh nhạt `sky-500/20`.
+      * Cố định khung chứa sóng âm (`w-32 h-32 sm:w-36 sm:h-36`) độc lập, loại bỏ 100% hiện tượng sóng âm rung lắc lan đè lên bóng thoại phía trên hay thẻ hướng dẫn phía dưới.
+      * Hỗ trợ tôn trọng thiết lập giảm chuyển động `useReducedMotion()`.
+    - **Chuẩn hóa Bộ Điều Khiển Âm Thanh Đàm Thoại (`PracticeCompanionSpeech.tsx`):**
+      * Thay icon rùa `Turtle` (ở kích thước nhỏ có fill dễ bị nhìn nhầm thành xe ô tô) sang icon ốc sên `Snail` sắc nét, thể hiện trực quan tốc độ chậm.
+      * Bổ sung nhãn văn bản tường minh "Chuẩn" và "Chậm" kèm kích thước vùng chạm tối thiểu 44x44px chuẩn công thái học.
 
 ---
 

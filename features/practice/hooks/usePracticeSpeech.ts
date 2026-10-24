@@ -43,24 +43,25 @@ export function usePracticeSpeech({ onSuccess, onFail }: UsePracticeSpeechProps 
   }, []);
 
   const startSpeaking = useCallback((targetWord: string) => {
-    setSpeechError(null);
     if (typeof window === "undefined") return;
+
+    // Always clear the previous attempt so a retry never shows stale
+    // "wrong answer" feedback while the microphone is listening again.
+    setTranscript("");
+    setAccuracy(0);
+    setIsCorrect(false);
+    setIsAnswered(false);
+    setSpeechError(null);
 
     const SpeechRecognition =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
-      setSpeechError("Trình duyệt không hỗ trợ Web Speech API. Thử Chrome hoặc Edge!");
-      // Simulate demo match for testing/fallback environments
-      setIsListening(true);
-      setTimeout(() => {
-        setIsListening(false);
-        setTranscript(targetWord);
-        setAccuracy(96);
-        setIsCorrect(true);
-        setIsAnswered(true);
-        onSuccess?.(96);
-      }, 1200);
+      // No fake pass: the learner can skip this word instead of earning XP without speaking.
+      setIsListening(false);
+      setSpeechError(
+        "Trình duyệt chưa hỗ trợ nhận diện giọng nói. Hãy dùng Chrome hoặc Edge, hoặc bấm Bỏ qua."
+      );
       return;
     }
 
@@ -77,11 +78,16 @@ export function usePracticeSpeech({ onSuccess, onFail }: UsePracticeSpeechProps 
       recognition.interimResults = false;
       recognition.maxAlternatives = 1;
 
+      // Ignore events coming from a recognizer that has already been replaced/aborted.
+      const isStale = () => recognitionRef.current !== recognition;
+
       recognition.onstart = () => {
+        if (isStale()) return;
         setIsListening(true);
       };
 
       recognition.onresult = (event: any) => {
+        if (isStale()) return;
         const spokenText = event.results?.[0]?.[0]?.transcript || "";
         setTranscript(spokenText);
         const score = computeSimilarityScore(targetWord, spokenText);
@@ -98,7 +104,9 @@ export function usePracticeSpeech({ onSuccess, onFail }: UsePracticeSpeechProps 
       };
 
       recognition.onerror = (event: any) => {
+        if (isStale()) return;
         setIsListening(false);
+        if (event.error === "aborted") return;
         if (event.error === "no-speech") {
           setSpeechError("Không nghe thấy âm thanh. Vui lòng nói to & rõ hơn!");
         } else if (event.error === "not-allowed") {
@@ -109,6 +117,7 @@ export function usePracticeSpeech({ onSuccess, onFail }: UsePracticeSpeechProps 
       };
 
       recognition.onend = () => {
+        if (isStale()) return;
         setIsListening(false);
       };
 
@@ -116,8 +125,18 @@ export function usePracticeSpeech({ onSuccess, onFail }: UsePracticeSpeechProps 
     } catch (err) {
       console.error("Failed to start speech recognition:", err);
       setIsListening(false);
+      setSpeechError("Không thể khởi động micro. Vui lòng thử lại!");
     }
   }, [onSuccess, onFail]);
+
+  /** Stop recording early; the recognizer still returns whatever it has captured. */
+  const stopSpeaking = useCallback(() => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (_) {}
+    }
+  }, []);
 
   return {
     isListening,
@@ -127,6 +146,7 @@ export function usePracticeSpeech({ onSuccess, onFail }: UsePracticeSpeechProps 
     isAnswered,
     speechError,
     startSpeaking,
+    stopSpeaking,
     resetSpeech,
     setIsAnswered,
     setIsCorrect,

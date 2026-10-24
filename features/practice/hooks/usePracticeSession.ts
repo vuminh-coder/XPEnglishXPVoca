@@ -290,13 +290,17 @@ export function usePracticeSession() {
     onFail: handleSpeechFail,
   });
 
-  const handleStartSpeaking = useCallback(() => {
-    if (!currentWord) return;
-    speech.startSpeaking(currentWord.word);
-  }, [currentWord, speech]);
-
   // Per-question countdown timer (30s)
   const [questionTimeLeft, setQuestionTimeLeft] = useState(QUESTION_TIME_LIMIT);
+
+  const handleStartSpeaking = useCallback(() => {
+    if (!currentWord) return;
+    // Retrying after a failed / timed-out attempt gets a fresh countdown.
+    if (speech.isAnswered) {
+      setQuestionTimeLeft(QUESTION_TIME_LIMIT);
+    }
+    speech.startSpeaking(currentWord.word);
+  }, [currentWord, speech]);
 
   useEffect(() => {
     setQuestionTimeLeft(QUESTION_TIME_LIMIT);
@@ -307,7 +311,7 @@ export function usePracticeSession() {
       (subMode !== "quiz" && subMode !== "writing" && subMode !== "speaking") ||
       (subMode === "quiz" && qIsAnswered) ||
       (subMode === "writing" && wIsAnswered) ||
-      (subMode === "speaking" && speech.isAnswered) ||
+      (subMode === "speaking" && (speech.isAnswered || speech.isListening)) ||
       isCompleted
     )
       return;
@@ -323,7 +327,7 @@ export function usePracticeSession() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [subMode, qIsAnswered, wIsAnswered, speech.isAnswered, isCompleted]);
+  }, [subMode, qIsAnswered, wIsAnswered, speech.isAnswered, speech.isListening, isCompleted]);
 
   // Trigger timeout on 0s
   useEffect(() => {

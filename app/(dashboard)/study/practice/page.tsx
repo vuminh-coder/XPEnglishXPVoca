@@ -339,6 +339,7 @@ function PracticeContent() {
                       onToggleBookmark={session.handleToggleBookmark}
                       onPlayAudio={session.playWordAudio}
                       onStartSpeaking={session.handleStartSpeaking}
+                      onStopSpeaking={session.speech.stopSpeaking}
                     />
                   )}
 
@@ -375,12 +376,18 @@ function PracticeContent() {
                   isCorrect={isCorrect}
                   correctAnswerText={correctAnswerText}
                   targetWord={session.currentWord.word}
+                  example={session.currentWord.example}
+                  exampleVi={session.currentWord.exampleVi}
                   subMode={session.subMode}
                   onSubmit={handleSubmit}
                   onNext={session.handleNextQuestion}
                   onSkip={session.handleNextQuestion}
-                  onOpenDetails={() => setIsWordLabOpen(true)}
                   onPlayAudio={() => session.playWordAudio(session.currentWord.word)}
+                  onPlayExampleAudio={() =>
+                    session.playWordAudio(
+                      session.currentWord.example || session.currentWord.word
+                    )
+                  }
                 />
               )}
           </div>
