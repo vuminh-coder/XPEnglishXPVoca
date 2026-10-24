@@ -13,6 +13,13 @@ interface PracticeScoreCardProps {
   formatElapsedTime: (seconds: number) => string;
   correctCount: number;
   onRestartSession: () => void;
+  // Partition & Navigation
+  currentPart?: number;
+  totalParts?: number;
+  hasNextPart?: boolean;
+  nextPartNumber?: number;
+  onNextPart?: () => void;
+  isCheckpoint?: boolean;
 }
 
 export function PracticeScoreCard({
@@ -22,6 +29,12 @@ export function PracticeScoreCard({
   formatElapsedTime,
   correctCount,
   onRestartSession,
+  currentPart,
+  totalParts,
+  hasNextPart,
+  nextPartNumber,
+  onNextPart,
+  isCheckpoint,
 }: PracticeScoreCardProps) {
   const accuracyPercent = Math.round(
     ((correctCount || totalWords) / Math.max(1, totalWords)) * 100
@@ -51,13 +64,21 @@ export function PracticeScoreCard({
         <div className="space-y-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-black uppercase tracking-wider shadow-2xs">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Hoàn Thành Xuất Sắc</span>
+            <span>
+              {isCheckpoint
+                ? "Vượt Qua Cột Mốc Xuất Sắc"
+                : totalParts && totalParts > 1
+                ? `Hoàn Thành Phần ${currentPart}/${totalParts}`
+                : "Hoàn Thành Xuất Sắc"}
+            </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black font-display text-slate-900 dark:text-white tracking-tight">
-            Tổng Kết Buổi Luyện Tập!
+            {isCheckpoint ? "Đạt Chuẩn Cột Mốc Unit!" : "Tổng Kết Buổi Luyện Tập!"}
           </h2>
           <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">
-            Bạn đã ôn tập trọn vẹn {totalWords} từ vựng với kết quả ấn tượng!
+            {isCheckpoint
+              ? `Bạn đã hoàn thành bài thi tổng hợp ${totalWords} câu hỏi với kết quả ấn tượng!`
+              : `Bạn đã ôn tập trọn vẹn ${totalWords} từ vựng với kết quả ấn tượng!`}
           </p>
         </div>
       </div>
@@ -106,16 +127,27 @@ export function PracticeScoreCard({
           className="w-full sm:flex-1 h-12 rounded-2xl border-2 border-b-[4px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs transition-all"
         >
           <RotateCcw className="w-4 h-4 stroke-[2.4]" />
-          <span>Luyện lại bài này</span>
+          <span>{totalParts && totalParts > 1 ? "Luyện lại phần này" : "Luyện lại bài này"}</span>
         </button>
 
-        <Link
-          href="/roadmap"
-          className="w-full sm:flex-1 h-12 rounded-2xl border-2 border-b-[4px] border-[#003d82] bg-[#0059bb] hover:bg-blue-600 text-white text-sm font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-sm transition-all"
-        >
-          <span>Tiếp tục Lộ trình</span>
-          <ArrowRight className="w-4 h-4 stroke-[2.8]" />
-        </Link>
+        {hasNextPart && onNextPart ? (
+          <button
+            type="button"
+            onClick={onNextPart}
+            className="w-full sm:flex-1 h-12 rounded-2xl border-2 border-b-[4px] border-[#003d82] bg-[#0059bb] hover:bg-blue-600 text-white text-sm font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-sm transition-all"
+          >
+            <span>Sang Phần {nextPartNumber}</span>
+            <ArrowRight className="w-4 h-4 stroke-[2.8]" />
+          </button>
+        ) : (
+          <Link
+            href="/roadmap"
+            className="w-full sm:flex-1 h-12 rounded-2xl border-2 border-b-[4px] border-[#003d82] bg-[#0059bb] hover:bg-blue-600 text-white text-sm font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-sm transition-all"
+          >
+            <span>Tiếp tục Lộ trình</span>
+            <ArrowRight className="w-4 h-4 stroke-[2.8]" />
+          </Link>
+        )}
       </div>
     </motion.div>
   );

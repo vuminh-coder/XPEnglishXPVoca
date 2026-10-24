@@ -48,7 +48,11 @@ export function getStepPracticeUrl(
     const nextPart = Math.min(stepProgress.completedSessions + 1, step.totalSessions || 2);
     if (url.includes("part=")) {
       url = url.replace(/part=\d+/, `part=${nextPart}`);
-    } else if (url.includes("/study/word-link") || url.includes("/study/sentence-builder")) {
+    } else if (
+      url.includes("/study/word-link") ||
+      url.includes("/study/sentence-builder") ||
+      url.includes("/study/practice")
+    ) {
       const separator = url.includes("?") ? "&" : "?";
       url = `${url}${separator}part=${nextPart}&totalParts=${step.totalSessions || 2}`;
     }

@@ -83,12 +83,12 @@ export function PracticeWritingArena({
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck={false}
-            className={`w-full py-1.5 sm:py-2 px-1 bg-transparent border-0 border-b-2 sm:border-b-[3px] text-xl sm:text-2xl font-mono font-bold tracking-wider outline-none transition-all placeholder:text-slate-300 dark:placeholder:text-slate-600 placeholder:font-sans placeholder:font-normal placeholder:text-sm sm:placeholder:text-base ${
+            className={`w-full py-1.5 sm:py-2 px-1 bg-transparent border-0 border-b-2 sm:border-b-[3px] border-dashed text-xl sm:text-2xl font-mono font-bold tracking-wider outline-none transition-all placeholder:text-slate-300 dark:placeholder:text-slate-600 placeholder:font-sans placeholder:font-normal placeholder:text-sm sm:placeholder:text-base ${
               wIsAnswered
                 ? wIsCorrect
                   ? "border-emerald-500 text-emerald-600 dark:text-emerald-400"
                   : "border-rose-500 text-rose-600 dark:text-rose-400"
-                : "border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:border-[#0059bb] dark:focus:border-sky-400"
+                : "border-slate-300 dark:border-slate-600 text-slate-900 dark:text-white focus:border-[#0059bb] dark:focus:border-sky-400"
             }`}
           />
         </div>
@@ -101,7 +101,7 @@ export function PracticeWritingArena({
             </span>
             <span className="tracking-widest text-slate-400 font-bold">
               {Array(Math.max(0, currentWord.word.length - 1))
-                .fill("_")
+                .fill("-")
                 .join(" ")}
             </span>
             <span className="text-xs text-slate-400 font-sans">

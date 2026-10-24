@@ -10,6 +10,9 @@ import { useDailyChallengeStore } from "@/stores/dailyChallengeStore";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
+import { ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
+import { partitionVocabularyPool } from "@/features/vocabulary/utils/vocabularyPartition";
+import { syncRoadmapSessionProgress } from "@/features/roadmap";
 import { usePracticeCatalogStore, INITIAL_PRACTICE_VOCABS } from "@/stores/practiceCatalogStore";
 import { PracticeWord, SubMode, QuizOption, FlashcardRating } from "../types";
 import { getBookmarkedWords, toggleBookmark } from "../utils/bookmark";
@@ -23,8 +26,12 @@ export function usePracticeSession() {
   const searchParams = useSearchParams();
   const dateParam = searchParams.get("date");
   const themeParam = searchParams.get("themeId") || searchParams.get("theme");
+  const unitParam = searchParams.get("unit");
+  const partParam = searchParams.get("part");
+  const totalPartsParam = searchParams.get("totalParts");
   const levelParam = searchParams.get("level");
   const modeParam = searchParams.get("subMode") || searchParams.get("mode");
+  const isCheckpoint = searchParams.get("mode") === "checkpoint" || modeParam === "checkpoint";
 
   const { submitReview, learned } = useVocabularyStore();
   const { addToast } = useNotificationStore();
@@ -104,8 +111,50 @@ export function usePracticeSession() {
     }
   }, [modeParam]);
 
-  // Load vocabularies from Backend API via SWR Store
+  // Extract vocabulary pool matching this theme if specified
+  const rawThemeVocabs = useMemo(() => {
+    if (!themeParam) return null;
+    const basicMatches = BASIC_VOCABULARIES.filter((v) => v.themeId === themeParam);
+    if (basicMatches.length > 0) return basicMatches;
+    const advMatches = ADVANCED_VOCABULARIES.filter((v) => v.themeId === themeParam);
+    if (advMatches.length > 0) return advMatches;
+    return null;
+  }, [themeParam]);
+
+  // Partition vocabulary pool according to partParam and totalPartsParam
+  const partitionResult = useMemo(() => {
+    if (!rawThemeVocabs || rawThemeVocabs.length === 0) {
+      return {
+        items: [] as typeof rawThemeVocabs,
+        currentPart: 1,
+        totalParts: 1,
+        hasNextPart: false,
+        nextPartNumber: undefined as number | undefined,
+        hasPrevPart: false,
+        prevPartNumber: undefined as number | undefined,
+      };
+    }
+    if (isCheckpoint) {
+      // Checkpoint mode: 15 curated questions across the theme pool
+      return {
+        items: rawThemeVocabs.slice(0, 15),
+        currentPart: 1,
+        totalParts: 1,
+        hasNextPart: false,
+        nextPartNumber: undefined,
+        hasPrevPart: false,
+        prevPartNumber: undefined,
+      };
+    }
+    return partitionVocabularyPool(rawThemeVocabs, {
+      part: partParam,
+      totalParts: totalPartsParam,
+    });
+  }, [rawThemeVocabs, partParam, totalPartsParam, isCheckpoint]);
+
+  // Load vocabularies from Backend API via SWR Store (only when no themeParam provided)
   useEffect(() => {
+    if (themeParam) return;
     let isCancelled = false;
     fetchPracticeVocabs({ themeId: themeParam, level: levelParam }).then((items) => {
       if (!isCancelled && items && items.length > 0) {
@@ -117,8 +166,21 @@ export function usePracticeSession() {
     };
   }, [dateParam, themeParam, levelParam, fetchPracticeVocabs]);
 
-  // Guaranteed 25 items session with 0ms Frame-0 render
+  // Guaranteed partitioned or 25 items session with 0ms Frame-0 render
   const vocabs: PracticeWord[] = useMemo(() => {
+    if (rawThemeVocabs && partitionResult.items && partitionResult.items.length > 0) {
+      return partitionResult.items.map((item, idx) => ({
+        id: item.id || `practice_vocab_${idx}`,
+        word: item.word,
+        meaning: stripParentheses(item.definitionVn || item.definition),
+        ipa: item.phonetic || "/.../",
+        type: item.pos === "adj" ? "adjective" : item.pos || "noun",
+        level: (item as any).level || (item.difficulty === 1 ? "A1" : item.difficulty === 2 ? "A2" : "B1"),
+        topic: stripParentheses((item as any).themeNameVn || (item as any).themeId || "Từ vựng theo chủ đề"),
+        example: item.examples?.[0] || `Practice using ${item.word}.`,
+        exampleVi: item.exampleTranslations?.[0] || `Luyện tập từ ${item.word}.`,
+      }));
+    }
     if (practiceVocabs && practiceVocabs.length >= 25) return practiceVocabs.slice(0, 25);
     if (practiceVocabs && practiceVocabs.length > 0) {
       const combined = [...practiceVocabs, ...INITIAL_PRACTICE_VOCABS];
@@ -127,7 +189,7 @@ export function usePracticeSession() {
       return Array.from(uniqueMap.values()).slice(0, 25);
     }
     return INITIAL_PRACTICE_VOCABS;
-  }, [practiceVocabs]);
+  }, [rawThemeVocabs, partitionResult.items, practiceVocabs]);
 
   const currentWord = vocabs[currentIndex] || vocabs[0];
 
@@ -441,12 +503,45 @@ export function usePracticeSession() {
       console.warn("[PracticeSession] Background DB sync notice:", e);
     }
 
+    // 3. Automatically synchronize session progress with Roadmap S-Curve pathway
+    if (themeParam || unitParam) {
+      syncRoadmapSessionProgress({
+        themeId: themeParam || undefined,
+        unitNumber: unitParam ? parseInt(unitParam, 10) : undefined,
+        skillType: isCheckpoint ? "CHECKPOINT" : "VOCAB",
+        completedPart: partitionResult.currentPart,
+        totalParts: partitionResult.totalParts,
+      });
+    }
+
     addToast({
       type: "success",
-      title: "Hoàn thành buổi ôn tập từ vựng!",
+      title: isCheckpoint
+        ? "Vượt qua Cột mốc Unit thành công!"
+        : partitionResult.totalParts > 1
+        ? `Hoàn thành Phần ${partitionResult.currentPart}/${partitionResult.totalParts}!`
+        : "Hoàn thành buổi ôn tập từ vựng!",
       message: `Tổng điểm thưởng: +${totalEarnedXp} XP • ${mins} phút thực hành!`,
     });
-  }, [totalEarnedXp, addToast]);
+  }, [totalEarnedXp, addToast, themeParam, unitParam, isCheckpoint, partitionResult.currentPart, partitionResult.totalParts]);
+
+  // Reset question & session state when partition params change (e.g. advancing from Part 1 to Part 2)
+  const prevPartitionKeyRef = useRef<string | null>(null);
+  useEffect(() => {
+    const key = `${themeParam || ""}_${unitParam || ""}_${partitionResult.currentPart}_${isCheckpoint ? "cp" : ""}`;
+    if (prevPartitionKeyRef.current !== null && prevPartitionKeyRef.current !== key) {
+      restartSession();
+      setQXp(0);
+      setQCorrectCount(0);
+      setFXp(0);
+      setWXp(0);
+      setWCorrectCount(0);
+      setSXp(0);
+      setSCorrectCount(0);
+      resetCurrentQuestionState();
+    }
+    prevPartitionKeyRef.current = key;
+  }, [themeParam, unitParam, partitionResult.currentPart, isCheckpoint, restartSession, resetCurrentQuestionState]);
 
   const handleNextQuestion = useCallback(() => {
     if (currentIndex + 1 < vocabs.length) {
@@ -519,6 +614,14 @@ export function usePracticeSession() {
     handleToggleBookmark,
     playWordAudio,
     totalEarnedXp,
+    // Partition & Roadmap Sync
+    themeParam,
+    unitParam,
+    currentPart: partitionResult.currentPart,
+    totalParts: partitionResult.totalParts,
+    hasNextPart: partitionResult.hasNextPart,
+    nextPartNumber: partitionResult.nextPartNumber,
+    isCheckpoint,
     // Quiz
     qSelectedOpt,
     qIsAnswered,

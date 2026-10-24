@@ -9,6 +9,7 @@ import {
   VolumeX,
   RotateCcw,
   Sparkles,
+  Trophy,
 } from "lucide-react";
 import {
   usePracticeSession,
@@ -24,6 +25,7 @@ import {
   PracticeCompanionSpeech,
   PracticeBottomBar,
 } from "@/features/practice";
+import { buildPartitionUrl } from "@/features/vocabulary/utils/vocabularyPartition";
 import { gameAudio } from "@/features/games/utils/gameAudio";
 import PracticeLoading from "./loading";
 
@@ -75,6 +77,23 @@ function PracticeContent() {
       goDedicatedPage(modeParam);
     }
   }, [searchParams, goDedicatedPage]);
+
+  const handleSelectPart = useCallback(
+    (targetPart: number) => {
+      const nextUrl = buildPartitionUrl(
+        "/study/practice",
+        {
+          theme: session.themeParam || undefined,
+          unit: session.unitParam || undefined,
+          totalParts: session.totalParts || undefined,
+          subMode: session.subMode,
+        },
+        targetPart
+      );
+      router.push(nextUrl);
+    },
+    [router, session.themeParam, session.unitParam, session.totalParts, session.subMode]
+  );
 
   // Connect global and mode-specific keyboard shortcuts
   usePracticeKeyboard({
@@ -212,6 +231,20 @@ function PracticeContent() {
               )}
             </button>
 
+            {/* Part Badge if totalParts > 1 */}
+            {session.totalParts > 1 && (
+              <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400 font-extrabold text-xs shadow-2xs shrink-0">
+                <span>Phần {session.currentPart}/{session.totalParts}</span>
+              </div>
+            )}
+
+            {/* Checkpoint Badge if isCheckpoint */}
+            {session.isCheckpoint && (
+              <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 text-amber-700 dark:text-amber-300 font-extrabold text-xs shadow-2xs shrink-0">
+                <Trophy className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+                <span>Cột Mốc {session.unitParam ? `Unit ${session.unitParam}` : "Đánh Giá"}</span>
+              </div>
+            )}
 
             {/* Question Counter Badge */}
             <div className="flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-extrabold font-display text-xs sm:text-sm tabular-nums shadow-2xs">
@@ -401,6 +434,16 @@ function PracticeContent() {
               session.qCorrectCount + session.wCorrectCount + session.sCorrectCount
             }
             onRestartSession={session.handleRestartSession}
+            currentPart={session.currentPart}
+            totalParts={session.totalParts}
+            hasNextPart={session.hasNextPart}
+            nextPartNumber={session.nextPartNumber}
+            onNextPart={
+              session.hasNextPart && session.nextPartNumber
+                ? () => handleSelectPart(session.nextPartNumber!)
+                : undefined
+            }
+            isCheckpoint={session.isCheckpoint}
           />
         )}
       </div>

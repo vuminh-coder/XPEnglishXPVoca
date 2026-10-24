@@ -79,6 +79,27 @@ describe("ZiczacStepNode getStepPracticeUrl utility", () => {
     const url = getStepPracticeUrl(unpartitionedStep, progress, false);
     expect(url).toBe("/study/word-link?theme=t_basic_greetings&unit=1&part=2&totalParts=2");
   });
+
+  it("5. Automatically advances /study/practice URL to part=2 when 1 session is completed", () => {
+    const practiceVocabStep: ZiczacPathStep = {
+      ...baseSentenceStep,
+      id: "step-1",
+      stepNumber: 1,
+      skillType: "VOCAB",
+      practicePath: "/study/practice?theme=t_basic_greetings&unit=1&part=1&totalParts=2&subMode=flashcard",
+    };
+
+    const progress: ZiczacStepProgress = {
+      stepId: "step-1",
+      completedSessions: 1,
+      totalSessions: 2,
+      progressPercent: 50,
+      isCompleted: false,
+    };
+
+    const url = getStepPracticeUrl(practiceVocabStep, progress, false);
+    expect(url).toBe("/study/practice?theme=t_basic_greetings&unit=1&part=2&totalParts=2&subMode=flashcard");
+  });
 });
 
 describe("syncRoadmapSessionProgress utility", () => {
@@ -143,5 +164,53 @@ describe("syncRoadmapSessionProgress utility", () => {
     // Verify localStorage has completed step-3
     const savedCompleted = JSON.parse(localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS) || "[]");
     expect(savedCompleted).toContain("step-3");
+  });
+
+  it("6. Automatically synchronizes VOCAB (Stage 1) multi-part session progress", () => {
+    // Sync Part 1 of Unit 1 VOCAB
+    const res1 = syncRoadmapSessionProgress({
+      themeId: "t_basic_greetings",
+      unitNumber: 1,
+      skillType: "VOCAB",
+      completedPart: 1,
+      totalParts: 2,
+    });
+
+    expect(res1.stepId).toBe("step-1");
+    expect(res1.completedSessions).toBe(1);
+    expect(res1.isCompleted).toBe(false);
+
+    // Sync Part 2 of Unit 1 VOCAB
+    const res2 = syncRoadmapSessionProgress({
+      themeId: "t_basic_greetings",
+      unitNumber: 1,
+      skillType: "VOCAB",
+      completedPart: 2,
+      totalParts: 2,
+    });
+
+    expect(res2.stepId).toBe("step-1");
+    expect(res2.completedSessions).toBe(2);
+    expect(res2.isCompleted).toBe(true);
+
+    const savedCompleted = JSON.parse(localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS) || "[]");
+    expect(savedCompleted).toContain("step-1");
+  });
+
+  it("7. Automatically synchronizes CHECKPOINT (Stage 6) single-part milestone completion", () => {
+    const res = syncRoadmapSessionProgress({
+      themeId: "t_basic_greetings",
+      unitNumber: 1,
+      skillType: "CHECKPOINT",
+      completedPart: 1,
+      totalParts: 1,
+    });
+
+    expect(res.stepId).toBe("step-6");
+    expect(res.completedSessions).toBe(1);
+    expect(res.isCompleted).toBe(true);
+
+    const savedCompleted = JSON.parse(localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS) || "[]");
+    expect(savedCompleted).toContain("step-6");
   });
 });
