@@ -7078,6 +7078,18 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
       * Chặng 2 (MATCH) và Chặng 3 (SENTENCE) được cấu hình 2 phiên học (`totalSessions: 2`), mỗi phiên tương ứng với 1 phần từ vựng.
       * Nút bắt đầu và vòng tiến độ 3D tự động nhận diện số phiên đã hoàn thành để chuyển hướng chính xác đến `part=1` (phiên 1) hoặc `part=2` (phiên 2).
 
+14. **Tinh Chỉnh UI/UX Đấu Trường Luyện Tập & Chuẩn Hóa Bộ Tab Chế Độ (`/study/practice` & `PracticeSubModeBar.tsx`):**
+    - **Tối ưu triệt để khoảng trắng thừa (Compact Studio Layout):**
+      * Gom cụm bóng thoại câu hỏi của Linh vật (`PracticeCompanionSpeech`) và khu vực tương tác làm bài vào chung một khối làm việc tập trung (`flex-1 flex flex-col justify-center gap-3 sm:gap-4 my-auto`), thu hẹp khoảng cách trôi dạt vô nghĩa từ 240px xuống 16-20px cân đối chuẩn Duolingo.
+      * Thu gọn chiều rộng thẻ Gõ từ (`PracticeWritingArena.tsx`) về mức chuẩn `max-w-xl mx-auto w-full` tương đồng với thẻ Flashcard; giảm khoảng đệm dọc (`px-5 py-3.5 sm:px-6 sm:py-4.5`) giúp đấu trường câu hỏi nằm trọn vẹn trong tầm mắt người học.
+    - **Chuyển đổi ô nhập gõ chính tả sang dạng kẻ ngang tối giản:**
+      * Thay thế khối hộp viền dày bằng đường kẻ ngang viền dưới (`border-0 border-b-2 sm:border-b-[3px] bg-transparent`). Khi click hoặc focus nhập liệu, đường kẻ tự động chuyển sang màu xanh thương hiệu hoàng gia `#0059bb`, chữ hiển thị trực tiếp trên đường kẻ thoáng đãng, loại bỏ cảm giác "khối lồng trong khối".
+      * Tinh gọn gợi ý ký tự thành link văn bản thanh lịch kèm icon bóng đèn; hiển thị mặt nạ ký tự `h _ _ _ _ • 5 ký tự`.
+    - **Chuẩn hóa bộ Tab chuyển đổi 4 chế độ (`PracticeSubModeBar.tsx`):**
+      * **Bảo tồn trọn vẹn bo góc gốc**: Duy trì `rounded-2xl` cho khối pill bao ngoài và `rounded-xl` cho các nút bấm & con nhộng active theo đúng chỉ đạo thiết kế ban đầu.
+      * **Tăng chiều cao chuẩn công thái học (+2px)**: Tăng chiều cao mỗi tab lên 2px (`h-[32px] sm:h-[34px]`) giúp diện tích bấm thoáng đãng, thân thiện với ngón tay cái trên di động lẫn chuột trên máy tính.
+      * **Đồng bộ viền tinh tế chuẩn AppTopHeader**: Thay thế viền dập nổi 3D dày (`border-2 border-b-[3px] border-[#0059bb]`) bằng viền phẳng tinh giản nhẹ nhàng (`border border-slate-200/80 dark:border-slate-700/60 shadow-2xs`), đồng bộ hoàn hảo ngôn ngữ thiết kế giữa thanh đỉnh AppTopHeader và thanh tab chuyển chế độ trong đấu trường.
+
 ---
 
 ## 🌐 Production Deployment Status

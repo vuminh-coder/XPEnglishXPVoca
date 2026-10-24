@@ -42,8 +42,8 @@ export function PracticeSubModeBar({
 
   return (
     <div className="flex items-center justify-center shrink-0 py-0.5">
-      {/* 4 In-place Practice Modes Pill */}
-      <div className="flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 relative shadow-2xs">
+      {/* 4 In-place Practice Modes Pill (+2px height & AppTopHeader subtle border with original rounded-2xl/rounded-xl) */}
+      <div className="flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 relative shadow-2xs">
         {inPlaceModes.map((m) => {
           const Icon = m.icon;
           const isActive = subMode === m.id;
@@ -52,20 +52,20 @@ export function PracticeSubModeBar({
               key={m.id}
               type="button"
               onClick={() => onSubModeChange(m.id)}
-              className="relative py-1.5 px-2.5 sm:px-3.5 rounded-xl text-xs font-bold cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 active:scale-95 transition-all select-none"
+              className="relative h-[32px] sm:h-[34px] px-2.5 sm:px-3.5 rounded-xl text-xs font-bold cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 active:scale-95 transition-all select-none"
             >
               {isActive && (
                 <motion.div
                   layoutId="practiceSubModePill"
-                  transition={{ type: "spring", stiffness: 450, damping: 30 }}
-                  className="absolute inset-0 bg-white dark:bg-slate-900 border-2 border-b-[3px] border-[#0059bb] dark:border-sky-500 rounded-xl shadow-xs z-0"
+                  transition={{ type: "spring", stiffness: 450, damping: 32, mass: 0.8 }}
+                  className="absolute inset-0 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/60 rounded-xl shadow-2xs z-0"
                 />
               )}
               <span
                 className={`relative z-10 flex items-center justify-center gap-1.5 transition-colors duration-150 ${
                   isActive
-                    ? "text-[#0059bb] dark:text-sky-400 font-black"
-                    : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+                    ? "text-[#0059bb] dark:text-sky-400 font-bold"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold"
                 }`}
               >
                 <Icon className="w-3.5 h-3.5 shrink-0" />
