@@ -304,12 +304,9 @@ export function PracticeFlashcardArena({
               className="p-2 sm:p-2.5 rounded-2xl border-2 border-b-[4px] border-rose-300 hover:border-rose-400 bg-rose-50/90 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:border-rose-900 dark:text-rose-300 font-bold flex flex-col items-center justify-between gap-1 transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs"
               title="Cần ôn lại trong vòng 1 ngày (Phím 1)"
             >
-              <div className="flex items-center gap-1 text-xs sm:text-sm font-black font-display">
-                <span className="w-4.5 h-4.5 rounded-md bg-rose-200/80 dark:bg-rose-900/60 text-rose-800 dark:text-rose-200 flex items-center justify-center text-[10px] font-mono font-black">
-                  1
-                </span>
-                <span>Cần ôn lại</span>
-              </div>
+              <span className="text-xs sm:text-sm font-black font-display">
+                1. Cần ôn lại
+              </span>
               <span className="text-[11px] opacity-75 font-semibold">&lt; 1 ngày</span>
             </button>
 
@@ -320,12 +317,9 @@ export function PracticeFlashcardArena({
               className="p-2 sm:p-2.5 rounded-2xl border-2 border-b-[4px] border-blue-400 hover:border-blue-500 bg-blue-50/90 hover:bg-blue-100 text-[#0059bb] dark:bg-blue-950/40 dark:border-blue-800 dark:text-sky-300 font-bold flex flex-col items-center justify-between gap-1 transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs"
               title="Đã nhớ, ôn lại sau 3 ngày (Phím 2)"
             >
-              <div className="flex items-center gap-1 text-xs sm:text-sm font-black font-display">
-                <span className="w-4.5 h-4.5 rounded-md bg-blue-200/80 dark:bg-blue-900/60 text-[#0059bb] dark:text-sky-200 flex items-center justify-center text-[10px] font-mono font-black">
-                  2
-                </span>
-                <span>Đã nhớ</span>
-              </div>
+              <span className="text-xs sm:text-sm font-black font-display">
+                2. Đã nhớ
+              </span>
               <span className="text-[11px] opacity-75 font-semibold">3 ngày</span>
             </button>
 
@@ -336,12 +330,9 @@ export function PracticeFlashcardArena({
               className="p-2 sm:p-2.5 rounded-2xl border-2 border-b-[4px] border-emerald-400 hover:border-emerald-500 bg-emerald-50/90 hover:bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-300 font-bold flex flex-col items-center justify-between gap-1 transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs"
               title="Đã thuộc lòng, ôn lại sau 7 ngày (Phím 3)"
             >
-              <div className="flex items-center gap-1 text-xs sm:text-sm font-black font-display">
-                <span className="w-4.5 h-4.5 rounded-md bg-emerald-200/80 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 flex items-center justify-center text-[10px] font-mono font-black">
-                  3
-                </span>
-                <span>Thuộc lòng</span>
-              </div>
+              <span className="text-xs sm:text-sm font-black font-display">
+                3. Thuộc lòng
+              </span>
               <span className="text-[11px] opacity-75 font-semibold">7 ngày</span>
             </button>
           </div>
