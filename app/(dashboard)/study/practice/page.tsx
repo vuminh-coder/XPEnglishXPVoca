@@ -39,7 +39,6 @@ function PracticeContent() {
   const searchParams = useSearchParams();
 
   const [isWordLabOpen, setIsWordLabOpen] = useState(false);
-  const [isRestartConfirmOpen, setIsRestartConfirmOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
@@ -223,10 +222,10 @@ function PracticeContent() {
               <span>{session.vocabs.length}</span>
             </div>
 
-            {/* Reset / Restart Session - 44px Touch Target with Confirmation Modal */}
+            {/* Reset / Restart Session - 44px Touch Target */}
             <button
               type="button"
-              onClick={() => setIsRestartConfirmOpen(true)}
+              onClick={session.handleRestartSession}
               title="Luyện lại từ đầu"
               aria-label="Luyện lại từ đầu"
               className="w-11 h-11 min-w-[44px] min-h-[44px] shrink-0 rounded-2xl flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200 cursor-pointer transition-colors active:scale-90"
@@ -405,44 +404,6 @@ function PracticeContent() {
           />
         )}
       </div>
-
-      {/* 4.5 RESTART CONFIRMATION MODAL */}
-      {isRestartConfirmOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-fade-in">
-          <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 p-6 shadow-2xl space-y-4 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-500 mx-auto flex items-center justify-center">
-              <RotateCcw className="w-6 h-6 stroke-[2.2]" />
-            </div>
-            <div>
-              <h3 className="text-lg font-black font-display text-slate-900 dark:text-white">
-                Luyện tập lại từ đầu?
-              </h3>
-              <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">
-                Tiến độ của buổi học hiện tại sẽ được đặt lại về câu 1. Bạn có chắc chắn muốn bắt đầu lại không?
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-3 pt-1">
-              <button
-                type="button"
-                onClick={() => setIsRestartConfirmOpen(false)}
-                className="h-11 rounded-xl border border-slate-200 dark:border-slate-700 font-bold text-xs sm:text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-              >
-                Hủy bỏ
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsRestartConfirmOpen(false);
-                  session.handleRestartSession();
-                }}
-                className="h-11 rounded-xl bg-[#0059bb] hover:bg-blue-600 text-white font-bold text-xs sm:text-sm border-b-[3px] border-[#003d82] active:translate-y-[2px] transition-all cursor-pointer"
-              >
-                Luyện lại
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 5. SLIDE-OVER WORD LAB DRAWER */}
       {session.currentWord && (
