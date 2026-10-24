@@ -9,8 +9,6 @@ import {
   VolumeX,
   RotateCcw,
   Check,
-  SkipForward,
-  HelpCircle,
 } from "lucide-react";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { SentenceScramblePackage, GameReviewItem } from "../../types";
@@ -411,9 +409,6 @@ export function SentenceBuilderGame({
       ? "border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-700"
       : chipIdle;
 
-  const textBtn =
-    "min-h-[44px] px-3 rounded-xl text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center gap-1.5 cursor-pointer transition-colors disabled:opacity-40 disabled:cursor-not-allowed";
-
   const ROW_PITCH = 64; // 44px chip + 20px khoảng cách = 1 dòng kẻ
   const ruledStyle: React.CSSProperties = {
     minHeight: ROW_PITCH * 3,
@@ -572,34 +567,6 @@ export function SentenceBuilderGame({
                 </motion.button>
               ))}
             </div>
-
-            {/* 6. Secondary text actions (như "HIỆN KHÔNG NGHE ĐƯỢC") */}
-            {feedback === null && (
-              <div className="flex items-center justify-center flex-wrap gap-x-2">
-                <button
-                  type="button"
-                  onClick={handleHintNext}
-                  className={textBtn}
-                  title={`Điền sẵn từ tiếp theo (trừ ${HINT_COST} điểm)`}
-                >
-                  <HelpCircle className="w-4 h-4" />
-                  <span>Gợi ý (−{HINT_COST})</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={handleClearAll}
-                  disabled={placedTokens.length === 0}
-                  className={textBtn}
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  <span>Xếp lại</span>
-                </button>
-                <button type="button" onClick={handleSkip} className={textBtn}>
-                  <SkipForward className="w-4 h-4" />
-                  <span>Bỏ qua</span>
-                </button>
-              </div>
-            )}
 
             {/* 7. Footer (thumb zone): KIỂM TRA / feedback sheet + TIẾP TỤC */}
             <div
