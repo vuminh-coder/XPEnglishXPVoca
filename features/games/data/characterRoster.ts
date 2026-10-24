@@ -1,4 +1,4 @@
-﻿/**
+/**
  * XP English / XP Voca - 7 Exclusive Companion Characters
  * Each character has an original 3D persona, unique context domain,
  * and calibrated voice profile for TTS speech synthesis.
@@ -30,7 +30,7 @@ export const XP_CHARACTERS: CompanionCharacter[] = [
     name: "Minh",
     role: "Bạn học Gen Z",
     contextTag: "Đời sống & Phản xạ",
-    avatarUrl: "/images/characters/minh.jpg",
+    avatarUrl: "/images/characters/minh.png",
     themeColor: {
       badgeBg: "bg-blue-50 dark:bg-blue-950/50",
       badgeText: "text-blue-700 dark:text-blue-300",
@@ -49,7 +49,7 @@ export const XP_CHARACTERS: CompanionCharacter[] = [
     name: "Cô Linh",
     role: "Cố vấn AI Tutor",
     contextTag: "IELTS & Học thuật",
-    avatarUrl: "/images/characters/linh.jpg",
+    avatarUrl: "/images/characters/linh.png",
     themeColor: {
       badgeBg: "bg-purple-50 dark:bg-purple-950/50",
       badgeText: "text-purple-700 dark:text-purple-300",
@@ -68,7 +68,7 @@ export const XP_CHARACTERS: CompanionCharacter[] = [
     name: "Nam",
     role: "Kỹ sư Tech & Công sở",
     contextTag: "Công nghệ & Công sở",
-    avatarUrl: "/images/characters/nam.jpg",
+    avatarUrl: "/images/characters/nam.png",
     themeColor: {
       badgeBg: "bg-slate-100 dark:bg-slate-800",
       badgeText: "text-slate-700 dark:text-slate-200",
@@ -87,7 +87,7 @@ export const XP_CHARACTERS: CompanionCharacter[] = [
     name: "Mai",
     role: "Nàng thơ Lối sống",
     contextTag: "Du lịch & Cảm xúc",
-    avatarUrl: "/images/characters/mai.jpg",
+    avatarUrl: "/images/characters/mai.png",
     themeColor: {
       badgeBg: "bg-pink-50 dark:bg-pink-950/50",
       badgeText: "text-pink-700 dark:text-pink-300",
@@ -106,7 +106,7 @@ export const XP_CHARACTERS: CompanionCharacter[] = [
     name: "Thầy Robert",
     role: "Giáo sư Thông thái",
     contextTag: "Văn học & Chuyện kể",
-    avatarUrl: "/images/characters/robert.jpg",
+    avatarUrl: "/images/characters/robert.png",
     themeColor: {
       badgeBg: "bg-amber-50 dark:bg-amber-950/50",
       badgeText: "text-amber-700 dark:text-amber-300",
@@ -125,7 +125,7 @@ export const XP_CHARACTERS: CompanionCharacter[] = [
     name: "Bé An",
     role: "Học viên Nhí",
     contextTag: "Từ vựng Căn bản",
-    avatarUrl: "/images/characters/an.jpg",
+    avatarUrl: "/images/characters/an.png",
     themeColor: {
       badgeBg: "bg-emerald-50 dark:bg-emerald-950/50",
       badgeText: "text-emerald-700 dark:text-emerald-300",
@@ -144,7 +144,7 @@ export const XP_CHARACTERS: CompanionCharacter[] = [
     name: "Sam",
     role: "Nhà Thám hiểm",
     contextTag: "Thể thao & Sân bay",
-    avatarUrl: "/images/characters/sam.jpg",
+    avatarUrl: "/images/characters/sam.png",
     themeColor: {
       badgeBg: "bg-cyan-50 dark:bg-cyan-950/50",
       badgeText: "text-cyan-700 dark:text-cyan-300",

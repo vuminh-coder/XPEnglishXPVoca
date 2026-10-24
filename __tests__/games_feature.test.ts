@@ -115,7 +115,7 @@ describe("Mini Games Feature Suite (/study/games)", () => {
         expect(c.name).toBeTruthy();
         expect(c.role).toBeTruthy();
         expect(c.contextTag).toBeTruthy();
-        expect(c.avatarUrl).toMatch(/^\/images\/characters\/[a-z]+\.jpg$/);
+        expect(c.avatarUrl).toMatch(/^\/images\/characters\/[a-z]+\.png$/);
         expect(c.voice.pitch).toBeGreaterThan(0.5);
         expect(c.voice.pitch).toBeLessThan(1.5);
         expect(c.voice.rate).toBeGreaterThan(0.5);

@@ -493,32 +493,25 @@ export function SentenceBuilderGame({
               Dịch câu này sang tiếng Anh
             </h2>
 
-            {/* 3. Original Human Companion Character + Speech Bubble */}
-            <div className="flex items-start sm:items-center gap-3 sm:gap-4">
-              <div className="shrink-0 flex flex-col items-center gap-1.5">
-                <div
-                  className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shadow-sm ring-2 ${activeCharacter.themeColor.ringColor} transition-transform hover:scale-105 duration-200`}
-                >
+            {/* 3. 3D Character Companion (Free-standing, transparent, no block/frame) + Speech Bubble */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="shrink-0 flex flex-col items-center -mb-2">
+                <div className="relative w-20 h-24 sm:w-24 sm:h-28 flex items-end justify-center select-none pointer-events-none">
+                  {/* Soft floor shadow */}
+                  <div className="absolute bottom-1 w-14 sm:w-16 h-2.5 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
                   <img
                     src={activeCharacter.avatarUrl}
                     alt={activeCharacter.name}
-                    className="w-full h-full object-cover object-top select-none pointer-events-none"
+                    className="relative max-h-full w-auto object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.12)] transition-transform hover:scale-105 duration-200"
                     loading="eager"
                   />
                 </div>
-                <div className="flex flex-col items-center leading-tight">
-                  <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 tracking-tight">
-                    {activeCharacter.name}
-                  </span>
-                  <span
-                    className={`text-[9px] sm:text-[10px] font-semibold px-1.5 py-0.5 rounded-md border mt-0.5 ${activeCharacter.themeColor.badgeBg} ${activeCharacter.themeColor.badgeText} ${activeCharacter.themeColor.badgeBorder} whitespace-nowrap`}
-                  >
-                    {activeCharacter.contextTag}
-                  </span>
-                </div>
+                <span className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 mt-1">
+                  {activeCharacter.name}
+                </span>
               </div>
               <div className="relative flex-1 min-w-0 flex items-center gap-3 px-4 py-3.5 sm:py-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
-                <div className="absolute -left-[9px] top-8 sm:top-1/2 sm:-translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
+                <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
                 <button
                   type="button"
                   onClick={() => speakSentence(currentPkg.originalSentence)}
