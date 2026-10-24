@@ -28,8 +28,8 @@ export default function WordLinkClient() {
 
   return (
     <div className="w-full min-h-dvh h-dvh flex flex-col justify-between bg-[#fffefb] dark:bg-slate-950 font-sans select-none overflow-hidden">
-      {/* GAME ARENA WORKSPACE (Full single viewport fold, no AppTopHeader, tactile card width) */}
-      <div className="w-full max-w-xl sm:max-w-2xl lg:max-w-3xl mx-auto px-4 sm:px-6 flex-1 flex flex-col justify-between py-2.5 sm:py-4">
+      {/* GAME ARENA WORKSPACE (Full single viewport fold, matching SentenceBuilder max-width & margins) */}
+      <div className="w-full max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 flex-1 flex flex-col justify-between py-3 sm:py-5">
         <WordLinkGame
           pool={themeVocabs}
           onBack={() => router.push("/roadmap")}
