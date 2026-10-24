@@ -43,12 +43,21 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
   const [mistakeIds, setMistakeIds] = useState<Set<string>>(new Set());
   const [combo, setCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
+  const [comboAlert, setComboAlert] = useState<"X3" | "X5" | null>(null);
   const [characterIdx, setCharacterIdx] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
   const [rewards, setRewards] = useState({ xp: 0, coins: 0 });
   const startRef = useRef(0);
+
+  useEffect(() => {
+    if (!comboAlert) return;
+    const t = setTimeout(() => {
+      setComboAlert(null);
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [comboAlert]);
 
   useEffect(() => {
     setIsMuted(gameAudio.isMuted());
@@ -127,6 +136,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     setMistakeIds(new Set());
     setCombo(0);
     setMaxCombo(0);
+    setComboAlert(null);
     setCharacterIdx((idx) => (idx + 1) % XP_CHARACTERS.length);
     setGameOver(false);
     setFinalScore(0);
@@ -184,16 +194,30 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
       setCombo((c) => {
         const next = c + 1;
         setMaxCombo((m) => Math.max(m, next));
+        if (next === 3) {
+          setComboAlert("X3");
+          gameAudio.playComboStreak(3);
+          triggerHaptic("victory");
+        } else if (next === 5) {
+          setComboAlert("X5");
+          gameAudio.playComboStreak(5);
+          triggerHaptic("victory");
+        }
         return next;
       });
       const nextLinked = [...linked, pairId];
       setLinked(nextLinked);
       setSelectedLeft(null);
-      if (nextLinked.length >= items.length) finish(mistakes);
+      if (nextLinked.length >= items.length) {
+        setTimeout(() => {
+          finish(mistakes);
+        }, 1200);
+      }
     } else {
       triggerHaptic("warning");
       gameAudio.playWrongBuzzer();
       setCombo(0);
+      setComboAlert(null);
       setMistakes((m) => m + 1);
       setMistakeIds((prev) => new Set(prev).add(selectedLeft));
       setWrongPair({ left: selectedLeft, right: pairId });
@@ -205,33 +229,6 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
   };
 
   const toggleAudio = () => setIsMuted(gameAudio.toggleMute());
-
-  if (gameOver) {
-    const total = pairCount + mistakes;
-    const accuracy = Math.round((pairCount / Math.max(1, total)) * 100);
-    const durationSeconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
-    const reviewItems: GameReviewItem[] = items.map((i) => ({
-      ...i.review,
-      isCorrect: !mistakeIds.has(i.pairId),
-    }));
-    return (
-      <GameResultScreen
-        gameType="wordlink"
-        title="Nối Từ Xuất Sắc!"
-        subtitle={`Bạn đã nối đúng ${pairCount} cặp từ Anh - Việt với ${mistakes} lần nối sai trong ${durationSeconds} giây.`}
-        score={finalScore}
-        xpEarned={rewards.xp}
-        coinsEarned={rewards.coins}
-        accuracy={accuracy}
-        durationSeconds={durationSeconds}
-        maxCombo={maxCombo || pairCount}
-        reviewItems={reviewItems}
-        backLabel={backLabel}
-        onBack={onBack}
-        onRestart={initGame}
-      />
-    );
-  }
 
   const progressPct = items.length ? (linked.length / items.length) * 100 : 0;
   const byId = (id: string) => items.find((i) => i.pairId === id);
@@ -321,6 +318,34 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
 
   const listGap = "gap-2 sm:gap-2.5";
 
+  if (gameOver) {
+    const total = pairCount + mistakes;
+    const accuracy = Math.round((pairCount / Math.max(1, total)) * 100);
+    const durationSeconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
+    const reviewItems: GameReviewItem[] = items.map((i) => ({
+      ...i.review,
+      isCorrect: !mistakeIds.has(i.pairId),
+    }));
+    return (
+      <GameResultScreen
+        gameType="wordlink"
+        character={activeCharacter}
+        title="Nối Từ Xuất Sắc!"
+        subtitle={`Bạn đã nối đúng ${pairCount} cặp từ Anh - Việt với ${mistakes} lần nối sai trong ${durationSeconds} giây.`}
+        score={finalScore}
+        xpEarned={rewards.xp}
+        coinsEarned={rewards.coins}
+        accuracy={accuracy}
+        durationSeconds={durationSeconds}
+        maxCombo={maxCombo || pairCount}
+        reviewItems={reviewItems}
+        backLabel={backLabel}
+        onBack={onBack}
+        onRestart={initGame}
+      />
+    );
+  }
+
   return (
     <div className="select-none w-full flex-1 flex flex-col justify-between gap-2.5 sm:gap-3.5 h-full">
       {/* 1. Top bar */}
@@ -345,13 +370,6 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
         </div>
 
         <div className="shrink-0 flex items-center gap-1.5 sm:gap-2">
-          {combo >= 2 && (
-            <div className="flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 font-black text-xs shadow-xs animate-bounce">
-              <Flame className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-              <span>x{combo}</span>
-            </div>
-          )}
-
           {/* Audio toggle button */}
           <button
             type="button"
@@ -470,6 +488,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                 <button
                   key={id}
                   type="button"
+                  data-pair-id={id}
                   onClick={() => pickLeft(id)}
                   className={tileClass(state)}
                 >
@@ -513,6 +532,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                 <button
                   key={id}
                   type="button"
+                  data-pair-id={id}
                   onClick={() => pickRight(id)}
                   disabled={!selectedLeft && state === "idle"}
                   className={`${tileClass(state)} ${!selectedLeft && state === "idle" ? "opacity-90" : ""}`}
@@ -563,6 +583,20 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
           </span>
         </div>
       </div>
+
+      {/* 5. Floating Combo Text (Pops up from small to large, then gradually vanishes - NO card container) */}
+      {comboAlert && (
+        <div
+          key={comboAlert}
+          className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center select-none"
+        >
+          <div className="animate-combo-float-fade flex flex-col items-center select-none pointer-events-none">
+            <span className="font-black font-display text-8xl sm:text-9xl md:text-[10rem] tracking-tight bg-gradient-to-b from-amber-300 via-orange-500 to-amber-600 bg-clip-text text-transparent drop-shadow-[0_12px_28px_rgba(245,158,11,0.65)] filter">
+              {comboAlert}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -304,3 +304,38 @@
     opacity: 0.8;
   }
 }
+
+/* ============================================================
+   FLOATING COMBO TEXT ANIMATION (Arcade X3, X5 Float & Fade)
+   ============================================================ */
+@keyframes comboFloatFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.25) translateY(24px);
+    filter: blur(2px);
+  }
+  28% {
+    opacity: 1;
+    transform: scale(1.18) translateY(-6px);
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) translateY(-12px);
+    filter: blur(0px);
+  }
+  75% {
+    opacity: 0.85;
+    transform: scale(1.12) translateY(-22px);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35) translateY(-40px);
+    filter: blur(2px);
+  }
+}
+
+.animate-combo-float-fade {
+  animation: comboFloatFade 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
