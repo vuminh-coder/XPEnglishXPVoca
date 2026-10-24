@@ -28,8 +28,9 @@ export default function ClientAuthWrapper({
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       // 1. ChunkLoadError / Dynamic import failure auto-recovery
-      const handleChunkError = (event: ErrorEvent) => {
-        const message = event?.message || "";
+      const handleChunkError = (event: ErrorEvent | PromiseRejectionEvent) => {
+        const error = "error" in event ? event.error : "reason" in event ? event.reason : null;
+        const message = event instanceof ErrorEvent ? event.message : error?.message || String(error || "");
         if (
           message.includes("ChunkLoadError") ||
           message.includes("Loading chunk") ||
@@ -46,6 +47,7 @@ export default function ClientAuthWrapper({
         }
       };
       window.addEventListener("error", handleChunkError);
+      window.addEventListener("unhandledrejection", handleChunkError);
 
       // 2. Restore user theme preference (light, dark, system)
       const savedTheme = localStorage.getItem("xp_theme_preference");
@@ -72,6 +74,7 @@ export default function ClientAuthWrapper({
 
       return () => {
         window.removeEventListener("error", handleChunkError);
+        window.removeEventListener("unhandledrejection", handleChunkError);
       };
     }
   }, []);
