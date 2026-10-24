@@ -60,6 +60,42 @@ const FALLBACK_SENTENCES: SentenceCandidate[] = [
   },
 ];
 
+const DuolingoTurtleIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+  >
+    {/* Shell */}
+    <path d="M 10 7 C 6.5 7 4.2 9.8 4 13.5 L 15.5 13.5 C 15.2 9.8 13.5 7 10 7 Z" />
+    {/* Head */}
+    <path d="M 15 11.5 C 15 10.4 16 9.6 17.2 9.8 C 18.3 10 19 11 19 12.2 C 19 13.2 18.2 14 17 14 L 15 14 Z" />
+    {/* Eye dot */}
+    <circle cx="17.2" cy="11.2" r="0.6" fill="#ffffff" />
+    {/* Back & Front Feet */}
+    <path d="M 5.2 13.5 C 5 15.2 7 15.5 7.2 13.5 Z" />
+    <path d="M 12.5 13.5 C 12.3 15.2 14.3 15.5 14.5 13.5 Z" />
+    {/* Tail */}
+    <path d="M 4 12.5 L 2.5 13 L 4 13.8 Z" />
+    {/* Sound waves emitted in front */}
+    <path
+      d="M 20 10.8 C 20.8 11.5 20.8 12.5 20 13.2"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+    <path
+      d="M 22 9.5 C 23.2 10.8 23.2 13.2 22 14.5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 const TOTAL_ROUNDS = 5;
 const HINT_COST = 5;
 
@@ -502,11 +538,11 @@ export function SentenceBuilderGame({
                   <button
                     type="button"
                     onClick={() => speakSentenceSlow(currentPkg.originalSentence)}
-                    title="Nghe tốc độ chậm / Rùa (Phím S)"
-                    aria-label="Nghe tốc độ chậm"
-                    className="w-10 h-10 rounded-xl text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform hover:bg-sky-50 dark:hover:bg-sky-950/40 text-xl"
+                    title="Nghe phát âm chậm (Phím S)"
+                    aria-label="Nghe phát âm chậm"
+                    className="w-10 h-10 rounded-xl text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform hover:bg-sky-50 dark:hover:bg-sky-950/40"
                   >
-                    <span aria-hidden>🐢</span>
+                    <DuolingoTurtleIcon className="w-6 h-6" />
                   </button>
                 </div>
                 <p className="text-lg sm:text-xl font-medium text-slate-700 dark:text-slate-100 leading-relaxed">
