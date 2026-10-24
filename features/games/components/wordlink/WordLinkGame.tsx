@@ -57,22 +57,30 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
 
   const initGame = useCallback(() => {
     if (!pool || pool.length === 0) return;
+    const cleanMeaning = (text: string) => {
+      if (!text) return "";
+      return text.replace(/\s*\([^)]*\)/g, "").trim();
+    };
+
     const picked = shuffle(pool.filter((w) => w.word && w.definitionVn)).slice(0, pairCount);
-    const next: LinkItem[] = picked.map((w, i) => ({
-      pairId: `p${i}`,
-      word: w.word,
-      meaning: w.definitionVn,
-      phonetic: w.phonetic,
-      review: {
-        id: w.id,
+    const next: LinkItem[] = picked.map((w, i) => {
+      const cleanVn = cleanMeaning(w.definitionVn) || w.definitionVn;
+      return {
+        pairId: `p${i}`,
         word: w.word,
+        meaning: cleanVn,
         phonetic: w.phonetic,
-        definitionVn: w.definitionVn,
-        pos: w.pos,
-        example: w.examples?.[0],
-        isCorrect: true,
-      },
-    }));
+        review: {
+          id: w.id,
+          word: w.word,
+          phonetic: w.phonetic,
+          definitionVn: cleanVn,
+          pos: w.pos,
+          example: w.examples?.[0],
+          isCorrect: true,
+        },
+      };
+    });
     setItems(next);
     setLeftOrder(shuffle(next.map((n) => n.pairId)));
     setRightOrder(shuffle(next.map((n) => n.pairId)));
@@ -336,7 +344,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
 
       {/* 2. 3D Companion Mascot & Speech Bubble + Difficulty Selector */}
       <div className="flex items-center justify-between gap-2.5 sm:gap-3 shrink-0">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           {/* 3D Character Avatar (Free-standing) */}
           <div className="relative w-11 h-14 sm:w-13 sm:h-16 shrink-0 flex items-end justify-center select-none pointer-events-none">
             <div className="absolute bottom-0 w-9 sm:w-11 h-2 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[1px]" />
@@ -348,7 +356,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
           </div>
 
           {/* Speech Bubble */}
-          <div className="relative flex-1 min-w-0 bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-xs">
+          <div className="relative w-fit max-w-xs sm:max-w-md bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-xs">
             <div className="absolute left-[-6px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200/90 dark:border-slate-700 -rotate-45" />
             <p className="text-xs sm:text-sm font-black font-display text-slate-800 dark:text-slate-100 tracking-tight truncate">
               {speechText}
@@ -366,7 +374,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
               key={n}
               type="button"
               onClick={() => setPairCount(n)}
-              className={`px-2 sm:px-3 py-1 rounded-xl text-xs font-black cursor-pointer transition-all ${
+              className={`px-2.5 sm:px-3 py-1 rounded-xl text-xs font-black cursor-pointer transition-all ${
                 pairCount === n
                   ? "bg-[#0059bb] text-white shadow-xs"
                   : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
@@ -381,7 +389,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
 
       {/* 3. Two columns Match Grid */}
       <div className="flex-1 min-h-0 flex flex-col justify-center">
-        <div className="grid grid-cols-2 gap-x-2.5 sm:gap-x-4 items-start">
+        <div className="grid grid-cols-2 gap-x-6 sm:gap-x-10 md:gap-x-12 items-start">
           {/* Left Column: English */}
           <div className={`flex flex-col ${listGap}`}>
             <div className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-slate-400 px-1">
@@ -405,15 +413,10 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                   onClick={() => pickLeft(id)}
                   className={tileClass(state)}
                 >
-                  <div className="flex-1 min-w-0 pr-1">
+                  <div className="flex-1 min-w-0 pr-1 flex items-center">
                     <span className="block text-sm sm:text-base font-black font-display tracking-tight text-slate-800 dark:text-slate-100 group-hover:text-[#0059bb] truncate">
                       {it.word}
                     </span>
-                    {it.phonetic && (
-                      <span className="block text-[11px] font-mono text-slate-400 font-medium truncate">
-                        {it.phonetic}
-                      </span>
-                    )}
                   </div>
                   {state === "linked" ? (
                     <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
@@ -436,6 +439,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
             {rightOrder.map((id) => {
               const it = byId(id);
               if (!it) return null;
+              const cleanVn = it.meaning.replace(/\s*\([^)]*\)/g, "").trim() || it.meaning;
               const state = linked.includes(id)
                 ? "linked"
                 : wrongPair?.right === id
@@ -450,7 +454,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                   className={`${tileClass(state)} ${!selectedLeft && state === "idle" ? "opacity-90" : ""}`}
                 >
                   <span className="flex-1 min-w-0 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 line-clamp-2 leading-snug">
-                    {it.meaning}
+                    {cleanVn}
                   </span>
                   {state === "linked" && (
                     <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
