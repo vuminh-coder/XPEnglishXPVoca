@@ -176,7 +176,7 @@ export function PracticeCompanionSpeech({
                 {speechData.targetWord}
               </span>
               {speechData.ipa && (
-                <span className="text-xs sm:text-sm font-mono font-medium text-slate-500 dark:text-slate-400">
+                <span className="text-base sm:text-lg lg:text-xl font-sans font-semibold tracking-wide text-slate-600 dark:text-slate-300">
                   {speechData.ipa}
                 </span>
               )}

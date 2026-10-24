@@ -248,8 +248,8 @@ function PracticeContent() {
         {/* 3. MAIN ARENA VIEWPORT */}
         {!session.isCompleted && session.currentWord ? (
           <div className="flex-1 flex flex-col justify-between min-h-0 gap-2 sm:gap-3 py-1">
-            {/* 3.1 & 3.2 CENTERED WORKSPACE: COMPANION PROMPT & INTERACTIVE STAGE */}
-            <div className="flex-1 flex flex-col justify-center min-h-0 gap-3 sm:gap-4 my-auto">
+            {/* 3.1 & 3.2 BALANCED WORKSPACE: COMPANION PROMPT & INTERACTIVE STAGE */}
+            <div className="flex-1 flex flex-col justify-center min-h-0 gap-6 sm:gap-8 lg:gap-10 pb-6 sm:pb-12">
               {/* 3.1 3D COMPANION MASCOT & SPEECH BUBBLE */}
               <PracticeCompanionSpeech
                 currentWord={session.currentWord}
