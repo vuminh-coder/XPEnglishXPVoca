@@ -2,6 +2,9 @@ import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { getStepPracticeUrl } from "@/features/roadmap/components/ziczac/ZiczacStepNode";
 import { syncRoadmapSessionProgress, STORAGE_KEY_STEP_SESSIONS, STORAGE_KEY_COMPLETED_STEPS } from "@/features/roadmap/utils/roadmapSessionSync";
 import { ZiczacPathStep, ZiczacStepProgress } from "@/features/roadmap/types";
+import { CURATED_ROADMAP_STEPS, UNIT_CURRICULUM_CONFIGS } from "@/features/roadmap/data/curatedRoadmapPathway";
+import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
+import { ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
 
 describe("ZiczacStepNode getStepPracticeUrl utility", () => {
   const baseSentenceStep: ZiczacPathStep = {
@@ -212,5 +215,38 @@ describe("syncRoadmapSessionProgress utility", () => {
 
     const savedCompleted = JSON.parse(localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS) || "[]");
     expect(savedCompleted).toContain("step-6");
+  });
+});
+
+describe("All 24 Units Vocabulary Practice Stages in Roadmap", () => {
+  it("8. Verifies that ALL 24 units have Stage 1 (VOCAB) pointing to /study/practice with theme, unit, part=1, totalParts=2", () => {
+    expect(UNIT_CURRICULUM_CONFIGS.length).toBe(24);
+    expect(CURATED_ROADMAP_STEPS.length).toBe(144);
+
+    for (let u = 1; u <= 24; u++) {
+      const config = UNIT_CURRICULUM_CONFIGS.find((c) => c.unitNumber === u);
+      expect(config).toBeDefined();
+
+      // Check Stage 1 (VOCAB)
+      const vocabStep = CURATED_ROADMAP_STEPS.find((s) => s.unitNumber === u && s.skillType === "VOCAB");
+      expect(vocabStep).toBeDefined();
+      expect(vocabStep?.totalSessions).toBe(2);
+      expect(vocabStep?.practicePath).toBe(
+        `/study/practice?theme=${config?.themeId}&unit=${u}&part=1&totalParts=2&subMode=flashcard`
+      );
+
+      // Check Stage 6 (CHECKPOINT)
+      const checkpointStep = CURATED_ROADMAP_STEPS.find((s) => s.unitNumber === u && s.skillType === "CHECKPOINT");
+      expect(checkpointStep).toBeDefined();
+      expect(checkpointStep?.totalSessions).toBe(1);
+      expect(checkpointStep?.practicePath).toBe(
+        `/study/practice?mode=checkpoint&theme=${config?.themeId}&unit=${u}&part=1&totalParts=1`
+      );
+
+      // Verify that each theme has vocabulary in repository
+      const hasBasic = BASIC_VOCABULARIES.some((v) => v.themeId === config?.themeId);
+      const hasAdv = ADVANCED_VOCABULARIES.some((v) => v.themeId === config?.themeId);
+      expect(hasBasic || hasAdv).toBe(true);
+    }
   });
 });
