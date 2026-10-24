@@ -6,6 +6,7 @@ import {
   X,
   Flame,
   Volume2,
+  Turtle,
   RotateCcw,
   Check,
 } from "lucide-react";
@@ -494,34 +495,47 @@ export function SentenceBuilderGame({
             </h2>
 
             {/* 3. 3D Character Companion (Free-standing, transparent, no block/frame) + Speech Bubble */}
-            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              <div className="shrink-0 flex flex-col items-center -mb-1">
-                <div className="relative w-16 h-20 sm:w-20 sm:h-24 flex items-end justify-center select-none pointer-events-none">
+            <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+              <div className="shrink-0 flex flex-col items-center">
+                <div className="relative w-20 h-26 sm:w-28 sm:h-36 lg:w-32 lg:h-40 flex items-end justify-center select-none pointer-events-none">
                   {/* Soft floor shadow */}
-                  <div className="absolute bottom-0.5 w-12 sm:w-14 h-2 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
+                  <div className="absolute bottom-0 w-16 sm:w-22 lg:w-24 h-2.5 sm:h-3 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
                   <img
                     src={activeCharacter.avatarUrl}
                     alt={activeCharacter.name}
-                    className="relative max-h-full w-auto object-contain filter drop-shadow-[0_3px_6px_rgba(0,0,0,0.12)] transition-transform hover:scale-105 duration-200"
+                    className="relative max-h-full w-auto object-contain filter drop-shadow-[0_6px_12px_rgba(0,0,0,0.14)] transition-transform hover:scale-105 duration-200"
                     loading="eager"
                   />
                 </div>
-                <span className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5">
+                <span className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 mt-1">
                   {activeCharacter.name}
                 </span>
               </div>
-              <div className="relative flex-1 min-w-0 flex items-center gap-2.5 sm:gap-3 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
+              <div className="relative flex-1 min-w-0 flex items-center gap-3 sm:gap-3.5 px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
                 <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
-                <button
-                  type="button"
-                  onClick={() => speakSentence(currentPkg.originalSentence)}
-                  title={`Nghe giọng ${activeCharacter.name} (Phím A)`}
-                  aria-label={`Nghe giọng ${activeCharacter.name}`}
-                  className="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform shadow-2xs group"
-                >
-                  <Volume2 className="w-6 h-6 fill-sky-500 text-sky-500 group-hover:scale-105 transition-transform" />
-                </button>
-                <p className="text-base sm:text-lg font-medium text-slate-700 dark:text-slate-100 leading-snug">
+                {/* Audio buttons (No box/container, direct icons, larger & equal size) */}
+                <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => speakSentence(currentPkg.originalSentence)}
+                    title={`Nghe giọng ${activeCharacter.name} - Tốc độ chuẩn (Phím A)`}
+                    aria-label={`Nghe giọng ${activeCharacter.name} tốc độ chuẩn`}
+                    className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
+                  >
+                    <Volume2 className="w-7 h-7 sm:w-8 sm:h-8 fill-sky-500/20 stroke-[2.2]" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => speakSentenceSlow(currentPkg.originalSentence)}
+                    title="Nghe phát âm chậm rãi (Phím S)"
+                    aria-label="Nghe phát âm chậm rãi"
+                    className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
+                  >
+                    <Turtle className="w-7 h-7 sm:w-8 sm:h-8 fill-sky-500/20 stroke-[2.2]" />
+                  </button>
+                </div>
+                <div className="h-6 w-[1.5px] bg-slate-200 dark:bg-slate-700 shrink-0" />
+                <p className="text-base sm:text-xl font-medium text-slate-700 dark:text-slate-100 leading-snug">
                   {cueWords.map((w, i) => (
                     <span
                       key={`${w}-${i}`}
