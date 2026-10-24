@@ -138,55 +138,55 @@ export function PracticeBottomBar({
                 {correctAnswerText}
               </p>
             </div>
-
-            {/* Quick Actions in answered sheet */}
-            <div className="flex items-center gap-1 shrink-0">
-              {onPlayAudio && (
-                <button
-                  type="button"
-                  onClick={onPlayAudio}
-                  className={`p-1.5 rounded-xl transition-all cursor-pointer active:scale-95 ${
-                    isCorrect
-                      ? "text-emerald-700 hover:bg-emerald-100/60 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
-                      : "text-rose-700 hover:bg-rose-100/60 dark:text-rose-300 dark:hover:bg-rose-900/40"
-                  }`}
-                  title="Nghe lại phát âm"
-                >
-                  <Volume2 className="w-4.5 h-4.5 stroke-[2.3]" />
-                </button>
-              )}
-
-              {onOpenDetails && (
-                <button
-                  type="button"
-                  onClick={onOpenDetails}
-                  className={`px-2 py-1 rounded-xl text-xs font-bold border flex items-center gap-1 transition-all cursor-pointer active:scale-95 ${
-                    isCorrect
-                      ? "bg-white/80 dark:bg-emerald-950/80 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200"
-                      : "bg-white/80 dark:bg-rose-950/80 border-rose-300 dark:border-rose-800 text-rose-800 dark:text-rose-200"
-                  }`}
-                  title="Xem chi tiết ngữ cảnh & ví dụ"
-                >
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Xem ví dụ</span>
-                </button>
-              )}
-            </div>
           </div>
 
-          {/* Continue Action Button */}
-          <button
-            type="button"
-            onClick={onNext}
-            className={`w-full sm:w-auto min-w-[130px] h-11 sm:h-12 px-6 rounded-2xl text-xs sm:text-sm font-black font-display uppercase tracking-wider text-white border-b-[4px] flex items-center justify-center gap-1.5 cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-sm transition-all ${
-              isCorrect
-                ? "bg-emerald-600 hover:bg-emerald-500 border-emerald-800"
-                : "bg-rose-600 hover:bg-rose-500 border-rose-800"
-            }`}
-          >
-            <span>Tiếp tục</span>
-            <ArrowRight className="w-4 h-4 stroke-[2.8]" />
-          </button>
+          {/* Action Buttons: Audio, Xem ví dụ & Tiếp tục with identical height (h-11 sm:h-12) */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0 w-full sm:w-auto">
+            {onPlayAudio && (
+              <button
+                type="button"
+                onClick={onPlayAudio}
+                className={`w-11 h-11 sm:w-12 sm:h-12 rounded-2xl border-2 border-b-[4px] flex items-center justify-center transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs shrink-0 ${
+                  isCorrect
+                    ? "bg-white dark:bg-slate-900 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40"
+                    : "bg-white dark:bg-slate-900 border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                }`}
+                title="Nghe lại phát âm"
+                aria-label="Nghe lại phát âm"
+              >
+                <Volume2 className="w-5 h-5 stroke-[2.3]" />
+              </button>
+            )}
+
+            {onOpenDetails && (
+              <button
+                type="button"
+                onClick={onOpenDetails}
+                className={`h-11 sm:h-12 px-3.5 sm:px-4 rounded-2xl text-xs sm:text-sm font-bold border-2 border-b-[4px] flex items-center justify-center gap-1.5 transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs shrink-0 ${
+                  isCorrect
+                    ? "bg-white dark:bg-slate-900 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/40"
+                    : "bg-white dark:bg-slate-900 border-rose-300 dark:border-rose-800 text-rose-800 dark:text-rose-200 hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                }`}
+                title="Xem chi tiết ngữ cảnh & ví dụ"
+              >
+                <BookOpen className="w-4 h-4 stroke-[2.2]" />
+                <span>Xem ví dụ</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={onNext}
+              className={`flex-1 sm:flex-initial min-w-[130px] sm:min-w-[140px] h-11 sm:h-12 px-5 sm:px-6 rounded-2xl text-xs sm:text-sm font-black font-display uppercase tracking-wider text-white border-b-[4px] flex items-center justify-center gap-1.5 cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-sm transition-all ${
+                isCorrect
+                  ? "bg-emerald-600 hover:bg-emerald-500 border-emerald-800"
+                  : "bg-rose-600 hover:bg-rose-500 border-rose-800"
+              }`}
+            >
+              <span>Tiếp tục</span>
+              <ArrowRight className="w-4 h-4 stroke-[2.8]" />
+            </button>
+          </div>
         </motion.div>
       )}
     </div>
