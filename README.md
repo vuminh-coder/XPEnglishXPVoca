@@ -6683,8 +6683,10 @@ Nhằm tuân thủ tuyệt đối **Quy tắc 1 UI/UX** (Dùng Skeleton Loading 
    - Thiết kế luồng nút CTA chuẩn Wadhah Aloui Rule 18: Khi chưa lật thẻ, hiển thị duy nhất 1 nút chính "Lật Thẻ Để Xem Nghĩa (Space)". Sau khi lật thẻ, hiển thị 3 nút đánh giá cấp độ nhớ ("Chưa nhớ +5 XP", "Nhớ tốt +10 XP", "Rất dễ +15 XP"), ngăn chặn hoàn toàn việc học viên đánh giá khi chưa xem mặt sau.
 
 5. **Tối Ưu Luồng Gõ Chính Tả & Sóng Âm Phát Âm AI (`PracticeWritingArena.tsx` & `PracticeSpeakingArena.tsx`)**:
-   - Writing: Bổ sung thanh phản hồi tức thì hiển thị kết quả đúng/sai cùng từ vựng và IPA chuẩn sau khi nộp bài. Nút điều hướng "Câu tiếp theo" được chuyển thành nút ghost phụ "Bỏ qua" khi chưa nộp bài, giải quyết triệt để xung đột 2 nút Primary.
-   - Speaking: Tích hợp hiệu ứng sóng âm hoạt họa (Waveform Equalizer 5-bar bounce) sinh động và vòng tròn phát sóng `animate-ping` khi Micro đang thu âm, cung cấp phản hồi trực quan rõ ràng.
+   - **Giao diện ô nhập kiểu kẻ ngang tối giản (Ruled Underline Input)**: Thay thế hoàn toàn ô nhập dạng khối hộp kín cồng kềnh (`rounded-2xl border-2 bg-slate-50/60`) bằng đường kẻ ngang tinh giản (`border-0 border-b-2 sm:border-b-[3px] bg-transparent`). Khi ấn vào hoặc focus, đường kẻ ngang tự động sáng đèn xanh hoàng gia `#0059bb` (`focus:border-[#0059bb] dark:focus:border-sky-400`), loại bỏ triệt để cảm giác hộp lồng trong hộp ("khối").
+   - **Tương tác chạm thông minh & Phản hồi trạng thái**: Chạm vào bất kỳ vị trí nào trên thẻ đều tự động kích hoạt con trỏ nhập liệu; phản hồi màu sắc trực quan theo ngữ nghĩa (xanh Emerald `#10b981` khi đúng, đỏ Rose `#f43f5e` khi sai).
+   - **Tinh gọn gợi ý ký tự & Phản hồi nộp bài**: Nút gợi ý chuyển thành link văn bản thanh thoát với icon bóng đèn, hiển thị mặt nạ ký tự tinh gọn `h _ _ _ _ (5 ký tự)` thay vì các huy hiệu nút vàng rườm rà. Nút điều hướng "Câu tiếp theo" được chuyển thành nút ghost phụ "Bỏ qua" khi chưa nộp bài, giải quyết triệt để xung đột 2 nút Primary.
+   - **Speaking**: Tích hợp hiệu ứng sóng âm hoạt họa (Waveform Equalizer 5-bar bounce) sinh động và vòng tròn phát sóng `animate-ping` khi Micro đang thu âm, cung cấp phản hồi trực quan rõ ràng.
 
 6. **Khử Trùng Lặp Chỉ Số Tiến Độ (`PracticeSubModeBar.tsx`)**:
    - Chuyển đổi dòng `Tiến độ: 1/25` bị lặp lại với Top Header sang tỷ lệ phần trăm `Hoàn thành: ${percent}%` kết hợp thanh progress bar tinh gọn.
