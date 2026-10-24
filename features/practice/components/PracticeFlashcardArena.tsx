@@ -293,9 +293,6 @@ export function PracticeFlashcardArena({
           >
             <RotateCw className="w-4 h-4 stroke-[2.4]" />
             <span>Lật thẻ</span>
-            <span className="hidden sm:inline-flex px-1.5 py-0.2 rounded-md bg-white/20 text-white text-[10px] font-mono font-bold ml-0.5">
-              Space
-            </span>
           </button>
         </div>
       ) : (
@@ -314,12 +311,7 @@ export function PracticeFlashcardArena({
                 </span>
                 <span>Cần ôn lại</span>
               </div>
-              <div className="flex items-center gap-1.5 text-[11px]">
-                <span className="opacity-75 font-semibold">&lt; 1 ngày</span>
-                <span className="px-1.5 py-0.2 rounded-full bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 text-[10px] font-black">
-                  +5 XP
-                </span>
-              </div>
+              <span className="text-[11px] opacity-75 font-semibold">&lt; 1 ngày</span>
             </button>
 
             {/* 2. Đã nhớ */}
@@ -335,12 +327,7 @@ export function PracticeFlashcardArena({
                 </span>
                 <span>Đã nhớ</span>
               </div>
-              <div className="flex items-center gap-1.5 text-[11px]">
-                <span className="opacity-75 font-semibold">3 ngày</span>
-                <span className="px-1.5 py-0.2 rounded-full bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 text-[10px] font-black">
-                  +10 XP
-                </span>
-              </div>
+              <span className="text-[11px] opacity-75 font-semibold">3 ngày</span>
             </button>
 
             {/* 3. Thuộc lòng */}
@@ -356,12 +343,7 @@ export function PracticeFlashcardArena({
                 </span>
                 <span>Thuộc lòng</span>
               </div>
-              <div className="flex items-center gap-1.5 text-[11px]">
-                <span className="opacity-75 font-semibold">7 ngày</span>
-                <span className="px-1.5 py-0.2 rounded-full bg-amber-200 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 text-[10px] font-black">
-                  +15 XP
-                </span>
-              </div>
+              <span className="text-[11px] opacity-75 font-semibold">7 ngày</span>
             </button>
           </div>
         </div>
