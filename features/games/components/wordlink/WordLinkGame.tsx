@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Volume2, VolumeX, RotateCcw, Check, X } from "lucide-react";
+import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { Volume2, VolumeX, RotateCcw, Check, X, Flame } from "lucide-react";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
@@ -9,6 +9,7 @@ import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
+import { XP_CHARACTERS, CompanionCharacter } from "../../data/characterRoster";
 
 export interface WordLinkGameProps {
   pool: any[];
@@ -40,6 +41,9 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
   const [wrongPair, setWrongPair] = useState<{ left: string; right: string } | null>(null);
   const [mistakes, setMistakes] = useState(0);
   const [mistakeIds, setMistakeIds] = useState<Set<string>>(new Set());
+  const [combo, setCombo] = useState(0);
+  const [maxCombo, setMaxCombo] = useState(0);
+  const [characterIdx, setCharacterIdx] = useState(0);
   const [elapsed, setElapsed] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -77,6 +81,9 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     setWrongPair(null);
     setMistakes(0);
     setMistakeIds(new Set());
+    setCombo(0);
+    setMaxCombo(0);
+    setCharacterIdx((idx) => (idx + 1) % XP_CHARACTERS.length);
     setElapsed(0);
     setGameOver(false);
     setFinalScore(0);
@@ -137,6 +144,11 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     if (selectedLeft === pairId) {
       triggerHaptic("success");
       gameAudio.playCorrectDing();
+      setCombo((c) => {
+        const next = c + 1;
+        setMaxCombo((m) => Math.max(m, next));
+        return next;
+      });
       const nextLinked = [...linked, pairId];
       setLinked(nextLinked);
       setSelectedLeft(null);
@@ -144,6 +156,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     } else {
       triggerHaptic("warning");
       gameAudio.playWrongBuzzer();
+      setCombo(0);
       setMistakes((m) => m + 1);
       setMistakeIds((prev) => new Set(prev).add(selectedLeft));
       setWrongPair({ left: selectedLeft, right: pairId });
@@ -173,7 +186,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
         coinsEarned={rewards.coins}
         accuracy={accuracy}
         durationSeconds={elapsed}
-        maxCombo={pairCount}
+        maxCombo={maxCombo || pairCount}
         reviewItems={reviewItems}
         backLabel={backLabel}
         onBack={onBack}
@@ -185,35 +198,63 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
   const progressPct = items.length ? (linked.length / items.length) * 100 : 0;
   const byId = (id: string) => items.find((i) => i.pairId === id);
 
+  const activeCharacter = XP_CHARACTERS[characterIdx] || XP_CHARACTERS[0];
+
+  const speechText = useMemo(() => {
+    if (wrongPair) {
+      return "Chưa đúng rồi, thử lại nhé!";
+    }
+    if (combo >= 4) {
+      return `🔥 Chuỗi ${combo}! Đỉnh cao!`;
+    }
+    if (combo >= 2) {
+      return `⚡ Chuỗi x${combo} chuẩn xác!`;
+    }
+    if (linked.length === 0) {
+      return "Nối nhanh các cặp từ nhé!";
+    }
+    if (linked.length === items.length) {
+      return "Tuyệt đỉnh! Hoàn thành!";
+    }
+    const remaining = items.length - linked.length;
+    return `Còn ${remaining} cặp từ nữa!`;
+  }, [wrongPair, combo, linked.length, items.length]);
+
+  const formatTime = (secs: number) => {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+  };
+
   const tileClass = (state: "idle" | "selected" | "linked" | "wrong") => {
     const heightPad =
       pairCount === 8
         ? "min-h-[44px] sm:min-h-[48px] px-3 py-1.5 rounded-xl sm:rounded-2xl"
         : pairCount === 6
-        ? "min-h-[52px] sm:min-h-[58px] px-3.5 py-2 rounded-xl sm:rounded-2xl"
+        ? "min-h-[52px] sm:min-h-[58px] px-3.5 py-2 rounded-2xl"
         : "min-h-[62px] sm:min-h-[70px] px-4 py-3 rounded-2xl";
 
-    const base = `w-full ${heightPad} border-2 border-b-4 text-left flex items-center gap-2 transition-all select-none `;
+    const base = `group w-full ${heightPad} border-2 text-left flex items-center justify-between gap-2.5 transition-all select-none `;
     switch (state) {
       case "linked":
         return (
           base +
-          "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 opacity-80 cursor-default"
+          "border-b-2 border-emerald-300 dark:border-emerald-800 bg-emerald-50/70 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 opacity-60 cursor-default scale-[0.98]"
         );
       case "selected":
         return (
           base +
-          "bg-blue-50 dark:bg-blue-950/30 border-[#0059bb] text-[#0059bb] dark:text-sky-300 cursor-pointer -translate-y-0.5"
+          "border-b-[4px] sm:border-b-[5px] border-[#0059bb] bg-blue-50/90 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-300 -translate-y-1 shadow-md ring-2 ring-[#0059bb]/20 cursor-pointer"
         );
       case "wrong":
         return (
           base +
-          "bg-rose-50 dark:bg-rose-950/30 border-rose-400 text-rose-600 dark:text-rose-300 animate-pulse cursor-default"
+          "border-b-[4px] sm:border-b-[5px] border-rose-400 dark:border-rose-700 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 animate-pulse shadow-xs cursor-default"
         );
       default:
         return (
           base +
-          "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2"
+          "border-b-[4px] sm:border-b-[5px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-2xs hover:border-slate-300 hover:bg-slate-50/80 active:translate-y-[2px] active:border-b-2 cursor-pointer"
         );
     }
   };
@@ -226,7 +267,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
       : "gap-2.5 sm:gap-3.5";
 
   return (
-    <div className="select-none w-full flex-1 flex flex-col justify-between gap-3 sm:gap-4 h-full">
+    <div className="select-none w-full flex-1 flex flex-col justify-between gap-2.5 sm:gap-3.5 h-full">
       {/* 1. Top bar */}
       <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
         <button
@@ -239,9 +280,9 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
           <X className="w-6 h-6 stroke-[2.6]" />
         </button>
 
-        <div className="relative flex-1 h-3.5 sm:h-4 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+        <div className="relative flex-1 h-3.5 sm:h-4 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden shadow-inner">
           <div
-            className="h-full rounded-full bg-emerald-500 transition-all duration-300 relative"
+            className="h-full rounded-full bg-emerald-500 transition-all duration-300 relative shadow-xs"
             style={{ width: `${Math.max(progressPct, 4)}%` }}
           >
             <div className="absolute inset-x-2 top-[3px] h-[3px] rounded-full bg-white/40" />
@@ -249,6 +290,13 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
         </div>
 
         <div className="shrink-0 flex items-center gap-1.5 sm:gap-2">
+          {combo >= 2 && (
+            <div className="flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 font-black text-xs shadow-xs animate-bounce">
+              <Flame className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+              <span>x{combo}</span>
+            </div>
+          )}
+
           {/* Audio toggle button */}
           <button
             type="button"
@@ -265,12 +313,12 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
           </button>
 
           {/* Progress Counter & Timer */}
-          <div className="flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-extrabold font-display text-xs sm:text-sm tabular-nums shadow-2xs">
+          <div className="flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-extrabold font-display text-xs sm:text-sm tabular-nums shadow-2xs">
             <span className="text-[#0059bb] dark:text-sky-400">{linked.length}</span>
-            <span className="text-slate-400 dark:text-slate-500 font-medium">/</span>
+            <span className="text-slate-300 dark:text-slate-600 font-light">/</span>
             <span>{items.length}</span>
             <span className="text-slate-300 dark:text-slate-600 font-light mx-0.5">·</span>
-            <span className="text-slate-500 dark:text-slate-400 text-xs font-semibold">{elapsed}s</span>
+            <span className="text-slate-500 dark:text-slate-400 text-xs font-semibold">{formatTime(elapsed)}</span>
           </div>
 
           {/* Reset button */}
@@ -286,39 +334,60 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
         </div>
       </div>
 
-      {/* 2. Instruction + difficulty */}
-      <div className="flex items-center justify-between gap-3 flex-wrap shrink-0">
-        <div>
-          <h2 className="text-lg sm:text-xl md:text-2xl font-black font-display text-slate-800 dark:text-slate-100 tracking-tight">
-            Nối từ tiếng Anh với nghĩa tương ứng
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium mt-0.5">
-            Chạm một từ tiếng Anh, rồi chọn nghĩa tiếng Việt tương ứng
-          </p>
+      {/* 2. 3D Companion Mascot & Speech Bubble + Difficulty Selector */}
+      <div className="flex items-center justify-between gap-2.5 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+          {/* 3D Character Avatar (Free-standing) */}
+          <div className="relative w-11 h-14 sm:w-13 sm:h-16 shrink-0 flex items-end justify-center select-none pointer-events-none">
+            <div className="absolute bottom-0 w-9 sm:w-11 h-2 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[1px]" />
+            <img
+              src={activeCharacter.avatarUrl}
+              alt={activeCharacter.name}
+              className="relative z-10 w-full h-full object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.14)]"
+            />
+          </div>
+
+          {/* Speech Bubble */}
+          <div className="relative flex-1 min-w-0 bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-3 py-1.5 sm:px-4 sm:py-2 rounded-2xl shadow-xs">
+            <div className="absolute left-[-6px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200/90 dark:border-slate-700 -rotate-45" />
+            <p className="text-xs sm:text-sm font-black font-display text-slate-800 dark:text-slate-100 tracking-tight truncate">
+              {speechText}
+            </p>
+            <p className="text-[11px] text-slate-400 font-medium hidden sm:block truncate">
+              {activeCharacter.name} · {activeCharacter.role}
+            </p>
+          </div>
         </div>
-        <div className="flex items-center gap-1 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700">
+
+        {/* Segmented pair count */}
+        <div className="flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700 shrink-0">
           {([4, 6, 8] as PairCount[]).map((n) => (
             <button
               key={n}
               type="button"
               onClick={() => setPairCount(n)}
-              className={`px-3 py-1 rounded-xl text-xs font-black cursor-pointer transition-all ${
+              className={`px-2 sm:px-3 py-1 rounded-xl text-xs font-black cursor-pointer transition-all ${
                 pairCount === n
                   ? "bg-[#0059bb] text-white shadow-xs"
                   : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
-              {n} cặp
+              <span>{n}</span>
+              <span className="hidden sm:inline"> cặp</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* 3. Two columns */}
+      {/* 3. Two columns Match Grid */}
       <div className="flex-1 min-h-0 flex flex-col justify-center">
-        <div className="grid grid-cols-2 gap-x-3 sm:gap-x-6 items-start">
+        <div className="grid grid-cols-2 gap-x-2.5 sm:gap-x-4 items-start">
+          {/* Left Column: English */}
           <div className={`flex flex-col ${listGap}`}>
-            <span className="text-[11px] font-black uppercase tracking-wider text-slate-400">English</span>
+            <div className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-slate-400 px-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0059bb]" />
+              <span>Tiếng Anh</span>
+            </div>
             {leftOrder.map((id) => {
               const it = byId(id);
               if (!it) return null;
@@ -330,23 +399,40 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                 ? "selected"
                 : "idle";
               return (
-                <button key={id} type="button" onClick={() => pickLeft(id)} className={tileClass(state)}>
-                  <span className="flex-1 min-w-0">
-                    <span className="block text-sm sm:text-base font-black font-display truncate">{it.word}</span>
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => pickLeft(id)}
+                  className={tileClass(state)}
+                >
+                  <div className="flex-1 min-w-0 pr-1">
+                    <span className="block text-sm sm:text-base font-black font-display tracking-tight text-slate-800 dark:text-slate-100 group-hover:text-[#0059bb] truncate">
+                      {it.word}
+                    </span>
                     {it.phonetic && (
-                      <span className="block text-[11px] font-mono text-slate-400 truncate">{it.phonetic}</span>
+                      <span className="block text-[11px] font-mono text-slate-400 font-medium truncate">
+                        {it.phonetic}
+                      </span>
                     )}
-                  </span>
-                  {state === "linked" && (
-                    <Check className="w-4 h-4 shrink-0 stroke-[3] text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                  {state === "linked" ? (
+                    <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    </div>
+                  ) : (
+                    <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300 dark:text-slate-600 shrink-0 group-hover:text-[#0059bb] transition-colors" />
                   )}
                 </button>
               );
             })}
           </div>
 
+          {/* Right Column: Tiếng Việt */}
           <div className={`flex flex-col ${listGap}`}>
-            <span className="text-[11px] font-black uppercase tracking-wider text-slate-400">Tiếng Việt</span>
+            <div className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-slate-400 px-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span>Tiếng Việt</span>
+            </div>
             {rightOrder.map((id) => {
               const it = byId(id);
               if (!it) return null;
@@ -363,9 +449,13 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                   disabled={!selectedLeft && state === "idle"}
                   className={`${tileClass(state)} ${!selectedLeft && state === "idle" ? "opacity-90" : ""}`}
                 >
-                  <span className="flex-1 min-w-0 text-xs sm:text-sm font-bold line-clamp-2 leading-snug">{it.meaning}</span>
+                  <span className="flex-1 min-w-0 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 line-clamp-2 leading-snug">
+                    {it.meaning}
+                  </span>
                   {state === "linked" && (
-                    <Check className="w-4 h-4 shrink-0 stroke-[3] text-emerald-600 dark:text-emerald-400" />
+                    <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    </div>
                   )}
                 </button>
               );
@@ -375,19 +465,25 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
       </div>
 
       {/* 4. Bottom footer */}
-      <div className="shrink-0 flex items-center justify-between pt-2 pb-1 text-xs font-medium text-slate-400 border-t border-slate-100 dark:border-slate-800">
-        <span className="flex items-center gap-1.5">
+      <div className="shrink-0 flex items-center justify-between pt-2 pb-1 text-xs font-semibold text-slate-400 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
           <span>Đã ghép đúng:</span>
           <span className="font-black text-emerald-600 dark:text-emerald-400 tabular-nums">
             {linked.length} / {items.length} cặp
           </span>
-        </span>
-        <span className="flex items-center gap-1.5 pr-14 sm:pr-0">
-          <span>Lần nối sai:</span>
-          <span className={`font-black tabular-nums ${mistakes > 0 ? "text-rose-500" : "text-slate-500"}`}>
+        </div>
+
+        <div className="flex items-center gap-1.5 pr-14 sm:pr-0">
+          <span>Nối sai:</span>
+          <span className={`font-black tabular-nums px-2 py-0.5 rounded-md ${
+            mistakes > 0
+              ? "bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-200/80 dark:border-rose-800/60"
+              : "text-slate-400"
+          }`}>
             {mistakes}
           </span>
-        </span>
+        </div>
       </div>
     </div>
   );
