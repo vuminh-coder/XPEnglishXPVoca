@@ -34,10 +34,10 @@ export function PracticeSubModeBar({
   onSubModeChange,
 }: PracticeSubModeBarProps) {
   const inPlaceModes = [
-    { id: "quiz" as SubMode, labelMobile: "Quiz", labelDesktop: "Trắc nghiệm", icon: Brain },
-    { id: "flashcard" as SubMode, labelMobile: "Thẻ", labelDesktop: "Flashcard", icon: Layers },
-    { id: "writing" as SubMode, labelMobile: "Viết", labelDesktop: "Gõ từ", icon: PenLine },
-    { id: "speaking" as SubMode, labelMobile: "Nói", labelDesktop: "Phát âm AI", icon: SpeakingIcon },
+    { id: "quiz" as SubMode, label: "Trắc nghiệm", icon: Brain },
+    { id: "flashcard" as SubMode, label: "Flashcard", icon: Layers },
+    { id: "writing" as SubMode, label: "Gõ từ", icon: PenLine },
+    { id: "speaking" as SubMode, label: "Phát âm", icon: SpeakingIcon },
   ];
 
   return (
@@ -52,25 +52,24 @@ export function PracticeSubModeBar({
               key={m.id}
               type="button"
               onClick={() => onSubModeChange(m.id)}
-              className="relative py-1 px-2.5 sm:px-3.5 rounded-xl text-xs font-bold cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 active:scale-95 transition-all select-none"
+              className="relative py-1.5 px-2.5 sm:px-3.5 rounded-xl text-xs font-bold cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 active:scale-95 transition-all select-none"
             >
               {isActive && (
                 <motion.div
                   layoutId="practiceSubModePill"
                   transition={{ type: "spring", stiffness: 450, damping: 30 }}
-                  className="absolute inset-0 bg-white dark:bg-slate-900 border-2 border-b-[3px] border-[#0059bb]/30 dark:border-sky-500/30 rounded-xl shadow-xs z-0"
+                  className="absolute inset-0 bg-white dark:bg-slate-900 border-2 border-b-[3px] border-[#0059bb] dark:border-sky-500 rounded-xl shadow-xs z-0"
                 />
               )}
               <span
                 className={`relative z-10 flex items-center justify-center gap-1.5 transition-colors duration-150 ${
                   isActive
-                    ? "text-[#0059bb] dark:text-sky-400 font-extrabold"
+                    ? "text-[#0059bb] dark:text-sky-400 font-black"
                     : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
                 }`}
               >
                 <Icon className="w-3.5 h-3.5 shrink-0" />
-                <span className="sm:hidden">{m.labelMobile}</span>
-                <span className="hidden sm:inline">{m.labelDesktop}</span>
+                <span>{m.label}</span>
               </span>
             </button>
           );

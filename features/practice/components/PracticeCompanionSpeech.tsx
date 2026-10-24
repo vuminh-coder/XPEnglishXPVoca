@@ -113,9 +113,9 @@ export function PracticeCompanionSpeech({
     <div className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 w-full select-none">
       {/* 1. 3D Character Avatar (Optimized proportions for mobile & desktop) */}
       <div className="shrink-0 flex flex-col items-center">
-        <div className="relative w-15 h-20 sm:w-24 sm:h-32 lg:w-26 lg:h-34 flex items-end justify-center pointer-events-none">
+        <div className="relative w-12 h-16 sm:w-20 sm:h-28 lg:w-24 lg:h-32 flex items-end justify-center pointer-events-none">
           {/* Soft floor shadow */}
-          <div className="absolute bottom-0 w-12 sm:w-18 lg:w-20 h-2 sm:h-2.5 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
+          <div className="absolute bottom-0 w-10 sm:w-16 lg:w-18 h-2 sm:h-2.5 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
           <img
             src={activeCharacter.avatarUrl}
             alt={activeCharacter.name}
@@ -133,30 +133,34 @@ export function PracticeCompanionSpeech({
         {/* Triangular tail pointing left to avatar */}
         <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
 
-        {/* Direct Audio Controls: Normal Loa (phím A) & Slow Rùa (phím S) */}
-        <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
-          <button
-            type="button"
-            onClick={() => speak(0.9)}
-            title={`Nghe giọng ${activeCharacter.name} - Tốc độ chuẩn (Phím A)`}
-            aria-label="Nghe phát âm chuẩn"
-            className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
-          >
-            <Volume2 className="w-5.5 h-5.5 sm:w-7 sm:h-7 fill-sky-500/20 stroke-[2.2]" />
-          </button>
-          <button
-            type="button"
-            onClick={() => speak(0.65)}
-            title="Nghe phát âm chậm rãi (Phím S)"
-            aria-label="Nghe phát âm chậm rãi"
-            className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
-          >
-            <Turtle className="w-5.5 h-5.5 sm:w-7 sm:h-7 fill-sky-500/20 stroke-[2.2]" />
-          </button>
-        </div>
+        {/* Direct Audio Controls: Normal Loa (phím A) & Slow Rùa (phím S) - Hide in flashcard mode to avoid duplicate controls with the card */}
+        {subMode !== "flashcard" && (
+          <>
+            <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
+              <button
+                type="button"
+                onClick={() => speak(0.9)}
+                title={`Nghe giọng ${activeCharacter.name} - Tốc độ chuẩn (Phím A)`}
+                aria-label="Nghe phát âm chuẩn"
+                className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
+              >
+                <Volume2 className="w-5.5 h-5.5 sm:w-7 sm:h-7 fill-sky-500/20 stroke-[2.2]" />
+              </button>
+              <button
+                type="button"
+                onClick={() => speak(0.65)}
+                title="Nghe phát âm chậm rãi (Phím S)"
+                aria-label="Nghe phát âm chậm rãi"
+                className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
+              >
+                <Turtle className="w-5.5 h-5.5 sm:w-7 sm:h-7 fill-sky-500/20 stroke-[2.2]" />
+              </button>
+            </div>
 
-        {/* Vertical divider */}
-        <div className="h-6 w-[1.5px] bg-slate-200 dark:bg-slate-700 shrink-0" />
+            {/* Vertical divider */}
+            <div className="h-6 w-[1.5px] bg-slate-200 dark:bg-slate-700 shrink-0" />
+          </>
+        )}
 
         {/* Speech text & target word */}
         <div className="min-w-0 flex-1">

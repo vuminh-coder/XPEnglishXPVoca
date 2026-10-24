@@ -16,6 +16,26 @@ interface PracticeFlashcardArenaProps {
   onSkip?: () => void;
 }
 
+const formatPos = (pos?: string) => {
+  if (!pos) return "";
+  const map: Record<string, string> = {
+    interjection: "Thán từ",
+    interj: "Thán từ",
+    noun: "Danh từ",
+    verb: "Động từ",
+    adjective: "Tính từ",
+    adj: "Tính từ",
+    adverb: "Phó từ",
+    adv: "Phó từ",
+    preposition: "Giới từ",
+    prep: "Giới từ",
+    conjunction: "Liên từ",
+    conj: "Liên từ",
+    pronoun: "Đại từ",
+  };
+  return map[pos.toLowerCase()] || pos;
+};
+
 export function PracticeFlashcardArena({
   currentWord,
   fIsFlipped,
@@ -68,14 +88,14 @@ export function PracticeFlashcardArena({
         className="flex-1 w-full flex items-center justify-center my-auto min-h-0 [perspective:1000px] cursor-pointer group"
       >
         <div
-          className={`w-full min-h-[230px] sm:min-h-[260px] p-5 sm:p-7 rounded-3xl border-2 border-b-[5px] transition-all duration-500 [transform-style:preserve-3d] relative flex flex-col justify-between shadow-[0_12px_32px_rgba(0,0,0,0.05)] dark:shadow-[0_16px_36px_rgba(0,0,0,0.35)] ${
+          className={`w-full h-[250px] sm:h-[270px] rounded-3xl border-2 border-b-[5px] transition-all duration-500 [transform-style:preserve-3d] relative shadow-[0_12px_32px_rgba(0,0,0,0.05)] dark:shadow-[0_16px_36px_rgba(0,0,0,0.35)] ${
             fIsFlipped
               ? "[transform:rotateY(180deg)] bg-white dark:bg-slate-900 border-[#0059bb]/40 dark:border-blue-700/50"
               : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 hover:border-blue-400/60 dark:hover:border-blue-600/60"
           }`}
         >
           {/* FRONT SIDE (Word + IPA + Audio + Metadata) */}
-          <div className="w-full h-full flex flex-col justify-between [backface-visibility:hidden]">
+          <div className="absolute inset-0 w-full h-full p-5 sm:p-7 flex flex-col justify-between [backface-visibility:hidden] rounded-3xl">
             {/* Top Ribbon */}
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 min-w-0">
@@ -90,8 +110,8 @@ export function PracticeFlashcardArena({
                   </span>
                 )}
                 {currentWord.type && (
-                  <span className="text-xs font-mono text-slate-400 dark:text-slate-500 hidden sm:inline">
-                    • {currentWord.type}
+                  <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                    • {formatPos(currentWord.type)}
                   </span>
                 )}
               </div>
@@ -121,13 +141,13 @@ export function PracticeFlashcardArena({
             </div>
 
             {/* Word Centerpiece */}
-            <div className="flex flex-col items-center justify-center space-y-2 py-3 text-center">
+            <div className="flex flex-col items-center justify-center space-y-2 py-1 text-center">
               <h2 className="text-4xl sm:text-5xl font-black font-display text-slate-900 dark:text-white tracking-tight">
                 {currentWord.word}
               </h2>
 
               {currentWord.ipa && (
-                <p className="text-sm sm:text-base font-mono font-medium text-slate-400 dark:text-slate-500">
+                <p className="text-sm sm:text-base font-mono font-bold text-slate-600 dark:text-slate-300">
                   {currentWord.ipa}
                 </p>
               )}
@@ -191,7 +211,7 @@ export function PracticeFlashcardArena({
                 {currentWord.meaning}
               </h3>
 
-              <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-slate-400 dark:text-slate-500 font-mono">
+              <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-300 font-mono">
                 <span>{currentWord.word}</span>
                 {currentWord.ipa && (
                   <>

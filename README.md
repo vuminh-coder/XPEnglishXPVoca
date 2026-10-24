@@ -53,14 +53,20 @@ Trang Luyện Tập Từ Vựng được thiết kế lại toàn diện theo ch
 - **Bố cục Single-Screen Viewport Fold (100dvh):**
   - Căn giữa tối ưu ergonomics (`max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6`), loại bỏ hoàn toàn hiện tượng cuộn dọc trên cả Desktop lẫn Mobile.
   - Loại bỏ thanh `AppTopHeader` cồng kềnh, thay bằng thanh Studio Top Bar tinh gọn: Nút Thoát `[X]` trực tiếp về `/roadmap`, thanh tiến độ xanh Emerald có dải sáng specular highlight, nút bật/tắt âm thanh, nút mở nhanh Sổ tay từ vựng, huy hiệu đếm tiến trình `Câu X/Y` và nút luyện lại ván mới.
+  - Chuẩn hóa kích thước vùng chạm phím điều hướng trên cùng (Thoát, Âm thanh, Sổ tay, Luyện lại) đạt chuẩn tối thiểu 44×44px (`min-w-[44px] min-h-[44px] rounded-2xl`).
+  - Hộp thoại Modal xác nhận khi bấm Luyện lại ("Luyện tập lại từ đầu?"), chống mất dữ liệu phiên học 25 từ do chạm nhầm.
+  - Tự động ẩn Floating AI Chatbot trên toàn bộ các route Studio (`/study/practice`, `/study/word-link`, `/study/sentence-builder`) để giải phóng trọn vẹn khu vực tương tác thumb zone dưới đáy màn hình.
   - Ẩn thanh BottomNav trên mobile để dành trọn vẹn 100% không gian hiển thị cho bài luyện.
 - **Hệ thống Linh vật 3D & Bong bóng thoại Duolingo (`PracticeCompanionSpeech`):**
-  - Nhân vật 3D độc quyền (`XP_CHARACTERS`) đứng tự do với bóng đổ sàn tự nhiên.
-  - Bong bóng thoại tương tác tích hợp bộ đôi nút phát âm trực tiếp: Loa (`Volume2` - phím A) tốc độ chuẩn và Rùa (`Turtle` - phím S) phát âm chậm rãi.
+  - Nhân vật 3D độc quyền (`XP_CHARACTERS`) đứng tự do với kích thước tinh gọn trên mobile (`w-12 h-16`) và bóng đổ sàn tự nhiên.
+  - Bong bóng thoại tương tác tích hợp bộ đôi nút phát âm trực tiếp: Loa (`Volume2` - phím A) tốc độ chuẩn và Rùa (`Turtle` - phím S) phát âm chậm rãi; tự động ẩn bộ nút loa trong chế độ Flashcard nhằm tránh trùng lặp điều khiển với thẻ chính.
   - Lời thoại ngữ cảnh có gạch chân nét đứt (`border-dashed`) chỉ dẫn người học trực quan.
+- **Thanh Chuyển Tab 4 Chế Độ Đồng Nhất (`PracticeSubModeBar`):**
+  - Đồng bộ tên tab trực quan giữa Mobile và Desktop: `Trắc nghiệm`, `Flashcard`, `Gõ từ`, `Phát âm` (loại bỏ nhãn viết tắt gây nhầm lẫn).
+  - Điểm nhấn Tab kích hoạt chuẩn sắc xanh thương hiệu `#0059bb`, viền gờ nổi khối 3D xúc giác.
 - **4 Chế độ Luyện tập Nội tại Xúc giác 3D (Tactile 3D Controls):**
   - **Trắc nghiệm (Quiz):** 4 thẻ lựa chọn nổi khối 3D (`border-b-[4px]` hoặc `border-b-[5px]`, hiệu ứng lún phím 2px khi bấm), hiển thị nhãn phím tắt [A], [B], [C], [D] tương ứng với phím 1–4.
-  - **Thẻ ghi nhớ (Flashcard Tinh Gọn Zen):** Thiết kế thẻ học tối giản, tập trung sâu và loại bỏ hoàn toàn các yếu tố rườm rà gây rối mắt; mặt trước làm nổi bật từ vựng tiếng Anh sắc nét, phiên âm IPA, huy hiệu cấp độ tinh gọn và nút phát âm tròn thanh lịch; mặt sau hiển thị trực diện nghĩa tiếng Việt màu xanh hoàng gia cùng hộp ngữ cảnh câu ví dụ thực tế kèm audio riêng; thanh điều khiển tinh gọn gồm nút 3D căn giữa "LẬT THẺ (SPACE)" khi chưa lật, và chuyển sang 3 nút đánh giá Spaced Repetition SRS xúc giác thoáng đãng ("Quên rồi" - Rose phím 1, "Đã nhớ" - Blue phím 2, "Thuộc lòng" - Emerald phím 3) khi đã lật thẻ mà không gây che khuất nội dung.
+  - **Thẻ ghi nhớ (Flashcard Tinh Gọn Zen):** Thiết kế thẻ học tối giản, tập trung sâu và loại bỏ hoàn toàn các yếu tố rườm rà gây rối mắt; chiều cao cố định chuẩn xác (`h-[250px] sm:h-[270px]`) đối xứng hoàn hảo giữa mặt trước và mặt sau, triệt tiêu 100% hiện tượng co giãn hay rung giật gián đoạn khi lật thẻ; mặt trước làm nổi bật từ vựng tiếng Anh sắc nét, phiên âm IPA tương phản cao (`text-slate-600 dark:text-slate-300 font-bold`), huy hiệu cấp độ tự động phân cấp chuẩn xác (A1 cho từ vỡ lòng như hello/hi, A2, B1...), nhãn từ loại Việt hóa chuẩn sư phạm (`Thán từ`, `Danh từ`, `Động từ`, `Tính từ`, `Phó từ`...) và nút phát âm tròn thanh lịch; cơ chế lật thẻ chỉ tự động phát âm khi lật từ mặt trước sang mặt sau và khi không tắt tiếng; mặt sau hiển thị trực diện nghĩa tiếng Việt màu xanh hoàng gia cùng hộp ngữ cảnh câu ví dụ thực tế kèm audio riêng; thanh điều khiển tinh gọn gồm nút "Bỏ qua" và nút 3D căn giữa "LẬT THẺ (SPACE)" khi chưa lật, và chuyển sang 3 nút đánh giá Spaced Repetition SRS xúc giác thoáng đãng ("Cần ôn lại" - Rose phím 1, "Đã nhớ" - Blue phím 2, "Thuộc lòng" - Emerald phím 3) khi đã lật thẻ mà không gây che khuất nội dung.
   - **Gõ từ (Writing):** Ô nhập liệu chính tả font mono rõ nét, hỗ trợ phím Enter để kiểm tra nhanh và nút bật/tắt gợi ý ký tự thông minh.
   - **Phát âm AI (Speaking):** Vòng tròn AI Voice Recording với sóng âm pulsing ring và phân tích độ chính xác phát âm bản xứ.
   - **Lối tắt Studio Chuyên Sâu:** Tích hợp nút chuyển tiếp mượt mà sang `[Nối từ ↗]` (`/study/word-link`) và `[Ghép câu ↗]` (`/study/sentence-builder`).

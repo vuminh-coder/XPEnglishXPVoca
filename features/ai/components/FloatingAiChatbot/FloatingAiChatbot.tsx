@@ -134,8 +134,14 @@ export default function FloatingAiChatbot() {
   const isExamMode =
     pathname?.startsWith("/study/exam-prep") || pathname?.startsWith("/study/exams");
 
+  const isDedicatedStudioRoute =
+    pathname?.startsWith("/study/practice") ||
+    pathname?.startsWith("/study/word-link") ||
+    pathname?.startsWith("/study/sentence-builder");
+
   const isStudioPractice =
-    Boolean(
+    isDedicatedStudioRoute ||
+    (Boolean(
       pathname?.startsWith("/study/dictation") ||
       pathname?.startsWith("/study/listening") ||
       pathname?.startsWith("/study/shadowing") ||
@@ -144,7 +150,7 @@ export default function FloatingAiChatbot() {
     typeof window !== "undefined" &&
     (window.location.search.includes("id=") ||
       window.location.search.includes("lessonId=") ||
-      pathname?.includes("/comprehension"));
+      pathname?.includes("/comprehension")));
 
   const isAiWorkspace =
     pathname?.startsWith("/ai/tutor") || pathname?.startsWith("/ai/conversation");
