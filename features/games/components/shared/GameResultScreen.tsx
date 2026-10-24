@@ -156,47 +156,47 @@ export function GameResultScreen({
           </p>
         )}
 
-        {/* 2. Three Dynamic Stat Pills (XP, Accuracy, Combo/Time) */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-3 my-3 sm:my-4 w-full max-w-md mx-auto">
+        {/* 2. Three Dynamic Stat Pills (Sleek, Compact & Balanced) */}
+        <div className="grid grid-cols-3 gap-2 my-2.5 sm:my-3 w-full max-w-xs sm:max-w-[340px] mx-auto">
           {/* XP Pill */}
-          <div className="py-2 px-2 sm:py-2.5 sm:px-3 rounded-2xl bg-amber-50/90 dark:bg-amber-950/40 border-2 border-amber-200/90 dark:border-amber-800/60 text-center flex flex-col items-center justify-center gap-0.5 shadow-2xs">
+          <div className="py-1.5 px-2 rounded-xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200/90 dark:border-amber-800/60 text-center flex flex-col items-center justify-center gap-0.5 shadow-2xs">
             <div className="flex items-center gap-1 text-amber-500">
-              <Zap className="w-3.5 h-3.5 fill-amber-500" />
-              <span className="text-[11px] font-black uppercase tracking-wider">
+              <Zap className="w-3 h-3 fill-amber-500" />
+              <span className="text-[10px] font-black uppercase tracking-wider">
                 XP Thưởng
               </span>
             </div>
-            <div className="text-lg sm:text-xl md:text-2xl font-black font-display text-amber-600 dark:text-amber-400">
+            <div className="text-base sm:text-lg font-black font-display text-amber-600 dark:text-amber-400">
               +{xpEarned || 15}
             </div>
           </div>
 
           {/* Accuracy Pill */}
-          <div className="py-2 px-2 sm:py-2.5 sm:px-3 rounded-2xl bg-emerald-50/90 dark:bg-emerald-950/40 border-2 border-emerald-200/90 dark:border-emerald-800/60 text-center flex flex-col items-center justify-center gap-0.5 shadow-2xs">
+          <div className="py-1.5 px-2 rounded-xl bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-200/90 dark:border-emerald-800/60 text-center flex flex-col items-center justify-center gap-0.5 shadow-2xs">
             <div className="flex items-center gap-1 text-emerald-500">
-              <Target className="w-3.5 h-3.5 stroke-[2.5]" />
-              <span className="text-[11px] font-black uppercase tracking-wider">
+              <Target className="w-3 h-3 stroke-[2.5]" />
+              <span className="text-[10px] font-black uppercase tracking-wider">
                 Chính xác
               </span>
             </div>
-            <div className="text-lg sm:text-xl md:text-2xl font-black font-display text-emerald-600 dark:text-emerald-400">
+            <div className="text-base sm:text-lg font-black font-display text-emerald-600 dark:text-emerald-400">
               {computedAccuracy}%
             </div>
           </div>
 
           {/* Combo / Speed Pill */}
-          <div className="py-2 px-2 sm:py-2.5 sm:px-3 rounded-2xl bg-blue-50/90 dark:bg-blue-950/40 border-2 border-blue-200/90 dark:border-blue-800/60 text-center flex flex-col items-center justify-center gap-0.5 shadow-2xs">
+          <div className="py-1.5 px-2 rounded-xl bg-blue-50/90 dark:bg-blue-950/40 border border-blue-200/90 dark:border-blue-800/60 text-center flex flex-col items-center justify-center gap-0.5 shadow-2xs">
             <div className="flex items-center gap-1 text-[#0059bb] dark:text-sky-400">
               {maxCombo && maxCombo >= 3 ? (
-                <Flame className="w-3.5 h-3.5 fill-[#0059bb] dark:fill-sky-400" />
+                <Flame className="w-3 h-3 fill-[#0059bb] dark:fill-sky-400" />
               ) : (
-                <Timer className="w-3.5 h-3.5" />
+                <Timer className="w-3 h-3" />
               )}
-              <span className="text-[11px] font-black uppercase tracking-wider">
-                {maxCombo && maxCombo >= 3 ? "Chuỗi Combo" : "Thời gian"}
+              <span className="text-[10px] font-black uppercase tracking-wider">
+                {maxCombo && maxCombo >= 3 ? "Chuỗi" : "Thời gian"}
               </span>
             </div>
-            <div className="text-lg sm:text-xl md:text-2xl font-black font-display text-[#0059bb] dark:text-sky-400">
+            <div className="text-base sm:text-lg font-black font-display text-[#0059bb] dark:text-sky-400">
               {maxCombo && maxCombo >= 3
                 ? `x${maxCombo}`
                 : durationSeconds
@@ -208,23 +208,23 @@ export function GameResultScreen({
 
         {/* 3. Review Mistakes Block (Only shown if mistakes occurred) */}
         {wrongItems.length > 0 && (
-          <div className="w-full max-w-md mx-auto mb-2 p-3 rounded-2xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200/90 dark:border-rose-900/60 text-left">
-            <div className="text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <XCircle className="w-3.5 h-3.5 shrink-0" />
+          <div className="w-full max-w-xs sm:max-w-[340px] mx-auto mb-2 p-2.5 rounded-xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200/90 dark:border-rose-900/60 text-left">
+            <div className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <XCircle className="w-3 h-3 shrink-0" />
               <span>Xem lại {wrongItems.length} từ bạn đã nối nhầm:</span>
             </div>
-            <div className="space-y-1.5 max-h-24 overflow-y-auto pr-1">
+            <div className="space-y-1 max-h-24 overflow-y-auto pr-1">
               {wrongItems.map((item, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between text-xs py-1 px-2.5 rounded-xl bg-white dark:bg-slate-900 border border-rose-100 dark:border-rose-950"
+                  className="flex items-center justify-between text-xs py-1 px-2 rounded-lg bg-white dark:bg-slate-900 border border-rose-100 dark:border-rose-950"
                 >
-                  <div className="flex items-center gap-2 truncate">
+                  <div className="flex items-center gap-1.5 truncate">
                     <span className="font-black text-slate-800 dark:text-slate-100">
                       {item.word}
                     </span>
                     <span className="text-slate-400 font-mono">—</span>
-                    <span className="text-slate-600 dark:text-slate-300 truncate">
+                    <span className="text-slate-600 dark:text-slate-300 truncate text-[11px]">
                       {item.definitionVn}
                     </span>
                   </div>
@@ -232,9 +232,9 @@ export function GameResultScreen({
                     type="button"
                     onClick={() => handleSpeak(item.word)}
                     title="Nghe phát âm"
-                    className="p-1 rounded-lg text-slate-400 hover:text-[#0059bb] active:scale-90 transition-transform cursor-pointer shrink-0 ml-1.5"
+                    className="p-1 rounded text-slate-400 hover:text-[#0059bb] active:scale-90 transition-transform cursor-pointer shrink-0 ml-1"
                   >
-                    <Volume2 className="w-3.5 h-3.5" />
+                    <Volume2 className="w-3 h-3" />
                   </button>
                 </div>
               ))}
@@ -243,27 +243,27 @@ export function GameResultScreen({
         )}
       </div>
 
-      {/* 4. Action Buttons (Harmonious Dual Bottom Row - Thumb Zone) */}
-      <div className="w-full max-w-md mx-auto shrink-0 flex items-center gap-2.5 pt-2">
-        {/* Replay Button */}
+      {/* 4. Action Buttons (Compact, Sleek Dual Row - Thumb Zone) */}
+      <div className="w-full max-w-xs sm:max-w-[340px] mx-auto shrink-0 flex items-center gap-2 pt-1.5">
+        {/* Replay Button (Refined 44px square) */}
         <button
           type="button"
           onClick={onRestart}
           title="Chơi lại ván mới (Phím R)"
           aria-label="Chơi lại ván mới"
-          className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-200 transition-all cursor-pointer flex items-center justify-center active:scale-95 shadow-2xs border-b-[4px] border-slate-300 dark:border-slate-900 active:border-b-2 active:translate-y-[2px]"
+          className="w-11 h-11 shrink-0 rounded-xl border border-b-[3px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-700 dark:text-slate-300 transition-all cursor-pointer flex items-center justify-center active:scale-95 shadow-2xs border-b-slate-300 dark:border-b-slate-900 active:border-b active:translate-y-[2px]"
         >
-          <RotateCcw className="w-5 h-5 stroke-[2.4]" />
+          <RotateCcw className="w-4 h-4 stroke-[2.2]" />
         </button>
 
-        {/* Primary CTA */}
+        {/* Primary CTA (Sleek 44px height) */}
         <button
           type="button"
           onClick={onBack}
-          className="flex-1 py-3.5 sm:py-4 px-6 rounded-2xl bg-[#0059bb] hover:bg-[#004799] text-white font-black text-sm sm:text-base tracking-wide shadow-lg shadow-blue-500/25 border-b-[4px] border-[#004085] active:border-b-0 active:translate-y-1 transition-all cursor-pointer flex items-center justify-center gap-2"
+          className="flex-1 h-11 px-4 sm:px-5 rounded-xl bg-[#0059bb] hover:bg-[#004799] text-white font-black text-xs sm:text-sm tracking-wide shadow-md shadow-blue-500/20 border-b-[3px] border-[#004085] active:border-b-0 active:translate-y-1 transition-all cursor-pointer flex items-center justify-center gap-1.5"
         >
           <span>{backLabel ? backLabel.toUpperCase() : "TIẾP TỤC LỘ TRÌNH"}</span>
-          <ArrowRight className="w-5 h-5 stroke-[2.5]" />
+          <ArrowRight className="w-4 h-4 stroke-[2.5]" />
         </button>
       </div>
     </div>
