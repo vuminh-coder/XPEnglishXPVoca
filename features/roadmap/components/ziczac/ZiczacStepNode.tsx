@@ -101,6 +101,22 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
   const isCurrent = state === "CURRENT";
   const isLocked = state === "LOCKED";
 
+  // Dynamic practice URL based on session progress for multi-session steps (e.g. part 1 vs part 2)
+  const getPracticeUrl = () => {
+    let url = step.practicePath;
+    if (stepProgress && stepProgress.completedSessions > 0 && !isCompleted) {
+      const nextPart = Math.min(stepProgress.completedSessions + 1, step.totalSessions || 2);
+      if (url.includes("part=")) {
+        url = url.replace(/part=\d+/, `part=${nextPart}`);
+      } else if (url.includes("/study/word-link") || url.includes("/study/sentence-builder")) {
+        const separator = url.includes("?") ? "&" : "?";
+        url = `${url}${separator}part=${nextPart}&totalParts=${step.totalSessions || 2}`;
+      }
+    }
+    return url;
+  };
+  const targetPracticeUrl = getPracticeUrl();
+
   const handleNodeClick = () => {
     if (onSelect) onSelect(step);
     if (onTogglePopover) onTogglePopover(step);
@@ -117,7 +133,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
       {/* 1. DUOLINGO FLOATING BUBBLE OVER ACTIVE NODE (Khi chưa hover) */}
       {isCurrent && !showPopover && (
         <Link
-          href={step.practicePath}
+          href={targetPracticeUrl}
           onClick={handleNodeClick}
           className="absolute -top-10 z-20 flex flex-col items-center cursor-pointer animate-bounce whitespace-nowrap"
         >
@@ -180,7 +196,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
         )}
 
         <Link
-          href={step.practicePath}
+          href={targetPracticeUrl}
           onClick={handleNodeClick}
           aria-label={`Chặng ${step.stepNumber}: ${step.title}`}
           className={`relative w-18 h-18 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-150 cursor-pointer focus:outline-hidden ${
@@ -202,7 +218,7 @@ export const ZiczacStepNode: React.FC<ZiczacStepNodeProps> = ({
 
         {/* 4. Tên bài bên hông nút (Bên width ngắn hơn: Phải hoặc Trái, thuần chữ không làm khối) */}
         <Link
-          href={step.practicePath}
+          href={targetPracticeUrl}
           onClick={handleNodeClick}
           className={`absolute top-1/2 -translate-y-1/2 z-10 cursor-pointer w-[88px] sm:w-[170px] select-none group/title ${
             isLeft

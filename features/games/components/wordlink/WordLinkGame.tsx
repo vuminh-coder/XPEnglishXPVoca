@@ -15,6 +15,11 @@ export interface WordLinkGameProps {
   pool: any[];
   onBack: () => void;
   backLabel?: string;
+  themeId?: string;
+  unitNumber?: number;
+  currentPart?: number;
+  totalParts?: number;
+  onNextPart?: () => void;
 }
 
 const PAIR_COUNT = 5;
@@ -29,7 +34,16 @@ interface LinkItem {
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => 0.5 - Math.random());
 
-export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
+export function WordLinkGame({
+  pool,
+  onBack,
+  backLabel,
+  themeId,
+  unitNumber,
+  currentPart,
+  totalParts,
+  onNextPart,
+}: WordLinkGameProps) {
   const { addToast } = useNotificationStore();
 
   const pairCount = PAIR_COUNT;
@@ -319,8 +333,16 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
       <GameResultScreen
         gameType="wordlink"
         character={activeCharacter}
-        title="Nối Từ Xuất Sắc!"
-        subtitle={`Bạn đã nối đúng ${pairCount} cặp từ Anh - Việt với ${mistakes} lần nối sai trong ${durationSeconds} giây.`}
+        title={
+          totalParts && totalParts > 1
+            ? `Nối Từ: Hoàn Thành Phần ${currentPart || 1}!`
+            : "Nối Từ Xuất Sắc!"
+        }
+        subtitle={
+          currentPart && totalParts && currentPart < totalParts
+            ? `Bạn đã nối chuẩn xác ${pairCount} cặp từ của Phần ${currentPart}. Hãy chuyển sang thử thách Phần ${currentPart + 1} nhé!`
+            : `Bạn đã nối đúng ${pairCount} cặp từ Anh - Việt với ${mistakes} lần nối sai trong ${durationSeconds} giây.`
+        }
         score={finalScore}
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
@@ -328,8 +350,16 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
         durationSeconds={durationSeconds}
         maxCombo={maxCombo || pairCount}
         reviewItems={reviewItems}
-        backLabel={backLabel}
-        onBack={onBack}
+        backLabel={
+          currentPart && totalParts && currentPart < totalParts && onNextPart
+            ? `Sang Phần ${currentPart + 1}`
+            : backLabel
+        }
+        onBack={
+          currentPart && totalParts && currentPart < totalParts && onNextPart
+            ? onNextPart
+            : onBack
+        }
         onRestart={initGame}
       />
     );
@@ -373,6 +403,13 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
               <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600 dark:text-slate-300" />
             )}
           </button>
+
+          {/* Part Badge if totalParts > 1 */}
+          {currentPart && totalParts && totalParts > 1 && (
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400 font-extrabold text-xs shadow-2xs shrink-0">
+              <span>Phần {currentPart}/{totalParts}</span>
+            </div>
+          )}
 
           {/* Progress Counter */}
           <div className="flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-extrabold font-display text-xs sm:text-sm tabular-nums shadow-2xs">

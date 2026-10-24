@@ -18,12 +18,18 @@ import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { getCharacterForRound, CompanionCharacter } from "../../data/characterRoster";
+import { synthesizeThemeSentences } from "../../utils/themeSentenceSynthesizer";
 
 export interface SentenceBuilderGameProps {
   pool: any[];
   onBack: () => void;
   backLabel?: string;
   fullWidth?: boolean;
+  themeId?: string;
+  unitNumber?: number;
+  currentPart?: number;
+  totalParts?: number;
+  onNextPart?: () => void;
 }
 
 interface WordToken {
@@ -69,6 +75,11 @@ export function SentenceBuilderGame({
   onBack,
   backLabel,
   fullWidth = false,
+  themeId,
+  unitNumber,
+  currentPart,
+  totalParts,
+  onNextPart,
 }: SentenceBuilderGameProps) {
   const { addToast } = useNotificationStore();
 
@@ -133,30 +144,15 @@ export function SentenceBuilderGame({
     [activeCharacter, currentIdx]
   );
 
-  // Generate sentences
+  // Generate sentences using Theme-Aware Synthesizer
   const generateSentences = useCallback(() => {
-    const extracted: { sentence: string; translationVn: string; word?: string }[] = [];
-
-    (pool || []).forEach((item) => {
-      if (item.examples && item.examples.length > 0) {
-        const example = item.examples[0];
-        const translation = item.exampleTranslations?.[0] || item.definitionVn;
-        // Clean and validate sentence
-        const words = example.trim().split(/\s+/);
-        if (words.length >= 4 && words.length <= 10) {
-          extracted.push({
-            sentence: example.trim(),
-            translationVn: translation,
-            word: item.word,
-          });
-        }
-      }
+    const candidates = synthesizeThemeSentences(pool, {
+      themeId,
+      unitNumber,
+      targetCount: TOTAL_ROUNDS,
     });
 
-    const candidates = extracted.length >= TOTAL_ROUNDS ? extracted : FALLBACK_SENTENCES;
-    const shuffled = [...candidates].sort(() => 0.5 - Math.random()).slice(0, TOTAL_ROUNDS);
-
-    const pkgs: SentenceScramblePackage[] = shuffled.map((item, idx) => {
+    const pkgs: SentenceScramblePackage[] = candidates.map((item, idx) => {
       // Tokenize by removing trailing punctuation for matching
       const rawTokens = item.sentence.replace(/[.?!,;:]/g, "").split(/\s+/);
       return {
@@ -176,7 +172,7 @@ export function SentenceBuilderGame({
     setReviewItems([]);
     setRewards({ xp: 0, coins: 0 });
     startTimeRef.current = Date.now();
-  }, [pool]);
+  }, [pool, themeId, unitNumber]);
 
   useEffect(() => {
     generateSentences();
@@ -391,8 +387,16 @@ export function SentenceBuilderGame({
 
     return (
       <GameResultScreen
-        title="Sentence Builder Hoàn Thành!"
-        subtitle={`Bạn đã sắp xếp chính xác ${correctCount}/${packages.length} câu tiếng Anh chuẩn cấu trúc và ngữ pháp.`}
+        title={
+          totalParts && totalParts > 1
+            ? `Ghép Câu: Hoàn Thành Phần ${currentPart || 1}!`
+            : "Sentence Builder Hoàn Thành!"
+        }
+        subtitle={
+          currentPart && totalParts && currentPart < totalParts
+            ? `Bạn đã hoàn tất Phần ${currentPart}. Hãy tiếp tục thử thách Phần ${currentPart + 1} nhé!`
+            : `Bạn đã sắp xếp chính xác ${correctCount}/${packages.length} câu tiếng Anh chuẩn cấu trúc và ngữ pháp.`
+        }
         score={score}
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
@@ -400,8 +404,16 @@ export function SentenceBuilderGame({
         durationSeconds={durationSeconds || 1}
         maxCombo={correctCount}
         reviewItems={reviewItems}
-        backLabel={backLabel}
-        onBack={onBack}
+        backLabel={
+          currentPart && totalParts && currentPart < totalParts && onNextPart
+            ? `Sang Phần ${currentPart + 1}`
+            : backLabel
+        }
+        onBack={
+          currentPart && totalParts && currentPart < totalParts && onNextPart
+            ? onNextPart
+            : onBack
+        }
         onRestart={generateSentences}
       />
     );
@@ -484,6 +496,13 @@ export function SentenceBuilderGame({
               <Sparkles className="w-3.5 h-3.5 fill-current" />
               <span>+{score} XP</span>
             </motion.div>
+          )}
+
+          {/* Part Badge if totalParts > 1 */}
+          {currentPart && totalParts && totalParts > 1 && (
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400 font-extrabold text-xs shadow-2xs shrink-0">
+              <span>Phần {currentPart}/{totalParts}</span>
+            </div>
           )}
 
           <div className="flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-extrabold font-display text-xs sm:text-sm tabular-nums shadow-2xs">

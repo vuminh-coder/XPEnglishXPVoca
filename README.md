@@ -30,11 +30,12 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
   - Trải dài qua 24 chủ đề từ vựng cốt lõi A1–C1 (Chào hỏi & Giao tiếp lịch sự, Gia đình, Nghề nghiệp, Công nghệ, Du lịch, Môi trường, Kinh doanh, Học thuật...).
   - Mỗi Unit gồm 6 chặng chuyên biệt với đường dẫn trực tiếp:
     1. Chặng 1: Từ vựng cốt lõi Flashcards Spaced Repetition (`/vocabulary/[themeId]`)
-    2. Chặng 2: Nối từ Anh - Việt hai cột phòng Studio riêng biệt (`/study/word-link?theme=...&unit=...`) — trang lật thẻ /study/match vẫn giữ làm mini-game
+    2. Chặng 2: Nối từ Anh - Việt hai cột phòng Studio riêng biệt (`/study/word-link?theme=...&unit=...&part=1&totalParts=2`) — trang lật thẻ /study/match vẫn giữ làm mini-game
        - Thiết kế Studio chuyên biệt: Loại bỏ hoàn toàn AppTopHeader và banner Unit thừa; tối ưu vừa vặn trọn màn hình (single-screen viewport fold 100dvh không cần cuộn dọc) trên cả Desktop lẫn Mobile; chuẩn hóa 5 cặp thẻ đối xứng (5 từ tiếng Anh bên trái, 5 nghĩa tiếng Việt bên phải); nhân vật đồng hành 3D phóng to nổi bật tương đồng trang Ghép câu (`w-20 h-26 sm:w-28 sm:h-36 lg:w-30 lg:h-38`) đi kèm bóng đổ sàn tự nhiên và nhãn tên nhân vật; bóng thoại Duolingo Sentence Builder chuẩn hóa tích hợp cụm icon phát âm trực tiếp (Loa `Volume2` tốc độ chuẩn - phím A, Rùa `Turtle` phát âm chậm rãi - phím S), vạch ngăn cách tinh gọn và văn bản gạch chân nét đứt (`border-dashed`); ẩn phiên âm IPA và phần chú thích trong ngoặc đơn giúp thẻ gọn gàng; gia tăng khoảng cách giữa hai cột; thanh điều khiển trên cùng tinh gọn tích hợp nút thoát `[X]` trực tiếp về Lộ trình, thanh tiến độ xanh ngọc bích, đồng hồ đếm thời gian, huy hiệu chuỗi Combo (`🔥 x...`), nút bật/tắt âm thanh và chơi lại ván mới.
     - Sidebar mục LUYỆN TẬP có lối tắt riêng: Nối từ (/study/word-link) và Ghép câu (/study/sentence-builder)
-    3. Chặng 3: Ghép từ thành câu Word Bank phòng Studio riêng biệt (`/study/sentence-builder?theme=...&unit=...`)
+    3. Chặng 3: Ghép từ thành câu Word Bank phòng Studio riêng biệt (`/study/sentence-builder?theme=...&unit=...&part=1&totalParts=2`)
        - Thiết kế Duolingo-native chuẩn hóa: Hệ thống 7 nhân vật đồng hành 3D độc quyền (Minh, Cô Linh, Nam, Mai, Thầy Robert, Bé An, Sam) xuất hiện luân phiên theo ngữ cảnh câu văn (Đời sống, IELTS, Công sở & Tech, Lối sống, Văn học, Trẻ thơ, Thể thao) kết hợp bộ giọng TTS đa ngữ điệu và cao độ (pitch/rate), bóng thoại hướng dẫn, khay dòng kẻ ngang (Ruled Lines), ô từ vựng khuyết vị trí chống giật layout, phím tắt máy tính (Enter kiểm tra/tiếp tục, Backspace gỡ từ, phím 1-9 chọn từ, A phát âm), thanh phản hồi dưới đáy (Bottom Sheet) phân biệt trạng thái Đúng/Sai; cùng bố cục thiết kế tinh chỉnh vừa vặn trọn màn hình (single-screen viewport fold, không cần cuộn dọc) và khoảng cách lề hai bên cân đối, thoáng đãng trên cả Desktop lẫn Mobile.
+       - Tích hợp Bộ tổng hợp câu thông minh theo chủ đề (`themeSentenceSynthesizer.ts`) với 3 tầng lọc và sinh câu tự nhiên chuẩn xác theo ngữ cảnh chủ đề; bộ tab chuyển phần nhanh `[Phần 1 (15 từ)] [Phần 2 (15 từ)]` chia nhỏ 30 từ mỗi chủ đề thành 2 phiên học liền mạch.
     4. Chặng 4: Nghe chép chính tả hội thoại (`/study/dictation?theme=...`)
     5. Chặng 5: Đọc hiểu mẩu truyện (`/study/reading?theme=...`) & Luyện nói Shadowing (`/study/shadowing?theme=...`)
     6. Chặng 6: Cột mốc thi thử tổng hợp Unit (`/study/practice?mode=checkpoint&unit=...`)
@@ -7025,6 +7026,19 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
       * Desktop: Bên trái tích hợp bộ tab chuyển đổi tiến độ `ProgressSuiteNavTabs` (`[🧭 Lộ trình] [📊 Thống kê] [🏆 Xếp hạng]`), trung tâm tích hợp thanh tìm kiếm thời gian thực (`searchProps`) hỗ trợ lọc tức thì 24 Unit chủ đề và 144 chặng học, bên phải là nút CTA chính `[▶ Học tiếp: Chặng X]` quy chuẩn đồng bộ.
       * Mobile: Loại bỏ tiêu đề cứng và nút phụ chật chội, hiển thị logo thương hiệu chính thống `XP English | XP Voca` ở trung tâm, kết hợp nút tìm kiếm `[🔍]` mở overlay toàn màn hình và avatar học viên `[🦉]`.
     - **Bộ Kiểm Thử Chuẩn Mực Tuyệt Đối**: Cập nhật toàn diện [`__tests__/roadmap_standards.test.ts`](file:///e:/XP%20English%20%20XP%20Voca/__tests__/roadmap_standards.test.ts) đạt **12/12 tests PASS 100%**, toàn hệ thống vượt qua **297/297 test files (2475/2475 passed tests)** và 0 lỗi TypeScript (`npx tsc --noEmit`).
+13. **Phân Đoạn Từ Vựng Theo Chủ Đề & Tự Động Tổng Hợp Câu Thông Minh Cho Chặng Nối Từ & Ghép Câu (`/roadmap`, `/study/sentence-builder`, `/study/word-link`)**:
+    - **Phân đoạn URL theo chủ đề (`vocabularyPartition.ts`)**:
+      * URL tiêu chuẩn: `/study/word-link?theme=${themeId}&unit=${uNum}&part=${part}&totalParts=${totalParts}` và `/study/sentence-builder?theme=${themeId}&unit=${uNum}&part=${part}&totalParts=${totalParts}`.
+      * Tự động chia nhỏ 30 từ của mỗi chủ đề thành các phần học vừa vặn (mặc định 15 từ/phần, 2 phần cho 30 từ) tránh quá tải nhận thức.
+      * Tích hợp thanh chuyển tab phần nhanh `[Phần 1 (15 từ)] [Phần 2 (15 từ)]` với chỉ báo trạng thái Active bằng màu xanh thương hiệu `#0059bb`.
+    - **Tự động tổng hợp câu theo chủ đề (Theme-Aware Sentence Synthesizer - `themeSentenceSynthesizer.ts`)**:
+      * Cơ chế 3 tầng đảm bảo luôn có câu hỏi chuẩn xác bám sát chủ đề mà không rơi vào câu mẫu mặc định:
+        1. Tầng 1 (Examples): Lọc các câu ví dụ thực tế trong bộ từ vựng chủ đề với độ dài 3-12 từ phù hợp TTS và Word Bank.
+        2. Tầng 2 (Key Phrases): Khai thác các cụm câu đàm thoại then chốt từ `UNIT_CURRICULUM_CONFIGS` của Unit.
+        3. Tầng 3 (Dynamic POS Synthesis): Tự động sinh câu tự nhiên theo ngữ cảnh từ vựng dựa trên từ loại (noun, verb, adj, interjection) kèm bản dịch tiếng Việt tự nhiên và hỗ trợ phát âm TTS đa nhân vật.
+    - **Kết nối thông minh từ Lộ trình S-Curve (`curatedRoadmapPathway.ts` & `ZiczacStepNode.tsx`)**:
+      * Chặng 2 (MATCH) và Chặng 3 (SENTENCE) được cấu hình 2 phiên học (`totalSessions: 2`), mỗi phiên tương ứng với 1 phần từ vựng.
+      * Nút bắt đầu và vòng tiến độ 3D tự động nhận diện số phiên đã hoàn thành để chuyển hướng chính xác đến `part=1` (phiên 1) hoặc `part=2` (phiên 2).
 
 ---
 
