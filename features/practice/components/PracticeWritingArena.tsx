@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Lightbulb, PenLine, CheckCircle2, X } from "lucide-react";
+import { Lightbulb } from "lucide-react";
 import { PracticeWord } from "../types";
 
 interface PracticeWritingArenaProps {
@@ -107,26 +107,6 @@ export function PracticeWritingArena({
             <span className="text-xs text-slate-400 font-sans">
               ({currentWord.word.length} ký tự)
             </span>
-          </div>
-        )}
-
-        {/* Feedback when answered */}
-        {wIsAnswered && (
-          <div className="flex items-center gap-2 pt-1 text-xs sm:text-sm font-bold">
-            {wIsCorrect ? (
-              <span className="text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Chính xác tuyệt đối!</span>
-              </span>
-            ) : (
-              <span className="text-rose-700 dark:text-rose-300 flex items-center gap-1.5">
-                <X className="w-4 h-4 text-rose-500 shrink-0" />
-                <span>Đáp án chuẩn:</span>{" "}
-                <strong className="font-mono text-slate-900 dark:text-white font-black tracking-wider text-base">
-                  {currentWord.word}
-                </strong>
-              </span>
-            )}
           </div>
         )}
       </div>

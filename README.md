@@ -7085,6 +7085,7 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
     - **Chuyển đổi ô nhập gõ chính tả sang dạng kẻ ngang tối giản:**
       * Thay thế khối hộp viền dày bằng đường kẻ ngang viền dưới (`border-0 border-b-2 sm:border-b-[3px] bg-transparent`). Khi click hoặc focus nhập liệu, đường kẻ tự động chuyển sang màu xanh thương hiệu hoàng gia `#0059bb`, chữ hiển thị trực tiếp trên đường kẻ thoáng đãng, loại bỏ cảm giác "khối lồng trong khối".
       * Tinh gọn gợi ý ký tự thành link văn bản thanh lịch kèm icon bóng đèn; hiển thị mặt nạ ký tự `h _ _ _ _ • 5 ký tự`.
+      * **Khử triệt để dòng "Đáp án chuẩn: ....." thừa trong thẻ**: Loại bỏ hoàn toàn dòng phản hồi kết quả hiển thị bên dưới ô nhập (`PracticeWritingArena.tsx`), giao toàn bộ trọng trách hiển thị phản hồi và đáp án đúng cho thanh trạng thái đáy (`PracticeBottomBar.tsx`) và bóng thoại linh vật. Thẻ nhập liệu giữ nguyên kích thước cố định, loại bỏ hoàn toàn hiện tượng rung giật hay giãn layout khi nộp bài.
     - **Chuẩn hóa bộ Tab chuyển đổi 4 chế độ (`PracticeSubModeBar.tsx`):**
       * **Bảo tồn trọn vẹn bo góc gốc**: Duy trì `rounded-2xl` cho khối pill bao ngoài và `rounded-xl` cho các nút bấm & con nhộng active theo đúng chỉ đạo thiết kế ban đầu.
       * **Tăng chiều cao chuẩn công thái học (+2px)**: Tăng chiều cao mỗi tab lên 2px (`h-[32px] sm:h-[34px]`) giúp diện tích bấm thoáng đãng, thân thiện với ngón tay cái trên di động lẫn chuột trên máy tính.
