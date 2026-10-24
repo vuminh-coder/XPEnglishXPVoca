@@ -60,9 +60,9 @@ const FALLBACK_SENTENCES: SentenceCandidate[] = [
   },
 ];
 
-const DuolingoTurtleIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
+const DuolingoTurtleIcon = ({ className = "w-7 h-7" }: { className?: string }) => (
   <svg
-    viewBox="0 0 24 24"
+    viewBox="1.8 5.5 21.2 11"
     fill="currentColor"
     className={className}
     aria-hidden="true"
@@ -542,7 +542,7 @@ export function SentenceBuilderGame({
                     aria-label="Nghe phát âm chậm"
                     className="w-10 h-10 rounded-xl text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform hover:bg-sky-50 dark:hover:bg-sky-950/40"
                   >
-                    <DuolingoTurtleIcon className="w-6 h-6" />
+                    <DuolingoTurtleIcon className="w-7 h-7" />
                   </button>
                 </div>
                 <p className="text-lg sm:text-xl font-medium text-slate-700 dark:text-slate-100 leading-relaxed">
