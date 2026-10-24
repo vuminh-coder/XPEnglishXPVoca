@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
-  Flame,
+  Sparkles,
   Volume2,
   Turtle,
   RotateCcw,
@@ -473,9 +473,24 @@ export function SentenceBuilderGame({
           </motion.div>
         </div>
 
-        <div className="shrink-0 flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 text-amber-600 dark:text-amber-400 font-black font-display text-xs sm:text-sm tabular-nums shadow-2xs">
-          <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-500 text-amber-500 animate-pulse" />
-          <span>{score}</span>
+        {/* Exercise Progress Counter & Reward XP Badge */}
+        <div className="shrink-0 flex items-center gap-1.5 sm:gap-2">
+          {score > 0 && (
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="hidden xs:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-600 dark:text-emerald-400 font-black text-xs shadow-2xs"
+            >
+              <Sparkles className="w-3.5 h-3.5 fill-current" />
+              <span>+{score} XP</span>
+            </motion.div>
+          )}
+
+          <div className="flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-extrabold font-display text-xs sm:text-sm tabular-nums shadow-2xs">
+            <span className="text-[#0059bb] dark:text-sky-400">{currentIdx + 1}</span>
+            <span className="text-slate-400 dark:text-slate-500 font-medium">/</span>
+            <span>{packages.length || TOTAL_ROUNDS}</span>
+          </div>
         </div>
       </div>
 

@@ -433,10 +433,14 @@ export function AppTopHeader({
             {/* Streak Flame Chip */}
             <Link
               href="/analytics"
-              className="h-8 sm:h-9 px-2 sm:px-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/50 border border-orange-200/80 dark:border-orange-800/60 text-orange-600 dark:text-orange-400 font-bold font-mono text-xs flex items-center gap-1 shadow-2xs hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-all cursor-pointer active:scale-95"
+              className="h-8 sm:h-9 px-2 sm:px-2.5 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/40 border border-amber-200/80 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 font-black font-display text-xs sm:text-sm flex items-center gap-1.5 shadow-2xs hover:border-amber-300 dark:hover:border-amber-700 transition-all cursor-pointer active:scale-95 group"
               title={`Chuỗi học tập liên tục: ${user?.currentStreak ?? 1} ngày`}
             >
-              <Flame className="w-3.5 h-3.5 text-orange-500 fill-orange-500" />
+              <img
+                src="/images/streak-flame-crystal.png"
+                alt="Streak"
+                className="w-4 h-4 sm:w-4.5 sm:h-4.5 object-contain filter drop-shadow-xs group-hover:scale-110 transition-transform"
+              />
               <span className="tabular-nums">{user?.currentStreak ?? 1}</span>
             </Link>
 
