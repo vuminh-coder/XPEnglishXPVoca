@@ -45,7 +45,7 @@ export default function SentenceBuilderClient() {
   const themeIcon = currentTheme?.icon || "✍️";
 
   return (
-    <div className="w-full pb-16 md:pb-8 bg-slate-50/70 dark:bg-slate-950 font-sans select-none">
+    <div className="w-full pb-16 md:pb-8 bg-[#fffefb] dark:bg-slate-950 font-sans select-none">
       {/* 1. TOP HEADER (56PX) */}
       <AppTopHeader
         showGamificationStats={true}
@@ -77,33 +77,17 @@ export default function SentenceBuilderClient() {
         }
       />
 
-      {/* 2. UNIT BANNER (đồng bộ ZiczacUnitHeader của Roadmap) */}
-      <div className="w-full px-3 sm:px-6 lg:px-8 mt-3 sm:mt-4">
-        <div className="rounded-2xl sm:rounded-3xl bg-[#0059bb] border-b-4 border-[#003d82] text-white shadow-lg flex items-stretch overflow-hidden">
-          <div className="flex-1 min-w-0 px-4 sm:px-5 py-2.5 sm:py-3.5 flex flex-col justify-center gap-1">
-            <div className="flex items-center gap-2.5 flex-wrap">
-              {unitParam && (
-                <span className="inline-flex items-center px-3 py-1 rounded-xl bg-amber-300 text-amber-950 text-xs font-black tracking-wider uppercase shadow-xs">
-                  Unit {unitParam}
-                </span>
-              )}
-              <h1 className="text-base sm:text-xl font-black font-display leading-tight truncate">
-                {displayTitle}
-              </h1>
-            </div>
-            <p className="text-xs sm:text-sm text-blue-100 font-medium line-clamp-1">
-              Chặng 3 · Ghép từ thành câu hoàn chỉnh
-            </p>
-          </div>
-          <div className="hidden sm:flex w-[104px] bg-white/10 flex-col items-center justify-center gap-0.5 text-center">
-            <span className="text-3xl sm:text-4xl leading-none" aria-hidden>{themeIcon}</span>
-            <span className="text-[10px] sm:text-[11px] font-bold font-display uppercase tracking-wider">Word Bank</span>
-          </div>
-        </div>
+      {/* 2. Ngữ cảnh bài học (nhẹ, không banner) */}
+      <div className="w-full max-w-2xl lg:max-w-3xl mx-auto px-4 sm:px-6 mt-4 sm:mt-5">
+        <p className="text-xs font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5 flex-wrap">
+          <span aria-hidden>{themeIcon}</span>
+          {unitParam && <span className="text-[#0059bb] dark:text-sky-400">Unit {unitParam}</span>}
+          <span>· {displayTitle} · Chặng 3 · Ghép từ thành câu</span>
+        </p>
       </div>
 
       {/* 3. GAME ARENA WORKSPACE */}
-      <div className="w-full px-3 sm:px-6 lg:px-8 py-4 sm:py-5">
+      <div className="w-full max-w-2xl lg:max-w-3xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
         <SentenceBuilderGame
           pool={themeVocabs}
           onBack={() => router.push("/roadmap")}

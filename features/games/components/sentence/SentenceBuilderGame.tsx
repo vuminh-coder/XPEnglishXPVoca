@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft,
+  X,
   Zap,
   Volume2,
   VolumeX,
@@ -11,7 +11,6 @@ import {
   Check,
   SkipForward,
   HelpCircle,
-  Delete,
 } from "lucide-react";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { SentenceScramblePackage, GameReviewItem } from "../../types";
@@ -101,6 +100,10 @@ export function SentenceBuilderGame({
 
   const speakSentence = (sentence: string) => {
     safeSpeakText(sentence, { lang: "en-US", rate: 0.88 });
+  };
+
+  const speakSentenceSlow = (sentence: string) => {
+    safeSpeakText(sentence, { lang: "en-US", rate: 0.62 });
   };
 
   // Generate sentences
@@ -291,6 +294,48 @@ export function SentenceBuilderGame({
     }
   }, [currentIdx, packages, feedback]);
 
+  const currentPkg = packages[currentIdx];
+  const slotCount = currentPkg ? currentPkg.tokens.length : 0;
+  const canSubmit =
+    slotCount > 0 && placedTokens.length === slotCount && feedback === null;
+
+  // Keyboard navigation for desktop web (Enter, Backspace, 1-9)
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      // Ignore if user is inside an input/textarea
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+
+      if (e.key === "Enter") {
+        if (feedback !== null) {
+          e.preventDefault();
+          handleContinue();
+        } else if (canSubmit) {
+          e.preventDefault();
+          handleSubmit();
+        }
+      } else if (e.key === "Backspace" && feedback === null && placedTokens.length > 0) {
+        e.preventDefault();
+        const lastIdx = placedTokens.length - 1;
+        handleRemovePlacedToken(placedTokens[lastIdx], lastIdx);
+      } else if (e.key >= "1" && e.key <= "9" && feedback === null) {
+        const num = parseInt(e.key, 10) - 1;
+        const activeUnused = availableTokens.filter((tk) => !tk.isUsed);
+        if (activeUnused[num]) {
+          e.preventDefault();
+          handleSelectToken(activeUnused[num]);
+        }
+      } else if ((e.key === "a" || e.key === "A") && currentPkg) {
+        speakSentence(currentPkg.originalSentence);
+      } else if ((e.key === "s" || e.key === "S") && currentPkg) {
+        speakSentenceSlow(currentPkg.originalSentence);
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [feedback, canSubmit, handleContinue, handleSubmit, placedTokens, availableTokens, currentPkg]);
+
   // Game over sync
   useEffect(() => {
     if (gameOver) {
@@ -340,16 +385,9 @@ export function SentenceBuilderGame({
     );
   }
 
-  const currentPkg = packages[currentIdx];
-
-
   const progressPct = packages.length
     ? ((currentIdx + (feedback ? 1 : 0)) / packages.length) * 100
     : 0;
-
-  const slotCount = currentPkg ? currentPkg.tokens.length : 0;
-  const canSubmit =
-    slotCount > 0 && placedTokens.length === slotCount && feedback === null;
 
   // Vị trí các từ đặt sai (để tô riêng khi chấm sai)
   const wrongPositions = new Set<number>();
@@ -361,65 +399,76 @@ export function SentenceBuilderGame({
     });
   }
 
-  // Duolingo 3D tactile tile base (đồng bộ với nút chặng trên Roadmap)
-  const tileBase =
-    "rounded-xl border-2 border-b-4 text-sm sm:text-base font-bold font-display transition-all duration-100 select-none";
-
-  const trayTone =
+  // ── Duolingo-mobile style tokens ──
+  const chipBase =
+    "h-12 px-4 rounded-2xl border-2 border-b-4 text-base font-semibold transition-all duration-100 select-none";
+  const chipIdle =
+    "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2";
+  const chipPlacedTone =
     feedback === "correct"
-      ? "border-emerald-600 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-700"
+      ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-700"
       : feedback === "wrong"
-      ? "border-rose-500 bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-700"
-      : "border-[#0059bb] bg-blue-50 text-[#0059bb] hover:bg-blue-100 cursor-pointer active:translate-y-[2px] active:border-b-2 dark:bg-blue-950/50 dark:text-sky-300 dark:border-sky-700";
+      ? "border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-700"
+      : chipIdle;
 
-  const ghostBtn =
-    "h-11 px-4 rounded-xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-bold font-display uppercase tracking-wide flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:translate-y-0 disabled:active:border-b-4";
+  const textBtn =
+    "min-h-[44px] px-3 rounded-xl text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center gap-1.5 cursor-pointer transition-colors disabled:opacity-40 disabled:cursor-not-allowed";
+
+  const ROW_PITCH = 64; // 44px chip + 20px khoảng cách = 1 dòng kẻ
+  const ruledStyle: React.CSSProperties = {
+    minHeight: ROW_PITCH * 3,
+    backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent ${ROW_PITCH - 2}px, rgba(148,163,184,0.38) ${ROW_PITCH - 2}px, rgba(148,163,184,0.38) ${ROW_PITCH}px)`,
+  };
+
+  const footerTone =
+    feedback === "correct"
+      ? "bg-emerald-100 dark:bg-emerald-950/70 border-emerald-200 dark:border-emerald-900"
+      : feedback === "wrong"
+      ? "bg-rose-100 dark:bg-rose-950/70 border-rose-200 dark:border-rose-900"
+      : "bg-[#fffefb] dark:bg-slate-950 border-slate-200 dark:border-slate-800";
+
+  const cueWords = currentPkg ? currentPkg.translationVn.split(/\s+/) : [];
 
   return (
-    <div className={`select-none w-full mx-auto flex flex-col gap-4 sm:gap-5 ${fullWidth ? "" : "max-w-2xl"}`}>
-      {/* 1. Top bar: Mute + chunky progress + score */}
-      <div className="flex items-center gap-3">
+    <div className="select-none w-full mx-auto flex flex-col gap-5 sm:gap-6">
+      {/* 1. Top bar: X + chunky progress + score */}
+      <div className="flex items-center gap-3 sm:gap-4">
         <button
           type="button"
-          onClick={toggleAudio}
-          title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-          className="w-11 h-11 shrink-0 rounded-xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2"
+          onClick={onBack}
+          title="Thoát bài"
+          aria-label="Thoát bài"
+          className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200 cursor-pointer transition-colors active:scale-90"
         >
-          {isMuted ? (
-            <VolumeX className="w-4 h-4 text-rose-500" />
-          ) : (
-            <Volume2 className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
-          )}
+          <X className="w-7 h-7 stroke-[2.6]" />
         </button>
 
-        {/* Chunky progress bar */}
         <div className="relative flex-1 h-4 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
           <motion.div
             className="absolute inset-y-0 left-0 rounded-full bg-emerald-500"
             initial={{ width: 0 }}
-            animate={{ width: `${progressPct}%` }}
+            animate={{ width: `${Math.max(progressPct, 6)}%` }}
             transition={{ type: "spring", stiffness: 80, damping: 15 }}
           >
-            <div className="absolute inset-x-2 top-[3px] h-[3px] rounded-full bg-white/35" />
+            <div className="absolute inset-x-2.5 top-[4px] h-[3px] rounded-full bg-white/40" />
           </motion.div>
         </div>
 
-        <div className="shrink-0 h-11 px-3 rounded-xl bg-amber-100 dark:bg-amber-950/50 border-2 border-b-4 border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 flex items-center gap-1.5 font-black font-display text-sm tabular-nums">
-          <Zap className="w-4 h-4 fill-amber-400 text-amber-500" />
+        <div className="shrink-0 flex items-center gap-1 text-amber-500 dark:text-amber-400 font-black font-display text-base tabular-nums">
+          <Zap className="w-5 h-5 fill-current" />
           {score}
         </div>
 
         <button
           type="button"
-          onClick={generateSentences}
-          title="Làm mới ván mới"
-          className="w-11 h-11 shrink-0 rounded-xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-center cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2"
+          onClick={toggleAudio}
+          title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
+          className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors active:scale-90"
         >
-          <RotateCcw className="w-4 h-4 text-slate-500 stroke-[2.4]" />
+          {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
         </button>
       </div>
 
-      {/* 2. Main sentence stage */}
       <AnimatePresence mode="wait">
         {currentPkg && (
           <motion.div
@@ -428,95 +477,84 @@ export function SentenceBuilderGame({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18 }}
-            className="flex flex-col gap-4 sm:gap-5"
+            className="flex flex-col gap-5 sm:gap-6"
           >
-            {/* Prompt header */}
-            <div className="flex items-center justify-between gap-2 px-1">
-              <h2 className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white">
-                Dịch câu này sang tiếng Anh
-              </h2>
-              <span className="text-[11px] sm:text-xs font-black font-display uppercase tracking-wider text-slate-400 tabular-nums">
-                Câu {currentIdx + 1}/{packages.length}
-              </span>
-            </div>
+            {/* 2. Title */}
+            <h2 className="text-2xl sm:text-3xl font-black font-display text-slate-700 dark:text-slate-100">
+              Dịch câu này sang tiếng Anh
+            </h2>
 
-            {/* Meaning cue (speech bubble) */}
-            <div className="flex items-start gap-3">
-              <div className="shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#0059bb] border-b-4 border-[#003d82] flex items-center justify-center text-2xl shadow-md shadow-[#0059bb]/20">
-                <span aria-hidden>🦉</span>
+            {/* 3. Mascot + speech bubble */}
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="shrink-0 flex flex-col items-center w-24 sm:w-28">
+                <span className="text-6xl sm:text-7xl leading-none" aria-hidden>
+                  🦉
+                </span>
+                <div className="mt-1 w-16 h-3 rounded-full bg-slate-200/80 dark:bg-slate-800" />
               </div>
-              <div className="relative flex-1 min-w-0 p-3.5 sm:p-4 rounded-2xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
-                <div className="absolute -left-[7px] top-5 w-3 h-3 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
-                <p className="text-base sm:text-lg font-bold font-display text-slate-900 dark:text-white leading-relaxed">
-                  {currentPkg.translationVn}
+              <div className="relative flex-1 min-w-0 flex items-center gap-3 px-4 py-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+                <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
+                <div className="flex items-center gap-0.5 sm:gap-1 shrink-0 border-r border-slate-200 dark:border-slate-700 pr-2 mr-1">
+                  <button
+                    type="button"
+                    onClick={() => speakSentence(currentPkg.originalSentence)}
+                    title="Nghe tốc độ thường (Phím A)"
+                    aria-label="Nghe tốc độ thường"
+                    className="w-10 h-10 rounded-xl text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform hover:bg-sky-50 dark:hover:bg-sky-950/40"
+                  >
+                    <Volume2 className="w-6 h-6 fill-current" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => speakSentenceSlow(currentPkg.originalSentence)}
+                    title="Nghe tốc độ chậm / Rùa (Phím S)"
+                    aria-label="Nghe tốc độ chậm"
+                    className="w-10 h-10 rounded-xl text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform hover:bg-sky-50 dark:hover:bg-sky-950/40 text-xl"
+                  >
+                    <span aria-hidden>🐢</span>
+                  </button>
+                </div>
+                <p className="text-lg sm:text-xl font-medium text-slate-700 dark:text-slate-100 leading-relaxed">
+                  {cueWords.map((w, i) => (
+                    <span
+                      key={`${w}-${i}`}
+                      className="border-b-2 border-dashed border-slate-300 dark:border-slate-600 mr-1.5 inline-block leading-snug"
+                    >
+                      {w}
+                    </span>
+                  ))}
                 </p>
               </div>
             </div>
 
-            {/* Answer tray */}
+            {/* 4. Ruled answer lines */}
             <motion.div
               animate={feedback === "wrong" ? { x: [0, -7, 7, -5, 5, 0] } : { x: 0 }}
               transition={{ duration: 0.35 }}
-              className={`p-3 sm:p-4 rounded-2xl border-2 border-b-4 bg-white dark:bg-slate-900 transition-colors ${
-                feedback === "correct"
-                  ? "border-emerald-300 dark:border-emerald-800"
-                  : feedback === "wrong"
-                  ? "border-rose-300 dark:border-rose-800"
-                  : "border-slate-200 dark:border-slate-700"
-              }`}
+              style={ruledStyle}
+              className="flex flex-wrap content-start gap-x-2 gap-y-[20px] pt-3"
             >
-              <div className="flex items-center justify-between mb-2.5">
-                <span className="text-[11px] font-black font-display uppercase tracking-wider text-slate-400">
-                  Câu của bạn
-                </span>
-                <button
+              {placedTokens.map((token, i) => (
+                <motion.button
+                  key={`placed-${token.id}-${i}`}
                   type="button"
-                  onClick={handleHintNext}
-                  disabled={feedback !== null}
-                  title={`Điền sẵn từ tiếp theo (trừ ${HINT_COST} điểm)`}
-                  className="min-h-[44px] px-3 -my-2 rounded-xl text-amber-700 dark:text-amber-300 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-all hover:bg-amber-50 dark:hover:bg-amber-950/30 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  onClick={() => handleRemovePlacedToken(token, i)}
+                  className={`${chipBase} ${
+                    wrongPositions.has(i)
+                      ? "border-rose-500 bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-700 underline decoration-wavy decoration-rose-400 underline-offset-4"
+                      : chipPlacedTone
+                  }`}
+                  style={{ height: 44 }}
                 >
-                  <HelpCircle className="w-4 h-4" />
-                  <span>Gợi ý (−{HINT_COST})</span>
-                </button>
-              </div>
-
-              <div className="flex flex-wrap gap-2 min-h-[56px] content-start">
-                {Array.from({ length: slotCount }).map((_, i) => {
-                  const token = placedTokens[i];
-                  return token ? (
-                    <motion.button
-                      key={`placed-${token.id}-${i}`}
-                      type="button"
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      onClick={() => handleRemovePlacedToken(token, i)}
-                      className={`h-11 px-4 ${tileBase} ${
-                        wrongPositions.has(i)
-                          ? "border-rose-500 bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-700 underline decoration-wavy decoration-rose-400 underline-offset-4"
-                          : trayTone
-                      }`}
-                    >
-                      {token.word}
-                    </motion.button>
-                  ) : (
-                    <div
-                      key={`slot-${i}`}
-                      style={{
-                        width: Math.min(
-                          120,
-                          Math.max(48, (currentPkg?.tokens[i]?.length || 4) * 9 + 30)
-                        ),
-                      }}
-                      className="h-11 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40"
-                    />
-                  );
-                })}
-              </div>
+                  {token.word}
+                </motion.button>
+              ))}
             </motion.div>
 
-            {/* Word bank */}
-            <div className="flex flex-wrap gap-2.5 justify-center py-1">
+            {/* 5. Word bank */}
+            <div className="flex flex-wrap justify-center gap-x-2 gap-y-3 px-1 py-1">
               {availableTokens.map((token) => (
                 <motion.button
                   key={`avail-${token.id}`}
@@ -524,10 +562,10 @@ export function SentenceBuilderGame({
                   whileTap={{ scale: token.isUsed ? 1 : 0.96 }}
                   onClick={() => handleSelectToken(token)}
                   disabled={token.isUsed || feedback !== null}
-                  className={`h-11 px-4 ${tileBase} ${
+                  className={`${chipBase} ${
                     token.isUsed
-                      ? "border-dashed border-slate-300 dark:border-slate-700 bg-transparent text-transparent cursor-default shadow-none border-b-2"
-                      : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2 disabled:cursor-default"
+                      ? "border-slate-200/60 dark:border-slate-800 bg-slate-200/60 dark:bg-slate-800/60 text-transparent cursor-default border-b-2"
+                      : `${chipIdle} disabled:cursor-default`
                   }`}
                 >
                   {token.word}
@@ -535,99 +573,122 @@ export function SentenceBuilderGame({
               ))}
             </div>
 
-            {/* Bottom action zone (thumb-friendly): feedback OR actions */}
-            <div className="sticky bottom-20 lg:bottom-4 z-20 -mx-2 px-2 py-2 rounded-2xl bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-sm">
-            {feedback === null ? (
-              <div className="flex flex-col gap-3">
+            {/* 6. Secondary text actions (như "HIỆN KHÔNG NGHE ĐƯỢC") */}
+            {feedback === null && (
+              <div className="flex items-center justify-center flex-wrap gap-x-2">
+                <button
+                  type="button"
+                  onClick={handleHintNext}
+                  className={textBtn}
+                  title={`Điền sẵn từ tiếp theo (trừ ${HINT_COST} điểm)`}
+                >
+                  <HelpCircle className="w-4 h-4" />
+                  <span>Gợi ý (−{HINT_COST})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleClearAll}
+                  disabled={placedTokens.length === 0}
+                  className={textBtn}
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  <span>Xếp lại</span>
+                </button>
+                <button type="button" onClick={handleSkip} className={textBtn}>
+                  <SkipForward className="w-4 h-4" />
+                  <span>Bỏ qua</span>
+                </button>
+              </div>
+            )}
+
+            {/* 7. Footer (thumb zone): KIỂM TRA / feedback sheet + TIẾP TỤC */}
+            <div
+              className={`sticky bottom-16 lg:bottom-0 z-20 -mx-3 sm:-mx-6 lg:-mx-8 px-3 sm:px-6 lg:px-8 pt-4 pb-4 border-t-2 transition-colors ${footerTone}`}
+            >
+              {feedback === null ? (
                 <button
                   type="button"
                   onClick={handleSubmit}
                   disabled={!canSubmit}
-                  className={`w-full h-12 sm:h-14 rounded-2xl border-b-4 text-white text-sm sm:text-base font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
+                  className={`w-full h-14 rounded-2xl text-base font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
                     canSubmit
-                      ? "bg-[#0059bb] hover:bg-blue-600 border-[#003d82] shadow-lg shadow-[#0059bb]/25 dark:bg-blue-700 dark:hover:bg-blue-600 dark:border-blue-900 dark:shadow-none cursor-pointer active:translate-y-[3px] active:border-b-[1px]"
-                      : "bg-slate-200 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed"
+                      ? "bg-[#0059bb] hover:bg-blue-600 text-white border-b-4 border-[#003d82] dark:bg-blue-700 dark:hover:bg-blue-600 dark:border-blue-900 cursor-pointer active:translate-y-[3px] active:border-b-[1px]"
+                      : "bg-slate-200 dark:bg-slate-800 text-white dark:text-slate-500 cursor-not-allowed"
                   }`}
                 >
-                  <Check className="w-5 h-5 stroke-[3]" />
                   <span>Kiểm tra</span>
                 </button>
-
-                <div className="grid grid-cols-2 gap-3">
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
+                >
+                  <div className="flex-1 min-w-0 flex items-center gap-3">
+                    <div
+                      className={`w-12 h-12 shrink-0 rounded-full flex items-center justify-center text-white ${
+                        feedback === "correct" ? "bg-emerald-500" : "bg-rose-500"
+                      }`}
+                    >
+                      {feedback === "correct" ? (
+                        <Check className="w-7 h-7 stroke-[3.2]" />
+                      ) : (
+                        <X className="w-7 h-7 stroke-[3.2]" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div
+                        className={`flex items-center gap-2 text-lg font-black font-display ${
+                          feedback === "correct"
+                            ? "text-emerald-700 dark:text-emerald-300"
+                            : "text-rose-700 dark:text-rose-300"
+                        }`}
+                      >
+                        <span>{feedback === "correct" ? "Chính xác!" : "Đáp án đúng:"}</span>
+                        {feedback === "correct" && (
+                          <span className="px-2 py-0.5 rounded-full bg-amber-300 text-amber-950 text-[11px] font-black">
+                            +20
+                          </span>
+                        )}
+                      </div>
+                      <p
+                        className={`text-sm sm:text-base font-medium leading-snug ${
+                          feedback === "correct"
+                            ? "text-emerald-700 dark:text-emerald-300"
+                            : "text-rose-700 dark:text-rose-300"
+                        }`}
+                      >
+                        {currentPkg.originalSentence}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => speakSentence(currentPkg.originalSentence)}
+                      title="Nghe cả câu"
+                      aria-label="Nghe cả câu"
+                      className={`w-11 h-11 shrink-0 rounded-xl flex items-center justify-center cursor-pointer active:scale-90 transition-transform ${
+                        feedback === "correct"
+                          ? "text-emerald-600 hover:bg-emerald-200/60"
+                          : "text-rose-600 hover:bg-rose-200/60"
+                      }`}
+                    >
+                      <Volume2 className="w-6 h-6 fill-current" />
+                    </button>
+                  </div>
                   <button
                     type="button"
-                    onClick={handleClearAll}
-                    disabled={placedTokens.length === 0}
-                    className={ghostBtn}
+                    onClick={handleContinue}
+                    autoFocus
+                    className={`w-full sm:w-56 h-14 rounded-2xl border-b-4 text-white text-base font-black font-display uppercase tracking-wider flex items-center justify-center cursor-pointer transition-all active:translate-y-[3px] active:border-b-[1px] ${
+                      feedback === "correct"
+                        ? "bg-emerald-500 hover:bg-emerald-600 border-emerald-700 dark:bg-emerald-600 dark:border-emerald-800"
+                        : "bg-rose-500 hover:bg-rose-600 border-rose-700 dark:bg-rose-600 dark:border-rose-800"
+                    }`}
                   >
-                    <RotateCcw className="w-4 h-4 stroke-[2.4]" />
-                    <span>Xếp lại</span>
+                    <span>{currentIdx + 1 < packages.length ? "Tiếp tục" : "Xem kết quả"}</span>
                   </button>
-                  <button type="button" onClick={handleSkip} className={ghostBtn}>
-                    <SkipForward className="w-4 h-4 stroke-[2.4]" />
-                    <span>Bỏ qua</span>
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-3">
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`p-4 rounded-2xl border-2 border-b-4 flex items-center gap-3 ${
-                  feedback === "correct"
-                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200"
-                    : "border-rose-500 bg-rose-50 dark:bg-rose-950/50 text-rose-800 dark:text-rose-200"
-                }`}
-              >
-                <div
-                  className={`w-11 h-11 shrink-0 rounded-full flex items-center justify-center text-white shadow-sm ${
-                    feedback === "correct" ? "bg-emerald-500" : "bg-rose-500"
-                  }`}
-                >
-                  {feedback === "correct" ? (
-                    <Check className="w-6 h-6 stroke-[3]" />
-                  ) : (
-                    <Delete className="w-5 h-5 stroke-[2.6]" />
-                  )}
-                </div>
-                <div className="flex-1 min-w-0 space-y-0.5">
-                  <div className="flex items-center gap-2 text-base font-black font-display">
-                    <span>{feedback === "correct" ? "Chính xác hoàn hảo!" : "Chưa đúng rồi!"}</span>
-                    {feedback === "correct" && (
-                      <span className="px-2 py-0.5 rounded-full bg-amber-300 text-amber-950 text-[11px] font-black">
-                        +20
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs sm:text-sm font-medium leading-snug">
-                    {feedback === "wrong" && <span className="font-bold">Đáp án đúng: </span>}
-                    {currentPkg.originalSentence}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => speakSentence(currentPkg.originalSentence)}
-                  title="Nghe cả câu"
-                  className="w-11 h-11 shrink-0 rounded-xl bg-white/70 dark:bg-slate-900/60 border-2 border-b-4 border-current/30 flex items-center justify-center cursor-pointer active:translate-y-[2px] active:border-b-2 transition-all"
-                >
-                  <Volume2 className="w-5 h-5" />
-                </button>
-              </motion.div>
-              <button
-                type="button"
-                onClick={handleContinue}
-                autoFocus
-                className={`w-full h-12 sm:h-14 rounded-2xl border-b-4 text-white text-sm sm:text-base font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:translate-y-[3px] active:border-b-[1px] ${
-                  feedback === "correct"
-                    ? "bg-emerald-500 hover:bg-emerald-600 border-emerald-700 dark:bg-emerald-600 dark:border-emerald-800"
-                    : "bg-rose-500 hover:bg-rose-600 border-rose-700 dark:bg-rose-600 dark:border-rose-800"
-                }`}
-              >
-                <span>{currentIdx + 1 < packages.length ? "Tiếp tục" : "Xem kết quả"}</span>
-              </button>
-              </div>
-            )}
+                </motion.div>
+              )}
             </div>
           </motion.div>
         )}
@@ -635,4 +696,3 @@ export function SentenceBuilderGame({
     </div>
   );
 }
-
