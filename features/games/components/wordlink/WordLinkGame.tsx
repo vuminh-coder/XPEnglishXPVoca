@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { Volume2, VolumeX, RotateCcw, Check, X, Flame } from "lucide-react";
+import { Volume2, VolumeX, RotateCcw, Check, X, Flame, Turtle } from "lucide-react";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
@@ -218,6 +218,10 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     if (combo >= 2) {
       return `⚡ Chuỗi x${combo} chuẩn xác!`;
     }
+    if (selectedLeft) {
+      const it = items.find((i) => i.pairId === selectedLeft);
+      return `Chọn nghĩa tiếng Việt của "${it?.word || ""}"`;
+    }
     if (linked.length === 0) {
       return "Nối nhanh các cặp từ nhé!";
     }
@@ -226,7 +230,36 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     }
     const remaining = items.length - linked.length;
     return `Còn ${remaining} cặp từ nữa!`;
-  }, [wrongPair, combo, linked.length, items.length]);
+  }, [wrongPair, combo, selectedLeft, linked.length, items]);
+
+  const speechWords = useMemo(() => speechText.split(/\s+/), [speechText]);
+
+  const speakCurrent = useCallback(
+    (rate: number = 0.9) => {
+      const targetItem = selectedLeft
+        ? items.find((i) => i.pairId === selectedLeft)
+        : items.find((i) => !linked.includes(i.pairId));
+      if (targetItem?.word) {
+        safeSpeakText(targetItem.word, { lang: "en-US", rate });
+      }
+    },
+    [selectedLeft, items, linked]
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key === "a" || e.key === "A") {
+        e.preventDefault();
+        speakCurrent(0.9);
+      } else if (e.key === "s" || e.key === "S") {
+        e.preventDefault();
+        speakCurrent(0.65);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [speakCurrent]);
 
   const formatTime = (secs: number) => {
     const m = Math.floor(secs / 60);
@@ -351,14 +384,40 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
           </span>
         </div>
 
-        {/* Speech Bubble (Spans width matching 2 columns below) */}
-        <div className="relative flex-1 min-w-0 bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl shadow-2xs flex flex-col justify-center">
-          <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200/90 dark:border-slate-700" />
-          <p className="text-sm sm:text-base font-black font-display text-slate-800 dark:text-slate-100 tracking-tight leading-snug">
-            {speechText}
-          </p>
-          <p className="text-xs text-slate-400 font-medium mt-0.5 truncate">
-            {activeCharacter.role}
+        {/* Speech Bubble (SentenceBuilder Style: Volume2 + Turtle + Divider + Underlined Text) */}
+        <div className="relative flex-1 min-w-0 flex items-center gap-2.5 sm:gap-3.5 px-3.5 py-3 sm:px-5 sm:py-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
+          <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
+          {/* Audio buttons (No box/container, direct icons, equal size) */}
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => speakCurrent(0.9)}
+              title="Nghe phát âm chuẩn (Phím A)"
+              aria-label="Nghe phát âm chuẩn"
+              className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
+            >
+              <Volume2 className="w-6.5 h-6.5 sm:w-8 sm:h-8 fill-sky-500/20 stroke-[2.2]" />
+            </button>
+            <button
+              type="button"
+              onClick={() => speakCurrent(0.65)}
+              title="Nghe phát âm chậm rãi (Phím S)"
+              aria-label="Nghe phát âm chậm rãi"
+              className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
+            >
+              <Turtle className="w-6.5 h-6.5 sm:w-8 sm:h-8 fill-sky-500/20 stroke-[2.2]" />
+            </button>
+          </div>
+          <div className="h-6 w-[1.5px] bg-slate-200 dark:bg-slate-700 shrink-0" />
+          <p className="text-base sm:text-xl font-medium text-slate-700 dark:text-slate-100 leading-snug">
+            {speechWords.map((w, i) => (
+              <span
+                key={`${w}-${i}`}
+                className="border-b-2 border-dashed border-slate-300 dark:border-slate-600 mr-1.5 inline-block leading-snug"
+              >
+                {w}
+              </span>
+            ))}
           </p>
         </div>
       </div>
