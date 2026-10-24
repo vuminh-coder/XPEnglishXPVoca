@@ -59,10 +59,47 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     if (!pool || pool.length === 0) return;
     const cleanMeaning = (text: string) => {
       if (!text) return "";
-      return text.replace(/\s*\([^)]*\)/g, "").trim();
+      const cleaned = text.replace(/\s*\([^)]*\)/g, "").trim();
+      if (!cleaned) return "";
+      return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
     };
 
-    const picked = shuffle(pool.filter((w) => w.word && w.definitionVn)).slice(0, pairCount);
+    // Filter candidate pool to prevent synonym collisions in the same round
+    const candidates = shuffle(pool.filter((w) => w.word && w.definitionVn));
+    const picked: any[] = [];
+    const seenMeaningRoots = new Set<string>();
+
+    const getMeaningRoots = (text: string) => {
+      return text
+        .toLowerCase()
+        .replace(/[,/;\-.]/g, " ")
+        .split(/\s+/)
+        .filter((w) => w.length >= 3);
+    };
+
+    for (const w of candidates) {
+      const cleanVn = cleanMeaning(w.definitionVn);
+      const roots = getMeaningRoots(cleanVn);
+
+      const hasRootOverlap = roots.some((r) => seenMeaningRoots.has(r));
+      if (!hasRootOverlap || roots.length === 0) {
+        roots.forEach((r) => seenMeaningRoots.add(r));
+        picked.push(w);
+      }
+
+      if (picked.length >= pairCount) break;
+    }
+
+    // Fallback: fill remaining if strict filter had fewer than pairCount
+    if (picked.length < pairCount) {
+      for (const w of candidates) {
+        if (!picked.some((p) => p.id === w.id || p.word.toLowerCase() === w.word.toLowerCase())) {
+          picked.push(w);
+          if (picked.length >= pairCount) break;
+        }
+      }
+    }
+
     const next: LinkItem[] = picked.map((w, i) => {
       const cleanVn = cleanMeaning(w.definitionVn) || w.definitionVn;
       return {
@@ -434,11 +471,14 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
             {leftOrder.map((id) => {
               const it = byId(id);
               if (!it) return null;
-              const state = linked.includes(id)
+              const isSelected = selectedLeft === id;
+              const isLinked = linked.includes(id);
+              const isWrong = wrongPair?.left === id;
+              const state = isLinked
                 ? "linked"
-                : wrongPair?.left === id
+                : isWrong
                 ? "wrong"
-                : selectedLeft === id
+                : isSelected
                 ? "selected"
                 : "idle";
               return (
@@ -449,16 +489,34 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                   className={tileClass(state)}
                 >
                   <div className="flex-1 min-w-0 pr-1 flex items-center">
-                    <span className="block text-sm sm:text-base font-black font-display tracking-tight text-slate-800 dark:text-slate-100 group-hover:text-[#0059bb] truncate">
+                    <span
+                      className={`block text-base sm:text-lg font-black font-display tracking-tight truncate transition-colors ${
+                        isSelected
+                          ? "text-[#0059bb] dark:text-sky-300"
+                          : isWrong
+                          ? "text-rose-600 dark:text-rose-300"
+                          : isLinked
+                          ? "text-emerald-700 dark:text-emerald-300"
+                          : "text-slate-800 dark:text-slate-100 group-hover:text-[#0059bb]"
+                      }`}
+                    >
                       {it.word}
                     </span>
                   </div>
-                  {state === "linked" ? (
+                  {isLinked ? (
                     <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />
                     </div>
                   ) : (
-                    <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-300 dark:text-slate-600 shrink-0 group-hover:text-[#0059bb] transition-colors" />
+                    <Volume2
+                      className={`w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0 transition-colors ${
+                        isSelected
+                          ? "text-[#0059bb] dark:text-sky-300 stroke-[2.4]"
+                          : isWrong
+                          ? "text-rose-400 dark:text-rose-500"
+                          : "text-slate-300 dark:text-slate-600 group-hover:text-[#0059bb]"
+                      }`}
+                    />
                   )}
                 </button>
               );
@@ -474,12 +532,10 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
             {rightOrder.map((id) => {
               const it = byId(id);
               if (!it) return null;
-              const cleanVn = it.meaning.replace(/\s*\([^)]*\)/g, "").trim() || it.meaning;
-              const state = linked.includes(id)
-                ? "linked"
-                : wrongPair?.right === id
-                ? "wrong"
-                : "idle";
+              const isLinked = linked.includes(id);
+              const isWrong = wrongPair?.right === id;
+              const state = isLinked ? "linked" : isWrong ? "wrong" : "idle";
+              const cleanVn = it.meaning;
               return (
                 <button
                   key={id}
@@ -488,10 +544,18 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                   disabled={!selectedLeft && state === "idle"}
                   className={`${tileClass(state)} ${!selectedLeft && state === "idle" ? "opacity-90" : ""}`}
                 >
-                  <span className="flex-1 min-w-0 text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-200 line-clamp-2 leading-snug">
+                  <span
+                    className={`flex-1 min-w-0 text-xs sm:text-sm font-bold line-clamp-2 leading-snug transition-colors ${
+                      isWrong
+                        ? "text-rose-600 dark:text-rose-300"
+                        : isLinked
+                        ? "text-emerald-700 dark:text-emerald-300"
+                        : "text-slate-700 dark:text-slate-200"
+                    }`}
+                  >
                     {cleanVn}
                   </span>
-                  {state === "linked" && (
+                  {isLinked && (
                     <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />
                     </div>
@@ -506,7 +570,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
       {/* 4. Bottom footer */}
       <div className="shrink-0 flex items-center justify-between pt-2 pb-1 text-xs font-semibold text-slate-400 border-t border-slate-100 dark:border-slate-800">
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-xs" />
           <span>Đã ghép đúng:</span>
           <span className="font-black text-emerald-600 dark:text-emerald-400 tabular-nums">
             {linked.length} / {items.length} cặp
@@ -515,11 +579,13 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
 
         <div className="flex items-center gap-1.5 pr-14 sm:pr-0">
           <span>Nối sai:</span>
-          <span className={`font-black tabular-nums px-2 py-0.5 rounded-md ${
-            mistakes > 0
-              ? "bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-200/80 dark:border-rose-800/60"
-              : "text-slate-400"
-          }`}>
+          <span
+            className={`font-black tabular-nums px-2.5 py-0.5 rounded-full border transition-colors ${
+              mistakes > 0
+                ? "bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/60 shadow-2xs"
+                : "bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 border-slate-200/60 dark:border-slate-700/60"
+            }`}
+          >
             {mistakes}
           </span>
         </div>
