@@ -239,15 +239,14 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     if (wrongPair) {
       return "Chưa đúng rồi, thử lại nhé!";
     }
-    const target = selectedLeft
-      ? items.find((i) => i.pairId === selectedLeft)
-      : items.find((i) => !linked.includes(i.pairId));
-
-    if (target?.word) {
-      return `Chọn nghĩa tiếng Việt của "${target.word}"`;
+    if (selectedLeft) {
+      const it = items.find((i) => i.pairId === selectedLeft);
+      if (it?.word) {
+        return `Chọn nghĩa tiếng Việt của "${it.word}"`;
+      }
     }
     return "Nối nhanh các cặp từ nhé!";
-  }, [wrongPair, selectedLeft, items, linked]);
+  }, [wrongPair, selectedLeft, items]);
 
   const speechWords = useMemo(() => speechText.split(/\s+/), [speechText]);
 
