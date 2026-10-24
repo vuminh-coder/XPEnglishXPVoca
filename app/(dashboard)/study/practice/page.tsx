@@ -1,6 +1,7 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
@@ -30,8 +31,47 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
+const DEDICATED_PRACTICE_ROUTES: Record<string, string> = {
+  match_pairs: "/study/word-link",
+  sentence_builder: "/study/sentence-builder",
+};
+
 function PracticeContent() {
   const session = usePracticeSession();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Nối từ & Ghép câu là trang riêng: điều hướng thay vì render inline
+  const goDedicatedPage = React.useCallback(
+    (mode: string) => {
+      const base = DEDICATED_PRACTICE_ROUTES[mode];
+      if (!base) return false;
+      const theme =
+        searchParams.get("themeId") ||
+        searchParams.get("theme");
+      const unit = searchParams.get("unit");
+      const qs = new URLSearchParams();
+      if (theme) qs.set("theme", theme);
+      if (unit) qs.set("unit", unit);
+      const query = qs.toString();
+      router.push(query ? `${base}?${query}` : base);
+      return true;
+    },
+    [router, searchParams]
+  );
+
+  const handleSubModeChange = (mode: typeof session.subMode) => {
+    if (goDedicatedPage(mode)) return;
+    session.setSubMode(mode);
+  };
+
+  useEffect(() => {
+    const modeParam = searchParams.get("mode");
+    if (modeParam && DEDICATED_PRACTICE_ROUTES[modeParam]) {
+      goDedicatedPage(modeParam);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   // Connect global and mode-specific keyboard shortcuts
   usePracticeKeyboard({
@@ -135,7 +175,7 @@ function PracticeContent() {
         {/* 2.1. SUB-MODE SEGMENTED TOOLBAR (QUIZ / FLASHCARD / WRITING / SPEAKING) */}
         <PracticeSubModeBar
           subMode={session.subMode}
-          onSubModeChange={session.setSubMode}
+          onSubModeChange={handleSubModeChange}
           currentIndex={session.currentIndex}
           totalWords={session.vocabs.length}
         />
