@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Volume2, RotateCw, Star, CheckCircle2 } from "lucide-react";
+import { Volume2, RotateCw, Star } from "lucide-react";
 import { PracticeWord, FlashcardRating } from "../types";
 
 interface PracticeFlashcardArenaProps {
@@ -176,9 +176,8 @@ export function PracticeFlashcardArena({
           <div className="absolute inset-0 w-full h-full p-5 sm:p-7 flex flex-col justify-between [backface-visibility:hidden] [transform:rotateY(180deg)] bg-white dark:bg-slate-900 rounded-3xl">
             {/* Top Ribbon on Back */}
             <div className="flex items-center justify-between gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-bold border border-emerald-200/70 dark:border-emerald-800/70">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>Giải nghĩa tiếng Việt</span>
+              <span className="text-xs font-semibold text-slate-400 dark:text-slate-500">
+                Giải nghĩa tiếng Việt
               </span>
 
               {onToggleBookmark && (

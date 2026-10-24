@@ -15,7 +15,7 @@ async function main() {
 
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
-  await page.goto('http://localhost:3000/study/practice?mode=flashcard', { waitUntil: 'networkidle2', timeout: 30000 });
+  await page.goto('http://localhost:3000/study/practice?subMode=flashcard', { waitUntil: 'networkidle2', timeout: 30000 });
   await new Promise(r => setTimeout(r, 2000));
 
   // Front desktop
@@ -34,7 +34,7 @@ async function main() {
   // Mobile Front
   const mobilePage = await browser.newPage();
   await mobilePage.setViewport({ width: 375, height: 812, isMobile: true, hasTouch: true });
-  await mobilePage.goto('http://localhost:3000/study/practice?mode=flashcard', { waitUntil: 'networkidle2', timeout: 30000 });
+  await mobilePage.goto('http://localhost:3000/study/practice?subMode=flashcard', { waitUntil: 'networkidle2', timeout: 30000 });
   await new Promise(r => setTimeout(r, 2000));
   await mobilePage.screenshot({ path: targetMobile });
   console.log('Saved flashcard mobile screenshot');
