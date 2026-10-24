@@ -72,31 +72,31 @@ export function PracticeCompanionSpeech({
     switch (subMode) {
       case "quiz":
         return {
-          prompt: "Chọn nghĩa tiếng Việt chính xác của:",
+          prompt: "Chọn nghĩa đúng:",
           targetWord: currentWord.word,
           ipa: currentWord.ipa,
         };
       case "flashcard":
         return {
-          prompt: "Lật thẻ và tự đánh giá độ thuộc từ:",
+          prompt: "Lật thẻ & tự đánh giá:",
           targetWord: currentWord.word,
           ipa: currentWord.ipa,
         };
       case "writing":
         return {
-          prompt: "Gõ chính xác từ tiếng Anh mang nghĩa:",
+          prompt: "Gõ từ mang nghĩa:",
           targetWord: `"${currentWord.meaning}"`,
           ipa: undefined,
         };
       case "speaking":
         return {
-          prompt: "Nhấn Micro và phát âm chuẩn từ:",
+          prompt: "Phát âm chuẩn từ:",
           targetWord: currentWord.word,
           ipa: currentWord.ipa,
         };
       default:
         return {
-          prompt: "Luyện tập từ vựng:",
+          prompt: "Luyện từ vựng:",
           targetWord: currentWord.word,
           ipa: currentWord.ipa,
         };
@@ -106,31 +106,31 @@ export function PracticeCompanionSpeech({
   const promptWords = useMemo(() => speechData.prompt.split(/\s+/), [speechData.prompt]);
 
   return (
-    <div className="flex items-center gap-3 sm:gap-4 shrink-0 w-full select-none">
-      {/* 1. 3D Character Avatar (Free-standing without box container) */}
+    <div className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 w-full select-none">
+      {/* 1. 3D Character Avatar (Optimized proportions for mobile & desktop) */}
       <div className="shrink-0 flex flex-col items-center">
-        <div className="relative w-20 h-26 sm:w-28 sm:h-36 lg:w-30 lg:h-38 flex items-end justify-center pointer-events-none">
+        <div className="relative w-15 h-20 sm:w-24 sm:h-32 lg:w-26 lg:h-34 flex items-end justify-center pointer-events-none">
           {/* Soft floor shadow */}
-          <div className="absolute bottom-0 w-16 sm:w-22 lg:w-24 h-2.5 sm:h-3 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
+          <div className="absolute bottom-0 w-12 sm:w-18 lg:w-20 h-2 sm:h-2.5 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
           <img
             src={activeCharacter.avatarUrl}
             alt={activeCharacter.name}
-            className="relative max-h-full w-auto object-contain filter drop-shadow-[0_6px_12px_rgba(0,0,0,0.14)] transition-transform hover:scale-105 duration-200"
+            className="relative max-h-full w-auto object-contain filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.12)] transition-transform hover:scale-105 duration-200"
             loading="eager"
           />
         </div>
-        <span className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 mt-1">
+        <span className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5">
           {activeCharacter.name}
         </span>
       </div>
 
-      {/* 2. Speech Bubble (SentenceBuilder & WordLink style) */}
-      <div className="relative flex-1 min-w-0 flex items-center gap-2.5 sm:gap-3.5 px-3.5 py-3 sm:px-5 sm:py-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
+      {/* 2. Speech Bubble (Clean Duolingo typography without messy dashed underlines) */}
+      <div className="relative flex-1 min-w-0 flex items-center gap-2 sm:gap-3 px-3.5 py-2.5 sm:px-4.5 sm:py-3 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
         {/* Triangular tail pointing left to avatar */}
         <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
 
         {/* Direct Audio Controls: Normal Loa (phím A) & Slow Rùa (phím S) */}
-        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+        <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
           <button
             type="button"
             onClick={() => speak(0.9)}
@@ -138,7 +138,7 @@ export function PracticeCompanionSpeech({
             aria-label="Nghe phát âm chuẩn"
             className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
           >
-            <Volume2 className="w-6.5 h-6.5 sm:w-8 sm:h-8 fill-sky-500/20 stroke-[2.2]" />
+            <Volume2 className="w-5.5 h-5.5 sm:w-7 sm:h-7 fill-sky-500/20 stroke-[2.2]" />
           </button>
           <button
             type="button"
@@ -147,7 +147,7 @@ export function PracticeCompanionSpeech({
             aria-label="Nghe phát âm chậm rãi"
             className="p-1 text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-all hover:scale-110 active:scale-90 cursor-pointer focus:outline-none"
           >
-            <Turtle className="w-6.5 h-6.5 sm:w-8 sm:h-8 fill-sky-500/20 stroke-[2.2]" />
+            <Turtle className="w-5.5 h-5.5 sm:w-7 sm:h-7 fill-sky-500/20 stroke-[2.2]" />
           </button>
         </div>
 
@@ -156,22 +156,15 @@ export function PracticeCompanionSpeech({
 
         {/* Speech text & target word */}
         <div className="min-w-0 flex-1">
-          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-snug">
-            {promptWords.map((w, i) => (
-              <span
-                key={`${w}-${i}`}
-                className="border-b-2 border-dashed border-slate-300 dark:border-slate-600 mr-1 inline-block leading-snug"
-              >
-                {w}
-              </span>
-            ))}
+          <p className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 leading-tight truncate">
+            {speechData.prompt}
           </p>
           <div className="flex items-baseline gap-2 flex-wrap pt-0.5">
-            <span className="text-lg sm:text-2xl font-black font-display text-slate-900 dark:text-white tracking-tight">
+            <span className="text-xl sm:text-2xl lg:text-[28px] font-black font-display text-slate-900 dark:text-white tracking-tight leading-none">
               {speechData.targetWord}
             </span>
             {speechData.ipa && (
-              <span className="text-xs sm:text-sm font-mono font-bold text-slate-500 dark:text-slate-400">
+              <span className="text-xs sm:text-sm font-mono font-medium text-slate-500 dark:text-slate-400">
                 {speechData.ipa}
               </span>
             )}

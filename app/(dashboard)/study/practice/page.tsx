@@ -205,12 +205,11 @@ function PracticeContent() {
               <button
                 type="button"
                 onClick={() => setIsWordLabOpen(true)}
-                title="Mở sổ tay từ vựng & ví dụ"
+                title="Mở sổ tay từ vựng & ví dụ ngữ cảnh"
                 aria-label="Mở sổ tay từ vựng"
-                className="h-7 sm:h-8 px-2 sm:px-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-[#0059bb] hover:text-[#0059bb] text-xs font-bold flex items-center gap-1 cursor-pointer transition-all active:scale-95 shadow-2xs"
+                className="w-8 h-8 sm:w-9 sm:h-9 shrink-0 rounded-xl flex items-center justify-center text-slate-400 hover:text-[#0059bb] hover:bg-blue-50 dark:hover:bg-slate-800 dark:hover:text-sky-300 cursor-pointer transition-colors active:scale-90"
               >
-                <BookOpen className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                <span className="hidden xs:inline">Sổ tay</span>
+                <BookOpen className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
               </button>
             )}
 
