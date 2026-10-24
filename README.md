@@ -33,7 +33,7 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
     2. Chặng 2: Nối từ Anh - Việt hai cột phòng Studio riêng biệt (`/study/word-link?theme=...&unit=...`) — trang lật thẻ /study/match vẫn giữ làm mini-game
     - Sidebar mục LUYỆN TẬP có lối tắt riêng: Nối từ (/study/word-link) và Ghép câu (/study/sentence-builder)
     3. Chặng 3: Ghép từ thành câu Word Bank phòng Studio riêng biệt (`/study/sentence-builder?theme=...&unit=...`)
-       - Thiết kế Duolingo-native: Nhân vật Mascot kèm bóng thoại hội thoại, nút loa bình thường + nút rùa phát âm chậm (🐢), khay dòng kẻ ngang (Ruled Lines), ô từ vựng khuyết vị trí chống giật layout, phím tắt máy tính (Enter kiểm tra/tiếp tục, Backspace gỡ từ, phím 1-9 chọn từ, A/S phát âm), thanh phản hồi dưới đáy (Bottom Sheet) phân biệt trạng thái Đúng/Sai.
+       - Thiết kế Duolingo-native chuẩn hóa: Hệ thống 7 nhân vật đồng hành 3D độc quyền (Minh, Cô Linh, Nam, Mai, Thầy Robert, Bé An, Sam) xuất hiện luân phiên theo ngữ cảnh câu văn (Đời sống, IELTS, Công sở & Tech, Lối sống, Văn học, Trẻ thơ, Thể thao) kết hợp bộ giọng TTS đa ngữ điệu và cao độ (pitch/rate), bóng thoại hướng dẫn, khay dòng kẻ ngang (Ruled Lines), ô từ vựng khuyết vị trí chống giật layout, phím tắt máy tính (Enter kiểm tra/tiếp tục, Backspace gỡ từ, phím 1-9 chọn từ, A phát âm), thanh phản hồi dưới đáy (Bottom Sheet) phân biệt trạng thái Đúng/Sai.
     4. Chặng 4: Nghe chép chính tả hội thoại (`/study/dictation?theme=...`)
     5. Chặng 5: Đọc hiểu mẩu truyện (`/study/reading?theme=...`) & Luyện nói Shadowing (`/study/shadowing?theme=...`)
     6. Chặng 6: Cột mốc thi thử tổng hợp Unit (`/study/practice?mode=checkpoint&unit=...`)

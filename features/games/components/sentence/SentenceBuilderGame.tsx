@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -16,6 +16,7 @@ import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
+import { getCharacterForRound, CompanionCharacter } from "../../data/characterRoster";
 
 export interface SentenceBuilderGameProps {
   pool: any[];
@@ -59,42 +60,6 @@ const FALLBACK_SENTENCES: SentenceCandidate[] = [
   },
 ];
 
-const DuoOwlMascot = ({ className = "w-20 h-24 sm:w-24 sm:h-28" }: { className?: string }) => (
-  <svg
-    viewBox="0 0 100 110"
-    className={className}
-    aria-hidden="true"
-  >
-    {/* Floor shadow */}
-    <ellipse cx="50" cy="102" rx="36" ry="6" fill="rgba(148, 163, 184, 0.35)" />
-    {/* Feet */}
-    <ellipse cx="38" cy="98" rx="7" ry="4" fill="#ff9600" />
-    <ellipse cx="62" cy="98" rx="7" ry="4" fill="#ff9600" />
-    {/* Body */}
-    <path d="M 22 45 C 22 20 78 20 78 45 C 78 78 72 96 50 96 C 28 96 22 78 22 45 Z" fill="#58cc02" />
-    {/* Wings */}
-    <path d="M 16 48 C 12 55 14 70 24 74 C 23 66 22 58 24 50 Z" fill="#46a302" />
-    <path d="M 84 48 C 88 55 86 70 76 74 C 77 66 78 58 76 50 Z" fill="#46a302" />
-    {/* Outer eye patches */}
-    <circle cx="39" cy="46" r="14" fill="#78d824" />
-    <circle cx="61" cy="46" r="14" fill="#78d824" />
-    {/* Eye whites */}
-    <circle cx="39" cy="46" r="11" fill="#ffffff" />
-    <circle cx="61" cy="46" r="11" fill="#ffffff" />
-    {/* Pupils */}
-    <circle cx="41" cy="46" r="6" fill="#4b4b4b" />
-    <circle cx="59" cy="46" r="6" fill="#4b4b4b" />
-    {/* Specular shine */}
-    <circle cx="43" cy="44" r="2.2" fill="#ffffff" />
-    <circle cx="61" cy="44" r="2.2" fill="#ffffff" />
-    {/* Beak */}
-    <polygon points="50,52 44,60 56,60" fill="#ff9600" />
-    {/* Feather chest ripples */}
-    <path d="M 40 76 Q 50 82 60 76" stroke="#46a302" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-    <path d="M 44 82 Q 50 87 56 82" stroke="#46a302" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-  </svg>
-);
-
 const TOTAL_ROUNDS = 5;
 const HINT_COST = 5;
 
@@ -122,6 +87,16 @@ export function SentenceBuilderGame({
   const [durationSeconds, setDurationSeconds] = useState<number>(0);
   const startTimeRef = useRef<number>(0);
 
+  const currentPkg = packages[currentIdx];
+  const slotCount = currentPkg ? currentPkg.tokens.length : 0;
+  const canSubmit =
+    slotCount > 0 && placedTokens.length === slotCount && feedback === null;
+
+  // Active Character Companion for the current sentence round
+  const activeCharacter: CompanionCharacter = useMemo(() => {
+    return getCharacterForRound(currentIdx, currentPkg?.originalSentence || "");
+  }, [currentIdx, currentPkg]);
+
   useEffect(() => {
     setIsMuted(gameAudio.isMuted());
   }, []);
@@ -131,13 +106,31 @@ export function SentenceBuilderGame({
     setIsMuted(next);
   };
 
-  const speakSentence = (sentence: string) => {
-    safeSpeakText(sentence, { lang: "en-US", rate: 0.88 });
-  };
+  const speakSentence = useCallback(
+    (sentence: string) => {
+      safeSpeakText(sentence, {
+        lang: activeCharacter.voice.accent,
+        rate: activeCharacter.voice.rate,
+        pitch: activeCharacter.voice.pitch,
+        speakerIndex: activeCharacter.voice.speakerIndex,
+        lessonId: `round_${currentIdx}_${activeCharacter.id}`,
+      });
+    },
+    [activeCharacter, currentIdx]
+  );
 
-  const speakSentenceSlow = (sentence: string) => {
-    safeSpeakText(sentence, { lang: "en-US", rate: 0.62 });
-  };
+  const speakSentenceSlow = useCallback(
+    (sentence: string) => {
+      safeSpeakText(sentence, {
+        lang: activeCharacter.voice.accent,
+        rate: Math.max(0.6, activeCharacter.voice.rate * 0.7),
+        pitch: activeCharacter.voice.pitch,
+        speakerIndex: activeCharacter.voice.speakerIndex,
+        lessonId: `round_${currentIdx}_${activeCharacter.id}_slow`,
+      });
+    },
+    [activeCharacter, currentIdx]
+  );
 
   // Generate sentences
   const generateSentences = useCallback(() => {
@@ -327,11 +320,6 @@ export function SentenceBuilderGame({
     }
   }, [currentIdx, packages, feedback]);
 
-  const currentPkg = packages[currentIdx];
-  const slotCount = currentPkg ? currentPkg.tokens.length : 0;
-  const canSubmit =
-    slotCount > 0 && placedTokens.length === slotCount && feedback === null;
-
   // Keyboard navigation for desktop web (Enter, Backspace, 1-9)
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -505,21 +493,40 @@ export function SentenceBuilderGame({
               Dịch câu này sang tiếng Anh
             </h2>
 
-            {/* 3. Mascot + speech bubble (Chuẩn 100% Duolingo Translate) */}
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="shrink-0 flex flex-col items-center">
-                <DuoOwlMascot />
+            {/* 3. Original Human Companion Character + Speech Bubble */}
+            <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+              <div className="shrink-0 flex flex-col items-center gap-1.5">
+                <div
+                  className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 shadow-sm ring-2 ${activeCharacter.themeColor.ringColor} transition-transform hover:scale-105 duration-200`}
+                >
+                  <img
+                    src={activeCharacter.avatarUrl}
+                    alt={activeCharacter.name}
+                    className="w-full h-full object-cover object-top select-none pointer-events-none"
+                    loading="eager"
+                  />
+                </div>
+                <div className="flex flex-col items-center leading-tight">
+                  <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 tracking-tight">
+                    {activeCharacter.name}
+                  </span>
+                  <span
+                    className={`text-[9px] sm:text-[10px] font-semibold px-1.5 py-0.5 rounded-md border mt-0.5 ${activeCharacter.themeColor.badgeBg} ${activeCharacter.themeColor.badgeText} ${activeCharacter.themeColor.badgeBorder} whitespace-nowrap`}
+                  >
+                    {activeCharacter.contextTag}
+                  </span>
+                </div>
               </div>
-              <div className="relative flex-1 min-w-0 flex items-center gap-3 px-4 py-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
-                <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
+              <div className="relative flex-1 min-w-0 flex items-center gap-3 px-4 py-3.5 sm:py-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
+                <div className="absolute -left-[9px] top-8 sm:top-1/2 sm:-translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
                 <button
                   type="button"
                   onClick={() => speakSentence(currentPkg.originalSentence)}
-                  title="Nghe câu tiếng Anh (Phím A)"
-                  aria-label="Nghe câu tiếng Anh"
-                  className="shrink-0 w-11 h-11 rounded-2xl bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform shadow-2xs"
+                  title={`Nghe giọng ${activeCharacter.name} (Phím A)`}
+                  aria-label={`Nghe giọng ${activeCharacter.name}`}
+                  className="shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform shadow-2xs group"
                 >
-                  <Volume2 className="w-7 h-7 fill-sky-500 text-sky-500" />
+                  <Volume2 className="w-7 h-7 fill-sky-500 text-sky-500 group-hover:scale-105 transition-transform" />
                 </button>
                 <p className="text-lg sm:text-xl font-medium text-slate-700 dark:text-slate-100 leading-relaxed">
                   {cueWords.map((w, i) => (

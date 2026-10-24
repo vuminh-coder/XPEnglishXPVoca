@@ -76,12 +76,13 @@ export function safeSpeakText(
   text: string,
   options: SpeakOptions & { lang?: string } = {}
 ) {
-  const { lang, rate, volume, lessonId, speakerIndex, onEnd, onError, delayMs, onWordBoundary } = options;
+  const { lang, rate, pitch, volume, lessonId, speakerIndex, onEnd, onError, delayMs, onWordBoundary } = options;
   speakLessonText(text, {
     lessonId,
     speakerIndex,
     accent: lang as any,
     rate,
+    pitch,
     volume,
     onEnd,
     onError,

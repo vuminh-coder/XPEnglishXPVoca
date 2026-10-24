@@ -101,4 +101,44 @@ describe("Mini Games Feature Suite (/study/games)", () => {
       expect(() => gameAudio.playVictoryFanfare()).not.toThrow();
     });
   });
+
+  describe("4. 7-Character Roster & Voice Context Matching", () => {
+    it("exports exactly 7 unique companion characters with complete voice profiles", async () => {
+      const { XP_CHARACTERS } = await import("@/features/games/data/characterRoster");
+      expect(XP_CHARACTERS).toHaveLength(7);
+
+      const ids = XP_CHARACTERS.map((c) => c.id);
+      expect(new Set(ids).size).toBe(7);
+      expect(ids).toEqual(["minh", "linh", "nam", "mai", "robert", "an", "sam"]);
+
+      XP_CHARACTERS.forEach((c) => {
+        expect(c.name).toBeTruthy();
+        expect(c.role).toBeTruthy();
+        expect(c.contextTag).toBeTruthy();
+        expect(c.avatarUrl).toMatch(/^\/images\/characters\/[a-z]+\.jpg$/);
+        expect(c.voice.pitch).toBeGreaterThan(0.5);
+        expect(c.voice.pitch).toBeLessThan(1.5);
+        expect(c.voice.rate).toBeGreaterThan(0.5);
+        expect(c.voice.rate).toBeLessThan(1.5);
+      });
+    });
+
+    it("matches character context intelligently based on sentence keywords", async () => {
+      const { getCharacterForRound } = await import("@/features/games/data/characterRoster");
+
+      // Tech sentence -> Nam
+      expect(getCharacterForRound(0, "Modern technology plays an essential role.").id).toBe("nam");
+      // Academic / grammar -> Linh
+      expect(getCharacterForRound(0, "We should study English grammar thoroughly for the exam.").id).toBe("linh");
+      // History / wisdom -> Robert
+      expect(getCharacterForRound(0, "The ancient history tells a story of wisdom.").id).toBe("robert");
+      // Basic / child words -> An
+      expect(getCharacterForRound(0, "The little dog is playing with an apple.").id).toBe("an");
+      // Travel / sports -> Sam
+      expect(getCharacterForRound(0, "Our flight to the airport was an adventure.").id).toBe("sam");
+      // Art / coffee -> Mai
+      expect(getCharacterForRound(0, "Drinking coffee with a good friend while enjoying music.").id).toBe("mai");
+    });
+  });
 });
+
