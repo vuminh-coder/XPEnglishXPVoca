@@ -16,4 +16,7 @@ export * from "./components/PracticeMatchPairsArena";
 export * from "./components/PracticeSentenceBuilderArena";
 export * from "./components/PracticeArenaNavigation";
 export * from "./components/PracticeWordLabSidebar";
+export * from "./components/PracticeWordLabDrawer";
+export * from "./components/PracticeBottomBar";
+export * from "./components/PracticeCompanionSpeech";
 export * from "./components/PracticeScoreCard";

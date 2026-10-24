@@ -3,7 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Trophy, Target, CheckCircle2, Clock, RotateCcw, Headphones } from "lucide-react";
+import { Trophy, Target, CheckCircle2, Clock, RotateCcw, ArrowRight, Zap, Sparkles } from "lucide-react";
+import { XP_CHARACTERS } from "@/features/games/data/characterRoster";
 
 interface PracticeScoreCardProps {
   totalWords: number;
@@ -26,106 +27,95 @@ export function PracticeScoreCard({
     ((correctCount || totalWords) / Math.max(1, totalWords)) * 100
   );
 
+  const character = XP_CHARACTERS[1] || XP_CHARACTERS[0]; // Cô Linh
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.2 }}
-      className="flex-1 min-h-0 overflow-y-auto space-y-3"
+      className="flex-1 flex flex-col justify-between py-2 sm:py-4 gap-4 min-h-0 select-none"
     >
-      {/* Top Score Banner Card */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center border border-amber-500/20 shadow-2xs shrink-0">
-              <Trophy className="w-7 h-7" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display">
-                  Hoàn Thành Buổi Ôn Tập Từ Vựng!
-                </h2>
-                <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 uppercase">
-                  Xuất sắc
-                </span>
-              </div>
-              <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                Đã hoàn thành{" "}
-                <strong className="text-slate-900 dark:text-white">{totalWords} từ vựng</strong> trong
-                thời gian{" "}
-                <strong className="text-slate-900 dark:text-white">
-                  {formatElapsedTime(elapsedTime)}
-                </strong>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 sm:self-center">
-            <div className="text-right">
-              <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                Tổng Thưởng
-              </span>
-              <span className="text-xl sm:text-2xl font-black text-amber-600 dark:text-amber-400 font-display tabular-nums">
-                +{totalEarnedXp} XP
-              </span>
-            </div>
-          </div>
+      {/* 1. Companion Character & Victory Headline */}
+      <div className="flex flex-col items-center justify-center text-center space-y-2 pt-2">
+        <div className="relative w-24 h-32 sm:w-32 sm:h-40 flex items-end justify-center pointer-events-none">
+          <div className="absolute bottom-0 w-20 sm:w-26 h-3 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
+          <img
+            src={character.avatarUrl}
+            alt={character.name}
+            className="relative max-h-full w-auto object-contain filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.18)]"
+            loading="eager"
+          />
         </div>
 
-        {/* 3 Metric Tiles */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-              <Target className="w-3.5 h-3.5 text-[#0059bb]" /> Số từ đã ôn
-            </span>
-            <p className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-mono tabular-nums">
-              {totalWords} từ
-            </p>
+        <div className="space-y-1">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-black uppercase tracking-wider shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Hoàn Thành Xuất Sắc</span>
           </div>
+          <h2 className="text-2xl sm:text-3xl font-black font-display text-slate-900 dark:text-white tracking-tight">
+            Tổng Kết Buổi Luyện Tập!
+          </h2>
+          <p className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">
+            Bạn đã ôn tập trọn vẹn {totalWords} từ vựng với kết quả ấn tượng!
+          </p>
+        </div>
+      </div>
 
-          <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Tỷ lệ ghi nhớ
-            </span>
-            <p className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400 font-mono tabular-nums">
-              {accuracyPercent}%
-            </p>
+      {/* 2. Key Metrics Grid (3D Cards) */}
+      <div className="grid grid-cols-3 gap-2.5 sm:gap-4 max-w-xl mx-auto w-full">
+        {/* XP Earned */}
+        <div className="p-3 sm:p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border-2 border-b-[4px] border-amber-300 dark:border-amber-800 text-center space-y-1 shadow-2xs">
+          <div className="flex items-center justify-center gap-1 text-amber-700 dark:text-amber-300 text-xs font-bold">
+            <Zap className="w-4 h-4 fill-amber-500 text-amber-500" />
+            <span>XP Thưởng</span>
           </div>
-
-          <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-indigo-500" /> Thời gian học
-            </span>
-            <p className="text-base sm:text-lg font-bold text-indigo-600 dark:text-indigo-400 font-mono tabular-nums">
-              {formatElapsedTime(elapsedTime)}
-            </p>
-          </div>
+          <p className="text-xl sm:text-2xl font-black font-display text-amber-900 dark:text-amber-100 tabular-nums">
+            +{totalEarnedXp}
+          </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-end gap-2.5">
-          <button
-            type="button"
-            onClick={onRestartSession}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] active:scale-95 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-2xs cursor-pointer transition-all"
-          >
-            <RotateCcw className="w-4 h-4" /> Luyện Lại Buổi Này
-          </button>
-
-          <Link
-            href="/study/dictation"
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-800/60 active:scale-95 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-2xs transition-all"
-          >
-            <Headphones className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> Sang Phòng Luyện Nghe
-          </Link>
-
-          <Link
-            href="/dashboard"
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-colors"
-          >
-            Về Bảng Điều Khiển
-          </Link>
+        {/* Accuracy */}
+        <div className="p-3 sm:p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border-2 border-b-[4px] border-emerald-300 dark:border-emerald-800 text-center space-y-1 shadow-2xs">
+          <div className="flex items-center justify-center gap-1 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
+            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+            <span>Ghi nhớ</span>
+          </div>
+          <p className="text-xl sm:text-2xl font-black font-display text-emerald-900 dark:text-emerald-100 tabular-nums">
+            {accuracyPercent}%
+          </p>
         </div>
+
+        {/* Elapsed Time */}
+        <div className="p-3 sm:p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border-2 border-b-[4px] border-blue-300 dark:border-blue-800 text-center space-y-1 shadow-2xs">
+          <div className="flex items-center justify-center gap-1 text-[#0059bb] dark:text-sky-300 text-xs font-bold">
+            <Clock className="w-4 h-4" />
+            <span>Thời gian</span>
+          </div>
+          <p className="text-xl sm:text-2xl font-black font-mono text-slate-900 dark:text-white tabular-nums">
+            {formatElapsedTime(elapsedTime)}
+          </p>
+        </div>
+      </div>
+
+      {/* 3. Action Buttons Row (3D Duolingo CTA) */}
+      <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 max-w-xl mx-auto w-full pt-2">
+        <button
+          type="button"
+          onClick={onRestartSession}
+          className="w-full sm:flex-1 h-12 rounded-2xl border-2 border-b-[4px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs transition-all"
+        >
+          <RotateCcw className="w-4 h-4 stroke-[2.4]" />
+          <span>Luyện lại bài này</span>
+        </button>
+
+        <Link
+          href="/roadmap"
+          className="w-full sm:flex-1 h-12 rounded-2xl border-2 border-b-[4px] border-[#003d82] bg-[#0059bb] hover:bg-blue-600 text-white text-sm font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-sm transition-all"
+        >
+          <span>Tiếp tục Lộ trình</span>
+          <ArrowRight className="w-4 h-4 stroke-[2.8]" />
+        </Link>
       </div>
     </motion.div>
   );

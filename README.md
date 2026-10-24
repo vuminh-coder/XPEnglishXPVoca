@@ -46,6 +46,34 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
 
 ---
 
+## 🎯 Phòng Luyện Tập Từ Vựng Studio 100dvh (`features/practice` & `/study/practice`)
+
+Trang Luyện Tập Từ Vựng được thiết kế lại toàn diện theo chuẩn **Immersive Studio 100dvh** đồng bộ trải nghiệm với Word Link và Sentence Builder:
+
+- **Bố cục Single-Screen Viewport Fold (100dvh):**
+  - Căn giữa tối ưu ergonomics (`max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6`), loại bỏ hoàn toàn hiện tượng cuộn dọc trên cả Desktop lẫn Mobile.
+  - Loại bỏ thanh `AppTopHeader` cồng kềnh, thay bằng thanh Studio Top Bar tinh gọn: Nút Thoát `[X]` trực tiếp về `/roadmap`, thanh tiến độ xanh Emerald có dải sáng specular highlight, nút bật/tắt âm thanh, nút mở nhanh Sổ tay từ vựng, huy hiệu đếm tiến trình `Câu X/Y` và nút luyện lại ván mới.
+  - Ẩn thanh BottomNav trên mobile để dành trọn vẹn 100% không gian hiển thị cho bài luyện.
+- **Hệ thống Linh vật 3D & Bong bóng thoại Duolingo (`PracticeCompanionSpeech`):**
+  - Nhân vật 3D độc quyền (`XP_CHARACTERS`) đứng tự do với bóng đổ sàn tự nhiên.
+  - Bong bóng thoại tương tác tích hợp bộ đôi nút phát âm trực tiếp: Loa (`Volume2` - phím A) tốc độ chuẩn và Rùa (`Turtle` - phím S) phát âm chậm rãi.
+  - Lời thoại ngữ cảnh có gạch chân nét đứt (`border-dashed`) chỉ dẫn người học trực quan.
+- **4 Chế độ Luyện tập Nội tại Xúc giác 3D (Tactile 3D Controls):**
+  - **Trắc nghiệm (Quiz):** 4 thẻ lựa chọn nổi khối 3D (`border-b-[4px]` hoặc `border-b-[5px]`, hiệu ứng lún phím 2px khi bấm), hiển thị nhãn phím tắt [A], [B], [C], [D] tương ứng với phím 1–4.
+  - **Thẻ ghi nhớ (Flashcard 3D):** Lật thẻ không gian 3D mượt mà (chạm thẻ hoặc phím Space), tích hợp 3 nút đánh giá Spaced Repetition SRS (Quên rồi, Đã nhớ, Thuộc lòng) tương ứng phím 1–3.
+  - **Gõ từ (Writing):** Ô nhập liệu chính tả font mono rõ nét, hỗ trợ phím Enter để kiểm tra nhanh và nút bật/tắt gợi ý ký tự thông minh.
+  - **Phát âm AI (Speaking):** Vòng tròn AI Voice Recording với sóng âm pulsing ring và phân tích độ chính xác phát âm bản xứ.
+  - **Lối tắt Studio Chuyên Sâu:** Tích hợp nút chuyển tiếp mượt mà sang `[Nối từ ↗]` (`/study/word-link`) và `[Ghép câu ↗]` (`/study/sentence-builder`).
+- **Thanh Phản Hồi Đáy Duolingo (Bottom Sticky Sheet - `PracticeBottomBar`):**
+  - Trạng thái chưa trả lời: Nút "BỎ QUA" và nút chính "KIỂM TRA" 3D màu xanh hoàng gia `#0059bb` (`border-b-[4px] border-[#003d82]`).
+  - Trạng thái đã trả lời: Trượt lên thanh phản hồi màu Emerald (khi đúng) hoặc Rose (khi sai), hiển thị icon Check/X to rõ, thông báo điểm thưởng XP, bản dịch nghĩa, nút nghe lại phát âm, nút mở nhanh ví dụ câu thực tế, và nút 3D "TIẾP TỤC →" (hỗ trợ phím Enter).
+- **Ngăn Kéo Từ Vựng Tiện Ích (`PracticeWordLabDrawer`):**
+  - Thay thế thanh sidebar 4/12 cột cố định gây chật hẹp bằng ngăn kéo Modal/Drawer mượt mà, xem chi tiết phiên âm IPA, loại từ, cấp độ (A1-C1), câu ví dụ thực tế và Spaced Repetition tip mà không làm đứt đoạn nhịp học.
+- **Màn Hình Tổng Kết Chiến Thắng (`PracticeScoreCard`):**
+  - Tích hợp linh vật 3D ăn mừng, thẻ thống kê 3D (XP thưởng, tỷ lệ ghi nhớ, thời gian học), và 2 nút hành động xúc giác ("Luyện lại bài này" & "Tiếp tục Lộ trình").
+
+---
+
 ## 📊 Quy Chuẩn Hiệu Năng Truy Vấn Cơ Sở Dữ Liệu (Database Query Performance Standard)
 
 > **Mục đích:** Quy chuẩn bắt buộc để thiết kế, phân tích và tối ưu Database Query trong toàn bộ dự án XP English & XP Voca.

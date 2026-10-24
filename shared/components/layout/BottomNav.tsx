@@ -32,7 +32,8 @@ export default function BottomNav() {
 
   const isDedicatedGameRoute = Boolean(
     pathname?.startsWith("/study/sentence-builder") ||
-    pathname?.startsWith("/study/word-link")
+    pathname?.startsWith("/study/word-link") ||
+    pathname?.startsWith("/study/practice")
   );
 
   const [hasLessonQuery, setHasLessonQuery] = React.useState(false);
