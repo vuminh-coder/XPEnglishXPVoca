@@ -25,6 +25,7 @@ export interface SentenceBuilderGameProps {
   pool: any[];
   onBack: () => void;
   backLabel?: string;
+  fullWidth?: boolean;
 }
 
 interface WordToken {
@@ -69,6 +70,7 @@ export function SentenceBuilderGame({
   pool,
   onBack,
   backLabel,
+  fullWidth = false,
 }: SentenceBuilderGameProps) {
   const { addToast } = useNotificationStore();
 
@@ -374,7 +376,7 @@ export function SentenceBuilderGame({
     "h-11 px-4 rounded-xl border-2 border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-bold font-display uppercase tracking-wide flex items-center justify-center gap-1.5 cursor-pointer transition-all hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:translate-y-0 disabled:active:border-b-4";
 
   return (
-    <div className="select-none w-full max-w-2xl mx-auto flex flex-col gap-4 sm:gap-5">
+    <div className={`select-none w-full mx-auto flex flex-col gap-4 sm:gap-5 ${fullWidth ? "" : "max-w-2xl"}`}>
       {/* 1. Top bar: Mute + chunky progress + score */}
       <div className="flex items-center gap-3">
         <button

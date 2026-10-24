@@ -78,7 +78,7 @@ export default function SentenceBuilderClient() {
       />
 
       {/* 2. UNIT BANNER (đồng bộ ZiczacUnitHeader của Roadmap) */}
-      <div className="w-full max-w-2xl mx-auto px-4 sm:px-0 mt-3 sm:mt-4">
+      <div className="w-full px-3 sm:px-6 lg:px-8 mt-3 sm:mt-4">
         <div className="rounded-2xl sm:rounded-3xl bg-[#0059bb] border-b-4 border-[#003d82] text-white shadow-lg flex items-stretch overflow-hidden">
           <div className="flex-1 min-w-0 px-4 sm:px-5 py-2.5 sm:py-3.5 flex flex-col justify-center gap-1">
             <div className="flex items-center gap-2.5 flex-wrap">
@@ -103,11 +103,12 @@ export default function SentenceBuilderClient() {
       </div>
 
       {/* 3. GAME ARENA WORKSPACE */}
-      <div className="w-full max-w-2xl mx-auto px-4 sm:px-0 py-4 sm:py-5">
+      <div className="w-full px-3 sm:px-6 lg:px-8 py-4 sm:py-5">
         <SentenceBuilderGame
           pool={themeVocabs}
           onBack={() => router.push("/roadmap")}
           backLabel="Tiếp tục Lộ trình"
+          fullWidth
         />
       </div>
     </div>
