@@ -44,7 +44,6 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
   const [combo, setCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
   const [characterIdx, setCharacterIdx] = useState(0);
-  const [elapsed, setElapsed] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
@@ -129,7 +128,6 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     setCombo(0);
     setMaxCombo(0);
     setCharacterIdx((idx) => (idx + 1) % XP_CHARACTERS.length);
-    setElapsed(0);
     setGameOver(false);
     setFinalScore(0);
     setRewards({ xp: 0, coins: 0 });
@@ -140,21 +138,15 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     initGame();
   }, [initGame]);
 
-  useEffect(() => {
-    if (gameOver || items.length === 0) return;
-    const t = setInterval(() => setElapsed((s) => s + 1), 1000);
-    return () => clearInterval(t);
-  }, [gameOver, items]);
-
   const finish = useCallback(
-    (mistakeCount: number, seconds: number) => {
+    (mistakeCount: number) => {
+      const durationSeconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
       const base = pairCount * 10;
-      const score = Math.max(20, base - mistakeCount * 4 + Math.max(0, Math.round(40 - seconds / 2)));
+      const score = Math.max(20, base - mistakeCount * 4 + Math.max(0, Math.round(40 - durationSeconds / 2)));
       setFinalScore(score);
       setGameOver(true);
       triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
-      const durationSeconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
       recordGameSession({
         gameType: "wordlink",
         score,
@@ -197,7 +189,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
       const nextLinked = [...linked, pairId];
       setLinked(nextLinked);
       setSelectedLeft(null);
-      if (nextLinked.length >= items.length) finish(mistakes, elapsed);
+      if (nextLinked.length >= items.length) finish(mistakes);
     } else {
       triggerHaptic("warning");
       gameAudio.playWrongBuzzer();
@@ -217,6 +209,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
   if (gameOver) {
     const total = pairCount + mistakes;
     const accuracy = Math.round((pairCount / Math.max(1, total)) * 100);
+    const durationSeconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
     const reviewItems: GameReviewItem[] = items.map((i) => ({
       ...i.review,
       isCorrect: !mistakeIds.has(i.pairId),
@@ -225,12 +218,12 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
       <GameResultScreen
         gameType="wordlink"
         title="Nối Từ Xuất Sắc!"
-        subtitle={`Bạn đã nối đúng ${pairCount} cặp từ Anh - Việt với ${mistakes} lần nối sai trong ${elapsed} giây.`}
+        subtitle={`Bạn đã nối đúng ${pairCount} cặp từ Anh - Việt với ${mistakes} lần nối sai trong ${durationSeconds} giây.`}
         score={finalScore}
         xpEarned={rewards.xp}
         coinsEarned={rewards.coins}
         accuracy={accuracy}
-        durationSeconds={elapsed}
+        durationSeconds={durationSeconds}
         maxCombo={maxCombo || pairCount}
         reviewItems={reviewItems}
         backLabel={backLabel}
@@ -297,12 +290,6 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [speakCurrent]);
-
-  const formatTime = (secs: number) => {
-    const m = Math.floor(secs / 60);
-    const s = secs % 60;
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-  };
 
   const tileClass = (state: "idle" | "selected" | "linked" | "wrong") => {
     const heightPad = "min-h-[52px] sm:min-h-[58px] px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl";
@@ -380,13 +367,11 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
             )}
           </button>
 
-          {/* Progress Counter & Timer */}
+          {/* Progress Counter */}
           <div className="flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-extrabold font-display text-xs sm:text-sm tabular-nums shadow-2xs">
             <span className="text-[#0059bb] dark:text-sky-400">{linked.length}</span>
             <span className="text-slate-300 dark:text-slate-600 font-light">/</span>
             <span>{items.length}</span>
-            <span className="text-slate-300 dark:text-slate-600 font-light mx-0.5">·</span>
-            <span className="text-slate-500 dark:text-slate-400 text-xs font-semibold">{formatTime(elapsed)}</span>
           </div>
 
           {/* Reset button */}
