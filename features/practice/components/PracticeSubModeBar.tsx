@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Brain, Layers, PenLine } from "lucide-react";
 import { SubMode } from "../types";
 
-const SpeakingIcon = ({ className = "w-4 h-4 sm:w-4.5 sm:h-4.5" }: { className?: string }) => (
+const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
@@ -41,9 +41,9 @@ export function PracticeSubModeBar({
   ];
 
   return (
-    <div className="flex items-center justify-center shrink-0 py-1 w-full">
-      {/* 4 In-place Practice Modes Pill (Enlarged to h-9 sm:h-11 tactile size matching Sentence Builder) */}
-      <div className="flex items-center gap-0.5 sm:gap-1.5 p-1 sm:p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 relative shadow-2xs w-full sm:w-auto">
+    <div className="flex items-center justify-center shrink-0 py-0.5">
+      {/* 4 In-place Practice Modes Pill (+2px height & AppTopHeader subtle border with original rounded-2xl/rounded-xl) */}
+      <div className="flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 relative shadow-2xs">
         {inPlaceModes.map((m) => {
           const Icon = m.icon;
           const isActive = subMode === m.id;
@@ -52,7 +52,7 @@ export function PracticeSubModeBar({
               key={m.id}
               type="button"
               onClick={() => onSubModeChange(m.id)}
-              className="flex-1 sm:flex-initial relative h-9 sm:h-11 px-1.5 sm:px-4.5 rounded-xl text-[11px] sm:text-sm font-bold cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 sm:gap-2 active:scale-95 transition-all select-none"
+              className="relative h-[32px] sm:h-[34px] px-2.5 sm:px-3.5 rounded-xl text-xs font-bold cursor-pointer whitespace-nowrap flex items-center justify-center gap-1.5 active:scale-95 transition-all select-none"
             >
               {isActive && (
                 <motion.div
@@ -62,13 +62,13 @@ export function PracticeSubModeBar({
                 />
               )}
               <span
-                className={`relative z-10 flex items-center justify-center gap-1 sm:gap-2 transition-colors duration-150 ${
+                className={`relative z-10 flex items-center justify-center gap-1.5 transition-colors duration-150 ${
                   isActive
                     ? "text-[#0059bb] dark:text-sky-400 font-bold"
                     : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-semibold"
                 }`}
               >
-                <Icon className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 shrink-0" />
+                <Icon className="w-3.5 h-3.5 shrink-0" />
                 <span>{m.label}</span>
               </span>
             </button>
