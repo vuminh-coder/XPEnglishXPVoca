@@ -58,34 +58,6 @@ export default function WordLinkClient() {
     <div className="w-full min-h-dvh h-dvh flex flex-col justify-between bg-[#fffefb] dark:bg-slate-950 font-sans select-none overflow-hidden">
       {/* GAME ARENA WORKSPACE (Full single viewport fold, matching container max-width & margins) */}
       <div className="w-full max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 flex-1 flex flex-col justify-between py-3 sm:py-5">
-        {/* Quick Part Switcher if multiple parts exist */}
-        {partitionResult.totalParts > 1 && (
-          <div className="flex items-center justify-between pb-2 mb-1 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
-              Chủ đề: {partitionResult.totalThemeWords} từ
-            </span>
-            <div className="flex items-center gap-1.5">
-              {partitionResult.partRanges.map((pr) => {
-                const isActive = pr.part === partitionResult.currentPart;
-                return (
-                  <button
-                    key={pr.part}
-                    type="button"
-                    onClick={() => handleSelectPart(pr.part)}
-                    className={`px-3 py-1 rounded-xl text-xs font-bold font-display transition-all cursor-pointer ${
-                      isActive
-                        ? "bg-[#0059bb] text-white shadow-xs"
-                        : "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300"
-                    }`}
-                  >
-                    Phần {pr.part} ({pr.count} từ)
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
         <WordLinkGame
           pool={partitionResult.items}
           themeId={themeParam || undefined}

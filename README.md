@@ -35,7 +35,7 @@ Chi tiết xem tại tài liệu kiến trúc chuyên sâu: [ARCHITECTURE.md](fi
     - Sidebar mục LUYỆN TẬP có lối tắt riêng: Nối từ (/study/word-link) và Ghép câu (/study/sentence-builder)
     3. Chặng 3: Ghép từ thành câu Word Bank phòng Studio riêng biệt (`/study/sentence-builder?theme=...&unit=...&part=1&totalParts=2`)
        - Thiết kế Duolingo-native chuẩn hóa: Hệ thống 7 nhân vật đồng hành 3D độc quyền (Minh, Cô Linh, Nam, Mai, Thầy Robert, Bé An, Sam) xuất hiện luân phiên theo ngữ cảnh câu văn (Đời sống, IELTS, Công sở & Tech, Lối sống, Văn học, Trẻ thơ, Thể thao) kết hợp bộ giọng TTS đa ngữ điệu và cao độ (pitch/rate), bóng thoại hướng dẫn, khay dòng kẻ ngang (Ruled Lines), ô từ vựng khuyết vị trí chống giật layout, phím tắt máy tính (Enter kiểm tra/tiếp tục, Backspace gỡ từ, phím 1-9 chọn từ, A phát âm), thanh phản hồi dưới đáy (Bottom Sheet) phân biệt trạng thái Đúng/Sai; cùng bố cục thiết kế tinh chỉnh vừa vặn trọn màn hình (single-screen viewport fold, không cần cuộn dọc) và khoảng cách lề hai bên cân đối, thoáng đãng trên cả Desktop lẫn Mobile.
-       - Tích hợp Bộ tổng hợp câu thông minh theo chủ đề (`themeSentenceSynthesizer.ts`) với 3 tầng lọc và sinh câu tự nhiên chuẩn xác theo ngữ cảnh chủ đề; bộ tab chuyển phần nhanh `[Phần 1 (15 từ)] [Phần 2 (15 từ)]` chia nhỏ 30 từ mỗi chủ đề thành 2 phiên học liền mạch.
+       - Tích hợp Bộ tổng hợp câu thông minh theo chủ đề (`themeSentenceSynthesizer.ts`) với 3 tầng lọc và sinh câu tự nhiên chuẩn xác theo ngữ cảnh chủ đề; tự động chia nhỏ 30 từ mỗi chủ đề thành 2 phiên học liền mạch đi kèm huy hiệu tiến trình `Phần 1/2` tích hợp trên thanh điều khiển.
     4. Chặng 4: Nghe chép chính tả hội thoại (`/study/dictation?theme=...`)
     5. Chặng 5: Đọc hiểu mẩu truyện (`/study/reading?theme=...`) & Luyện nói Shadowing (`/study/shadowing?theme=...`)
     6. Chặng 6: Cột mốc thi thử tổng hợp Unit (`/study/practice?mode=checkpoint&unit=...`)
@@ -7029,8 +7029,7 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
 13. **Phân Đoạn Từ Vựng Theo Chủ Đề & Tự Động Tổng Hợp Câu Thông Minh Cho Chặng Nối Từ & Ghép Câu (`/roadmap`, `/study/sentence-builder`, `/study/word-link`)**:
     - **Phân đoạn URL theo chủ đề (`vocabularyPartition.ts`)**:
       * URL tiêu chuẩn: `/study/word-link?theme=${themeId}&unit=${uNum}&part=${part}&totalParts=${totalParts}` và `/study/sentence-builder?theme=${themeId}&unit=${uNum}&part=${part}&totalParts=${totalParts}`.
-      * Tự động chia nhỏ 30 từ của mỗi chủ đề thành các phần học vừa vặn (mặc định 15 từ/phần, 2 phần cho 30 từ) tránh quá tải nhận thức.
-      * Tích hợp thanh chuyển tab phần nhanh `[Phần 1 (15 từ)] [Phần 2 (15 từ)]` với chỉ báo trạng thái Active bằng màu xanh thương hiệu `#0059bb`.
+      * Tự động chia nhỏ 30 từ của mỗi chủ đề thành các phần học vừa vặn (mặc định 15 từ/phần, 2 phần cho 30 từ) tránh quá tải nhận thức, tích hợp huy hiệu hiển thị `Phần 1/2` trực tiếp trên thanh điều khiển Studio và nút chuyển phần ở màn hình kết thúc.
     - **Tự động tổng hợp câu theo chủ đề (Theme-Aware Sentence Synthesizer - `themeSentenceSynthesizer.ts`)**:
       * Cơ chế 3 tầng đảm bảo luôn có câu hỏi chuẩn xác bám sát chủ đề mà không rơi vào câu mẫu mặc định:
         1. Tầng 1 (Examples): Lọc các câu ví dụ thực tế trong bộ từ vựng chủ đề với độ dài 3-12 từ phù hợp TTS và Word Bank.
