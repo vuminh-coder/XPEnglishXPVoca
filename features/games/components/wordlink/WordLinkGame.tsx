@@ -488,35 +488,23 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                   onClick={() => pickLeft(id)}
                   className={tileClass(state)}
                 >
-                  <div className="flex-1 min-w-0 pr-1 flex items-center">
-                    <span
-                      className={`block text-base sm:text-lg font-black font-display tracking-tight truncate transition-colors ${
-                        isSelected
-                          ? "text-[#0059bb] dark:text-sky-300"
-                          : isWrong
-                          ? "text-rose-600 dark:text-rose-300"
-                          : isLinked
-                          ? "text-emerald-700 dark:text-emerald-300"
-                          : "text-slate-800 dark:text-slate-100 group-hover:text-[#0059bb]"
-                      }`}
-                    >
-                      {it.word}
-                    </span>
-                  </div>
-                  {isLinked ? (
+                  <span
+                    className={`flex-1 min-w-0 text-base sm:text-lg font-black font-display tracking-tight truncate transition-colors ${
+                      isSelected
+                        ? "text-[#0059bb] dark:text-sky-300"
+                        : isWrong
+                        ? "text-rose-600 dark:text-rose-300"
+                        : isLinked
+                        ? "text-emerald-700 dark:text-emerald-300"
+                        : "text-slate-800 dark:text-slate-100 group-hover:text-[#0059bb]"
+                    }`}
+                  >
+                    {it.word}
+                  </span>
+                  {isLinked && (
                     <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />
                     </div>
-                  ) : (
-                    <Volume2
-                      className={`w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0 transition-colors ${
-                        isSelected
-                          ? "text-[#0059bb] dark:text-sky-300 stroke-[2.4]"
-                          : isWrong
-                          ? "text-rose-400 dark:text-rose-500"
-                          : "text-slate-300 dark:text-slate-600 group-hover:text-[#0059bb]"
-                      }`}
-                    />
                   )}
                 </button>
               );
