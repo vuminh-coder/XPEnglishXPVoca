@@ -57,8 +57,8 @@ export default function RoadmapPage() {
         <ProgressSuiteNavTabs />
       </AppTopHeader>
 
-      {/* 2. UNIFIED MAIN CONTAINER */}
-      <div className="w-full max-w-[1400px] 2xl:max-w-[1520px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 space-y-4 pt-1">
+      {/* 2. UNIFIED MAIN CONTAINER (Matching SentenceBuilder & WordLink max-width & margins) */}
+      <div className="w-full max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 space-y-4 pt-1">
         {/* 3. FULL WIDTH DUOLINGO WINDING PATHWAY */}
         <div className="w-full min-w-0">
           <div className="w-full py-2 sm:py-4">

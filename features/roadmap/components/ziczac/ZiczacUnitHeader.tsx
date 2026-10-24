@@ -68,7 +68,7 @@ export const ZiczacUnitHeader: React.FC<ZiczacUnitHeaderProps> = ({ unit }) => {
   const cleanTitle = match && match[2] ? match[2] : unit.unitTitle;
 
   return (
-    <div className="relative w-full max-w-3xl sm:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-auto my-6 sm:my-8 select-none">
+    <div className="relative w-full my-6 sm:my-8 select-none">
       {/* Duolingo Section Header Banner: Split into 85% Unit Content & 15% Guidebook Interactive Block */}
       <div
         className={`rounded-2xl sm:rounded-3xl text-white ${theme.bg} ${theme.border} shadow-lg flex items-stretch overflow-hidden transition-all`}
