@@ -52,16 +52,6 @@ export default function WordLinkClient() {
         hideMobileSearch={true}
         rightDesktopContent={
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Unit / Theme Pill */}
-            <span className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 border border-slate-200/90 dark:border-slate-700 text-xs font-bold font-mono tabular-nums flex items-center gap-1.5 shadow-2xs">
-              <span className="text-sm">{themeIcon}</span>
-              <span>
-                {unitParam ? `Unit ${unitParam}: ` : ""}
-                {displayTitle}
-              </span>
-            </span>
-
-            <div className="h-5 w-px bg-slate-200 dark:bg-slate-800 mx-0.5" />
 
             {/* Back to Roadmap CTA */}
             <Link
@@ -88,9 +78,9 @@ export default function WordLinkClient() {
       />
 
       {/* 2. UNIT BANNER (đồng bộ ZiczacUnitHeader của Roadmap) */}
-      <div className="w-full max-w-2xl mx-auto px-4 sm:px-0 mt-5 sm:mt-6">
+      <div className="w-full max-w-2xl mx-auto px-4 sm:px-0 mt-3 sm:mt-4">
         <div className="rounded-2xl sm:rounded-3xl bg-[#0059bb] border-b-4 border-[#003d82] text-white shadow-lg flex items-stretch overflow-hidden">
-          <div className="flex-1 min-w-0 px-4 sm:px-5 py-3.5 sm:py-4 flex flex-col justify-center gap-1">
+          <div className="flex-1 min-w-0 px-4 sm:px-5 py-2.5 sm:py-3.5 flex flex-col justify-center gap-1">
             <div className="flex items-center gap-2.5 flex-wrap">
               {unitParam && (
                 <span className="inline-flex items-center px-3 py-1 rounded-xl bg-amber-300 text-amber-950 text-xs font-black tracking-wider uppercase shadow-xs">
@@ -105,7 +95,7 @@ export default function WordLinkClient() {
               Chặng 2 · Nối từ Anh - Việt
             </p>
           </div>
-          <div className="w-[84px] sm:w-[104px] bg-white/10 flex flex-col items-center justify-center gap-0.5 text-center">
+          <div className="hidden sm:flex w-[104px] bg-white/10 flex-col items-center justify-center gap-0.5 text-center">
             <span className="text-3xl sm:text-4xl leading-none" aria-hidden>{themeIcon}</span>
             <span className="text-[10px] sm:text-[11px] font-bold font-display uppercase tracking-wider">Word Link</span>
           </div>
@@ -113,7 +103,7 @@ export default function WordLinkClient() {
       </div>
 
       {/* 3. GAME ARENA WORKSPACE */}
-      <div className="w-full max-w-2xl mx-auto px-4 sm:px-0 py-5 sm:py-6">
+      <div className="w-full max-w-2xl mx-auto px-4 sm:px-0 py-4 sm:py-5">
         <WordLinkGame
           pool={themeVocabs}
           onBack={() => router.push("/roadmap")}

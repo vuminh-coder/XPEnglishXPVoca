@@ -63,6 +63,7 @@ const FALLBACK_SENTENCES: SentenceCandidate[] = [
 ];
 
 const TOTAL_ROUNDS = 5;
+const HINT_COST = 5;
 
 export function SentenceBuilderGame({
   pool,
@@ -212,6 +213,7 @@ export function SentenceBuilderGame({
       const nextWord = pkg.tokens[currentPlacedLen];
       const match = availableTokens.find((t) => !t.isUsed && t.word.toLowerCase() === nextWord.toLowerCase());
       if (match) {
+        setScore((s) => Math.max(0, s - HINT_COST));
         handleSelectToken(match);
       }
     }
@@ -250,19 +252,22 @@ export function SentenceBuilderGame({
       setFeedback("wrong");
     }
 
-    setTimeout(() => {
-      if (currentIdx + 1 < packages.length) {
-        setCurrentIdx((c) => c + 1);
-      } else {
-        setGameOver(true);
-      }
-    }, 1200);
   }, [currentIdx, packages, placedTokens, feedback]);
+
+  // Continue to next sentence (người học tự bấm sau khi đọc đáp án)
+  const handleContinue = useCallback(() => {
+    if (feedback === null) return;
+    if (currentIdx + 1 < packages.length) {
+      setCurrentIdx((c) => c + 1);
+    } else {
+      setGameOver(true);
+    }
+  }, [feedback, currentIdx, packages.length]);
 
   // Skip sentence
   const handleSkip = useCallback(() => {
     const pkg = packages[currentIdx];
-    if (!pkg) return;
+    if (!pkg || feedback !== null) return;
 
     triggerHaptic("warning");
       gameAudio.playWrongBuzzer();
@@ -282,7 +287,7 @@ export function SentenceBuilderGame({
     } else {
       setGameOver(true);
     }
-  }, [currentIdx, packages]);
+  }, [currentIdx, packages, feedback]);
 
   // Game over sync
   useEffect(() => {
@@ -341,7 +346,18 @@ export function SentenceBuilderGame({
     : 0;
 
   const slotCount = currentPkg ? currentPkg.tokens.length : 0;
-  const canSubmit = placedTokens.length > 0 && feedback === null;
+  const canSubmit =
+    slotCount > 0 && placedTokens.length === slotCount && feedback === null;
+
+  // Vị trí các từ đặt sai (để tô riêng khi chấm sai)
+  const wrongPositions = new Set<number>();
+  if (feedback === "wrong" && currentPkg) {
+    placedTokens.forEach((tk, i) => {
+      if (tk.word.toLowerCase() !== (currentPkg.tokens[i] || "").toLowerCase()) {
+        wrongPositions.add(i);
+      }
+    });
+  }
 
   // Duolingo 3D tactile tile base (đồng bộ với nút chặng trên Roadmap)
   const tileBase =
@@ -436,7 +452,9 @@ export function SentenceBuilderGame({
             </div>
 
             {/* Answer tray */}
-            <div
+            <motion.div
+              animate={feedback === "wrong" ? { x: [0, -7, 7, -5, 5, 0] } : { x: 0 }}
+              transition={{ duration: 0.35 }}
               className={`p-3 sm:p-4 rounded-2xl border-2 border-b-4 bg-white dark:bg-slate-900 transition-colors ${
                 feedback === "correct"
                   ? "border-emerald-300 dark:border-emerald-800"
@@ -453,10 +471,11 @@ export function SentenceBuilderGame({
                   type="button"
                   onClick={handleHintNext}
                   disabled={feedback !== null}
-                  className="h-8 px-2.5 rounded-lg bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 text-[11px] font-bold flex items-center gap-1 cursor-pointer transition-all active:scale-95 disabled:opacity-40"
+                  title={`Điền sẵn từ tiếp theo (trừ ${HINT_COST} điểm)`}
+                  className="min-h-[44px] px-3 -my-2 rounded-xl text-amber-700 dark:text-amber-300 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-all hover:bg-amber-50 dark:hover:bg-amber-950/30 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  <HelpCircle className="w-3.5 h-3.5" />
-                  <span>Gợi ý</span>
+                  <HelpCircle className="w-4 h-4" />
+                  <span>Gợi ý (−{HINT_COST})</span>
                 </button>
               </div>
 
@@ -470,19 +489,29 @@ export function SentenceBuilderGame({
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       onClick={() => handleRemovePlacedToken(token, i)}
-                      className={`h-11 px-4 ${tileBase} ${trayTone}`}
+                      className={`h-11 px-4 ${tileBase} ${
+                        wrongPositions.has(i)
+                          ? "border-rose-500 bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-700 underline decoration-wavy decoration-rose-400 underline-offset-4"
+                          : trayTone
+                      }`}
                     >
                       {token.word}
                     </motion.button>
                   ) : (
                     <div
                       key={`slot-${i}`}
-                      className="h-11 w-14 sm:w-16 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40"
+                      style={{
+                        width: Math.min(
+                          120,
+                          Math.max(48, (currentPkg?.tokens[i]?.length || 4) * 9 + 30)
+                        ),
+                      }}
+                      className="h-11 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/40"
                     />
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
 
             {/* Word bank */}
             <div className="flex flex-wrap gap-2.5 justify-center py-1">
@@ -495,7 +524,7 @@ export function SentenceBuilderGame({
                   disabled={token.isUsed || feedback !== null}
                   className={`h-11 px-4 ${tileBase} ${
                     token.isUsed
-                      ? "border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/60 text-transparent cursor-default"
+                      ? "border-dashed border-slate-300 dark:border-slate-700 bg-transparent text-transparent cursor-default shadow-none border-b-2"
                       : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2 disabled:cursor-default"
                   }`}
                 >
@@ -505,15 +534,16 @@ export function SentenceBuilderGame({
             </div>
 
             {/* Bottom action zone (thumb-friendly): feedback OR actions */}
+            <div className="sticky bottom-20 lg:bottom-4 z-20 -mx-2 px-2 py-2 rounded-2xl bg-slate-50/90 dark:bg-slate-950/90 backdrop-blur-sm">
             {feedback === null ? (
-              <div className="flex flex-col gap-3 pt-1">
+              <div className="flex flex-col gap-3">
                 <button
                   type="button"
                   onClick={handleSubmit}
                   disabled={!canSubmit}
                   className={`w-full h-12 sm:h-14 rounded-2xl border-b-4 text-white text-sm sm:text-base font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
                     canSubmit
-                      ? "bg-[#0059bb] hover:bg-blue-600 border-[#003d82] shadow-lg shadow-[#0059bb]/25 cursor-pointer active:translate-y-[3px] active:border-b-[1px]"
+                      ? "bg-[#0059bb] hover:bg-blue-600 border-[#003d82] shadow-lg shadow-[#0059bb]/25 dark:bg-blue-700 dark:hover:bg-blue-600 dark:border-blue-900 dark:shadow-none cursor-pointer active:translate-y-[3px] active:border-b-[1px]"
                       : "bg-slate-200 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed"
                   }`}
                 >
@@ -538,6 +568,7 @@ export function SentenceBuilderGame({
                 </div>
               </div>
             ) : (
+              <div className="flex flex-col gap-3">
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -581,7 +612,21 @@ export function SentenceBuilderGame({
                   <Volume2 className="w-5 h-5" />
                 </button>
               </motion.div>
+              <button
+                type="button"
+                onClick={handleContinue}
+                autoFocus
+                className={`w-full h-12 sm:h-14 rounded-2xl border-b-4 text-white text-sm sm:text-base font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all active:translate-y-[3px] active:border-b-[1px] ${
+                  feedback === "correct"
+                    ? "bg-emerald-500 hover:bg-emerald-600 border-emerald-700 dark:bg-emerald-600 dark:border-emerald-800"
+                    : "bg-rose-500 hover:bg-rose-600 border-rose-700 dark:bg-rose-600 dark:border-rose-800"
+                }`}
+              >
+                <span>{currentIdx + 1 < packages.length ? "Tiếp tục" : "Xem kết quả"}</span>
+              </button>
+              </div>
             )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
