@@ -31,8 +31,9 @@ export default function RoadmapPage() {
       className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans"
       suppressHydrationWarning
     >
-      {/* 1. MASTER TOP HEADER (AppTopHeader Standardized Like Dictation) */}
+      {/* 1. MASTER TOP HEADER (Mobile Only - Hidden on Desktop) */}
       <AppTopHeader
+        className="lg:hidden"
         showGamificationStats={false}
         hideMobileSearch={false}
         searchProps={{
