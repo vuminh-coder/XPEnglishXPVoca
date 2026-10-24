@@ -545,12 +545,12 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
                   className={`${tileClass(state)} ${!selectedLeft && state === "idle" ? "opacity-90" : ""}`}
                 >
                   <span
-                    className={`flex-1 min-w-0 text-xs sm:text-sm font-bold line-clamp-2 leading-snug transition-colors ${
+                    className={`flex-1 min-w-0 text-sm sm:text-base font-bold sm:font-extrabold line-clamp-2 leading-snug transition-colors ${
                       isWrong
                         ? "text-rose-600 dark:text-rose-300"
                         : isLinked
                         ? "text-emerald-700 dark:text-emerald-300"
-                        : "text-slate-700 dark:text-slate-200"
+                        : "text-slate-700 dark:text-slate-100"
                     }`}
                   >
                     {cleanVn}
