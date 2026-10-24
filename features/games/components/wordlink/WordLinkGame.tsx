@@ -17,7 +17,7 @@ export interface WordLinkGameProps {
   backLabel?: string;
 }
 
-type PairCount = 4 | 6 | 8;
+const PAIR_COUNT = 5;
 
 interface LinkItem {
   pairId: string;
@@ -32,7 +32,7 @@ const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => 0.5 - Math.random());
 export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
   const { addToast } = useNotificationStore();
 
-  const [pairCount, setPairCount] = useState<PairCount>(6);
+  const pairCount = PAIR_COUNT;
   const [items, setItems] = useState<LinkItem[]>([]);
   const [leftOrder, setLeftOrder] = useState<string[]>([]);
   const [rightOrder, setRightOrder] = useState<string[]>([]);
@@ -235,12 +235,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
   };
 
   const tileClass = (state: "idle" | "selected" | "linked" | "wrong") => {
-    const heightPad =
-      pairCount === 8
-        ? "min-h-[44px] sm:min-h-[48px] px-3 py-1.5 rounded-xl sm:rounded-2xl"
-        : pairCount === 6
-        ? "min-h-[52px] sm:min-h-[58px] px-3.5 py-2 rounded-2xl"
-        : "min-h-[62px] sm:min-h-[70px] px-4 py-3 rounded-2xl";
+    const heightPad = "min-h-[52px] sm:min-h-[58px] px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl";
 
     const base = `group w-full ${heightPad} border-2 text-left flex items-center justify-between gap-2.5 transition-all select-none `;
     switch (state) {
@@ -267,12 +262,7 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
     }
   };
 
-  const listGap =
-    pairCount === 8
-      ? "gap-1.5 sm:gap-2"
-      : pairCount === 6
-      ? "gap-2 sm:gap-2.5"
-      : "gap-2.5 sm:gap-3.5";
+  const listGap = "gap-2 sm:gap-2.5";
 
   return (
     <div className="select-none w-full flex-1 flex flex-col justify-between gap-2.5 sm:gap-3.5 h-full">
@@ -342,26 +332,33 @@ export function WordLinkGame({ pool, onBack, backLabel }: WordLinkGameProps) {
         </div>
       </div>
 
-      {/* 2. 3D Companion Mascot & Speech Bubble */}
-      <div className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 w-full">
+      {/* 2. 3D Companion Mascot (Matching SentenceBuilder scale) & Speech Bubble */}
+      <div className="flex items-center gap-3 sm:gap-4 shrink-0 w-full">
         {/* 3D Character Avatar (Free-standing) */}
-        <div className="relative w-11 h-14 sm:w-13 sm:h-16 shrink-0 flex items-end justify-center select-none pointer-events-none">
-          <div className="absolute bottom-0 w-9 sm:w-11 h-2 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[1px]" />
-          <img
-            src={activeCharacter.avatarUrl}
-            alt={activeCharacter.name}
-            className="relative z-10 w-full h-full object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.14)]"
-          />
+        <div className="shrink-0 flex flex-col items-center">
+          <div className="relative w-20 h-26 sm:w-28 sm:h-36 lg:w-30 lg:h-38 flex items-end justify-center select-none pointer-events-none">
+            {/* Soft floor shadow */}
+            <div className="absolute bottom-0 w-16 sm:w-22 lg:w-24 h-2.5 sm:h-3 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
+            <img
+              src={activeCharacter.avatarUrl}
+              alt={activeCharacter.name}
+              className="relative max-h-full w-auto object-contain filter drop-shadow-[0_6px_12px_rgba(0,0,0,0.14)] transition-transform hover:scale-105 duration-200"
+              loading="eager"
+            />
+          </div>
+          <span className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-400 mt-1">
+            {activeCharacter.name}
+          </span>
         </div>
 
         {/* Speech Bubble (Spans width matching 2 columns below) */}
-        <div className="relative flex-1 min-w-0 bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl shadow-xs">
-          <div className="absolute left-[-6px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200/90 dark:border-slate-700 -rotate-45" />
-          <p className="text-xs sm:text-sm font-black font-display text-slate-800 dark:text-slate-100 tracking-tight">
+        <div className="relative flex-1 min-w-0 bg-white dark:bg-slate-900 border-2 border-slate-200/90 dark:border-slate-700 px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl shadow-2xs flex flex-col justify-center">
+          <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200/90 dark:border-slate-700" />
+          <p className="text-sm sm:text-base font-black font-display text-slate-800 dark:text-slate-100 tracking-tight leading-snug">
             {speechText}
           </p>
-          <p className="text-[11px] text-slate-400 font-medium truncate">
-            {activeCharacter.name} · {activeCharacter.role}
+          <p className="text-xs text-slate-400 font-medium mt-0.5 truncate">
+            {activeCharacter.role}
           </p>
         </div>
       </div>
