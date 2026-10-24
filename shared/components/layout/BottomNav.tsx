@@ -25,7 +25,14 @@ export default function BottomNav() {
     pathname?.startsWith("/study/dictation") ||
     pathname?.startsWith("/study/listening") ||
     pathname?.startsWith("/study/shadowing") ||
-    pathname?.startsWith("/study/reading")
+    pathname?.startsWith("/study/reading") ||
+    pathname?.startsWith("/study/sentence-builder") ||
+    pathname?.startsWith("/study/word-link")
+  );
+
+  const isDedicatedGameRoute = Boolean(
+    pathname?.startsWith("/study/sentence-builder") ||
+    pathname?.startsWith("/study/word-link")
   );
 
   const [hasLessonQuery, setHasLessonQuery] = React.useState(false);
@@ -37,6 +44,7 @@ export default function BottomNav() {
         Boolean(
           search.includes("id=") ||
           search.includes("lessonId=") ||
+          search.includes("theme=") ||
           pathname?.includes("/comprehension")
         )
       );
@@ -48,12 +56,14 @@ export default function BottomNav() {
     isStudioPracticeRoute &&
     (window.location.search.includes("id=") ||
       window.location.search.includes("lessonId=") ||
+      window.location.search.includes("theme=") ||
       pathname?.includes("/comprehension"));
 
   if (
     isExamActivePage ||
     hideBottomNav ||
     isClientStudio ||
+    isDedicatedGameRoute ||
     (isStudioPracticeRoute && hasLessonQuery)
   ) {
     return null;

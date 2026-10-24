@@ -420,9 +420,9 @@ export function SentenceBuilderGame({
     });
   }
 
-  // ── Duolingo-mobile style tokens ──
+  // ── Duolingo-mobile style tokens (Calibrated for 100% viewport fitting) ──
   const chipBase =
-    "h-12 px-4 rounded-2xl border-2 border-b-4 text-base font-semibold transition-all duration-100 select-none";
+    "h-11 sm:h-12 px-3 sm:px-4 rounded-xl sm:rounded-2xl border-2 border-b-4 text-sm sm:text-base font-semibold transition-all duration-100 select-none flex items-center justify-center";
   const chipIdle =
     "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 active:translate-y-[2px] active:border-b-2";
   const chipPlacedTone =
@@ -432,10 +432,10 @@ export function SentenceBuilderGame({
       ? "border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-700"
       : chipIdle;
 
-  const ROW_PITCH = 64; // 44px chip + 20px khoảng cách = 1 dòng kẻ
+  const ROW_PITCH = 52; // Compact, fits screen gracefully
   const ruledStyle: React.CSSProperties = {
-    minHeight: ROW_PITCH * 3,
-    backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent ${ROW_PITCH - 2}px, rgba(148,163,184,0.38) ${ROW_PITCH - 2}px, rgba(148,163,184,0.38) ${ROW_PITCH}px)`,
+    minHeight: ROW_PITCH * 2,
+    backgroundImage: `repeating-linear-gradient(to bottom, transparent 0, transparent ${ROW_PITCH - 2}px, rgba(148,163,184,0.35) ${ROW_PITCH - 2}px, rgba(148,163,184,0.35) ${ROW_PITCH}px)`,
   };
 
   const footerTone =
@@ -448,32 +448,32 @@ export function SentenceBuilderGame({
   const cueWords = currentPkg ? currentPkg.translationVn.split(/\s+/) : [];
 
   return (
-    <div className="select-none w-full mx-auto flex flex-col gap-5 sm:gap-6">
+    <div className="select-none w-full mx-auto flex flex-col justify-between flex-1 gap-3 sm:gap-4">
       {/* 1. Top bar: X + chunky progress + score */}
-      <div className="flex items-center gap-3 sm:gap-4">
+      <div className="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
         <button
           type="button"
           onClick={onBack}
           title="Thoát bài"
           aria-label="Thoát bài"
-          className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200 cursor-pointer transition-colors active:scale-90"
+          className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200 cursor-pointer transition-colors active:scale-90"
         >
-          <X className="w-7 h-7 stroke-[2.6]" />
+          <X className="w-6 h-6 stroke-[2.6]" />
         </button>
 
-        <div className="relative flex-1 h-4 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+        <div className="relative flex-1 h-3.5 sm:h-4 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
           <motion.div
             className="absolute inset-y-0 left-0 rounded-full bg-emerald-500"
             initial={{ width: 0 }}
             animate={{ width: `${Math.max(progressPct, 6)}%` }}
             transition={{ type: "spring", stiffness: 80, damping: 15 }}
           >
-            <div className="absolute inset-x-2.5 top-[4px] h-[3px] rounded-full bg-white/40" />
+            <div className="absolute inset-x-2 top-[3px] h-[3px] rounded-full bg-white/40" />
           </motion.div>
         </div>
 
-        <div className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 text-amber-600 dark:text-amber-400 font-black font-display text-sm tabular-nums shadow-2xs">
-          <Flame className="w-4 h-4 fill-amber-500 text-amber-500 animate-pulse" />
+        <div className="shrink-0 flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 text-amber-600 dark:text-amber-400 font-black font-display text-xs sm:text-sm tabular-nums shadow-2xs">
+          <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-amber-500 text-amber-500 animate-pulse" />
           <span>{score}</span>
         </div>
       </div>
@@ -482,46 +482,46 @@ export function SentenceBuilderGame({
         {currentPkg && (
           <motion.div
             key={`sentence-${currentIdx}`}
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.18 }}
-            className="flex flex-col gap-5 sm:gap-6"
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.16 }}
+            className="flex flex-col justify-between flex-1 gap-3 sm:gap-4"
           >
             {/* 2. Title */}
-            <h2 className="text-2xl sm:text-3xl font-black font-display text-slate-700 dark:text-slate-100">
+            <h2 className="text-xl sm:text-2xl font-black font-display text-slate-800 dark:text-slate-100 tracking-tight shrink-0">
               Dịch câu này sang tiếng Anh
             </h2>
 
             {/* 3. 3D Character Companion (Free-standing, transparent, no block/frame) + Speech Bubble */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="shrink-0 flex flex-col items-center -mb-2">
-                <div className="relative w-20 h-24 sm:w-24 sm:h-28 flex items-end justify-center select-none pointer-events-none">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <div className="shrink-0 flex flex-col items-center -mb-1">
+                <div className="relative w-16 h-20 sm:w-20 sm:h-24 flex items-end justify-center select-none pointer-events-none">
                   {/* Soft floor shadow */}
-                  <div className="absolute bottom-1 w-14 sm:w-16 h-2.5 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
+                  <div className="absolute bottom-0.5 w-12 sm:w-14 h-2 rounded-[100%] bg-slate-400/25 dark:bg-black/40 blur-[2px]" />
                   <img
                     src={activeCharacter.avatarUrl}
                     alt={activeCharacter.name}
-                    className="relative max-h-full w-auto object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.12)] transition-transform hover:scale-105 duration-200"
+                    className="relative max-h-full w-auto object-contain filter drop-shadow-[0_3px_6px_rgba(0,0,0,0.12)] transition-transform hover:scale-105 duration-200"
                     loading="eager"
                   />
                 </div>
-                <span className="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 mt-1">
+                <span className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 mt-0.5">
                   {activeCharacter.name}
                 </span>
               </div>
-              <div className="relative flex-1 min-w-0 flex items-center gap-3 px-4 py-3.5 sm:py-4 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
+              <div className="relative flex-1 min-w-0 flex items-center gap-2.5 sm:gap-3 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
                 <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
                 <button
                   type="button"
                   onClick={() => speakSentence(currentPkg.originalSentence)}
                   title={`Nghe giọng ${activeCharacter.name} (Phím A)`}
                   aria-label={`Nghe giọng ${activeCharacter.name}`}
-                  className="shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform shadow-2xs group"
+                  className="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform shadow-2xs group"
                 >
-                  <Volume2 className="w-7 h-7 fill-sky-500 text-sky-500 group-hover:scale-105 transition-transform" />
+                  <Volume2 className="w-6 h-6 fill-sky-500 text-sky-500 group-hover:scale-105 transition-transform" />
                 </button>
-                <p className="text-lg sm:text-xl font-medium text-slate-700 dark:text-slate-100 leading-relaxed">
+                <p className="text-base sm:text-lg font-medium text-slate-700 dark:text-slate-100 leading-snug">
                   {cueWords.map((w, i) => (
                     <span
                       key={`${w}-${i}`}
@@ -539,7 +539,7 @@ export function SentenceBuilderGame({
               animate={feedback === "wrong" ? { x: [0, -7, 7, -5, 5, 0] } : { x: 0 }}
               transition={{ duration: 0.35 }}
               style={ruledStyle}
-              className="flex flex-wrap content-start gap-x-2 gap-y-[20px] pt-3"
+              className="flex flex-wrap content-start gap-x-2 gap-y-3 pt-1.5 pb-2 shrink-0"
             >
               {placedTokens.map((token, i) => (
                 <motion.button
@@ -553,7 +553,7 @@ export function SentenceBuilderGame({
                       ? "border-rose-500 bg-rose-100 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-700 underline decoration-wavy decoration-rose-400 underline-offset-4"
                       : chipPlacedTone
                   }`}
-                  style={{ height: 44 }}
+                  style={{ height: 42 }}
                 >
                   {token.word}
                 </motion.button>
@@ -561,7 +561,7 @@ export function SentenceBuilderGame({
             </motion.div>
 
             {/* 5. Word bank */}
-            <div className="flex flex-wrap justify-center gap-x-2 gap-y-3 px-1 py-1">
+            <div className="flex flex-wrap justify-center gap-x-2 gap-y-2.5 px-1 py-1 shrink-0">
               {availableTokens.map((token) => (
                 <motion.button
                   key={`avail-${token.id}`}
@@ -574,22 +574,23 @@ export function SentenceBuilderGame({
                       ? "border-slate-200/60 dark:border-slate-800 bg-slate-200/60 dark:bg-slate-800/60 text-transparent cursor-default border-b-2"
                       : `${chipIdle} disabled:cursor-default`
                   }`}
+                  style={{ height: 42 }}
                 >
                   {token.word}
                 </motion.button>
               ))}
             </div>
 
-            {/* 7. Footer (thumb zone): KIỂM TRA / feedback sheet + TIẾP TỤC */}
+            {/* 7. Footer: KIỂM TRA / feedback sheet + TIẾP TỤC */}
             <div
-              className={`sticky bottom-16 lg:bottom-0 z-20 -mx-3 sm:-mx-6 lg:-mx-8 px-3 sm:px-6 lg:px-8 pt-4 pb-4 border-t-2 transition-colors ${footerTone}`}
+              className={`sticky bottom-0 z-20 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 pt-3 pb-3 sm:pt-3.5 sm:pb-3.5 border-t-2 transition-colors shrink-0 ${footerTone}`}
             >
               {feedback === null ? (
                 <button
                   type="button"
                   onClick={handleSubmit}
                   disabled={!canSubmit}
-                  className={`w-full h-14 rounded-2xl text-base font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
+                  className={`w-full h-12 sm:h-13 rounded-2xl text-sm sm:text-base font-black font-display uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
                     canSubmit
                       ? "bg-[#0059bb] hover:bg-blue-600 text-white border-b-4 border-[#003d82] dark:bg-blue-700 dark:hover:bg-blue-600 dark:border-blue-900 cursor-pointer active:translate-y-[3px] active:border-b-[1px]"
                       : "bg-slate-200 dark:bg-slate-800 text-white dark:text-slate-500 cursor-not-allowed"

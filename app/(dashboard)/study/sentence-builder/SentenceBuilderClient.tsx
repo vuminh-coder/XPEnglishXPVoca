@@ -45,14 +45,13 @@ export default function SentenceBuilderClient() {
   const themeIcon = currentTheme?.icon || "✍️";
 
   return (
-    <div className="w-full pb-16 md:pb-8 bg-[#fffefb] dark:bg-slate-950 font-sans select-none">
+    <div className="w-full min-h-[calc(100dvh-56px)] flex flex-col justify-between bg-[#fffefb] dark:bg-slate-950 font-sans select-none">
       {/* 1. TOP HEADER (56PX) */}
       <AppTopHeader
         showGamificationStats={true}
         hideMobileSearch={true}
         rightDesktopContent={
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-
             {/* Back to Roadmap CTA */}
             <Link
               href="/roadmap"
@@ -77,17 +76,17 @@ export default function SentenceBuilderClient() {
         }
       />
 
-      {/* 2. Ngữ cảnh bài học (nhẹ, không banner) */}
-      <div className="w-full max-w-2xl lg:max-w-3xl mx-auto px-4 sm:px-6 mt-4 sm:mt-5">
-        <p className="text-xs font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5 flex-wrap">
-          <Sparkles className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+      {/* 2. Ngữ cảnh bài học tinh gọn (Balanced width max-w-4xl / lg:max-w-5xl) */}
+      <div className="w-full max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 pt-2 sm:pt-3">
+        <p className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5 flex-wrap">
+          <Sparkles className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
           {unitParam && <span className="text-[#0059bb] dark:text-sky-400">Unit {unitParam}</span>}
           <span>· {displayTitle} · Chặng 3 · Ghép từ thành câu</span>
         </p>
       </div>
 
-      {/* 3. GAME ARENA WORKSPACE */}
-      <div className="w-full max-w-2xl lg:max-w-3xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+      {/* 3. GAME ARENA WORKSPACE (Flex-1, fit screen, moderate margins) */}
+      <div className="w-full max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 flex-1 flex flex-col justify-between py-2 sm:py-3">
         <SentenceBuilderGame
           pool={themeVocabs}
           onBack={() => router.push("/roadmap")}
