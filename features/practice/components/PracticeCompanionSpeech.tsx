@@ -12,6 +12,7 @@ interface PracticeCompanionSpeechProps {
   characterIdx?: number;
   isAnswered?: boolean;
   isCorrect?: boolean;
+  fIsFlipped?: boolean;
   onPlayAudio?: (word: string, rate?: number) => void;
 }
 
@@ -21,6 +22,7 @@ export function PracticeCompanionSpeech({
   characterIdx = 1, // Default: Cô Linh (AI Tutor)
   isAnswered = false,
   isCorrect = false,
+  fIsFlipped = false,
   onPlayAudio,
 }: PracticeCompanionSpeechProps) {
   const activeCharacter = XP_CHARACTERS[characterIdx % XP_CHARACTERS.length] || XP_CHARACTERS[0];
@@ -78,9 +80,11 @@ export function PracticeCompanionSpeech({
         };
       case "flashcard":
         return {
-          prompt: "Lật thẻ & tự đánh giá:",
-          targetWord: currentWord.word,
-          ipa: currentWord.ipa,
+          prompt: fIsFlipped
+            ? "Đánh giá mức độ ghi nhớ để xếp lịch ôn tập ngắt quãng!"
+            : "Hãy thử nhớ nghĩa và phát âm trước khi lật thẻ nhé!",
+          targetWord: undefined,
+          ipa: undefined,
         };
       case "writing":
         return {
@@ -101,7 +105,7 @@ export function PracticeCompanionSpeech({
           ipa: currentWord.ipa,
         };
     }
-  }, [subMode, currentWord, isAnswered, isCorrect]);
+  }, [subMode, currentWord, isAnswered, isCorrect, fIsFlipped]);
 
   const promptWords = useMemo(() => speechData.prompt.split(/\s+/), [speechData.prompt]);
 
@@ -156,19 +160,27 @@ export function PracticeCompanionSpeech({
 
         {/* Speech text & target word */}
         <div className="min-w-0 flex-1">
-          <p className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 leading-tight truncate">
+          <p
+            className={`font-semibold text-slate-700 dark:text-slate-200 leading-snug ${
+              speechData.targetWord
+                ? "text-xs sm:text-sm text-slate-500 dark:text-slate-400 truncate"
+                : "text-xs sm:text-sm md:text-[15px]"
+            }`}
+          >
             {speechData.prompt}
           </p>
-          <div className="flex items-baseline gap-2 flex-wrap pt-0.5">
-            <span className="text-xl sm:text-2xl lg:text-[28px] font-black font-display text-slate-900 dark:text-white tracking-tight leading-none">
-              {speechData.targetWord}
-            </span>
-            {speechData.ipa && (
-              <span className="text-xs sm:text-sm font-mono font-medium text-slate-500 dark:text-slate-400">
-                {speechData.ipa}
+          {speechData.targetWord && (
+            <div className="flex items-baseline gap-2 flex-wrap pt-0.5">
+              <span className="text-xl sm:text-2xl lg:text-[28px] font-black font-display text-slate-900 dark:text-white tracking-tight leading-none">
+                {speechData.targetWord}
               </span>
-            )}
-          </div>
+              {speechData.ipa && (
+                <span className="text-xs sm:text-sm font-mono font-medium text-slate-500 dark:text-slate-400">
+                  {speechData.ipa}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

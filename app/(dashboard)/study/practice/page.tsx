@@ -255,6 +255,7 @@ function PracticeContent() {
               characterIdx={session.currentIndex % 7}
               isAnswered={isAnswered}
               isCorrect={isCorrect}
+              fIsFlipped={session.fIsFlipped}
               onPlayAudio={session.playWordAudio}
             />
 
@@ -296,6 +297,7 @@ function PracticeContent() {
                         session.playWordAudio(session.currentWord.word);
                       }}
                       onRateFlashcard={session.handleFlashcardRating}
+                      onSkip={session.handleNextQuestion}
                     />
                   )}
 
