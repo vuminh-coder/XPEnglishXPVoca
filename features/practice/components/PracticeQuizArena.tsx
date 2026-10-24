@@ -30,27 +30,27 @@ export function PracticeQuizArena({
           const isSelected = qSelectedOpt === opt.id;
           const letter = String.fromCharCode(65 + idx);
 
-          // 3D tactile button classes matching WordLink & SentenceBuilder
+          // Authentic 3D tactile button classes matching Duolingo & SentenceBuilder style
           let btnStyle =
-            "border-2 border-b-[4px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-2xs hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50/80 active:translate-y-[2px] active:border-b-2";
+            "border-2 border-slate-200 dark:border-slate-700 border-b-[5px] border-b-slate-300 dark:border-b-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-xs hover:border-slate-300 dark:hover:border-slate-600 hover:border-b-slate-400 dark:hover:border-b-slate-500 hover:bg-slate-50/90 active:translate-y-[3px] active:border-b-2";
 
           let letterStyle =
             "text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 font-black";
 
           if (isSelected && !qIsAnswered) {
             btnStyle =
-              "border-2 border-b-[4px] border-[#0059bb] bg-blue-50/90 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-300 shadow-sm ring-2 ring-[#0059bb]/20 -translate-y-0.5";
+              "border-2 border-[#0059bb] dark:border-sky-500 border-b-[5px] border-b-[#003d82] dark:border-b-sky-700 bg-blue-50/90 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-300 shadow-sm shadow-blue-500/15 -translate-y-0.5 active:translate-y-[2px] active:border-b-2";
             letterStyle = "text-[#0059bb] dark:text-sky-400 font-black";
           }
 
           if (qIsAnswered) {
             if (opt.isCorrect) {
               btnStyle =
-                "border-2 border-b-[4px] border-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200 shadow-sm";
+                "border-2 border-emerald-500 dark:border-emerald-500 border-b-[5px] border-b-emerald-700 dark:border-b-emerald-800 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-200 shadow-sm shadow-emerald-500/15";
               letterStyle = "text-emerald-600 dark:text-emerald-400 font-black";
             } else if (isSelected && !opt.isCorrect) {
               btnStyle =
-                "border-2 border-b-[4px] border-rose-400 dark:border-rose-700 bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 shadow-2xs";
+                "border-2 border-rose-500 dark:border-rose-600 border-b-[5px] border-b-rose-700 dark:border-b-rose-800 bg-rose-50 dark:bg-rose-950/50 text-rose-800 dark:text-rose-200 shadow-xs shadow-rose-500/15";
               letterStyle = "text-rose-600 dark:text-rose-400 font-black";
             } else {
               btnStyle =
@@ -65,12 +65,12 @@ export function PracticeQuizArena({
               type="button"
               disabled={qIsAnswered}
               onClick={() => onSelectOption(opt)}
-              className={`group w-full min-h-[48px] sm:min-h-[52px] px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl text-left flex items-center justify-between gap-2.5 transition-all cursor-pointer ${btnStyle}`}
+              className={`group w-full min-h-[52px] sm:min-h-[58px] lg:min-h-[62px] px-4 sm:px-5 py-2.5 sm:py-3.5 rounded-2xl text-left flex items-center justify-between gap-3 transition-all cursor-pointer ${btnStyle}`}
             >
-              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+              <div className="flex items-center gap-3 min-w-0 flex-1">
                 {/* Letter indicator: A. B. C. D. without box block */}
                 <span
-                  className={`text-sm sm:text-base font-black font-mono shrink-0 transition-colors ${letterStyle}`}
+                  className={`text-base sm:text-lg font-black font-display shrink-0 transition-colors ${letterStyle}`}
                 >
                   {letter}.
                 </span>
