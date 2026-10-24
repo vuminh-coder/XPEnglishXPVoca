@@ -32,6 +32,8 @@ import {
   Check,
   Volume2,
   BookText,
+  Link2,
+  Puzzle,
 } from "lucide-react";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import {
@@ -120,6 +122,18 @@ const sections = [
         path: "/study/practice",
         icon: <BookOpen className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "practice",
+      },
+      {
+        name: "Nối từ",
+        path: "/study/word-link",
+        icon: <Link2 className="w-[21px] h-[21px]" strokeWidth={1.9} />,
+        page: "wordlink",
+      },
+      {
+        name: "Ghép câu",
+        path: "/study/sentence-builder",
+        icon: <Puzzle className="w-[21px] h-[21px]" strokeWidth={1.9} />,
+        page: "sentencebuilder",
       },
       {
         name: "Thi thử đề",
