@@ -249,29 +249,31 @@ function PracticeContent() {
         {/* 3. MAIN ARENA VIEWPORT */}
         {!session.isCompleted && session.currentWord ? (
           <div className="flex-1 flex flex-col justify-between min-h-0 gap-2 sm:gap-3 py-1">
-            {/* 3.1 3D COMPANION MASCOT & SPEECH BUBBLE */}
-            <PracticeCompanionSpeech
-              currentWord={session.currentWord}
-              subMode={session.subMode}
-              characterIdx={session.currentIndex % 7}
-              isAnswered={isAnswered}
-              isCorrect={isCorrect}
-              fIsFlipped={session.fIsFlipped}
-              onPlayAudio={session.playWordAudio}
-            />
+            {/* 3.1 & 3.2 CENTERED WORKSPACE: COMPANION PROMPT & INTERACTIVE STAGE */}
+            <div className="flex-1 flex flex-col justify-center min-h-0 gap-3 sm:gap-4 my-auto">
+              {/* 3.1 3D COMPANION MASCOT & SPEECH BUBBLE */}
+              <PracticeCompanionSpeech
+                currentWord={session.currentWord}
+                subMode={session.subMode}
+                characterIdx={session.currentIndex % 7}
+                isAnswered={isAnswered}
+                isCorrect={isCorrect}
+                fIsFlipped={session.fIsFlipped}
+                onPlayAudio={session.playWordAudio}
+              />
 
-            {/* 3.2 SUB-MODES INTERACTIVE STAGE WITH FLUID CHOREOGRAPHY */}
-            <div className="flex-1 flex flex-col justify-center min-h-0 relative">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={`${session.subMode}-${session.currentIndex}`}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.15 }}
-                  className="flex-1 flex flex-col justify-center min-h-0"
-                >
-                  {session.subMode === "quiz" && (
+              {/* 3.2 SUB-MODES INTERACTIVE STAGE WITH FLUID CHOREOGRAPHY */}
+              <div className="w-full relative">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={`${session.subMode}-${session.currentIndex}`}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.15 }}
+                    className="w-full flex flex-col justify-center min-h-0"
+                  >
+                    {session.subMode === "quiz" && (
                     <PracticeQuizArena
                       currentWord={session.currentWord}
                       quizOptions={session.quizOptions}
@@ -361,8 +363,9 @@ function PracticeContent() {
                 </motion.div>
               </AnimatePresence>
             </div>
+          </div>
 
-            {/* 3.3 DUOLINGO-STYLE STICKY BOTTOM ACTION SHEET */}
+          {/* 3.3 DUOLINGO-STYLE STICKY BOTTOM ACTION SHEET */}
             {session.subMode !== "match_pairs" &&
               session.subMode !== "sentence_builder" &&
               session.subMode !== "flashcard" && (

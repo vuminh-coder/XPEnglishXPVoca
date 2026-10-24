@@ -38,17 +38,17 @@ export function PracticeWritingArena({
   };
 
   return (
-    <div className="flex-1 flex flex-col justify-center gap-3 sm:gap-4 min-h-0 select-none py-1">
+    <div className="w-full max-w-xl mx-auto flex flex-col justify-center min-h-0 select-none py-1">
       {/* Writing Container */}
       <div
         onClick={() => writingInputRef.current?.focus()}
-        className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border-2 border-b-[5px] border-slate-200 dark:border-slate-700 shadow-2xs space-y-4 cursor-text"
+        className="px-5 py-3.5 sm:px-6 sm:py-4.5 rounded-2xl sm:rounded-3xl bg-white dark:bg-slate-900 border-2 border-b-[4px] sm:border-b-[5px] border-slate-200 dark:border-slate-700 shadow-2xs space-y-2 sm:space-y-2.5 cursor-text"
       >
         {/* Header Row: Label & Hint Toggle */}
         <div className="flex items-center justify-between">
           <label
             htmlFor="writing-vocab-input"
-            className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none cursor-pointer"
+            className="text-[11px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider select-none cursor-pointer"
           >
             Nhập từ tiếng Anh
           </label>
@@ -83,7 +83,7 @@ export function PracticeWritingArena({
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck={false}
-            className={`w-full py-3 sm:py-4 px-1 bg-transparent border-0 border-b-2 sm:border-b-[3px] text-xl sm:text-2xl lg:text-3xl font-mono font-bold tracking-wider outline-none transition-all placeholder:text-slate-300 dark:placeholder:text-slate-600 placeholder:font-sans placeholder:font-normal placeholder:text-base sm:placeholder:text-lg ${
+            className={`w-full py-1.5 sm:py-2 px-1 bg-transparent border-0 border-b-2 sm:border-b-[3px] text-xl sm:text-2xl font-mono font-bold tracking-wider outline-none transition-all placeholder:text-slate-300 dark:placeholder:text-slate-600 placeholder:font-sans placeholder:font-normal placeholder:text-sm sm:placeholder:text-base ${
               wIsAnswered
                 ? wIsCorrect
                   ? "border-emerald-500 text-emerald-600 dark:text-emerald-400"
