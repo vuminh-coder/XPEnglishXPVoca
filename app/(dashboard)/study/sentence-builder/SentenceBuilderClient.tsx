@@ -3,7 +3,7 @@
 import React, { useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { SentenceBuilderGame } from "@/features/games";
 import { BASIC_VOCABULARIES, BASIC_VOCABULARY_THEMES } from "@/features/vocabulary/data/basicVocabularies";
@@ -80,7 +80,7 @@ export default function SentenceBuilderClient() {
       {/* 2. Ngữ cảnh bài học (nhẹ, không banner) */}
       <div className="w-full max-w-2xl lg:max-w-3xl mx-auto px-4 sm:px-6 mt-4 sm:mt-5">
         <p className="text-xs font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5 flex-wrap">
-          <span aria-hidden>{themeIcon}</span>
+          <Sparkles className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
           {unitParam && <span className="text-[#0059bb] dark:text-sky-400">Unit {unitParam}</span>}
           <span>· {displayTitle} · Chặng 3 · Ghép từ thành câu</span>
         </p>

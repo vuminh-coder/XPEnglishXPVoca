@@ -4,9 +4,8 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
-  Zap,
+  Flame,
   Volume2,
-  VolumeX,
   RotateCcw,
   Check,
 } from "lucide-react";
@@ -60,39 +59,39 @@ const FALLBACK_SENTENCES: SentenceCandidate[] = [
   },
 ];
 
-const DuolingoTurtleIcon = ({ className = "w-7 h-7" }: { className?: string }) => (
+const DuoOwlMascot = ({ className = "w-20 h-24 sm:w-24 sm:h-28" }: { className?: string }) => (
   <svg
-    viewBox="1.8 5.5 21.2 11"
-    fill="currentColor"
+    viewBox="0 0 100 110"
     className={className}
     aria-hidden="true"
   >
-    {/* Shell */}
-    <path d="M 10 7 C 6.5 7 4.2 9.8 4 13.5 L 15.5 13.5 C 15.2 9.8 13.5 7 10 7 Z" />
-    {/* Head */}
-    <path d="M 15 11.5 C 15 10.4 16 9.6 17.2 9.8 C 18.3 10 19 11 19 12.2 C 19 13.2 18.2 14 17 14 L 15 14 Z" />
-    {/* Eye dot */}
-    <circle cx="17.2" cy="11.2" r="0.6" fill="#ffffff" />
-    {/* Back & Front Feet */}
-    <path d="M 5.2 13.5 C 5 15.2 7 15.5 7.2 13.5 Z" />
-    <path d="M 12.5 13.5 C 12.3 15.2 14.3 15.5 14.5 13.5 Z" />
-    {/* Tail */}
-    <path d="M 4 12.5 L 2.5 13 L 4 13.8 Z" />
-    {/* Sound waves emitted in front */}
-    <path
-      d="M 20 10.8 C 20.8 11.5 20.8 12.5 20 13.2"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
-    <path
-      d="M 22 9.5 C 23.2 10.8 23.2 13.2 22 14.5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-    />
+    {/* Floor shadow */}
+    <ellipse cx="50" cy="102" rx="36" ry="6" fill="rgba(148, 163, 184, 0.35)" />
+    {/* Feet */}
+    <ellipse cx="38" cy="98" rx="7" ry="4" fill="#ff9600" />
+    <ellipse cx="62" cy="98" rx="7" ry="4" fill="#ff9600" />
+    {/* Body */}
+    <path d="M 22 45 C 22 20 78 20 78 45 C 78 78 72 96 50 96 C 28 96 22 78 22 45 Z" fill="#58cc02" />
+    {/* Wings */}
+    <path d="M 16 48 C 12 55 14 70 24 74 C 23 66 22 58 24 50 Z" fill="#46a302" />
+    <path d="M 84 48 C 88 55 86 70 76 74 C 77 66 78 58 76 50 Z" fill="#46a302" />
+    {/* Outer eye patches */}
+    <circle cx="39" cy="46" r="14" fill="#78d824" />
+    <circle cx="61" cy="46" r="14" fill="#78d824" />
+    {/* Eye whites */}
+    <circle cx="39" cy="46" r="11" fill="#ffffff" />
+    <circle cx="61" cy="46" r="11" fill="#ffffff" />
+    {/* Pupils */}
+    <circle cx="41" cy="46" r="6" fill="#4b4b4b" />
+    <circle cx="59" cy="46" r="6" fill="#4b4b4b" />
+    {/* Specular shine */}
+    <circle cx="43" cy="44" r="2.2" fill="#ffffff" />
+    <circle cx="61" cy="44" r="2.2" fill="#ffffff" />
+    {/* Beak */}
+    <polygon points="50,52 44,60 56,60" fill="#ff9600" />
+    {/* Feather chest ripples */}
+    <path d="M 40 76 Q 50 82 60 76" stroke="#46a302" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+    <path d="M 44 82 Q 50 87 56 82" stroke="#46a302" strokeWidth="2.5" fill="none" strokeLinecap="round" />
   </svg>
 );
 
@@ -485,19 +484,10 @@ export function SentenceBuilderGame({
           </motion.div>
         </div>
 
-        <div className="shrink-0 flex items-center gap-1 text-amber-500 dark:text-amber-400 font-black font-display text-base tabular-nums">
-          <Zap className="w-5 h-5 fill-current" />
-          {score}
+        <div className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/60 text-amber-600 dark:text-amber-400 font-black font-display text-sm tabular-nums shadow-2xs">
+          <Flame className="w-4 h-4 fill-amber-500 text-amber-500 animate-pulse" />
+          <span>{score}</span>
         </div>
-
-        <button
-          type="button"
-          onClick={toggleAudio}
-          title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-          className="w-10 h-10 shrink-0 rounded-xl flex items-center justify-center text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors active:scale-90"
-        >
-          {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-        </button>
       </div>
 
       <AnimatePresence mode="wait">
@@ -515,36 +505,22 @@ export function SentenceBuilderGame({
               Dịch câu này sang tiếng Anh
             </h2>
 
-            {/* 3. Mascot + speech bubble */}
+            {/* 3. Mascot + speech bubble (Chuẩn 100% Duolingo Translate) */}
             <div className="flex items-center gap-3 sm:gap-4">
-              <div className="shrink-0 flex flex-col items-center w-24 sm:w-28">
-                <span className="text-6xl sm:text-7xl leading-none" aria-hidden>
-                  🦉
-                </span>
-                <div className="mt-1 w-16 h-3 rounded-full bg-slate-200/80 dark:bg-slate-800" />
+              <div className="shrink-0 flex flex-col items-center">
+                <DuoOwlMascot />
               </div>
-              <div className="relative flex-1 min-w-0 flex items-center gap-3 px-4 py-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
+              <div className="relative flex-1 min-w-0 flex items-center gap-3 px-4 py-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-2xs">
                 <div className="absolute -left-[9px] top-1/2 -translate-y-1/2 w-4 h-4 rotate-45 bg-white dark:bg-slate-900 border-l-2 border-b-2 border-slate-200 dark:border-slate-700" />
-                <div className="flex items-center gap-0.5 sm:gap-1 shrink-0 border-r border-slate-200 dark:border-slate-700 pr-2 mr-1">
-                  <button
-                    type="button"
-                    onClick={() => speakSentence(currentPkg.originalSentence)}
-                    title="Nghe tốc độ thường (Phím A)"
-                    aria-label="Nghe tốc độ thường"
-                    className="w-10 h-10 rounded-xl text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform hover:bg-sky-50 dark:hover:bg-sky-950/40"
-                  >
-                    <Volume2 className="w-6 h-6 fill-current" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => speakSentenceSlow(currentPkg.originalSentence)}
-                    title="Nghe phát âm chậm (Phím S)"
-                    aria-label="Nghe phát âm chậm"
-                    className="w-10 h-10 rounded-xl text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform hover:bg-sky-50 dark:hover:bg-sky-950/40"
-                  >
-                    <DuolingoTurtleIcon className="w-7 h-7" />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => speakSentence(currentPkg.originalSentence)}
+                  title="Nghe câu tiếng Anh (Phím A)"
+                  aria-label="Nghe câu tiếng Anh"
+                  className="shrink-0 w-11 h-11 rounded-2xl bg-sky-50 hover:bg-sky-100 dark:bg-sky-950/50 text-sky-500 dark:text-sky-400 flex items-center justify-center cursor-pointer active:scale-90 transition-transform shadow-2xs"
+                >
+                  <Volume2 className="w-7 h-7 fill-sky-500 text-sky-500" />
+                </button>
                 <p className="text-lg sm:text-xl font-medium text-slate-700 dark:text-slate-100 leading-relaxed">
                   {cueWords.map((w, i) => (
                     <span
