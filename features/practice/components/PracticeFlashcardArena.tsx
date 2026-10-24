@@ -100,7 +100,7 @@ export function PracticeFlashcardArena({
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2 min-w-0">
                 {currentWord.level && (
-                  <span className="px-2.5 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950/80 text-[#0059bb] dark:text-sky-300 font-mono font-black text-xs border border-blue-200/70 dark:border-blue-800/70 shrink-0">
+                  <span className="font-mono font-bold text-xs text-[#0059bb] dark:text-sky-400 shrink-0">
                     {currentWord.level}
                   </span>
                 )}
@@ -116,28 +116,43 @@ export function PracticeFlashcardArena({
                 )}
               </div>
 
-              {onToggleBookmark && (
+              <div className="flex items-center gap-1 shrink-0">
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onToggleBookmark();
+                    onPlayAudio(currentWord.word);
                   }}
-                  title={isCurrentBookmarked ? "Đã lưu vào sổ tay" : "Lưu vào sổ tay (Phím B)"}
-                  aria-label="Lưu vào sổ tay"
-                  className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all cursor-pointer shrink-0 ${
-                    isCurrentBookmarked
-                      ? "bg-amber-100 dark:bg-amber-950/60 text-amber-500 dark:text-amber-400 border border-amber-300 dark:border-amber-700 shadow-2xs"
-                      : "text-slate-300 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800"
-                  }`}
+                  title="Phát âm từ vựng (Phím A)"
+                  aria-label="Phát âm từ vựng"
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-slate-400 hover:text-[#0059bb] hover:bg-blue-50 dark:hover:bg-slate-800 dark:hover:text-sky-300 transition-all cursor-pointer"
                 >
-                  <Star
-                    className={`w-4 h-4 stroke-[2.2] ${
-                      isCurrentBookmarked ? "fill-amber-400 stroke-amber-500" : ""
-                    }`}
-                  />
+                  <Volume2 className="w-4 h-4 stroke-[2.2]" />
                 </button>
-              )}
+
+                {onToggleBookmark && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleBookmark();
+                    }}
+                    title={isCurrentBookmarked ? "Đã lưu vào sổ tay" : "Lưu vào sổ tay (Phím B)"}
+                    aria-label="Lưu vào sổ tay"
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
+                      isCurrentBookmarked
+                        ? "bg-amber-100 dark:bg-amber-950/60 text-amber-500 dark:text-amber-400 border border-amber-300 dark:border-amber-700 shadow-2xs"
+                        : "text-slate-300 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    <Star
+                      className={`w-4 h-4 stroke-[2.2] ${
+                        isCurrentBookmarked ? "fill-amber-400 stroke-amber-500" : ""
+                      }`}
+                    />
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Word Centerpiece */}
@@ -151,19 +166,6 @@ export function PracticeFlashcardArena({
                   {currentWord.ipa}
                 </p>
               )}
-
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onPlayAudio(currentWord.word);
-                }}
-                className="mt-1 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/70 border border-blue-200/80 dark:border-blue-800/80 text-[#0059bb] dark:text-sky-300 hover:bg-[#0059bb] hover:text-white transition-all cursor-pointer shadow-2xs active:scale-95 text-xs sm:text-sm font-bold"
-                title="Phát âm từ vựng (Phím A)"
-              >
-                <Volume2 className="w-4 h-4 stroke-[2.2]" />
-                <span>Phát âm</span>
-              </button>
             </div>
 
             {/* Subtle bottom hint */}
@@ -180,28 +182,43 @@ export function PracticeFlashcardArena({
                 Giải nghĩa tiếng Việt
               </span>
 
-              {onToggleBookmark && (
+              <div className="flex items-center gap-1 shrink-0">
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onToggleBookmark();
+                    onPlayAudio(currentWord.word);
                   }}
-                  title={isCurrentBookmarked ? "Đã lưu vào sổ tay" : "Lưu vào sổ tay (Phím B)"}
-                  aria-label="Lưu vào sổ tay"
-                  className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all cursor-pointer shrink-0 ${
-                    isCurrentBookmarked
-                      ? "bg-amber-100 dark:bg-amber-950/60 text-amber-500 dark:text-amber-400 border border-amber-300 dark:border-amber-700 shadow-2xs"
-                      : "text-slate-300 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800"
-                  }`}
+                  title="Nghe lại phát âm (Phím A)"
+                  aria-label="Phát âm từ vựng"
+                  className="w-8 h-8 rounded-xl flex items-center justify-center text-slate-400 hover:text-[#0059bb] hover:bg-blue-50 dark:hover:bg-slate-800 dark:hover:text-sky-300 transition-all cursor-pointer"
                 >
-                  <Star
-                    className={`w-4 h-4 stroke-[2.2] ${
-                      isCurrentBookmarked ? "fill-amber-400 stroke-amber-500" : ""
-                    }`}
-                  />
+                  <Volume2 className="w-4 h-4 stroke-[2.2]" />
                 </button>
-              )}
+
+                {onToggleBookmark && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleBookmark();
+                    }}
+                    title={isCurrentBookmarked ? "Đã lưu vào sổ tay" : "Lưu vào sổ tay (Phím B)"}
+                    aria-label="Lưu vào sổ tay"
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all cursor-pointer shrink-0 ${
+                      isCurrentBookmarked
+                        ? "bg-amber-100 dark:bg-amber-950/60 text-amber-500 dark:text-amber-400 border border-amber-300 dark:border-amber-700 shadow-2xs"
+                        : "text-slate-300 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    <Star
+                      className={`w-4 h-4 stroke-[2.2] ${
+                        isCurrentBookmarked ? "fill-amber-400 stroke-amber-500" : ""
+                      }`}
+                    />
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Meaning & Word Reminder Centerpiece */}
@@ -218,17 +235,6 @@ export function PracticeFlashcardArena({
                     <span>{currentWord.ipa}</span>
                   </>
                 )}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onPlayAudio(currentWord.word);
-                  }}
-                  title="Nghe lại phát âm"
-                  className="p-1 rounded-full text-[#0059bb] hover:bg-blue-50 dark:hover:bg-blue-900/40 transition-colors cursor-pointer"
-                >
-                  <Volume2 className="w-3.5 h-3.5" />
-                </button>
               </div>
 
               {/* Context example if present */}
@@ -260,10 +266,8 @@ export function PracticeFlashcardArena({
               )}
             </div>
 
-            {/* Subtle bottom back hint */}
-            <div className="flex items-center justify-center text-[11px] font-semibold text-slate-400 dark:text-slate-500">
-              <span>Đánh giá bên dưới để xếp lịch Spaced Repetition</span>
-            </div>
+            {/* Bottom spacer to maintain symmetric vertical centering */}
+            <div className="h-4" />
           </div>
         </div>
       </div>
@@ -301,39 +305,36 @@ export function PracticeFlashcardArena({
             <button
               type="button"
               onClick={() => onRateFlashcard("again")}
-              className="p-2 sm:p-2.5 rounded-2xl border-2 border-b-[4px] border-rose-300 hover:border-rose-400 bg-rose-50/90 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:border-rose-900 dark:text-rose-300 font-bold flex flex-col items-center justify-between gap-1 transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs"
-              title="Cần ôn lại trong vòng 1 ngày (Phím 1)"
+              className="h-11 sm:h-12 px-3 rounded-2xl border-2 border-b-[4px] border-rose-300 hover:border-rose-400 bg-rose-50/90 hover:bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:border-rose-900 dark:text-rose-300 font-bold flex items-center justify-center transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs"
+              title="Cần ôn lại (Phím 1)"
             >
               <span className="text-xs sm:text-sm font-black font-display">
                 1. Cần ôn lại
               </span>
-              <span className="text-[11px] opacity-75 font-semibold">&lt; 1 ngày</span>
             </button>
 
             {/* 2. Đã nhớ */}
             <button
               type="button"
               onClick={() => onRateFlashcard("good")}
-              className="p-2 sm:p-2.5 rounded-2xl border-2 border-b-[4px] border-blue-400 hover:border-blue-500 bg-blue-50/90 hover:bg-blue-100 text-[#0059bb] dark:bg-blue-950/40 dark:border-blue-800 dark:text-sky-300 font-bold flex flex-col items-center justify-between gap-1 transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs"
-              title="Đã nhớ, ôn lại sau 3 ngày (Phím 2)"
+              className="h-11 sm:h-12 px-3 rounded-2xl border-2 border-b-[4px] border-blue-400 hover:border-blue-500 bg-blue-50/90 hover:bg-blue-100 text-[#0059bb] dark:bg-blue-950/40 dark:border-blue-800 dark:text-sky-300 font-bold flex items-center justify-center transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs"
+              title="Đã nhớ (Phím 2)"
             >
               <span className="text-xs sm:text-sm font-black font-display">
                 2. Đã nhớ
               </span>
-              <span className="text-[11px] opacity-75 font-semibold">3 ngày</span>
             </button>
 
             {/* 3. Thuộc lòng */}
             <button
               type="button"
               onClick={() => onRateFlashcard("easy")}
-              className="p-2 sm:p-2.5 rounded-2xl border-2 border-b-[4px] border-emerald-400 hover:border-emerald-500 bg-emerald-50/90 hover:bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-300 font-bold flex flex-col items-center justify-between gap-1 transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs"
-              title="Đã thuộc lòng, ôn lại sau 7 ngày (Phím 3)"
+              className="h-11 sm:h-12 px-3 rounded-2xl border-2 border-b-[4px] border-emerald-400 hover:border-emerald-500 bg-emerald-50/90 hover:bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-300 font-bold flex items-center justify-center transition-all cursor-pointer active:translate-y-[2px] active:border-b-2 shadow-2xs"
+              title="Thuộc lòng (Phím 3)"
             >
               <span className="text-xs sm:text-sm font-black font-display">
                 3. Thuộc lòng
               </span>
-              <span className="text-[11px] opacity-75 font-semibold">7 ngày</span>
             </button>
           </div>
         </div>
