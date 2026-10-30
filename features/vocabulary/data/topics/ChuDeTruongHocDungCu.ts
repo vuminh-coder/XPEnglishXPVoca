@@ -480,22 +480,22 @@ export const VOCABS_TRUONG_HOC_DUNG_CU: BasicVocabularyItem[] = [
   {
     "id": "bv_school_21",
     "word": "highlighter",
-    "phonetic": "/ˈhaɪˌlaɪ.t̬ɚ/",
+    "phonetic": "/ˈhaɪlaɪtər/",
     "definition": "A brightly colored fluorescent felt-tip pen used to emphasize text.",
-    "definitionVn": "bút dạ quang đánh dấu dòng văn bản",
+    "definitionVn": "bút nhớ dòng, bút dạ quang",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_school_stationery",
-    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameVn": "Trường học & Dụng cụ",
     "themeNameEn": "School & Stationery",
     "examples": [
-      "She marked key historical dates with a fluorescent yellow highlighter.",
-      "Always keep a highlighter and sticky notes handy while reading academic textbooks."
+      "She marked important words with a yellow highlighter.",
+      "Keep a highlighter in your pencil case for reading."
     ],
     "exampleTranslations": [
-      "Cô ấy đã đánh dấu các mốc lịch sử quan trọng bằng bút dạ quang màu vàng huỳnh quang.",
-      "Luôn giữ bút dạ quang và giấy ghi chú bên mình khi đọc sách giáo khoa học thuật."
+      "Cô ấy đã đánh dấu các từ quan trọng bằng bút nhớ dòng màu vàng.",
+      "Hãy giữ một cây bút dạ quang trong hộp bút để đọc sách nhé."
     ],
     "synonyms": [
       "fluorescent marker",
@@ -506,22 +506,22 @@ export const VOCABS_TRUONG_HOC_DUNG_CU: BasicVocabularyItem[] = [
   {
     "id": "bv_school_22",
     "word": "stapler",
-    "phonetic": "/ˈsteɪ.plɚ/",
+    "phonetic": "/ˈsteɪplər/",
     "definition": "A small device that binds sheets of paper together with thin wire staples.",
-    "definitionVn": "cái dập ghim giấy cầm tay",
+    "definitionVn": "cái dập ghim, cái bấm ghim",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_school_stationery",
-    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameVn": "Trường học & Dụng cụ",
     "themeNameEn": "School & Stationery",
     "examples": [
-      "The teacher asked students to use a metal stapler to fasten their essay pages.",
-      "He reloaded the desktop stapler with a fresh strip of heavy-duty staples."
+      "Use a metal stapler to fasten your paper sheets.",
+      "Can I borrow your stapler for a moment?"
     ],
     "exampleTranslations": [
-      "Giáo viên yêu cầu học sinh sử dụng dập ghim kim loại để bấm các trang bài luận lại.",
-      "Anh ấy đã nạp lại dập ghim để bàn bằng một thanh ghim chịu lực mới."
+      "Hãy dùng cái dập ghim kim loại để bấm các tờ giấy lại nhé.",
+      "Tôi có thể mượn cái bấm ghim của bạn một lát không?"
     ],
     "synonyms": [
       "paper fastener",
@@ -531,49 +531,46 @@ export const VOCABS_TRUONG_HOC_DUNG_CU: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_school_23",
-    "word": "calculator",
-    "phonetic": "/ˈkæl.kjə.leɪ.t̬ɚ/",
-    "definition": "An electronic device used for performing mathematical calculations.",
-    "definitionVn": "máy tính cầm tay bỏ túi làm toán",
+    "word": "folder",
+    "phonetic": "/ˈfoʊldər/",
+    "definition": "A folding cover or holder, typically made of stiff paper or plastic, for storing loose papers.",
+    "definitionVn": "bìa kẹp hồ sơ, tập tài liệu",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_school_stationery",
-    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameVn": "Trường học & Dụng cụ",
     "themeNameEn": "School & Stationery",
     "examples": [
-      "Students may bring a scientific calculator into the calculus exam hall.",
-      "The solar-powered pocket calculator never runs out of battery during classes."
+      "Put your English worksheets inside the blue folder.",
+      "She organized her class notes in a plastic folder."
     ],
     "exampleTranslations": [
-      "Học sinh có thể mang máy tính khoa học vào phòng thi giải tích.",
-      "Máy tính bỏ túi chạy bằng năng lượng mặt trời không bao giờ hết pin trong giờ học."
+      "Hãy để các tờ bài tập tiếng Anh vào trong bìa kẹp màu xanh.",
+      "Cô ấy sắp xếp các ghi chú trên lớp trong một tập tài liệu nhựa."
     ],
-    "synonyms": [
-      "adding machine",
-      "arithmetic device"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_school_24",
     "word": "compass",
-    "phonetic": "/ˈkʌm.pəs/",
+    "phonetic": "/ˈkʌmpəs/",
     "definition": "An instrument with two movable arms used for drawing circles and measuring distances.",
-    "definitionVn": "compa vẽ đường tròn trong môn hình học",
+    "definitionVn": "cái compa, compa vẽ tròn",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_school_stationery",
-    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameVn": "Trường học & Dụng cụ",
     "themeNameEn": "School & Stationery",
     "examples": [
-      "Insert the pencil tip securely into the compass arm before drafting the circle.",
-      "Geometry students use a steel compass and straightedge ruler to bisect angles."
+      "Use a metal compass to draw a neat circle.",
+      "Students need a ruler and compass for math class."
     ],
     "exampleTranslations": [
-      "Cắm đầu bút chì chắc chắn vào nhánh compa trước khi vẽ đường tròn.",
-      "Học sinh hình học sử dụng compa thép và thước kẻ thẳng để chia đôi các góc."
+      "Hãy dùng cái compa kim loại để vẽ một hình tròn gọn đẹp.",
+      "Học sinh cần thước kẻ và compa cho giờ học toán."
     ],
     "synonyms": [
       "pair of compasses",
@@ -584,22 +581,22 @@ export const VOCABS_TRUONG_HOC_DUNG_CU: BasicVocabularyItem[] = [
   {
     "id": "bv_school_25",
     "word": "protractor",
-    "phonetic": "/proʊˈtræk.tɚ/",
+    "phonetic": "/proʊˈtræktər/",
     "definition": "A semicircular plastic instrument graduated in degrees for measuring and drawing angles.",
-    "definitionVn": "thước đo độ góc hình bán nguyệt",
+    "definitionVn": "thước đo độ, thước đo góc",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_school_stationery",
-    "themeNameVn": "Trường học & Dụng cụ học tập",
+    "themeNameVn": "Trường học & Dụng cụ",
     "themeNameEn": "School & Stationery",
     "examples": [
-      "Line up the baseline of your clear protractor with the vertex to measure the obtuse angle.",
-      "Every student geometry set includes a 180-degree transparent protractor."
+      "Measure the angle carefully with a clear protractor.",
+      "Every geometry box includes a plastic protractor."
     ],
     "exampleTranslations": [
-      "Căn chỉnh đường cơ sở của thước đo độ trong suốt với đỉnh góc để đo góc tù.",
-      "Mỗi bộ dụng cụ hình học của học sinh đều bao gồm một thước đo độ trong suốt 180 độ."
+      "Hãy đo góc thật cẩn thận bằng chiếc thước đo độ trong suốt.",
+      "Mỗi hộp dụng cụ hình học đều có một chiếc thước đo góc bằng nhựa."
     ],
     "synonyms": [
       "angle meter",

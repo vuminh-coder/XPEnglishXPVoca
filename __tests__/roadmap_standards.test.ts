@@ -206,20 +206,18 @@ describe("Roadmap Feature Standards (features/roadmap)", () => {
       const step1 = CURATED_ROADMAP_STEPS[0];
 
       // 1. Step 1 metadata
-      expect(step1.totalSessions).toBe(3);
-      expect(step1.totalTargetWords).toBe(300);
-      expect(step1.dailyTargetWords).toBe(20);
-      expect(step1.dailyPlanBreakdown?.length).toBe(3);
+      expect(step1.totalSessions).toBe(2);
+      expect(step1.totalTargetWords).toBe(30);
+      expect(step1.dailyTargetWords).toBe(15);
+      expect(step1.dailyPlanBreakdown?.length).toBe(2);
 
       const phases = step1.dailyPlanBreakdown!;
-      expect(phases[0].activity).toContain("Flashcard");
-      expect(phases[0].timeSlot).toContain("5 phút");
-      expect(phases[1].activity).toContain("phản xạ");
-      expect(phases[1].timeSlot).toContain("7 phút");
-      expect(phases[2].activity).toContain("ngữ cảnh");
-      expect(phases[2].timeSlot).toContain("3 phút");
+      expect(phases[0].activity).toContain("Phần 1");
+      expect(phases[0].timeSlot).toContain("Phiên 1");
+      expect(phases[1].activity).toContain("Phần 2");
+      expect(phases[1].timeSlot).toContain("Phiên 2");
 
-      // Total daily duration is 15 minutes (5 + 7 + 3)
+      // Total daily duration is 15 minutes
       expect(step1.durationMinutes).toBe(15);
 
       // 2. SVG Progress ring circumference & dashoffset calculation

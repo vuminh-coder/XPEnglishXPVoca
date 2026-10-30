@@ -1,4 +1,5 @@
 import { ZiczacPathStep, ZiczacUnitGroup } from "../types";
+import { getBasicVocabulariesByTheme } from "@/features/vocabulary/data/basicVocabularies";
 
 export interface UnitCurriculumConfig {
   unitNumber: number;
@@ -60,7 +61,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Câu hỏi thông tin cá nhân: 'What is your name?', 'Where are you from?', 'How old are you?'. Sử dụng giới từ 'from' khi nói về xuất xứ và 'in' khi nói về địa điểm sinh sống.",
     objectives: [
-      "Thuộc 30 từ vựng về thông tin cá nhân và đại từ nhân xưng.",
+      "Thuộc 35 từ vựng về thông tin cá nhân và đại từ nhân xưng.",
       "Nối nhanh các cặp đại từ chủ ngữ, tân ngữ và tính từ sở hữu.",
       "Ghép hoàn chỉnh đoạn tự giới thiệu bản thân 3 câu chuẩn ngữ pháp.",
       "Luyện nói Shadowing câu giới thiệu bản thân tự nhiên và tự tin.",
@@ -83,7 +84,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Phân biệt số đếm (one, two, three) dùng để đếm số lượng và số thứ tự (first, second, third) dùng cho ngày tháng, số thứ tự và tầng nhà. Cách nói giờ hơn dùng 'past', giờ kém dùng 'to'.",
     objectives: [
-      "Thành thạo 35 từ vựng số đếm, số thứ tự và mốc thời gian.",
+      "Thành thạo 25 từ vựng số đếm, số thứ tự và mốc thời gian.",
       "Phản xạ nối số với cách đọc tiếng Anh không bị nhầm lẫn đuôi -teen và -ty.",
       "Ghép câu hỏi giờ và thông báo thời gian họp, học tập.",
       "Nghe chính tả bắt số điện thoại và mốc thời gian chuẩn xác 100%.",
@@ -106,7 +107,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Vị trí của tính từ miêu tả: Tính từ luôn đứng trước danh từ ('a red apple', 'a round table') hoặc đứng sau động từ liên kết như to be, seem, look ('The sky is blue', 'It looks square').",
     objectives: [
-      "Ghi nhớ 30 từ vựng chỉ màu sắc cơ bản, màu phối và hình khối học thuật.",
+      "Ghi nhớ 21 từ vựng chỉ màu sắc cơ bản, màu phối và hình khối học thuật.",
       "Nối từ siêu tốc giữa tên màu sắc/hình dạng với đồ vật đặc trưng.",
       "Ghép câu miêu tả đồ vật kết hợp cả màu sắc và hình dáng chuẩn thứ tự tính từ.",
       "Luyện nghe đàm thoại chọn đúng vật phẩm theo miêu tả màu sắc.",
@@ -129,7 +130,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Sở hữu cách danh từ: Thêm ''s' sau danh từ số ít ('my brother's bike') và chỉ thêm dấu phẩy ''' sau danh từ số nhiều có đuôi -s ('my parents' house').",
     objectives: [
-      "Nạp vững 35 từ vựng về các thành viên gia đình và mối quan hệ họ hàng.",
+      "Nạp vững 25 từ vựng về các thành viên gia đình và mối quan hệ họ hàng.",
       "Nối cặp từ xưng hô tương ứng: cha-mẹ, anh-em, ông-bà.",
       "Ghép câu miêu tả nghề nghiệp và tính cách của các thành viên gia đình.",
       "Luyện đọc mẩu chuyện gia đình ấm áp và trả lời câu hỏi đọc hiểu.",
@@ -147,12 +148,12 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     themeIcon: "⏰",
     title: "Động Từ Sinh Hoạt Hằng Ngày",
     titleEn: "Daily Routines & Action Verbs",
-    subtitle: "Làm chủ 35 động từ hành động tần suất cao nhất từ lúc thức dậy đến khi đi ngủ",
+    subtitle: "Làm chủ 20 động từ hành động tần suất cao nhất từ lúc thức dậy đến khi đi ngủ",
     colorTheme: "rose",
     grammarTip:
       "Thì Hiện tại đơn (Present Simple) diễn tả thói quen sinh hoạt lặp đi lặp lại. Chú ý thêm '-s' hoặc '-es' khi chủ ngữ là ngôi thứ ba số ít (he, she, it): 'He wakes up at 6 AM', 'She brushes her teeth'.",
     objectives: [
-      "Nắm trọn 35 động từ sinh hoạt và cụm động từ thói quen hằng ngày.",
+      "Nắm trọn 20 động từ sinh hoạt và cụm động từ thói quen hằng ngày.",
       "Nối nhanh hành động với khung giờ thích hợp trong ngày.",
       "Ghép câu lịch trình sinh hoạt một ngày hoàn chỉnh với trạng từ chỉ tần suất.",
       "Vượt qua Cột Mốc Đánh Giá kết thúc Phần 1 Khởi Đầu A1.",
@@ -179,7 +180,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Cấu trúc 'There is / There are' kết hợp với giới từ nơi chốn (in, on, under, behind, next to). 'There is' dùng cho danh từ số ít hoặc không đếm được; 'There are' dùng cho danh từ số nhiều.",
     objectives: [
-      "Học 30 từ vựng về các phòng trong nhà và đồ nội thất gia dụng.",
+      "Học 24 từ vựng về các phòng trong nhà và đồ nội thất gia dụng.",
       "Nối đồ vật với đúng vị trí gian phòng tương ứng.",
       "Ghép câu miêu tả căn nhà mơ ước sử dụng There is / There are.",
       "Nghe đoạn đàm thoại tìm đồ vật bị thất lạc trong nhà.",
@@ -202,7 +203,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Danh từ đếm được (apple, egg) và không đếm được (water, rice, bread). Sử dụng 'How many' với danh từ đếm được số nhiều và 'How much' với danh từ không đếm được.",
     objectives: [
-      "Nạp 35 từ vựng về các nhóm thực phẩm, món ăn và đồ uống thịnh hành.",
+      "Nạp 23 từ vựng về các nhóm thực phẩm, món ăn và đồ uống thịnh hành.",
       "Nối món ăn với hương vị và đặc tính tương ứng.",
       "Ghép câu gọi món lịch sự trong nhà hàng với cấu trúc 'I would like...'.",
       "Luyện nghe đàm thoại tương tác với bồi bàn và yêu cầu thanh toán.",
@@ -225,7 +226,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Câu mệnh lệnh (Imperatives) trong công thức nấu ăn: Sử dụng động từ nguyên thể không chia đứng đầu câu ('Boil the water', 'Chop the vegetables finely', 'Do not overcook').",
     objectives: [
-      "Nắm 30 từ vựng về kỹ thuật nấu nướng và đồ dùng phòng bếp.",
+      "Nắm 25 từ vựng về kỹ thuật nấu nướng và đồ dùng phòng bếp.",
       "Nối phương pháp chế biến (fry, bake, boil) với nguyên liệu phù hợp.",
       "Ghép câu hướng dẫn các bước thực hiện một công thức nấu ăn ngon.",
       "Luyện nói Shadowing các khẩu lệnh làm bếp cùng đầu bếp bản xứ.",
@@ -248,7 +249,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Phân biệt tính từ đuôi -ed và -ing: Tính từ đuôi '-ed' diễn tả cảm xúc của người trải nghiệm ('I feel excited'); tính từ đuôi '-ing' diễn tả tính chất của sự vật tạo ra cảm xúc đó ('The movie is exciting').",
     objectives: [
-      "Thuộc 30 tính từ cảm xúc tích cực, tiêu cực và tính cách con người.",
+      "Thuộc 22 tính từ cảm xúc tích cực, tiêu cực và tính cách con người.",
       "Nối nhanh các cặp tính từ đồng nghĩa hoặc trái nghĩa về tâm trạng.",
       "Ghép câu chia sẻ tâm trạng và an ủi, động viên bạn bè.",
       "Đọc hiểu mẩu truyện ngắn về sự thấu hiểu cảm xúc trong tình bạn.",
@@ -271,7 +272,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Giới từ thời gian: Dùng 'at' với mốc giờ cụ thể ('at 7 o'clock'); 'on' với ngày trong tuần và ngày tháng cụ thể ('on Monday', 'on April 15th'); 'in' với tháng, năm, mùa và thế kỷ ('in May', 'in summer', 'in 2026').",
     objectives: [
-      "Nắm trọn 30 từ vựng thứ ngày, 12 tháng và 4 mùa thiên nhiên.",
+      "Nắm trọn 22 từ vựng thứ ngày, 12 tháng và 4 mùa thiên nhiên.",
       "Phản xạ nối các tháng vào đúng mùa tương ứng trong năm.",
       "Ghép câu đặt lịch hẹn công việc và lên kế hoạch nghỉ lễ.",
       "Luyện nghe chính tả các thông báo đổi giờ họp và dời lịch trình.",
@@ -294,7 +295,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "So sánh hơn và So sánh nhất: Tính từ ngắn thêm đuôi '-er/-est' ('faster than', 'the fastest'); tính từ dài dùng 'more... than' và 'the most...' ('more intelligent than', 'the most dangerous').",
     objectives: [
-      "Học 35 từ vựng về động vật hoang dã, thú nuôi và môi trường sống.",
+      "Học 22 từ vựng về động vật hoang dã, thú nuôi và môi trường sống.",
       "Nối tên con vật với tiếng kêu hoặc tập tính sinh thái.",
       "Ghép câu so sánh đặc điểm, kích thước và tốc độ giữa các loài vật.",
       "Chinh phục Cột Mốc Đánh Giá Tổng Hợp hoàn thành Phần 2 Khám Phá A1+.",
@@ -321,7 +322,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Cấu trúc miêu tả ngoại hình: Dùng 'have/has + danh từ' ('She has wavy hair and blue eyes'); dùng 'be + tính từ' ('He is tall and athletic').",
     objectives: [
-      "Ghi nhớ 35 từ vựng về bộ phận cơ thể và đặc điểm diện mạo.",
+      "Ghi nhớ 22 từ vựng về bộ phận cơ thể và đặc điểm diện mạo.",
       "Nối các giác quan và bộ phận cơ thể với chức năng sinh học.",
       "Ghép câu miêu tả nhận diện nhân vật chi tiết từ đầu đến chân.",
       "Luyện nghe đàm thoại nhận diện người qua miêu tả của cảnh sát hoặc bạn bè.",
@@ -344,7 +345,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Thì Hiện tại tiếp diễn (Present Continuous) miêu tả trang phục đang mặc trên người: 'He is wearing a navy suit', 'She is carrying a leather handbag'.",
     objectives: [
-      "Nắm vững 35 từ vựng về các loại trang phục theo mùa và phụ kiện thời trang.",
+      "Nắm vững 25 từ vựng về các loại trang phục theo mùa và phụ kiện thời trang.",
       "Nối trang phục với dịp lễ hoặc thời tiết phù hợp.",
       "Ghép câu hỏi kích cỡ, xin thử đồ trong phòng thay đồ cửa hàng.",
       "Luyện nói Shadowing đàm thoại tư vấn phối đồ sành điệu.",
@@ -367,7 +368,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Các mẫu câu chỉ đường thông dụng: 'Go straight ahead', 'Turn left/right at the corner', 'Take the second turning on your left', 'It is opposite the bank'.",
     objectives: [
-      "Thuộc 30 từ vựng về địa danh thành phố và hướng dẫn di chuyển.",
+      "Thuộc 22 từ vựng về địa danh thành phố và hướng dẫn di chuyển.",
       "Nối các biển báo giao thông với chỉ dẫn hành động đúng luật.",
       "Ghép câu hỏi đường lịch thiệp bằng cấu trúc 'Excuse me, could you tell me...'.",
       "Nghe đàm thoại chỉ đường và xác định điểm đến trên bản đồ thực tế.",
@@ -390,7 +391,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Giới từ đi với phương tiện: Dùng 'by' + phương tiện khi nói chung ('by car, by train, by plane'); nhưng dùng 'on' với xe buýt, tàu hỏa, máy bay ('on the bus') và 'in' với ô tô cá nhân, taxi ('in a taxi').",
     objectives: [
-      "Học 30 từ vựng về hệ thống phương tiện giao thông và vé đi lại.",
+      "Học 25 từ vựng về hệ thống phương tiện giao thông và vé đi lại.",
       "Nối phương tiện với địa điểm xuất phát: bến xe, ga tàu, bến cảng.",
       "Ghép câu hỏi lịch tàu xe, giá vé một chiều và vé khứ hồi.",
       "Luyện nghe đàm thoại đặt chuyến xe taxi công nghệ tiện lợi.",
@@ -413,7 +414,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Đại từ giả chủ ngữ 'It' để nói về thời tiết và nhiệt độ: 'It is sunny today', 'It was pouring with rain yesterday', 'It will be cold tomorrow'.",
     objectives: [
-      "Nắm vững 30 từ vựng chỉ hiện tượng thời tiết và nhiệt độ môi trường.",
+      "Nắm vững 25 từ vựng chỉ hiện tượng thời tiết và nhiệt độ môi trường.",
       "Nối các hiện tượng thời tiết với đồ vật bảo hộ: ô dù, áo mưa, kính râm.",
       "Ghép câu đưa ra lời khuyên chuẩn bị trang phục phù hợp với dự báo thời tiết.",
       "Đọc hiểu bài báo về hiện tượng thời tiết cực đoan trên thế giới.",
@@ -436,7 +437,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Động từ khuyết thiếu thể hiện sự lịch sự khi mua bán: 'Can I help you?', 'Could you show me a smaller size?', 'Would you like to pay in cash or by credit card?'.",
     objectives: [
-      "Thuộc 30 từ vựng về hóa đơn, tiền tệ, chương trình giảm giá và thanh toán.",
+      "Thuộc 25 từ vựng về hóa đơn, tiền tệ, chương trình giảm giá và thanh toán.",
       "Nối phương thức thanh toán với các thao tác quẹt thẻ hoặc quét mã QR.",
       "Ghép câu thương lượng giá cả và hỏi chính sách đổi trả hàng hóa.",
       "Vượt qua Cột Mốc Đánh Giá hoàn thành Phần 3 Kết Nối A2.",
@@ -463,7 +464,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Động từ khuyết thiếu chỉ sự bắt buộc và khuyên nhủ trong học tập: 'must' (bắt buộc theo quy định), 'have to' (phải làm vì hoàn cảnh), 'should' (nên làm như một lời khuyên chân thành).",
     objectives: [
-      "Nạp 30 từ vựng về trường lớp, môn học và chứng chỉ học thuật.",
+      "Nạp 25 từ vựng về trường lớp, môn học và chứng chỉ học thuật.",
       "Nối các ngành học với môn chuyên ngành tương ứng.",
       "Ghép câu thảo luận về kế hoạch ôn thi và nộp bài tập đúng hạn.",
       "Luyện nghe bài giảng của giáo viên và ghi chép nhanh thông tin cốt lõi.",
@@ -486,7 +487,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Mạo từ 'a/an' với danh từ chỉ nghề nghiệp: 'She is an accountant', 'He works as a software engineer'. Cấu trúc hỏi nghề: 'What do you do for a living?'.",
     objectives: [
-      "Học trọn 35 từ vựng về các vị trí công việc, phòng ban và chức danh doanh nghiệp.",
+      "Học trọn 25 từ vựng về các vị trí công việc, phòng ban và chức danh doanh nghiệp.",
       "Nối ngành nghề với nhiệm vụ chuyên môn đặc trưng.",
       "Ghép câu giới thiệu kinh nghiệm làm việc và kỹ năng thế mạnh trong CV.",
       "Luyện nói Shadowing câu trả lời phỏng vấn xin việc ấn tượng.",
@@ -509,7 +510,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Quy tắc động từ đi với thể thao: Dùng 'play' với các môn thể thao đối kháng có bóng ('play football, play tennis'); dùng 'go' với các môn kết thúc bằng -ing ('go swimming, go cycling'); dùng 'do' với võ thuật và tập luyện thể dục ('do yoga, do martial arts').",
     objectives: [
-      "Nắm 35 từ vựng về các môn thể thao Olympic, dụng cụ thi đấu và sở thích cá nhân.",
+      "Nắm 25 từ vựng về các môn thể thao Olympic, dụng cụ thi đấu và sở thích cá nhân.",
       "Phân biệt và nối chuẩn xác 3 nhóm động từ: Play, Go, Do với từng bộ môn.",
       "Ghép câu rủ bạn bè cùng chơi thể thao nâng cao sức khỏe vào cuối tuần.",
       "Đọc hiểu bài viết về tinh thần đồng đội và chiến thắng thể thao.",
@@ -532,7 +533,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Cấu trúc diễn tả triệu chứng bệnh: 'I have a + bệnh' ('I have a headache / sore throat / fever'); 'My + bộ phận + hurts' ('My back hurts'). Lời dặn dò bác sĩ: 'You should rest and drink plenty of water'.",
     objectives: [
-      "Thuộc 35 từ vựng về triệu chứng thông thường, đơn thuốc và phòng khám y tế.",
+      "Thuộc 20 từ vựng về triệu chứng thông thường, đơn thuốc và phòng khám y tế.",
       "Nối triệu chứng bệnh với lời khuyên điều trị phù hợp.",
       "Ghép câu đàm thoại miêu tả bệnh tình với bác sĩ hoặc dược sĩ.",
       "Luyện nghe đoạn hội thoại tư vấn chăm sóc sức khỏe phòng ngừa dịch bệnh.",
@@ -555,7 +556,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Thì Quá khứ đơn (Past Simple) khi nhận xét trải nghiệm lưu trú và phản ánh chất lượng dịch vụ: 'We enjoyed our stay', 'The room was very spacious', 'The staff assisted us promptly'.",
     objectives: [
-      "Nắm 30 từ vựng về các loại phòng, tiện nghi khách sạn và thủ tục lưu trú.",
+      "Nắm 20 từ vựng về các loại phòng, tiện nghi khách sạn và thủ tục lưu trú.",
       "Nối các tiện ích phòng (minibar, safe, balcony) với công dụng tương ứng.",
       "Ghép câu làm thủ tục nhận phòng (check-in) và trả phòng (check-out) nhanh chóng.",
       "Luyện nghe đàm thoại gọi dịch vụ dọn phòng hoặc gọi bữa sáng tại giường.",
@@ -578,7 +579,7 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
     grammarTip:
       "Thì Tương lai gần ('be going to') và Tương lai đơn ('will') để diễn đạt kế hoạch chuyến bay, lịch trình di chuyển và lời chúc hành trình an toàn: 'Our flight is going to depart soon', 'Have a wonderful trip!'.",
     objectives: [
-      "Làm chủ 30 từ vựng về thủ tục sân bay, vé máy bay và du lịch quốc tế.",
+      "Làm chủ 20 từ vựng về thủ tục sân bay, vé máy bay và du lịch quốc tế.",
       "Nối ký hiệu cổng bay, khu vực soi chiếu an ninh với biển báo quốc tế.",
       "Ghép câu giao tiếp tự tin khi xuất trình hộ chiếu và qua hải quan.",
       "Chinh phục Cột Mốc Hoàng Gia: Đạt điểm số cao ở bài thi Full Test toàn diện 24 Unit!",
@@ -592,14 +593,48 @@ export const UNIT_CURRICULUM_CONFIGS: UnitCurriculumConfig[] = [
   },
 ];
 
-/** Bài nghe chính tả cụ thể theo chủ đề (video lessons có sẵn); chủ đề khác về danh mục audio. */
+/** Bài nghe chính tả cụ thể cho toàn bộ 24 chủ đề Unit (kết hợp bài học Audio & Video chuẩn). */
 const DICTATION_LESSON_BY_THEME: Record<string, string> = {
+  t_basic_greetings: "listen_a1_001",
+  t_basic_introductions: "listen_toeic_q3_010",
+  t_basic_numbers: "listen_toeic_q3_005",
+  t_basic_colors_shapes: "listen_toeic_q3_073",
+  t_basic_family: "listen_toeic_q3_062",
+  t_basic_daily_verbs: "vid_ted_science_habits",
+  t_basic_home_objects: "listen_001",
   t_basic_food_drinks: "vid_travel_restaurant_ordering",
   t_basic_kitchen_utensils: "vid_oxford_food_cooking",
+  t_basic_emotions_adjectives: "vid_bbc_laughter_medicine",
+  t_basic_time_calendar: "listen_toeic_q3_016",
+  t_basic_animals: "listen_toeic_q3_093",
+  t_basic_body_parts: "listen_a1_005",
+  t_basic_clothes: "listen_toeic_q3_067",
+  t_basic_places_directions: "listen_a1_002",
+  t_basic_transportation: "listen_002",
+  t_basic_weather_nature: "listen_toeic_q3_048",
+  t_basic_shopping_money: "listen_a1_004",
+  t_basic_school_stationery: "listen_toeic_q3_090",
   t_basic_jobs_occupations: "vid_careervidz_interview",
+  t_basic_hobbies_sports: "listen_toeic_q3_014",
   t_basic_health_medical: "vid_medical_consultation",
   t_basic_hotel_accommodation: "vid_travel_hotel_checkin",
   t_basic_airport_station_travel: "vid_airport_checkin",
+};
+
+/** Bài luyện nói Shadowing cụ thể cho các Unit chẵn theo chủ đề. */
+const SHADOWING_LESSON_BY_THEME: Record<string, string> = {
+  t_basic_introductions: "shadow_ext_002",
+  t_basic_colors_shapes: "shadow_ext_004",
+  t_basic_daily_verbs: "listen_a1_001",
+  t_basic_food_drinks: "shadow_ext_005",
+  t_basic_emotions_adjectives: "shadow_ext_012",
+  t_basic_animals: "shadow_ext_011",
+  t_basic_clothes: "listen_003",
+  t_basic_transportation: "shadow_ext_001",
+  t_basic_shopping_money: "listen_a1_004",
+  t_basic_jobs_occupations: "shadow_ext_008",
+  t_basic_health_medical: "shadow_ext_003",
+  t_basic_airport_station_travel: "listen_002",
 };
 
 /** Bài đọc hiểu (r1…r40, mức A1–B1) cho các Unit lẻ theo chủ đề. */
@@ -634,6 +669,9 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
 
   UNIT_CURRICULUM_CONFIGS.forEach((unit) => {
     const uNum = unit.unitNumber;
+    const totalWords = getBasicVocabulariesByTheme(unit.themeId).length || 25;
+    const part1Words = Math.ceil(totalWords / 2);
+    const part2Words = totalWords - part1Words;
 
     // Stage 1: VOCAB (Nạp từ cốt lõi)
     allSteps.push({
@@ -655,18 +693,18 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
         "Đặt ít nhất 1 câu ví dụ thực tế cho mỗi từ vựng mới học.",
       ],
       totalSessions: 2,
-      dailyTargetWords: 15,
-      totalTargetWords: 30,
+      dailyTargetWords: part1Words,
+      totalTargetWords: totalWords,
       dailyPlanBreakdown: [
         {
           timeSlot: "Phiên 1 (Phần 1)",
           activity: "Nạp từ vựng cốt lõi Phần 1",
-          detail: `Làm chủ 15 từ vựng đầu tiên chủ đề ${unit.title} với phiên âm IPA, audio và thẻ ghi nhớ 3D.`,
+          detail: `Làm chủ ${part1Words} từ vựng đầu tiên chủ đề ${unit.title} với phiên âm IPA, audio và thẻ ghi nhớ 3D.`,
         },
         {
           timeSlot: "Phiên 2 (Phần 2)",
           activity: "Nạp từ vựng cốt lõi Phần 2",
-          detail: `Chinh phục 15 từ vựng tiếp theo của chủ đề ${unit.title} và hoàn thành mục tiêu nạp từ.`,
+          detail: `Chinh phục ${part2Words} từ vựng tiếp theo của chủ đề ${unit.title} và hoàn thành mục tiêu nạp từ.`,
         },
       ],
     });
@@ -743,6 +781,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
     currentStepNumber++;
 
     // Stage 4: LISTENING (Nghe đàm thoại & chính tả)
+    const dictationLessonId = DICTATION_LESSON_BY_THEME[unit.themeId] || "listen_a1_001";
     allSteps.push({
       id: `step-${currentStepNumber}`,
       stepNumber: currentStepNumber,
@@ -752,9 +791,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       description: `Luyện đôi tai bắt âm nhạy bén, nhận diện âm đuôi và gõ chính tả câu đàm thoại thực tế theo chủ đề ${unit.title}.`,
       skillType: "LISTENING",
       isCheckpoint: false,
-      practicePath: DICTATION_LESSON_BY_THEME[unit.themeId]
-        ? `/study/dictation?id=${DICTATION_LESSON_BY_THEME[unit.themeId]}`
-        : "/study/dictation/audio",
+      practicePath: `/study/dictation?id=${dictationLessonId}&theme=${unit.themeId}&unit=${uNum}`,
       xpReward: 30,
       coinsReward: 15,
       durationMinutes: 20,
@@ -763,7 +800,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
         "Nghe trọn vẹn cả câu trước khi gõ để nắm ngữ cảnh bài nói.",
         "Chú ý các âm nối và nuốt âm thường gặp trong giao tiếp tự nhiên.",
       ],
-      totalSessions: 3,
+      totalSessions: 1,
       dailyPlanBreakdown: [
         {
           timeSlot: "5 phút đầu",
@@ -786,6 +823,8 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
 
     // Stage 5: STORY or SPEAKING (Đọc hiểu hoặc Luyện nói Shadowing)
     const isSpeakingUnit = uNum % 2 === 0;
+    const shadowingLessonId = SHADOWING_LESSON_BY_THEME[unit.themeId] || "listen_a1_001";
+    const readingPassageId = READING_PASSAGE_BY_THEME[unit.themeId] || "r1";
     allSteps.push({
       id: `step-${currentStepNumber}`,
       stepNumber: currentStepNumber,
@@ -800,8 +839,8 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
       skillType: isSpeakingUnit ? "SPEAKING" : "STORY",
       isCheckpoint: false,
       practicePath: isSpeakingUnit
-        ? "/study/shadowing/audio"
-        : `/study/reading/${READING_PASSAGE_BY_THEME[unit.themeId] || "r1"}`,
+        ? `/study/shadowing/audio?id=${shadowingLessonId}&theme=${unit.themeId}&unit=${uNum}`
+        : `/study/reading/${readingPassageId}?theme=${unit.themeId}&unit=${uNum}`,
       xpReward: 35,
       coinsReward: 15,
       durationMinutes: 15,
@@ -812,7 +851,7 @@ const generateCuratedRoadmapSteps = (): ZiczacPathStep[] => {
           : "Đọc lướt bắt ý chính trước khi trả lời câu hỏi đọc hiểu chi tiết.",
         "Ghi nhớ các cụm từ đắt giá xuất hiện trong ngữ cảnh thực tế.",
       ],
-      totalSessions: 3,
+      totalSessions: 1,
       dailyPlanBreakdown: [
         {
           timeSlot: "5 phút đầu",

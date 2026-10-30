@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { List, Eye, Clock, Play, Volume2, Radio, ChevronDown, ChevronsDown, Sparkles } from "lucide-react";
+import { List, Eye, Clock, Volume2, Sparkles } from "lucide-react";
 import { YouTubeVideoItem } from "@/stores/videoStore";
 import { WordLookupCard, WordLookupData } from "../shared/WordLookupCard";
 
@@ -43,11 +43,19 @@ export function SubtitlesTabPane({
   const subItemRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   useEffect(() => {
-    if (subViewMode === "full" && subItemRefs.current[activeSubIndex]) {
-      subItemRefs.current[activeSubIndex]?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-      });
+    const targetEl = subItemRefs.current[activeSubIndex];
+    if (subViewMode === "full" && targetEl) {
+      const scrollContainer = targetEl.closest(".overflow-y-auto") as HTMLElement | null;
+      if (scrollContainer) {
+        const containerRect = scrollContainer.getBoundingClientRect();
+        const itemRect = targetEl.getBoundingClientRect();
+        const relativeTop = itemRect.top - containerRect.top + scrollContainer.scrollTop;
+        const desiredScrollTop = Math.max(0, relativeTop - scrollContainer.clientHeight * 0.25);
+        scrollContainer.scrollTo({
+          top: desiredScrollTop,
+          behavior: "smooth",
+        });
+      }
     }
   }, [activeSubIndex, subViewMode]);
 
@@ -134,35 +142,8 @@ export function SubtitlesTabPane({
                     <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
                       <Clock className="w-4 h-4 text-[#0059bb]" /> {formatSubTime(sub.startTime)}
                     </span>
-                    {isActiveSpeaking ? (
-                      <span
-                        className="p-1 rounded-md bg-blue-100 dark:bg-blue-900/50 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs"
-                        title="Đang phát âm thanh"
-                      >
-                        <Volume2 className="w-3.5 h-3.5 animate-pulse text-[#0059bb] dark:text-sky-400" />
-                      </span>
-                    ) : isFocused ? (
-                      <span
-                        className="p-1 rounded-md bg-blue-50 dark:bg-blue-950/60 border border-blue-200/70 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs"
-                        title="Câu đang chọn"
-                      >
-                        <Radio className="w-3.5 h-3.5 animate-pulse text-blue-600 dark:text-sky-400" />
-                      </span>
-                    ) : (
-                      <span
-                        className={`p-1 rounded-md border flex items-center justify-center ${
-                          isNext1
-                            ? "bg-slate-100 dark:bg-slate-800/60 border-slate-200/60 dark:border-slate-800/60 text-slate-400 dark:text-slate-500"
-                            : "bg-slate-50 dark:bg-slate-900/40 border-slate-200/40 dark:border-slate-800/40 text-slate-300 dark:text-slate-600 opacity-75"
-                        }`}
-                        title={isNext1 ? "Câu kế tiếp (+1)" : "Câu kế tiếp (+2)"}
-                      >
-                        {isNext1 ? (
-                          <ChevronDown className="w-3.5 h-3.5" />
-                        ) : (
-                          <ChevronsDown className="w-3.5 h-3.5" />
-                        )}
-                      </span>
+                    {isActiveSpeaking && (
+                      <Volume2 className="w-4 h-4 animate-pulse text-[#0059bb] dark:text-sky-400" />
                     )}
                   </div>
 
@@ -230,21 +211,9 @@ export function SubtitlesTabPane({
                   <span className="flex items-center gap-1.5 font-bold text-slate-600 dark:text-slate-300">
                     <Clock className="w-4 h-4 text-[#0059bb] dark:text-sky-400" /> {formatSubTime(sub.startTime)}
                   </span>
-                  {isCardSpeaking ? (
-                    <span
-                      className="p-1 rounded-md bg-blue-100/80 dark:bg-blue-900/50 border border-[#0059bb]/30 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs"
-                      title="Đang phát âm thanh"
-                    >
-                      <Volume2 className="w-3.5 h-3.5 animate-pulse text-[#0059bb] dark:text-sky-400" />
-                    </span>
-                  ) : isCardSelected ? (
-                    <span
-                      className="p-1 rounded-md bg-blue-50 dark:bg-blue-950/60 border border-blue-200/70 dark:border-blue-800/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs"
-                      title="Câu đang chọn"
-                    >
-                      <Radio className="w-3.5 h-3.5 animate-pulse text-blue-600 dark:text-sky-400" />
-                    </span>
-                  ) : null}
+                  {isCardSpeaking && (
+                    <Volume2 className="w-4 h-4 animate-pulse text-[#0059bb] dark:text-sky-400" />
+                  )}
                 </div>
 
                 <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-0.5">

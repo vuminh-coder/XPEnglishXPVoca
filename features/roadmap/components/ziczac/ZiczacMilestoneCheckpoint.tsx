@@ -155,7 +155,7 @@ export const ZiczacMilestoneCheckpoint: React.FC<ZiczacMilestoneCheckpointProps>
 
           {/* Icon: Luôn hiển thị Trophy/Crown (không dùng icon ổ khóa); kích thước w-7 h-7 đồng bộ nút thường */}
           <div className="relative z-10 flex items-center justify-center">
-            {step.stepNumber === 28 ? (
+            {step.stepNumber === 144 ? (
               <Crown
                 className={`w-7 h-7 sm:w-8 sm:h-8 stroke-[2.4] ${
                   isLocked

@@ -480,7 +480,7 @@ export const VOCABS_THOI_TIET_THIEN_NHIEN: BasicVocabularyItem[] = [
   {
     "id": "bv_weathe_21",
     "word": "drizzle",
-    "phonetic": "/ˈdrɪz.əl/",
+    "phonetic": "/ˈdrɪzəl/",
     "definition": "Light rain falling in very fine, misty drops.",
     "definitionVn": "mưa phùn, mưa bay lất phất",
     "pos": "noun",
@@ -488,14 +488,14 @@ export const VOCABS_THOI_TIET_THIEN_NHIEN: BasicVocabularyItem[] = [
     "frequency": 5,
     "themeId": "t_basic_weather_nature",
     "themeNameVn": "Thời tiết & Thiên nhiên",
-    "themeNameEn": "Weather & Nature Elements",
+    "themeNameEn": "Weather & Nature",
     "examples": [
-      "A gentle spring drizzle moistened the flower petals across the municipal park.",
-      "We did not need an umbrella because the sky only produced a brief, passing drizzle."
+      "A gentle spring drizzle fell over the green park.",
+      "Light drizzle is common in Hanoi during early spring."
     ],
     "exampleTranslations": [
-      "Một cơn mưa phùn mùa xuân dịu nhẹ làm ẩm những cánh hoa trên khắp công viên thành phố.",
-      "Chúng tôi không cần ô vì bầu trời chỉ tạo ra một cơn mưa phùn thoáng qua ngắn ngủi."
+      "Một cơn mưa phùn mùa xuân dịu nhẹ rơi trên công viên xanh.",
+      "Mưa phùn nhẹ rất phổ biến ở Hà Nội vào dịp đầu xuân."
     ],
     "synonyms": [
       "misty rain",
@@ -509,22 +509,22 @@ export const VOCABS_THOI_TIET_THIEN_NHIEN: BasicVocabularyItem[] = [
   {
     "id": "bv_weathe_22",
     "word": "thunderstorm",
-    "phonetic": "/ˈθʌn.dɚ.stɔːrm/",
+    "phonetic": "/ˈθʌndərstɔːrm/",
     "definition": "A transient storm accompanied by lightning, roaring thunder, and heavy downpours.",
-    "definitionVn": "cơn dông bão có sấm chớp và mưa rào lớn",
+    "definitionVn": "cơn dông bão, mưa dông sấm chớp",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_weather_nature",
     "themeNameVn": "Thời tiết & Thiên nhiên",
-    "themeNameEn": "Weather & Nature Elements",
+    "themeNameEn": "Weather & Nature",
     "examples": [
-      "The afternoon heat gave way to a violent thunderstorm that shook windows across the suburb.",
-      "Aviation radars diverted approaching aircraft away from the severe thunderstorm front."
+      "Stay indoors safely during a heavy summer thunderstorm.",
+      "A sudden thunderstorm cooled the hot afternoon air."
     ],
     "exampleTranslations": [
-      "Cái nóng buổi chiều nhường chỗ cho một cơn dông dữ dội làm rung chuyển các cửa sổ khắp vùng ngoại ô.",
-      "Radar hàng không đã chuyển hướng các máy bay đang đến tránh xa khối dông bão nghiêm trọng."
+      "Hãy ở trong nhà an toàn khi có cơn dông bão lớn mùa hè.",
+      "Một cơn mưa dông bất chợt đã làm dịu mát bầu không khí buổi chiều."
     ],
     "synonyms": [
       "electrical storm",
@@ -540,20 +540,20 @@ export const VOCABS_THOI_TIET_THIEN_NHIEN: BasicVocabularyItem[] = [
     "word": "breeze",
     "phonetic": "/briːz/",
     "definition": "A gentle, light, and refreshing wind.",
-    "definitionVn": "làn gió thoảng nhẹ nhàng, mát mẻ",
+    "definitionVn": "làn gió nhẹ, gió thoảng mát mẻ",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_weather_nature",
     "themeNameVn": "Thời tiết & Thiên nhiên",
-    "themeNameEn": "Weather & Nature Elements",
+    "themeNameEn": "Weather & Nature",
     "examples": [
-      "A cool ocean breeze rustled through the palm fronds on the sunlit terrace.",
-      "Sitting by the open lakeside window, we enjoyed the soothing evening breeze."
+      "A cool ocean breeze blew across the sandy beach.",
+      "We enjoyed the fresh evening breeze by the lake."
     ],
     "exampleTranslations": [
-      "Một làn gió biển mát lành xào xạc qua những tán lá cọ trên sân hiên ngập tràn ánh nắng.",
-      "Ngồi bên cửa sổ mở ven hồ, chúng tôi tận hưởng làn gió tối dịu êm."
+      "Một làn gió biển mát lành thổi qua bãi biển đầy cát.",
+      "Chúng tôi tận hưởng làn gió buổi tối trong lành bên bờ hồ."
     ],
     "synonyms": [
       "gentle wind",
@@ -567,48 +567,46 @@ export const VOCABS_THOI_TIET_THIEN_NHIEN: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_weathe_24",
-    "word": "rainbow",
-    "phonetic": "/ˈreɪn.boʊ/",
-    "definition": "An arch of colors formed in the sky in certain circumstances, caused by the refraction of sunlight through raindrops.",
-    "definitionVn": "cầu vồng bảy sắc sau cơn mưa",
+    "word": "fog",
+    "phonetic": "/fɑːɡ/",
+    "definition": "A thick cloud of tiny water droplets suspended in the atmosphere at or near the earth's surface.",
+    "definitionVn": "sương mù, màn sương dày",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_weather_nature",
     "themeNameVn": "Thời tiết & Thiên nhiên",
-    "themeNameEn": "Weather & Nature Elements",
+    "themeNameEn": "Weather & Nature",
     "examples": [
-      "As soon as the afternoon storm passed, a magnificent double rainbow arched over the valley.",
-      "Children pointed excitedly at the vivid rainbow shining against the dissipating gray clouds."
+      "Thick morning fog covered the quiet mountain valley.",
+      "Drive slowly when there is heavy fog on the road."
     ],
     "exampleTranslations": [
-      "Ngay sau khi cơn bão buổi chiều qua đi, một cầu vồng đôi tráng lệ uốn lượn qua thung lũng.",
-      "Lũ trẻ hào hứng chỉ tay vào chiếc cầu vồng rực rỡ tỏa sáng trên nền mây xám đang tan dần."
+      "Lớp sương mù dày buổi sáng bao phủ khắp thung lũng núi yên tĩnh.",
+      "Hãy lái xe chậm lại khi có sương mù dày đặc trên đường nhé."
     ],
-    "synonyms": [
-      "solar optical spectrum arc"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_weathe_25",
     "word": "humidity",
-    "phonetic": "/hjuːˈmɪd.ə.t̬i/",
+    "phonetic": "/hjuːˈmɪdəti/",
     "definition": "The state or quality of being humid; a high quantity of moisture or water vapor in the atmosphere.",
-    "definitionVn": "độ ẩm không khí, cảm giác nồm ẩm oi bức",
+    "definitionVn": "độ ẩm, sự ẩm ướt không khí",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_weather_nature",
     "themeNameVn": "Thời tiết & Thiên nhiên",
-    "themeNameEn": "Weather & Nature Elements",
+    "themeNameEn": "Weather & Nature",
     "examples": [
-      "High tropical humidity makes a thirty-degree day feel substantially hotter than it actually is.",
-      "Running a dehumidifier in the basement protects wooden furniture from damp humidity."
+      "High summer humidity makes the weather feel much hotter.",
+      "Plants grow fast in warm and high humidity."
     ],
     "exampleTranslations": [
-      "Độ ẩm nhiệt đới cao làm cho một ngày ba mươi độ có cảm giác nóng hơn đáng kể so với thực tế.",
-      "Chạy máy hút ẩm trong tầng hầm giúp bảo vệ đồ nội thất bằng gỗ khỏi độ ẩm ướt."
+      "Độ ẩm mùa hè cao làm cho thời tiết có cảm giác nóng hơn nhiều.",
+      "Cây cối phát triển rất nhanh trong điều kiện ấm áp và độ ẩm cao."
     ],
     "synonyms": [
       "moisture content",

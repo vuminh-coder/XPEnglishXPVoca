@@ -38,9 +38,16 @@ export function useYouTubePlayerSync({
 
   // Callback ref to avoid stale closures in sync loop
   const onSubIndexChangeRef = useRef(onSubIndexChange);
+  const onNewSubtitleCapturedRef = useRef(onNewSubtitleCaptured);
+  const isLiveTranscribingRef = useRef(false);
   useEffect(() => {
     onSubIndexChangeRef.current = onSubIndexChange;
+    onNewSubtitleCapturedRef.current = onNewSubtitleCaptured;
   });
+
+  useEffect(() => {
+    isLiveTranscribingRef.current = Boolean(activeVideo && activeVideo.subtitles.length === 0);
+  }, [activeVideo?.id]);
 
   // Playback States
   const [isPlaying, setIsPlaying] = useState(false);
@@ -426,30 +433,24 @@ export function useYouTubePlayerSync({
           setActiveWordIndex(newWordIdx);
           prevWordIdx = newWordIdx;
         }
-
-        // Progressive chunk streaming
-        const chunkCount = loadedChunkCountRef.current;
-        if (matchedIdx >= chunkCount * 3 - 1 && chunkCount * 3 < activeVideo.subtitles.length) {
-          setLoadedChunkCount((c) => c + 1);
-        }
       }, 35);
     }
     return () => clearInterval(timer);
   }, [activeVideo?.id, isLoopingSentence, currentSubIndex, sendYtCommand]);
 
-  // Background Web Speech AI Transcriber
+  // Background Web Speech AI Transcriber (continues across captured sentences without stopping after #1)
   useEffect(() => {
-    if (!activeVideo || !isPlaying) {
+    if (!activeVideo?.id || !isPlaying) {
       backgroundWebSpeechTranscriber.stop();
       return;
     }
 
-    if (activeVideo.subtitles.length === 0 && onNewSubtitleCaptured) {
+    if (isLiveTranscribingRef.current && onNewSubtitleCapturedRef.current) {
       backgroundWebSpeechTranscriber.start({
         getCurrentTimeSec: () => ytPlayerTimeRef.current,
         isPlaying: () => isPlayingRef.current,
         onSentenceCaptured: (rawItem) => {
-          onNewSubtitleCaptured(rawItem);
+          onNewSubtitleCapturedRef.current?.(rawItem);
         },
       });
     }
@@ -457,7 +458,7 @@ export function useYouTubePlayerSync({
     return () => {
       backgroundWebSpeechTranscriber.stop();
     };
-  }, [activeVideo, isPlaying, onNewSubtitleCaptured]);
+  }, [activeVideo?.id, isPlaying]);
 
   return {
     iframeRef,

@@ -479,10 +479,10 @@ export const VOCABS_CAY_COI_HOA_QUA: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_plants_21",
-    "word": "watermelon",
-    "phonetic": "/ˈwɑː.t̬ɚˌmel.ən/",
-    "definition": "A large, round or oblong green melon with sweet, watery red pulp and black seeds.",
-    "definitionVn": "quả dưa hấu thanh mát, nhiều nước",
+    "word": "peach",
+    "phonetic": "/piːtʃ/",
+    "definition": "A round stone fruit with juicy yellow flesh and downy pinkish-yellow skin.",
+    "definitionVn": "quả đào, trái đào",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -490,24 +490,22 @@ export const VOCABS_CAY_COI_HOA_QUA: BasicVocabularyItem[] = [
     "themeNameVn": "Cây cối & Hoa quả",
     "themeNameEn": "Plants & Fruits",
     "examples": [
-      "Chilled slices of juicy watermelon are the ultimate refreshing treat on scorching summer afternoons.",
-      "Seedless watermelons are especially popular for making fresh fruit salads and juices."
+      "She added slices of sweet peach to her tea.",
+      "Fresh pink peaches smell wonderful in summer."
     ],
     "exampleTranslations": [
-      "Những lát dưa hấu ướp lạnh mọng nước là món ăn giải khát tuyệt đỉnh vào những buổi chiều hè oi bức.",
-      "Dưa hấu không hạt đặc biệt phổ biến để làm món salad trái cây tươi và nước ép."
+      "Cô ấy đã thêm những lát đào ngọt vào ly trà của mình.",
+      "Những quả đào hồng tươi tỏa hương thơm ngát vào mùa hè."
     ],
-    "synonyms": [
-      "citrullus fruit"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_plants_22",
-    "word": "pineapple",
-    "phonetic": "/ˈpaɪnˌæp.əl/",
-    "definition": "A large juicy tropical fruit consisting of edible aromatic yellow flesh surrounded by a tough prickly skin.",
-    "definitionVn": "quả dứa, quả thơm có gai",
+    "word": "pear",
+    "phonetic": "/per/",
+    "definition": "A sweet yellowish- or brownish-green edible fruit that is narrow at the stalk and wider toward the base.",
+    "definitionVn": "quả lê, trái lê",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -515,24 +513,22 @@ export const VOCABS_CAY_COI_HOA_QUA: BasicVocabularyItem[] = [
     "themeNameVn": "Cây cối & Hoa quả",
     "themeNameEn": "Plants & Fruits",
     "examples": [
-      "Freshly sliced golden pineapple brings a tangy sweetness to tropical smoothies and grilled skewers.",
-      "Pineapples thrive in warm tropical climates with well-drained volcanic soils."
+      "Crisp yellow pears are delicious and juicy.",
+      "Wash the pear thoroughly before eating it."
     ],
     "exampleTranslations": [
-      "Dứa vàng mới cắt lát mang lại vị ngọt thơm cho sinh tố nhiệt đới và các xiên nướng.",
-      "Cây dứa phát triển mạnh ở vùng khí hậu nhiệt đới ấm áp với đất núi lửa thoát nước tốt."
+      "Những quả lê vàng giòn rất ngon và mọng nước.",
+      "Hãy rửa sạch quả lê trước khi ăn nhé."
     ],
-    "synonyms": [
-      "ananas"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_plants_23",
-    "word": "papaya",
-    "phonetic": "/pəˈpaɪ.ə/",
-    "definition": "A tropical fruit shaped like an elongated melon, with edible orange flesh and small black seeds.",
-    "definitionVn": "quả đu đủ chín giàu vitamin",
+    "word": "bamboo",
+    "phonetic": "/ˌbæmˈbuː/",
+    "definition": "A giant woody grass that grows chiefly in the tropics.",
+    "definitionVn": "cây tre, cây trúc",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -540,24 +536,22 @@ export const VOCABS_CAY_COI_HOA_QUA: BasicVocabularyItem[] = [
     "themeNameVn": "Cây cối & Hoa quả",
     "themeNameEn": "Plants & Fruits",
     "examples": [
-      "Squeezing fresh lime juice over ripe papaya enhances its natural tropical flavor.",
-      "Papayas contain digestive enzymes that aid in gastric comfort and protein breakdown."
+      "Green bamboo grows around many Vietnamese villages.",
+      "Giant pandas love eating fresh bamboo leaves."
     ],
     "exampleTranslations": [
-      "Vắt nước chanh tươi lên quả đu đủ chín sẽ làm tăng hương vị nhiệt đới tự nhiên của nó.",
-      "Đu đủ chứa các enzym tiêu hóa hỗ trợ dạ dày dễ chịu và phân giải protein."
+      "Tre xanh mọc quanh nhiều ngôi làng Việt Nam.",
+      "Gấu trúc khổng lồ rất thích ăn lá tre tươi."
     ],
-    "synonyms": [
-      "pawpaw"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_plants_24",
     "word": "sunflower",
-    "phonetic": "/ˈsʌnˌflaʊ.ɚ/",
+    "phonetic": "/ˈsʌnflaʊər/",
     "definition": "A tall North American plant of the daisy family, with very large golden-yellow rayed flower heads.",
-    "definitionVn": "hoa hướng dương vàng rực rỡ hướng về mặt trời",
+    "definitionVn": "hoa hướng dương, bông hướng dương",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -565,12 +559,12 @@ export const VOCABS_CAY_COI_HOA_QUA: BasicVocabularyItem[] = [
     "themeNameVn": "Cây cối & Hoa quả",
     "themeNameEn": "Plants & Fruits",
     "examples": [
-      "Vast fields of blooming yellow sunflowers turn their heavy heads toward the morning sun.",
-      "Roasted sunflower seeds make a nutritious, crunchy snack packed with healthy fats."
+      "Yellow sunflowers always turn toward the bright sun.",
+      "Roasted sunflower seeds are a popular snack."
     ],
     "exampleTranslations": [
-      "Những cánh đồng hoa hướng dương vàng nở rộ bạt ngàn hướng những bông hoa nặng trĩu về phía mặt trời buổi sớm.",
-      "Hạt hướng dương rang làm món ăn nhẹ giòn tan bổ dưỡng chứa nhiều chất béo lành mạnh."
+      "Những bông hoa hướng dương vàng luôn hướng về phía mặt trời rực rỡ.",
+      "Hạt hướng dương rang là một món ăn vặt rất phổ biến."
     ],
     "synonyms": [
       "helianthus"
@@ -580,9 +574,9 @@ export const VOCABS_CAY_COI_HOA_QUA: BasicVocabularyItem[] = [
   {
     "id": "bv_plants_25",
     "word": "cactus",
-    "phonetic": "/ˈkæk.təs/",
+    "phonetic": "/ˈkæktəs/",
     "definition": "A succulent plant with a thick fleshy stem bearing spines, typically lacking leaves, native to arid regions.",
-    "definitionVn": "cây xương rồng sa mạc chịu hạn",
+    "definitionVn": "cây xương rồng, xương rồng cảnh",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -590,12 +584,12 @@ export const VOCABS_CAY_COI_HOA_QUA: BasicVocabularyItem[] = [
     "themeNameVn": "Cây cối & Hoa quả",
     "themeNameEn": "Plants & Fruits",
     "examples": [
-      "The giant saguaro cactus can store hundreds of gallons of water during desert flash rains.",
-      "Potted miniature cacti are popular low-maintenance houseplants that require minimal watering."
+      "A desert cactus needs very little water to grow.",
+      "She placed a small cactus pot on her desk."
     ],
     "exampleTranslations": [
-      "Cây xương rồng saguaro khổng lồ có thể tích trữ hàng trăm gallon nước trong các trận mưa rào bất chợt ở sa mạc.",
-      "Xương rồng mini trồng trong chậu là loại cây cảnh trong nhà ít tốn công chăm sóc và cần tưới nước tối thiểu."
+      "Cây xương rồng sa mạc cần rất ít nước để phát triển.",
+      "Cô ấy đặt một chậu xương rồng nhỏ trên bàn học của mình."
     ],
     "synonyms": [
       "desert succulent"

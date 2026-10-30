@@ -167,7 +167,7 @@ export function GameResultScreen({
               </span>
             </div>
             <div className="text-base sm:text-lg font-black font-display text-amber-600 dark:text-amber-400">
-              +{xpEarned || 15}
+              +{xpEarned !== undefined ? xpEarned : 15}
             </div>
           </div>
 

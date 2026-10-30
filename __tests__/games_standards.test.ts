@@ -163,4 +163,25 @@ describe("Mini-Games Standards & Anti-Cheat Validation (/api/games/record)", () 
     );
     expect(invalidateDashboardCache).toHaveBeenCalledWith("user_legit_gamer");
   });
+
+  it("5. Calculates server-authoritative rewards for wordlink (4 pairs reflex matching in 5s)", async () => {
+    vi.mocked(getAuthenticatedUserId).mockResolvedValue(null);
+
+    const req = new Request("http://localhost:3000/api/games/record", {
+      method: "POST",
+      body: JSON.stringify({
+        gameType: "wordlink",
+        score: 60,
+        wordsCompleted: 4,
+        durationSeconds: 5,
+      }),
+    });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.data.xpGained).toBe(30);
+    expect(json.data.coinsGained).toBe(15);
+  });
 });

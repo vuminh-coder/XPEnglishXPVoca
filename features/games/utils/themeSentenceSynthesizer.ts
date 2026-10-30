@@ -13,6 +13,8 @@ export interface SynthesizedSentence {
   sentence: string;
   translationVn: string;
   word?: string;
+  vocabId?: string;
+  distractors?: string[];
   source: "example" | "key_phrase" | "synthesized";
 }
 
@@ -35,6 +37,131 @@ function isValidSentence(sentence: string): boolean {
   if (!sentence) return false;
   const words = sentence.trim().split(/\s+/);
   return words.length >= 3 && words.length <= 12;
+}
+
+const GRAMMAR_CONFUSABLES: Record<string, string[]> = {
+  am: ["is", "are"],
+  is: ["are", "am"],
+  are: ["is", "was"],
+  was: ["were", "is"],
+  were: ["was", "are"],
+  do: ["does", "did"],
+  does: ["do", "is"],
+  have: ["has", "had"],
+  has: ["have", "is"],
+  can: ["will", "may"],
+  will: ["can", "would"],
+  i: ["my", "me"],
+  my: ["me", "your"],
+  you: ["your", "we"],
+  your: ["you", "our"],
+  he: ["his", "him"],
+  she: ["her", "he"],
+  we: ["our", "us"],
+  they: ["their", "them"],
+  a: ["an", "the"],
+  an: ["a", "the"],
+  the: ["a", "this"],
+  in: ["on", "at"],
+  on: ["in", "at"],
+  at: ["in", "to"],
+  to: ["for", "with"],
+  for: ["to", "of"],
+  with: ["by", "for"],
+};
+
+const FALLBACK_DISTRACTOR_POOL = [
+  "very",
+  "always",
+  "today",
+  "now",
+  "here",
+  "too",
+  "well",
+  "often",
+];
+
+/**
+ * Generates 3-4 pedagogical distractor words (extra tokens) for the Sentence Builder Word Bank:
+ * 1. Single-word peers from the same theme vocabulary pool (prioritizing same POS).
+ * 2. Grammatical confusables based on words present in the target sentence.
+ * 3. Safe fallback tokens, strictly excluding any word already in the target sentence.
+ */
+export function generateDistractorWords(
+  sentence: string,
+  pool: SynthesizableVocabItem[] = [],
+  currentWord?: string,
+  count?: number
+): string[] {
+  const rawSentenceTokens = sentence
+    .trim()
+    .split(/\s+/)
+    .map((t) => t.replace(/^[.?!,;:""''()—–-]+|[.?!,;:""''()—–-]+$/g, ""))
+    .filter(Boolean);
+  const usedLower = new Set(rawSentenceTokens.map((t) => t.toLowerCase()));
+  if (currentWord) {
+    usedLower.add(currentWord.toLowerCase().trim());
+  }
+
+  const targetDistractorCount = count ?? (rawSentenceTokens.length <= 5 ? 3 : 4);
+  const distractors: string[] = [];
+
+  const tryAddDistractor = (candidate: string) => {
+    const clean = candidate.replace(/[.?!,;:]/g, "").trim();
+    if (!clean || clean.includes(" ")) return false;
+    const lower = clean.toLowerCase();
+    if (usedLower.has(lower)) return false;
+    usedLower.add(lower);
+    distractors.push(lower);
+    return true;
+  };
+
+  // 1. Pull 1-2 single-word peers from the same theme pool
+  const currentItem = currentWord
+    ? pool.find((p) => p.word.toLowerCase().trim() === currentWord.toLowerCase().trim())
+    : undefined;
+  const targetPos = currentItem?.pos?.toLowerCase();
+
+  const singleWordPeers = pool.filter((item) => {
+    const w = item.word.trim();
+    return w.length >= 2 && !w.includes(" ") && !w.includes("'");
+  });
+
+  const samePosPeers = targetPos
+    ? singleWordPeers.filter((item) => item.pos?.toLowerCase() === targetPos)
+    : [];
+  const otherPeers = singleWordPeers.filter(
+    (item) => !targetPos || item.pos?.toLowerCase() !== targetPos
+  );
+
+  for (const peer of [...samePosPeers, ...otherPeers]) {
+    if (distractors.length >= 2) break;
+    tryAddDistractor(peer.word);
+  }
+
+  // 2. Pull grammatical confusables matching tokens in the sentence
+  for (const tok of rawSentenceTokens) {
+    if (distractors.length >= targetDistractorCount) break;
+    const confusables = GRAMMAR_CONFUSABLES[tok.toLowerCase()];
+    if (confusables) {
+      for (const conf of confusables) {
+        if (tryAddDistractor(conf)) break;
+      }
+    }
+  }
+
+  // 3. Fill any remaining slots from remaining theme peers or safe fallback pool
+  for (const peer of singleWordPeers) {
+    if (distractors.length >= targetDistractorCount) break;
+    tryAddDistractor(peer.word);
+  }
+
+  for (const fb of FALLBACK_DISTRACTOR_POOL) {
+    if (distractors.length >= targetDistractorCount) break;
+    tryAddDistractor(fb);
+  }
+
+  return distractors;
 }
 
 /**
@@ -86,13 +213,61 @@ function getIndefiniteArticle(word: string): "a" | "an" {
  */
 export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: number): SynthesizedSentence {
   const word = item.word.trim();
-  const def = (item.definitionVn || item.word || "").trim().replace(/\(.*?\)/g, "").trim();
+  const def = (item.definitionVn || item.word || "")
+    .trim()
+    .replace(/\(.*?\)/g, "")
+    .split(/[,;/?!—–]+|\s+-\s+/)[0]
+    .trim();
   const pos = (item.pos || "noun").toLowerCase();
   const capWord = word.charAt(0).toUpperCase() + word.slice(1);
   const capDef = def.charAt(0).toUpperCase() + def.slice(1);
 
   // 1. NOUN
   if (pos === "noun") {
+    const lower = word.toLowerCase();
+    const timeNouns = new Set([
+      "morning",
+      "afternoon",
+      "evening",
+      "night",
+      "weekend",
+      "summer",
+      "winter",
+      "spring",
+      "autumn",
+    ]);
+    const personalNouns = new Set(["name", "age", "birthday", "address", "hobby", "job"]);
+
+    if (timeNouns.has(lower)) {
+      const timeTemplates = [
+        {
+          en: `We study English in the ${word}.`,
+          vn: `Chúng tôi học tiếng Anh vào ${def}.`,
+        },
+        {
+          en: `I always feel happy every ${word}.`,
+          vn: `Tôi luôn cảm thấy vui vẻ mỗi ${def}.`,
+        },
+      ];
+      const picked = timeTemplates[seedIndex % timeTemplates.length];
+      return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
+    }
+
+    if (personalNouns.has(lower)) {
+      const personalTemplates = [
+        {
+          en: `Please tell me your ${word}.`,
+          vn: `Xin hãy cho tôi biết ${def} của bạn.`,
+        },
+        {
+          en: `Can I ask about your ${word}?`,
+          vn: `Tôi có thể hỏi về ${def} của bạn không?`,
+        },
+      ];
+      const picked = personalTemplates[seedIndex % personalTemplates.length];
+      return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
+    }
+
     const article = getIndefiniteArticle(word);
     const pluralOrUncount = isPluralOrUncountable(word);
 
@@ -120,7 +295,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
       },
     ];
     const picked = templates[seedIndex % templates.length];
-    return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+    return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
   }
 
   // 2. VERB
@@ -144,7 +319,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
       },
     ];
     const picked = templates[seedIndex % templates.length];
-    return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+    return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
   }
 
   // 3. ADJECTIVE
@@ -168,7 +343,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
       },
     ];
     const picked = templates[seedIndex % templates.length];
-    return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+    return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
   }
 
   // 4. ADVERB
@@ -192,7 +367,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
       },
     ];
     const picked = templates[seedIndex % templates.length];
-    return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+    return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
   }
 
   // 5. PRONOUN
@@ -212,7 +387,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
         },
       ];
       const picked = templates[seedIndex % templates.length];
-      return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+      return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
     }
 
     const templates = [
@@ -230,7 +405,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
       },
     ];
     const picked = templates[seedIndex % templates.length];
-    return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+    return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
   }
 
   // 6. PREPOSITION
@@ -254,7 +429,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
       },
     ];
     const picked = templates[seedIndex % templates.length];
-    return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+    return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
   }
 
   // 7. INTERJECTION / PHRASE
@@ -274,7 +449,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
         },
       ];
       const picked = templates[seedIndex % templates.length];
-      return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+      return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
     }
 
     // Specific thanks
@@ -290,7 +465,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
         },
       ];
       const picked = templates[seedIndex % templates.length];
-      return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+      return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
     }
 
     // Specific apologies
@@ -306,7 +481,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
         },
       ];
       const picked = templates[seedIndex % templates.length];
-      return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+      return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
     }
 
     // Farewell
@@ -322,7 +497,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
         },
       ];
       const picked = templates[seedIndex % templates.length];
-      return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+      return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
     }
 
     // General phrase
@@ -341,7 +516,7 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
       },
     ];
     const picked = templates[seedIndex % templates.length];
-    return { sentence: picked.en, translationVn: picked.vn, word, source: "synthesized" };
+    return { sentence: picked.en, translationVn: picked.vn, word, vocabId: item.id, source: "synthesized" };
   }
 
   // 8. General fallback for any remaining cases
@@ -349,12 +524,14 @@ export function synthesizeFromVocab(item: SynthesizableVocabItem, seedIndex: num
     sentence: `We are practicing ${word} together.`,
     translationVn: `Chúng ta đang cùng nhau luyện tập ${def}.`,
     word,
+    vocabId: item.id,
     source: "synthesized",
   };
 }
 
 /**
  * Main Synthesizer: Produces guaranteed, theme-relevant sentences for Sentence Builder
+ * and prioritizes 1-to-1 sentences from the exact words matched in Stage 2 (Word Link).
  */
 export function synthesizeThemeSentences(
   pool: SynthesizableVocabItem[] = [],
@@ -362,19 +539,92 @@ export function synthesizeThemeSentences(
     themeId?: string;
     unitNumber?: number;
     targetCount?: number;
+    part?: number;
+    totalParts?: number;
+    priorityVocabIds?: string[];
+    priorityWords?: string[];
   } = {}
 ): SynthesizedSentence[] {
   const targetCount = options.targetCount || 5;
-  const candidates: SynthesizedSentence[] = [];
+  const priorityCandidates: SynthesizedSentence[] = [];
+  const generalCandidates: SynthesizedSentence[] = [];
   const seenSentences = new Set<string>();
 
-  const addCandidate = (item: SynthesizedSentence) => {
+  const attachDistractors = (item: SynthesizedSentence): SynthesizedSentence => ({
+    ...item,
+    distractors: generateDistractorWords(item.sentence, pool, item.word),
+  });
+
+  const addPriorityCandidate = (item: SynthesizedSentence): boolean => {
     const clean = item.sentence.trim().toLowerCase();
     if (!seenSentences.has(clean) && isValidSentence(item.sentence)) {
       seenSentences.add(clean);
-      candidates.push(item);
+      priorityCandidates.push(attachDistractors(item));
+      return true;
     }
+    return false;
   };
+
+  const addGeneralCandidate = (item: SynthesizedSentence): boolean => {
+    const clean = item.sentence.trim().toLowerCase();
+    if (!seenSentences.has(clean) && isValidSentence(item.sentence)) {
+      seenSentences.add(clean);
+      generalCandidates.push(attachDistractors(item));
+      return true;
+    }
+    return false;
+  };
+
+  // ── Tier 0: 1-to-1 Priority Sentences for Words Just Matched in Stage 2 (Word Link) ──
+  const priorityIdSet = new Set(options.priorityVocabIds || []);
+  const priorityWordSet = new Set((options.priorityWords || []).map((w) => w.toLowerCase().trim()));
+
+  if (priorityIdSet.size > 0 || priorityWordSet.size > 0) {
+    const prioritizedItems: SynthesizableVocabItem[] = [];
+    // Preserve exact priority order (mistakes first, then matched)
+    if (options.priorityVocabIds && options.priorityVocabIds.length > 0) {
+      for (const pid of options.priorityVocabIds) {
+        const found = pool.find((item) => item.id === pid);
+        if (found) prioritizedItems.push(found);
+      }
+    }
+    for (const item of pool) {
+      if (
+        !prioritizedItems.includes(item) &&
+        priorityWordSet.has(item.word.toLowerCase().trim())
+      ) {
+        prioritizedItems.push(item);
+      }
+    }
+
+    prioritizedItems.forEach((item, idx) => {
+      let added = false;
+      if (item.examples && item.examples.length > 0) {
+        for (let i = 0; i < item.examples.length; i++) {
+          const ex = item.examples[i]?.trim();
+          const tr = item.exampleTranslations?.[i]?.trim();
+          if (ex && tr && tr.length > 0) {
+            if (
+              addPriorityCandidate({
+                sentence: ex,
+                translationVn: tr,
+                word: item.word,
+                vocabId: item.id,
+                source: "example",
+              })
+            ) {
+              added = true;
+              break;
+            }
+          }
+        }
+      }
+      if (!added) {
+        const synth = synthesizeFromVocab(item, idx);
+        addPriorityCandidate({ ...synth, vocabId: item.id });
+      }
+    });
+  }
 
   // ── Tier 1: Extract from pool examples with genuine full sentence translations ──
   pool.forEach((item) => {
@@ -383,10 +633,11 @@ export function synthesizeThemeSentences(
         const translation = item.exampleTranslations?.[idx]?.trim();
         // Strictly require non-empty sentence translation; never fall back to bare word definition
         if (translation && translation.length > 0) {
-          addCandidate({
+          addGeneralCandidate({
             sentence: example.trim(),
             translationVn: translation,
             word: item.word,
+            vocabId: item.id,
             source: "example",
           });
         }
@@ -403,16 +654,34 @@ export function synthesizeThemeSentences(
 
   if (matchedUnit && matchedUnit.keyPhrases) {
     const poolWords = new Set(pool.map((w) => w.word.toLowerCase().trim()));
-    // If pool has words, prioritize keyPhrases that contain words from the current pool
+    // Strip punctuation before token matching
     const matchingKeyPhrases = matchedUnit.keyPhrases.filter((kp) => {
       if (poolWords.size === 0) return true;
-      const tokens = kp.phrase.toLowerCase().split(/\s+/);
+      const tokens = kp.phrase
+        .toLowerCase()
+        .replace(/[.?!,;:]/g, "")
+        .split(/\s+/);
       return tokens.some((t) => poolWords.has(t));
     });
 
-    const keyPhrasesToUse = matchingKeyPhrases.length > 0 ? matchingKeyPhrases : matchedUnit.keyPhrases;
+    let keyPhrasesToUse = matchingKeyPhrases.length > 0 ? matchingKeyPhrases : matchedUnit.keyPhrases;
+    if (
+      poolWords.size > 0 &&
+      options.part &&
+      options.totalParts &&
+      options.totalParts > 1 &&
+      keyPhrasesToUse.length >= options.totalParts
+    ) {
+      const sliceSize = Math.ceil(keyPhrasesToUse.length / options.totalParts);
+      const startIdx = (options.part - 1) * sliceSize;
+      const partSlice = keyPhrasesToUse.slice(startIdx, startIdx + sliceSize);
+      if (partSlice.length > 0) {
+        keyPhrasesToUse = partSlice;
+      }
+    }
+
     keyPhrasesToUse.forEach((kp) => {
-      addCandidate({
+      addGeneralCandidate({
         sentence: kp.phrase.trim(),
         translationVn: kp.translation.trim(),
         source: "key_phrase",
@@ -421,17 +690,18 @@ export function synthesizeThemeSentences(
   }
 
   // ── Tier 3: If still under targetCount, dynamically synthesize from pool words ──
-  if (candidates.length < targetCount && pool.length > 0) {
+  if (priorityCandidates.length + generalCandidates.length < targetCount && pool.length > 0) {
     let seedIdx = 0;
-    // Iterate through pool words to synthesize natural sentences
     for (const item of pool) {
-      if (candidates.length >= targetCount * 2) break;
+      if (priorityCandidates.length + generalCandidates.length >= targetCount * 2) break;
       const synth = synthesizeFromVocab(item, seedIdx++);
-      addCandidate(synth);
+      addGeneralCandidate({ ...synth, vocabId: item.id });
     }
   }
 
-  // Shuffle candidates using Fisher-Yates algorithm for uniform distribution
-  const shuffled = fisherYatesShuffle(candidates);
-  return shuffled.slice(0, targetCount);
+  // Guarantee all priorityCandidates (words from Stage 2 Word Link) are included first,
+  // then fill remaining slots up to targetCount from shuffled generalCandidates.
+  const remainingNeeded = Math.max(0, targetCount - priorityCandidates.length);
+  const pickedGeneral = fisherYatesShuffle(generalCandidates).slice(0, remainingNeeded);
+  return [...priorityCandidates.slice(0, targetCount), ...pickedGeneral];
 }

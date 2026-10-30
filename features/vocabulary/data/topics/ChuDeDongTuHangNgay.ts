@@ -244,11 +244,11 @@ export const VOCABS_DONG_TU_HANG_NGAY: BasicVocabularyItem[] = [
     "themeNameVn": "Động từ hàng ngày",
     "themeNameEn": "Daily Common Verbs",
     "examples": [
-      "Do you speak English? — Yes, a little.",
+      "Do you speak English fluently?",
       "She speaks clearly and confidently."
     ],
     "exampleTranslations": [
-      "Bạn có nói tiếng Anh không? — Có, một chút.",
+      "Bạn có nói tiếng Anh trôi chảy không?",
       "Cô ấy nói năng rõ ràng và tự tin."
     ],
     "synonyms": [

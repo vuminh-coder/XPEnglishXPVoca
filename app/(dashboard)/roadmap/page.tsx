@@ -2,14 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Compass, Play, Trophy, CheckCircle2 } from "lucide-react";
+import { Play } from "lucide-react";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { ProgressSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import {
   useRoadmapManager,
   ZiczacRoadmapPathway,
-  RoadmapDuolingoSidebar,
+  getStepPracticeUrl,
 } from "@/features/roadmap";
 
 export default function RoadmapPage() {
@@ -25,6 +25,12 @@ export default function RoadmapPage() {
     getStepProgress,
     nextActiveStep,
   } = useRoadmapManager();
+
+  const nextActiveStepUrl = getStepPracticeUrl(
+    nextActiveStep,
+    getStepProgress(nextActiveStep.id),
+    completedStepIds.has(nextActiveStep.id)
+  );
 
   return (
     <PageEntranceWrapper
@@ -45,7 +51,7 @@ export default function RoadmapPage() {
         rightDesktopContent={
           <div className="flex items-center gap-2.5 shrink-0">
             <Link
-              href={nextActiveStep.practicePath}
+              href={nextActiveStepUrl}
               className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 font-display"
               title={`Tiếp tục: Chặng ${nextActiveStep.stepNumber} - ${nextActiveStep.title}`}
             >

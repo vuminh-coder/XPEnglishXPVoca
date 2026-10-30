@@ -480,22 +480,22 @@ export const VOCABS_DUNG_CU_NHA_BEP: BasicVocabularyItem[] = [
   {
     "id": "bv_kitche_21",
     "word": "frying pan",
-    "phonetic": "/ˈfraɪ.ɪŋ pæn/",
+    "phonetic": "/ˈfraɪɪŋ pæn/",
     "definition": "A shallow pan with a long handle, used for cooking food in hot oil or fat.",
     "definitionVn": "chảo rán, chảo chiên chống dính",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_kitchen_utensils",
-    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
-    "themeNameEn": "Kitchen Utensils & Cooking",
+    "themeNameVn": "Dụng cụ nhà bếp",
+    "themeNameEn": "Kitchen Utensils",
     "examples": [
-      "He heated a dollop of butter in the non-stick frying pan before pouring the omelet batter.",
-      "A seasoned cast-iron frying pan retains heat exceptionally well for searing thick steaks."
+      "He melted butter in the non-stick frying pan.",
+      "Wash the frying pan with warm soapy water."
     ],
     "exampleTranslations": [
-      "Anh ấy đun nóng một miếng bơ trong chảo rán chống dính trước khi đổ bột trứng tráng vào.",
-      "Một chiếc chảo rán bằng gang đã tôi dầu giữ nhiệt đặc biệt tốt để áp chảo những miếng bít tết dày."
+      "Anh ấy đun chảy bơ trong chiếc chảo rán chống dính.",
+      "Hãy rửa chảo rán bằng nước xà phòng ấm nhé."
     ],
     "synonyms": [
       "skillet",
@@ -506,22 +506,22 @@ export const VOCABS_DUNG_CU_NHA_BEP: BasicVocabularyItem[] = [
   {
     "id": "bv_kitche_22",
     "word": "blender",
-    "phonetic": "/ˈblen.dɚ/",
+    "phonetic": "/ˈblendər/",
     "definition": "An electric machine in which soft food or liquids are chopped, pureed, or mixed into a smooth paste.",
-    "definitionVn": "máy xay sinh tố, máy xay nhuyễn thực phẩm",
+    "definitionVn": "máy xay sinh tố, máy xay thực phẩm",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_kitchen_utensils",
-    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
-    "themeNameEn": "Kitchen Utensils & Cooking",
+    "themeNameVn": "Dụng cụ nhà bếp",
+    "themeNameEn": "Kitchen Utensils",
     "examples": [
-      "Toss frozen berries, bananas, and almond milk into the high-speed blender for breakfast.",
-      "The chef pureed roasted butternut squash in the blender until the soup achieved a velvety consistency."
+      "Put fresh mango and milk into the blender.",
+      "She made a healthy smoothie with her blender."
     ],
     "exampleTranslations": [
-      "Cho quả mọng đông lạnh, chuối và sữa hạnh nhân vào máy xay sinh tố tốc độ cao cho bữa sáng.",
-      "Đầu bếp xay nhuyễn bí đỏ nướng trong máy xay sinh tố cho đến khi món súp đạt được độ mịn màng như nhung."
+      "Cho xoài tươi và sữa vào trong máy xay sinh tố nhé.",
+      "Cô ấy đã làm một ly sinh tố bổ dưỡng bằng máy xay."
     ],
     "synonyms": [
       "food liquidizer",
@@ -531,80 +531,71 @@ export const VOCABS_DUNG_CU_NHA_BEP: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_kitche_23",
-    "word": "microwave",
-    "phonetic": "/ˈmaɪ.kroʊ.weɪv/",
-    "definition": "An electric oven that heats and cooks food rapidly by exposing it to electromagnetic radiation.",
-    "definitionVn": "lò vi sóng hâm nóng thức ăn tiện lợi",
+    "word": "toaster",
+    "phonetic": "/ˈtoʊstər/",
+    "definition": "An electrical device for making toast from sliced bread.",
+    "definitionVn": "máy nướng bánh mì",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_kitchen_utensils",
-    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
-    "themeNameEn": "Kitchen Utensils & Cooking",
+    "themeNameVn": "Dụng cụ nhà bếp",
+    "themeNameEn": "Kitchen Utensils",
     "examples": [
-      "It takes just two minutes to reheat yesterday's pasta in the compact countertop microwave.",
-      "Avoid placing metal utensils or aluminum foil inside an operating microwave oven."
+      "Put two slices of bread into the toaster.",
+      "Warm golden toast popped up from the toaster."
     ],
     "exampleTranslations": [
-      "Chỉ mất hai phút để hâm nóng món mì ống hôm qua trong lò vi sóng nhỏ gọn để bàn.",
-      "Tránh đặt dụng cụ kim loại hoặc giấy bạc vào bên trong lò vi sóng đang hoạt động."
+      "Hãy cho hai lát bánh mì vào máy nướng bánh mì nhé.",
+      "Bánh mì nướng vàng ấm đã bật lên từ máy nướng."
     ],
-    "synonyms": [
-      "microwave oven",
-      "reheating appliance"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_kitche_24",
-    "word": "kettle",
-    "phonetic": "/ˈket̬.əl/",
-    "definition": "A metal or plastic container with a handle and spout, used for boiling water.",
-    "definitionVn": "ấm đun nước siêu tốc hoặc ấm đun trên bếp",
+    "word": "apron",
+    "phonetic": "/ˈeɪprən/",
+    "definition": "A protective garment worn over the front of one's clothes and tied at the back.",
+    "definitionVn": "tạp dề, áo tạp dề nấu bếp",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_kitchen_utensils",
-    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
-    "themeNameEn": "Kitchen Utensils & Cooking",
+    "themeNameVn": "Dụng cụ nhà bếp",
+    "themeNameEn": "Kitchen Utensils",
     "examples": [
-      "The electric stainless steel kettle boils a liter of water for morning tea in sixty seconds.",
-      "The whistling tea kettle announced that the boiling water was ready for French press coffee."
+      "Wear a clean apron before you start cooking.",
+      "The chef tied a white cotton apron neatly."
     ],
     "exampleTranslations": [
-      "Ấm đun nước bằng thép không gỉ chạy điện đun sôi một lít nước để pha trà sáng trong sáu mươi giây.",
-      "Tiếng còi ấm đun nước reo lên báo hiệu nước sôi đã sẵn sàng cho cà phê pha kiểu Pháp."
+      "Hãy đeo một chiếc tạp dề sạch trước khi bắt đầu nấu ăn.",
+      "Đầu bếp thắt một chiếc tạp dề vải bông trắng gọn gàng."
     ],
-    "synonyms": [
-      "tea kettle",
-      "water boiler"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_kitche_25",
-    "word": "chopping board",
-    "phonetic": "/ˈtʃɑː.pɪŋ bɔːrd/",
-    "definition": "A wooden or plastic board on which foods, such as meats and vegetables, are chopped.",
-    "definitionVn": "cái thớt thái thực phẩm bằng gỗ hoặc nhựa",
+    "word": "tray",
+    "phonetic": "/treɪ/",
+    "definition": "A flat, shallow container with a raised rim, typically used for carrying food and drink.",
+    "definitionVn": "cái khay, mâm bưng đồ ăn",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_kitchen_utensils",
-    "themeNameVn": "Dụng cụ nhà bếp & Nấu nướng",
-    "themeNameEn": "Kitchen Utensils & Cooking",
+    "themeNameVn": "Dụng cụ nhà bếp",
+    "themeNameEn": "Kitchen Utensils",
     "examples": [
-      "Always wash the wooden chopping board thoroughly with hot soapy water after slicing raw poultry.",
-      "Color-coded plastic chopping boards prevent cross-contamination between raw meats and fresh salad vegetables."
+      "She carried the tea cups on a wooden tray.",
+      "Place the hot cookies on the baking tray."
     ],
     "exampleTranslations": [
-      "Luôn rửa thớt gỗ thật kỹ bằng nước xà phòng nóng sau khi thái thịt gia cầm sống.",
-      "Thớt nhựa có mã màu giúp ngăn ngừa lây nhiễm chéo giữa thịt sống và rau củ làm salad tươi."
+      "Cô ấy bưng những tách trà trên một chiếc khay gỗ.",
+      "Hãy đặt những chiếc bánh quy nóng lên khay nướng nhé."
     ],
-    "synonyms": [
-      "cutting board",
-      "butcher block"
-    ],
+    "synonyms": [],
     "antonyms": []
   }
 ];

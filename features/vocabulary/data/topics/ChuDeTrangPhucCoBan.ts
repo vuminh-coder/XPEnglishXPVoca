@@ -480,22 +480,22 @@ export const VOCABS_TRANG_PHUC_CO_BAN: BasicVocabularyItem[] = [
   {
     "id": "bv_clothe_21",
     "word": "cardigan",
-    "phonetic": "/ˈkɑːr.dɪ.ɡən/",
+    "phonetic": "/ˈkɑːrdɪɡən/",
     "definition": "A knitted woolen sweater with buttons down the front.",
-    "definitionVn": "áo len dệt kim cài cúc phía trước (cardigan)",
+    "definitionVn": "áo khoác len, áo cardigan cài cúc",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_clothes",
-    "themeNameVn": "Trang phục & Phụ kiện",
-    "themeNameEn": "Clothing & Accessories",
+    "themeNameVn": "Trang phục cơ bản",
+    "themeNameEn": "Clothing & Outfits",
     "examples": [
-      "She draped a cozy knitted cardigan over her shoulders as the evening cooled.",
-      "This cashmere cardigan pairs stylishly with pleated skirts and tailored trousers."
+      "She wore a cozy knitted cardigan over her shirt.",
+      "This soft cardigan pairs nicely with a skirt."
     ],
     "exampleTranslations": [
-      "Cô ấy khoác một chiếc áo len dệt kim ấm áp qua vai khi trời trở lạnh về tối.",
-      "Chiếc áo len cashmere này kết hợp rất phong cách với chân váy xếp ly và quần âu may đo."
+      "Cô ấy mặc một chiếc áo khoác len ấm áp bên ngoài áo sơ mi.",
+      "Chiếc áo khoác len mềm mại này kết hợp rất đẹp với chân váy."
     ],
     "synonyms": [
       "button-up sweater",
@@ -506,22 +506,22 @@ export const VOCABS_TRANG_PHUC_CO_BAN: BasicVocabularyItem[] = [
   {
     "id": "bv_clothe_22",
     "word": "raincoat",
-    "phonetic": "/ˈreɪn.koʊt/",
+    "phonetic": "/ˈreɪnkoʊt/",
     "definition": "A waterproof or water-resistant coat worn to protect the body from rain.",
-    "definitionVn": "áo mưa chống thấm nước",
+    "definitionVn": "áo mưa, áo khoác đi mưa",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_clothes",
-    "themeNameVn": "Trang phục & Phụ kiện",
-    "themeNameEn": "Clothing & Accessories",
+    "themeNameVn": "Trang phục cơ bản",
+    "themeNameEn": "Clothing & Outfits",
     "examples": [
-      "Do not forget to pack your yellow hooded raincoat before leaving for the hike.",
-      "Modern breathable raincoats shield you from sudden monsoons without trapping body sweat."
+      "Remember to pack your yellow raincoat for the trip.",
+      "A good raincoat keeps you dry in heavy rain."
     ],
     "exampleTranslations": [
-      "Đừng quên mang theo chiếc áo mưa có mũ màu vàng trước khi bắt đầu chuyến đi bộ đường dài.",
-      "Những chiếc áo mưa thoáng khí hiện đại che chắn bạn khỏi những cơn mưa dông bất chợt mà không giữ lại mồ hôi cơ thể."
+      "Hãy nhớ mang theo chiếc áo mưa màu vàng cho chuyến đi nhé.",
+      "Một chiếc áo mưa tốt giúp bạn luôn khô ráo dưới trời mưa to."
     ],
     "synonyms": [
       "waterproof jacket",
@@ -533,22 +533,22 @@ export const VOCABS_TRANG_PHUC_CO_BAN: BasicVocabularyItem[] = [
   {
     "id": "bv_clothe_23",
     "word": "sneakers",
-    "phonetic": "/ˈsniː.kɚz/",
+    "phonetic": "/ˈsniːkərz/",
     "definition": "Soft sports shoes with flexible rubber soles suitable for casual athletic wear.",
-    "definitionVn": "giày thể thao đế cao su êm ái",
+    "definitionVn": "giày thể thao, giày chạy bộ",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_clothes",
-    "themeNameVn": "Trang phục & Phụ kiện",
-    "themeNameEn": "Clothing & Accessories",
+    "themeNameVn": "Trang phục cơ bản",
+    "themeNameEn": "Clothing & Outfits",
     "examples": [
-      "I slipped on a pair of comfortable white sneakers for our walking city tour.",
-      "Cushioned running sneakers absorb foot impacts when jogging on concrete sidewalks."
+      "I wore comfortable white sneakers for our city walk.",
+      "Clean running sneakers are great for morning exercise."
     ],
     "exampleTranslations": [
-      "Tôi xỏ vào một đôi giày thể thao màu trắng thoải mái cho chuyến đi dạo quanh thành phố của chúng tôi.",
-      "Giày thể thao chạy bộ có đệm êm giúp hấp thụ các chấn động bàn chân khi chạy bộ trên vỉa hè bê tông."
+      "Tôi đã đi đôi giày thể thao màu trắng êm ái cho buổi đi dạo.",
+      "Giày thể thao chạy bộ sạch sẽ rất tuyệt cho việc tập thể dục buổi sáng."
     ],
     "synonyms": [
       "trainers",
@@ -563,22 +563,22 @@ export const VOCABS_TRANG_PHUC_CO_BAN: BasicVocabularyItem[] = [
   {
     "id": "bv_clothe_24",
     "word": "sandals",
-    "phonetic": "/ˈsæn.dəlz/",
+    "phonetic": "/ˈsændəlz/",
     "definition": "Light open shoes with straps attaching the sole to the foot, worn in warm weather.",
-    "definitionVn": "dép quai hậu, dép xăng-đan thoáng mát mùa hè",
+    "definitionVn": "dép quai hậu, dép xăng-đan",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_clothes",
-    "themeNameVn": "Trang phục & Phụ kiện",
-    "themeNameEn": "Clothing & Accessories",
+    "themeNameVn": "Trang phục cơ bản",
+    "themeNameEn": "Clothing & Outfits",
     "examples": [
-      "Leather sandals are ideal footwear for walking along sunny sandy beaches.",
-      "She buckled her strappy sandals before walking down to the seaside restaurant."
+      "Leather sandals are great for walking on the beach.",
+      "She wore comfortable sandals on a warm summer day."
     ],
     "exampleTranslations": [
-      "Dép xăng đan da là trang phục đi chân lý tưởng để đi dạo dọc theo những bãi biển đầy cát nắng.",
-      "Cô ấy cài quai đôi dép xăng đan trước khi đi bộ xuống nhà hàng ven biển."
+      "Dép quai hậu bằng da rất tuyệt để đi dạo trên bãi biển.",
+      "Cô ấy đi đôi dép xăng-đan thoải mái vào ngày hè ấm áp."
     ],
     "synonyms": [
       "open-toe footwear",
@@ -593,20 +593,20 @@ export const VOCABS_TRANG_PHUC_CO_BAN: BasicVocabularyItem[] = [
     "word": "scarf",
     "phonetic": "/skɑːrf/",
     "definition": "A length of fabric worn around the neck or head for warmth, sun protection, or fashion.",
-    "definitionVn": "khăn quàng cổ giữ ấm hoặc làm đẹp",
+    "definitionVn": "khăn quàng cổ, khăn choàng",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_clothes",
-    "themeNameVn": "Trang phục & Phụ kiện",
-    "themeNameEn": "Clothing & Accessories",
+    "themeNameVn": "Trang phục cơ bản",
+    "themeNameEn": "Clothing & Outfits",
     "examples": [
-      "Wrap a warm woolen scarf tightly around your neck to ward off freezing winter gusts.",
-      "A brightly patterned silk scarf adds an elegant touch of color to a monochrome suit."
+      "Wrap a warm woolen scarf around your neck today.",
+      "She bought a red silk scarf for her mother."
     ],
     "exampleTranslations": [
-      "Hãy quấn chặt một chiếc khăn len ấm quanh cổ để chống lại những cơn gió mùa đông băng giá.",
-      "Một chiếc khăn lụa họa tiết rực rỡ tạo thêm điểm nhấn màu sắc thanh lịch cho bộ vest đơn sắc."
+      "Hãy quàng một chiếc khăn len ấm quanh cổ của bạn hôm nay nhé.",
+      "Cô ấy đã mua một chiếc khăn quàng lụa màu đỏ tặng mẹ."
     ],
     "synonyms": [
       "muffler",

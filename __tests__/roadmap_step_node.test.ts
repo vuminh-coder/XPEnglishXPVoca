@@ -216,10 +216,42 @@ describe("syncRoadmapSessionProgress utility", () => {
     const savedCompleted = JSON.parse(localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS) || "[]");
     expect(savedCompleted).toContain("step-6");
   });
+
+  it("8. Synchronizes LISTENING (Stage 4), STORY (Stage 5 odd unit), and SPEAKING (Stage 5 even unit) by unit or lessonId", () => {
+    // Stage 4 LISTENING via lessonId
+    const resListening = syncRoadmapSessionProgress({
+      lessonId: "listen_a1_001",
+      skillType: "LISTENING",
+      completedPart: 1,
+      totalParts: 1,
+    });
+    expect(resListening.stepId).toBe("step-4");
+    expect(resListening.isCompleted).toBe(true);
+
+    // Stage 5 STORY (Unit 1) via lessonId
+    const resStory = syncRoadmapSessionProgress({
+      lessonId: "r2",
+      skillType: "STORY",
+      completedPart: 1,
+      totalParts: 1,
+    });
+    expect(resStory.stepId).toBe("step-5");
+    expect(resStory.isCompleted).toBe(true);
+
+    // Stage 5 SPEAKING (Unit 2) via lessonId
+    const resSpeaking = syncRoadmapSessionProgress({
+      lessonId: "shadow_ext_002",
+      skillType: "SPEAKING",
+      completedPart: 1,
+      totalParts: 1,
+    });
+    expect(resSpeaking.stepId).toBe("step-11");
+    expect(resSpeaking.isCompleted).toBe(true);
+  });
 });
 
 describe("All 24 Units Vocabulary Practice Stages in Roadmap", () => {
-  it("8. Verifies that ALL 24 units have Stage 1 (VOCAB) pointing to /study/practice with theme, unit, part=1, totalParts=2", () => {
+  it("9. Verifies that ALL 24 units have Stage 1 (VOCAB), Stage 4 (LISTENING), Stage 5 (STORY/SPEAKING), and Stage 6 (CHECKPOINT) mapped with theme & unit params", () => {
     expect(UNIT_CURRICULUM_CONFIGS.length).toBe(24);
     expect(CURATED_ROADMAP_STEPS.length).toBe(144);
 
@@ -234,6 +266,26 @@ describe("All 24 Units Vocabulary Practice Stages in Roadmap", () => {
       expect(vocabStep?.practicePath).toBe(
         `/study/practice?theme=${config?.themeId}&unit=${u}&part=1&totalParts=2&subMode=flashcard`
       );
+
+      // Check Stage 4 (LISTENING)
+      const listeningStep = CURATED_ROADMAP_STEPS.find((s) => s.unitNumber === u && s.skillType === "LISTENING");
+      expect(listeningStep).toBeDefined();
+      expect(listeningStep?.totalSessions).toBe(1);
+      expect(listeningStep?.practicePath).toMatch(/^\/study\/dictation\?id=[a-z0-9_]+&theme=/);
+
+      // Check Stage 5 (STORY or SPEAKING)
+      const stage5Step = CURATED_ROADMAP_STEPS.find(
+        (s) => s.unitNumber === u && (s.skillType === "STORY" || s.skillType === "SPEAKING")
+      );
+      expect(stage5Step).toBeDefined();
+      expect(stage5Step?.totalSessions).toBe(1);
+      if (u % 2 === 0) {
+        expect(stage5Step?.skillType).toBe("SPEAKING");
+        expect(stage5Step?.practicePath).toMatch(/^\/study\/shadowing\/audio\?id=[a-z0-9_]+&theme=/);
+      } else {
+        expect(stage5Step?.skillType).toBe("STORY");
+        expect(stage5Step?.practicePath).toMatch(/^\/study\/reading\/r[0-9]+\?theme=/);
+      }
 
       // Check Stage 6 (CHECKPOINT)
       const checkpointStep = CURATED_ROADMAP_STEPS.find((s) => s.unitNumber === u && s.skillType === "CHECKPOINT");

@@ -122,6 +122,7 @@ export function YouTubeImportDeck({
   setImportError,
   onImport,
   hasActiveVideo,
+  onOpenXpSubModal,
 }: YouTubeImportDeckProps) {
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -252,35 +253,27 @@ export function YouTubeImportDeck({
           hasActiveVideo && !isMobileExpanded ? "hidden md:block " : ""
         }p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3`}
       >
-        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0">
-              <LinkIcon className="w-3.5 h-3.5" />
-            </div>
-            <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-              Trích xuất phụ đề từ YouTube
-            </h3>
-          </div>
-          {hasActiveVideo && (
-            <button
-              type="button"
-              onClick={() => setIsMobileExpanded(false)}
-              className="md:hidden text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-medium py-1 px-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
-            >
-              Thu gọn
-            </button>
-          )}
-        </div>
-
       <form onSubmit={onImport} className="space-y-3">
         {/* External Label (UI/UX Rule 6) */}
         <div className="space-y-1.5">
-          <label
-            htmlFor="youtube-url-input"
-            className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-display"
-          >
-            <span>Đường dẫn video YouTube cần học:</span>
-          </label>
+          <div className="flex items-center justify-between gap-2">
+            <label
+              htmlFor="youtube-url-input"
+              className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 font-display"
+            >
+              <LinkIcon className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+              <span>Đường dẫn video YouTube cần học:</span>
+            </label>
+            {hasActiveVideo && (
+              <button
+                type="button"
+                onClick={() => setIsMobileExpanded(false)}
+                className="md:hidden text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-medium py-0.5 px-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+              >
+                Thu gọn
+              </button>
+            )}
+          </div>
           <div className="flex flex-col sm:flex-row gap-2.5">
             <div className="relative flex-1">
               <input
@@ -361,7 +354,7 @@ export function YouTubeImportDeck({
                   ref={categoryInputRef}
                   id="import-category-input"
                   type="text"
-                  value={isSearching ? categorySearch : `${selectedOption.labelVn} (${selectedOption.value})`}
+                  value={isSearching ? categorySearch : selectedOption.labelVn}
                   onChange={(e) => {
                     setIsSearching(true);
                     setCategorySearch(e.target.value);
@@ -456,14 +449,9 @@ export function YouTubeImportDeck({
                             >
                               <IconComp className="w-3.5 h-3.5" />
                             </div>
-                            <div className="flex flex-col min-w-0">
-                              <span className="truncate font-bold leading-tight">
-                                {opt.labelVn}
-                              </span>
-                              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate leading-tight">
-                                {opt.labelEn}
-                              </span>
-                            </div>
+                            <span className="truncate font-bold leading-tight">
+                              {opt.labelVn}
+                            </span>
                           </div>
 
                           {isSelected && (

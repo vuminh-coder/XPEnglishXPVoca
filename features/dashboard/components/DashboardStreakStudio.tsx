@@ -24,25 +24,25 @@ export function DashboardStreakStudio({
   handleCheckIn,
 }: DashboardStreakStudioProps) {
   return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3 relative overflow-hidden">
+    <div className="p-4 sm:p-4.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-2.5 relative overflow-hidden">
       {/* 1. Speech Bubble */}
-      <div className="relative mx-auto max-w-[290px] sm:max-w-[320px] text-center px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 shadow-2xs">
-        <p className="text-xs font-semibold text-slate-700 dark:text-slate-200 leading-snug">
-          <span className="font-bold text-amber-600 dark:text-amber-400">Chuỗi streak rực lửa!</span>
-          <span className="block mt-0.5 text-slate-600 dark:text-slate-300">Luyện tập mỗi ngày để nối dài streak.</span>
+      <div className="relative mx-auto max-w-[290px] sm:max-w-[320px] text-center px-3.5 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 shadow-2xs">
+        <p className="text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-slate-200 leading-snug">
+          <span className="font-bold text-amber-600 dark:text-amber-400">Chuỗi streak rực lửa!</span>{" "}
+          <span className="text-slate-600 dark:text-slate-300">Học mỗi ngày để nối dài streak.</span>
         </p>
-        <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-50 dark:bg-slate-800/90 border-r border-b border-slate-200/80 dark:border-slate-700 rotate-45" />
+        <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-slate-50 dark:bg-slate-800/90 border-r border-b border-slate-200/80 dark:border-slate-700 rotate-45" />
       </div>
 
       {/* 2. Hero Mascot 3D Flame & Streak Counter */}
-      <div className="flex flex-col items-center justify-center pt-1 text-center">
+      <div className="flex flex-col items-center justify-center pt-0.5 text-center">
         <StreakFlame3D size="lg" />
 
-        <div className="mt-1">
-          <div className="text-4xl sm:text-5xl font-black font-display bg-gradient-to-b from-amber-400 via-amber-500 to-orange-500 bg-clip-text text-transparent tracking-tight leading-none drop-shadow-[0_4px_12px_rgba(245,158,11,0.35)]">
+        <div className="mt-0.5">
+          <div className="text-3xl sm:text-4xl font-black font-display bg-gradient-to-b from-amber-400 via-amber-500 to-orange-500 bg-clip-text text-transparent tracking-tight leading-none drop-shadow-[0_4px_12px_rgba(245,158,11,0.35)]">
             {user?.currentStreak || 1}
           </div>
-          <div className="text-[11px] sm:text-xs font-black uppercase tracking-[0.18em] text-amber-600 dark:text-amber-400 mt-1 font-display">
+          <div className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.18em] text-amber-600 dark:text-amber-400 mt-0.5 font-display">
             ngày streak
           </div>
         </div>

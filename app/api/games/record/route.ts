@@ -20,9 +20,25 @@ function calculateLevelAndTitle(xp: number, currentLevel: number) {
 
 // Anti-Cheat constraints
 const MIN_PLAY_DURATION_SECONDS = 8;
+const MIN_WORDLINK_DURATION_SECONDS = 3;
 const MIN_COOLDOWN_MS = 12 * 1000; // Minimum 12s between consecutive game score recordings
+const MIN_FAST_GAME_COOLDOWN_MS = 3 * 1000; // 3s cooldown for multi-part roadmap studio games
 const MAX_SERVER_XP_CAP = 60;
 const MAX_SERVER_COINS_CAP = 15;
+
+function getMinDurationForGame(gameType: string): number {
+  if (gameType === "wordlink" || gameType === "sentence") {
+    return MIN_WORDLINK_DURATION_SECONDS;
+  }
+  return MIN_PLAY_DURATION_SECONDS;
+}
+
+function getCooldownForGame(gameType: string): number {
+  if (gameType === "wordlink" || gameType === "sentence") {
+    return MIN_FAST_GAME_COOLDOWN_MS;
+  }
+  return MIN_COOLDOWN_MS;
+}
 
 // In-memory rate limiting map: userId -> lastSubmissionTimestampMs
 const userLastGameTimestamp = new Map<string, number>();
@@ -49,8 +65,9 @@ function calculateAuthorizedRewards(
   attempts: number,
   durationSeconds: number
 ): { xp: number; coins: number } {
-  // If duration is suspiciously short (< 8s), reject rewards
-  if (durationSeconds < MIN_PLAY_DURATION_SECONDS) {
+  const minDuration = getMinDurationForGame(gameType);
+  // If duration is suspiciously short, reject rewards
+  if (durationSeconds < minDuration) {
     return { xp: 0, coins: 0 };
   }
 
@@ -58,6 +75,13 @@ function calculateAuthorizedRewards(
   let coins = 0;
 
   switch (gameType) {
+    case "wordlink": {
+      // Word Link: 4-5 bilingual pairs reflex matching
+      const pairs = Math.max(1, Math.min(wordsCompleted || 4, 10));
+      xp = Math.min(45, Math.max(15, pairs * 7 + (score >= 45 ? 2 : 0)));
+      coins = Math.min(15, Math.max(10, Math.round(pairs * 3.75)));
+      break;
+    }
     case "memory": {
       // Memory match: 6 pairs = 12 cards
       xp = 30;
@@ -157,8 +181,10 @@ export async function POST(request: Request) {
 
     // Rate Limiting & Cooldown Protection
     const now = Date.now();
-    const lastPlayed = userLastGameTimestamp.get(userId) || 0;
-    if (now - lastPlayed < MIN_COOLDOWN_MS) {
+    const cooldownKey = `${userId}:${gameType}`;
+    const lastPlayed = userLastGameTimestamp.get(cooldownKey) || 0;
+    const requiredCooldown = getCooldownForGame(gameType);
+    if (now - lastPlayed < requiredCooldown) {
       return NextResponse.json(
         {
           success: false,
@@ -169,10 +195,10 @@ export async function POST(request: Request) {
       );
     }
 
-    userLastGameTimestamp.set(userId, now);
+    userLastGameTimestamp.set(cooldownKey, now);
 
     // If duration was too fast, acknowledge game over but grant 0 rewards
-    if (durationSeconds < MIN_PLAY_DURATION_SECONDS) {
+    if (durationSeconds < getMinDurationForGame(gameType)) {
       return NextResponse.json({
         success: true,
         antiCheatFlagged: true,
@@ -199,6 +225,7 @@ export async function POST(request: Request) {
         const newXp = profile.totalXp + authorizedXp;
         const newCoins = (profile.coins ?? 100) + authorizedCoins;
         const { level: newLevel, title: newTitle } = calculateLevelAndTitle(newXp, profile.level);
+        const practiceMinutes = Math.max(1, Math.round(durationSeconds / 60));
 
         const updated = await tx.profile.update({
           where: { id: userId },
@@ -207,6 +234,7 @@ export async function POST(request: Request) {
             coins: newCoins,
             level: newLevel,
             title: newTitle,
+            ...(authorizedXp > 0 ? { minutesStudied: { increment: practiceMinutes } } : {}),
           },
           select: {
             id: true,

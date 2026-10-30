@@ -229,7 +229,7 @@ export const VOCABS_PHUONG_TIEN_GIAO_THONG: BasicVocabularyItem[] = [
     "word": "bike",
     "phonetic": "/baɪk/",
     "definition": "An informal term for a bicycle or motorcycle.",
-    "definitionVn": "xe đạp / xe máy (gọi tắt)",
+    "definitionVn": "xe đạp thể thao / xe hai bánh",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -479,10 +479,10 @@ export const VOCABS_PHUONG_TIEN_GIAO_THONG: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_transp_21",
-    "word": "subway",
-    "phonetic": "/ˈsʌb.weɪ/",
-    "definition": "An underground electric railroad network operating in an urban area.",
-    "definitionVn": "tàu điện ngầm đô thị",
+    "word": "van",
+    "phonetic": "/væn/",
+    "definition": "A medium-sized motor vehicle used for transporting goods or groups of passengers.",
+    "definitionVn": "xe tải nhỏ, xe khách cỡ nhỏ",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -490,26 +490,22 @@ export const VOCABS_PHUONG_TIEN_GIAO_THONG: BasicVocabularyItem[] = [
     "themeNameVn": "Phương tiện giao thông",
     "themeNameEn": "Vehicles & Transport",
     "examples": [
-      "Riding the clean, punctual subway is the swiftest way to cross Tokyo during morning rush hour.",
-      "Metropolitan commuters reload their transit cards at automated subway station turnstiles."
+      "The delivery van parked outside our office building.",
+      "Our family rented a comfortable van for the trip."
     ],
     "exampleTranslations": [
-      "Đi tàu điện ngầm sạch sẽ, đúng giờ là cách nhanh nhất để băng qua Tokyo trong giờ cao điểm buổi sáng.",
-      "Những người đi làm ở đô thị nạp lại thẻ phương tiện công cộng tại các cửa xoay tự động của ga tàu điện ngầm."
+      "Chiếc xe tải nhỏ giao hàng đỗ bên ngoài tòa nhà văn phòng của chúng tôi.",
+      "Gia đình chúng tôi đã thuê một chiếc xe van tiện nghi cho chuyến đi."
     ],
-    "synonyms": [
-      "metro",
-      "underground train",
-      "tube"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_transp_22",
     "word": "ferry",
-    "phonetic": "/ˈfer.i/",
+    "phonetic": "/ˈferi/",
     "definition": "A boat or ship for conveying passengers and goods, especially across a relatively short distance.",
-    "definitionVn": "phà chở khách và phương tiện qua sông/biển",
+    "definitionVn": "tàu phà, phà qua sông",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -517,12 +513,12 @@ export const VOCABS_PHUONG_TIEN_GIAO_THONG: BasicVocabularyItem[] = [
     "themeNameVn": "Phương tiện giao thông",
     "themeNameEn": "Vehicles & Transport",
     "examples": [
-      "We took the commuter ferry across the harbor to watch the sunset over the city skyline.",
-      "Vehicle ferries transport cars and cargo trucks between the mainland and offshore islands."
+      "We took the morning ferry across the wide river.",
+      "The island ferry carries both passengers and cars."
     ],
     "exampleTranslations": [
-      "Chúng tôi đi phà chở khách qua bến cảng để ngắm hoàng hôn buông xuống đường chân trời thành phố.",
-      "Phà chở xe vận chuyển ô tô và xe tải chở hàng giữa đất liền và các đảo ngoài khơi."
+      "Chúng tôi đã đi chuyến phà buổi sáng băng qua con sông rộng.",
+      "Chuyến phà ra đảo chở cả hành khách lẫn xe ô tô."
     ],
     "synonyms": [
       "passenger boat",
@@ -532,10 +528,10 @@ export const VOCABS_PHUONG_TIEN_GIAO_THONG: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_transp_23",
-    "word": "helicopter",
-    "phonetic": "/ˈhel.əˌkɑːp.tɚ/",
-    "definition": "A type of aircraft which derives both lift and propulsion from one or more sets of horizontally revolving overhead rotors.",
-    "definitionVn": "máy bay trực thăng cánh quạt",
+    "word": "tram",
+    "phonetic": "/træm/",
+    "definition": "A passenger vehicle powered by electricity that runs on rails along public urban streets.",
+    "definitionVn": "tàu điện mặt đất, xe điện leng keng",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -543,25 +539,22 @@ export const VOCABS_PHUONG_TIEN_GIAO_THONG: BasicVocabularyItem[] = [
     "themeNameVn": "Phương tiện giao thông",
     "themeNameEn": "Vehicles & Transport",
     "examples": [
-      "The rescue helicopter airlifted the stranded mountaineer directly to the regional trauma hospital.",
-      "Helicopter sightseeing flights offer sweeping aerial panoramas of the Grand Canyon."
+      "Tourists love riding the historic yellow city tram.",
+      "The electric tram stops right in front of the museum."
     ],
     "exampleTranslations": [
-      "Trực thăng cứu hộ đã vận chuyển người leo núi mắc kẹt thẳng tới bệnh viện chấn thương khu vực.",
-      "Các chuyến bay ngắm cảnh bằng trực thăng mang đến toàn cảnh từ trên không tuyệt đẹp của hẻm núi Grand Canyon."
+      "Du khách rất thích đi tàu điện màu vàng lịch sử của thành phố.",
+      "Tàu điện mặt đất dừng ngay phía trước bảo tàng."
     ],
-    "synonyms": [
-      "chopper",
-      "rotorcraft"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_transp_24",
     "word": "scooter",
-    "phonetic": "/ˈskuː.t̬ɚ/",
+    "phonetic": "/ˈskuːtər/",
     "definition": "A light two-wheeled road vehicle with an engine or electric battery and a low footboard.",
-    "definitionVn": "xe tay ga, xe máy điện gọn nhẹ",
+    "definitionVn": "xe tay ga, xe trượt điện",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -569,12 +562,12 @@ export const VOCABS_PHUONG_TIEN_GIAO_THONG: BasicVocabularyItem[] = [
     "themeNameVn": "Phương tiện giao thông",
     "themeNameEn": "Vehicles & Transport",
     "examples": [
-      "Renting an electric scooter is an eco-friendly and fun method for navigating downtown alleys.",
-      "Many urban commuters prefer automatic motor scooters to navigate congested traffic smoothly."
+      "She rides her electric scooter to work every day.",
+      "Renting a scooter is convenient for exploring the town."
     ],
     "exampleTranslations": [
-      "Thuê một chiếc xe tay ga điện là một phương pháp thân thiện với môi trường và thú vị để khám phá các con hẻm trung tâm thành phố.",
-      "Nhiều người đi làm ở đô thị thích xe máy tay ga tự động để vượt qua dòng xe cộ tắc nghẽn một cách êm ái."
+      "Cô ấy đi xe máy tay ga điện đến chỗ làm mỗi ngày.",
+      "Thuê một chiếc xe tay ga rất tiện lợi để khám phá thị trấn."
     ],
     "synonyms": [
       "moped",
@@ -586,9 +579,9 @@ export const VOCABS_PHUONG_TIEN_GIAO_THONG: BasicVocabularyItem[] = [
   {
     "id": "bv_transp_25",
     "word": "ambulance",
-    "phonetic": "/ˈæm.bjə.ləns/",
+    "phonetic": "/ˈæmbjələns/",
     "definition": "A vehicle equipped for taking sick or injured people to and from hospital, especially in emergencies.",
-    "definitionVn": "xe cứu thương chuyên dụng đưa bệnh nhân đi cấp cứu",
+    "definitionVn": "xe cứu thương, xe cấp cứu",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -596,12 +589,12 @@ export const VOCABS_PHUONG_TIEN_GIAO_THONG: BasicVocabularyItem[] = [
     "themeNameVn": "Phương tiện giao thông",
     "themeNameEn": "Vehicles & Transport",
     "examples": [
-      "Motorists must pull over immediately when an ambulance approaches with sounding sirens and flashing beacons.",
-      "Paramedics inside the ambulance administered oxygen and stabilized the patient during transit."
+      "The ambulance arrived quickly at the city hospital.",
+      "Drivers must give way when an ambulance approaches."
     ],
     "exampleTranslations": [
-      "Người lái xe phải tấp vào lề ngay lập tức khi xe cứu thương đến gần với tiếng còi hú và đèn nhấp nháy.",
-      "Các nhân viên y tế bên trong xe cứu thương đã cung cấp oxy và làm ổn định tình trạng bệnh nhân trong quá trình vận chuyển."
+      "Xe cứu thương đã đến bệnh viện thành phố một cách nhanh chóng.",
+      "Người lái xe phải nhường đường khi xe cứu thương đang tiến tới."
     ],
     "synonyms": [
       "emergency vehicle",

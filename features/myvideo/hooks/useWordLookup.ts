@@ -4,8 +4,97 @@ import { useState, useCallback } from "react";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { useVocabularyStore } from "@/stores/vocabularyStore";
 import { useUserStore } from "@/stores/userStore";
+import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
+import { ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
 import type { WordLookupData } from "../components/shared/WordLookupCard";
 
+interface LocalDictEntry {
+  word: string;
+  phonetic: string;
+  pos: string;
+  definitionVn: string;
+}
+
+let cachedLocalDictMap: Map<string, LocalDictEntry> | null = null;
+
+function getLocalDictionaryMap(): Map<string, LocalDictEntry> {
+  if (cachedLocalDictMap) return cachedLocalDictMap;
+  const map = new Map<string, LocalDictEntry>();
+
+  for (const item of ADVANCED_VOCABULARIES) {
+    const key = item.word?.trim().toLowerCase();
+    if (key && item.definitionVn) {
+      map.set(key, {
+        word: item.word,
+        phonetic: item.phonetic || `/${key}/`,
+        pos: item.pos || "vocab",
+        definitionVn: item.definitionVn,
+      });
+    }
+  }
+
+  for (const item of BASIC_VOCABULARIES) {
+    const key = item.word?.trim().toLowerCase();
+    if (key && item.definitionVn) {
+      map.set(key, {
+        word: item.word,
+        phonetic: item.phonetic || `/${key}/`,
+        pos: item.pos || "vocab",
+        definitionVn: item.definitionVn,
+      });
+    }
+  }
+
+  cachedLocalDictMap = map;
+  return map;
+}
+
+export function lookupLocalVocabularyEntry(cleanWord: string): LocalDictEntry | null {
+  if (!cleanWord) return null;
+  const lower = cleanWord.toLowerCase();
+
+  // 1. Check user's learned/saved words first
+  const learned = useVocabularyStore.getState().learned;
+  const learnedHit = learned.find(
+    (l) => l.word?.toLowerCase() === lower && l.definitionVn && !l.definitionVn.startsWith("Từ vựng xuất hiện")
+  );
+  if (learnedHit && learnedHit.definitionVn) {
+    return {
+      word: learnedHit.word || lower,
+      phonetic: learnedHit.phonetic || `/${lower}/`,
+      pos: learnedHit.pos || "vocab",
+      definitionVn: learnedHit.definitionVn,
+    };
+  }
+
+  // 2. Check curated 2,700+ local vocabulary bank (exact + stem candidates)
+  const dictMap = getLocalDictionaryMap();
+  const candidates = [lower];
+  if (lower.endsWith("ies") && lower.length > 4) candidates.push(lower.slice(0, -3) + "y");
+  if (lower.endsWith("es") && lower.length > 4) candidates.push(lower.slice(0, -2));
+  if (lower.endsWith("s") && lower.length > 3) candidates.push(lower.slice(0, -1));
+  if (lower.endsWith("ed") && lower.length > 4) {
+    candidates.push(lower.slice(0, -2));
+    candidates.push(lower.slice(0, -1));
+  }
+  if (lower.endsWith("ing") && lower.length > 5) {
+    candidates.push(lower.slice(0, -3));
+    candidates.push(lower.slice(0, -3) + "e");
+  }
+  if (lower.endsWith("ly") && lower.length > 4) candidates.push(lower.slice(0, -2));
+
+  for (const candidate of candidates) {
+    const match = dictMap.get(candidate);
+    if (match) {
+      return {
+        ...match,
+        word: cleanWord,
+      };
+    }
+  }
+
+  return null;
+}
 
 export interface UseWordLookupProps {
   user: { id?: string } | null;
@@ -23,45 +112,106 @@ export function useWordLookup({
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [wordLookupData, setWordLookupData] = useState<WordLookupData | null>(null);
 
-  // 1-Click Word Lookup
+  // 1-Click Word Lookup (Instant Local Vietnamese Dictionary + Online Bilingual Fallback)
   const handleWordClick = useCallback(
     async (word: string) => {
-      const cleanWord = word.replace(/[^a-zA-Z]/g, "").toLowerCase();
+      const cleanWord = word
+        .replace(/[^a-zA-Z'-]/g, "")
+        .replace(/^['-]+|['-]+$/g, "")
+        .toLowerCase();
       if (!cleanWord) return;
 
       onPauseVideo?.();
-
       setSelectedWord(cleanWord);
+      speakLessonText(cleanWord, { lessonId: "video_subtitle_word", rate: 1.0 });
+
+      // Tier 1: Instant 0ms lookup from internal 2,700+ Vietnamese vocabulary bank
+      const localMatch = lookupLocalVocabularyEntry(cleanWord);
+      if (localMatch) {
+        setWordLookupData({
+          word: cleanWord.toUpperCase(),
+          phonetic: localMatch.phonetic,
+          pos: localMatch.pos,
+          definitionVn: localMatch.definitionVn,
+        });
+        return;
+      }
+
       setWordLookupData({
         word: cleanWord.toUpperCase(),
         phonetic: `/${cleanWord}/`,
         pos: "loading...",
-        definitionVn: "Đang tra từ điển...",
+        definitionVn: "Đang tra từ điển Anh - Việt...",
       });
 
-      speakLessonText(cleanWord, { lessonId: "video_subtitle_word", rate: 1.0 });
-
+      // Tier 2: Parallel fetch IPA/POS from dictionaryapi.dev + Vietnamese meaning from Google Translate GTX
       try {
-        const dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${cleanWord}`);
-        if (dictRes.ok) {
-          const dictData = await dictRes.json();
+        const [dictRes, transRes] = await Promise.allSettled([
+          fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(cleanWord)}`),
+          fetch(
+            `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(
+              cleanWord
+            )}`
+          ),
+        ]);
+
+        let phonetic = `/${cleanWord}/`;
+        let pos = "vocabulary";
+        let enDef = "";
+        let vnMeaning = "";
+
+        if (dictRes.status === "fulfilled" && dictRes.value.ok) {
+          const dictData = await dictRes.value.json();
           if (Array.isArray(dictData) && dictData.length > 0) {
             const entry = dictData[0];
-            const phonetic =
+            phonetic =
               entry.phonetic || entry.phonetics?.find((p: any) => p.text)?.text || `/${cleanWord}/`;
             const firstMeaning = entry.meanings?.[0];
-            const pos = firstMeaning?.partOfSpeech || "word";
-            const definition = firstMeaning?.definitions?.[0]?.definition || "";
-            setWordLookupData({
-              word: cleanWord.toUpperCase(),
-              phonetic,
-              pos,
-              definitionVn: definition || `Từ vựng quan trọng trong ngữ cảnh video`,
-            });
-            return;
+            pos = firstMeaning?.partOfSpeech || "vocabulary";
+            enDef = firstMeaning?.definitions?.[0]?.definition || "";
           }
         }
-      } catch (e) {}
+
+        if (transRes.status === "fulfilled" && transRes.value.ok) {
+          const transData = await transRes.value.json();
+          if (Array.isArray(transData) && Array.isArray(transData[0])) {
+            const translated = transData[0].map((part: any) => part?.[0] || "").join("").trim();
+            if (translated && translated.toLowerCase() !== cleanWord) {
+              vnMeaning = translated.charAt(0).toUpperCase() + translated.slice(1);
+            }
+          }
+        }
+
+        if (!vnMeaning && enDef) {
+          // Translate the concise English definition to Vietnamese if single-word translation was identical
+          try {
+            const defTransRes = await fetch(
+              `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=vi&dt=t&q=${encodeURIComponent(
+                enDef
+              )}`
+            );
+            if (defTransRes.ok) {
+              const defTransData = await defTransRes.json();
+              if (Array.isArray(defTransData) && Array.isArray(defTransData[0])) {
+                vnMeaning = defTransData[0].map((part: any) => part?.[0] || "").join("").trim();
+              }
+            }
+          } catch {}
+        }
+
+        if (vnMeaning || enDef) {
+          setWordLookupData({
+            word: cleanWord.toUpperCase(),
+            phonetic,
+            pos,
+            definitionVn:
+              vnMeaning && enDef
+                ? `${vnMeaning} — ${enDef}`
+                : vnMeaning || enDef || `Từ vựng quan trọng trong ngữ cảnh video`,
+          });
+          return;
+        }
+      } catch {}
 
       setWordLookupData({
         word: cleanWord.toUpperCase(),

@@ -7,16 +7,20 @@ import {
   Sparkles,
   Volume2,
   Turtle,
-  RotateCcw,
   Check,
 } from "lucide-react";
 import { useNotificationStore } from "@/stores/notificationStore";
+import { useVocabularyStore } from "@/stores/vocabularyStore";
 import { SentenceScramblePackage, GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
 import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
-import { syncRoadmapSessionProgress } from "@/features/roadmap";
+import {
+  syncRoadmapSessionProgress,
+  getStageMatchedVocab,
+  saveStageMatchedVocab,
+} from "@/features/roadmap";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
 import { getCharacterForRound, CompanionCharacter } from "../../data/characterRoster";
 import { synthesizeThemeSentences, fisherYatesShuffle } from "../../utils/themeSentenceSynthesizer";
@@ -39,20 +43,12 @@ interface WordToken {
   isUsed: boolean;
 }
 
-interface SentenceCandidate {
-  sentence: string;
-  translationVn: string;
-  word?: string;
-}
-
 const TOTAL_ROUNDS = 5;
-const HINT_COST = 5;
 
 export function SentenceBuilderGame({
   pool,
   onBack,
   backLabel,
-  fullWidth = false,
   themeId,
   unitNumber,
   currentPart,
@@ -69,7 +65,6 @@ export function SentenceBuilderGame({
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [gameOver, setGameOver] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [rewards, setRewards] = useState<{ xp: number; coins: number }>({ xp: 0, coins: 0 });
 
   // Deep review tracking
@@ -80,21 +75,12 @@ export function SentenceBuilderGame({
   const currentPkg = packages[currentIdx];
   const slotCount = currentPkg ? currentPkg.tokens.length : 0;
   const canSubmit =
-    slotCount > 0 && placedTokens.length === slotCount && feedback === null;
+    slotCount > 0 && placedTokens.length >= 1 && feedback === null;
 
   // Active Character Companion for the current sentence round
   const activeCharacter: CompanionCharacter = useMemo(() => {
     return getCharacterForRound(currentIdx, currentPkg?.originalSentence || "");
   }, [currentIdx, currentPkg]);
-
-  useEffect(() => {
-    setIsMuted(gameAudio.isMuted());
-  }, []);
-
-  const toggleAudio = () => {
-    const next = gameAudio.toggleMute();
-    setIsMuted(next);
-  };
 
   const speakSentence = useCallback(
     (sentence: string) => {
@@ -124,20 +110,35 @@ export function SentenceBuilderGame({
 
   // Generate sentences using Theme-Aware Synthesizer
   const generateSentences = useCallback(() => {
+    const bridged = getStageMatchedVocab({
+      themeId,
+      unitNumber,
+      part: currentPart || 1,
+    });
     const candidates = synthesizeThemeSentences(pool, {
       themeId,
       unitNumber,
       targetCount: TOTAL_ROUNDS,
+      part: currentPart,
+      totalParts,
+      priorityVocabIds: bridged.priorityVocabIds,
+      priorityWords: bridged.priorityWords,
     });
 
     const pkgs: SentenceScramblePackage[] = candidates.map((item, idx) => {
-      // Tokenize by removing trailing punctuation for matching
-      const rawTokens = item.sentence.replace(/[.?!,;:]/g, "").split(/\s+/);
+      // Tokenize cleanly while preserving internal colons/hyphens (e.g. "8:00", "check-in")
+      const rawTokens = item.sentence
+        .trim()
+        .split(/\s+/)
+        .map((t) => t.replace(/^[.?!,;:""''()—–-]+|[.?!,;:""''()—–-]+$/g, ""))
+        .filter(Boolean);
       return {
         id: String(idx),
+        vocabId: item.vocabId,
         originalSentence: item.sentence,
         translationVn: item.translationVn,
         tokens: rawTokens,
+        distractors: item.distractors || [],
         hintWord: item.word,
       };
     });
@@ -150,7 +151,7 @@ export function SentenceBuilderGame({
     setReviewItems([]);
     setRewards({ xp: 0, coins: 0 });
     startTimeRef.current = Date.now();
-  }, [pool, themeId, unitNumber]);
+  }, [pool, themeId, unitNumber, currentPart, totalParts]);
 
   useEffect(() => {
     generateSentences();
@@ -159,7 +160,8 @@ export function SentenceBuilderGame({
   // Setup current round tokens
   const setupTokens = useCallback((pkg?: SentenceScramblePackage) => {
     if (!pkg) return;
-    const raw = pkg.tokens.map((word, id) => ({
+    const allWords = [...pkg.tokens, ...(pkg.distractors || [])];
+    const raw = allWords.map((word, id) => ({
       id,
       word,
       isUsed: false,
@@ -200,31 +202,6 @@ export function SentenceBuilderGame({
     );
   };
 
-  // Reset tokens
-  const handleClearAll = () => {
-    if (feedback !== null) return;
-    triggerHaptic("tap");
-    gameAudio.playTap();
-    setAvailableTokens((prev) => prev.map((t) => ({ ...t, isUsed: false })));
-    setPlacedTokens([]);
-  };
-
-  // Hint next word
-  const handleHintNext = () => {
-    const pkg = packages[currentIdx];
-    if (!pkg || feedback !== null) return;
-
-    const currentPlacedLen = placedTokens.length;
-    if (currentPlacedLen < pkg.tokens.length) {
-      const nextWord = pkg.tokens[currentPlacedLen];
-      const match = availableTokens.find((t) => !t.isUsed && t.word.toLowerCase() === nextWord.toLowerCase());
-      if (match) {
-        setScore((s) => Math.max(0, s - HINT_COST));
-        handleSelectToken(match);
-      }
-    }
-  };
-
   // Check Answer
   const handleSubmit = useCallback(() => {
     const pkg = packages[currentIdx];
@@ -235,6 +212,10 @@ export function SentenceBuilderGame({
 
     const isCorrect =
       userSentence.toLowerCase().trim() === expectedSentence.toLowerCase().trim();
+
+    if (pkg.vocabId) {
+      useVocabularyStore.getState().practiceWord(pkg.vocabId, isCorrect);
+    }
 
     const review: GameReviewItem = {
       id: pkg.id,
@@ -257,8 +238,7 @@ export function SentenceBuilderGame({
       gameAudio.playWrongBuzzer();
       setFeedback("wrong");
     }
-
-  }, [currentIdx, packages, placedTokens, feedback]);
+  }, [currentIdx, packages, placedTokens, feedback, speakSentence]);
 
   // Continue to next sentence (người học tự bấm sau khi đọc đáp án)
   const handleContinue = useCallback(() => {
@@ -269,31 +249,6 @@ export function SentenceBuilderGame({
       setGameOver(true);
     }
   }, [feedback, currentIdx, packages.length]);
-
-  // Skip sentence
-  const handleSkip = useCallback(() => {
-    const pkg = packages[currentIdx];
-    if (!pkg || feedback !== null) return;
-
-    triggerHaptic("warning");
-      gameAudio.playWrongBuzzer();
-
-    const review: GameReviewItem = {
-      id: pkg.id,
-      word: pkg.originalSentence,
-      definitionVn: pkg.translationVn,
-      isCorrect: false,
-      userAnswer: "Bỏ qua",
-      correctAnswer: pkg.originalSentence,
-    };
-    setReviewItems((prev) => [...prev, review]);
-
-    if (currentIdx + 1 < packages.length) {
-      setCurrentIdx((c) => c + 1);
-    } else {
-      setGameOver(true);
-    }
-  }, [currentIdx, packages, feedback]);
 
   // Keyboard navigation for desktop web (Enter, Backspace, 1-9)
   useEffect(() => {
@@ -330,7 +285,7 @@ export function SentenceBuilderGame({
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [feedback, canSubmit, handleContinue, handleSubmit, placedTokens, availableTokens, currentPkg]);
+  }, [feedback, canSubmit, handleContinue, handleSubmit, placedTokens, availableTokens, currentPkg, speakSentence, speakSentenceSlow]);
 
   // Game over sync
   useEffect(() => {
@@ -340,6 +295,9 @@ export function SentenceBuilderGame({
       const correctCount = reviewItems.filter((i) => i.isCorrect).length;
       const duration = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
       setDurationSeconds(duration);
+      const expectedXp = Math.min(60, Math.max(10, correctCount * 10));
+      const expectedCoins = Math.min(15, Math.max(5, Math.round(correctCount * 2.5)));
+      setRewards({ xp: expectedXp, coins: expectedCoins });
 
       recordGameSession({
         gameType: "sentence",
@@ -357,6 +315,29 @@ export function SentenceBuilderGame({
         }
       });
 
+      // Merge any sentence-level vocab mistakes into the Roadmap Vocab Bridge for Stage 6 Checkpoint
+      const sentenceMistakeVocabIds = packages
+        .filter((pkg, idx) => reviewItems[idx] && !reviewItems[idx].isCorrect && pkg.vocabId)
+        .map((pkg) => pkg.vocabId as string);
+      const sentencePracticedVocabIds = packages
+        .map((pkg) => pkg.vocabId || "")
+        .filter(Boolean);
+      const sentencePracticedWords = packages
+        .map((pkg) => pkg.hintWord || "")
+        .filter(Boolean);
+
+      if (sentencePracticedVocabIds.length > 0 || sentenceMistakeVocabIds.length > 0) {
+        saveStageMatchedVocab({
+          themeId,
+          unitNumber,
+          part: currentPart || 1,
+          matchedIds: sentencePracticedVocabIds,
+          matchedWords: sentencePracticedWords,
+          mistakeIds: sentenceMistakeVocabIds,
+          mergeExistingMistakes: true,
+        });
+      }
+
       // Automatically synchronize session progress with the Roadmap S-Curve pathway
       syncRoadmapSessionProgress({
         themeId,
@@ -366,7 +347,7 @@ export function SentenceBuilderGame({
         totalParts: totalParts || 2,
       });
     }
-  }, [gameOver, score, addToast, reviewItems, packages.length, themeId, unitNumber, currentPart, totalParts]);
+  }, [gameOver, score, addToast, reviewItems, packages, themeId, unitNumber, currentPart, totalParts]);
 
   if (gameOver) {
     const correctCount = reviewItems.filter((i) => i.isCorrect).length;
@@ -374,6 +355,8 @@ export function SentenceBuilderGame({
 
     return (
       <GameResultScreen
+        gameType="sentence"
+        character={activeCharacter}
         title={
           totalParts && totalParts > 1
             ? `Ghép Câu: Hoàn Thành Phần ${currentPart || 1}!`

@@ -9,7 +9,6 @@ import {
 } from "@/stores/videoStore";
 import {
   processHighPrecisionSubtitles,
-  SubtitleExtractionResult,
   getLastFetchedVideoMeta,
 } from "@/features/listening/services/youtubeSubtitleService";
 import { useAuthStore } from "@/stores/authStore";
@@ -19,37 +18,16 @@ import { VideoSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { Plus, Video, Layers, Play } from "lucide-react";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
-import dynamic from "next/dynamic";
-
 // Modular Feature Components & Hooks
 import {
   VideoPlayerStudio,
   InteractiveStudyDock,
   VideoLibraryGrid,
-  VideoHeroMetricsBanner,
   YouTubeImportDeck,
   useYouTubePlayerSync,
   useVideoExercises,
   useWordLookup,
 } from "@/features/myvideo";
-
-// Lazy-loaded modals for reduced initial bundle footprint
-const KeyboardShortcutsModal = dynamic(
-  () => import("@/features/myvideo/components/modals/KeyboardShortcutsModal").then((m) => m.KeyboardShortcutsModal),
-  { ssr: false }
-);
-const SubtitleExportModal = dynamic(
-  () => import("@/features/myvideo/components/modals/SubtitleExportModal").then((m) => m.SubtitleExportModal),
-  { ssr: false }
-);
-const SrtImportModal = dynamic(
-  () => import("@/features/myvideo/components/modals/SrtImportModal").then((m) => m.SrtImportModal),
-  { ssr: false }
-);
-const XpSubExtractorModal = dynamic(
-  () => import("@/features/myvideo/components/modals/XpSubExtractorModal").then((m) => m.XpSubExtractorModal),
-  { ssr: false }
-);
 
 export default function MyVideoPage() {
   const { user, awardXp } = useAuthStore();
@@ -60,7 +38,6 @@ export default function MyVideoPage() {
     removeVideo,
     toggleFavorite,
     updateProgress,
-    updateVideoSubtitles,
     loadSavedVideos,
   } = useVideoStore();
 
@@ -70,13 +47,7 @@ export default function MyVideoPage() {
   const [importLevel, setImportLevel] = useState<YouTubeVideoItem["level"]>("Medium");
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
-
-  // Modals state
-  const [activeSubtitleResult, setActiveSubtitleResult] = useState<SubtitleExtractionResult | null>(null);
-  const [showExportModal, setShowExportModal] = useState(false);
-  const [showSrtImportModal, setShowSrtImportModal] = useState(false);
-  const [showXpSubModal, setShowXpSubModal] = useState(false);
-  const [showShortcutsModal, setShowShortcutsModal] = useState(false);
+  const playerWorkspaceRef = useRef<HTMLDivElement>(null);
 
   // Master Video Player State with Frame 0 session probe
   const [activeVideo, setActiveVideoState] = useState<YouTubeVideoItem | null>(() => {
@@ -176,16 +147,18 @@ export default function MyVideoPage() {
       if (updatedVideo) {
         setActiveVideo((prev) => {
           if (!prev || prev.id !== currentId) return prev;
-          if (updatedVideo.isFavorite !== prev.isFavorite ||
-              updatedVideo.progressPercent !== prev.progressPercent ||
-              updatedVideo.subtitles !== prev.subtitles) {
+          if (
+            updatedVideo.isFavorite !== prev.isFavorite ||
+            updatedVideo.progressPercent !== prev.progressPercent ||
+            updatedVideo.subtitles !== prev.subtitles
+          ) {
             return updatedVideo;
           }
           return prev; // No change → no re-render
         });
       }
     }
-  }, [savedVideos]);
+  }, [savedVideos, setActiveVideo]);
 
   // Handler for AI Speech transcription when video has no subtitles
   const handleNewSubtitleCaptured = useCallback((rawItem: any) => {
@@ -213,7 +186,7 @@ export default function MyVideoPage() {
         subtitles: updatedSubs,
       };
     });
-  }, []);
+  }, [setActiveVideo]);
 
   // Hook 1: YouTube Player Synchronization Loop & Commands
   const setCurrentSubIndexRef = useRef<((index: number) => void) | null>(null);
@@ -227,8 +200,6 @@ export default function MyVideoPage() {
     activeSubIndex,
     activeWordIndex,
     isCueSpeaking,
-    subtitleSyncOffset,
-    setSubtitleSyncOffset,
     togglePlayPause,
     pauseVideo,
     jumpToSubtitleIndex,
@@ -295,7 +266,7 @@ export default function MyVideoPage() {
       resetExercises();
       resetWordLookup();
     },
-    [resetPlayerSync, resetExercises, resetWordLookup]
+    [setActiveVideo, setRightPanelTab, resetPlayerSync, resetExercises, resetWordLookup]
   );
 
   const jumpToPrevSubtitle = useCallback(() => {
@@ -319,31 +290,22 @@ export default function MyVideoPage() {
         setActiveVideo(null);
       }
     },
-    [savedVideos, removeVideo, selectVideoAndOpenSubtitles]
+    [savedVideos, removeVideo, selectVideoAndOpenSubtitles, setActiveVideo]
   );
 
   const handleSelectVideoWithScroll = useCallback(
     (video: YouTubeVideoItem) => {
       selectVideoAndOpenSubtitles(video);
       setMobileViewMode("player");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => {
+        if (playerWorkspaceRef.current) {
+          playerWorkspaceRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }, 40);
     },
     [selectVideoAndOpenSubtitles]
-  );
-
-  // Shared handler for subtitle injection (MED-08: extract duplicate logic)
-  const handleSubtitleInjection = useCallback(
-    (parsed: SubtitleSentence[]) => {
-      if (!activeVideo) return;
-      updateVideoSubtitles(activeVideo.id, parsed);
-      setActiveVideo({ ...activeVideo, subtitles: parsed });
-      resetPlayerSync();
-      resetExercises();
-      resetWordLookup();
-      setRightPanelTab("subtitles");
-      window.scrollTo({ top: 220, behavior: "smooth" });
-    },
-    [activeVideo, updateVideoSubtitles, resetPlayerSync, resetExercises, resetWordLookup]
   );
 
   // Keyboard shortcuts listener — ref pattern to mount window listener once (HIGH-04 fix)
@@ -354,10 +316,6 @@ export default function MyVideoPage() {
     dictationAnswered,
     dictationInput,
     rightPanelTab,
-    showExportModal,
-    showSrtImportModal,
-    showXpSubModal,
-    showShortcutsModal,
     wordLookupData,
     togglePlayPause,
     toggleLoopSentence,
@@ -376,10 +334,6 @@ export default function MyVideoPage() {
       dictationAnswered,
       dictationInput,
       rightPanelTab,
-      showExportModal,
-      showSrtImportModal,
-      showXpSubModal,
-      showShortcutsModal,
       wordLookupData,
       togglePlayPause,
       toggleLoopSentence,
@@ -446,15 +400,7 @@ export default function MyVideoPage() {
           e.preventDefault();
           setRightPanelTab("dictation");
           break;
-        case "?":
-          e.preventDefault();
-          setShowShortcutsModal((prev) => !prev);
-          break;
         case "Escape":
-          if (state.showExportModal) setShowExportModal(false);
-          if (state.showSrtImportModal) setShowSrtImportModal(false);
-          if (state.showXpSubModal) setShowXpSubModal(false);
-          if (state.showShortcutsModal) setShowShortcutsModal(false);
           if (state.wordLookupData) state.resetWordLookup();
           break;
       }
@@ -462,7 +408,7 @@ export default function MyVideoPage() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [setRightPanelTab]);
 
   // Handle YouTube URL Import (memoized — MED-04 fix)
   const handleImportYouTube = useCallback(
@@ -473,119 +419,105 @@ export default function MyVideoPage() {
         return;
       }
 
-    const videoId = extractYouTubeId(youtubeInput);
-    if (!videoId) {
-      setImportError(
-        "Đường dẫn YouTube không hợp lệ. Vui lòng nhập link chuẩn (VD: https://www.youtube.com/watch?v=...)"
-      );
-      return;
-    }
-
-    if (savedVideos.some((v) => v.id === videoId)) {
-      setImportError("Video này đã có trong danh sách của bạn rồi!");
-      return;
-    }
-
-    setIsImporting(true);
-    setImportError(null);
-
-    try {
-      let title = "Video Học Tiếng Anh YouTube";
-      let authorName = "YouTube Creator";
-
-      try {
-        const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
-        const res = await fetch(oembedUrl, { signal: AbortSignal.timeout(2000) });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.title) title = data.title;
-          if (data.author_name) authorName = data.author_name;
-        }
-      } catch (oembedErr) {}
-
-      const { storeSubtitles, fullResult } = await processHighPrecisionSubtitles(videoId, title);
-
-      const serverMeta = getLastFetchedVideoMeta();
-      if (serverMeta?.title && title === "Video Học Tiếng Anh YouTube") {
-        title = serverMeta.title;
-      }
-      if (serverMeta?.authorName && authorName === "YouTube Creator") {
-        authorName = serverMeta.authorName;
-      }
-
-      if (!storeSubtitles || storeSubtitles.length === 0) {
+      const videoId = extractYouTubeId(youtubeInput);
+      if (!videoId) {
         setImportError(
-          "Không tìm thấy dữ liệu phụ đề cho video YouTube này. Vui lòng thử video khác có sẵn phụ đề hoặc dán file phụ đề .SRT."
+          "Đường dẫn YouTube không hợp lệ. Vui lòng nhập link chuẩn (VD: https://www.youtube.com/watch?v=...)"
         );
         return;
       }
 
-      const newVideo: YouTubeVideoItem = {
-        id: videoId,
-        youtubeUrl: `https://www.youtube.com/watch?v=${videoId}`,
-        title,
-        authorName,
-        thumbnailUrl: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
-        duration: fullResult.stats.totalDurationStr,
-        category: importCategory,
-        level: importLevel,
-        savedAt: new Date().toISOString().split("T")[0],
-        progressPercent: 0,
-        isFavorite: false,
-        subtitles: storeSubtitles,
-      };
-
-      addVideo(newVideo);
-      setYoutubeInput("");
-      setActiveVideo(newVideo);
-      setActiveSubtitleResult(fullResult);
-      resetPlayerSync();
-      resetExercises();
-      resetWordLookup();
-      setRightPanelTab("subtitles");
-
-      window.scrollTo({ top: 220, behavior: "smooth" });
-
-      addToast({
-        type: "success",
-        title: `Đã trích xuất ${storeSubtitles.length} câu phụ đề chuẩn 100%!`,
-        message: `Video và toàn bộ timeline mốc mili-giây đã tự động cập nhật trực tiếp vào bài học!`,
-      });
-    } catch (err: any) {
-      setImportError(err?.message || "Không thể trích xuất phụ đề từ video YouTube này.");
-    } finally {
-      setIsImporting(false);
-    }
-  }, [
-    youtubeInput,
-    savedVideos,
-    importCategory,
-    importLevel,
-    addVideo,
-    resetPlayerSync,
-    resetExercises,
-    resetWordLookup,
-    addToast,
-  ]);
-
-  // Metrics computation (memoized — MED-01 fix: correct duration parse for > 1h)
-  const { totalMinutes, totalSubtitlesCount, favoriteCount, avgProgress } = useMemo(() => {
-    const minutes = savedVideos.reduce((acc, v) => {
-      const parts = v.duration.split(":");
-      if (parts.length === 3) {
-        // "H:MM:SS" → hours*60 + minutes
-        return acc + ((parseInt(parts[0]) || 0) * 60 + (parseInt(parts[1]) || 0));
+      if (savedVideos.some((v) => v.id === videoId)) {
+        setImportError("Video này đã có trong danh sách của bạn rồi!");
+        return;
       }
-      // "MM:SS" → minutes
-      return acc + (parseInt(parts[0]) || 3);
-    }, 0);
-    const subtitles = savedVideos.reduce((acc, v) => acc + (v.subtitles?.length || 0), 0);
-    const favorites = savedVideos.filter((v) => v.isFavorite).length;
-    const avg = savedVideos.length > 0
-      ? Math.round(savedVideos.reduce((acc, v) => acc + (v.progressPercent || 0), 0) / savedVideos.length)
-      : 0;
-    return { totalMinutes: minutes, totalSubtitlesCount: subtitles, favoriteCount: favorites, avgProgress: avg };
-  }, [savedVideos]);
+
+      setIsImporting(true);
+      setImportError(null);
+
+      try {
+        let title = "Video Học Tiếng Anh YouTube";
+        let authorName = "YouTube Creator";
+
+        try {
+          const oembedUrl = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`;
+          const res = await fetch(oembedUrl, { signal: AbortSignal.timeout(2000) });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.title) title = data.title;
+            if (data.author_name) authorName = data.author_name;
+          }
+        } catch (oembedErr) {}
+
+        const { storeSubtitles, fullResult } = await processHighPrecisionSubtitles(videoId, title);
+
+        const serverMeta = getLastFetchedVideoMeta();
+        if (serverMeta?.title && title === "Video Học Tiếng Anh YouTube") {
+          title = serverMeta.title;
+        }
+        if (serverMeta?.authorName && authorName === "YouTube Creator") {
+          authorName = serverMeta.authorName;
+        }
+
+        if (!storeSubtitles || storeSubtitles.length === 0) {
+          setImportError(
+            "Không tìm thấy dữ liệu phụ đề cho video YouTube này. Vui lòng thử video khác có sẵn phụ đề."
+          );
+          return;
+        }
+
+        const newVideo: YouTubeVideoItem = {
+          id: videoId,
+          youtubeUrl: `https://www.youtube.com/watch?v=${videoId}`,
+          title,
+          authorName,
+          thumbnailUrl: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+          duration: fullResult.stats.totalDurationStr,
+          category: importCategory,
+          level: importLevel,
+          savedAt: new Date().toISOString().split("T")[0],
+          progressPercent: 0,
+          isFavorite: false,
+          subtitles: storeSubtitles,
+        };
+
+        addVideo(newVideo);
+        setYoutubeInput("");
+        setActiveVideo(newVideo);
+        resetPlayerSync();
+        resetExercises();
+        resetWordLookup();
+        setRightPanelTab("subtitles");
+
+        setTimeout(() => {
+          playerWorkspaceRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 40);
+
+        addToast({
+          type: "success",
+          title: `Đã trích xuất ${storeSubtitles.length} câu phụ đề chuẩn 100%!`,
+          message: `Video và toàn bộ timeline mốc mili-giây đã tự động cập nhật trực tiếp vào bài học!`,
+        });
+      } catch (err: any) {
+        setImportError(err?.message || "Không thể trích xuất phụ đề từ video YouTube này.");
+      } finally {
+        setIsImporting(false);
+      }
+    },
+    [
+      youtubeInput,
+      savedVideos,
+      importCategory,
+      importLevel,
+      addVideo,
+      setActiveVideo,
+      setRightPanelTab,
+      resetPlayerSync,
+      resetExercises,
+      resetWordLookup,
+      addToast,
+    ]
+  );
 
   // Filtered Video List (memoized — MED-02 fix)
   const filteredVideos = useMemo(() => {
@@ -679,19 +611,7 @@ export default function MyVideoPage() {
           </div>
         )}
 
-        {/* 1. HERO SPOTLIGHT & SLIM METRICS BANNER */}
-        <div className={activeVideo && mobileViewMode === "player" ? "hidden lg:block" : ""}>
-          <VideoHeroMetricsBanner
-            savedVideosCount={savedVideos.length}
-            totalMinutes={totalMinutes}
-            totalSubtitlesCount={totalSubtitlesCount}
-            favoriteCount={favoriteCount}
-            avgProgress={avgProgress}
-            hasActiveVideo={Boolean(activeVideo)}
-          />
-        </div>
-
-        {/* 2. YOUTUBE IMPORT STUDIO DECK */}
+        {/* 1. YOUTUBE IMPORT STUDIO DECK */}
         <div className={activeVideo && mobileViewMode === "player" ? "hidden lg:block" : ""}>
           <YouTubeImportDeck
             youtubeInput={youtubeInput}
@@ -708,12 +628,13 @@ export default function MyVideoPage() {
           />
         </div>
 
-        {/* 3. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE */}
+        {/* 2. MASTER-DETAIL 2-COLUMN SPLIT WORKSPACE */}
         {activeVideo && (
           <div
+            ref={playerWorkspaceRef}
             className={`${
               mobileViewMode === "library" ? "hidden lg:grid " : "grid "
-            }grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-stretch`}
+            }grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-stretch scroll-mt-16`}
           >
             {/* CỘT TRÁI (1.62fr): VIDEO PLAYER STUDIO */}
             <VideoPlayerStudio
@@ -767,7 +688,7 @@ export default function MyVideoPage() {
           </div>
         )}
 
-        {/* 4. SEARCH & VIDEO LIBRARY GRID */}
+        {/* 3. SEARCH & VIDEO LIBRARY GRID */}
         <div className={activeVideo && mobileViewMode === "player" ? "hidden lg:block" : "space-y-3"}>
           {activeVideo && mobileViewMode === "library" && (
             <div className="lg:hidden pb-1">
@@ -802,36 +723,6 @@ export default function MyVideoPage() {
           />
         </div>
       </div>
-
-      {/* MODALS */}
-      <SubtitleExportModal
-        isOpen={showExportModal}
-        onClose={() => setShowExportModal(false)}
-        activeSubtitleResult={activeSubtitleResult}
-        videoTitle={activeVideo?.title || "subtitles"}
-        addToast={addToast}
-      />
-
-      <KeyboardShortcutsModal
-        isOpen={showShortcutsModal}
-        onClose={() => setShowShortcutsModal(false)}
-      />
-
-      <SrtImportModal
-        isOpen={showSrtImportModal}
-        onClose={() => setShowSrtImportModal(false)}
-        activeVideo={activeVideo}
-        onImportSuccess={handleSubtitleInjection}
-        addToast={addToast}
-      />
-
-      <XpSubExtractorModal
-        isOpen={showXpSubModal}
-        onClose={() => setShowXpSubModal(false)}
-        activeVideo={activeVideo}
-        onInjectSubtitles={handleSubtitleInjection}
-        addToast={addToast}
-      />
     </div>
   );
 }

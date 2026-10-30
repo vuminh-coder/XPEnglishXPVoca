@@ -11,7 +11,9 @@ function ShadowingRedirector() {
 
   useEffect(() => {
     const rawId = searchParams.get("id") || searchParams.get("lessonId");
+    const params = new URLSearchParams(searchParams.toString());
     if (rawId) {
+      params.set("id", rawId);
       const isVideo =
         rawId.startsWith("vid_") ||
         rawId.startsWith("yt_") ||
@@ -20,13 +22,14 @@ function ShadowingRedirector() {
           (v) => v.id === rawId || v.slug === rawId || v.externalId === rawId
         );
       if (isVideo) {
-        router.replace(`/study/shadowing/video?id=${rawId}`);
+        router.replace(`/study/shadowing/video?${params.toString()}`);
         return;
       }
-      router.replace(`/study/shadowing/audio?id=${rawId}`);
+      router.replace(`/study/shadowing/audio?${params.toString()}`);
       return;
     }
-    router.replace("/study/shadowing/audio");
+    const queryStr = params.toString();
+    router.replace(queryStr ? `/study/shadowing/audio?${queryStr}` : "/study/shadowing/audio");
   }, [router, searchParams]);
 
   return <ShadowingAudioListingSkeleton />;

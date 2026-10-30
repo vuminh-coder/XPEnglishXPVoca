@@ -329,11 +329,11 @@ export const VOCABS_MUA_SAM_TIEN_TE: BasicVocabularyItem[] = [
     "themeNameVn": "Mua sắm & Tiền tệ",
     "themeNameEn": "Shopping & Money",
     "examples": [
-      "How much does this cup of coffee cost? — It costs two dollars.",
+      "How much does this cup of coffee cost?",
       "Quality education is worth the cost."
     ],
     "exampleTranslations": [
-      "Tách cà phê này có giá bao nhiêu? — Giá 2 đô la.",
+      "Tách cà phê này có giá bao nhiêu vậy?",
       "Giáo dục chất lượng rất xứng đáng với chi phí bỏ ra."
     ],
     "synonyms": [],
@@ -479,10 +479,10 @@ export const VOCABS_MUA_SAM_TIEN_TE: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_shoppi_21",
-    "word": "receipt",
-    "phonetic": "/rɪˈsiːt/",
-    "definition": "A written or printed acknowledgment that a specified sum of money has been received for merchandise.",
-    "definitionVn": "biên lai thanh toán, hóa đơn mua hàng",
+    "word": "coupon",
+    "phonetic": "/ˈkuːpɑːn/",
+    "definition": "A voucher entitling the holder to a discount for a particular product.",
+    "definitionVn": "phiếu giảm giá, mã ưu đãi",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -490,26 +490,24 @@ export const VOCABS_MUA_SAM_TIEN_TE: BasicVocabularyItem[] = [
     "themeNameVn": "Mua sắm & Tiền tệ",
     "themeNameEn": "Shopping & Money",
     "examples": [
-      "Retain your store purchase receipt in case you need an exchange or warranty return.",
-      "The electronic cashier printed a detailed itemized receipt including tax breakdowns."
+      "Use this coupon to get a ten percent discount.",
+      "She saved money with a grocery store coupon."
     ],
     "exampleTranslations": [
-      "Hãy giữ lại biên lai mua hàng của bạn trong trường hợp bạn cần đổi hàng hoặc bảo hành.",
-      "Thu ngân điện tử đã in một hóa đơn chi tiết từng món hàng bao gồm cả phân tích thuế."
+      "Hãy dùng phiếu giảm giá này để được giảm mười phần trăm nhé.",
+      "Cô ấy đã tiết kiệm được tiền nhờ phiếu giảm giá siêu thị."
     ],
     "synonyms": [
-      "proof of purchase",
-      "sales slip",
       "voucher"
     ],
     "antonyms": []
   },
   {
     "id": "bv_shoppi_22",
-    "word": "discount",
-    "phonetic": "/ˈdɪs.kaʊnt/",
-    "definition": "A deduction from the usual cost of something, typically given for prompt payment or special promotions.",
-    "definitionVn": "khoản giảm giá, mức chiết khấu khuyến mãi",
+    "word": "counter",
+    "phonetic": "/ˈkaʊntər/",
+    "definition": "A long flat-topped fixture in a store or bank across which business is conducted.",
+    "definitionVn": "quầy hàng, quầy thanh toán",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -517,29 +515,22 @@ export const VOCABS_MUA_SAM_TIEN_TE: BasicVocabularyItem[] = [
     "themeNameVn": "Mua sắm & Tiền tệ",
     "themeNameEn": "Shopping & Money",
     "examples": [
-      "Students and seniors receive a fifteen percent discount on all book purchases.",
-      "Entering the coupon code at digital checkout applied a generous discount immediately."
+      "Please pay for your items at the front counter.",
+      "She left her shopping bag on the counter."
     ],
     "exampleTranslations": [
-      "Học sinh và người cao tuổi được giảm giá mười lăm phần trăm cho tất cả các giao dịch mua sách.",
-      "Nhập mã giảm giá tại quầy thanh toán kỹ thuật số đã áp dụng một khoản giảm giá hào phóng ngay lập tức."
+      "Vui lòng thanh toán các món hàng của bạn tại quầy phía trước.",
+      "Cô ấy để túi mua sắm của mình trên mặt quầy hàng."
     ],
-    "synonyms": [
-      "markdown",
-      "rebate",
-      "price concession"
-    ],
-    "antonyms": [
-      "surcharge",
-      "markup"
-    ]
+    "synonyms": [],
+    "antonyms": []
   },
   {
     "id": "bv_shoppi_23",
     "word": "bargain",
-    "phonetic": "/ˈbɑːr.ɡɪn/",
+    "phonetic": "/ˈbɑːrɡɪn/",
     "definition": "A thing bought or offered for sale more cheaply than is usual or expected; also to negotiate price.",
-    "definitionVn": "món hàng giá hời; mặc cả trả giá",
+    "definitionVn": "món hời, mặc cả trả giá",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -547,12 +538,12 @@ export const VOCABS_MUA_SAM_TIEN_TE: BasicVocabularyItem[] = [
     "themeNameVn": "Mua sắm & Tiền tệ",
     "themeNameEn": "Shopping & Money",
     "examples": [
-      "At twenty dollars, this genuine leather jacket was an absolute bargain at the flea market.",
-      "Shoppers frequently bargain with local stall owners to reach a mutually agreeable price."
+      "This warm winter coat was a great bargain.",
+      "Tourists often bargain at the night market."
     ],
     "exampleTranslations": [
-      "Với giá hai mươi đô la, chiếc áo khoác da thật này là một món hời tuyệt đối ở chợ trời.",
-      "Người mua sắm thường xuyên mặc cả với chủ gian hàng địa phương để đạt được mức giá đồng thuận."
+      "Chiếc áo khoác mùa đông ấm áp này là một món hời lớn.",
+      "Du khách thường mặc cả khi mua sắm ở chợ đêm."
     ],
     "synonyms": [
       "good deal",
@@ -567,9 +558,9 @@ export const VOCABS_MUA_SAM_TIEN_TE: BasicVocabularyItem[] = [
   {
     "id": "bv_shoppi_24",
     "word": "refund",
-    "phonetic": "/ˈriː.fʌnd/",
+    "phonetic": "/ˈriːfʌnd/",
     "definition": "A repayment of a sum of money, typically to a dissatisfied customer returning goods.",
-    "definitionVn": "tiền hoàn lại khi trả hàng, sự hoàn tiền",
+    "definitionVn": "tiền hoàn lại, sự hoàn tiền",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -577,12 +568,12 @@ export const VOCABS_MUA_SAM_TIEN_TE: BasicVocabularyItem[] = [
     "themeNameVn": "Mua sắm & Tiền tệ",
     "themeNameEn": "Shopping & Money",
     "examples": [
-      "The department store processed a full cash refund after discovering the blouse had a torn seam.",
-      "Online shoppers can request an automatic refund within thirty days of parcel delivery."
+      "The store gave me a full cash refund.",
+      "You can ask for a refund within seven days."
     ],
     "exampleTranslations": [
-      "Cửa hàng bách hóa đã xử lý hoàn lại toàn bộ tiền mặt sau khi phát hiện chiếc áo cánh có đường may bị rách.",
-      "Người mua sắm trực tuyến có thể yêu cầu hoàn tiền tự động trong vòng ba mươi ngày kể từ khi bưu kiện được giao."
+      "Cửa hàng đã hoàn lại đầy đủ tiền mặt cho tôi.",
+      "Bạn có thể yêu cầu hoàn tiền trong vòng bảy ngày."
     ],
     "synonyms": [
       "reimbursement",
@@ -596,7 +587,7 @@ export const VOCABS_MUA_SAM_TIEN_TE: BasicVocabularyItem[] = [
     "word": "cashier",
     "phonetic": "/kæʃˈɪr/",
     "definition": "A person handling payments and receipts in a store, bank, or other commercial business.",
-    "definitionVn": "nhân viên thu ngân tính tiền",
+    "definitionVn": "thu ngân, nhân viên thu tiền",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -604,12 +595,12 @@ export const VOCABS_MUA_SAM_TIEN_TE: BasicVocabularyItem[] = [
     "themeNameVn": "Mua sắm & Tiền tệ",
     "themeNameEn": "Shopping & Money",
     "examples": [
-      "The friendly cashier scanned each grocery item and bagged the produce quickly.",
-      "Self-checkout lanes reduce waiting times when human cashiers are experiencing high traffic."
+      "The friendly cashier smiled and handed me the receipt.",
+      "Pay the cashier before leaving the supermarket."
     ],
     "exampleTranslations": [
-      "Nhân viên thu ngân thân thiện đã quét từng món hàng tạp hóa và đóng gói sản phẩm một cách nhanh chóng.",
-      "Các làn tự thanh toán giúp giảm thời gian chờ đợi khi các thu ngân gặp phải lượng khách đông."
+      "Nhân viên thu ngân thân thiện mỉm cười và đưa biên lai cho tôi.",
+      "Hãy thanh toán với thu ngân trước khi rời siêu thị nhé."
     ],
     "synonyms": [
       "teller",

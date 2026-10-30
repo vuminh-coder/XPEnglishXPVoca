@@ -41,6 +41,7 @@ import {
   isSameLessonId,
 } from "@/features/listening/utils/lessonIdHelper";
 import { extractYouTubeVideoId } from "@/features/listening/utils/videoUrlHelper";
+import { syncRoadmapSessionProgress } from "@/features/roadmap";
 
 // Dual Row Level Definition Sets
 const BASIC_LEVELS = new Set(["Easy", "Beginner", "A1", "A2"]);
@@ -1171,6 +1172,16 @@ export function DictationPageContent({
       if (currentLesson) {
         markLessonCompleted(currentLesson.id);
       }
+      const themeParam = searchParams.get("theme") || searchParams.get("themeId") || undefined;
+      const unitParam = searchParams.get("unit") ? parseInt(searchParams.get("unit")!, 10) : undefined;
+      syncRoadmapSessionProgress({
+        themeId: themeParam,
+        unitNumber: unitParam,
+        lessonId: currentLesson?.id || rawIdParam || undefined,
+        skillType: "LISTENING",
+        completedPart: 1,
+        totalParts: 1,
+      });
       awardXp(50, "dictation");
       addToast({
         type: "success",

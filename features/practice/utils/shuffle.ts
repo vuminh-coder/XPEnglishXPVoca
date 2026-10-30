@@ -13,3 +13,16 @@ export function getDeterministicRandom(seed: string) {
     return ((hash >>> 0) % 1000) / 1000;
   };
 }
+
+/**
+ * Unbiased Fisher-Yates shuffle using a deterministic PRNG seed.
+ */
+export function seededShuffle<T>(items: T[], seed: string): T[] {
+  const result = [...items];
+  const prng = getDeterministicRandom(seed);
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(prng() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}

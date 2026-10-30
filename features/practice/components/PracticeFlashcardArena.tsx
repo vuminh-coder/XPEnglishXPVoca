@@ -46,39 +46,7 @@ export function PracticeFlashcardArena({
   onRateFlashcard,
   onSkip,
 }: PracticeFlashcardArenaProps) {
-  // Global Hotkey handling: Space to flip, 1-2-3 for SRS rating, A for audio, B for bookmark
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (
-        e.target instanceof HTMLInputElement ||
-        e.target instanceof HTMLTextAreaElement
-      )
-        return;
-
-      if (e.key === " ") {
-        e.preventDefault();
-        onFlipCard();
-      } else if (e.key === "1" && fIsFlipped) {
-        e.preventDefault();
-        onRateFlashcard("again");
-      } else if (e.key === "2" && fIsFlipped) {
-        e.preventDefault();
-        onRateFlashcard("good");
-      } else if (e.key === "3" && fIsFlipped) {
-        e.preventDefault();
-        onRateFlashcard("easy");
-      } else if (e.key === "a" || e.key === "A") {
-        e.preventDefault();
-        onPlayAudio(currentWord.word);
-      } else if ((e.key === "b" || e.key === "B") && onToggleBookmark) {
-        e.preventDefault();
-        onToggleBookmark();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [fIsFlipped, onFlipCard, onRateFlashcard, onPlayAudio, onToggleBookmark, currentWord]);
+  // Keyboard hotkeys (Space, 1-2-3, B) are centrally handled by usePracticeKeyboard to prevent double-flip / double-rating
 
   return (
     <div className="flex-1 flex flex-col justify-between min-h-0 select-none py-1 sm:py-2 w-full max-w-xl mx-auto gap-3">

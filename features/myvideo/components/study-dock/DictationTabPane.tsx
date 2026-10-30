@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import {
   Lightbulb,
   Sparkles,
@@ -129,7 +129,14 @@ export function DictationTabPane({
   toggleShadowingRecord,
   handleSeekTo,
 }: DictationTabPaneProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const currentSub = activeVideo?.subtitles?.[currentSubIndex];
+
+  useEffect(() => {
+    if (!dictationAnswered) {
+      inputRef.current?.focus({ preventScroll: true });
+    }
+  }, [currentSubIndex, dictationAnswered]);
 
   if (!currentSub) {
     return (
@@ -193,10 +200,13 @@ export function DictationTabPane({
 
         <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 shadow-2xs focus-within:border-[#0059bb] focus-within:ring-2 focus-within:ring-[#0059bb]/15 transition-all">
           <input
+            ref={inputRef}
             id="dictation-input-field"
             type="text"
             value={dictationInput}
-            onChange={(e) => setDictationInput(e.target.value)}
+            onChange={(e) => {
+              if (!dictationAnswered) setDictationInput(e.target.value);
+            }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -208,11 +218,11 @@ export function DictationTabPane({
                 }
               }
             }}
-            disabled={dictationAnswered}
+            readOnly={dictationAnswered}
             autoComplete="off"
             spellCheck={false}
             placeholder="Nhập từ còn thiếu..."
-            className="flex-1 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-900 dark:text-white bg-transparent placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-hidden disabled:opacity-60"
+            className="flex-1 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-900 dark:text-white bg-transparent placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-hidden read-only:opacity-70"
           />
 
           {/* Hint button */}

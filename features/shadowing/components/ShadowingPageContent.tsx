@@ -47,6 +47,7 @@ import {
   isSameLessonId,
 } from "@/features/listening/utils/lessonIdHelper";
 import { extractYouTubeVideoId } from "@/features/listening/utils/videoUrlHelper";
+import { syncRoadmapSessionProgress } from "@/features/roadmap";
 import {
   resolveLessonMedia,
   buildEffectiveSentence,
@@ -969,6 +970,16 @@ export function ShadowingPageContent({
       setIsLessonFinished(true);
       if (currentLesson) {
         markLessonCompleted(currentLesson.id);
+        const themeParam = searchParams.get("theme") || searchParams.get("themeId") || undefined;
+        const unitParam = searchParams.get("unit") ? parseInt(searchParams.get("unit")!, 10) : undefined;
+        syncRoadmapSessionProgress({
+          themeId: themeParam,
+          unitNumber: unitParam,
+          lessonId: currentLesson.id || rawIdParam || undefined,
+          skillType: "SPEAKING",
+          completedPart: 1,
+          totalParts: 1,
+        });
         awardXp(50, "shadowing");
         if (user?.id && !user.id.startsWith("guest")) {
           const allIndices = Array.from({ length: totalSentencesCount }, (_, i) => i);

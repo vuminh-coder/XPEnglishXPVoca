@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import { PracticeWord, SubMode } from "@/features/practice/types";
-import { stripParentheses } from "@/features/practice/utils/cleanText";
+import {
+  stripParentheses,
+  extractConciseMeaning,
+  isPureVocabularyWord,
+} from "@/features/practice/utils/cleanText";
 import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
 import { ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
 
@@ -32,11 +36,14 @@ export const DEFAULT_PRACTICE_FILTERS: PracticeCatalogFilters = {
   level: "all",
 };
 
-export const INITIAL_PRACTICE_VOCABS: PracticeWord[] = BASIC_VOCABULARIES.slice(0, 25).map(
-  (item, idx) => ({
+export const INITIAL_PRACTICE_VOCABS: PracticeWord[] = BASIC_VOCABULARIES.filter((v) =>
+  isPureVocabularyWord(v)
+)
+  .slice(0, 25)
+  .map((item, idx) => ({
     id: item.id || `practice_vocab_${idx}`,
     word: item.word,
-    meaning: stripParentheses(item.definitionVn || item.definition),
+    meaning: extractConciseMeaning(item.definitionVn || item.definition),
     ipa: item.phonetic || "/.../",
     type: item.pos === "adj" ? "adjective" : item.pos || "noun",
     level: (item as any).level || (item.difficulty === 1 ? "A1" : "A2"),
@@ -44,8 +51,7 @@ export const INITIAL_PRACTICE_VOCABS: PracticeWord[] = BASIC_VOCABULARIES.slice(
     example: item.examples?.[0] || `She learned how to use the word ${item.word}.`,
     exampleVi:
       item.exampleTranslations?.[0] || `Cô ấy đã học cách sử dụng từ ${item.word}.`,
-  })
-);
+  }));
 
 interface PracticeCatalogStoreState {
   // Practice Words Cache
@@ -133,12 +139,14 @@ export const usePracticeCatalogStore = create<PracticeCatalogStoreState>((set, g
     if (themeId) {
       const basicMatches = BASIC_VOCABULARIES.filter((v) => v.themeId === themeId);
       const advMatches = ADVANCED_VOCABULARIES.filter((v) => v.themeId === themeId);
-      const combinedMatches = [...basicMatches, ...advMatches];
+      const combinedMatches = [...basicMatches, ...advMatches].filter((v) =>
+        isPureVocabularyWord(v)
+      );
       if (combinedMatches.length > 0) {
         localFallback = combinedMatches.slice(0, 25).map((item, idx) => ({
           id: item.id || `practice_vocab_${idx}`,
           word: item.word,
-          meaning: stripParentheses(item.definitionVn || item.definition),
+          meaning: extractConciseMeaning(item.definitionVn || item.definition),
           ipa: item.phonetic || "/.../",
           type: item.pos === "adj" ? "adjective" : item.pos || "noun",
           level: (item as any).level || (item.difficulty === 1 ? "A1" : item.difficulty === 2 ? "A2" : "B1"),
@@ -175,10 +183,12 @@ export const usePracticeCatalogStore = create<PracticeCatalogStoreState>((set, g
           .then((json) => {
             const list = Array.isArray(json) ? json : json?.data;
             if (Array.isArray(list) && list.length > 0) {
-              const mapped: PracticeWord[] = list.map((item: any, idx: number) => ({
+              const filteredList = list.filter((item: any) => isPureVocabularyWord(item));
+              const finalSource = filteredList.length > 0 ? filteredList : list;
+              const mapped: PracticeWord[] = finalSource.map((item: any, idx: number) => ({
                 id: item.id || `vocab_${idx}`,
                 word: item.word,
-                meaning: stripParentheses(item.definitionVn || item.definition),
+                meaning: extractConciseMeaning(item.definitionVn || item.definition),
                 ipa: item.phonetic || item.ipa || "/.../",
                 type: item.pos === "adj" ? "adjective" : item.pos || "noun",
                 level: item.level || (item.difficulty === 1 ? "A1" : item.difficulty === 2 ? "A2" : item.difficulty >= 3 ? "B2" : "A1"),
@@ -218,10 +228,12 @@ export const usePracticeCatalogStore = create<PracticeCatalogStoreState>((set, g
           const json = await res.json();
           const list = Array.isArray(json) ? json : json?.data;
           if (Array.isArray(list) && list.length > 0) {
-            const mapped: PracticeWord[] = list.map((item: any, idx: number) => ({
+            const filteredList = list.filter((item: any) => isPureVocabularyWord(item));
+            const finalSource = filteredList.length > 0 ? filteredList : list;
+            const mapped: PracticeWord[] = finalSource.map((item: any, idx: number) => ({
               id: item.id || `vocab_${idx}`,
               word: item.word,
-              meaning: stripParentheses(item.definitionVn || item.definition),
+              meaning: extractConciseMeaning(item.definitionVn || item.definition),
               ipa: item.phonetic || item.ipa || "/.../",
               type: item.pos === "adj" ? "adjective" : item.pos || "noun",
               level: item.level || (item.difficulty === 1 ? "A1" : item.difficulty === 2 ? "A2" : item.difficulty >= 3 ? "B2" : "A1"),

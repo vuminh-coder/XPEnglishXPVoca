@@ -12,12 +12,23 @@ import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
 import { ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
 import { partitionVocabularyPool } from "@/features/vocabulary/utils/vocabularyPartition";
-import { syncRoadmapSessionProgress } from "@/features/roadmap";
+import {
+  syncRoadmapSessionProgress,
+  saveStageMatchedVocab,
+  getStageMatchedVocab,
+  resolveActiveRoadmapContext,
+  getPureThemeVocabularyPool,
+} from "@/features/roadmap";
+import { gameAudio } from "@/features/games/utils/gameAudio";
 import { usePracticeCatalogStore, INITIAL_PRACTICE_VOCABS } from "@/stores/practiceCatalogStore";
 import { PracticeWord, SubMode, QuizOption, FlashcardRating } from "../types";
 import { getBookmarkedWords, toggleBookmark } from "../utils/bookmark";
-import { getDeterministicRandom } from "../utils/shuffle";
-import { stripParentheses } from "../utils/cleanText";
+import { seededShuffle } from "../utils/shuffle";
+import {
+  stripParentheses,
+  extractConciseMeaning,
+  isPureVocabularyWord,
+} from "../utils/cleanText";
 import { usePracticeSpeech } from "./usePracticeSpeech";
 
 const QUESTION_TIME_LIMIT = 30;
@@ -33,7 +44,7 @@ export function usePracticeSession() {
   const modeParam = searchParams.get("subMode") || searchParams.get("mode");
   const isCheckpoint = searchParams.get("mode") === "checkpoint" || modeParam === "checkpoint";
 
-  const { submitReview, learned } = useVocabularyStore();
+  const { submitReview } = useVocabularyStore();
   const { addToast } = useNotificationStore();
   const { awardXp } = useAuthStore();
   const { incrementProgress } = useDailyChallengeStore();
@@ -74,7 +85,7 @@ export function usePracticeSession() {
       setElapsedTime((prev) => prev + 1);
     }, 1000);
     return () => clearInterval(timer);
-  }, [isCompleted]);
+  }, [isCompleted, setElapsedTime]);
 
   // Record practice time on page exit only if session was not completed
   const subModeRef = useRef(subMode);
@@ -108,36 +119,89 @@ export function usePracticeSession() {
       modeParam === "sentence_builder"
     ) {
       setSubMode(modeParam as SubMode);
+    } else if (isCheckpoint) {
+      setSubMode("quiz");
     }
-  }, [modeParam]);
+  }, [modeParam, isCheckpoint, setSubMode]);
 
-  // Extract vocabulary pool matching this theme if specified
+  // Resolve active Roadmap context (from URL params if present, or active Roadmap step in localStorage)
+  const resolvedContext = useMemo(
+    () =>
+      resolveActiveRoadmapContext({
+        themeId: themeParam,
+        unit: unitParam,
+        part: partParam,
+        totalParts: totalPartsParam,
+        skillType: isCheckpoint ? "CHECKPOINT" : "VOCAB",
+      }),
+    [themeParam, unitParam, partParam, totalPartsParam, isCheckpoint]
+  );
+
+  // Extract pure vocabulary pool matching the theme when navigated with Roadmap params or Checkpoint
   const rawThemeVocabs = useMemo(() => {
-    if (!themeParam) return null;
-    const basicMatches = BASIC_VOCABULARIES.filter((v) => v.themeId === themeParam);
-    if (basicMatches.length > 0) return basicMatches;
-    const advMatches = ADVANCED_VOCABULARIES.filter((v) => v.themeId === themeParam);
-    if (advMatches.length > 0) return advMatches;
-    return null;
-  }, [themeParam]);
+    if (!resolvedContext.isExplicitUrl && !isCheckpoint) return null;
+    return getPureThemeVocabularyPool(resolvedContext.themeId);
+  }, [resolvedContext.isExplicitUrl, resolvedContext.themeId, isCheckpoint]);
 
-  // Partition vocabulary pool according to partParam and totalPartsParam
+  // Partition vocabulary pool according to resolved part and totalParts
   const partitionResult = useMemo(() => {
     if (!rawThemeVocabs || rawThemeVocabs.length === 0) {
       return {
         items: [] as typeof rawThemeVocabs,
-        currentPart: 1,
-        totalParts: 1,
-        hasNextPart: false,
-        nextPartNumber: undefined as number | undefined,
-        hasPrevPart: false,
-        prevPartNumber: undefined as number | undefined,
+        currentPart: resolvedContext.part,
+        totalParts: resolvedContext.totalParts,
+        hasNextPart: resolvedContext.part < resolvedContext.totalParts,
+        nextPartNumber:
+          resolvedContext.part < resolvedContext.totalParts
+            ? resolvedContext.part + 1
+            : (undefined as number | undefined),
+        hasPrevPart: resolvedContext.part > 1,
+        prevPartNumber:
+          resolvedContext.part > 1 ? resolvedContext.part - 1 : (undefined as number | undefined),
       };
     }
     if (isCheckpoint) {
-      // Checkpoint mode: 15 curated questions across the theme pool
+      // Checkpoint mode: 15 curated questions balanced across Part 1 & Part 2, prioritizing past mistakes
+      const unitNum = resolvedContext.unitNumber;
+      const b1 = getStageMatchedVocab({
+        themeId: resolvedContext.themeId,
+        unitNumber: unitNum,
+        part: 1,
+      });
+      const b2 = getStageMatchedVocab({
+        themeId: resolvedContext.themeId,
+        unitNumber: unitNum,
+        part: 2,
+      });
+      const priorityMistakes = new Set([...(b1.mistakeIds || []), ...(b2.mistakeIds || [])]);
+      const mistakePool = rawThemeVocabs.filter((v) => priorityMistakes.has(v.id));
+
+      const mid = Math.ceil(rawThemeVocabs.length / 2);
+      const part1Pool = rawThemeVocabs.slice(0, mid);
+      const part2Pool = rawThemeVocabs.slice(mid);
+      const interleaved: typeof rawThemeVocabs = [];
+      const seenIds = new Set<string>();
+
+      for (const m of mistakePool) {
+        if (!seenIds.has(m.id)) {
+          seenIds.add(m.id);
+          interleaved.push(m);
+        }
+      }
+      const maxHalf = Math.max(part1Pool.length, part2Pool.length);
+      for (let i = 0; i < maxHalf && interleaved.length < 15; i++) {
+        if (part1Pool[i] && !seenIds.has(part1Pool[i].id)) {
+          seenIds.add(part1Pool[i].id);
+          interleaved.push(part1Pool[i]);
+        }
+        if (interleaved.length < 15 && part2Pool[i] && !seenIds.has(part2Pool[i].id)) {
+          seenIds.add(part2Pool[i].id);
+          interleaved.push(part2Pool[i]);
+        }
+      }
+
       return {
-        items: rawThemeVocabs.slice(0, 15),
+        items: interleaved.slice(0, 15),
         currentPart: 1,
         totalParts: 1,
         hasNextPart: false,
@@ -147,10 +211,10 @@ export function usePracticeSession() {
       };
     }
     return partitionVocabularyPool(rawThemeVocabs, {
-      part: partParam,
-      totalParts: totalPartsParam,
+      part: resolvedContext.part,
+      totalParts: resolvedContext.totalParts,
     });
-  }, [rawThemeVocabs, partParam, totalPartsParam, isCheckpoint]);
+  }, [rawThemeVocabs, resolvedContext, isCheckpoint]);
 
   // Load vocabularies from Backend API via SWR Store (only when no themeParam provided)
   useEffect(() => {
@@ -172,11 +236,15 @@ export function usePracticeSession() {
       return partitionResult.items.map((item, idx) => ({
         id: item.id || `practice_vocab_${idx}`,
         word: item.word,
-        meaning: stripParentheses(item.definitionVn || item.definition),
+        meaning: extractConciseMeaning(item.definitionVn || item.definition),
         ipa: item.phonetic || "/.../",
         type: item.pos === "adj" ? "adjective" : item.pos || "noun",
-        level: (item as any).level || (item.difficulty === 1 ? "A1" : item.difficulty === 2 ? "A2" : "B1"),
-        topic: stripParentheses((item as any).themeNameVn || (item as any).themeId || "Từ vựng theo chủ đề"),
+        level:
+          (item as any).level ||
+          (item.difficulty === 1 ? "A1" : item.difficulty === 2 ? "A2" : "B1"),
+        topic: stripParentheses(
+          (item as any).themeNameVn || (item as any).themeId || "Từ vựng theo chủ đề"
+        ),
         example: item.examples?.[0] || `Practice using ${item.word}.`,
         exampleVi: item.exampleTranslations?.[0] || `Luyện tập từ ${item.word}.`,
       }));
@@ -218,10 +286,10 @@ export function usePracticeSession() {
     if (isSaved) awardXp(5);
   }, [currentWord, addToast, awardXp]);
 
-  // Audio helper
+  // Mute-aware Audio helper
   const playWordAudio = useCallback(
     (word: string, rate: number = 0.95, accent: string = "en-US") => {
-      if (!word) return;
+      if (!word || gameAudio.isMuted()) return;
       speakLessonText(word, {
         speakerIndex: 1,
         accent,
@@ -231,6 +299,10 @@ export function usePracticeSession() {
     []
   );
 
+  // Session-wide mistake & mastery tracking for Roadmap Bridge and accurate ScoreCard
+  const mistakeIdsRef = useRef<Set<string>>(new Set());
+  const [lastEarnedXp, setLastEarnedXp] = useState<number>(10);
+
   // 1. QUIZ SUB-MODE STATE
   const [qSelectedOpt, setQSelectedOpt] = useState<string | null>(null);
   const [qIsAnswered, setQIsAnswered] = useState(false);
@@ -238,12 +310,13 @@ export function usePracticeSession() {
   const [qXp, setQXp] = useState(0);
   const [qCorrectCount, setQCorrectCount] = useState(0);
 
-  // Deterministic 2x2 quiz options
+  // Deterministic 2x2 quiz options with strict meaning deduplication & Fisher-Yates shuffle
   const quizOptions: QuizOption[] = useMemo(() => {
     if (!currentWord) return [];
+    const correctText = stripParentheses(currentWord.meaning);
     const correctOpt: QuizOption = {
       id: "correct",
-      text: stripParentheses(currentWord.meaning),
+      text: correctText,
       isCorrect: true,
     };
     const otherVocabs = vocabs.filter(
@@ -251,43 +324,79 @@ export function usePracticeSession() {
     );
 
     const seed = `${currentWord.id || currentWord.word}_${currentIndex}`;
-    const prng1 = getDeterministicRandom(seed + "_others");
-    const shuffledOthers = [...otherVocabs].sort(() => 0.5 - prng1()).slice(0, 3);
-    const wrongOpts: QuizOption[] = shuffledOthers.map((v, i) => ({
+    const seenMeanings = new Set<string>([correctText.toLowerCase().trim()]);
+    const uniqueCandidates: PracticeWord[] = [];
+
+    for (const v of seededShuffle([...otherVocabs, ...INITIAL_PRACTICE_VOCABS], seed + "_others")) {
+      const mClean = stripParentheses(v.meaning).toLowerCase().trim();
+      if (!mClean || seenMeanings.has(mClean)) continue;
+      seenMeanings.add(mClean);
+      uniqueCandidates.push(v);
+      if (uniqueCandidates.length >= 3) break;
+    }
+
+    const wrongOpts: QuizOption[] = uniqueCandidates.map((v, i) => ({
       id: `wrong_${i}`,
       text: stripParentheses(v.meaning),
       isCorrect: false,
     }));
 
-    const prng2 = getDeterministicRandom(seed + "_final");
-    return [correctOpt, ...wrongOpts].sort(() => 0.5 - prng2());
+    return seededShuffle([correctOpt, ...wrongOpts], seed + "_final");
   }, [currentWord, vocabs, currentIndex]);
 
-  const handleSelectQuizOption = useCallback(
+  const evaluateQuizOption = useCallback(
     (opt: QuizOption) => {
       if (qIsAnswered || !currentWord) return;
+      const wordKey = currentWord.id || currentWord.word;
       setQSelectedOpt(opt.id);
       setQIsAnswered(true);
       setQIsCorrect(opt.isCorrect);
 
       if (opt.isCorrect) {
+        gameAudio.playCorrectDing();
+        setLastEarnedXp(10);
         awardXp(10);
         setQXp((prev) => prev + 10);
         setQCorrectCount((prev) => prev + 1);
         incrementProgress("practice_words", 1);
         incrementProgress("learn_words", 1);
-        submitReview(currentWord.id || currentWord.word, 4);
+        submitReview(wordKey, 4);
         playWordAudio(currentWord.word);
       } else {
-        submitReview(currentWord.id || currentWord.word, 1);
+        gameAudio.playWrongBuzzer();
+        mistakeIdsRef.current.add(wordKey);
+        submitReview(wordKey, 1);
       }
     },
     [qIsAnswered, currentWord, awardXp, incrementProgress, submitReview, playWordAudio]
   );
 
+  // Clicking an option selects it (lighting up "KIỂM TRA"); clicking the already-selected option grades immediately
+  const handleSelectQuizOption = useCallback(
+    (opt: QuizOption) => {
+      if (qIsAnswered || !currentWord) return;
+      if (qSelectedOpt === opt.id) {
+        evaluateQuizOption(opt);
+        return;
+      }
+      gameAudio.playTap();
+      setQSelectedOpt(opt.id);
+    },
+    [qIsAnswered, currentWord, qSelectedOpt, evaluateQuizOption]
+  );
+
+  const handleCheckQuiz = useCallback(() => {
+    if (qIsAnswered || !qSelectedOpt || !currentWord) return;
+    const selected = quizOptions.find((o) => o.id === qSelectedOpt);
+    if (selected) {
+      evaluateQuizOption(selected);
+    }
+  }, [qIsAnswered, qSelectedOpt, currentWord, quizOptions, evaluateQuizOption]);
+
   // 2. FLASHCARD SUB-MODE STATE
   const [fIsFlipped, setFIsFlipped] = useState(false);
   const [fXp, setFXp] = useState(0);
+  const [fCorrectCount, setFCorrectCount] = useState(0);
 
   // 3. WRITING SUB-MODE STATE
   const writingInputRef = useRef<HTMLInputElement | null>(null);
@@ -300,6 +409,7 @@ export function usePracticeSession() {
 
   const handleCheckWriting = useCallback(() => {
     if (wIsAnswered || !wInput.trim() || !currentWord) return;
+    const wordKey = currentWord.id || currentWord.word;
     const cleanInput = wInput.trim().toLowerCase();
     const cleanTarget = currentWord.word.trim().toLowerCase();
     const isPassed = cleanInput === cleanTarget;
@@ -308,18 +418,31 @@ export function usePracticeSession() {
     setWIsCorrect(isPassed);
 
     if (isPassed) {
+      gameAudio.playCorrectDing();
       const earned = wShowHint ? 8 : 15;
+      setLastEarnedXp(earned);
       awardXp(earned);
       setWXp((prev) => prev + earned);
       setWCorrectCount((prev) => prev + 1);
       incrementProgress("write_practice", 1);
       incrementProgress("practice_words", 1);
-      submitReview(currentWord.id || currentWord.word, 4);
+      submitReview(wordKey, 4);
       playWordAudio(currentWord.word);
     } else {
-      submitReview(currentWord.id || currentWord.word, 1);
+      gameAudio.playWrongBuzzer();
+      mistakeIdsRef.current.add(wordKey);
+      submitReview(wordKey, 1);
     }
-  }, [wIsAnswered, wInput, currentWord, wShowHint, awardXp, incrementProgress, submitReview, playWordAudio]);
+  }, [
+    wIsAnswered,
+    wInput,
+    currentWord,
+    wShowHint,
+    awardXp,
+    incrementProgress,
+    submitReview,
+    playWordAudio,
+  ]);
 
   // 4. SPEAKING SUB-MODE STATE
   const [sXp, setSXp] = useState(0);
@@ -328,6 +451,8 @@ export function usePracticeSession() {
   const handleSpeechSuccess = useCallback(
     (_accuracyScore: number) => {
       if (!currentWord) return;
+      gameAudio.playCorrectDing();
+      setLastEarnedXp(15);
       awardXp(15);
       setSXp((prev) => prev + 15);
       setSCorrectCount((prev) => prev + 1);
@@ -342,7 +467,10 @@ export function usePracticeSession() {
   const handleSpeechFail = useCallback(
     (_accuracyScore: number) => {
       if (!currentWord) return;
-      submitReview(currentWord.id || currentWord.word, 1);
+      gameAudio.playWrongBuzzer();
+      const wordKey = currentWord.id || currentWord.word;
+      mistakeIdsRef.current.add(wordKey);
+      submitReview(wordKey, 1);
     },
     [currentWord, submitReview]
   );
@@ -366,7 +494,7 @@ export function usePracticeSession() {
 
   useEffect(() => {
     setQuestionTimeLeft(QUESTION_TIME_LIMIT);
-  }, [currentIndex]);
+  }, [currentIndex, subMode]);
 
   useEffect(() => {
     if (
@@ -404,10 +532,14 @@ export function usePracticeSession() {
     )
       return;
 
+    const wordKey = currentWord.id || currentWord.word;
+    mistakeIdsRef.current.add(wordKey);
+    gameAudio.playWrongBuzzer();
+
     if (subMode === "quiz") {
       setQIsAnswered(true);
       setQIsCorrect(false);
-      submitReview(currentWord.id || currentWord.word, 1);
+      submitReview(wordKey, 1);
       addToast({
         type: "warning",
         title: "Hết thời gian!",
@@ -416,7 +548,7 @@ export function usePracticeSession() {
     } else if (subMode === "writing") {
       setWIsAnswered(true);
       setWIsCorrect(false);
-      submitReview(currentWord.id || currentWord.word, 1);
+      submitReview(wordKey, 1);
       playWordAudio(currentWord.word);
       addToast({
         type: "warning",
@@ -427,7 +559,7 @@ export function usePracticeSession() {
       speech.setIsAnswered(true);
       speech.setIsCorrect(false);
       speech.setAccuracy(0);
-      submitReview(currentWord.id || currentWord.word, 1);
+      submitReview(wordKey, 1);
       playWordAudio(currentWord.word);
       addToast({
         type: "warning",
@@ -435,7 +567,18 @@ export function usePracticeSession() {
         message: `Từ vựng chính xác là: "${currentWord.word}"`,
       });
     }
-  }, [questionTimeLeft, subMode, qIsAnswered, wIsAnswered, speech, isCompleted, currentWord, submitReview, addToast, playWordAudio]);
+  }, [
+    questionTimeLeft,
+    subMode,
+    qIsAnswered,
+    wIsAnswered,
+    speech,
+    isCompleted,
+    currentWord,
+    submitReview,
+    addToast,
+    playWordAudio,
+  ]);
 
   // Autofocus writing input
   useEffect(() => {
@@ -464,9 +607,13 @@ export function usePracticeSession() {
       setCurrentIndex((prev) => prev - 1);
       resetCurrentQuestionState();
     }
-  }, [currentIndex, resetCurrentQuestionState]);
+  }, [currentIndex, setCurrentIndex, resetCurrentQuestionState]);
 
   const totalEarnedXp = qXp + fXp + wXp + sXp;
+  const sessionCorrectCount = Math.min(
+    vocabs.length,
+    qCorrectCount + fCorrectCount + wCorrectCount + sCorrectCount
+  );
 
   const finishSession = useCallback(async () => {
     setIsCompleted(true);
@@ -481,12 +628,7 @@ export function usePracticeSession() {
 
     // 1. Immediately record in client stores
     useUserStore.getState().addPracticeTime(mins, targetSkill);
-    recordSkillPractice(
-      user?.id || "local_user",
-      "Từ vựng",
-      mins,
-      totalEarnedXp
-    );
+    recordSkillPractice(user?.id || "local_user", "Từ vựng", mins, totalEarnedXp);
 
     // 2. Sync to PostgreSQL Neon DailySkillPractice and Profile + atomic cache invalidation
     try {
@@ -503,16 +645,25 @@ export function usePracticeSession() {
       console.warn("[PracticeSession] Background DB sync notice:", e);
     }
 
-    // 3. Automatically synchronize session progress with Roadmap S-Curve pathway
-    if (themeParam || unitParam) {
-      syncRoadmapSessionProgress({
-        themeId: themeParam || undefined,
-        unitNumber: unitParam ? parseInt(unitParam, 10) : undefined,
-        skillType: isCheckpoint ? "CHECKPOINT" : "VOCAB",
-        completedPart: partitionResult.currentPart,
-        totalParts: partitionResult.totalParts,
-      });
-    }
+    // 3. Save practiced words & mistake words into Roadmap Vocab Bridge so Stage 2 (Word Link)
+    // and Stage 3 (Sentence Builder) reinforce weak words from Stage 1
+    saveStageMatchedVocab({
+      themeId: resolvedContext.themeId,
+      unitNumber: resolvedContext.unitNumber,
+      part: partitionResult.currentPart || 1,
+      matchedIds: vocabs.map((v) => v.id).filter(Boolean),
+      matchedWords: vocabs.map((v) => v.word).filter(Boolean),
+      mistakeIds: Array.from(mistakeIdsRef.current),
+      mergeExistingMistakes: true,
+    });
+
+    syncRoadmapSessionProgress({
+      themeId: resolvedContext.themeId,
+      unitNumber: resolvedContext.unitNumber,
+      skillType: isCheckpoint ? "CHECKPOINT" : "VOCAB",
+      completedPart: partitionResult.currentPart,
+      totalParts: partitionResult.totalParts,
+    });
 
     addToast({
       type: "success",
@@ -523,25 +674,46 @@ export function usePracticeSession() {
         : "Hoàn thành buổi ôn tập từ vựng!",
       message: `Tổng điểm thưởng: +${totalEarnedXp} XP • ${mins} phút thực hành!`,
     });
-  }, [totalEarnedXp, addToast, themeParam, unitParam, isCheckpoint, partitionResult.currentPart, partitionResult.totalParts]);
+  }, [
+    setIsCompleted,
+    totalEarnedXp,
+    addToast,
+    resolvedContext.themeId,
+    resolvedContext.unitNumber,
+    isCheckpoint,
+    partitionResult.currentPart,
+    partitionResult.totalParts,
+    vocabs,
+  ]);
 
   // Reset question & session state when partition params change (e.g. advancing from Part 1 to Part 2)
   const prevPartitionKeyRef = useRef<string | null>(null);
   useEffect(() => {
-    const key = `${themeParam || ""}_${unitParam || ""}_${partitionResult.currentPart}_${isCheckpoint ? "cp" : ""}`;
+    const key = `${themeParam || ""}_${unitParam || ""}_${partitionResult.currentPart}_${
+      isCheckpoint ? "cp" : ""
+    }`;
     if (prevPartitionKeyRef.current !== null && prevPartitionKeyRef.current !== key) {
       restartSession();
       setQXp(0);
       setQCorrectCount(0);
       setFXp(0);
+      setFCorrectCount(0);
       setWXp(0);
       setWCorrectCount(0);
       setSXp(0);
       setSCorrectCount(0);
+      mistakeIdsRef.current.clear();
       resetCurrentQuestionState();
     }
     prevPartitionKeyRef.current = key;
-  }, [themeParam, unitParam, partitionResult.currentPart, isCheckpoint, restartSession, resetCurrentQuestionState]);
+  }, [
+    themeParam,
+    unitParam,
+    partitionResult.currentPart,
+    isCheckpoint,
+    restartSession,
+    resetCurrentQuestionState,
+  ]);
 
   const handleNextQuestion = useCallback(() => {
     if (currentIndex + 1 < vocabs.length) {
@@ -550,18 +722,27 @@ export function usePracticeSession() {
     } else {
       finishSession();
     }
-  }, [currentIndex, vocabs.length, resetCurrentQuestionState, finishSession]);
+  }, [currentIndex, vocabs.length, setCurrentIndex, resetCurrentQuestionState, finishSession]);
 
   const handleFlashcardRating = useCallback(
     (quality: FlashcardRating) => {
       if (!currentWord) return;
+      const wordKey = currentWord.id || currentWord.word;
       setFIsFlipped(false);
       const xp = quality === "easy" ? 15 : quality === "good" ? 10 : 5;
       const qualityNum = quality === "easy" ? 5 : quality === "good" ? 4 : 1;
+      setLastEarnedXp(xp);
       awardXp(xp);
       setFXp((prev) => prev + xp);
+      if (quality === "easy" || quality === "good") {
+        gameAudio.playCorrectDing();
+        setFCorrectCount((prev) => prev + 1);
+      } else {
+        gameAudio.playTap();
+        mistakeIdsRef.current.add(wordKey);
+      }
       incrementProgress("review_cards", 1);
-      submitReview(currentWord.id || currentWord.word, qualityNum);
+      submitReview(wordKey, qualityNum);
 
       handleNextQuestion();
     },
@@ -573,10 +754,12 @@ export function usePracticeSession() {
     setQXp(0);
     setQCorrectCount(0);
     setFXp(0);
+    setFCorrectCount(0);
     setWXp(0);
     setWCorrectCount(0);
     setSXp(0);
     setSCorrectCount(0);
+    mistakeIdsRef.current.clear();
     resetCurrentQuestionState();
   }, [restartSession, resetCurrentQuestionState]);
 
@@ -614,9 +797,11 @@ export function usePracticeSession() {
     handleToggleBookmark,
     playWordAudio,
     totalEarnedXp,
+    lastEarnedXp,
+    sessionCorrectCount,
     // Partition & Roadmap Sync
-    themeParam,
-    unitParam,
+    themeParam: themeParam || resolvedContext.themeId,
+    unitParam: unitParam || String(resolvedContext.unitNumber),
     currentPart: partitionResult.currentPart,
     totalParts: partitionResult.totalParts,
     hasNextPart: partitionResult.hasNextPart,
@@ -629,9 +814,11 @@ export function usePracticeSession() {
     qCorrectCount,
     quizOptions,
     handleSelectQuizOption,
+    handleCheckQuiz,
     // Flashcard
     fIsFlipped,
     setFIsFlipped,
+    fCorrectCount,
     handleFlashcardRating,
     // Writing
     writingInputRef,

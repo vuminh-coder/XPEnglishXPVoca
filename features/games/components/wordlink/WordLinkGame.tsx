@@ -1,16 +1,21 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { Volume2, VolumeX, RotateCcw, Check, X, Flame, Turtle } from "lucide-react";
+import { Volume2, VolumeX, RotateCcw, X, Turtle } from "lucide-react";
 import { useNotificationStore } from "@/stores/notificationStore";
+import { useVocabularyStore } from "@/stores/vocabularyStore";
 import { GameReviewItem } from "../../types";
 import { gameAudio } from "../../utils/gameAudio";
 import { triggerHaptic } from "../../utils/gameFx";
 import { GameResultScreen } from "../shared/GameResultScreen";
 import { recordGameSession } from "../../utils/recordGameSession";
-import { syncRoadmapSessionProgress } from "@/features/roadmap";
+import {
+  syncRoadmapSessionProgress,
+  saveStageMatchedVocab,
+  getStageMatchedVocab,
+} from "@/features/roadmap";
 import { safeSpeakText } from "@/shared/utils/mobileAudio";
-import { XP_CHARACTERS, CompanionCharacter } from "../../data/characterRoster";
+import { XP_CHARACTERS } from "../../data/characterRoster";
 
 export interface WordLinkGameProps {
   pool: any[];
@@ -23,10 +28,11 @@ export interface WordLinkGameProps {
   onNextPart?: () => void;
 }
 
-const PAIR_COUNT = 5;
+const PAIR_COUNT = 4;
 
 interface LinkItem {
   pairId: string;
+  vocabId?: string;
   word: string;
   meaning: string;
   phonetic?: string;
@@ -41,6 +47,43 @@ const shuffle = <T,>(arr: T[]): T[] => {
   }
   return result;
 };
+
+/**
+ * Extracts a concise single-concept Vietnamese word/meaning (1-3 syllables),
+ * stripping parenthetical notes and secondary clauses after commas/slashes/exclamations.
+ * Example: "xin lỗi, tôi rất tiếc" -> "Xin lỗi"
+ * Example: "cạn ly! / cảm ơn nhé / tạm biệt nhé" -> "Cạn ly"
+ */
+export function extractConciseMeaning(text: string): string {
+  if (!text) return "";
+  const withoutParens = text.replace(/\s*\([^)]*\)/g, "").trim();
+  if (!withoutParens) return "";
+
+  const segments = withoutParens
+    .split(/[,;/?!—–]+|\s+-\s+/)
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+
+  let primary = segments[0] || withoutParens;
+  // Strip trailing conversational filler particles on multi-word segments
+  const words = primary.split(/\s+/);
+  if (words.length >= 2) {
+    primary = primary.replace(/\s+(nhé|nha|ạ|rồi)$/i, "").trim();
+  }
+
+  return primary.charAt(0).toUpperCase() + primary.slice(1);
+}
+
+/**
+ * Checks if a vocabulary entry is a pure single English word (not a clause or multi-word sentence)
+ */
+export function isPureSingleWordItem(item: any): boolean {
+  if (!item?.word || typeof item.word !== "string") return false;
+  const w = item.word.trim();
+  if (!w || w.includes(" ") || w.includes("'") || w.includes("’")) return false;
+  if (item.pos && String(item.pos).toLowerCase() === "phrase") return false;
+  return true;
+}
 
 export function WordLinkGame({
   pool,
@@ -59,13 +102,15 @@ export function WordLinkGame({
   const [leftOrder, setLeftOrder] = useState<string[]>([]);
   const [rightOrder, setRightOrder] = useState<string[]>([]);
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
+  const [selectedRight, setSelectedRight] = useState<string | null>(null);
   const [linked, setLinked] = useState<string[]>([]);
+  const [justMatchedId, setJustMatchedId] = useState<string | null>(null);
   const [wrongPair, setWrongPair] = useState<{ left: string; right: string } | null>(null);
   const [mistakes, setMistakes] = useState(0);
   const [mistakeIds, setMistakeIds] = useState<Set<string>>(new Set());
   const [combo, setCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
-  const [comboAlert, setComboAlert] = useState<"X3" | "X5" | null>(null);
+  const [comboAlert, setComboAlert] = useState<"X3" | "X4" | "X5" | null>(null);
   const [characterIdx, setCharacterIdx] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -87,17 +132,52 @@ export function WordLinkGame({
 
   const initGame = useCallback(() => {
     if (!pool || pool.length === 0) return;
-    const cleanMeaning = (text: string) => {
-      if (!text) return "";
-      const cleaned = text.replace(/\s*\([^)]*\)/g, "").trim();
-      if (!cleaned) return "";
-      return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-    };
 
-    // Filter candidate pool to prevent synonym collisions in the same round
-    const candidates = shuffle(pool.filter((w) => w.word && w.definitionVn));
+    const validPool = pool.filter((w) => w.word && w.definitionVn);
+    const bridged = getStageMatchedVocab({
+      themeId,
+      unitNumber,
+      part: currentPart || 1,
+    });
+    const mistakePrioritySet = new Set(bridged.mistakeIds || []);
+    const practicedPrioritySet = new Set(bridged.priorityVocabIds || []);
+
+    // Strictly prioritize single words (1 word, no spaces/contractions/clauses)
+    // Within single words, prioritize weak words (mistakeIds) from Stage 1 first!
+    const allSingleWords = validPool.filter(isPureSingleWordItem);
+    const mistakeSingleWords = shuffle(
+      allSingleWords.filter((w) => w.id && mistakePrioritySet.has(w.id))
+    );
+    const practicedSingleWords = shuffle(
+      allSingleWords.filter(
+        (w) => w.id && !mistakePrioritySet.has(w.id) && practicedPrioritySet.has(w.id)
+      )
+    );
+    const remainingSingleWords = shuffle(
+      allSingleWords.filter(
+        (w) => !w.id || (!mistakePrioritySet.has(w.id) && !practicedPrioritySet.has(w.id))
+      )
+    );
+
+    const twoWordFallbackCandidates = shuffle(
+      validPool.filter(
+        (w) =>
+          !isPureSingleWordItem(w) &&
+          w.word.trim().split(/\s+/).length <= 2 &&
+          !w.word.includes("'") &&
+          !w.word.includes("’")
+      )
+    );
+    const orderedCandidates = [
+      ...mistakeSingleWords,
+      ...practicedSingleWords,
+      ...remainingSingleWords,
+      ...twoWordFallbackCandidates,
+    ];
+
     const picked: any[] = [];
     const seenMeaningRoots = new Set<string>();
+    const seenExactMeanings = new Set<string>();
 
     const getMeaningRoots = (text: string) => {
       return text
@@ -107,23 +187,31 @@ export function WordLinkGame({
         .filter((w) => w.length >= 3);
     };
 
-    for (const w of candidates) {
-      const cleanVn = cleanMeaning(w.definitionVn);
-      const roots = getMeaningRoots(cleanVn);
+    for (const w of orderedCandidates) {
+      const cleanVn = extractConciseMeaning(w.definitionVn);
+      const lowerVn = cleanVn.toLowerCase();
+      if (seenExactMeanings.has(lowerVn)) continue;
 
+      const roots = getMeaningRoots(cleanVn);
       const hasRootOverlap = roots.some((r) => seenMeaningRoots.has(r));
       if (!hasRootOverlap || roots.length === 0) {
         roots.forEach((r) => seenMeaningRoots.add(r));
+        seenExactMeanings.add(lowerVn);
         picked.push(w);
       }
 
       if (picked.length >= pairCount) break;
     }
 
-    // Fallback: fill remaining if strict filter had fewer than pairCount
+    // Fallback: fill remaining from orderedCandidates if strict root filter had fewer than pairCount
     if (picked.length < pairCount) {
-      for (const w of candidates) {
-        if (!picked.some((p) => p.id === w.id || p.word.toLowerCase() === w.word.toLowerCase())) {
+      for (const w of orderedCandidates) {
+        const cleanVn = extractConciseMeaning(w.definitionVn).toLowerCase();
+        if (
+          !seenExactMeanings.has(cleanVn) &&
+          !picked.some((p) => p.id === w.id || p.word.toLowerCase() === w.word.toLowerCase())
+        ) {
+          seenExactMeanings.add(cleanVn);
           picked.push(w);
           if (picked.length >= pairCount) break;
         }
@@ -131,9 +219,10 @@ export function WordLinkGame({
     }
 
     const next: LinkItem[] = picked.map((w, i) => {
-      const cleanVn = cleanMeaning(w.definitionVn) || w.definitionVn;
+      const cleanVn = extractConciseMeaning(w.definitionVn) || w.definitionVn;
       return {
         pairId: `p${i}`,
+        vocabId: w.id,
         word: w.word,
         meaning: cleanVn,
         phonetic: w.phonetic,
@@ -148,11 +237,26 @@ export function WordLinkGame({
         },
       };
     });
+
+    // Save the selected words into the Roadmap Vocab Bridge immediately so Stage 3 (Sentence Builder)
+    // is guaranteed to build sentences using these exact words while preserving Stage 1 mistakes!
+    saveStageMatchedVocab({
+      themeId,
+      unitNumber,
+      part: currentPart || 1,
+      matchedIds: next.map((n) => n.vocabId || "").filter(Boolean),
+      matchedWords: next.map((n) => n.word),
+      mistakeIds: [],
+      mergeExistingMistakes: true,
+    });
+
     setItems(next);
     setLeftOrder(shuffle(next.map((n) => n.pairId)));
     setRightOrder(shuffle(next.map((n) => n.pairId)));
     setSelectedLeft(null);
+    setSelectedRight(null);
     setLinked([]);
+    setJustMatchedId(null);
     setWrongPair(null);
     setMistakes(0);
     setMistakeIds(new Set());
@@ -164,7 +268,7 @@ export function WordLinkGame({
     setFinalScore(0);
     setRewards({ xp: 0, coins: 0 });
     startRef.current = Date.now();
-  }, [pool, pairCount]);
+  }, [pool, pairCount, themeId, unitNumber, currentPart]);
 
   useEffect(() => {
     initGame();
@@ -173,12 +277,36 @@ export function WordLinkGame({
   const finish = useCallback(
     (mistakeCount: number) => {
       const durationSeconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
-      const base = pairCount * 10;
+      const base = pairCount * 12;
       const score = Math.max(20, base - mistakeCount * 4 + Math.max(0, Math.round(40 - durationSeconds / 2)));
       setFinalScore(score);
+      setRewards({ xp: 30, coins: 15 });
       setGameOver(true);
       triggerHaptic("victory");
       gameAudio.playVictoryFanfare();
+
+      // Update Roadmap Vocab Bridge with mistake vocab IDs prioritized first for Stage 3 Sentence Builder
+      const mistakeVocabIds: string[] = [];
+      items.forEach((item) => {
+        const isMistake = mistakeIds.has(item.pairId);
+        if (isMistake && item.vocabId) {
+          mistakeVocabIds.push(item.vocabId);
+        }
+        if (item.review.id) {
+          useVocabularyStore.getState().practiceWord(item.review.id, !isMistake);
+        }
+      });
+
+      saveStageMatchedVocab({
+        themeId,
+        unitNumber,
+        part: currentPart || 1,
+        matchedIds: items.map((n) => n.vocabId || "").filter(Boolean),
+        matchedWords: items.map((n) => n.word),
+        mistakeIds: mistakeVocabIds,
+        mergeExistingMistakes: true,
+      });
+
       recordGameSession({
         gameType: "wordlink",
         score,
@@ -205,59 +333,92 @@ export function WordLinkGame({
         totalParts: totalParts || 2,
       });
     },
-    [pairCount, addToast, themeId, unitNumber, currentPart, totalParts]
+    [pairCount, addToast, themeId, unitNumber, currentPart, totalParts, items, mistakeIds]
   );
 
-  const pickLeft = (pairId: string) => {
-    if (linked.includes(pairId) || wrongPair) return;
-    triggerHaptic("tap");
-    gameAudio.playFlipSound();
-    const item = items.find((i) => i.pairId === pairId);
-    if (item) safeSpeakText(item.word, { lang: "en-US", rate: 0.9 });
-    setSelectedLeft(pairId === selectedLeft ? null : pairId);
-  };
-
-  const pickRight = (pairId: string) => {
-    if (!selectedLeft || linked.includes(pairId) || wrongPair) return;
-    if (selectedLeft === pairId) {
-      triggerHaptic("success");
-      gameAudio.playCorrectDing();
-      setCombo((c) => {
-        const next = c + 1;
-        setMaxCombo((m) => Math.max(m, next));
-        if (next === 3) {
-          setComboAlert("X3");
-          gameAudio.playComboStreak(3);
-          triggerHaptic("victory");
-        } else if (next === 5) {
-          setComboAlert("X5");
-          gameAudio.playComboStreak(5);
-          triggerHaptic("victory");
-        }
-        return next;
-      });
-      const nextLinked = [...linked, pairId];
-      setLinked(nextLinked);
-      setSelectedLeft(null);
-      if (nextLinked.length >= items.length) {
-        setTimeout(() => {
-          finish(mistakes);
-        }, 1200);
-      }
-    } else {
-      triggerHaptic("warning");
-      gameAudio.playWrongBuzzer();
-      setCombo(0);
-      setComboAlert(null);
-      setMistakes((m) => m + 1);
-      setMistakeIds((prev) => new Set(prev).add(selectedLeft));
-      setWrongPair({ left: selectedLeft, right: pairId });
-      setTimeout(() => {
-        setWrongPair(null);
+  const evaluatePair = useCallback(
+    (leftId: string, rightId: string) => {
+      if (leftId === rightId) {
+        triggerHaptic("success");
+        gameAudio.playCorrectDing();
+        setCombo((c) => {
+          const next = c + 1;
+          setMaxCombo((m) => Math.max(m, next));
+          if (next === 3) {
+            setComboAlert("X3");
+            gameAudio.playComboStreak(3);
+            triggerHaptic("victory");
+          } else if (next === 4) {
+            setComboAlert("X4");
+            gameAudio.playComboStreak(5);
+            triggerHaptic("victory");
+          }
+          return next;
+        });
+        const nextLinked = [...linked, leftId];
+        setLinked(nextLinked);
+        setJustMatchedId(leftId);
         setSelectedLeft(null);
-      }, 650);
-    }
-  };
+        setSelectedRight(null);
+
+        setTimeout(() => {
+          setJustMatchedId((curr) => (curr === leftId ? null : curr));
+        }, 360);
+
+        if (nextLinked.length >= items.length) {
+          setTimeout(() => {
+            finish(mistakes);
+          }, 950);
+        }
+      } else {
+        triggerHaptic("warning");
+        gameAudio.playWrongBuzzer();
+        setCombo(0);
+        setComboAlert(null);
+        setMistakes((m) => m + 1);
+        setMistakeIds((prev) => new Set(prev).add(leftId));
+        setWrongPair({ left: leftId, right: rightId });
+        setTimeout(() => {
+          setWrongPair(null);
+          setSelectedLeft(null);
+          setSelectedRight(null);
+        }, 550);
+      }
+    },
+    [linked, items.length, finish, mistakes]
+  );
+
+  const pickLeft = useCallback(
+    (pairId: string) => {
+      if (linked.includes(pairId) || wrongPair) return;
+      triggerHaptic("tap");
+      gameAudio.playFlipSound();
+      const item = items.find((i) => i.pairId === pairId);
+      if (item) safeSpeakText(item.word, { lang: "en-US", rate: 0.9 });
+
+      if (selectedRight) {
+        evaluatePair(pairId, selectedRight);
+      } else {
+        setSelectedLeft((prev) => (prev === pairId ? null : pairId));
+      }
+    },
+    [linked, wrongPair, items, selectedRight, evaluatePair]
+  );
+
+  const pickRight = useCallback(
+    (pairId: string) => {
+      if (linked.includes(pairId) || wrongPair) return;
+      triggerHaptic("tap");
+      gameAudio.playFlipSound();
+
+      if (selectedLeft) {
+        evaluatePair(selectedLeft, pairId);
+      } else {
+        setSelectedRight((prev) => (prev === pairId ? null : pairId));
+      }
+    },
+    [linked, wrongPair, selectedLeft, evaluatePair]
+  );
 
   const toggleAudio = () => setIsMuted(gameAudio.toggleMute());
 
@@ -276,8 +437,14 @@ export function WordLinkGame({
         return `Chọn nghĩa tiếng Việt của "${it.word}"`;
       }
     }
+    if (selectedRight) {
+      const it = items.find((i) => i.pairId === selectedRight);
+      if (it?.meaning) {
+        return `Chọn từ tiếng Anh cho "${it.meaning}"`;
+      }
+    }
     return "Nối nhanh các cặp từ nhé!";
-  }, [wrongPair, selectedLeft, items]);
+  }, [wrongPair, selectedLeft, selectedRight, items]);
 
   const speechWords = useMemo(() => speechText.split(/\s+/), [speechText]);
 
@@ -302,41 +469,56 @@ export function WordLinkGame({
       } else if (e.key === "s" || e.key === "S") {
         e.preventDefault();
         speakCurrent(0.65);
+      } else if (e.key >= "1" && e.key <= "4") {
+        const idx = parseInt(e.key, 10) - 1;
+        if (leftOrder[idx]) {
+          e.preventDefault();
+          pickLeft(leftOrder[idx]);
+        }
+      } else if (e.key >= "5" && e.key <= "8") {
+        const idx = parseInt(e.key, 10) - 5;
+        if (rightOrder[idx]) {
+          e.preventDefault();
+          pickRight(rightOrder[idx]);
+        }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [speakCurrent]);
+  }, [speakCurrent, leftOrder, rightOrder, pickLeft, pickRight]);
 
-  const tileClass = (state: "idle" | "selected" | "linked" | "wrong") => {
-    const heightPad = "min-h-[52px] sm:min-h-[58px] px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl";
+  const tileClass = (state: "idle" | "selected" | "matched" | "linked" | "wrong") => {
+    const base =
+      "group relative w-full h-14 sm:h-[60px] px-3.5 sm:px-5 rounded-2xl border-2 text-center flex items-center justify-center transition-all duration-150 select-none ";
 
-    const base = `group w-full ${heightPad} border-2 text-left flex items-center justify-between gap-2.5 transition-all select-none `;
     switch (state) {
+      case "matched":
+        return (
+          base +
+          "border-b-4 border-emerald-500 dark:border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 scale-[1.02] shadow-sm cursor-default"
+        );
       case "linked":
         return (
           base +
-          "border-b-2 border-emerald-300 dark:border-emerald-800 bg-emerald-50/70 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300 opacity-60 cursor-default scale-[0.98]"
+          "border-b-2 border-slate-200/70 dark:border-slate-800/80 bg-slate-100/70 dark:bg-slate-900/40 text-slate-300 dark:text-slate-600 cursor-default pointer-events-none"
         );
       case "selected":
         return (
           base +
-          "border-b-[4px] sm:border-b-[5px] border-[#0059bb] bg-blue-50/90 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-300 -translate-y-1 shadow-md ring-2 ring-[#0059bb]/20 cursor-pointer"
+          "border-b-4 border-[#0059bb] dark:border-sky-400 bg-blue-50/90 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-300 -translate-y-0.5 shadow-sm ring-2 ring-[#0059bb]/15 cursor-pointer"
         );
       case "wrong":
         return (
           base +
-          "border-b-[4px] sm:border-b-[5px] border-rose-400 dark:border-rose-700 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 animate-pulse shadow-xs cursor-default"
+          "border-b-4 border-rose-500 dark:border-rose-600 bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-300 animate-shake cursor-default"
         );
       default:
         return (
           base +
-          "border-b-[4px] sm:border-b-[5px] border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 shadow-2xs hover:border-slate-300 hover:bg-slate-50/80 active:translate-y-[2px] active:border-b-2 cursor-pointer"
+          "border-b-4 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80 hover:border-slate-300 dark:hover:border-slate-600 active:translate-y-[2px] active:border-b-2 cursor-pointer"
         );
     }
   };
-
-  const listGap = "gap-2 sm:gap-2.5";
 
   if (gameOver) {
     const total = pairCount + mistakes;
@@ -505,125 +687,106 @@ export function WordLinkGame({
         </div>
       </div>
 
-      {/* 3. Two columns Match Grid */}
-      <div className="flex-1 min-h-0 flex flex-col justify-center">
-        <div className="grid grid-cols-2 gap-x-6 sm:gap-x-10 md:gap-x-12 items-start">
-          {/* Left Column: English */}
-          <div className={`flex flex-col ${listGap}`}>
-            <div className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-slate-400 px-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0059bb]" />
-              <span>Tiếng Anh</span>
-            </div>
-            {leftOrder.map((id) => {
-              const it = byId(id);
-              if (!it) return null;
-              const isSelected = selectedLeft === id;
-              const isLinked = linked.includes(id);
-              const isWrong = wrongPair?.left === id;
-              const state = isLinked
-                ? "linked"
-                : isWrong
-                ? "wrong"
-                : isSelected
-                ? "selected"
-                : "idle";
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  data-pair-id={id}
-                  onClick={() => pickLeft(id)}
-                  className={tileClass(state)}
-                >
-                  <span
-                    className={`flex-1 min-w-0 text-base sm:text-lg font-black font-display tracking-tight truncate transition-colors ${
-                      isSelected
-                        ? "text-[#0059bb] dark:text-sky-300"
-                        : isWrong
-                        ? "text-rose-600 dark:text-rose-300"
-                        : isLinked
-                        ? "text-emerald-700 dark:text-emerald-300"
-                        : "text-slate-800 dark:text-slate-100 group-hover:text-[#0059bb]"
-                    }`}
-                  >
-                    {it.word}
-                  </span>
-                  {isLinked && (
-                    <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+      {/* 3. Symmetric Two-Column Tactile Match Grid (4 Pairs = 8 Pure Word Tiles) */}
+      <div className="flex-1 min-h-0 flex flex-col justify-center py-1">
+        <div className="w-full max-w-2xl mx-auto grid grid-cols-2 gap-x-3.5 sm:gap-x-5 gap-y-3 sm:gap-y-3.5 items-stretch">
+          {leftOrder.map((leftId, rowIdx) => {
+            const rightId = rightOrder[rowIdx];
+            const leftItem = byId(leftId);
+            const rightItem = rightId ? byId(rightId) : undefined;
 
-          {/* Right Column: Tiếng Việt */}
-          <div className={`flex flex-col ${listGap}`}>
-            <div className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-slate-400 px-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              <span>Tiếng Việt</span>
-            </div>
-            {rightOrder.map((id) => {
-              const it = byId(id);
-              if (!it) return null;
-              const isLinked = linked.includes(id);
-              const isWrong = wrongPair?.right === id;
-              const state = isLinked ? "linked" : isWrong ? "wrong" : "idle";
-              const cleanVn = it.meaning;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  data-pair-id={id}
-                  onClick={() => pickRight(id)}
-                  disabled={!selectedLeft && state === "idle"}
-                  className={`${tileClass(state)} ${!selectedLeft && state === "idle" ? "opacity-90" : ""}`}
-                >
-                  <span
-                    className={`flex-1 min-w-0 text-sm sm:text-base font-bold sm:font-extrabold line-clamp-2 leading-snug transition-colors ${
-                      isWrong
-                        ? "text-rose-600 dark:text-rose-300"
-                        : isLinked
-                        ? "text-emerald-700 dark:text-emerald-300"
-                        : "text-slate-700 dark:text-slate-100"
-                    }`}
+            const leftIsMatched = justMatchedId === leftId;
+            const leftIsLinked = linked.includes(leftId);
+            const leftIsWrong = wrongPair?.left === leftId;
+            const leftIsSelected = selectedLeft === leftId;
+            const leftState = leftIsMatched
+              ? "matched"
+              : leftIsLinked
+              ? "linked"
+              : leftIsWrong
+              ? "wrong"
+              : leftIsSelected
+              ? "selected"
+              : "idle";
+
+            const rightIsMatched = rightId ? justMatchedId === rightId : false;
+            const rightIsLinked = rightId ? linked.includes(rightId) : false;
+            const rightIsWrong = rightId ? wrongPair?.right === rightId : false;
+            const rightIsSelected = rightId ? selectedRight === rightId : false;
+            const rightState = rightIsMatched
+              ? "matched"
+              : rightIsLinked
+              ? "linked"
+              : rightIsWrong
+              ? "wrong"
+              : rightIsSelected
+              ? "selected"
+              : "idle";
+
+            return (
+              <React.Fragment key={`${leftId}-${rightId || rowIdx}`}>
+                {/* Left Tile: English Single Word */}
+                {leftItem ? (
+                  <button
+                    type="button"
+                    data-pair-id={leftId}
+                    disabled={leftIsLinked && !leftIsMatched}
+                    onClick={() => pickLeft(leftId)}
+                    className={tileClass(leftState)}
                   >
-                    {cleanVn}
-                  </span>
-                  {isLinked && (
-                    <div className="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-2xs">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+                    <span className="text-base sm:text-[17px] font-bold sm:font-extrabold font-display tracking-tight leading-snug line-clamp-2">
+                      {leftItem.word}
+                    </span>
+                  </button>
+                ) : (
+                  <div />
+                )}
+
+                {/* Right Tile: Concise Vietnamese Word */}
+                {rightItem && rightId ? (
+                  <button
+                    type="button"
+                    data-pair-id={rightId}
+                    disabled={rightIsLinked && !rightIsMatched}
+                    onClick={() => pickRight(rightId)}
+                    className={tileClass(rightState)}
+                  >
+                    <span className="text-base sm:text-[17px] font-bold sm:font-extrabold font-display tracking-tight leading-snug line-clamp-2">
+                      {rightItem.meaning}
+                    </span>
+                  </button>
+                ) : (
+                  <div />
+                )}
+              </React.Fragment>
+            );
+          })}
         </div>
       </div>
 
-      {/* 4. Bottom footer */}
-      <div className="shrink-0 flex items-center justify-between pt-2 pb-1 text-xs font-semibold text-slate-400 border-t border-slate-100 dark:border-slate-800">
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-xs" />
-          <span>Đã ghép đúng:</span>
-          <span className="font-black text-emerald-600 dark:text-emerald-400 tabular-nums">
-            {linked.length} / {items.length} cặp
-          </span>
-        </div>
+      {/* 4. Bottom Status Footer (Aligned with max-w-2xl Match Grid) */}
+      <div className="shrink-0 w-full border-t border-slate-200/80 dark:border-slate-800 pt-2.5 pb-1">
+        <div className="w-full max-w-2xl mx-auto flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-2xs" />
+            <span>Đã ghép đúng:</span>
+            <span className="font-extrabold text-emerald-600 dark:text-emerald-400 tabular-nums">
+              {linked.length} / {items.length} cặp
+            </span>
+          </div>
 
-        <div className="flex items-center gap-1.5 pr-14 sm:pr-0">
-          <span>Nối sai:</span>
-          <span
-            className={`font-black tabular-nums px-2.5 py-0.5 rounded-full border transition-colors ${
-              mistakes > 0
-                ? "bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/60 shadow-2xs"
-                : "bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 border-slate-200/60 dark:border-slate-700/60"
-            }`}
-          >
-            {mistakes}
-          </span>
+          <div className="flex items-center gap-1.5 pr-12 sm:pr-0">
+            <span>Nối sai:</span>
+            <span
+              className={`font-extrabold tabular-nums px-2.5 py-0.5 rounded-full border transition-colors ${
+                mistakes > 0
+                  ? "bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/60"
+                  : "bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 border-slate-200/60 dark:border-slate-700/60"
+              }`}
+            >
+              {mistakes}
+            </span>
+          </div>
         </div>
       </div>
 

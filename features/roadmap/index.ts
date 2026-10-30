@@ -27,3 +27,4 @@ export * from "./hooks/useRoadmapManager";
 
 // Utils
 export * from "./utils/roadmapSessionSync";
+export * from "./utils/roadmapVocabBridge";

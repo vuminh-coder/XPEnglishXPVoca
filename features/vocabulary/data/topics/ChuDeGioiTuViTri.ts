@@ -157,23 +157,23 @@ export const VOCABS_GIOI_TU_VI_TRI: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_prepos_07",
-    "word": "in front of",
-    "phonetic": "/ɪn frʌnt əv/",
-    "definition": "Close to the front part of something.",
-    "definitionVn": "ở phía trước, đằng trước",
-    "pos": "phrase",
+    "word": "ahead",
+    "phonetic": "/əˈhed/",
+    "definition": "Further forward in space or time; in front.",
+    "definitionVn": "ở phía trước, dẫn trước",
+    "pos": "adverb",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_prepositions_positions",
     "themeNameVn": "Giới từ & Vị trí",
     "themeNameEn": "Prepositions & Space",
     "examples": [
-      "There is a big mango tree in front of our gate.",
-      "Stand in front of the camera and smile."
+      "Walk straight ahead for two hundred meters.",
+      "A bright future lies ahead of us."
     ],
     "exampleTranslations": [
-      "Có một cây xoài lớn ở phía trước cổng nhà chúng tôi.",
-      "Hãy đứng trước máy ảnh và mỉm cười nhé."
+      "Hãy đi thẳng về phía trước hai trăm mét nhé.",
+      "Một tương lai tươi sáng đang ở phía trước chúng ta."
     ],
     "synonyms": [],
     "antonyms": []
@@ -184,7 +184,7 @@ export const VOCABS_GIOI_TU_VI_TRI: BasicVocabularyItem[] = [
     "phonetic": "/nekst tuː/",
     "definition": "In or into a position immediately adjacent to.",
     "definitionVn": "ở bên cạnh, kế bên",
-    "pos": "phrase",
+    "pos": "preposition",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_prepositions_positions",

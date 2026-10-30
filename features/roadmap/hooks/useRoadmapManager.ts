@@ -13,9 +13,12 @@ import {
 } from "../types";
 import { generateGoalSpecificRoadmap } from "../data/roadmapGenerators";
 import { CURATED_ROADMAP_STEPS } from "../data/curatedRoadmapPathway";
-
-const STORAGE_KEY_COMPLETED_STEPS = "xp_ziczac_completed_steps";
-const STORAGE_KEY_STEP_SESSIONS = "xp_ziczac_step_sessions";
+import {
+  STORAGE_KEY_COMPLETED_STEPS,
+  STORAGE_KEY_STEP_SESSIONS,
+  getScopedCompletedStepsKey,
+  getScopedStepSessionsKey,
+} from "../utils/roadmapSessionSync";
 
 export function useRoadmapManager() {
   const { plan, isLoading, generatePlan, loadPlan } = useStudyPlanStore();
@@ -32,11 +35,15 @@ export function useRoadmapManager() {
   // 1. Curated Ziczac Roadmap Pathway Management
   const [ziczacSteps] = useState<ZiczacPathStep[]>(CURATED_ROADMAP_STEPS);
 
-  // Completed steps IDs set (loaded from localStorage with initial default of step 1 & 2 completed for demonstration)
+  // Completed steps IDs set (loaded from user-scoped or global localStorage, starting empty for new users)
   const [completedStepIds, setCompletedStepIds] = useState<Set<string>>(() => {
     if (typeof window !== "undefined") {
       try {
-        const saved = localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS);
+        const userId = useAuthStore.getState().user?.id;
+        const scopedKey = getScopedCompletedStepsKey(userId);
+        const saved =
+          localStorage.getItem(scopedKey) ||
+          localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS);
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed)) {
@@ -47,14 +54,18 @@ export function useRoadmapManager() {
         // Fallback below
       }
     }
-    return new Set(["step-1", "step-2"]);
+    return new Set();
   });
 
-  // Multi-session progress state per step (e.g. 1/3, 2/3, 3/3 sessions)
+  // Multi-session progress state per step (loaded from user-scoped or global localStorage)
   const [stepSessions, setStepSessions] = useState<Record<string, number>>(() => {
     if (typeof window !== "undefined") {
       try {
-        const saved = localStorage.getItem(STORAGE_KEY_STEP_SESSIONS);
+        const userId = useAuthStore.getState().user?.id;
+        const scopedKey = getScopedStepSessionsKey(userId);
+        const saved =
+          localStorage.getItem(scopedKey) ||
+          localStorage.getItem(STORAGE_KEY_STEP_SESSIONS);
         if (saved) {
           const parsed = JSON.parse(saved);
           if (parsed && typeof parsed === "object") {
@@ -65,7 +76,7 @@ export function useRoadmapManager() {
         // Fallback below
       }
     }
-    return { "step-1": 3, "step-2": 3, "step-3": 1 };
+    return {};
   });
 
   // Selected Step for Inspector Companion
@@ -76,34 +87,48 @@ export function useRoadmapManager() {
     );
   });
 
-  // Listen for storage or external game completion events to update roadmap session states reactively
+  // Listen for storage, account changes, or external game completion events to update roadmap session states reactively
   useEffect(() => {
     const reloadSessionsFromStorage = () => {
       try {
-        const savedSessions = localStorage.getItem(STORAGE_KEY_STEP_SESSIONS);
+        const currentUserId = useAuthStore.getState().user?.id;
+        const scopedSessionsKey = getScopedStepSessionsKey(currentUserId);
+        const scopedCompletedKey = getScopedCompletedStepsKey(currentUserId);
+
+        const savedSessions =
+          localStorage.getItem(scopedSessionsKey) ||
+          localStorage.getItem(STORAGE_KEY_STEP_SESSIONS);
         if (savedSessions) {
           const parsed = JSON.parse(savedSessions);
           if (parsed && typeof parsed === "object") {
             setStepSessions(parsed);
           }
+        } else {
+          setStepSessions({});
         }
-        const savedCompleted = localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS);
+
+        const savedCompleted =
+          localStorage.getItem(scopedCompletedKey) ||
+          localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS);
         if (savedCompleted) {
           const parsed = JSON.parse(savedCompleted);
           if (Array.isArray(parsed)) {
             setCompletedStepIds(new Set(parsed));
           }
+        } else {
+          setCompletedStepIds(new Set());
         }
       } catch {}
     };
 
+    reloadSessionsFromStorage();
     window.addEventListener("storage", reloadSessionsFromStorage);
     window.addEventListener("roadmap_step_advanced", reloadSessionsFromStorage);
     return () => {
       window.removeEventListener("storage", reloadSessionsFromStorage);
       window.removeEventListener("roadmap_step_advanced", reloadSessionsFromStorage);
     };
-  }, []);
+  }, [user?.id]);
 
   // Toggle Ziczac step completed
   const handleToggleStepCompleted = useCallback(
@@ -112,7 +137,10 @@ export function useRoadmapManager() {
         const next = new Set(prev);
         const step = ziczacSteps.find((s) => s.id === stepId);
         const willBeCompleted = !next.has(stepId);
-        const total = step?.totalSessions || (step?.isCheckpoint ? 1 : 3);
+        const total = step?.totalSessions || (step?.isCheckpoint ? 1 : 2);
+        const currentUserId = useAuthStore.getState().user?.id;
+        const scopedSessionsKey = getScopedStepSessionsKey(currentUserId);
+        const scopedCompletedKey = getScopedCompletedStepsKey(currentUserId);
 
         if (willBeCompleted) {
           next.add(stepId);
@@ -121,7 +149,11 @@ export function useRoadmapManager() {
             const updated = { ...prevSessions, [stepId]: total };
             if (typeof window !== "undefined") {
               try {
-                localStorage.setItem(STORAGE_KEY_STEP_SESSIONS, JSON.stringify(updated));
+                const raw = JSON.stringify(updated);
+                localStorage.setItem(STORAGE_KEY_STEP_SESSIONS, raw);
+                if (scopedSessionsKey !== STORAGE_KEY_STEP_SESSIONS) {
+                  localStorage.setItem(scopedSessionsKey, raw);
+                }
               } catch {}
             }
             return updated;
@@ -141,7 +173,11 @@ export function useRoadmapManager() {
             const updated = { ...prevSessions, [stepId]: 0 };
             if (typeof window !== "undefined") {
               try {
-                localStorage.setItem(STORAGE_KEY_STEP_SESSIONS, JSON.stringify(updated));
+                const raw = JSON.stringify(updated);
+                localStorage.setItem(STORAGE_KEY_STEP_SESSIONS, raw);
+                if (scopedSessionsKey !== STORAGE_KEY_STEP_SESSIONS) {
+                  localStorage.setItem(scopedSessionsKey, raw);
+                }
               } catch {}
             }
             return updated;
@@ -156,10 +192,11 @@ export function useRoadmapManager() {
 
         if (typeof window !== "undefined") {
           try {
-            localStorage.setItem(
-              STORAGE_KEY_COMPLETED_STEPS,
-              JSON.stringify(Array.from(next))
-            );
+            const rawCompleted = JSON.stringify(Array.from(next));
+            localStorage.setItem(STORAGE_KEY_COMPLETED_STEPS, rawCompleted);
+            if (scopedCompletedKey !== STORAGE_KEY_COMPLETED_STEPS) {
+              localStorage.setItem(scopedCompletedKey, rawCompleted);
+            }
           } catch {
             // Storage quota handled
           }

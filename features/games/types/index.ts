@@ -83,9 +83,11 @@ export interface SpeedBlitzQuestion {
 
 export interface SentenceScramblePackage {
   id?: string;
+  vocabId?: string;
   originalSentence: string;
   translationVn: string;
   tokens: string[];
+  distractors?: string[];
   hintWord?: string;
 }
 

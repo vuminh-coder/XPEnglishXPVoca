@@ -4,7 +4,6 @@ import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs/StudySuit
 import { VocabSuiteNavTabs } from "@/shared/components/layout/nav-tabs/VocabSuiteNavTabs";
 import { GameSuiteNavTabs } from "@/shared/components/layout/nav-tabs/GameSuiteNavTabs";
 import { AiSuiteNavTabs } from "@/shared/components/layout/nav-tabs/AiSuiteNavTabs";
-import { IpaSuiteNavTabs } from "@/shared/components/layout/nav-tabs/IpaSuiteNavTabs";
 import { ProfileSuiteNavTabs } from "@/shared/components/layout/nav-tabs/ProfileSuiteNavTabs";
 import { ShopSuiteNavTabs } from "@/shared/components/layout/nav-tabs/ShopSuiteNavTabs";
 import { VideoSuiteNavTabs } from "@/shared/components/layout/nav-tabs/VideoSuiteNavTabs";
@@ -56,14 +55,6 @@ describe("AppTopHeader Maximum 4 Tabs Architectural Rule (<= 4 tabs per header)"
     const children = el.props.children;
     expect(React.Children.count(children)).toBeLessThanOrEqual(4);
     expect(React.Children.count(children)).toBe(4);
-  });
-
-  it("verifies IpaSuiteNavTabs renders <= 4 tabs (3 tabs)", () => {
-    const el = IpaSuiteNavTabs({});
-    expect(React.isValidElement(el)).toBe(true);
-    const children = el.props.children;
-    expect(React.Children.count(children)).toBeLessThanOrEqual(4);
-    expect(React.Children.count(children)).toBe(3);
   });
 
   it("verifies ProfileSuiteNavTabs renders <= 4 tabs (3 tabs)", () => {

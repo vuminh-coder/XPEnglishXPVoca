@@ -3,7 +3,7 @@ import { BasicTheme, BasicVocabularyItem, VocabularyTopicPackage } from "../type
 /**
  * Chủ đề 1: Chào hỏi & Giao tiếp (Greetings & Polite Words)
  * Mã chủ đề: t_basic_greetings
- * Tổng số từ vựng: 30 từ
+ * Tổng số từ vựng: 30 từ đơn chuẩn mực (Các mẫu câu giao tiếp ghép từ các từ này nằm tại Chặng 3 - Sentence Builder)
  */
 export const THEME_CHAO_HOI_GIAO_TIEP: BasicTheme = {
   "id": "t_basic_greetings",
@@ -12,7 +12,7 @@ export const THEME_CHAO_HOI_GIAO_TIEP: BasicTheme = {
   "icon": "👋",
   "difficulty": 1,
   "color": "#0059bb",
-  "description": "Các câu chào, tạm biệt và lời nói lịch sự thông dụng nhất hàng ngày.",
+  "description": "Các từ vựng chào hỏi, tạm biệt và giao tiếp lịch sự thông dụng nhất hàng ngày.",
   "totalVocabs": 30
 };
 
@@ -37,22 +37,15 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Xin chào, rất vui được gặp bạn!",
       "Cô ấy nhấc máy và nói: 'Xin chào?'"
     ],
-    "synonyms": [
-      "hi",
-      "hey",
-      "greetings"
-    ],
-    "antonyms": [
-      "goodbye",
-      "bye"
-    ]
+    "synonyms": ["hi", "hey", "greetings"],
+    "antonyms": ["goodbye", "bye"]
   },
   {
     "id": "bv_greeti_02",
     "word": "hi",
     "phonetic": "/haɪ/",
     "definition": "An informal greeting used when speaking to friends or family.",
-    "definitionVn": "chào, xin chào (thân mật)",
+    "definitionVn": "chào (thân mật)",
     "pos": "interjection",
     "difficulty": 1,
     "frequency": 5,
@@ -67,20 +60,15 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Chào bạn! Hôm nay bạn thế nào?",
       "Chào cả nhà, cảm ơn mọi người đã đến."
     ],
-    "synonyms": [
-      "hello",
-      "hey"
-    ],
-    "antonyms": [
-      "bye"
-    ]
+    "synonyms": ["hello", "hey"],
+    "antonyms": ["bye"]
   },
   {
     "id": "bv_greeti_03",
     "word": "hey",
     "phonetic": "/heɪ/",
     "definition": "A casual greeting to get someone's attention or say hi.",
-    "definitionVn": "này, chào nhé (thân mật)",
+    "definitionVn": "này (gọi thân mật)",
     "pos": "interjection",
     "difficulty": 1,
     "frequency": 5,
@@ -95,19 +83,16 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Này! Hãy nhìn bức tranh này đi!",
       "Chào John, dạo này bạn thế nào?"
     ],
-    "synonyms": [
-      "hi",
-      "hello"
-    ],
+    "synonyms": ["hi", "hello"],
     "antonyms": []
   },
   {
     "id": "bv_greeti_04",
-    "word": "good morning",
-    "phonetic": "/ɡʊd ˈmɔːrnɪŋ/",
-    "definition": "A polite greeting used in the morning before 12:00 PM.",
-    "definitionVn": "chào buổi sáng (trước 12h trưa)",
-    "pos": "phrase",
+    "word": "morning",
+    "phonetic": "/ˈmɔːrnɪŋ/",
+    "definition": "The early part of the day from sunrise until noon.",
+    "definitionVn": "buổi sáng (trước 12h trưa)",
+    "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
@@ -115,26 +100,22 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
       "Good morning, class! Please take your seats.",
-      "Good morning! Did you sleep well?"
+      "I drink a cup of coffee every morning."
     ],
     "exampleTranslations": [
       "Chào buổi sáng cả lớp! Mời các em ngồi vào chỗ.",
-      "Chào buổi sáng! Bạn ngủ ngon không?"
+      "Tôi uống một tách cà phê vào mỗi buổi sáng."
     ],
-    "synonyms": [
-      "morning"
-    ],
-    "antonyms": [
-      "good night"
-    ]
+    "synonyms": ["dawn"],
+    "antonyms": ["evening", "night"]
   },
   {
     "id": "bv_greeti_05",
-    "word": "good afternoon",
-    "phonetic": "/ɡʊd ˌæftərˈnuːn/",
-    "definition": "A polite greeting used from 12:00 PM to 6:00 PM.",
-    "definitionVn": "chào buổi chiều (từ 12h trưa đến 6h tối)",
-    "pos": "phrase",
+    "word": "afternoon",
+    "phonetic": "/ˌæftərˈnuːn/",
+    "definition": "The time from noon or lunchtime until evening.",
+    "definitionVn": "buổi chiều (từ 12h trưa đến 6h tối)",
+    "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
@@ -142,22 +123,22 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
       "Good afternoon, ladies and gentlemen.",
-      "Good afternoon! How can I help you today?"
+      "We have an English class this afternoon."
     ],
     "exampleTranslations": [
       "Chào buổi chiều quý ông và quý bà.",
-      "Chào buổi chiều! Tôi có thể giúp gì cho bạn hôm nay?"
+      "Chúng tôi có một lớp tiếng Anh vào chiều nay."
     ],
     "synonyms": [],
-    "antonyms": []
+    "antonyms": ["morning"]
   },
   {
     "id": "bv_greeti_06",
-    "word": "good evening",
-    "phonetic": "/ɡʊd ˈiːvnɪŋ/",
-    "definition": "A polite greeting used after 6:00 PM.",
-    "definitionVn": "chào buổi tối (sau 6h tối khi gặp mặt)",
-    "pos": "phrase",
+    "word": "evening",
+    "phonetic": "/ˈiːvnɪŋ/",
+    "definition": "The period of time at the end of the day, usually from about 6 p.m. to bedtime.",
+    "definitionVn": "buổi tối (sau 6h chiều)",
+    "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
@@ -165,14 +146,14 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
       "Good evening, welcome to our restaurant.",
-      "Good evening, Mr. Johnson."
+      "What are you doing this evening?"
     ],
     "exampleTranslations": [
       "Chào buổi tối, chào mừng quý khách đến nhà hàng.",
-      "Chào buổi tối, ông Johnson."
+      "Tối nay bạn định làm gì?"
     ],
     "synonyms": [],
-    "antonyms": []
+    "antonyms": ["morning"]
   },
   {
     "id": "bv_greeti_07",
@@ -194,20 +175,15 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Tạm biệt nhé, chúc bạn về nhà an toàn!",
       "Cô ấy vẫy tay và nói lời tạm biệt."
     ],
-    "synonyms": [
-      "bye",
-      "farewell"
-    ],
-    "antonyms": [
-      "hello"
-    ]
+    "synonyms": ["bye", "farewell"],
+    "antonyms": ["hello"]
   },
   {
     "id": "bv_greeti_08",
     "word": "bye",
     "phonetic": "/baɪ/",
     "definition": "A casual way to say goodbye to friends.",
-    "definitionVn": "tạm biệt, chào nhé (ngắn gọn thân mật)",
+    "definitionVn": "chào tạm biệt (ngắn gọn thân mật)",
     "pos": "interjection",
     "difficulty": 1,
     "frequency": 5,
@@ -222,18 +198,16 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Tạm biệt nhé! Hẹn gặp bạn ngày mai ở trường.",
       "Được rồi, tạm biệt bạn lúc này nhé!"
     ],
-    "synonyms": [
-      "goodbye"
-    ],
+    "synonyms": ["goodbye"],
     "antonyms": []
   },
   {
     "id": "bv_greeti_09",
-    "word": "good night",
-    "phonetic": "/ɡʊd naɪt/",
-    "definition": "Said before going to sleep or leaving someone late at night.",
-    "definitionVn": "chúc ngủ ngon (trước khi đi ngủ)",
-    "pos": "phrase",
+    "word": "night",
+    "phonetic": "/naɪt/",
+    "definition": "The time of darkness between evening and morning.",
+    "definitionVn": "ban đêm (trước khi đi ngủ)",
+    "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
@@ -241,23 +215,21 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
       "Good night, sweet dreams!",
-      "Mom kissed me and said, 'Good night.'"
+      "The stars are shining brightly tonight."
     ],
     "exampleTranslations": [
       "Chúc ngủ ngon, mơ giấc mơ đẹp nhé!",
-      "Mẹ hôn tôi và nói: 'Chúc con ngủ ngon.'"
+      "Những ngôi sao đang tỏa sáng rực rỡ đêm nay."
     ],
-    "synonyms": [
-      "sleep well"
-    ],
-    "antonyms": []
+    "synonyms": [],
+    "antonyms": ["day", "morning"]
   },
   {
     "id": "bv_greeti_10",
     "word": "please",
     "phonetic": "/pliːz/",
     "definition": "A polite word used when making a request or asking for something.",
-    "definitionVn": "làm ơn, xin vui lòng (lịch sự khi yêu cầu)",
+    "definitionVn": "làm ơn (lịch sự khi yêu cầu)",
     "pos": "adverb",
     "difficulty": 1,
     "frequency": 5,
@@ -277,11 +249,11 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_greeti_11",
-    "word": "thank you",
-    "phonetic": "/ˈθæŋk juː/",
-    "definition": "Used to express gratitude and appreciation.",
-    "definitionVn": "cảm ơn bạn (trang trọng & phổ biến)",
-    "pos": "phrase",
+    "word": "thank",
+    "phonetic": "/θæŋk/",
+    "definition": "To express gratitude and appreciation to someone.",
+    "definitionVn": "cảm ơn (động từ bày tỏ lòng biết ơn)",
+    "pos": "verb",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
@@ -289,24 +261,21 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
       "Thank you very much for your kind help.",
-      "Here is your coffee. — Thank you!"
+      "I would like to thank my teacher."
     ],
     "exampleTranslations": [
       "Cảm ơn bạn rất nhiều vì sự giúp đỡ tốt bụng.",
-      "Cà phê của bạn đây. — Cảm ơn bạn!"
+      "Tôi muốn cảm ơn giáo viên của mình."
     ],
-    "synonyms": [
-      "thanks",
-      "many thanks"
-    ],
+    "synonyms": ["appreciate"],
     "antonyms": []
   },
   {
     "id": "bv_greeti_12",
     "word": "thanks",
     "phonetic": "/θæŋks/",
-    "definition": "A friendly and casual way to say thank you.",
-    "definitionVn": "cảm ơn nhé (thân mật)",
+    "definition": "A friendly and casual word used to express gratitude.",
+    "definitionVn": "lời cảm ơn (thân mật)",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -321,64 +290,61 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Cảm ơn vì đã cho tôi đi nhờ xe nhé John!",
       "Cảm ơn rất nhiều vì món quà đáng yêu."
     ],
-    "synonyms": [],
+    "synonyms": ["gratitude"],
     "antonyms": []
   },
   {
     "id": "bv_greeti_13",
-    "word": "you're welcome",
-    "phonetic": "/jɔːr ˈwelkəm/",
-    "definition": "A polite reply when someone thanks you.",
-    "definitionVn": "không có chi, không dám (đáp lại lời cảm ơn)",
-    "pos": "phrase",
+    "word": "grateful",
+    "phonetic": "/ˈɡreɪtfl/",
+    "definition": "Feeling or showing an appreciation of kindness; thankful.",
+    "definitionVn": "biết ơn (trân trọng sự giúp đỡ)",
+    "pos": "adj",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
     "themeNameVn": "Chào hỏi & Giao tiếp",
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
-      "Thank you for helping me! — You're welcome.",
-      "You're welcome anytime, my friend."
+      "I am very grateful for your support.",
+      "She gave him a grateful smile."
     ],
     "exampleTranslations": [
-      "Cảm ơn bạn đã giúp tôi! — Không có chi.",
-      "Bất cứ lúc nào bạn cần, bạn luôn được hoan nghênh."
+      "Tôi rất biết ơn sự hỗ trợ của bạn.",
+      "Cô ấy dành cho anh một nụ cười biết ơn."
     ],
-    "synonyms": [
-      "no problem",
-      "my pleasure"
-    ],
-    "antonyms": []
+    "synonyms": ["thankful", "appreciative"],
+    "antonyms": ["ungrateful"]
   },
   {
     "id": "bv_greeti_14",
-    "word": "no problem",
-    "phonetic": "/noʊ ˈprɑːbləm/",
-    "definition": "Used to say that something is easy or you are happy to help.",
-    "definitionVn": "không có vấn đề gì, đừng bận tâm",
-    "pos": "phrase",
+    "word": "glad",
+    "phonetic": "/ɡlæd/",
+    "definition": "Pleased, happy, and willing to help someone.",
+    "definitionVn": "vui lòng (hân hạnh, vui vẻ)",
+    "pos": "adj",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
     "themeNameVn": "Chào hỏi & Giao tiếp",
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
-      "Thanks for holding the door! — No problem at all.",
-      "Can you help me? — Sure, no problem!"
+      "I am glad to meet you today.",
+      "We are always glad to help our friends."
     ],
     "exampleTranslations": [
-      "Cảm ơn vì đã giữ cửa! — Không có vấn đề gì cả.",
-      "Bạn giúp tôi được không? — Chắc chắn rồi, không sao cả!"
+      "Hôm nay tôi rất vui được gặp bạn.",
+      "Chúng tôi luôn sẵn lòng giúp đỡ bạn bè."
     ],
-    "synonyms": [],
-    "antonyms": []
+    "synonyms": ["pleased", "happy"],
+    "antonyms": ["sad"]
   },
   {
     "id": "bv_greeti_15",
     "word": "sorry",
     "phonetic": "/ˈsɑːri/",
     "definition": "Used to apologize for a mistake or show sympathy.",
-    "definitionVn": "xin lỗi, tôi rất tiếc",
+    "definitionVn": "xin lỗi (hối tiếc khi làm phiền)",
     "pos": "adj",
     "difficulty": 1,
     "frequency": 5,
@@ -393,19 +359,16 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Tôi vô cùng xin lỗi vì hôm nay đến muộn.",
       "Xin lỗi, tôi không nghe rõ điều bạn vừa nói."
     ],
-    "synonyms": [
-      "pardon",
-      "apologies"
-    ],
+    "synonyms": ["pardon", "apologetic"],
     "antonyms": []
   },
   {
     "id": "bv_greeti_16",
-    "word": "excuse me",
-    "phonetic": "/ɪkˈskjuːz miː/",
-    "definition": "Used to get someone's attention politely or apologize when passing.",
-    "definitionVn": "xin lỗi cho tôi hỏi / xin nhường đường",
-    "pos": "phrase",
+    "word": "excuse",
+    "phonetic": "/ɪkˈskjuːz/",
+    "definition": "To forgive someone for a minor fault or politely ask for attention.",
+    "definitionVn": "lượng thứ (xin phép lịch sự)",
+    "pos": "verb",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
@@ -413,13 +376,13 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
       "Excuse me, where is the nearest station?",
-      "Excuse me, could you please repeat that?"
+      "Please excuse my late arrival."
     ],
     "exampleTranslations": [
       "Xin lỗi cho tôi hỏi, ga tàu gần nhất ở đâu vậy?",
-      "Xin lỗi, bạn có thể nhắc lại được không?"
+      "Xin hãy lượng thứ cho việc tôi đến muộn."
     ],
-    "synonyms": [],
+    "synonyms": ["forgive", "pardon"],
     "antonyms": []
   },
   {
@@ -427,7 +390,7 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "word": "pardon",
     "phonetic": "/ˈpɑːrdn/",
     "definition": "Used to ask someone to repeat what they have just said.",
-    "definitionVn": "xin thứ lỗi, xin nhắc lại (khi chưa nghe rõ)",
+    "definitionVn": "thứ lỗi (khi chưa nghe rõ)",
     "pos": "interjection",
     "difficulty": 1,
     "frequency": 5,
@@ -442,7 +405,7 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Xin lỗi, bạn có thể nói to hơn một chút được không?",
       "Xin thứ lỗi, chỗ này đã có ai ngồi chưa ạ?"
     ],
-    "synonyms": [],
+    "synonyms": ["excuse"],
     "antonyms": []
   },
   {
@@ -450,7 +413,7 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "word": "welcome",
     "phonetic": "/ˈwelkəm/",
     "definition": "Used to greet someone arriving in a friendly manner.",
-    "definitionVn": "hoan nghênh, chào đón",
+    "definitionVn": "chào đón (hoan nghênh khách đến)",
     "pos": "interjection",
     "difficulty": 1,
     "frequency": 5,
@@ -459,13 +422,13 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
       "Welcome to our home in Hanoi!",
-      "Welcome back, everyone!"
+      "You are always welcome here."
     ],
     "exampleTranslations": [
       "Chào mừng các bạn đến ngôi nhà của chúng tôi tại Hà Nội!",
-      "Chào mừng mọi người đã quay trở lại!"
+      "Bạn luôn được chào đón ở đây."
     ],
-    "synonyms": [],
+    "synonyms": ["greet"],
     "antonyms": []
   },
   {
@@ -473,7 +436,7 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "word": "yes",
     "phonetic": "/jes/",
     "definition": "Used to express agreement, confirmation, or positive answer.",
-    "definitionVn": "vâng, có, đúng, đồng ý",
+    "definitionVn": "vâng (đồng ý, xác nhận)",
     "pos": "adverb",
     "difficulty": 1,
     "frequency": 5,
@@ -488,20 +451,15 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Bạn sẵn sàng chưa? — Vâng, tôi đã sẵn sàng.",
       "Vâng, làm ơn! Nghe tuyệt vời đấy."
     ],
-    "synonyms": [
-      "yeah",
-      "sure"
-    ],
-    "antonyms": [
-      "no"
-    ]
+    "synonyms": ["yeah", "sure"],
+    "antonyms": ["no"]
   },
   {
     "id": "bv_greeti_20",
     "word": "no",
     "phonetic": "/noʊ/",
     "definition": "Used to express refusal, disagreement, or negative answer.",
-    "definitionVn": "không, không phải (từ chối hoặc phủ định)",
+    "definitionVn": "không (từ chối hoặc phủ định)",
     "pos": "adverb",
     "difficulty": 1,
     "frequency": 5,
@@ -516,19 +474,15 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Bạn có muốn thêm trà không? — Không, cảm ơn bạn.",
       "Không, đây không phải túi của tôi."
     ],
-    "synonyms": [
-      "nope"
-    ],
-    "antonyms": [
-      "yes"
-    ]
+    "synonyms": ["nope"],
+    "antonyms": ["yes"]
   },
   {
     "id": "bv_greeti_21",
     "word": "okay",
     "phonetic": "/oʊˈkeɪ/",
     "definition": "Used to express agreement or that everything is fine.",
-    "definitionVn": "đồng ý, được rồi, ổn",
+    "definitionVn": "đồng ý (được rồi, ổn thỏa)",
     "pos": "adverb",
     "difficulty": 1,
     "frequency": 5,
@@ -543,10 +497,7 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Chúng ta gặp nhau lúc 5h chiều nhé? — Được rồi, hẹn gặp bạn!",
       "Bây giờ bạn thấy ổn chưa?"
     ],
-    "synonyms": [
-      "all right",
-      "fine"
-    ],
+    "synonyms": ["fine"],
     "antonyms": []
   },
   {
@@ -554,7 +505,7 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "word": "sure",
     "phonetic": "/ʃʊr/",
     "definition": "Confident; certainly or gladly agreeing.",
-    "definitionVn": "chắc chắn rồi, tất nhiên",
+    "definitionVn": "chắc chắn (tất nhiên rồi)",
     "pos": "adverb",
     "difficulty": 1,
     "frequency": 5,
@@ -569,87 +520,85 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Bạn giúp tôi một tay được không? — Chắc chắn rồi, tất nhiên!",
       "Bạn có chắc chắn về câu trả lời này không?"
     ],
-    "synonyms": [],
-    "antonyms": []
+    "synonyms": ["certainly"],
+    "antonyms": ["unsure"]
   },
   {
     "id": "bv_greeti_23",
-    "word": "how are you",
-    "phonetic": "/haʊ ɑːr juː/",
-    "definition": "A common friendly question to ask about someone's health.",
-    "definitionVn": "bạn có khỏe không? dạo này bạn thế nào?",
-    "pos": "phrase",
+    "word": "greet",
+    "phonetic": "/ɡriːt/",
+    "definition": "To give a polite word or sign of welcome when meeting someone.",
+    "definitionVn": "chào hỏi (đón tiếp lịch sự)",
+    "pos": "verb",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
     "themeNameVn": "Chào hỏi & Giao tiếp",
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
-      "Hello Sarah, how are you? — I am fine, thanks!",
-      "How are you doing these days?"
+      "She always greets her neighbors with a warm smile.",
+      "He stepped forward to greet the guests."
     ],
     "exampleTranslations": [
-      "Chào Sarah, bạn khỏe không? — Tôi khỏe, cảm ơn!",
-      "Dạo này bạn thế nào rồi?"
+      "Cô ấy luôn chào hỏi hàng xóm bằng một nụ cười ấm áp.",
+      "Anh ấy bước tới để chào đón các vị khách."
     ],
-    "synonyms": [],
-    "antonyms": []
+    "synonyms": ["welcome", "salute"],
+    "antonyms": ["ignore"]
   },
   {
     "id": "bv_greeti_24",
-    "word": "nice to meet you",
-    "phonetic": "/naɪs tuː miːt juː/",
-    "definition": "A polite phrase said when meeting someone for the first time.",
-    "definitionVn": "rất vui được gặp bạn (khi gặp gỡ lần đầu)",
-    "pos": "phrase",
+    "word": "meet",
+    "phonetic": "/miːt/",
+    "definition": "To come into the presence or company of someone.",
+    "definitionVn": "gặp gỡ (làm quen với ai đó)",
+    "pos": "verb",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
     "themeNameVn": "Chào hỏi & Giao tiếp",
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
-      "I am David. — Nice to meet you, David!",
-      "It is very nice to meet you in person."
+      "Nice to meet you, David!",
+      "Let us meet at the coffee shop tomorrow."
     ],
     "exampleTranslations": [
-      "Tôi là David. — Rất vui được gặp bạn, David!",
-      "Rất vui được gặp mặt trực tiếp bạn."
+      "Rất vui được gặp bạn, David!",
+      "Hãy gặp nhau ở quán cà phê vào ngày mai nhé."
     ],
-    "synonyms": [
-      "pleased to meet you"
-    ],
-    "antonyms": []
+    "synonyms": ["encounter"],
+    "antonyms": ["leave"]
   },
   {
     "id": "bv_greeti_25",
-    "word": "see you",
-    "phonetic": "/siː juː/",
-    "definition": "A friendly way to say goodbye until the next meeting.",
-    "definitionVn": "hẹn gặp lại bạn (lời chào hẹn gặp lần sau)",
-    "pos": "phrase",
+    "word": "farewell",
+    "phonetic": "/ˌferˈwel/",
+    "definition": "An act of parting or of marking someone's departure.",
+    "definitionVn": "lời từ biệt (chào tạm biệt khi đi xa)",
+    "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
     "themeNameVn": "Chào hỏi & Giao tiếp",
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
-      "I have to go now. See you soon!",
-      "See you later this evening at the party."
+      "They held a farewell party for their teacher.",
+      "He waved a fond farewell to his family."
     ],
     "exampleTranslations": [
-      "Tôi phải đi bây giờ rồi. Hẹn gặp lại bạn sớm!",
-      "Hẹn gặp lại bạn tối nay ở bữa tiệc."
+      "Họ tổ chức một bữa tiệc chia tay cho giáo viên của mình.",
+      "Anh ấy vẫy tay chào từ biệt đầy lưu luyến với gia đình."
     ],
-    "synonyms": [],
-    "antonyms": []
+    "synonyms": ["goodbye"],
+    "antonyms": ["greeting"]
   },
   {
     "id": "bv_greeti_26",
-    "word": "see you later",
-    "phonetic": "/siː juː ˈleɪtər/",
-    "definition": "Said when parting with someone you expect to see again later.",
-    "definitionVn": "hẹn gặp lại bạn sau nhé",
-    "pos": "phrase",
+    "word": "later",
+    "phonetic": "/ˈleɪtər/",
+    "definition": "At a time in the near future; afterwards.",
+    "definitionVn": "sau này (một lát nữa)",
+    "pos": "adverb",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
@@ -657,60 +606,60 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
       "I have a class now, see you later!",
-      "See you later at the coffee shop."
+      "I will call you back later this evening."
     ],
     "exampleTranslations": [
       "Tôi có tiết học bây giờ rồi, hẹn gặp lại bạn sau!",
-      "Hẹn gặp lại bạn sau ở quán cà phê nhé."
+      "Tôi sẽ gọi lại cho bạn muộn hơn vào tối nay."
     ],
-    "synonyms": [],
-    "antonyms": []
+    "synonyms": ["afterwards"],
+    "antonyms": ["earlier", "now"]
   },
   {
     "id": "bv_greeti_27",
-    "word": "have a nice day",
-    "phonetic": "/hæv ə naɪs deɪ/",
-    "definition": "A polite parting phrase wishing someone a pleasant day.",
-    "definitionVn": "chúc bạn một ngày tốt lành!",
-    "pos": "phrase",
+    "word": "polite",
+    "phonetic": "/pəˈlaɪt/",
+    "definition": "Having or showing behavior that is respectful and considerate of other people.",
+    "definitionVn": "lịch sự (lễ phép, nhã nhặn)",
+    "pos": "adj",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
     "themeNameVn": "Chào hỏi & Giao tiếp",
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
-      "Thank you for shopping. Have a nice day!",
-      "Goodbye and have a wonderful day ahead!"
+      "He is always very polite to everyone.",
+      "It is polite to say thank you when someone helps you."
     ],
     "exampleTranslations": [
-      "Cảm ơn quý khách đã mua sắm. Chúc một ngày tốt lành!",
-      "Tạm biệt và chúc bạn một ngày tuyệt vời!"
+      "Anh ấy luôn rất lịch sự với mọi người.",
+      "Nói lời cảm ơn khi ai đó giúp bạn là phép lịch sự."
     ],
-    "synonyms": [],
-    "antonyms": []
+    "synonyms": ["courteous", "respectful"],
+    "antonyms": ["rude", "impolite"]
   },
   {
     "id": "bv_greeti_28",
-    "word": "take care",
-    "phonetic": "/teɪk ker/",
-    "definition": "Used to say goodbye to someone in a caring way.",
-    "definitionVn": "bảo trọng nhé, giữ gìn sức khỏe nhé",
-    "pos": "phrase",
+    "word": "friendly",
+    "phonetic": "/ˈfrendli/",
+    "definition": "Kind, pleasant, and behaving like a friend toward others.",
+    "definitionVn": "thân thiện (cởi mở, hòa đồng)",
+    "pos": "adj",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_greetings",
     "themeNameVn": "Chào hỏi & Giao tiếp",
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
-      "Goodbye, Minh! Take care on your way home.",
-      "Take care and keep in touch."
+      "The people in this town are very friendly.",
+      "She greeted us with a friendly wave."
     ],
     "exampleTranslations": [
-      "Tạm biệt Minh! Đi đường cẩn thận giữ gìn sức khỏe nhé.",
-      "Bảo trọng và giữ liên lạc nhé."
+      "Người dân ở thị trấn này rất thân thiện.",
+      "Cô ấy chào chúng tôi bằng một cái vẫy tay thân thiện."
     ],
-    "synonyms": [],
-    "antonyms": []
+    "synonyms": ["kind", "welcoming"],
+    "antonyms": ["unfriendly", "hostile"]
   },
   {
     "id": "bv_greeti_29",
@@ -732,18 +681,15 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
       "Xin chúc mừng bạn đã vượt qua kỳ thi tiếng Anh!",
       "Chúc mừng bạn có công việc mới nhé!"
     ],
-    "synonyms": [
-      "congrats",
-      "well done"
-    ],
+    "synonyms": ["congrats"],
     "antonyms": []
   },
   {
     "id": "bv_greeti_30",
     "word": "cheers",
     "phonetic": "/tʃɪrz/",
-    "definition": "Used as a toast when drinking or a friendly informal goodbye/thanks.",
-    "definitionVn": "cạn ly! / cảm ơn nhé / tạm biệt nhé",
+    "definition": "Used as a toast when drinking or a friendly informal expression.",
+    "definitionVn": "cạn ly (chúc mừng trên bàn tiệc)",
     "pos": "interjection",
     "difficulty": 1,
     "frequency": 5,
@@ -752,13 +698,13 @@ export const VOCABS_CHAO_HOI_GIAO_TIEP: BasicVocabularyItem[] = [
     "themeNameEn": "Greetings & Polite Words",
     "examples": [
       "Cheers to our friendship and success!",
-      "Cheers mate, see you tomorrow."
+      "They raised their glasses and said cheers."
     ],
     "exampleTranslations": [
       "Cạn ly chúc mừng tình bạn và thành công của chúng ta!",
-      "Cảm ơn bạn nhé, hẹn gặp ngày mai."
+      "Họ nâng ly và hô vang cạn ly."
     ],
-    "synonyms": [],
+    "synonyms": ["toast"],
     "antonyms": []
   }
 ];

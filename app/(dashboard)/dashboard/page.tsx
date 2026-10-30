@@ -59,6 +59,14 @@ import {
   useDashboardStore,
   getInitialDashboardFiltersProbe,
 } from "@/stores/dashboardStore";
+import { CURATED_ROADMAP_STEPS } from "@/features/roadmap/data/curatedRoadmapPathway";
+import {
+  getScopedCompletedStepsKey,
+  getScopedStepSessionsKey,
+  STORAGE_KEY_COMPLETED_STEPS,
+  STORAGE_KEY_STEP_SESSIONS,
+} from "@/features/roadmap/utils/roadmapSessionSync";
+import type { ActiveRoadmapMissionInfo } from "@/features/dashboard/components/DashboardMissionDeck";
 
 export default function DashboardPage() {
   const { user: authUser, awardXp, awardCoins } = useAuthStore();
@@ -465,14 +473,93 @@ export default function DashboardPage() {
   const remainingWords = Math.max(0, 10 - wordsPracticedToday);
   const userTitle = LEVEL_TITLES[user.level] || user.title || "Vocabulary Builder";
 
+  const activeRoadmapMission = useMemo<ActiveRoadmapMissionInfo | null>(() => {
+    void chartDataVersion;
+    const defaultStep = CURATED_ROADMAP_STEPS[0];
+    if (!defaultStep) return null;
+
+    if (!isMounted || typeof window === "undefined") {
+      return {
+        unitNumber: defaultStep.unitNumber,
+        stageInUnit: 1,
+        title: defaultStep.title,
+        description: defaultStep.description,
+        xpReward: defaultStep.xpReward,
+        durationMinutes: defaultStep.durationMinutes,
+        currentPart: 1,
+        totalParts: defaultStep.totalSessions || 1,
+        practiceUrl: defaultStep.practicePath,
+      };
+    }
+
+    let completedSet = new Set<string>();
+    let sessionsMap: Record<string, number> = {};
+    try {
+      const completedKey = getScopedCompletedStepsKey(user?.id);
+      const rawCompleted =
+        localStorage.getItem(completedKey) ||
+        localStorage.getItem(STORAGE_KEY_COMPLETED_STEPS);
+      if (rawCompleted) {
+        const parsed = JSON.parse(rawCompleted);
+        if (Array.isArray(parsed)) completedSet = new Set(parsed);
+      }
+
+      const sessionsKey = getScopedStepSessionsKey(user?.id);
+      const rawSessions =
+        localStorage.getItem(sessionsKey) ||
+        localStorage.getItem(STORAGE_KEY_STEP_SESSIONS);
+      if (rawSessions) {
+        sessionsMap = JSON.parse(rawSessions) || {};
+      }
+    } catch {}
+
+    const activeStep =
+      CURATED_ROADMAP_STEPS.find((s) => !completedSet.has(s.id)) || defaultStep;
+    const totalParts = activeStep.totalSessions || 1;
+    const doneSessions = sessionsMap[activeStep.id] || 0;
+    const currentPart =
+      totalParts > 1 && doneSessions >= 1 ? Math.min(totalParts, doneSessions + 1) : 1;
+
+    const practiceUrl =
+      currentPart > 1
+        ? activeStep.practicePath.replace("part=1", `part=${currentPart}`)
+        : activeStep.practicePath;
+
+    const stageInUnit = ((activeStep.stepNumber - 1) % 6) + 1;
+
+    return {
+      unitNumber: activeStep.unitNumber,
+      stageInUnit,
+      title: activeStep.title,
+      description: activeStep.description,
+      xpReward: activeStep.xpReward,
+      durationMinutes: activeStep.durationMinutes,
+      currentPart,
+      totalParts,
+      practiceUrl,
+    };
+  }, [isMounted, user?.id, chartDataVersion]);
+
+  const effectiveCustomTask = useMemo(() => {
+    if (
+      !currentTask ||
+      currentTask === "Luyện nghe chép Dictation 10 phút & ôn tập từ vựng"
+    ) {
+      return null;
+    }
+    return currentTask;
+  }, [currentTask]);
+
   const studyPlanTargetUrl = useMemo(() => {
-    if (!currentTask) return "/study/practice";
-    const t = currentTask.toLowerCase();
+    if (!effectiveCustomTask) {
+      return activeRoadmapMission?.practiceUrl || "/study/practice";
+    }
+    const t = effectiveCustomTask.toLowerCase();
     if (t.includes("nghe") || t.includes("dictation") || t.includes("listening")) return "/study/dictation";
     if (t.includes("nói") || t.includes("shadowing") || t.includes("speaking") || t.includes("phát âm")) return "/study/shadowing";
     if (t.includes("đề") || t.includes("exam") || t.includes("toeic") || t.includes("ielts")) return "/study/exam-prep";
     return "/study/practice";
-  }, [currentTask]);
+  }, [effectiveCustomTask, activeRoadmapMission]);
 
   const handleClaimChallenge = async (id: string, xp: number, coins: number) => {
     if (claimingChallengeId) return;
@@ -664,7 +751,7 @@ export default function DashboardPage() {
               <span>Luyện Bài Mới</span>
             </Link>
 
-            {/* Khối Điểm danh nằm ngoài */}
+            {/* Khối Điểm danh nằm ngoài (Tonal Secondary theo Rule 18) */}
             {isCheckedInToday ? (
               <div
                 className="h-9 px-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 font-bold text-xs flex items-center gap-1.5 shadow-2xs select-none"
@@ -678,15 +765,18 @@ export default function DashboardPage() {
                 type="button"
                 onClick={handleCheckIn}
                 disabled={isCheckingIn || isLoadingCheckin}
-                className="h-9 px-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-emerald-500/20 active:scale-95 transition-all cursor-pointer disabled:opacity-60 font-display"
-                title="Điểm danh hôm nay"
+                className="h-9 px-3.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900/60 border border-emerald-200/90 dark:border-emerald-800/80 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center gap-1.5 shadow-2xs active:scale-95 transition-all cursor-pointer disabled:opacity-60 font-display"
+                title="Điểm danh hôm nay (+15 XP)"
               >
                 {isCheckingIn ? (
-                  <Loader2 className="w-4 h-4 animate-spin text-white" />
+                  <Loader2 className="w-4 h-4 animate-spin text-emerald-600 dark:text-emerald-400" />
                 ) : (
-                  <CalendarCheck className="w-4 h-4 stroke-[2.2] text-white" />
+                  <CalendarCheck className="w-4 h-4 stroke-[2.2] text-emerald-600 dark:text-emerald-400" />
                 )}
                 <span>{isCheckingIn ? "Đang điểm danh..." : "Điểm danh"}</span>
+                {!isCheckingIn && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                )}
               </button>
             )}
           </div>
@@ -770,7 +860,7 @@ export default function DashboardPage() {
                 <Link href="/study/dictation">
                   <button
                     type="button"
-                    className="h-8 px-3 rounded-lg bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all"
+                    className="h-8 px-3 rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/70 text-xs font-bold shadow-2xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all"
                   >
                     <span>Khám phá</span>
                     <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -808,11 +898,12 @@ export default function DashboardPage() {
           <div className="lg:col-span-7 flex flex-col gap-5 sm:gap-6">
             {/* 3.1. Today's Mission Deck */}
             <DashboardMissionDeck
-              currentTask={currentTask}
+              currentTask={effectiveCustomTask}
               isLoadingPlan={isLoadingPlan || !isMounted}
               remainingWords={remainingWords}
               wordsPracticedToday={wordsPracticedToday}
               studyPlanTargetUrl={studyPlanTargetUrl}
+              activeRoadmapMission={activeRoadmapMission}
             />
 
             {/* 3.2. Per-Skill 5-Tab Practice Chart */}

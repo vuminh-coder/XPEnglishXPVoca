@@ -6,6 +6,7 @@ import {
   Layers,
   Star,
 } from "lucide-react";
+import { VideoTopHeaderActions } from "./VideoTopHeaderActions";
 
 export interface VideoHeroMetricsBannerProps {
   savedVideosCount: number;
@@ -35,7 +36,12 @@ export function VideoHeroMetricsBanner({
   totalSubtitlesCount,
   favoriteCount,
   avgProgress,
+  onOpenShortcuts,
+  onOpenSrtImport,
+  onOpenXpSubModal,
+  onOpenExportModal,
   hasActiveVideo,
+  hasActiveSubtitleResult,
 }: VideoHeroMetricsBannerProps) {
   return (
     <div
@@ -53,6 +59,17 @@ export function VideoHeroMetricsBanner({
             Kho video YouTube tích hợp phụ đề song ngữ, tra từ 1-click & luyện nói nhại âm.
           </p>
         </div>
+
+        {onOpenShortcuts && onOpenSrtImport && onOpenXpSubModal && onOpenExportModal && (
+          <VideoTopHeaderActions
+            onOpenShortcuts={onOpenShortcuts}
+            onOpenSrtImport={onOpenSrtImport}
+            onOpenXpSubModal={onOpenXpSubModal}
+            onOpenExportModal={onOpenExportModal}
+            hasActiveVideo={Boolean(hasActiveVideo)}
+            hasActiveSubtitleResult={Boolean(hasActiveSubtitleResult)}
+          />
+        )}
       </div>
 
       <div className="h-px bg-slate-100 dark:bg-slate-800 w-full hidden sm:block" />

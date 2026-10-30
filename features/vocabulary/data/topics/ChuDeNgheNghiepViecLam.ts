@@ -479,10 +479,10 @@ export const VOCABS_NGHE_NGHIEP_VIEC_LAM: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_jobs_21",
-    "word": "architect",
-    "phonetic": "/ˈɑːr.kə.tekt/",
-    "definition": "A professional who designs buildings and oversees their construction.",
-    "definitionVn": "kiến trúc sư thiết kế công trình xây dựng",
+    "word": "dentist",
+    "phonetic": "/ˈdentɪst/",
+    "definition": "A person qualified to treat the diseases and conditions that affect the teeth and gums.",
+    "definitionVn": "nha sĩ, bác sĩ răng hàm mặt",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -490,25 +490,22 @@ export const VOCABS_NGHE_NGHIEP_VIEC_LAM: BasicVocabularyItem[] = [
     "themeNameVn": "Nghề nghiệp & Việc làm",
     "themeNameEn": "Jobs & Occupations",
     "examples": [
-      "The award-winning architect drafted blueprints for an eco-friendly library.",
-      "Consulting an experienced architect ensures structural safety and natural light optimization."
+      "Visit your dentist twice a year for a checkup.",
+      "The kind dentist checked the child's teeth gently."
     ],
     "exampleTranslations": [
-      "Kiến trúc sư đoạt giải thưởng đã phác thảo bản thiết kế cho một thư viện thân thiện với môi trường.",
-      "Tham khảo ý kiến một kiến trúc sư giàu kinh nghiệm đảm bảo an toàn kết cấu và tối ưu hóa ánh sáng tự nhiên."
+      "Hãy đến gặp nha sĩ hai lần mỗi năm để kiểm tra răng miệng.",
+      "Vị nha sĩ tốt bụng đã khám răng cho em bé rất nhẹ nhàng."
     ],
-    "synonyms": [
-      "building designer",
-      "structural master"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_jobs_22",
     "word": "pharmacist",
-    "phonetic": "/ˈfɑːr.mə.sɪst/",
+    "phonetic": "/ˈfɑːrməsɪst/",
     "definition": "A person professionally qualified to prepare and dispense medicinal drugs.",
-    "definitionVn": "dược sĩ cấp phát và hướng dẫn sử dụng thuốc",
+    "definitionVn": "dược sĩ, người bán thuốc",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -516,12 +513,12 @@ export const VOCABS_NGHE_NGHIEP_VIEC_LAM: BasicVocabularyItem[] = [
     "themeNameVn": "Nghề nghiệp & Việc làm",
     "themeNameEn": "Jobs & Occupations",
     "examples": [
-      "The community pharmacist explained the dosage instructions clearly to the elderly customer.",
-      "Always ask your local pharmacist whether new vitamins interact with prescribed medications."
+      "The pharmacist explained how to take the medicine.",
+      "Ask the pharmacist if you have any questions."
     ],
     "exampleTranslations": [
-      "Dược sĩ cộng đồng đã giải thích rõ ràng các hướng dẫn về liều lượng cho khách hàng lớn tuổi.",
-      "Luôn hỏi dược sĩ địa phương xem các loại vitamin mới có tương tác với thuốc được kê đơn hay không."
+      "Dược sĩ đã giải thích cách uống thuốc rất rõ ràng.",
+      "Hãy hỏi dược sĩ nếu bạn có bất kỳ thắc mắc nào nhé."
     ],
     "synonyms": [
       "chemist",
@@ -533,9 +530,9 @@ export const VOCABS_NGHE_NGHIEP_VIEC_LAM: BasicVocabularyItem[] = [
   {
     "id": "bv_jobs_23",
     "word": "electrician",
-    "phonetic": "/ɪˌlekˈtrɪʃ.ən/",
+    "phonetic": "/ɪˌlekˈtrɪʃən/",
     "definition": "A tradesperson specializing in electrical wiring of buildings and transmission lines.",
-    "definitionVn": "thợ điện lắp đặt và sửa chữa mạng lưới điện",
+    "definitionVn": "thợ điện, kỹ thuật viên điện",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -543,12 +540,12 @@ export const VOCABS_NGHE_NGHIEP_VIEC_LAM: BasicVocabularyItem[] = [
     "themeNameVn": "Nghề nghiệp & Việc làm",
     "themeNameEn": "Jobs & Occupations",
     "examples": [
-      "We hired a licensed electrician to inspect the circuit breaker before moving into the old villa.",
-      "The electrician quickly identified a blown fuse and restored power to the kitchen."
+      "The skilled electrician fixed the broken ceiling light.",
+      "We called an electrician to check the kitchen wires."
     ],
     "exampleTranslations": [
-      "Chúng tôi đã thuê một thợ điện có giấy phép để kiểm tra cầu dao trước khi chuyển vào căn biệt thự cũ.",
-      "Người thợ điện nhanh chóng xác định cầu chì bị nổ và khôi phục nguồn điện cho nhà bếp."
+      "Người thợ điện lành nghề đã sửa xong chiếc đèn trần bị hỏng.",
+      "Chúng tôi đã gọi thợ điện đến kiểm tra đường dây trong bếp."
     ],
     "synonyms": [
       "electrical technician",
@@ -559,9 +556,9 @@ export const VOCABS_NGHE_NGHIEP_VIEC_LAM: BasicVocabularyItem[] = [
   {
     "id": "bv_jobs_24",
     "word": "plumber",
-    "phonetic": "/ˈplʌm.ɚ/",
+    "phonetic": "/ˈplʌmər/",
     "definition": "A person who installs and repairs pipes and fittings of water supply and sanitation.",
-    "definitionVn": "thợ sửa đường ống nước và thiết bị vệ sinh",
+    "definitionVn": "thợ sửa ống nước",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -569,12 +566,12 @@ export const VOCABS_NGHE_NGHIEP_VIEC_LAM: BasicVocabularyItem[] = [
     "themeNameVn": "Nghề nghiệp & Việc làm",
     "themeNameEn": "Jobs & Occupations",
     "examples": [
-      "When the bathroom pipe burst unexpectedly, we phoned an emergency 24-hour plumber.",
-      "A skilled plumber unclogged the municipal drain line using a motorized snake."
+      "The plumber repaired the leaking water pipe quickly.",
+      "Call a plumber if the bathroom sink is blocked."
     ],
     "exampleTranslations": [
-      "Khi đường ống trong phòng tắm bị vỡ bất ngờ, chúng tôi đã gọi một thợ sửa ống nước khẩn cấp 24 giờ.",
-      "Một người thợ sửa ống nước lành nghề đã thông tắc đường ống thoát nước của thành phố bằng dây lò xo máy."
+      "Thợ sửa ống nước đã sửa đường ống bị rò rỉ rất nhanh.",
+      "Hãy gọi thợ sửa ống nước nếu bồn rửa phòng tắm bị tắc."
     ],
     "synonyms": [
       "pipefitter",
@@ -585,7 +582,7 @@ export const VOCABS_NGHE_NGHIEP_VIEC_LAM: BasicVocabularyItem[] = [
   {
     "id": "bv_jobs_25",
     "word": "journalist",
-    "phonetic": "/ˈdʒɝː.nə.lɪst/",
+    "phonetic": "/ˈdʒɜːrnəlɪst/",
     "definition": "A person who writes for newspapers, magazines, or news websites or prepares news to be broadcast.",
     "definitionVn": "nhà báo, phóng viên tin tức",
     "pos": "noun",
@@ -595,12 +592,12 @@ export const VOCABS_NGHE_NGHIEP_VIEC_LAM: BasicVocabularyItem[] = [
     "themeNameVn": "Nghề nghiệp & Việc làm",
     "themeNameEn": "Jobs & Occupations",
     "examples": [
-      "The investigative journalist spent eighteen months uncovering corporate tax fraud.",
-      "Photojournalists travel into active disaster zones to document humanitarian stories."
+      "The young journalist wrote an interesting news article.",
+      "She works as a television journalist in Hanoi."
     ],
     "exampleTranslations": [
-      "Nhà báo điều tra đã dành mười tám tháng để vạch trần vụ gian lận thuế của doanh nghiệp.",
-      "Các phóng viên ảnh đi vào các vùng thiên tai đang diễn ra để ghi lại những câu chuyện nhân đạo."
+      "Nhà báo trẻ đã viết một bài báo tin tức rất thú vị.",
+      "Cô ấy làm phóng viên truyền hình tại Hà Nội."
     ],
     "synonyms": [
       "reporter",

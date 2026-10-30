@@ -30,11 +30,11 @@ export const VOCABS_THOI_GIAN_LICH: BasicVocabularyItem[] = [
     "themeNameVn": "Thời gian & Lịch",
     "themeNameEn": "Time, Days & Seasons",
     "examples": [
-      "What time is it now? — It is 8:00 AM.",
+      "What time is it right now?",
       "Spend time studying English every day."
     ],
     "exampleTranslations": [
-      "Bây giờ là mấy giờ? — 8h sáng.",
+      "Bây giờ đang là mấy giờ vậy?",
       "Dành thời gian học tiếng Anh mỗi ngày nhé."
     ],
     "synonyms": [],

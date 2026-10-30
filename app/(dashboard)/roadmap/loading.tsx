@@ -24,22 +24,21 @@ function ShimmerBox({
 
 /**
  * RoadmapLoading
- * Skeleton loading bám sát 1:1 hình học giao diện Con Đường Ziczac:
- * 1. AppTopHeader (56px) với Navigation Pills + Nút CTA "Học tiếp: Chặng X"
- * 2. Compact Pathway Banner (~50px)
- * 3. Lưới Bento 8/12 + 4/12:
- *    - Cột Trái 8-Cols: Container Ziczac Pathway với các node ziczac uốn lượn và cột mốc tổng hợp
- *    - Cột Phải 4-Cols: ZiczacCompanionInspector (Card thông tin chặng và nút luyện tập)
- * Đạt chuẩn CLS = 0 (Cumulative Layout Shift = 0px).
+ * Skeleton loading bám sát 1:1 hình học giao diện Con Đường Ziczac (CLS = 0px):
+ * 1. AppTopHeader (56px, hiển thị trên Mobile/Tablet `lg:hidden`)
+ * 2. Container `max-w-3xl lg:max-w-4xl` đồng bộ 100% với `page.tsx`
+ * 3. Unit Banner + 6 nút tròn uốn lượn chữ S (`[60%, 67%, 58%, 42%, 33%, 50%]`)
  */
 export default function RoadmapLoading() {
+  const sCurvePositions = [60, 67, 58, 42, 33, 50];
+
   return (
     <div className="space-y-4 pb-16 md:pb-8 px-0 select-none font-sans">
-      {/* 1. APP TOP HEADER SKELETON (56px h-14 BASELINE) */}
-      <header className="sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3 shadow-2xs">
+      {/* 1. APP TOP HEADER SKELETON (Mobile Only - Hidden on Desktop to match page.tsx) */}
+      <header className="lg:hidden sticky top-0 z-40 w-full h-14 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-3 sm:px-6 flex items-center justify-between gap-3 shadow-2xs">
         {/* Left: Mobile Trigger + Header Tabs */}
         <div className="flex items-center gap-2">
-          <ShimmerBox className="lg:hidden w-8 h-8 rounded-xl shrink-0" />
+          <ShimmerBox className="w-8 h-8 rounded-xl shrink-0" />
           <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 hidden sm:inline-flex">
             <ShimmerBox className="w-24 h-7 rounded-lg bg-[#0059bb]/20 dark:bg-sky-400/20" />
             <ShimmerBox className="w-20 h-7 rounded-lg hidden sm:block" />
@@ -51,58 +50,47 @@ export default function RoadmapLoading() {
           </div>
         </div>
 
-        {/* Right Desktop: Nút CTA "Học tiếp: Chặng X" + Mobile Action & Avatar */}
+        {/* Right: Nút CTA "Học tiếp: Chặng X" + Mobile Action & Avatar */}
         <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           <ShimmerBox className="h-9 w-40 sm:w-48 rounded-xl bg-[#0059bb]/30 dark:bg-[#0059bb]/20 hidden sm:block" />
           <ShimmerBox className="h-8 w-20 rounded-lg bg-[#0059bb]/30 sm:hidden" />
-          <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0 lg:hidden" />
+          <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
         </div>
       </header>
 
-      {/* 2. UNIFIED MAIN CONTAINER */}
-      <div className="w-full max-w-[1400px] 2xl:max-w-[1520px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 space-y-4 pt-1">
+      {/* 2. UNIFIED MAIN CONTAINER (Matches max-w-3xl lg:max-w-4xl in page.tsx) */}
+      <div className="w-full max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 space-y-4 pt-1">
         {/* 3. FULL WIDTH DUOLINGO PATHWAY SKELETON (0px CLS) */}
         <div className="w-full min-w-0">
-          <div className="w-full py-2 sm:py-4 space-y-10">
+          <div className="w-full py-2 sm:py-4 space-y-8">
             {/* Unit Header Banner Skeleton */}
-            <div className="w-full max-w-2xl sm:max-w-3xl mx-auto h-24 rounded-2xl bg-[#0059bb]/30 p-4 flex items-center justify-between">
+            <div className="w-full max-w-2xl mx-auto h-20 rounded-2xl bg-[#0059bb]/30 px-4 py-3.5 flex items-center justify-between">
               <div className="space-y-1.5">
-                <ShimmerBox className="h-5 w-48 rounded bg-white/40" />
-                <ShimmerBox className="h-3.5 w-64 rounded bg-white/30" />
+                <ShimmerBox className="h-3.5 w-28 rounded bg-white/40" />
+                <ShimmerBox className="h-5 w-48 rounded bg-white/30" />
               </div>
-              <ShimmerBox className="h-9 w-28 rounded-xl bg-white/30" />
+              <ShimmerBox className="h-10 w-24 rounded-xl bg-white/30" />
             </div>
 
-            {/* Duolingo Circular Nodes Staggered */}
-            <div className="space-y-10 max-w-sm sm:max-w-md mx-auto">
-              {/* Step 1 (Center) */}
-              <div className="flex flex-col items-center">
-                <ShimmerBox className="w-20 h-20 rounded-full" />
-                <ShimmerBox className="mt-2.5 h-3.5 w-24 rounded" />
-              </div>
-
-              {/* Step 2 (Right) */}
-              <div className="flex flex-col items-end pr-10">
-                <ShimmerBox className="w-20 h-20 rounded-full" />
-                <ShimmerBox className="mt-2.5 h-3.5 w-24 rounded" />
-              </div>
-
-              {/* Step 3 (Center) */}
-              <div className="flex flex-col items-center">
-                <ShimmerBox className="w-20 h-20 rounded-full" />
-                <ShimmerBox className="mt-2.5 h-3.5 w-24 rounded" />
-              </div>
-
-              {/* Step 4 (Left) */}
-              <div className="flex flex-col items-start pl-10">
-                <ShimmerBox className="w-20 h-20 rounded-full" />
-                <ShimmerBox className="mt-2.5 h-3.5 w-24 rounded" />
-              </div>
-
-              {/* Step 5 (Milestone Checkpoint Trophy Node) */}
-              <div className="flex flex-col items-center">
-                <ShimmerBox className="w-24 h-24 rounded-full bg-amber-500/30" />
-              </div>
+            {/* 6-Step Duolingo S-Curve Nodes Skeleton */}
+            <div className="relative w-full max-w-2xl mx-auto py-4">
+              {sCurvePositions.map((xPercent, idx) => (
+                <div
+                  key={idx}
+                  className="relative w-full h-24 sm:h-28 flex items-center"
+                >
+                  <div
+                    className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
+                    style={{ left: `${xPercent}%` }}
+                  >
+                    <ShimmerBox
+                      className={`w-18 h-18 sm:w-20 sm:h-20 rounded-full ${
+                        idx === 5 ? "bg-amber-500/30" : ""
+                      }`}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

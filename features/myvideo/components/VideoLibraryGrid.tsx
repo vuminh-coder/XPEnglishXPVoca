@@ -39,6 +39,12 @@ const CATEGORY_LABELS: Record<string, string> = {
   General: "Tổng hợp",
 };
 
+const LEVEL_LABELS_VI: Record<string, string> = {
+  Easy: "Cơ bản",
+  Medium: "Trung bình",
+  Hard: "Nâng cao",
+};
+
 export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
   videos,
   activeVideoId,
@@ -193,15 +199,34 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                   >
                     <Star className={`w-4 h-4 ${video.isFavorite ? "fill-current" : ""}`} />
                   </button>
+
+                  {/* Sleek YouTube-style Thumbnail Bottom Progress Strip */}
+                  {video.progressPercent > 0 && (
+                    <div className="absolute inset-x-0 bottom-0 h-1 bg-slate-900/60 overflow-hidden">
+                      <div
+                        className="h-full bg-[#0059bb] transition-all duration-300"
+                        style={{ width: `${video.progressPercent}%` }}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 {/* Info Card */}
-                <div className="p-3 sm:p-4 space-y-2 sm:space-y-2.5">
+                <div className="p-3 sm:p-4 space-y-1.5">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-800">
-                      {video.category}
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400">{video.savedAt}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-800">
+                        {CATEGORY_LABELS[video.category] || video.category}
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded-md text-[9.5px] font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60">
+                        {LEVEL_LABELS_VI[video.level] || video.level}
+                      </span>
+                    </div>
+                    {video.progressPercent > 0 && (
+                      <span className="text-[10.5px] font-mono font-bold text-[#0059bb] dark:text-sky-400">
+                        {video.progressPercent}%
+                      </span>
+                    )}
                   </div>
 
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display line-clamp-2 leading-snug">
@@ -209,24 +234,8 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                   </h3>
 
                   <p className="text-xs text-slate-500 font-medium truncate">
-                    Kênh: {video.authorName}
+                    {video.authorName}
                   </p>
-
-                  {/* Progress Bar */}
-                  <div className="space-y-1 pt-1">
-                    <div className="flex justify-between text-[11px] font-bold">
-                      <span className="text-slate-400">Tiến độ bài học</span>
-                      <span className="text-[#0059bb] dark:text-sky-400 font-mono">
-                        {video.progressPercent}%
-                      </span>
-                    </div>
-                    <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-[#0059bb] to-sky-400 transition-all duration-300"
-                        style={{ width: `${video.progressPercent}%` }}
-                      />
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -241,13 +250,23 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                   <Trash2 className="w-4 h-4" />
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => onSelectVideo(video)}
-                  className="px-4 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold transition-all shadow-md shadow-[#0059bb]/20 flex items-center gap-1.5 cursor-pointer font-sans active:scale-95"
-                >
-                  <Play className="w-3.5 h-3.5 fill-current" /> Luyện tập ngay
-                </button>
+                {activeVideoId === video.id ? (
+                  <button
+                    type="button"
+                    onClick={() => onSelectVideo(video)}
+                    className="px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer font-sans active:scale-95"
+                  >
+                    <Play className="w-3.5 h-3.5 fill-current" /> Đang phát bài học
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => onSelectVideo(video)}
+                    className="px-4 py-2 rounded-xl bg-blue-50 hover:bg-[#0059bb] text-[#0059bb] hover:text-white dark:bg-slate-800 dark:hover:bg-[#0059bb] dark:text-sky-400 dark:hover:text-white border border-blue-200/80 dark:border-slate-700 hover:border-[#0059bb] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer font-sans active:scale-95"
+                  >
+                    <Play className="w-3.5 h-3.5 fill-current" /> Luyện tập ngay
+                  </button>
+                )}
               </div>
             </div>
           ))}

@@ -30,7 +30,6 @@ import {
   Moon,
   User,
   Check,
-  Volume2,
   BookText,
   Link2,
   Puzzle,
@@ -78,13 +77,6 @@ const sections = [
   {
     title: "LUYỆN TẬP",
     links: [
-      {
-        name: "Phát âm IPA",
-        path: "/study/ipa",
-        icon: <Volume2 className="w-[21px] h-[21px]" strokeWidth={1.9} />,
-        page: "ipa",
-        badge: "HOT",
-      },
       {
         name: "Dictation",
         path: "/study/dictation",

@@ -23,7 +23,7 @@ export const VOCABS_MOI_QUAN_HE_XA_HOI: BasicVocabularyItem[] = [
     "phonetic": "/best frend/",
     "definition": "A person's closest and dearest friend.",
     "definitionVn": "bạn thân nhất, tri kỷ",
-    "pos": "phrase",
+    "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
     "themeId": "t_basic_relationships_social",

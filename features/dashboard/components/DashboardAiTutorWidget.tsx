@@ -134,6 +134,26 @@ export function DashboardAiTutorWidget({
             )}
           </button>
         </div>
+
+        {/* Quick Prompt Suggestion Chips */}
+        {!hasActiveResponse && (
+          <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+            {[
+              "Phân biệt affect & effect",
+              "Mẹo nghe nối âm TOEIC",
+              "Thì Hiện tại hoàn thành",
+            ].map((chip) => (
+              <button
+                key={chip}
+                type="button"
+                onClick={() => setAiQuestion(chip)}
+                className="px-2.5 py-1 rounded-lg bg-slate-100/90 hover:bg-blue-50 dark:bg-slate-800/80 dark:hover:bg-blue-950/60 text-slate-600 hover:text-[#0059bb] dark:text-slate-300 dark:hover:text-sky-400 border border-slate-200/80 hover:border-blue-200 dark:border-slate-700/70 dark:hover:border-blue-800 text-[11px] font-semibold transition-colors cursor-pointer"
+              >
+                {chip}
+              </button>
+            ))}
+          </div>
+        )}
       </form>
 
       {/* Loading & Answer Area: Toàn bộ chiều cao chênh lệch đẩy hết vào khung lướt câu trả lời */}

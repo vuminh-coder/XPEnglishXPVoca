@@ -12,7 +12,11 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { ShimmerBox } from "@/shared/components/feedback/ShimmerSkeleton";
-import { SKILL_CONFIGS, SkillType } from "@/stores/skillChartStore";
+import {
+  SKILL_CONFIGS,
+  SkillType,
+  getLocalDateString,
+} from "@/stores/skillChartStore";
 
 const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
   <svg
@@ -40,6 +44,76 @@ const SKILL_TAB_CONFIGS = [
 ] as const;
 
 export type SkillTabId = (typeof SKILL_TAB_CONFIGS)[number]["id"];
+
+const SKILL_SUB_ACTIONS: Record<
+  string,
+  {
+    title: string;
+    subtitle: string;
+    ctaLabel: string;
+    href: string;
+    Icon: React.ComponentType<{ className?: string }>;
+    containerClass: string;
+    iconBoxClass: string;
+    buttonClass: string;
+  }
+> = {
+  dictation: {
+    title: "Nâng cao phản xạ Nghe Chép Chính Tả!",
+    subtitle: "Luyện nghe bắt âm chuẩn xác qua các bài hội thoại thực tế.",
+    ctaLabel: "Nghe ngay",
+    href: "/study/dictation",
+    Icon: Headphones,
+    containerClass:
+      "bg-blue-50/90 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-900/40",
+    iconBoxClass: "bg-[#0059bb] text-white",
+    buttonClass: "bg-[#0059bb] hover:bg-[#004ba0] text-white",
+  },
+  shadowing: {
+    title: "Chuẩn hóa ngữ điệu bản xứ cùng Shadowing!",
+    subtitle: "Nhại giọng theo từng nhịp câu và nhận phân tích phát âm chi tiết.",
+    ctaLabel: "Tập nói ngay",
+    href: "/study/shadowing",
+    Icon: Mic,
+    containerClass:
+      "bg-cyan-50/90 dark:bg-cyan-950/40 border-cyan-200/80 dark:border-cyan-900/40",
+    iconBoxClass: "bg-cyan-600 text-white",
+    buttonClass: "bg-cyan-600 hover:bg-cyan-700 text-white",
+  },
+  speaking: {
+    title: "Thực hành Phản Xạ Nói cùng AI Coach!",
+    subtitle: "Chấm điểm phát âm 6 tiêu chí thời gian thực bằng giọng nói.",
+    ctaLabel: "Luyện nói AI",
+    href: "/study/practice?subMode=speaking",
+    Icon: SpeakingIcon,
+    containerClass:
+      "bg-purple-50/90 dark:bg-purple-950/40 border-purple-200/80 dark:border-purple-900/40",
+    iconBoxClass: "bg-purple-600 text-white",
+    buttonClass: "bg-purple-600 hover:bg-purple-700 text-white",
+  },
+  vocab: {
+    title: "Mở rộng vốn từ vựng học thuật!",
+    subtitle: "Học 10 từ mới mỗi ngày để hoàn thành mục tiêu 3,000 từ cốt lõi.",
+    ctaLabel: "Học ngay",
+    href: "/vocabulary",
+    Icon: BookOpen,
+    containerClass:
+      "bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-200/80 dark:border-emerald-900/40",
+    iconBoxClass: "bg-emerald-600 text-white",
+    buttonClass: "bg-emerald-600 hover:bg-emerald-700 text-white",
+  },
+  writing: {
+    title: "Luyện Viết & Ghép Câu Chuẩn Ngữ Pháp!",
+    subtitle: "Thực hành sắp xếp cấu trúc câu theo chủ đề từ vựng thực chiến.",
+    ctaLabel: "Ghép câu ngay",
+    href: "/study/sentence-builder",
+    Icon: Wand2,
+    containerClass:
+      "bg-amber-50/90 dark:bg-amber-950/40 border-amber-200/80 dark:border-amber-900/40",
+    iconBoxClass: "bg-amber-500 text-white",
+    buttonClass: "bg-amber-500 hover:bg-amber-600 text-white",
+  },
+};
 
 /**
  * Custom hook to smoothly interpolate 7 Y-coordinates for continuous Bezier path morphing
@@ -136,6 +210,14 @@ export function DashboardSkillChartCard({
     });
 
   const animatedYPoints = useInterpolatedYPoints(targetYPoints, 320);
+
+  const todayIso = getLocalDateString(new Date());
+  const detectedTodayIdx = skillWeeklyChartData.findIndex(
+    (d: any) => d.isoDate === todayIso
+  );
+  const todayIdx = detectedTodayIdx >= 0 ? detectedTodayIdx : 4;
+  const subAction = SKILL_SUB_ACTIONS[activeSkillTab] || SKILL_SUB_ACTIONS.vocab;
+  const SubActionIcon = subAction.Icon;
 
   return (
     <div
@@ -390,7 +472,8 @@ export function DashboardSkillChartCard({
                 }
 
                 const areaD = `${pathD} L 690,200 L 52,200 Z`;
-                const activeIndex = selectedDayIndex !== null ? selectedDayIndex : 4;
+                const activeIndex =
+                  selectedDayIndex !== null ? selectedDayIndex : todayIdx;
                 const selPoint = animatedPoints[activeIndex];
 
                 return (
@@ -413,18 +496,38 @@ export function DashboardSkillChartCard({
                       className="transition-colors duration-300"
                     />
 
-                    {/* Floating Value Indicator on active point */}
+                    {/* Active Vertical Guide Line & Node Indicator */}
                     {selPoint && (
-                      <text
-                        suppressHydrationWarning
-                        x={selPoint.x}
-                        y={Math.max(18, selPoint.y - 12)}
-                        textAnchor="middle"
-                        fill={currentSkillConfig.color}
-                        className="font-mono text-[21px] sm:text-[16px] font-black tracking-tight select-none pointer-events-none"
-                      >
-                        {selPoint.minutes} phút
-                      </text>
+                      <g className="pointer-events-none">
+                        <line
+                          x1={selPoint.x}
+                          y1={selPoint.y}
+                          x2={selPoint.x}
+                          y2={200}
+                          stroke={currentSkillConfig.color}
+                          strokeWidth="1.2"
+                          strokeDasharray="3 3"
+                          strokeOpacity="0.45"
+                        />
+                        <circle
+                          cx={selPoint.x}
+                          cy={selPoint.y}
+                          r="4.5"
+                          fill="#ffffff"
+                          stroke={currentSkillConfig.color}
+                          strokeWidth="2.5"
+                        />
+                        <text
+                          suppressHydrationWarning
+                          x={selPoint.x}
+                          y={Math.max(18, selPoint.y - 12)}
+                          textAnchor="middle"
+                          fill={currentSkillConfig.color}
+                          className="font-mono text-[21px] sm:text-[16px] font-black tracking-tight select-none"
+                        >
+                          {selPoint.minutes} phút
+                        </text>
+                      </g>
                     )}
 
                     {/* Column Hitboxes for touch / click */}
@@ -454,8 +557,9 @@ export function DashboardSkillChartCard({
             className="grid grid-cols-7 text-center pt-0 pb-1.5 gap-0 border-t border-slate-100 dark:border-slate-800"
           >
             {skillWeeklyChartData.map((d, i) => {
-              const isSelected = (selectedDayIndex !== null ? selectedDayIndex : 4) === i;
-              const isToday = i === 4;
+              const isSelected =
+                (selectedDayIndex !== null ? selectedDayIndex : todayIdx) === i;
+              const isToday = i === todayIdx;
 
               return (
                 <button
@@ -482,28 +586,32 @@ export function DashboardSkillChartCard({
         </div>
       )}
 
-      {/* Sub-Action Card Embedded */}
-      <div className="p-3 rounded-xl bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-900/40 flex items-center justify-between gap-3 shadow-2xs">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shadow-2xs shrink-0">
-            <BookOpen className="w-4 h-4 stroke-[2]" />
+      {/* Context-Aware Sub-Action Card Embedded */}
+      <div
+        className={`p-3 rounded-xl border flex items-center justify-between gap-3 shadow-2xs transition-colors duration-200 ${subAction.containerClass}`}
+      >
+        <div className="flex items-center gap-3 min-w-0">
+          <div
+            className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-2xs shrink-0 transition-colors ${subAction.iconBoxClass}`}
+          >
+            <SubActionIcon className="w-4 h-4 stroke-[2]" />
           </div>
-          <div>
-            <h4 className="text-xs font-bold text-slate-900 dark:text-white font-display">
-              Mở rộng vốn từ vựng học thuật!
+          <div className="min-w-0">
+            <h4 className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
+              {subAction.title}
             </h4>
-            <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
-              Học 10 từ mới mỗi ngày để hoàn thành mục tiêu 3,000 từ cốt lõi.
+            <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
+              {subAction.subtitle}
             </p>
           </div>
         </div>
 
-        <Link href="/vocabulary" className="shrink-0">
+        <Link href={subAction.href} className="shrink-0">
           <button
             type="button"
-            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1 cursor-pointer transition-all shadow-2xs active:scale-95"
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer transition-all shadow-2xs active:scale-95 ${subAction.buttonClass}`}
           >
-            <span>Học ngay</span>
+            <span>{subAction.ctaLabel}</span>
             <ArrowRight className="w-3.5 h-3.5 stroke-[2]" />
           </button>
         </Link>

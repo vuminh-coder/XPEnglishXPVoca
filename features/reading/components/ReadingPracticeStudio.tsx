@@ -36,6 +36,7 @@ import { useUiStore } from "@/stores/uiStore";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
 import { lookupWordDeep, DeepWordDefinition } from "@/features/vocabulary/data/deepDictionary";
+import { syncRoadmapSessionProgress } from "@/features/roadmap";
 import {
   ReadingPassage,
   ReadingVocab,
@@ -434,6 +435,17 @@ export function ReadingPracticeStudio({
         const data = await response.json();
         if (data.success && data.summary) {
           setIsSubmitted(true);
+          try {
+            const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+            syncRoadmapSessionProgress({
+              themeId: params?.get("theme") || params?.get("themeId") || undefined,
+              unitNumber: params?.get("unit") ? parseInt(params.get("unit")!, 10) : undefined,
+              lessonId: passage.id,
+              skillType: "STORY",
+              completedPart: 1,
+              totalParts: 1,
+            });
+          } catch {}
           setServerFeedback({
             xpEarned: data.summary.xpEarned,
             accuracy: data.summary.accuracy,
@@ -467,6 +479,17 @@ export function ReadingPracticeStudio({
     } catch {
       // Offline fallback
       setIsSubmitted(true);
+      try {
+        const params = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+        syncRoadmapSessionProgress({
+          themeId: params?.get("theme") || params?.get("themeId") || undefined,
+          unitNumber: params?.get("unit") ? parseInt(params.get("unit")!, 10) : undefined,
+          lessonId: passage.id,
+          skillType: "STORY",
+          completedPart: 1,
+          totalParts: 1,
+        });
+      } catch {}
       const xpReward = quizScore.correct * 15 + 20;
       awardXp(xpReward, "reading");
 

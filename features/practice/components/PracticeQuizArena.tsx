@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CheckCircle2, X } from "lucide-react";
+import { CheckCircle2, X, Timer, Star } from "lucide-react";
 import { PracticeWord, QuizOption } from "../types";
 
 interface PracticeQuizArenaProps {
@@ -20,10 +20,59 @@ export function PracticeQuizArena({
   quizOptions,
   qSelectedOpt,
   qIsAnswered,
+  questionTimeLeft,
+  isCurrentBookmarked = false,
+  onToggleBookmark,
   onSelectOption,
 }: PracticeQuizArenaProps) {
+  const hasTimer = typeof questionTimeLeft === "number";
+  const isUrgent = hasTimer && !qIsAnswered && (questionTimeLeft as number) <= 5;
+
   return (
-    <div className="flex-1 flex flex-col justify-center min-h-0 select-none py-1">
+    <div className="flex-1 flex flex-col justify-center min-h-0 select-none py-1 gap-2 sm:gap-2.5">
+      {/* Subtle Top Meta Row: Countdown Timer & Bookmark Toggle */}
+      {(hasTimer || onToggleBookmark) && (
+        <div className="flex items-center justify-between gap-2 px-0.5 min-h-[28px]">
+          {hasTimer && !qIsAnswered ? (
+            <div
+              role="timer"
+              aria-label={`Thời gian còn lại: ${questionTimeLeft} giây`}
+              className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border text-xs font-extrabold font-display tabular-nums transition-colors ${
+                isUrgent
+                  ? "bg-rose-50 border-rose-200 text-rose-700 dark:bg-rose-950/40 dark:border-rose-800 dark:text-rose-300"
+                  : "bg-slate-100 border-slate-200 text-slate-600 dark:bg-slate-800/80 dark:border-slate-700 dark:text-slate-300"
+              }`}
+            >
+              <Timer className="w-3.5 h-3.5 stroke-[2.4]" aria-hidden="true" />
+              <span>{questionTimeLeft}s</span>
+            </div>
+          ) : (
+            <div />
+          )}
+
+          {onToggleBookmark && (
+            <button
+              type="button"
+              onClick={onToggleBookmark}
+              title={isCurrentBookmarked ? "Đã lưu vào sổ tay" : "Lưu vào sổ tay"}
+              aria-label="Lưu vào sổ tay"
+              className={`h-7 px-2.5 rounded-xl flex items-center gap-1 text-xs font-bold transition-all cursor-pointer ${
+                isCurrentBookmarked
+                  ? "bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-300 dark:border-amber-700 shadow-2xs"
+                  : "text-slate-400 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <Star
+                className={`w-3.5 h-3.5 stroke-[2.2] ${
+                  isCurrentBookmarked ? "fill-amber-400 stroke-amber-500" : ""
+                }`}
+              />
+              <span>{isCurrentBookmarked ? "Đã lưu" : "Lưu từ"}</span>
+            </button>
+          )}
+        </div>
+      )}
+
       {/* 4 Quiz Option Cards (Grid 1 column on xs, 2 columns on sm+ with generous column gap) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2.5 sm:gap-y-3 gap-x-4 sm:gap-x-6 md:gap-x-8">
         {quizOptions.map((opt, idx) => {

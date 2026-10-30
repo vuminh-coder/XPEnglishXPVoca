@@ -5,6 +5,7 @@ import {
 } from "@/features/listening/services/youtubeSubtitleParser";
 import { validateSrtContent } from "@/features/listening/services/srtParser";
 import { SubtitleSentence } from "@/stores/videoStore";
+import { lookupLocalVocabularyEntry } from "@/features/myvideo/hooks/useWordLookup";
 
 /**
  * Simulates the binary search subtitle matching engine from app/(dashboard)/myvideo/page.tsx
@@ -195,6 +196,16 @@ describe("MyVideo Deep Bug Audit & Edge Case Test Suite", () => {
 
       const invalidSrt = "This is not an srt file";
       expect(validateSrtContent(invalidSrt)).not.toBeNull();
+    });
+
+    it("3.5 Resolves Vietnamese definition & IPA from local vocabulary bank (including inflected stems)", () => {
+      const exactHit = lookupLocalVocabularyEntry("family");
+      expect(exactHit).not.toBeNull();
+      expect(exactHit?.definitionVn).toBeTruthy();
+
+      const pluralHit = lookupLocalVocabularyEntry("families");
+      expect(pluralHit).not.toBeNull();
+      expect(pluralHit?.definitionVn).toBe(exactHit?.definitionVn);
     });
   });
 });

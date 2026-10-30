@@ -19,8 +19,6 @@ import {
   PracticeFlashcardArena,
   PracticeWritingArena,
   PracticeSpeakingArena,
-  PracticeMatchPairsArena,
-  PracticeSentenceBuilderArena,
   PracticeScoreCard,
   PracticeCompanionSpeech,
   PracticeBottomBar,
@@ -49,21 +47,26 @@ function PracticeContent() {
     setIsMuted(gameAudio.toggleMute());
   };
 
-  // Nối từ & Ghép câu là trang riêng: điều hướng thay vì render inline
+  // Nối từ & Ghép câu là trang riêng: điều hướng giữ nguyên ngữ cảnh Unit/Theme/Part
   const goDedicatedPage = useCallback(
     (mode: string) => {
       const base = DEDICATED_PRACTICE_ROUTES[mode];
       if (!base) return false;
-      const theme = searchParams.get("themeId") || searchParams.get("theme");
-      const unit = searchParams.get("unit");
+      const theme = searchParams.get("themeId") || searchParams.get("theme") || session.themeParam;
+      const unit = searchParams.get("unit") || session.unitParam;
+      const part = searchParams.get("part") || (session.currentPart ? String(session.currentPart) : null);
+      const totalParts =
+        searchParams.get("totalParts") || (session.totalParts ? String(session.totalParts) : null);
       const qs = new URLSearchParams();
       if (theme) qs.set("theme", theme);
       if (unit) qs.set("unit", unit);
+      if (part) qs.set("part", part);
+      if (totalParts) qs.set("totalParts", totalParts);
       const query = qs.toString();
       router.push(query ? `${base}?${query}` : base);
       return true;
     },
-    [router, searchParams]
+    [router, searchParams, session.themeParam, session.unitParam, session.currentPart, session.totalParts]
   );
 
   const handleSubModeChange = (mode: typeof session.subMode) => {
@@ -95,18 +98,34 @@ function PracticeContent() {
     [router, session.themeParam, session.unitParam, session.totalParts, session.subMode]
   );
 
-  // Connect global and mode-specific keyboard shortcuts
+  const handleFlipCard = useCallback(() => {
+    session.setFIsFlipped((prev) => {
+      if (!prev && !isMuted && session.currentWord) {
+        session.playWordAudio(session.currentWord.word);
+      }
+      return !prev;
+    });
+  }, [session, isMuted]);
+
+  // Connect global and mode-specific keyboard shortcuts (Single source of truth)
   usePracticeKeyboard({
     subMode: session.subMode,
     currentIndex: session.currentIndex,
     qIsAnswered: session.qIsAnswered,
+    qSelectedOpt: session.qSelectedOpt,
     quizOptions: session.quizOptions,
     handleSelectQuizOption: session.handleSelectQuizOption,
+    handleCheckQuiz: session.handleCheckQuiz,
+    fIsFlipped: session.fIsFlipped,
     setFIsFlipped: session.setFIsFlipped,
+    onFlipCard: handleFlipCard,
     handleFlashcardRating: session.handleFlashcardRating,
+    wIsAnswered: session.wIsAnswered,
+    handleCheckWriting: session.handleCheckWriting,
     sIsAnswered: session.speech.isAnswered,
     sIsListening: session.speech.isListening,
     handleStartSpeaking: session.handleStartSpeaking,
+    handleToggleBookmark: session.handleToggleBookmark,
     handlePrevQuestion: session.handlePrevQuestion,
     handleNextQuestion: session.handleNextQuestion,
   });
@@ -169,7 +188,9 @@ function PracticeContent() {
   ]);
 
   const handleSubmit = () => {
-    if (session.subMode === "writing") {
+    if (session.subMode === "quiz") {
+      session.handleCheckQuiz();
+    } else if (session.subMode === "writing") {
       session.handleCheckWriting();
     }
   };
@@ -306,99 +327,73 @@ function PracticeContent() {
                     className="w-full flex flex-col justify-center min-h-0"
                   >
                     {session.subMode === "quiz" && (
-                    <PracticeQuizArena
-                      currentWord={session.currentWord}
-                      quizOptions={session.quizOptions}
-                      qSelectedOpt={session.qSelectedOpt}
-                      qIsAnswered={session.qIsAnswered}
-                      questionTimeLeft={session.questionTimeLeft}
-                      isCurrentBookmarked={session.isCurrentBookmarked}
-                      onToggleBookmark={session.handleToggleBookmark}
-                      onPlayAudio={session.playWordAudio}
-                      onSelectOption={session.handleSelectQuizOption}
-                    />
-                  )}
+                      <PracticeQuizArena
+                        currentWord={session.currentWord}
+                        quizOptions={session.quizOptions}
+                        qSelectedOpt={session.qSelectedOpt}
+                        qIsAnswered={session.qIsAnswered}
+                        questionTimeLeft={session.questionTimeLeft}
+                        isCurrentBookmarked={session.isCurrentBookmarked}
+                        onToggleBookmark={session.handleToggleBookmark}
+                        onPlayAudio={session.playWordAudio}
+                        onSelectOption={session.handleSelectQuizOption}
+                      />
+                    )}
 
-                  {session.subMode === "flashcard" && (
-                    <PracticeFlashcardArena
-                      currentWord={session.currentWord}
-                      fIsFlipped={session.fIsFlipped}
-                      questionTimeLeft={session.questionTimeLeft}
-                      isCurrentBookmarked={session.isCurrentBookmarked}
-                      onToggleBookmark={session.handleToggleBookmark}
-                      onPlayAudio={session.playWordAudio}
-                      onFlipCard={() => {
-                        session.setFIsFlipped((prev) => {
-                          if (!prev && !isMuted) {
-                            session.playWordAudio(session.currentWord.word);
-                          }
-                          return !prev;
-                        });
-                      }}
-                      onRateFlashcard={session.handleFlashcardRating}
-                      onSkip={session.handleNextQuestion}
-                    />
-                  )}
+                    {session.subMode === "flashcard" && (
+                      <PracticeFlashcardArena
+                        currentWord={session.currentWord}
+                        fIsFlipped={session.fIsFlipped}
+                        questionTimeLeft={session.questionTimeLeft}
+                        isCurrentBookmarked={session.isCurrentBookmarked}
+                        onToggleBookmark={session.handleToggleBookmark}
+                        onPlayAudio={session.playWordAudio}
+                        onFlipCard={handleFlipCard}
+                        onRateFlashcard={session.handleFlashcardRating}
+                        onSkip={session.handleNextQuestion}
+                      />
+                    )}
 
-                  {session.subMode === "writing" && (
-                    <PracticeWritingArena
-                      currentWord={session.currentWord}
-                      writingInputRef={session.writingInputRef}
-                      wInput={session.wInput}
-                      setWInput={session.setWInput}
-                      wIsAnswered={session.wIsAnswered}
-                      wIsCorrect={session.wIsCorrect}
-                      wShowHint={session.wShowHint}
-                      setWShowHint={session.setWShowHint}
-                      questionTimeLeft={session.questionTimeLeft}
-                      isCurrentBookmarked={session.isCurrentBookmarked}
-                      onToggleBookmark={session.handleToggleBookmark}
-                      onCheckWriting={session.handleCheckWriting}
-                    />
-                  )}
+                    {session.subMode === "writing" && (
+                      <PracticeWritingArena
+                        currentWord={session.currentWord}
+                        writingInputRef={session.writingInputRef}
+                        wInput={session.wInput}
+                        setWInput={session.setWInput}
+                        wIsAnswered={session.wIsAnswered}
+                        wIsCorrect={session.wIsCorrect}
+                        wShowHint={session.wShowHint}
+                        setWShowHint={session.setWShowHint}
+                        questionTimeLeft={session.questionTimeLeft}
+                        isCurrentBookmarked={session.isCurrentBookmarked}
+                        onToggleBookmark={session.handleToggleBookmark}
+                        onCheckWriting={session.handleCheckWriting}
+                      />
+                    )}
 
-                  {session.subMode === "speaking" && (
-                    <PracticeSpeakingArena
-                      currentWord={session.currentWord}
-                      isListening={session.speech.isListening}
-                      transcript={session.speech.transcript}
-                      accuracy={session.speech.accuracy}
-                      isCorrect={session.speech.isCorrect}
-                      isAnswered={session.speech.isAnswered}
-                      speechError={session.speech.speechError}
-                      questionTimeLeft={session.questionTimeLeft}
-                      isCurrentBookmarked={session.isCurrentBookmarked}
-                      onToggleBookmark={session.handleToggleBookmark}
-                      onPlayAudio={session.playWordAudio}
-                      onStartSpeaking={session.handleStartSpeaking}
-                      onStopSpeaking={session.speech.stopSpeaking}
-                    />
-                  )}
-
-                  {session.subMode === "match_pairs" && (
-                    <PracticeMatchPairsArena
-                      vocabs={session.vocabs}
-                      playWordAudio={session.playWordAudio}
-                      onNextStage={session.handleNextQuestion}
-                    />
-                  )}
-
-                  {session.subMode === "sentence_builder" && session.currentWord && (
-                    <PracticeSentenceBuilderArena
-                      currentWord={session.currentWord}
-                      vocabs={session.vocabs}
-                      playWordAudio={session.playWordAudio}
-                      onNextQuestion={session.handleNextQuestion}
-                      currentIndex={session.currentIndex}
-                      totalWords={session.vocabs.length}
-                    />
-                  )}
-                </motion.div>
-              </AnimatePresence>
+                    {session.subMode === "speaking" && (
+                      <PracticeSpeakingArena
+                        currentWord={session.currentWord}
+                        isListening={session.speech.isListening}
+                        transcript={session.speech.transcript}
+                        accuracy={session.speech.accuracy}
+                        isCorrect={session.speech.isCorrect}
+                        isAnswered={session.speech.isAnswered}
+                        speechError={session.speech.speechError}
+                        questionTimeLeft={session.questionTimeLeft}
+                        isCurrentBookmarked={session.isCurrentBookmarked}
+                        onToggleBookmark={session.handleToggleBookmark}
+                        onPlayAudio={session.playWordAudio}
+                        onStartSpeaking={session.handleStartSpeaking}
+                        onStopSpeaking={session.speech.stopSpeaking}
+                      />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
-          </div>
 
-          {/* 3.3 DUOLINGO-STYLE STICKY BOTTOM ACTION SHEET */}
+            {/* 3.3 DUOLINGO-STYLE STICKY BOTTOM ACTION SHEET */}
             {session.subMode !== "match_pairs" &&
               session.subMode !== "sentence_builder" &&
               session.subMode !== "flashcard" && (
@@ -411,6 +406,7 @@ function PracticeContent() {
                   example={session.currentWord.example}
                   exampleVi={session.currentWord.exampleVi}
                   subMode={session.subMode}
+                  earnedXp={session.lastEarnedXp}
                   onSubmit={handleSubmit}
                   onNext={session.handleNextQuestion}
                   onSkip={session.handleNextQuestion}
@@ -430,9 +426,7 @@ function PracticeContent() {
             totalEarnedXp={session.totalEarnedXp}
             elapsedTime={session.elapsedTime}
             formatElapsedTime={session.formatElapsedTime}
-            correctCount={
-              session.qCorrectCount + session.wCorrectCount + session.sCorrectCount
-            }
+            correctCount={session.sessionCorrectCount}
             onRestartSession={session.handleRestartSession}
             currentPart={session.currentPart}
             totalParts={session.totalParts}
@@ -447,8 +441,6 @@ function PracticeContent() {
           />
         )}
       </div>
-
-
     </div>
   );
 }

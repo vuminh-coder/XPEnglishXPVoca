@@ -3,8 +3,10 @@
 import React, { useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SentenceBuilderGame } from "@/features/games";
-import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
-import { ADVANCED_VOCABULARIES } from "@/features/vocabulary/data/advancedVocabularies";
+import {
+  resolveActiveRoadmapContext,
+  getPureThemeVocabularyPool,
+} from "@/features/roadmap";
 import {
   partitionVocabularyPool,
   buildPartitionUrl,
@@ -19,35 +21,39 @@ export default function SentenceBuilderClient() {
   const partParam = searchParams.get("part");
   const totalPartsParam = searchParams.get("totalParts");
 
-  // Extract vocabulary pool matching this theme
+  // Resolve active Roadmap Unit/Theme/Part (supports both explicit URL params and direct Sidebar navigation)
+  const resolvedContext = useMemo(
+    () =>
+      resolveActiveRoadmapContext({
+        themeId: themeParam,
+        unit: unitParam,
+        part: partParam,
+        totalParts: totalPartsParam,
+        skillType: "SENTENCE",
+      }),
+    [themeParam, unitParam, partParam, totalPartsParam]
+  );
+
+  // Extract pure vocabulary pool matching the resolved theme (identical to Practice & Word Link)
   const rawThemeVocabs = useMemo(() => {
-    if (!themeParam) {
-      return BASIC_VOCABULARIES.slice(0, 30);
-    }
-    const basicMatches = BASIC_VOCABULARIES.filter((v) => v.themeId === themeParam);
-    if (basicMatches.length > 0) return basicMatches;
+    return getPureThemeVocabularyPool(resolvedContext.themeId);
+  }, [resolvedContext.themeId]);
 
-    const advMatches = ADVANCED_VOCABULARIES.filter((v) => v.themeId === themeParam);
-    if (advMatches.length > 0) return advMatches;
-
-    return BASIC_VOCABULARIES.slice(0, 30);
-  }, [themeParam]);
-
-  // Partition vocabulary pool according to partParam
+  // Partition vocabulary pool according to resolved part and totalParts
   const partitionResult = useMemo(() => {
     return partitionVocabularyPool(rawThemeVocabs, {
-      part: partParam,
-      totalParts: totalPartsParam,
+      part: resolvedContext.part,
+      totalParts: resolvedContext.totalParts,
     });
-  }, [rawThemeVocabs, partParam, totalPartsParam]);
+  }, [rawThemeVocabs, resolvedContext.part, resolvedContext.totalParts]);
 
   const handleSelectPart = (targetPart: number) => {
     const nextUrl = buildPartitionUrl(
       "/study/sentence-builder",
       {
-        theme: themeParam || undefined,
-        unit: unitParam || undefined,
-        totalParts: totalPartsParam || undefined,
+        theme: resolvedContext.themeId,
+        unit: resolvedContext.unitNumber,
+        totalParts: resolvedContext.totalParts,
       },
       targetPart
     );
@@ -60,8 +66,8 @@ export default function SentenceBuilderClient() {
       <div className="w-full max-w-3xl lg:max-w-4xl mx-auto px-4 sm:px-6 flex-1 flex flex-col justify-between py-3 sm:py-5">
         <SentenceBuilderGame
           pool={partitionResult.items}
-          themeId={themeParam || undefined}
-          unitNumber={unitParam ? parseInt(unitParam, 10) : undefined}
+          themeId={resolvedContext.themeId}
+          unitNumber={resolvedContext.unitNumber}
           currentPart={partitionResult.currentPart}
           totalParts={partitionResult.totalParts}
           onNextPart={
@@ -77,5 +83,3 @@ export default function SentenceBuilderClient() {
     </div>
   );
 }
-
-

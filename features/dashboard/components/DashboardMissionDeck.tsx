@@ -5,12 +5,25 @@ import Link from "next/link";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { ShimmerBox } from "@/shared/components/feedback/ShimmerSkeleton";
 
+export interface ActiveRoadmapMissionInfo {
+  unitNumber: number;
+  stageInUnit: number;
+  title: string;
+  description: string;
+  xpReward: number;
+  durationMinutes: number;
+  currentPart: number;
+  totalParts: number;
+  practiceUrl: string;
+}
+
 interface DashboardMissionDeckProps {
   currentTask: string | null;
   remainingWords: number;
   isLoadingPlan: boolean;
   studyPlanTargetUrl: string;
   wordsPracticedToday?: number;
+  activeRoadmapMission?: ActiveRoadmapMissionInfo | null;
 }
 
 export function DashboardMissionDeck({
@@ -18,10 +31,41 @@ export function DashboardMissionDeck({
   remainingWords,
   isLoadingPlan,
   studyPlanTargetUrl,
-  wordsPracticedToday,
+  activeRoadmapMission,
 }: DashboardMissionDeckProps) {
+  const badgeText = activeRoadmapMission
+    ? `UNIT ${activeRoadmapMission.unitNumber} • CHẶNG ${activeRoadmapMission.stageInUnit}/6`
+    : "LỘ TRÌNH HÔM NAY";
+
+  const displayTitle =
+    currentTask ||
+    (activeRoadmapMission
+      ? `${activeRoadmapMission.title}${
+          activeRoadmapMission.totalParts > 1
+            ? ` (Phần ${activeRoadmapMission.currentPart}/${activeRoadmapMission.totalParts})`
+            : ""
+        }`
+      : "Unit 1 • Chặng 1: Từ Vựng Cốt Lõi — Chào Hỏi & Giao Tiếp Lịch Sự");
+
+  const displaySubtitle =
+    !currentTask && activeRoadmapMission?.description
+      ? activeRoadmapMission.description
+      : null;
+
+  const durationText = activeRoadmapMission
+    ? `~${activeRoadmapMission.durationMinutes} phút`
+    : "~15 phút";
+
+  const xpRewardText = activeRoadmapMission
+    ? `+${activeRoadmapMission.xpReward} XP`
+    : "+50 XP";
+
+  const targetHref = currentTask
+    ? studyPlanTargetUrl
+    : activeRoadmapMission?.practiceUrl || studyPlanTargetUrl;
+
   return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#0059bb] via-[#004fba] to-[#00388a] text-white border border-blue-400/30 shadow-lg shadow-blue-900/25 space-y-4 relative overflow-hidden">
+    <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-[#0059bb] via-[#004fba] to-[#00388a] text-white border border-blue-400/30 shadow-lg shadow-blue-900/25 space-y-3.5 relative overflow-hidden">
       {/* Subtle ambient decorative gradient orbs */}
       <div className="absolute -top-10 -right-10 w-44 h-44 bg-white/10 rounded-full blur-2xl pointer-events-none" />
       <div className="absolute -bottom-10 -left-10 w-44 h-44 bg-indigo-400/10 rounded-full blur-2xl pointer-events-none" />
@@ -30,10 +74,10 @@ export function DashboardMissionDeck({
       <div className="flex items-center justify-between gap-2 relative z-10">
         <span className="px-2.5 py-1 rounded-md bg-white/15 backdrop-blur-md text-white font-mono font-black text-xs flex items-center gap-1.5 border border-white/25 shadow-2xs">
           <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
-          <span>LỘ TRÌNH HÔM NAY</span>
+          <span>{badgeText}</span>
         </span>
         <span className="px-2.5 py-1 rounded-md bg-white/10 backdrop-blur-sm border border-white/15 text-blue-100 font-mono text-xs font-bold">
-          Tiến trình:{" "}
+          Hôm nay:{" "}
           <span className="text-white font-black text-sm tabular-nums">
             {10 - remainingWords}
           </span>
@@ -42,17 +86,23 @@ export function DashboardMissionDeck({
       </div>
 
       {/* Title & Description */}
-      <div className="relative z-10">
+      <div className="relative z-10 space-y-1">
         {isLoadingPlan ? (
           <div className="space-y-1.5 py-0.5">
             <ShimmerBox className="h-5.5 w-4/5 rounded-md bg-white/30 dark:bg-white/20" />
             <ShimmerBox className="h-4 w-1/2 rounded-md bg-white/20 dark:bg-white/10" />
           </div>
         ) : (
-          <h2 className="text-base sm:text-lg font-extrabold text-white font-display leading-snug tracking-tight">
-            {currentTask ||
-              "Ngày 14: Luyện nghe TOEIC Part 6: Text Completion & Liên từ/Trạng từ nâng cao. Hoàn thành 10 câu chép chính tả và ghi chú từ vựng."}
-          </h2>
+          <>
+            <h2 className="text-base sm:text-lg font-extrabold text-white font-display leading-snug tracking-tight">
+              {displayTitle}
+            </h2>
+            {displaySubtitle && (
+              <p className="text-xs font-medium text-blue-100/90 leading-relaxed line-clamp-2">
+                {displaySubtitle}
+              </p>
+            )}
+          </>
         )}
       </div>
 
@@ -63,7 +113,7 @@ export function DashboardMissionDeck({
             Mục tiêu
           </div>
           <div className="text-[11px] xs:text-xs sm:text-sm font-black font-display text-white font-mono mt-0.5 leading-tight">
-            {remainingWords} từ mới
+            {remainingWords > 0 ? `${remainingWords} từ mới` : "Hoàn tất 10/10"}
           </div>
         </div>
         <div className="py-1.5 sm:py-2 px-2 sm:px-3 rounded-xl bg-white/12 backdrop-blur-md border border-white/25 text-center shadow-xs hover:bg-white/18 transition-all">
@@ -71,7 +121,7 @@ export function DashboardMissionDeck({
             Thời gian
           </div>
           <div className="text-[11px] xs:text-xs sm:text-sm font-black font-display text-white font-mono mt-0.5 leading-tight">
-            ~15 phút
+            {durationText}
           </div>
         </div>
         <div className="py-1.5 sm:py-2 px-2 sm:px-3 rounded-xl bg-white/12 backdrop-blur-md border border-white/25 text-center shadow-xs hover:bg-white/18 transition-all">
@@ -79,7 +129,7 @@ export function DashboardMissionDeck({
             Phần thưởng
           </div>
           <div className="text-[11px] xs:text-xs sm:text-sm font-black font-display text-amber-300 font-mono mt-0.5 leading-tight">
-            +50 XP
+            {xpRewardText}
           </div>
         </div>
       </div>
@@ -97,7 +147,7 @@ export function DashboardMissionDeck({
           </div>
         </div>
 
-        <Link href={studyPlanTargetUrl} className="shrink-0">
+        <Link href={targetHref} className="shrink-0">
           <button
             type="button"
             className="px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-white hover:bg-blue-50 text-[#0059bb] font-extrabold text-xs sm:text-sm shadow-md flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer active:scale-95 transition-all group whitespace-nowrap"

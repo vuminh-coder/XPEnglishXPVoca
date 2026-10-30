@@ -49,7 +49,10 @@ export async function recordGameSession(
 
     // Sync client store if rewards were granted
     if (xpGained > 0) {
+      const practiceMinutes = Math.max(1, Math.round((params.durationSeconds || 30) / 60));
       useUserStore.getState().awardXp(xpGained, "vocab");
+      useUserStore.getState().addPracticeTime(practiceMinutes, "vocab");
+      useUserStore.getState().syncStreak(true);
     }
     if (coinsGained > 0) {
       useUserStore.getState().awardCoins(coinsGained);

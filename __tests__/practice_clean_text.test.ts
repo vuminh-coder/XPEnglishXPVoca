@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { stripParentheses } from "@/features/practice/utils/cleanText";
+import {
+  stripParentheses,
+  extractConciseMeaning,
+  isPureVocabularyWord,
+} from "@/features/practice/utils/cleanText";
+import { VOCABS_CHAO_HOI_GIAO_TIEP } from "@/features/vocabulary/data/topics/ChuDeChaoHoiGiaoTiep";
 
 describe("stripParentheses Utility for Practice Studio", () => {
   it("should handle null and undefined gracefully", () => {
@@ -28,5 +33,23 @@ describe("stripParentheses Utility for Practice Studio", () => {
   it("should handle strings without parentheses untouched", () => {
     expect(stripParentheses("chào buổi sáng")).toBe("chào buổi sáng");
     expect(stripParentheses("good morning")).toBe("good morning");
+  });
+
+  it("should filter out conversational sentences/phrases and keep only pure vocabulary words in Practice Studio", () => {
+    expect(isPureVocabularyWord({ word: "hello", pos: "interjection" })).toBe(true);
+    expect(isPureVocabularyWord({ word: "morning", pos: "noun" })).toBe(true);
+    expect(isPureVocabularyWord({ word: "you're welcome", pos: "phrase" })).toBe(false);
+    expect(isPureVocabularyWord({ word: "how are you", pos: "phrase" })).toBe(false);
+    expect(isPureVocabularyWord({ word: "nice to meet you", pos: "phrase" })).toBe(false);
+    expect(isPureVocabularyWord({ word: "have a nice day", pos: "phrase" })).toBe(false);
+
+    expect(extractConciseMeaning("xin lỗi, tôi rất tiếc")).toBe("xin lỗi");
+    expect(extractConciseMeaning("cạn ly! / cảm ơn nhé / tạm biệt nhé")).toBe("cạn ly");
+
+    // Verify all 30 items in Topic 1 (Chào hỏi & Giao tiếp) are pure vocabulary words
+    expect(VOCABS_CHAO_HOI_GIAO_TIEP.length).toBe(30);
+    VOCABS_CHAO_HOI_GIAO_TIEP.forEach((item) => {
+      expect(isPureVocabularyWord(item)).toBe(true);
+    });
   });
 });

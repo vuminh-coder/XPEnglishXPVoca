@@ -36,9 +36,9 @@ export function PracticeScoreCard({
   onNextPart,
   isCheckpoint,
 }: PracticeScoreCardProps) {
-  const accuracyPercent = Math.round(
-    ((correctCount || totalWords) / Math.max(1, totalWords)) * 100
-  );
+  const safeCorrect = Math.max(0, Math.min(totalWords, correctCount));
+  const accuracyPercent =
+    totalWords > 0 ? Math.round((safeCorrect / totalWords) * 100) : 0;
 
   const character = XP_CHARACTERS[1] || XP_CHARACTERS[0]; // Cô Linh
 

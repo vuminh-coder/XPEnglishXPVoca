@@ -14,6 +14,7 @@ interface PracticeBottomBarProps {
   example?: string;
   exampleVi?: string;
   subMode: SubMode;
+  earnedXp?: number;
   onSubmit: () => void;
   onNext: () => void;
   onSkip?: () => void;
@@ -30,6 +31,7 @@ export function PracticeBottomBar({
   example,
   exampleVi,
   subMode,
+  earnedXp,
   onSubmit,
   onNext,
   onSkip,
@@ -46,28 +48,7 @@ export function PracticeBottomBar({
     }
   }, [isAnswered]);
 
-  // Global Enter hotkey for Continue when answered, or Submit when canSubmit
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-        if (e.key === "Enter" && !isAnswered && canSubmit) {
-          e.preventDefault();
-          onSubmit();
-        }
-        return;
-      }
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        if (isAnswered) {
-          onNext();
-        } else if (canSubmit) {
-          onSubmit();
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isAnswered, canSubmit, onNext, onSubmit]);
+  // Keyboard shortcuts are handled centrally by usePracticeKeyboard to prevent double firing
 
   const footerTone = !isAnswered
     ? "bg-transparent border-t border-slate-200/50 dark:border-slate-800/50"
@@ -204,7 +185,7 @@ export function PracticeBottomBar({
                   </span>
                   {isCorrect && (
                     <span className="px-2.5 py-0.5 rounded-full bg-[#fcd34d] text-[#78350f] text-[11px] sm:text-xs font-black font-display shadow-2xs">
-                      +{subMode === "writing" ? 20 : 10}
+                      +{earnedXp ?? (subMode === "writing" || subMode === "speaking" ? 15 : 10)} XP
                     </span>
                   )}
                 </div>

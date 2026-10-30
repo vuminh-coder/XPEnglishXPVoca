@@ -479,10 +479,10 @@ export const VOCABS_SO_THICH_THE_THAO: BasicVocabularyItem[] = [
   },
   {
     "id": "bv_hobbie_21",
-    "word": "badminton",
-    "phonetic": "/ˈbæd.mɪn.tən/",
-    "definition": "A racket sport played with shuttles across a net on an indoor or outdoor court.",
-    "definitionVn": "môn cầu lông dùng vợt và quả cầu",
+    "word": "yoga",
+    "phonetic": "/ˈjoʊɡə/",
+    "definition": "A system of physical postures, breathing techniques, and meditation to promote health and relaxation.",
+    "definitionVn": "môn yoga, tập yoga dưỡng sinh",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -490,24 +490,22 @@ export const VOCABS_SO_THICH_THE_THAO: BasicVocabularyItem[] = [
     "themeNameVn": "Sở thích & Thể thao",
     "themeNameEn": "Hobbies & Sports",
     "examples": [
-      "They play friendly doubles badminton at the community recreation center every Tuesday evening.",
-      "Quick reflexes and explosive jump smashes are essential skills in competitive badminton."
+      "She practices morning yoga in the quiet garden.",
+      "Doing yoga every day helps reduce stress."
     ],
     "exampleTranslations": [
-      "Họ chơi cầu lông đôi giao hữu tại trung tâm giải trí cộng đồng vào mỗi tối thứ Ba.",
-      "Phản xạ nhanh và những cú nhảy đập cầu bùng nổ là những kỹ năng thiết yếu trong môn cầu lông thi đấu."
+      "Cô ấy tập yoga buổi sáng trong khu vườn yên tĩnh.",
+      "Tập yoga mỗi ngày giúp giảm căng thẳng hiệu quả."
     ],
-    "synonyms": [
-      "shuttlecock game"
-    ],
+    "synonyms": [],
     "antonyms": []
   },
   {
     "id": "bv_hobbie_22",
     "word": "gardening",
-    "phonetic": "/ˈɡɑːr.dən.ɪŋ/",
+    "phonetic": "/ˈɡɑːrdənɪŋ/",
     "definition": "The hobby or activity of tending and cultivating a garden, growing flowers, and vegetables.",
-    "definitionVn": "thú vui làm vườn, trồng hoa và rau sạch",
+    "definitionVn": "làm vườn, chăm sóc cây cối",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -515,12 +513,12 @@ export const VOCABS_SO_THICH_THE_THAO: BasicVocabularyItem[] = [
     "themeNameVn": "Sở thích & Thể thao",
     "themeNameEn": "Hobbies & Sports",
     "examples": [
-      "Weekend gardening relieves work-related stress while yielding organic heirloom tomatoes.",
-      "She wears protective gloves and uses a sharp trowel for delicate flowerbed gardening."
+      "My grandmother enjoys weekend gardening on the balcony.",
+      "Wear gloves when you do outdoor gardening."
     ],
     "exampleTranslations": [
-      "Làm vườn cuối tuần giúp xua tan căng thẳng liên quan đến công việc đồng thời mang lại những quả cà chua hữu cơ ngon lành.",
-      "Cô ấy đeo găng tay bảo hộ và dùng một cái bay sắc nhọn để làm vườn bồn hoa mỏng manh."
+      "Bà tôi rất thích thú vui làm vườn cuối tuần ngoài ban công.",
+      "Hãy đeo găng tay khi bạn làm vườn ngoài trời nhé."
     ],
     "synonyms": [
       "horticulture",
@@ -531,9 +529,9 @@ export const VOCABS_SO_THICH_THE_THAO: BasicVocabularyItem[] = [
   {
     "id": "bv_hobbie_23",
     "word": "hiking",
-    "phonetic": "/ˈhaɪ.kɪŋ/",
+    "phonetic": "/ˈhaɪkɪŋ/",
     "definition": "The activity of going for long, scenic walks, especially across rural or mountainous countryside.",
-    "definitionVn": "đi bộ đường dài dã ngoại, leo núi ngắm cảnh",
+    "definitionVn": "leo núi, đi bộ đường dài",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -541,12 +539,12 @@ export const VOCABS_SO_THICH_THE_THAO: BasicVocabularyItem[] = [
     "themeNameVn": "Sở thích & Thể thao",
     "themeNameEn": "Hobbies & Sports",
     "examples": [
-      "Sturdy waterproof boots and trekking poles make mountain hiking much safer and more comfortable.",
-      "We embarked on a scenic dawn hiking expedition along the national park coastal ridge."
+      "We went mountain hiking in Sapa last weekend.",
+      "Wear comfortable boots for a long hiking trip."
     ],
     "exampleTranslations": [
-      "Giày bốt chống thấm nước chắc chắn và gậy leo núi giúp việc đi bộ đường dài trên núi an toàn và thoải mái hơn nhiều.",
-      "Chúng tôi bắt đầu chuyến thám hiểm đi bộ đường dài ngắm bình minh tuyệt đẹp dọc theo sườn núi ven biển của công viên quốc gia."
+      "Chúng tôi đã đi bộ leo núi ở Sapa vào cuối tuần trước.",
+      "Hãy đi giày bốt êm chân cho chuyến đi bộ đường dài nhé."
     ],
     "synonyms": [
       "trekking",
@@ -558,9 +556,9 @@ export const VOCABS_SO_THICH_THE_THAO: BasicVocabularyItem[] = [
   {
     "id": "bv_hobbie_24",
     "word": "skating",
-    "phonetic": "/ˈskeɪ.t̬ɪŋ/",
+    "phonetic": "/ˈskeɪtɪŋ/",
     "definition": "The sport or recreational activity of gliding on ice skates or roller skates across smooth surfaces.",
-    "definitionVn": "trượt băng hoặc trượt patin giải trí",
+    "definitionVn": "trượt băng, trượt patin",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -568,12 +566,12 @@ export const VOCABS_SO_THICH_THE_THAO: BasicVocabularyItem[] = [
     "themeNameVn": "Sở thích & Thể thao",
     "themeNameEn": "Hobbies & Sports",
     "examples": [
-      "During frosty winter months, children enjoy outdoor ice skating on the frozen municipal pond.",
-      "Beginners should always wear knee pads and wrist guards when practicing roller skating."
+      "Children love roller skating in the park on Sundays.",
+      "Ice skating is a popular winter sport."
     ],
     "exampleTranslations": [
-      "Trong những tháng mùa đông băng giá, trẻ em thích trượt băng ngoài trời trên ao nước đóng băng của thành phố.",
-      "Người mới bắt đầu nên luôn đeo đệm đầu gối và bảo vệ cổ tay khi tập trượt patin."
+      "Trẻ em rất thích trượt patin trong công viên vào ngày Chủ nhật.",
+      "Trượt băng là một môn thể thao mùa đông phổ biến."
     ],
     "synonyms": [
       "ice skating",
@@ -584,9 +582,9 @@ export const VOCABS_SO_THICH_THE_THAO: BasicVocabularyItem[] = [
   {
     "id": "bv_hobbie_25",
     "word": "photography",
-    "phonetic": "/fəˈtɑː.ɡrə.fi/",
+    "phonetic": "/fəˈtɑːɡrəfi/",
     "definition": "The art or practice of taking and processing photographs with optical cameras.",
-    "definitionVn": "nghệ thuật nhiếp ảnh, thú vui chụp ảnh",
+    "definitionVn": "nhiếp ảnh, nghệ thuật chụp ảnh",
     "pos": "noun",
     "difficulty": 1,
     "frequency": 5,
@@ -594,12 +592,12 @@ export const VOCABS_SO_THICH_THE_THAO: BasicVocabularyItem[] = [
     "themeNameVn": "Sở thích & Thể thao",
     "themeNameEn": "Hobbies & Sports",
     "examples": [
-      "Landscape photography requires immense patience while waiting for the golden sunset light.",
-      "She invested in a high-resolution mirrorless camera to take her wildlife photography to the next level."
+      "Nature photography is my favorite weekend hobby.",
+      "He bought a new camera to learn photography."
     ],
     "exampleTranslations": [
-      "Nhiếp ảnh phong cảnh đòi hỏi sự kiên nhẫn to lớn trong khi chờ đợi ánh sáng hoàng hôn vàng rực.",
-      "Cô ấy đã đầu tư vào một chiếc máy ảnh không gương lật độ phân giải cao để đưa tác phẩm chụp ảnh động vật hoang dã của mình lên một tầm cao mới."
+      "Chụp ảnh thiên nhiên là sở thích cuối tuần yêu thích của tôi.",
+      "Anh ấy đã mua một chiếc máy ảnh mới để học nhiếp ảnh."
     ],
     "synonyms": [
       "picture taking",
