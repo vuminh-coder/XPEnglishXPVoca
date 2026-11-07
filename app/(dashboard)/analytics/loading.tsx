@@ -2,7 +2,7 @@
 import React, { useMemo } from "react";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { ShimmerBox } from "@/shared/components/feedback/ShimmerSkeleton";
-import { BarChart3, Zap } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 import {
   HeatmapMatrixCard,
   SkillAnalyticsCard,
@@ -44,11 +44,6 @@ export default function AnalyticsLoading() {
               <div className="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-500 text-center">
                 Bảng Xếp Hạng XP
               </div>
-            </div>
-
-            <div className="hidden sm:flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#0059bb]/60 text-white/80 font-bold text-sm shadow-sm shrink-0 pointer-events-none">
-              <Zap className="w-4 h-4 fill-current text-amber-300/80" />
-              <span>Luyện tập ngay</span>
             </div>
           </div>
         </div>

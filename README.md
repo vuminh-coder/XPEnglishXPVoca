@@ -7226,8 +7226,8 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
   - **Desktop (`>= 1024px`)**: Ẩn hoàn toàn `AppTopHeader` (`className="lg:hidden"`), loại bỏ thanh tab điều hướng ngoài luồng 56px gây chật chội. Thay thế bằng [`AnalyticsWorkspaceHeader.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/analytics/components/shared/AnalyticsWorkspaceHeader.tsx) tích hợp trực tiếp trong không gian làm việc:
     - Tiêu đề studio `"Thống kê tiến độ"` và mô tả học tập trực quan.
     - Bộ chuyển đổi tab hiệu ứng trượt lò xo mượt mà (`layoutId="analyticsActiveTab"`): `[ 📊 Hoạt Động Của Tôi | 🏆 Bảng Xếp Hạng XP ]`.
-    - Duy nhất một nút Primary CTA nổi bật: `Luyện tập ngay` (`#0059bb`, tuân thủ nghiêm ngặt Rule 18 & 19), loại bỏ huy hiệu thưởng `+15 XP` rườm rà ra khỏi nút chính để hành động dứt khoát.
-  - **Mobile (`< 1024px`)**: Duy trì `AppTopHeader` với nút mở Sidebar, logo thương hiệu, tìm kiếm và Avatar học viên. Đồng thời xuất [`AnalyticsMobilePracticeCta`](file:///e:/XP%20English%20%20XP%20Voca/features/analytics/components/shared/AnalyticsWorkspaceHeader.tsx) cố định ở cạnh dưới màn hình gần vùng ngón tay cái thuận tiện thao tác (Rule 13).
+    - Thanh điều hướng tối giản, sạch sẽ, tập trung hoàn toàn vào việc hiển thị số liệu phân tích và tiến độ học tập (loại bỏ nút luyện tập dư thừa).
+  - **Mobile (`< 1024px`)**: Duy trì `AppTopHeader` với nút mở Sidebar, logo thương hiệu, tìm kiếm và Avatar học viên; đồng thời loại bỏ nút hành động nổi ở cạnh đáy để không che khuất nội dung.
 - **Chuẩn Hóa Hình Học Bento Đồng Tâm (Rule 10 & 20) & Nền Giấy Ấm `#fffefb`**:
   - Toàn bộ các khối Bento Card bên ngoài (`AnalyticsMetricsBar`, `SkillAnalyticsCard`, `HeatmapMatrixCard`, `PodiumTop3Card`, `LeaderboardListView`) đồng bộ bo góc lớn `rounded-2xl` kết hợp viền sắc nét `border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-md`.
   - Các phần tử con tương tác bên trong (nút chuyển tab kỹ năng, thanh cuộn học viên, ô cột ngày tháng) tuân thủ công thức bo góc đồng tâm `rounded-xl` (`calc(outer_radius - padding)`).

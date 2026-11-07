@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { BarChart3, Trophy, Zap } from "lucide-react";
+import { BarChart3, Trophy } from "lucide-react";
 import { AnalyticsTabType } from "../../types";
 
 interface AnalyticsWorkspaceHeaderProps {
@@ -17,7 +16,7 @@ const TABS: { id: AnalyticsTabType; label: string; Icon: typeof BarChart3; iconC
 
 /**
  * Thanh làm việc của trang Thống kê (thay cho AppTopHeader trên Desktop):
- * tiêu đề + chuyển tab + 1 nút chính duy nhất (Rule 18).
+ * tiêu đề + chuyển tab gọn gàng.
  */
 export const AnalyticsWorkspaceHeader: React.FC<AnalyticsWorkspaceHeaderProps> = ({
   activeTab,
@@ -74,25 +73,6 @@ export const AnalyticsWorkspaceHeader: React.FC<AnalyticsWorkspaceHeaderProps> =
           );
         })}
       </div>
-
-      <Link
-        href="/study/practice"
-        className="hidden sm:flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-sm shadow-sm transition-colors active:scale-95 cursor-pointer shrink-0"
-      >
-        <Zap className="w-4 h-4 fill-current text-amber-300" />
-        <span>Luyện tập ngay</span>
-      </Link>
     </div>
   </div>
-);
-
-/** Nút chính cho Mobile: nằm cuối nội dung, gần vùng ngón cái (Rule 13). */
-export const AnalyticsMobilePracticeCta: React.FC = () => (
-  <Link
-    href="/study/practice"
-    className="sm:hidden w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-sm shadow-sm transition-colors active:scale-[0.98] cursor-pointer"
-  >
-    <Zap className="w-4 h-4 fill-current text-amber-300" />
-    <span>Luyện tập ngay</span>
-  </Link>
 );

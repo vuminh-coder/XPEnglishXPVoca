@@ -6,7 +6,6 @@ import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import {
   useAnalyticsManager,
   AnalyticsWorkspaceHeader,
-  AnalyticsMobilePracticeCta,
   AnalyticsMetricsBar,
   ActivitiesTabPane,
   LeaderboardTabPane,
@@ -96,9 +95,6 @@ export default function AnalyticsPage() {
             />
           )}
         </AnimatePresence>
-
-        {/* 5. THUMB-FRIENDLY BOTTOM PRACTICE CTA FOR MOBILE (Rule 13) */}
-        <AnalyticsMobilePracticeCta />
       </PageEntranceWrapper>
     </div>
   );
