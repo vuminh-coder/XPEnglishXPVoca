@@ -49,7 +49,7 @@ export default function AnalyticsLoading() {
         </div>
 
         {/* 3. HERO TOP 5 METRICS SKELETON (1:1 with AnalyticsMetricsBar) */}
-        <div className="grid grid-cols-2 sm:grid-cols-6 xl:grid-cols-5 gap-3.5">
+        <div className="grid grid-cols-2 sm:grid-cols-6 xl:grid-cols-5 gap-3">
           {[
             { label: "Chuỗi dài nhất", bg: "bg-amber-50 dark:bg-amber-950/40", w: "w-14" },
             { label: "Vốn từ đã tích lũy", bg: "bg-emerald-50 dark:bg-emerald-950/40", w: "w-16" },
@@ -59,7 +59,7 @@ export default function AnalyticsLoading() {
           ].map((card, idx) => (
             <div
               key={card.label}
-              className={`p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 flex items-center gap-3.5 ${
+              className={`p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 flex items-center gap-3 ${
                 idx === 4
                   ? "col-span-2 sm:col-span-3 xl:col-span-1"
                   : idx === 3
@@ -67,7 +67,7 @@ export default function AnalyticsLoading() {
                   : "sm:col-span-2 xl:col-span-1"
               }`}
             >
-              <div className={`w-11 h-11 rounded-xl ${card.bg} shrink-0 shadow-2xs border border-black/5 dark:border-white/5 flex items-center justify-center`} />
+              <div className={`w-10 h-10 rounded-xl ${card.bg} shrink-0 shadow-2xs flex items-center justify-center`} />
               <div className="min-w-0 flex-1 space-y-1">
                 <ShimmerBox className={`h-6 ${card.w} rounded-lg`} />
                 <div className="text-xs text-slate-500 dark:text-slate-400 font-bold leading-tight truncate">
