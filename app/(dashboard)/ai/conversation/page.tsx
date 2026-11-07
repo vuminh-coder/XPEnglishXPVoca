@@ -155,7 +155,6 @@ export default function AiConversationPage() {
     isRecording,
     spokenText,
     recordingTime,
-    audioFrequencies,
     isSpeaking,
     startRecording,
     stopRecordingOnly,
@@ -883,7 +882,6 @@ export default function AiConversationPage() {
                   recordingTime={recordingTime}
                   isSpeaking={isSpeaking}
                   isAiTyping={isAiTyping}
-                  audioFrequencies={audioFrequencies}
                   currentSuggestions={currentSuggestions}
                   onMicrophoneToggle={handleMicrophoneToggle}
                   onResetSpeech={handleResetSpeech}

@@ -11,6 +11,7 @@ import {
 import { useAnalyticsCatalogStore } from "@/stores/analyticsCatalogStore";
 import { SkillMode, AnalyticsTabType, AnalyticsStats, LeaderboardUser } from "../types";
 import { SKILL_THEMES } from "../constants";
+import { getRollingMonthList } from "../utils/months";
 
 export function useAnalyticsManager() {
   const { user } = useUserStore();
@@ -211,23 +212,7 @@ export function useAnalyticsManager() {
   }, [leaderboardData, user]);
 
   // Dynamic Rolling 6-Month Heatmap Month Headers
-  const monthList = useMemo(() => {
-    const today = new Date();
-    const shortMonths = [
-      "Th 1", "Th 2", "Th 3", "Th 4", "Th 5", "Th 6",
-      "Th 7", "Th 8", "Th 9", "Th 10", "Th 11", "Th 12"
-    ];
-    const list: { name: string; startIndex: number }[] = [];
-
-    for (let i = 5; i >= 0; i--) {
-      const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-      const monthName = shortMonths[d.getMonth()];
-      const startIndex = (5 - i) * 4;
-      list.push({ name: monthName, startIndex });
-    }
-
-    return list;
-  }, []);
+  const monthList = useMemo(() => getRollingMonthList(), []);
 
   const currentTheme = SKILL_THEMES[modeFilter] || SKILL_THEMES.Dictation;
 

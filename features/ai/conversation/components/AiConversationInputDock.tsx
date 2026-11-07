@@ -12,7 +12,6 @@ interface AiConversationInputDockProps {
   recordingTime: number;
   isSpeaking: boolean;
   isAiTyping: boolean;
-  audioFrequencies: number[];
   currentSuggestions: {
     words: SuggestedWord[];
     phrases: string[];

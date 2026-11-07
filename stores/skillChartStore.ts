@@ -381,7 +381,7 @@ export function get30DaySkillAnalytics(
     if (range.dateOffset === 0) {
       dates.push("Hôm nay");
     } else {
-      dates.push(`${dayNum} thg ${monthNum}`);
+      dates.push(`${dayNum}/${monthNum}`);
     }
 
     if (range.startOffset > 0) {

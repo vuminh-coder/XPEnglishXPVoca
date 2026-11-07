@@ -1,6 +1,13 @@
 "use client";
 import React from "react";
 import { ShimmerBox } from "@/shared/components/feedback/ShimmerSkeleton";
+import {
+  CHART_HEIGHT,
+  CHART_PAD_LEFT,
+  CHART_PAD_RIGHT,
+  CHART_Y_COORDS,
+  useChartWidth,
+} from "../../utils/chartGeometry";
 
 interface WaveformChartSkeletonProps {
   title: string;
@@ -9,59 +16,61 @@ interface WaveformChartSkeletonProps {
   dates?: string[];
 }
 
+const DEFAULT_DATES = ["26/7", "31/7", "5/8", "10/8", "Hôm nay", "17/8", "20/8", "24/8"];
+
 export const WaveformChartSkeleton: React.FC<WaveformChartSkeletonProps> = ({
   title,
   themeColor,
   unit,
-  dates = ["26/7", "31/7", "5/8", "10/8", "Hôm nay", "17/8", "20/8", "24/8"],
+  dates = DEFAULT_DATES,
 }) => {
-  const svgW = 700;
-  const svgH = 254;
-  const padLeft = 52;
-  const padRight = 10;
-  const padTop = 24;
+  const { ref, width: svgW } = useChartWidth();
   const ySteps = unit === "phút" ? [25, 20, 15, 10, 5, 0] : [250, 200, 150, 100, 50, 0];
-  const yCoords = [24, 68, 112, 156, 200, 244];
 
   return (
     <div className="flex-1 space-y-3 min-w-0">
-      <div className="flex items-center justify-between">
-        <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full shadow-2xs" style={{ backgroundColor: themeColor }} />
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <div className="text-sm font-bold text-slate-900 dark:text-white font-display flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: themeColor }} />
           <span>{title}</span>
         </div>
-        <ShimmerBox className="h-5 w-24 rounded-md" />
+        <ShimmerBox className="h-6 w-28 rounded-lg" />
       </div>
 
-      {/* Clean High-DPI Coordinate Canvas with Shimmer Sweep and No Fake Demo Lines */}
-      <div className="relative pt-1.5 pb-0 bg-slate-50/70 dark:bg-slate-950/70 rounded-xl border border-slate-200/70 dark:border-slate-800/80 overflow-hidden shadow-2xs before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/40 dark:before:via-white/10 before:to-transparent before:z-10 before:pointer-events-none">
-        <div className="w-full relative">
-          <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full h-auto overflow-visible select-none">
-            {/* 6 Horizontal Grid Lines & Y-Axis Labels matching Real Chart */}
+      <div className="relative bg-slate-50/70 dark:bg-slate-950/70 rounded-xl border border-slate-200/70 dark:border-slate-800/80 overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-shimmer before:bg-gradient-to-r before:from-transparent before:via-white/40 dark:before:via-white/10 before:to-transparent before:z-10 before:pointer-events-none">
+        <div ref={ref} className="w-full relative" style={{ height: CHART_HEIGHT }}>
+          <svg
+            viewBox={`0 0 ${svgW} ${CHART_HEIGHT}`}
+            width="100%"
+            height={CHART_HEIGHT}
+            className="block select-none"
+            aria-hidden="true"
+          >
             {ySteps.map((step, sIdx) => {
-              const y = yCoords[sIdx];
+              const y = CHART_Y_COORDS[sIdx];
               const isBaseline = sIdx === 5;
               return (
                 <g key={sIdx}>
                   <line
-                    x1={padLeft}
+                    x1={CHART_PAD_LEFT}
                     y1={y}
-                    x2={svgW - padRight}
+                    x2={svgW - CHART_PAD_RIGHT}
                     y2={y}
                     stroke="currentColor"
                     className={
                       isBaseline
-                        ? "text-slate-200/90 dark:text-slate-800"
-                        : "text-slate-200/60 dark:text-slate-800"
+                        ? "text-slate-200 dark:text-slate-800"
+                        : "text-slate-200/70 dark:text-slate-800"
                     }
                     strokeDasharray={isBaseline ? undefined : "3 3"}
                   />
                   <text
-                    x="42"
+                    x={CHART_PAD_LEFT - 8}
                     y={y}
                     textAnchor="end"
                     dominantBaseline="central"
-                    className="fill-slate-400/70 dark:fill-slate-500/70 font-mono text-[22px] sm:text-[17px] font-extrabold"
+                    fontSize={12}
+                    className="fill-slate-400/70 dark:fill-slate-500/70 font-sans font-bold tabular-nums"
                   >
                     {step}
                     {unit === "phút" ? "m" : ""}
@@ -72,18 +81,28 @@ export const WaveformChartSkeleton: React.FC<WaveformChartSkeletonProps> = ({
           </svg>
         </div>
 
-        {/* Interactive Date Column Buttons matching Real Chart */}
         <div
-          style={{ paddingLeft: "7.43%", paddingRight: "1.43%" }}
-          className="grid grid-cols-8 text-center pt-0 pb-1.5 gap-0 border-t border-slate-100 dark:border-slate-800"
+          style={{ paddingLeft: CHART_PAD_LEFT, paddingRight: CHART_PAD_RIGHT }}
+          className="grid grid-cols-8 text-center gap-0 border-t border-slate-100 dark:border-slate-800"
         >
-          {dates.map((d, dIdx) => (
-            <div key={dIdx} className="py-1 px-0.5">
-              <span className="text-[11px] sm:text-xs font-mono font-bold text-slate-400/80">
-                {d}
-              </span>
-            </div>
-          ))}
+          {dates.map((d, dIdx) => {
+            const isToday = d === "Hôm nay" || dIdx === 4;
+            return (
+              <div
+                key={dIdx}
+                className="py-2 px-0 text-xs font-sans tabular-nums font-bold leading-tight whitespace-nowrap border-b-2 border-transparent text-slate-400/80"
+              >
+                {isToday ? (
+                  <>
+                    <span className="sm:hidden">Nay</span>
+                    <span className="hidden sm:inline">Hôm nay</span>
+                  </>
+                ) : (
+                  d
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

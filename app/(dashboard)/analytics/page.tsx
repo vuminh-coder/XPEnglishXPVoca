@@ -1,16 +1,12 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import { AnimatePresence } from "framer-motion";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
-import { BarChart3, Trophy, Zap } from "lucide-react";
-import {
-  AppTopHeader,
-  HeaderPillContainer,
-  HeaderPillItem,
-} from "@/shared/components/layout/AppTopHeader";
+import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import {
   useAnalyticsManager,
+  AnalyticsWorkspaceHeader,
+  AnalyticsMobilePracticeCta,
   AnalyticsMetricsBar,
   ActivitiesTabPane,
   LeaderboardTabPane,
@@ -46,43 +42,21 @@ export default function AnalyticsPage() {
   } = useAnalyticsManager();
 
   return (
-    <PageEntranceWrapper
-      className="space-y-4 pb-16 md:pb-8 px-0 relative select-none font-sans"
-      suppressHydrationWarning
-    >
-      {/* 1. APP TOP HEADER INTEGRATION */}
-      <AppTopHeader
-        rightDesktopContent={
-          <Link
-            href="/study/practice"
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#0059bb] hover:bg-[#004ba0] text-white font-bold text-xs shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
-          >
-            <Zap className="w-3.5 h-3.5 fill-current text-amber-300" />
-            <span>Luyện Tập Ngay +15 XP</span>
-          </Link>
-        }
-      >
-        <HeaderPillContainer>
-          <HeaderPillItem
-            active={activeTab === "ACTIVITIES"}
-            onClick={() => setActiveTab("ACTIVITIES")}
-            layoutId="analyticsActiveTabPill"
-            icon={<BarChart3 className="w-3.5 h-3.5 text-blue-500" />}
-            label="Hoạt Động Của Tôi"
-          />
-          <HeaderPillItem
-            active={activeTab === "LEADERBOARD"}
-            onClick={() => setActiveTab("LEADERBOARD")}
-            layoutId="analyticsActiveTabPill"
-            icon={<Trophy className="w-3.5 h-3.5 text-amber-500" />}
-            label="Bảng Xếp Hạng XP"
-          />
-        </HeaderPillContainer>
-      </AppTopHeader>
+    <div className="w-full min-h-screen bg-[#fffefb] dark:bg-slate-950 font-sans select-none">
+      {/* 1. MOBILE TOP HEADER (lg:hidden - Hidden on Desktop to avoid redundant top bars) */}
+      <AppTopHeader className="lg:hidden" />
 
-      {/* 2. MAIN CONTAINER */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 space-y-4 pt-1">
-        {/* HERO TOP 5 METRIC CARDS BENTO GRID */}
+      <PageEntranceWrapper
+        className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-4 sm:py-6 space-y-4 sm:space-y-5 pb-24 sm:pb-12"
+        suppressHydrationWarning
+      >
+        {/* 2. PAGE WORKSPACE HEADER (Desktop & Mobile unified studio header with tab switcher & primary CTA) */}
+        <AnalyticsWorkspaceHeader
+          activeTab={activeTab}
+          onChangeTab={setActiveTab}
+        />
+
+        {/* 3. HERO TOP 5 METRIC CARDS BENTO GRID */}
         <AnalyticsMetricsBar
           isLoading={isLoadingAnalytics}
           longestStreak={longestStreak}
@@ -92,10 +66,11 @@ export default function AnalyticsPage() {
           weeklyRank={weeklyRank}
         />
 
-        {/* 3. TAB VIEWS (ACTIVITIES vs LEADERBOARD) */}
+        {/* 4. TAB VIEWS (ACTIVITIES vs LEADERBOARD) */}
         <AnimatePresence mode="wait">
           {activeTab === "LEADERBOARD" ? (
             <LeaderboardTabPane
+              key="leaderboard-pane"
               isLoadingLeaderboard={isLoadingLeaderboard}
               leaderboardData={leaderboardData}
               processedLeaderboard={processedLeaderboard}
@@ -104,6 +79,7 @@ export default function AnalyticsPage() {
             />
           ) : (
             <ActivitiesTabPane
+              key="activities-pane"
               isLoading={isLoadingAnalytics}
               totalActivities={totalActivities}
               monthList={monthList}
@@ -120,7 +96,10 @@ export default function AnalyticsPage() {
             />
           )}
         </AnimatePresence>
-      </div>
-    </PageEntranceWrapper>
+
+        {/* 5. THUMB-FRIENDLY BOTTOM PRACTICE CTA FOR MOBILE (Rule 13) */}
+        <AnalyticsMobilePracticeCta />
+      </PageEntranceWrapper>
+    </div>
   );
 }

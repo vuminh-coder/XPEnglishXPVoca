@@ -20,102 +20,98 @@ export const AnalyticsMetricsBar: React.FC<AnalyticsMetricsBarProps> = ({
   totalXp,
   weeklyRank,
 }) => {
+  const cards = [
+    {
+      label: "Chuỗi dài nhất",
+      value: longestStreak,
+      suffix: "ngày",
+      Icon: Flame,
+      tile: "bg-amber-50 dark:bg-amber-950/40 text-amber-500",
+      iconClass: "w-5 h-5 fill-amber-400 text-amber-500",
+      hover: "hover:border-amber-300 dark:hover:border-amber-700/50",
+      skeleton: "w-14",
+    },
+    {
+      label: "Vốn từ đã tích lũy",
+      value: savedWords,
+      suffix: "từ",
+      Icon: BookmarkCheck,
+      tile: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400",
+      iconClass: "w-5 h-5",
+      hover: "hover:border-emerald-300 dark:hover:border-emerald-700/50",
+      skeleton: "w-16",
+    },
+    {
+      label: "Thời gian học",
+      value: minutesStudied,
+      suffix: "",
+      Icon: Clock,
+      tile: "bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400",
+      iconClass: "w-5 h-5",
+      hover: "hover:border-blue-300 dark:hover:border-blue-700/50",
+      skeleton: "w-12",
+    },
+    {
+      label: "Tổng điểm tích lũy",
+      value: totalXp,
+      suffix: "",
+      Icon: Target,
+      tile: "bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400",
+      iconClass: "w-5 h-5",
+      hover: "hover:border-purple-300 dark:hover:border-purple-700/50",
+      skeleton: "w-20",
+    },
+    {
+      label: "Hạng của bạn",
+      value: weeklyRank,
+      suffix: "Tuần",
+      Icon: Trophy,
+      tile: "bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400",
+      iconClass: "w-5 h-5 text-amber-500 fill-amber-400",
+      hover: "hover:border-amber-300 dark:hover:border-amber-700/50",
+      skeleton: "w-16",
+    },
+  ];
+
+  // Mobile: 2 cột (thẻ cuối trải 2 cột) · Tablet: 3 + 2 cân đối · Desktop rộng: 5 cột
+  const spanFor = (idx: number) =>
+    idx === 4
+      ? "col-span-2 sm:col-span-3 xl:col-span-1"
+      : idx === 3
+      ? "sm:col-span-3 xl:col-span-1"
+      : "sm:col-span-2 xl:col-span-1";
+
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5">
-      {/* CARD 1: STREAK */}
-      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-700/50">
-        <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center shrink-0 shadow-2xs">
-          <Flame className="w-5 h-5 fill-amber-400 text-amber-500" />
-        </div>
-        <div className="min-w-0 flex-1">
-          {isLoading ? (
-            <ShimmerBox className="h-5 w-16 rounded-lg my-0.5" />
-          ) : (
-            <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-              {longestStreak} <span className="text-xs font-bold text-slate-500 font-sans">ngày</span>
+    <div className="grid grid-cols-2 sm:grid-cols-6 xl:grid-cols-5 gap-3">
+      {cards.map((card, idx) => (
+        <div
+          key={card.label}
+          className={`p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex items-center gap-3 transition-colors ${card.hover} ${spanFor(
+            idx
+          )}`}
+        >
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${card.tile}`}>
+            <card.Icon className={card.iconClass} />
+          </div>
+          <div className="min-w-0 flex-1">
+            {isLoading ? (
+              <ShimmerBox className={`h-6 ${card.skeleton} rounded-lg my-0.5`} />
+            ) : (
+              <div className="text-xl font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
+                {card.value}
+                {card.suffix && (
+                  <span className="ml-1 text-xs font-bold text-slate-500 dark:text-slate-400 font-sans">
+                    {card.suffix}
+                  </span>
+                )}
+              </div>
+            )}
+            <div className="text-xs text-slate-500 dark:text-slate-400 font-bold leading-tight mt-0.5">
+              {card.label}
             </div>
-          )}
-          <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">
-            Chuỗi dài nhất
           </div>
         </div>
-      </div>
-
-      {/* CARD 2: SAVED WORDS */}
-      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-emerald-300 dark:hover:border-emerald-700/50">
-        <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center shrink-0 shadow-2xs">
-          <BookmarkCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-        </div>
-        <div className="min-w-0 flex-1">
-          {isLoading ? (
-            <ShimmerBox className="h-5 w-16 rounded-lg my-0.5" />
-          ) : (
-            <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-              {savedWords} <span className="text-xs font-bold text-slate-500 font-sans">từ</span>
-            </div>
-          )}
-          <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">
-            Vốn từ đã tích lũy
-          </div>
-        </div>
-      </div>
-
-      {/* CARD 3: PRACTICE TIME */}
-      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-blue-300 dark:hover:border-blue-700/50">
-        <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shrink-0 shadow-2xs">
-          <Clock className="w-5 h-5" />
-        </div>
-        <div className="min-w-0 flex-1">
-          {isLoading ? (
-            <ShimmerBox className="h-5 w-14 rounded-lg my-0.5" />
-          ) : (
-            <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-              {minutesStudied}
-            </div>
-          )}
-          <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">
-            Thời gian học
-          </div>
-        </div>
-      </div>
-
-      {/* CARD 4: TOTAL XP */}
-      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-purple-300 dark:hover:border-purple-700/50">
-        <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 shadow-2xs">
-          <Target className="w-5 h-5" />
-        </div>
-        <div className="min-w-0 flex-1">
-          {isLoading ? (
-            <ShimmerBox className="h-5 w-20 rounded-lg my-0.5" />
-          ) : (
-            <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-              {totalXp}
-            </div>
-          )}
-          <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">
-            Tổng điểm tích lũy
-          </div>
-        </div>
-      </div>
-
-      {/* CARD 5: WEEKLY RANK */}
-      <div className="col-span-2 sm:col-span-1 p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center gap-3 transition-all hover:border-amber-300 dark:hover:border-amber-700/50">
-        <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 shadow-2xs">
-          <Trophy className="w-5 h-5 text-amber-500 fill-amber-400" />
-        </div>
-        <div className="min-w-0 flex-1">
-          {isLoading ? (
-            <ShimmerBox className="h-5 w-16 rounded-lg my-0.5" />
-          ) : (
-            <div className="text-base sm:text-lg font-black font-display text-slate-900 dark:text-white leading-tight tabular-nums">
-              {weeklyRank} <span className="text-xs font-bold text-slate-500 font-sans">Tuần</span>
-            </div>
-          )}
-          <div className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate mt-0.5">
-            Hạng của bạn
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

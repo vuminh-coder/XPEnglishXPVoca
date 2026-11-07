@@ -23,72 +23,7 @@ export function useAiConversationSpeech({
   const [recordingTime, setRecordingTime] = useState(0);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Audio spectrum visualizer (16 frequency bars)
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const micStreamRef = useRef<MediaStream | null>(null);
-  const [audioFrequencies, setAudioFrequencies] = useState<number[]>(new Array(16).fill(10));
-  const animationFrameRef = useRef<number | null>(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
-
-  const startAudioVisualizer = async () => {
-    try {
-      if (!audioContextRef.current) {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-        if (AudioContextClass) {
-          audioContextRef.current = new AudioContextClass();
-        }
-      }
-
-      if (audioContextRef.current?.state === "suspended") {
-        await audioContextRef.current.resume();
-      }
-
-      if (!micStreamRef.current && navigator.mediaDevices?.getUserMedia) {
-        micStreamRef.current = await navigator.mediaDevices.getUserMedia({ audio: true });
-      }
-
-      if (audioContextRef.current && micStreamRef.current) {
-        const source = audioContextRef.current.createMediaStreamSource(micStreamRef.current);
-        const analyser = audioContextRef.current.createAnalyser();
-        analyser.fftSize = 64;
-        source.connect(analyser);
-        analyserRef.current = analyser;
-
-        const updateFrequencies = () => {
-          if (analyserRef.current) {
-            const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
-            analyserRef.current.getByteFrequencyData(dataArray);
-            const freqs = Array.from(dataArray.slice(0, 16)).map((v) =>
-              Math.max(10, Math.min(100, Math.round((v / 255) * 100)))
-            );
-            setAudioFrequencies(freqs);
-          }
-          animationFrameRef.current = requestAnimationFrame(updateFrequencies);
-        };
-        updateFrequencies();
-      }
-    } catch (err) {
-      console.warn("Audio visualizer notice:", err);
-      const synthetic = () => {
-        setAudioFrequencies(Array.from({ length: 16 }).map(() => Math.floor(Math.random() * 70) + 20));
-        animationFrameRef.current = requestAnimationFrame(synthetic);
-      };
-      synthetic();
-    }
-  };
-
-  const stopAudioVisualizer = useCallback(() => {
-    if (animationFrameRef.current) {
-      cancelAnimationFrame(animationFrameRef.current);
-      animationFrameRef.current = null;
-    }
-    if (micStreamRef.current) {
-      micStreamRef.current.getTracks().forEach((t) => t.stop());
-      micStreamRef.current = null;
-    }
-    setAudioFrequencies(new Array(16).fill(10));
-  }, []);
 
   const stopRecordingOnly = useCallback(() => {
     isRecordingRef.current = false;
@@ -97,14 +32,13 @@ export function useAiConversationSpeech({
       clearInterval(recordingTimerRef.current);
       recordingTimerRef.current = null;
     }
-    stopAudioVisualizer();
     if (speechRecognitionRef.current) {
       try {
         speechRecognitionRef.current.stop();
       } catch (e) {}
       speechRecognitionRef.current = null;
     }
-  }, [stopAudioVisualizer]);
+  }, []);
 
   const startRecording = useCallback(() => {
     const SpeechRecognition =
@@ -139,7 +73,6 @@ export function useAiConversationSpeech({
         recordingTimerRef.current = setInterval(() => {
           setRecordingTime((prev) => prev + 1);
         }, 1000);
-        startAudioVisualizer();
       };
 
       recognition.onresult = (event: any) => {
@@ -215,11 +148,6 @@ export function useAiConversationSpeech({
   useEffect(() => {
     return () => {
       stopRecordingOnly();
-      if (audioContextRef.current && audioContextRef.current.state !== "closed") {
-        try {
-          audioContextRef.current.close();
-        } catch {}
-      }
     };
   }, [stopRecordingOnly]);
 
@@ -228,7 +156,6 @@ export function useAiConversationSpeech({
     spokenText,
     setSpokenText,
     recordingTime,
-    audioFrequencies,
     isSpeaking,
     startRecording,
     stopRecordingOnly,

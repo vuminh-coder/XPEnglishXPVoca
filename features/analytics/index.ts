@@ -4,6 +4,7 @@ export * from "./constants";
 
 // Shared Components
 export * from "./components/shared/AnalyticsMetricsBar";
+export * from "./components/shared/AnalyticsWorkspaceHeader";
 export * from "./components/shared/HighDpiWaveformChart";
 export * from "./components/shared/WaveformChartSkeleton";
 

@@ -63,7 +63,7 @@ export async function GET(request: Request) {
       if (offset === 0) {
         milestoneDates.push("Hôm nay");
       } else {
-        milestoneDates.push(`${dayNum} thg ${monthNum}`);
+        milestoneDates.push(`${dayNum}/${monthNum}`);
       }
     });
 
