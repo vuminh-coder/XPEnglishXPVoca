@@ -145,7 +145,7 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
   return (
     <div
       id="active-listening-workspace"
-      className="w-full h-full max-h-full flex flex-col overflow-hidden select-none min-h-0"
+      className="w-full h-full max-h-full bg-[#fffefb] dark:bg-slate-950 flex flex-col overflow-hidden select-none min-h-0"
     >
       {/* Top Unified Studio Navigation Bar */}
       <StudioTopHeader
@@ -192,17 +192,17 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
         totalSentencesCount={totalSentencesCount}
       />
 
-      {/* 2-Column Responsive Workspace: Left Main Dictation & Right Transcript Panel */}
-      <div className="flex-1 flex flex-col lg:flex-row items-stretch min-h-0 overflow-hidden">
+      {/* 2-Column Centered Responsive Workspace: Left Main Dictation & Right Transcript Card */}
+      <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 py-2.5 lg:py-3 flex flex-col lg:flex-row items-stretch gap-4 lg:gap-5 min-h-0 overflow-hidden">
         {/* CỘT TRÁI: SINGLE-SENTENCE FOCUS WORKSPACE */}
         <div
-          className={`flex-1 min-w-0 p-3 sm:p-3.5 space-y-2.5 sm:space-y-3 overflow-y-auto overscroll-contain pb-28 lg:pb-4 hide-scrollbar ${
+          className={`flex-1 min-w-0 space-y-2 overflow-y-auto overscroll-contain pb-28 lg:pb-1 hide-scrollbar ${
             mobileStudioTab === "dictation" ? "block" : "hidden lg:block"
           }`}
         >
           {currentSentence && (
-            <div className="space-y-2.5 sm:space-y-3">
-              {/* 1. UNIFIED REUSABLE DICTATION VIDEO BLOCK (100% PARITY) */}
+            <div className="space-y-2">
+              {/* 1. UNIFIED REUSABLE DICTATION VIDEO BLOCK */}
               <DictationVideoBlock
                 currentLesson={currentLesson}
                 currentSentence={currentSentence}
@@ -289,9 +289,9 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
           )}
         </div>
 
-        {/* CỘT PHẢI: INTERACTIVE TRANSCRIPT & PROGRESS PANEL */}
+        {/* CỘT PHẢI: INTERACTIVE TRANSCRIPT & PROGRESS CARD */}
         <div
-          className={`w-full lg:w-[380px] xl:w-[400px] 2xl:w-[420px] shrink-0 border-t lg:border-t-0 lg:border-l border-slate-200/90 dark:border-slate-800 bg-[#f8fafc] dark:bg-slate-900/90 flex flex-col min-h-0 overflow-y-auto pb-24 lg:pb-0 ${
+          className={`w-full lg:w-[370px] xl:w-[390px] shrink-0 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col min-h-0 overflow-hidden mb-24 lg:mb-0 ${
             mobileStudioTab === "transcript" ? "flex flex-1" : "hidden lg:flex"
           }`}
         >
@@ -300,7 +300,10 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
             currentIndex={currentSentenceIndex}
             completedSentences={completedSentences}
             isPlaying={!!playingSentenceText}
-            isLoadingSentences={isLoadingLessonDetail || isInPlaceSwitchingLesson}
+            isLoadingSentences={
+              (isLoadingLessonDetail && !currentLesson?.transcript?.length) ||
+              isInPlaceSwitchingLesson
+            }
             isLoadingRecommendations={isShufflingRecommendations}
             onSelectSentence={(idx) => {
               onStopTTS();

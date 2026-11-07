@@ -225,8 +225,8 @@ function StudioWaveformCardComponent({
     <div
       className={`${
         compact
-          ? "p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs space-y-2 font-sans"
-          : "p-3.5 sm:p-4 lg:p-4.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/60 dark:shadow-black/40 space-y-3 sm:space-y-3.5 font-sans"
+          ? "p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-1.5 font-sans"
+          : "p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-2 font-sans"
       } ${className}`}
     >
       {/* 1. TOP HEADER: Status Indicator + Volume Slider & Digital Timer */}
@@ -288,7 +288,7 @@ function StudioWaveformCardComponent({
       </div>
 
       {/* 2. CENTER JAGGED ACOUSTIC SPEECH WAVEFORM (TWO-TONE SPECTRUM & SCRUBBER) */}
-      <div className="w-full flex justify-center items-center py-1 sm:py-1.5">
+      <div className="w-full flex justify-center items-center py-0.5">
         <div
           ref={trackRef}
           onClick={handleTrackClick}
@@ -300,7 +300,7 @@ function StudioWaveformCardComponent({
               : "Nhấp để phát âm thanh câu (Space)"
           }
           className={`relative w-full max-w-lg sm:max-w-xl lg:max-w-2xl ${
-            compact ? "h-11 sm:h-13" : "h-22 sm:h-24 lg:h-28"
+            compact ? "h-11 sm:h-13" : "h-16 sm:h-18 lg:h-20"
           } flex items-center justify-center px-1 bg-transparent cursor-pointer transition-all group select-none overflow-hidden`}
         >
           {/* Dense Jagged Vector Spectrum Bars with Playback-Themed Color */}

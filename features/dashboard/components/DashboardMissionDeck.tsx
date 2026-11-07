@@ -48,9 +48,11 @@ export function DashboardMissionDeck({
       : "Unit 1 • Chặng 1: Từ Vựng Cốt Lõi — Chào Hỏi & Giao Tiếp Lịch Sự");
 
   const displaySubtitle =
-    !currentTask && activeRoadmapMission?.description
-      ? activeRoadmapMission.description
-      : null;
+    activeRoadmapMission?.description ||
+    "Hoàn thành bài luyện nghe chép chính tả và ghi nhớ 10 từ vựng trọng tâm hôm nay.";
+
+  const completedWords = Math.max(0, Math.min(10, 10 - remainingWords));
+  const progressPercent = Math.round((completedWords / 10) * 100);
 
   const durationText = activeRoadmapMission
     ? `~${activeRoadmapMission.durationMinutes} phút`
@@ -135,13 +137,17 @@ export function DashboardMissionDeck({
       </div>
 
       {/* Progress Bar & Clean White Button CTA */}
-      <div className="flex items-center justify-between gap-2.5 sm:gap-4 pt-3 sm:pt-3.5 border-t border-white/30 relative z-10">
-        <div className="flex-1 min-w-0 sm:max-w-xs space-y-1">
+      <div className="flex items-center justify-between gap-3 sm:gap-4 pt-3 sm:pt-3.5 border-t border-white/25 relative z-10">
+        <div className="flex-1 min-w-0 sm:max-w-xs space-y-1.5">
+          <div className="flex items-center justify-between text-[11px] font-mono font-bold text-blue-100/95 leading-none">
+            <span>Tiến độ mục tiêu ngày</span>
+            <span className="text-amber-300 tabular-nums">{progressPercent}%</span>
+          </div>
           <div className="h-2 sm:h-2.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/25 overflow-hidden">
             <div
               className="h-full rounded-full bg-gradient-to-r from-amber-300 via-amber-400 to-yellow-300 transition-all duration-500 shadow-sm"
               style={{
-                width: `${Math.min(100, ((10 - remainingWords) / 10) * 100)}%`,
+                width: `${progressPercent}%`,
               }}
             />
           </div>

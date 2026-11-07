@@ -298,7 +298,7 @@ export function DictationWorkspace({
       case 3:
         return "h-14 sm:h-15 text-xl sm:text-2xl font-medium";
       default:
-        return "h-11 sm:h-12 text-sm sm:text-base font-medium";
+        return "h-10 sm:h-11 text-sm sm:text-base font-medium";
     }
   }, [fontSizeLevel]);
 
@@ -748,13 +748,13 @@ export function DictationWorkspace({
         </div>
 
         {/* Masked / Revealed Token Row (Hidden Scrollbar + Auto-Centered Track) */}
-        <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+        <div className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
           <div
             ref={tokenContainerRef}
             style={isCollapsed ? { scrollbarWidth: "none", msOverflowStyle: "none" } : undefined}
-            className={`gap-1.5 sm:gap-2 items-center py-1.5 sm:py-2 px-1 ${
+            className={`gap-1.5 sm:gap-2 items-center py-1 px-1 ${
               isCollapsed
-                ? "flex flex-nowrap overflow-x-auto scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden"
+                ? "flex flex-wrap max-h-[82px] sm:max-h-[88px] overflow-y-auto scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden"
                 : "flex flex-wrap"
             }`}
           >
@@ -952,7 +952,7 @@ export function DictationWorkspace({
             <button
               type="button"
               onClick={handleHintFirstLetter}
-              className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
+              className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold whitespace-nowrap text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
               title="Gợi ý chữ cái đầu tiên (hoặc chữ cái kế tiếp) của từ đang làm (Alt+H)"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
@@ -966,7 +966,7 @@ export function DictationWorkspace({
             <button
               type="button"
               onClick={handleRevealNextWord}
-              className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
+              className="inline-flex items-center justify-center gap-1.5 flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold whitespace-nowrap text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
               title="Xem toàn bộ từ đang làm và chuyển sang từ tiếp theo (Alt+R)"
             >
               <Eye className="w-3.5 h-3.5 text-slate-500 shrink-0" />
@@ -989,7 +989,7 @@ export function DictationWorkspace({
                     setShowTranslation((prev) => !prev);
                   }
                 }}
-                className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer shadow-2xs min-h-[34px] sm:min-h-[36px] active:scale-95 ${
+                className={`inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold whitespace-nowrap transition-all cursor-pointer shadow-2xs min-h-[34px] sm:min-h-[36px] active:scale-95 ${
                   showTranslation
                     ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60 font-bold"
                     : "text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800"
@@ -1027,11 +1027,11 @@ export function DictationWorkspace({
               initial={{ opacity: 0, height: 0, y: -4 }}
               animate={{ opacity: 1, height: "auto", y: 0 }}
               exit={{ opacity: 0, height: 0, y: -4 }}
-              className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-blue-100/90 dark:border-slate-800 shadow-2xs space-y-2.5 overflow-hidden"
+              className="p-2 sm:p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-1.5 overflow-hidden"
             >
               {/* TAB CHUYỂN BÊN DỊCH VÀ BÊN IPA (KHI CÓ CẢ 2) */}
               {translation && ipa && (
-                <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-100 dark:border-slate-800/80">
+                <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-slate-100 dark:border-slate-800/80">
                   <div className="inline-flex p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs">
                     <button
                       type="button"
@@ -1089,7 +1089,7 @@ export function DictationWorkspace({
               {/* NỘI DUNG TAB HIỂN THỊ */}
               {/* Tab 1: Bản dịch tiếng Việt (Phong cách song ngữ Reading, loại bỏ nhãn Dịch) */}
               {((activeHelperTab === "translation" && translation) || (!ipa && translation)) && (
-                <div className="pl-4 pr-3 py-2 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed my-1 break-words">
+                <div className="pl-3.5 pr-3 py-1.5 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed break-words">
                   {translation.replace(/^(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "").trim()}
                 </div>
               )}

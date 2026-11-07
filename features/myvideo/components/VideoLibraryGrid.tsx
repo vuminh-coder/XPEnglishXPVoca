@@ -58,16 +58,18 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
   onToggleFavorite,
   onRemoveVideo,
 }) => {
+  const [fallbackThumbs, setFallbackThumbs] = React.useState<Record<string, boolean>>({});
+
   return (
     <div className="space-y-4">
       {/* Search & Category Filter Bar */}
-      <div className="p-3.5 sm:p-5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
+      <div className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3">
         <div className="flex flex-col md:flex-row items-stretch md:items-end justify-between gap-3">
           {/* Search Box with UI/UX Rule 6 External Label (Hidden on mobile < sm, unified via AppTopHeader) */}
           <div className="hidden sm:block flex-1 min-w-0 space-y-1.5">
             <label
               htmlFor="video-search-input"
-              className="text-[11px] font-bold text-slate-700 dark:text-slate-300 font-display"
+              className="text-xs font-bold text-slate-700 dark:text-slate-300 font-display"
             >
               Tìm kiếm video bài học:
             </label>
@@ -79,13 +81,13 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Nhập tiêu đề video hoặc tên kênh (VD: Steve Jobs, BBC, TED)..."
-                className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white focus:border-[#0059bb] focus:ring-1 focus:ring-[#0059bb] focus:outline-hidden transition-all placeholder:text-slate-400"
+                className="w-full pl-10 pr-3.5 py-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white focus:border-[#0059bb] focus:ring-1 focus:ring-[#0059bb] focus:outline-hidden transition-all placeholder:text-slate-400"
               />
             </div>
           </div>
 
-          {/* Progress Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 shrink-0">
+          {/* Progress Filter Pills (Elevated Segmented Control per Rule 14 & Rule 18) */}
+          <div className="flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/60 gap-1 overflow-x-auto shrink-0">
             {[
               { id: "all" as const, label: "Tất cả" },
               { id: "learning" as const, label: "Đang học" },
@@ -96,10 +98,10 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                 key={f.id}
                 type="button"
                 onClick={() => setSelectedFilter(f.id)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold cursor-pointer transition-all whitespace-nowrap flex items-center gap-1.5 ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-all whitespace-nowrap flex items-center gap-1.5 ${
                   selectedFilter === f.id
-                    ? "bg-[#0059bb] text-white shadow-md shadow-[#0059bb]/20"
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
+                    ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-2xs"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
                 <span>{f.label}</span>
@@ -107,8 +109,8 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                   <Star
                     className={`w-3.5 h-3.5 ${
                       selectedFilter === "favorite"
-                        ? "fill-amber-300 text-amber-300"
-                        : "fill-amber-400 text-amber-400"
+                        ? "fill-amber-400 text-amber-400"
+                        : "fill-amber-400/70 text-amber-400"
                     }`}
                   />
                 )}
@@ -124,7 +126,7 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
               key={cat}
               type="button"
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all whitespace-nowrap cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
                 selectedCategory === cat
                   ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-800 shadow-2xs"
                   : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
@@ -138,7 +140,7 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
 
       {/* Video Bento Grid Cards */}
       {videos.length === 0 ? (
-        <div className="p-8 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md text-center space-y-3 max-w-md mx-auto">
+        <div className="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md text-center space-y-3 max-w-md mx-auto">
           <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
             <Video className="w-6 h-6" />
           </div>
@@ -156,22 +158,49 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
           {videos.map((video) => (
             <div
               key={video.id}
-              className={`rounded-xl bg-white dark:bg-slate-900 border transition-all overflow-hidden flex flex-col justify-between group hover:-translate-y-1 hover:shadow-xl duration-300 ${
+              className={`relative rounded-2xl bg-white dark:bg-slate-900 transition-all overflow-hidden flex flex-col justify-between group hover:-translate-y-1 hover:shadow-xl duration-300 ${
                 activeVideoId === video.id
-                  ? "border-[#0059bb] ring-2 ring-[#0059bb]/20 shadow-md"
-                  : "border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/60 shadow-md shadow-slate-200/40 dark:shadow-black/30"
+                  ? "ring-2 ring-[#0059bb]/25 shadow-md"
+                  : "shadow-md shadow-slate-200/40 dark:shadow-black/30"
               }`}
             >
+              {/* Crisp 4-Corner Border Overlay */}
+              <div
+                className={`pointer-events-none absolute inset-0 rounded-2xl border z-20 transition-colors ${
+                  activeVideoId === video.id
+                    ? "border-[#0059bb]"
+                    : "border-slate-200/90 dark:border-slate-800 group-hover:border-[#0059bb]/60"
+                }`}
+              />
               <div>
                 {/* Thumbnail HD */}
-                <div className="relative aspect-video bg-slate-950 overflow-hidden">
-                  <img
-                    src={video.thumbnailUrl}
-                    alt={video.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
-                  />
+                <div className="relative aspect-video bg-slate-900 overflow-hidden">
+                  {fallbackThumbs[video.id] || video.id === "8K8s9U8_i50" ? (
+                    <div className="w-full h-full bg-gradient-to-br from-[#003b80] via-[#0059bb] to-slate-900 flex flex-col items-start justify-end p-3.5 text-left select-none">
+                      <span className="px-2 py-0.5 rounded-md bg-white/15 text-sky-200 text-xs font-bold mb-1 backdrop-blur-xs border border-white/15">
+                        {video.authorName}
+                      </span>
+                      <p className="text-white text-xs font-bold font-display line-clamp-1 max-w-[78%] opacity-95">
+                        {video.title}
+                      </p>
+                    </div>
+                  ) : (
+                    <img
+                      src={video.thumbnailUrl}
+                      alt={video.title}
+                      loading="lazy"
+                      decoding="async"
+                      onLoad={(e) => {
+                        if (e.currentTarget.naturalWidth > 0 && e.currentTarget.naturalWidth <= 120) {
+                          setFallbackThumbs((prev) => ({ ...prev, [video.id]: true }));
+                        }
+                      }}
+                      onError={() => {
+                        setFallbackThumbs((prev) => ({ ...prev, [video.id]: true }));
+                      }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90 group-hover:opacity-100"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-slate-950/10 transition-colors" />
 
                   {/* Play Overlay Button */}
@@ -186,7 +215,7 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                   </button>
 
                   {/* Duration Badge */}
-                  <span className="absolute right-2.5 bottom-2.5 px-2 py-0.5 rounded-md bg-slate-950/80 text-white text-[10px] font-mono font-bold backdrop-blur-xs">
+                  <span className="absolute right-2.5 bottom-2.5 px-2 py-0.5 rounded-md bg-slate-950/80 text-white text-xs font-mono font-bold backdrop-blur-xs">
                     {video.duration}
                   </span>
 
@@ -212,18 +241,18 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
                 </div>
 
                 {/* Info Card */}
-                <div className="p-3 sm:p-4 space-y-1.5">
+                <div className="p-3.5 sm:p-4 space-y-1.5">
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-1.5">
-                      <span className="px-2 py-0.5 rounded-md text-[9.5px] font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-800">
+                      <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200 dark:border-blue-800">
                         {CATEGORY_LABELS[video.category] || video.category}
                       </span>
-                      <span className="px-1.5 py-0.5 rounded-md text-[9.5px] font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60">
+                      <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-300 border border-amber-200/80 dark:border-amber-800/60">
                         {LEVEL_LABELS_VI[video.level] || video.level}
                       </span>
                     </div>
                     {video.progressPercent > 0 && (
-                      <span className="text-[10.5px] font-mono font-bold text-[#0059bb] dark:text-sky-400">
+                      <span className="text-xs font-mono font-bold text-[#0059bb] dark:text-sky-400">
                         {video.progressPercent}%
                       </span>
                     )}
@@ -240,7 +269,7 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
               </div>
 
               {/* Actions Footer */}
-              <div className="p-2.5 sm:p-3.5 bg-slate-50 dark:bg-slate-950/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div className="p-3 sm:p-3.5 bg-slate-50 dark:bg-slate-950/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                 <button
                   type="button"
                   onClick={() => onRemoveVideo(video.id)}

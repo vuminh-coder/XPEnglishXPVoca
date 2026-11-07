@@ -300,11 +300,110 @@ CRITICAL RULES:
         matchedBank = TUTOR_TOPIC_BANKS.work;
       }
 
+      // Smart Rule-Based Grammar Correction & Context-Aware Better Phrasing Analyzer
+      let grammarCorrection:
+        | {
+            hasError: boolean;
+            original: string;
+            corrected: string;
+            explanation: string;
+          }
+        | undefined = undefined;
+
+      let betterPhrasing =
+        "Speaking of that, I find it really fascinating and worth exploring further.";
+
+      const trimmedUser = lastUserText.trim();
+      const hasPastMarker =
+        /\b(yesterday|last\s+night|last\s+week|last\s+month|last\s+year|ago)\b/i.test(
+          trimmedUser
+        );
+
+      if (
+        hasPastMarker &&
+        /\b(go|watch|play|eat|see|buy|make|visit|have|do|is|am|are)\b/i.test(
+          trimmedUser
+        )
+      ) {
+        const correctedSentence = trimmedUser
+          .replace(/\bgo\b/gi, "went")
+          .replace(/\bwatch\b/gi, "watched")
+          .replace(/\bplay\b/gi, "played")
+          .replace(/\beat\b/gi, "ate")
+          .replace(/\bsee\b/gi, "saw")
+          .replace(/\bbuy\b/gi, "bought")
+          .replace(/\bmake\b/gi, "made")
+          .replace(/\bvisit\b/gi, "visited")
+          .replace(/\bhave\b/gi, "had")
+          .replace(/\bdo\b/gi, "did")
+          .replace(/\b(is|am)\b/gi, "was")
+          .replace(/\bare\b/gi, "were");
+
+        if (correctedSentence !== trimmedUser) {
+          grammarCorrection = {
+            hasError: true,
+            original: trimmedUser,
+            corrected: correctedSentence,
+            explanation:
+              "Khi câu có trạng từ chỉ quá khứ (như 'yesterday', 'last...'), động từ chính cần chia ở thì Quá khứ đơn (V2/V-ed).",
+          };
+          betterPhrasing = correctedSentence;
+        }
+      } else if (/\b(he|she|it)\s+(go|like|enjoy|want|have|do|watch|work)\b/i.test(trimmedUser)) {
+        const correctedSentence = trimmedUser
+          .replace(/\b(he|she|it)\s+go\b/gi, "$1 goes")
+          .replace(/\b(he|she|it)\s+like\b/gi, "$1 likes")
+          .replace(/\b(he|she|it)\s+enjoy\b/gi, "$1 enjoys")
+          .replace(/\b(he|she|it)\s+want\b/gi, "$1 wants")
+          .replace(/\b(he|she|it)\s+have\b/gi, "$1 has")
+          .replace(/\b(he|she|it)\s+do\b/gi, "$1 does")
+          .replace(/\b(he|she|it)\s+watch\b/gi, "$1 watches")
+          .replace(/\b(he|she|it)\s+work\b/gi, "$1 works");
+        grammarCorrection = {
+          hasError: true,
+          original: trimmedUser,
+          corrected: correctedSentence,
+          explanation:
+            "Với chủ ngữ ngôi thứ 3 số ít (he/she/it) ở thì Hiện tại đơn, động từ cần thêm -s/-es.",
+        };
+        betterPhrasing = correctedSentence;
+      } else if (/\benjoy\s+to\s+([a-z]+)\b/i.test(trimmedUser)) {
+        const correctedSentence = trimmedUser.replace(
+          /\benjoy\s+to\s+([a-z]+)\b/gi,
+          (_, v) => `enjoy ${v.replace(/e$/, "")}ing`
+        );
+        grammarCorrection = {
+          hasError: true,
+          original: trimmedUser,
+          corrected: correctedSentence,
+          explanation: "Sau động từ 'enjoy' cần dùng danh động từ (V-ing) thay vì 'to + V'.",
+        };
+        betterPhrasing = correctedSentence;
+      } else {
+        // Context-tailored C1/IELTS natural phrasing when user sentence is grammatically sound
+        if (lower.includes("read") || lower.includes("book")) {
+          betterPhrasing =
+            "Reading books is my favorite way to unwind whenever I have spare time.";
+        } else if (lower.includes("movie") || lower.includes("film") || lower.includes("cinema")) {
+          betterPhrasing =
+            "Watching a great film at the cinema is always a wonderful way to relax with friends.";
+        } else if (lower.includes("food") || lower.includes("cook") || lower.includes("eat")) {
+          betterPhrasing =
+            "Trying out delicious homemade dishes is something I genuinely enjoy.";
+        } else if (lower.includes("travel") || lower.includes("trip")) {
+          betterPhrasing =
+            "Exploring new destinations always gives me fresh perspectives and unforgettable memories.";
+        } else if (lower.includes("work") || lower.includes("job")) {
+          betterPhrasing =
+            "Staying organized helps me maintain a healthy balance between work and daily life.";
+        }
+      }
+
       parsedData = {
         reply: matchedBank.reply,
         vietnameseTranslation: matchedBank.vietnameseTranslation,
-        grammarCorrection: undefined,
-        betterPhrasing: "I'd really love to share more about that.",
+        grammarCorrection,
+        betterPhrasing,
         suggestedWords: matchedBank.words,
         suggestedPhrases: matchedBank.phrases,
       };

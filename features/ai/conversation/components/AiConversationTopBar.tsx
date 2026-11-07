@@ -1,407 +1,361 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
 import {
-  ChevronDown,
-  Check,
   MessageSquare,
-  Sparkles,
+  ChevronDown,
+  CheckCircle2,
+  Bot,
   SlidersHorizontal,
   Search,
-  Bot,
-  Briefcase,
-  GraduationCap,
   X,
+  Volume2,
+  VolumeX,
+  History,
 } from "lucide-react";
-import { Topic, AiPersona } from "../types";
+import { Topic, AiPersona, ConversationDifficulty } from "../types";
 import { TOPIC_ICONS } from "../data/aiTopics";
-import { AI_PERSONAS, DEFAULT_AI_PERSONA } from "../data/aiPersonas";
-
-export type ConversationDifficulty = "Beginner" | "Intermediate" | "Advanced";
 
 interface AiConversationTopBarProps {
   currentTopic: Topic;
-  allTopics: Topic[];
-  selectedTopicId: string;
-  onSelectTopic: (topic: Topic) => void;
-  isSessionCompleted: boolean;
+  allTopics?: Topic[];
+  selectedTopicId?: string;
+  onSelectTopic?: (topic: Topic) => void;
+  isSessionCompleted?: boolean;
   elapsedTime?: number;
   formatElapsedTime?: (seconds: number) => string;
   onRestartNewSession?: () => void;
   onFinishConversation?: () => void;
-  // Persona & Difficulty Extensions
   currentPersona?: AiPersona;
   allPersonas?: AiPersona[];
   onSelectPersona?: (persona: AiPersona) => void;
   currentDifficulty?: ConversationDifficulty;
-  onSelectDifficulty?: (difficulty: ConversationDifficulty) => void;
+  onSelectDifficulty?: (diff: ConversationDifficulty) => void;
+  soundEnabled?: boolean;
+  onToggleSound?: () => void;
+  onOpenHistoryDrawer?: () => void;
+  pastSessionsCount?: number;
 }
 
-const DIFFICULTY_CONFIG: Record<
-  ConversationDifficulty,
-  { label: string; desc: string }
-> = {
-  Beginner: {
-    label: "Beginner",
-    desc: "A1-A2: Câu ngắn gọn, từ vựng thông dụng dễ tiếp thu",
-  },
-  Intermediate: {
-    label: "Intermediate",
-    desc: "B1-B2: Giao tiếp tự nhiên, cụm từ đàm thoại hàng ngày",
-  },
-  Advanced: {
-    label: "Advanced",
-    desc: "C1-C2: Thành ngữ bản xứ, từ vựng chuyên sâu & phản biện",
-  },
-};
-
-const PERSONA_ICONS: Record<string, React.ReactNode> = {
-  native_friend: <Bot className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />,
-  strict_interviewer: <Briefcase className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />,
-  patient_tutor: <GraduationCap className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />,
-  challenging_debater: <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />,
-};
+const DIFFICULTIES: ConversationDifficulty[] = ["Beginner", "Intermediate", "Advanced"];
 
 export function AiConversationTopBar({
   currentTopic,
-  allTopics,
-  selectedTopicId,
+  allTopics = [],
   onSelectTopic,
-  isSessionCompleted,
-  currentPersona = DEFAULT_AI_PERSONA,
-  allPersonas = AI_PERSONAS,
+  onFinishConversation,
+  currentPersona,
+  allPersonas = [],
   onSelectPersona,
-  currentDifficulty,
+  currentDifficulty = "Beginner",
   onSelectDifficulty,
+  soundEnabled = true,
+  onToggleSound,
+  onOpenHistoryDrawer,
+  pastSessionsCount = 0,
 }: AiConversationTopBarProps) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isPersonaOpen, setIsPersonaOpen] = useState(false);
-  const [isDifficultyOpen, setIsDifficultyOpen] = useState(false);
+  const [isTopicOpen, setIsTopicOpen] = useState(false);
   const [topicSearchQuery, setTopicSearchQuery] = useState("");
+  const [isPersonaOpen, setIsPersonaOpen] = useState(false);
+  const [isDiffOpen, setIsDiffOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const personaRef = useRef<HTMLDivElement>(null);
-  const difficultyRef = useRef<HTMLDivElement>(null);
-
-  const activeLevel: ConversationDifficulty =
-    currentDifficulty || (currentTopic.level as ConversationDifficulty) || "Beginner";
-
-  // Lọc chủ đề theo từ khóa tìm kiếm
-  const filteredTopics = useMemo(() => {
-    if (!topicSearchQuery.trim()) return allTopics;
-    const q = topicSearchQuery.toLowerCase();
-    return allTopics.filter(
-      (t) =>
-        t.name.toLowerCase().includes(q) ||
-        t.nameEn.toLowerCase().includes(q) ||
-        t.description.toLowerCase().includes(q)
-    );
-  }, [allTopics, topicSearchQuery]);
-
-  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
-        setIsDropdownOpen(false);
-      }
-      if (personaRef.current && !personaRef.current.contains(target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setIsTopicOpen(false);
         setIsPersonaOpen(false);
-      }
-      if (difficultyRef.current && !difficultyRef.current.contains(target)) {
-        setIsDifficultyOpen(false);
+        setIsDiffOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const filteredTopics = allTopics.filter(
+    (t) =>
+      t.name.toLowerCase().includes(topicSearchQuery.toLowerCase()) ||
+      t.nameEn.toLowerCase().includes(topicSearchQuery.toLowerCase()),
+  );
+
   return (
-    <div className="p-2 sm:p-2.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex items-center justify-between gap-3 shrink-0 select-none">
-      {/* CỘT TRÁI: TOPIC ICON & TOPIC SELECTOR VỚI TÌM KIẾM */}
-      <div className="flex items-center gap-2.5 min-w-0 flex-1">
-        <div className="shrink-0">
-          <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-[#0059bb] dark:text-sky-400 shadow-2xs">
-            {TOPIC_ICONS[currentTopic.id] || <MessageSquare className="w-4 h-4" />}
-          </div>
+    <div
+      ref={containerRef}
+      className="relative z-30 flex items-center justify-between gap-1.5 pb-2 border-b border-slate-100 dark:border-slate-800/80 shrink-0"
+    >
+      {/* Left: Topic Selector + Persona + Difficulty (Single Row) */}
+      <div className="flex items-center gap-1.5 min-w-0">
+        {/* 1. Topic Dropdown Selector (Rule 2: Searchable & Scrollable) */}
+        <div className="relative shrink-0">
+          <button
+            type="button"
+            onClick={() => {
+              setIsTopicOpen(!isTopicOpen);
+              setIsPersonaOpen(false);
+              setIsDiffOpen(false);
+            }}
+            className="h-8.5 px-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/90 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-xs font-extrabold text-slate-900 dark:text-white inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs whitespace-nowrap"
+            title="Đổi kịch bản tình huống giao tiếp"
+          >
+            <span className="shrink-0 flex items-center">
+              {TOPIC_ICONS[currentTopic.id] || (
+                <MessageSquare className="w-3.5 h-3.5 text-[#0059bb]" strokeWidth={2.2} />
+              )}
+            </span>
+            <span>{currentTopic.name}</span>
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${
+                isTopicOpen ? "rotate-180 text-[#0059bb]" : ""
+              }`}
+              strokeWidth={2.2}
+            />
+          </button>
+
+          {isTopicOpen && allTopics.length > 0 && (
+            <div className="absolute left-0 top-full mt-1.5 w-80 sm:w-88 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+              {/* Rule 2 & Rule 12: Search input inside topic selector */}
+              <div className="relative mb-2">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={topicSearchQuery}
+                  onChange={(e) => setTopicSearchQuery(e.target.value)}
+                  placeholder="Gõ tên chủ đề (VD: Nhà hàng, Sân bay, AI)..."
+                  aria-label="Tìm kiếm chủ đề hội thoại"
+                  className="w-full pl-8 pr-7 py-1.5 text-xs font-semibold bg-slate-50 dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 rounded-xl text-slate-800 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb]"
+                />
+                {topicSearchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setTopicSearchQuery("")}
+                    aria-label="Xóa tìm kiếm chủ đề"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+
+              <div className="space-y-1 max-h-64 overflow-y-auto pr-1 scrollbar-thin">
+                {filteredTopics.length === 0 ? (
+                  <p className="text-xs font-semibold text-slate-400 text-center py-4">
+                    Không tìm thấy chủ đề phù hợp
+                  </p>
+                ) : (
+                  filteredTopics.map((topic) => {
+                    const isSelected = topic.id === currentTopic.id;
+                    return (
+                      <button
+                        key={topic.id}
+                        type="button"
+                        onClick={() => {
+                          setIsTopicOpen(false);
+                          setTopicSearchQuery("");
+                          onSelectTopic?.(topic);
+                        }}
+                        className={`w-full text-left px-3 py-2 rounded-xl transition-all flex items-center justify-between gap-2 cursor-pointer ${
+                          isSelected
+                            ? "bg-blue-50/90 dark:bg-sky-950/50 text-[#0059bb] dark:text-sky-400 font-bold border border-blue-200/60 dark:border-sky-800/50"
+                            : "hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-700 dark:text-slate-300 font-medium"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <span className="shrink-0">
+                            {TOPIC_ICONS[topic.id] || <MessageSquare className="w-4 h-4" />}
+                          </span>
+                          <div className="min-w-0">
+                            <p className="text-xs font-bold leading-snug">{topic.name}</p>
+                            <p className="text-xs text-slate-400 font-semibold">
+                              {topic.nameEn} • {topic.level}
+                            </p>
+                          </div>
+                        </div>
+                        {isSelected && (
+                          <CheckCircle2 className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                        )}
+                      </button>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            {!isSessionCompleted ? (
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsDropdownOpen(!isDropdownOpen);
-                    setIsPersonaOpen(false);
-                    setIsDifficultyOpen(false);
-                  }}
-                  className="h-8.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/80 border border-slate-200/90 dark:border-slate-700 hover:border-[#0059bb] text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all active:scale-95"
-                >
-                  <span className="truncate max-w-[200px] sm:max-w-[280px] font-display">
-                    {currentTopic.name}
-                  </span>
-                  <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform ${
-                      isDropdownOpen ? "rotate-180" : ""
+        {/* 2. Persona Selector Dropdown */}
+        {currentPersona && allPersonas.length > 0 && (
+          <div className="relative shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                setIsPersonaOpen(!isPersonaOpen);
+                setIsTopicOpen(false);
+                setIsDiffOpen(false);
+              }}
+              className="h-8.5 px-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap"
+              title="Đổi bạn học AI & giọng phát âm"
+            >
+              <Bot className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
+              <span>{currentPersona.name}</span>
+              <ChevronDown className="w-3 h-3 text-slate-400 shrink-0" />
+            </button>
+
+            {isPersonaOpen && (
+              <div className="absolute left-0 top-full mt-1.5 w-60 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl p-1.5 z-50">
+                <p className="px-2.5 py-1 text-xs font-extrabold uppercase tracking-wider text-slate-400">
+                  Chọn đối tác AI
+                </p>
+                {allPersonas.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => {
+                      setIsPersonaOpen(false);
+                      onSelectPersona?.(p);
+                    }}
+                    className={`w-full text-left px-2.5 py-2 rounded-xl text-xs flex items-center justify-between transition-all cursor-pointer ${
+                      p.id === currentPersona.id
+                        ? "bg-blue-50 dark:bg-sky-950/50 text-[#0059bb] dark:text-sky-400 font-bold"
+                        : "hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium"
                     }`}
-                  />
-                </button>
-
-                <AnimatePresence>
-                  {isDropdownOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 4, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 4, scale: 0.98 }}
-                      className="absolute left-0 top-full mt-1.5 z-50 w-72 sm:w-84 max-w-[calc(100vw-2rem)] rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col"
-                    >
-                      {/* Ô TÌM KIẾM CHỦ ĐỀ */}
-                      <div className="p-2 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/40">
-                        <div className="relative">
-                          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-                          <input
-                            type="text"
-                            value={topicSearchQuery}
-                            onChange={(e) => setTopicSearchQuery(e.target.value)}
-                            placeholder="Tìm kiếm chủ đề hội thoại..."
-                            className="w-full pl-8 pr-7 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 border border-slate-200/80 dark:border-slate-700 focus:outline-none focus:border-[#0059bb] transition-colors"
-                            autoFocus
-                          />
-                          {topicSearchQuery && (
-                            <button
-                              type="button"
-                              onClick={() => setTopicSearchQuery("")}
-                              className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
-                            >
-                              <X className="w-3.5 h-3.5" />
-                            </button>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* DANH SÁCH CHỦ ĐỀ */}
-                      <div className="max-h-64 overflow-y-auto scrollbar-thin p-1.5 space-y-1">
-                        {filteredTopics.length > 0 ? (
-                          filteredTopics.map((topic) => {
-                            const isSelected = topic.id === selectedTopicId;
-                            return (
-                              <button
-                                key={topic.id}
-                                type="button"
-                                onClick={() => {
-                                  onSelectTopic(topic);
-                                  setIsDropdownOpen(false);
-                                  setTopicSearchQuery("");
-                                }}
-                                className={`w-full text-left p-2 rounded-xl flex items-center justify-between text-xs font-semibold cursor-pointer transition-all ${
-                                  isSelected
-                                    ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold border border-blue-200/60 dark:border-blue-800/40"
-                                    : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-transparent"
-                                }`}
-                              >
-                                <div className="flex items-center gap-2.5 min-w-0">
-                                  <span className="shrink-0">{TOPIC_ICONS[topic.id] || <MessageSquare className="w-4 h-4" />}</span>
-                                  <div className="truncate">
-                                    <div className="text-xs font-bold truncate text-slate-900 dark:text-white">
-                                      {topic.name}
-                                    </div>
-                                    <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-                                      {topic.nameEn} • {topic.level}
-                                    </div>
-                                  </div>
-                                </div>
-                                {isSelected && (
-                                  <Check className="w-4 h-4 text-[#0059bb] shrink-0 stroke-[3]" />
-                                )}
-                              </button>
-                            );
-                          })
-                        ) : (
-                          <div className="py-6 text-center text-xs text-slate-400">
-                            Không tìm thấy chủ đề phù hợp
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  >
+                    <div>
+                      <p className="font-bold">
+                        {p.name} ({p.roleTitle})
+                      </p>
+                      <p className="text-xs text-slate-400">{p.description}</p>
+                    </div>
+                    {p.id === currentPersona.id && (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#0059bb] shrink-0" />
+                    )}
+                  </button>
+                ))}
               </div>
-            ) : (
-              <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-                Báo Cáo Buổi Hội Thoại
-              </span>
             )}
           </div>
-          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
-            {isSessionCompleted
-              ? `Đã hoàn thành buổi hội thoại chủ đề "${currentTopic.name}"`
-              : currentTopic.description}
-          </p>
+        )}
+
+        {/* 3. Difficulty Selector Dropdown */}
+        <div className="relative shrink-0">
+          <button
+            type="button"
+            onClick={() => {
+              setIsDiffOpen(!isDiffOpen);
+              setIsTopicOpen(false);
+              setIsPersonaOpen(false);
+            }}
+            className="h-8.5 px-2 xl:px-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-800/80 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 transition-all cursor-pointer whitespace-nowrap"
+            title="Đổi độ khó câu trả lời AI"
+          >
+            <SlidersHorizontal className="w-3 h-3 text-slate-500 shrink-0" />
+            <span>
+              {currentDifficulty === "Beginner"
+                ? "Dễ"
+                : currentDifficulty === "Intermediate"
+                  ? "Vừa"
+                  : "Khó"}
+            </span>
+            <ChevronDown className="w-3 h-3 text-slate-400 shrink-0" />
+          </button>
+
+          {isDiffOpen && (
+            <div className="absolute left-0 top-full mt-1.5 w-44 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xl p-1.5 z-50">
+              {DIFFICULTIES.map((diff) => (
+                <button
+                  key={diff}
+                  type="button"
+                  onClick={() => {
+                    setIsDiffOpen(false);
+                    onSelectDifficulty?.(diff);
+                  }}
+                  className={`w-full text-left px-3 py-1.5 rounded-xl text-xs font-bold flex items-center justify-between transition-all cursor-pointer ${
+                    currentDifficulty === diff
+                      ? "bg-blue-50 dark:bg-sky-950/50 text-[#0059bb] dark:text-sky-400"
+                      : "hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300"
+                  }`}
+                >
+                  <span>
+                    {diff === "Beginner"
+                      ? "Dễ (Beginner)"
+                      : diff === "Intermediate"
+                        ? "Vừa (Intermediate)"
+                        : "Khó (Advanced)"}
+                  </span>
+                  {currentDifficulty === diff && (
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#0059bb]" />
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* CỘT PHẢI: THAY THẾ CHỖ VỪA XÓA BẰNG CỤM PERSONA & ĐỘ KHÓ VỚI ICON VÀ MÀU SẮC HỢP LÝ */}
-      {!isSessionCompleted && (
-        <div className="flex items-center gap-2 shrink-0">
-          {/* 1. Persona Selector Dropdown */}
-          {onSelectPersona && (
-            <div className="relative" ref={personaRef}>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsPersonaOpen(!isPersonaOpen);
-                  setIsDropdownOpen(false);
-                  setIsDifficultyOpen(false);
-                }}
-                className="h-8.5 px-2.5 rounded-xl bg-slate-50 hover:bg-slate-100/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/80 border border-slate-200/90 dark:border-slate-700 hover:border-[#0059bb] text-xs font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all active:scale-95"
-                title="Chọn Huấn luyện viên AI (Persona)"
-              >
-                <span className="w-5 h-5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center shrink-0 shadow-2xs">
-                  {PERSONA_ICONS[currentPersona.id] || <Bot className="w-3.5 h-3.5 text-[#0059bb]" />}
-                </span>
-                <span className="truncate max-w-[100px] text-xs font-bold">
-                  {currentPersona.name}
-                </span>
-                <ChevronDown
-                  className={`w-3 h-3 text-slate-400 shrink-0 transition-transform ${
-                    isPersonaOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
+      {/* Right: Studio Controls (Sound, History, Tonal Emerald Evaluate) */}
+      <div className="flex items-center gap-1.5 shrink-0">
+        {onToggleSound && (
+          <button
+            type="button"
+            onClick={onToggleSound}
+            title={soundEnabled ? "Tắt tự động phát âm" : "Bật tự động phát âm"}
+            className={`h-8.5 px-2.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+              soundEnabled
+                ? "bg-blue-50/80 dark:bg-sky-950/40 text-[#0059bb] dark:text-sky-400 border-blue-200/70 dark:border-sky-800/50"
+                : "bg-slate-50 dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700"
+            }`}
+          >
+            {soundEnabled ? (
+              <Volume2 className="w-3.5 h-3.5 shrink-0" />
+            ) : (
+              <VolumeX className="w-3.5 h-3.5 shrink-0" />
+            )}
+            <span>{soundEnabled ? "Bật âm" : "Tắt âm"}</span>
+          </button>
+        )}
 
-              <AnimatePresence>
-                {isPersonaOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 4, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 4, scale: 0.98 }}
-                    className="absolute right-0 top-full mt-1.5 z-50 w-72 sm:w-80 max-w-[calc(100vw-2rem)] p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl space-y-1"
-                  >
-                    <div className="px-2.5 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Bot className="w-3.5 h-3.5 text-[#0059bb]" />
-                      <span>Huấn luyện viên AI:</span>
-                    </div>
-                    {allPersonas.map((persona) => {
-                      const isSelected = persona.id === currentPersona.id;
-                      return (
-                        <button
-                          key={persona.id}
-                          type="button"
-                          onClick={() => {
-                            onSelectPersona(persona);
-                            setIsPersonaOpen(false);
-                          }}
-                          className={`w-full text-left p-2 rounded-xl flex items-center justify-between text-xs font-semibold cursor-pointer transition-all ${
-                            isSelected
-                              ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold border border-blue-200/70 dark:border-blue-800/50"
-                              : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-transparent"
-                          }`}
-                        >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0">
-                              {PERSONA_ICONS[persona.id] || <Bot className="w-4 h-4 text-[#0059bb]" />}
-                            </span>
-                            <div className="truncate">
-                              <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                                <span>{persona.name}</span>
-                                <span className="text-[10px] font-normal text-slate-500 dark:text-slate-400 font-mono">
-                                  ({persona.roleTitle})
-                                </span>
-                              </div>
-                              <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-                                {persona.description}
-                              </div>
-                            </div>
-                          </div>
-                          {isSelected && (
-                            <Check className="w-4 h-4 text-[#0059bb] shrink-0 stroke-[3]" />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          )}
+        {onOpenHistoryDrawer && (
+          <button
+            type="button"
+            onClick={() => {
+              setIsTopicOpen(false);
+              setIsPersonaOpen(false);
+              setIsDiffOpen(false);
+              onOpenHistoryDrawer();
+            }}
+            className="h-8.5 px-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/90 dark:border-slate-700 font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap"
+            title="Xem lịch sử hội thoại AI"
+          >
+            <History className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
+            <span>Lịch sử</span>
+            {pastSessionsCount > 0 && (
+              <span className="px-1.5 py-0.2 rounded-full bg-blue-100 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300 text-xs font-extrabold font-mono">
+                {pastSessionsCount}
+              </span>
+            )}
+          </button>
+        )}
 
-          {/* 2. Difficulty Level Selector */}
-          {onSelectDifficulty ? (
-            <div className="relative" ref={difficultyRef}>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsDifficultyOpen(!isDifficultyOpen);
-                  setIsDropdownOpen(false);
-                  setIsPersonaOpen(false);
-                }}
-                className="h-8.5 px-2.5 rounded-xl bg-slate-50 hover:bg-slate-100/90 dark:bg-slate-800/90 dark:hover:bg-slate-700/80 border border-slate-200/90 dark:border-slate-700 hover:border-[#0059bb] text-xs font-bold flex items-center gap-1.5 shadow-2xs cursor-pointer transition-all active:scale-95"
-                title="Chọn độ khó hội thoại"
-              >
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
-                  {activeLevel}
-                </span>
-                <SlidersHorizontal className="w-3 h-3 text-slate-400 shrink-0" />
-              </button>
-
-              <AnimatePresence>
-                {isDifficultyOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 4, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 4, scale: 0.98 }}
-                    className="absolute right-0 top-full mt-1.5 z-50 w-64 p-1.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xl space-y-1"
-                  >
-                    <div className="px-2.5 py-1 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                      Độ khó thích ứng AI:
-                    </div>
-                    {(["Beginner", "Intermediate", "Advanced"] as ConversationDifficulty[]).map(
-                      (diff) => {
-                        const isSelected = diff === activeLevel;
-                        const cfg = DIFFICULTY_CONFIG[diff];
-                        return (
-                          <button
-                            key={diff}
-                            type="button"
-                            onClick={() => {
-                              onSelectDifficulty(diff);
-                              setIsDifficultyOpen(false);
-                            }}
-                            className={`w-full text-left p-2.5 rounded-xl flex items-center justify-between text-xs transition-all cursor-pointer ${
-                              isSelected
-                                ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold border border-blue-200/70 dark:border-blue-800/50"
-                                : "hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-transparent"
-                            }`}
-                          >
-                            <div className="min-w-0 flex-1 pr-2">
-                              <div className="text-xs font-bold text-slate-900 dark:text-white">
-                                {diff}
-                              </div>
-                              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                {cfg.desc}
-                              </p>
-                            </div>
-                            {isSelected && (
-                              <Check className="w-4 h-4 text-[#0059bb] shrink-0 stroke-[3]" />
-                            )}
-                          </button>
-                        );
-                      }
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ) : (
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
-              {activeLevel}
-            </span>
-          )}
-        </div>
-      )}
+        {/* Rule 18: Secondary Tonal Emerald Pill (Single Primary CTA reserved for Mic/Send) */}
+        {onFinishConversation && (
+          <button
+            type="button"
+            onClick={() => {
+              setIsTopicOpen(false);
+              setIsPersonaOpen(false);
+              setIsDiffOpen(false);
+              onFinishConversation();
+            }}
+            className="h-8.5 px-3 rounded-xl bg-emerald-50 hover:bg-emerald-600 dark:bg-emerald-950/50 dark:hover:bg-emerald-600 text-emerald-700 hover:text-white dark:text-emerald-300 dark:hover:text-white border border-emerald-200/90 dark:border-emerald-800/70 font-extrabold text-xs flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap"
+            title="Hoàn thành và chấm điểm buổi nói"
+          >
+            <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+            <span>Chấm điểm</span>
+          </button>
+        )}
+      </div>
     </div>
   );
 }

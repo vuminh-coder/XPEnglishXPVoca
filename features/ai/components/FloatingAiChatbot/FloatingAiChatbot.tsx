@@ -137,7 +137,9 @@ export default function FloatingAiChatbot() {
   const isDedicatedStudioRoute =
     pathname?.startsWith("/study/practice") ||
     pathname?.startsWith("/study/word-link") ||
-    pathname?.startsWith("/study/sentence-builder");
+    pathname?.startsWith("/study/sentence-builder") ||
+    pathname?.startsWith("/myvideo") ||
+    Boolean(pathname && pathname.startsWith("/study/reading/") && pathname !== "/study/reading");
 
   const isStudioPractice =
     isDedicatedStudioRoute ||

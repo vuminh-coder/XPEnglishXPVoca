@@ -10,12 +10,14 @@ export interface SuggestedWord {
   meaning?: string;
 }
 
+export type ConversationDifficulty = 'Beginner' | 'Intermediate' | 'Advanced';
+
 export interface Topic {
   id: string;
   name: string;
   nameEn: string;
   description: string;
-  level: 'Beginner' | 'Intermediate' | 'Advanced';
+  level: ConversationDifficulty;
   goals: Goal[];
   welcomeMessage: { text: string; vi: string };
   suggestions: string[];

@@ -45,12 +45,7 @@ export default function DashboardLayout({
   );
 
   const isStudioWorkspaceActive =
-    (isStudioPracticeRoute && (hideBottomNav || isClientStudioRoute)) ||
-    (typeof window !== "undefined" &&
-      isStudioPracticeRoute &&
-      (window.location.search.includes("id=") ||
-        window.location.search.includes("lessonId=") ||
-        pathname?.includes("/comprehension")));
+    isStudioPracticeRoute && (hideBottomNav || isClientStudioRoute);
 
   return (
     <>

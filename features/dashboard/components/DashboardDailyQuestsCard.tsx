@@ -146,10 +146,10 @@ export function DashboardDailyQuestsCard({
   return (
     <div
       id="dashboard-daily-quests-card"
-      className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-3"
+      className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 flex flex-col justify-between gap-3 h-full"
     >
       {/* 1. Header with dynamic achievement status */}
-      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5">
+      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2.5 shrink-0">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 flex items-center justify-center shrink-0 text-[#0059bb] dark:text-sky-400">
             <Target className="w-5 h-5 stroke-[2.3]" />
@@ -178,9 +178,9 @@ export function DashboardDailyQuestsCard({
       </div>
 
       {/* 2. Quest Cards List */}
-      <div className="min-h-[160px]">
+      <div className="min-h-[160px] flex-1 flex flex-col">
         {isLoadingChallenges ? (
-          <div className="space-y-2">
+          <div className="space-y-2 flex-1 flex flex-col justify-between">
             {[1, 2, 3, 4, 5].map((idx) => (
               <div
                 key={idx}
@@ -203,7 +203,7 @@ export function DashboardDailyQuestsCard({
             <p className="font-semibold">Hôm nay không có nhiệm vụ mới</p>
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-2 flex-1 flex flex-col justify-between">
             {sortedChallenges.map((ch) => {
               const hasReachedGoal =
                 ch.progress >= ch.target || Boolean(ch.isCompleted);

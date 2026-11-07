@@ -52,18 +52,9 @@ export default function BottomNav() {
     }
   }, [pathname]);
 
-  const isClientStudio =
-    typeof window !== "undefined" &&
-    isStudioPracticeRoute &&
-    (window.location.search.includes("id=") ||
-      window.location.search.includes("lessonId=") ||
-      window.location.search.includes("theme=") ||
-      pathname?.includes("/comprehension"));
-
   if (
     isExamActivePage ||
     hideBottomNav ||
-    isClientStudio ||
     isDedicatedGameRoute ||
     (isStudioPracticeRoute && hasLessonQuery)
   ) {

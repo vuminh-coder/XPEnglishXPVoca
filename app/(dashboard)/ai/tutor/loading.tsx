@@ -21,57 +21,40 @@ function ShimmerBox({
 
 export default function AiTutorLoading() {
   return (
-    <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
-      {/* 1. APP TOP HEADER SKELETON (FIXED 56PX) */}
-      <div className="w-full h-14 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-5 lg:px-6 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
-        {/* Left Pills Container */}
-        <div className="flex items-center gap-2">
-          <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
-            <ShimmerBox className="h-7 w-28 rounded-lg !bg-[#0059bb]/20 dark:!bg-[#0059bb]/30" />
-            <ShimmerBox className="h-7 w-28 rounded-lg" />
-          </div>
-        </div>
-
-        {/* Right Timer + Primary Button */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          <ShimmerBox className="h-9 w-20 rounded-xl !bg-slate-200/80 dark:!bg-slate-800/80 hidden sm:block" />
-          <ShimmerBox className="h-9 w-20 rounded-xl !bg-amber-500/15 dark:!bg-amber-500/20 border border-amber-500/20" />
-          <ShimmerBox className="h-9 w-28 rounded-xl !bg-emerald-600/20 dark:!bg-emerald-500/25 shrink-0" />
+    <div className="w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none">
+      {/* 1. APP TOP HEADER SKELETON (MOBILE ONLY < 1024px) */}
+      <div className="lg:hidden w-full h-14 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-5 flex items-center justify-between gap-3 shrink-0 shadow-2xs">
+        <ShimmerBox className="w-9 h-9 rounded-full shrink-0" />
+        <ShimmerBox className="h-7 w-28 rounded-lg" />
+        <div className="flex items-center gap-1.5 shrink-0">
+          <ShimmerBox className="w-20 h-8 rounded-lg shrink-0" />
+          <ShimmerBox className="w-9 h-9 rounded-full shrink-0" />
         </div>
       </div>
 
       {/* 2. MAIN DASHBOARD VIEWPORT CANVAS (MATCHES 1:1 PAGE GEOMETRY) */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2.5 sm:py-3.5 lg:py-3 flex flex-col min-h-0 lg:overflow-hidden space-y-2.5 sm:space-y-3 pb-24 lg:pb-3">
-        
-        {/* 2.1. SLIM HERO STATUS STRIP */}
-        <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <ShimmerBox className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg !bg-[#0059bb]/15 dark:!bg-sky-400/15 shrink-0" />
-            <div className="space-y-1.5 min-w-0">
-              <div className="flex items-center gap-2">
-                <ShimmerBox className="h-4 w-44 sm:w-56 rounded-md" />
-                <ShimmerBox className="h-4 w-24 rounded-md !bg-[#0059bb]/15" />
-              </div>
-              <ShimmerBox className="h-3 w-64 sm:w-96 rounded-md" />
-            </div>
-          </div>
-          <ShimmerBox className="h-8 w-24 rounded-xl hidden sm:block" />
-        </div>
-
-        {/* 2.2. MAIN BENTO GRID (8/12 - 4/12) */}
-        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5 items-stretch min-w-0">
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2 sm:px-5 lg:px-6 pt-1.5 sm:pt-3 lg:pt-3 pb-[68px] lg:pb-3 flex flex-col min-h-0 overflow-hidden space-y-1.5 sm:space-y-3">
+        {/* 2.1. MAIN BENTO GRID (8/12 - 4/12) */}
+        <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-3.5 items-stretch min-w-0 overflow-hidden">
           
           {/* CỘT TRÁI: VOICE CHAT STREAM & INPUT DOCK (8/12) */}
-          <div className="lg:col-span-8 flex flex-col min-w-0 lg:h-full lg:min-h-0">
-            <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2.5">
+          <div className="lg:col-span-8 flex flex-col min-w-0 h-full min-h-0 overflow-hidden">
+            <div className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col min-w-0 flex-1 h-full min-h-0 space-y-1.5 sm:space-y-2.5 overflow-hidden">
               
               {/* Header Trong Khung Chat */}
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 gap-2 shrink-0">
                 <div className="flex items-center gap-2">
-                  <ShimmerBox className="w-8 h-5 rounded-md !bg-[#0059bb]/15" />
-                  <ShimmerBox className="h-4 w-48 rounded-md" />
+                  <ShimmerBox className="w-8 h-8 rounded-full !bg-[#0059bb]/15 shrink-0" />
+                  <div className="space-y-1">
+                    <ShimmerBox className="h-4 w-24 rounded-md" />
+                    <ShimmerBox className="h-3 w-36 rounded-md" />
+                  </div>
                 </div>
-                <ShimmerBox className="h-6 w-20 rounded-md" />
+                <div className="flex items-center gap-1.5">
+                  <ShimmerBox className="hidden lg:block h-8 w-20 rounded-lg" />
+                  <ShimmerBox className="h-8 w-24 rounded-lg !bg-emerald-500/15" />
+                  <ShimmerBox className="h-8 w-24 rounded-lg !bg-[#0059bb]/15" />
+                </div>
               </div>
 
               {/* Chat Stream Skeleton */}
@@ -158,8 +141,8 @@ export default function AiTutorLoading() {
           </div>
 
           {/* CỘT PHẢI: HIGH-END SIDEBAR (4/12) */}
-          <div className="lg:col-span-4 flex flex-col min-w-0 lg:h-full lg:min-h-0">
-            <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-2.5 lg:h-full lg:min-h-0 overflow-y-auto">
+          <div className="hidden lg:flex lg:col-span-4 flex-col min-w-0 lg:h-full lg:min-h-0">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col justify-between gap-2.5 lg:h-full lg:min-h-0 overflow-y-auto">
               
               {/* 1. Khối Chọn Gia Sư AI & Speed */}
               <div className="space-y-2 shrink-0">

@@ -25,25 +25,25 @@ export function AiConversationInspectorDock({
   onSendMessage,
 }: AiConversationInspectorDockProps) {
   return (
-    <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-2 lg:h-full lg:min-h-0 overflow-y-auto scrollbar-thin select-none">
-      {/* 1. MỤC TIÊU PHẢN XẠ NGỮ CẢNH (GOALS CHECKLIST - COMPACT) */}
-      <div className="space-y-1.5 shrink-0">
-        <div className="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800">
-          <h2 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
+    <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col justify-between gap-2.5 lg:h-full lg:min-h-0 overflow-y-auto scrollbar-thin select-none">
+      {/* 1. MỤC TIÊU PHẢN XẠ NGỮ CẢNH (GOALS CHECKLIST) */}
+      <div className="space-y-2 shrink-0">
+        <div className="flex items-center justify-between pb-1.5 border-b border-slate-100 dark:border-slate-800">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
             <Target className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> MỤC TIÊU GIAO TIẾP
           </h2>
-          <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 text-[11px] font-bold font-mono border border-blue-200/60 dark:border-blue-800/40">
+          <span className="px-2 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-mono border border-blue-200/60 dark:border-blue-800/40">
             {completedGoalsCount}/{currentTopic.goals.length} Đạt
           </span>
         </div>
 
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           {currentTopic.goals.map((goal) => {
             const isDone = completedGoalIds.includes(goal.id);
             return (
               <div
                 key={goal.id}
-                className={`p-2 rounded-xl border transition-all flex items-center gap-2 ${
+                className={`p-2.5 rounded-xl border transition-all flex items-center gap-2.5 ${
                   isDone
                     ? "bg-emerald-50/70 dark:bg-emerald-950/30 border-emerald-500/30 text-emerald-800 dark:text-emerald-200 shadow-2xs"
                     : "bg-slate-50/70 dark:bg-slate-950/60 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300"
@@ -56,18 +56,15 @@ export function AiConversationInspectorDock({
                     <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-300 dark:border-slate-600" />
                   )}
                 </div>
-                <div className="min-w-0 flex-1 flex items-center justify-between gap-1.5">
+                <div className="min-w-0 flex-1 flex items-center justify-between gap-2">
                   <span
-                    className={`text-xs font-bold truncate ${
+                    className={`text-xs font-bold leading-snug ${
                       isDone
                         ? "text-emerald-900 dark:text-emerald-100"
                         : "text-slate-900 dark:text-white"
                     }`}
                   >
                     {goal.name}
-                  </span>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate hidden xs:inline shrink-0">
-                    {goal.nameEn}
                   </span>
                 </div>
               </div>
@@ -76,35 +73,35 @@ export function AiConversationInspectorDock({
         </div>
       </div>
 
-      {/* 2. TỪ VỰNG NGỮ CẢNH (3 ITEMS - COMPACT) */}
-      <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 space-y-1 shrink-0">
+      {/* 2. TỪ VỰNG NGỮ CẢNH (3 ITEMS) */}
+      <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5 shrink-0">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] sm:text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display uppercase tracking-wider flex items-center gap-1.5">
+          <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 font-display uppercase tracking-wider flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" /> TỪ VỰNG NGỮ CẢNH
           </span>
-          <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500">
-            Click tra/nghe
+          <span className="text-xs font-medium text-slate-400 dark:text-slate-500">
+            Nhấp tra nghĩa
           </span>
         </div>
 
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           {currentSuggestions.words.slice(0, 3).map((w, idx) => (
             <div
               key={idx}
               onClick={() => onWordClick(w.word)}
-              className="px-2.5 py-1.5 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800/80 transition-all flex items-center justify-between gap-2 cursor-pointer group shadow-2xs"
+              className="px-3 py-2 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 border border-slate-200/80 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-800/80 transition-all flex items-center justify-between gap-2 cursor-pointer group shadow-2xs"
             >
-              <div className="min-w-0 flex items-baseline gap-2">
+              <div className="min-w-0 flex items-baseline gap-2 flex-wrap">
                 <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-300 transition-colors">
                   {w.word}
                 </span>
                 {w.meaning && (
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 truncate font-medium">
-                    {w.meaning}
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    — {w.meaning}
                   </span>
                 )}
               </div>
-              <div className="w-6 h-6 rounded-lg bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700 flex items-center justify-center group-hover:bg-[#0059bb] group-hover:text-white group-hover:border-[#0059bb] transition-all shrink-0">
+              <div className="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700 flex items-center justify-center group-hover:bg-[#0059bb] group-hover:text-white group-hover:border-[#0059bb] transition-all shrink-0">
                 <Volume2 className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-colors" />
               </div>
             </div>
@@ -112,30 +109,45 @@ export function AiConversationInspectorDock({
         </div>
       </div>
 
-      {/* 3. MẪU CÂU GỢI Ý PHẢN XẠ (1-CLICK SEND - COMPACT) */}
+      {/* 3. MẪU CÂU GỢI Ý PHẢN XẠ (1-CLICK SEND) */}
       {currentSuggestions.phrases.length > 0 && (
-        <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 space-y-1 shrink-0">
+        <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5 shrink-0">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
+            <span className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
               <Lightbulb className="w-3.5 h-3.5 text-amber-500" /> MẪU CÂU GỢI Ý
             </span>
-            <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500">
-              Click để gửi
+            <span className="text-xs font-medium text-slate-400 dark:text-slate-500">
+              Nhấp để gửi
             </span>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             {currentSuggestions.phrases.slice(0, 2).map((ph, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => onSendMessage(ph)}
-                className="w-full text-left px-2.5 py-1.5 rounded-xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 text-amber-950 dark:text-amber-100 transition-all flex items-center justify-between gap-2 group cursor-pointer shadow-2xs"
+                className="w-full text-left px-3 py-2 rounded-xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 text-amber-950 dark:text-amber-100 transition-all flex items-center justify-between gap-2 group cursor-pointer shadow-2xs"
               >
-                <span className="text-xs font-semibold truncate flex-1">"{ph}"</span>
-                <Send className="w-3 h-3 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform shrink-0" />
+                <span className="text-xs font-semibold leading-snug flex-1">"{ph}"</span>
+                <Send className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform shrink-0" />
               </button>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* 4. MẸO GIAO TIẾP NGỮ CẢNH (LIVE PEDAGOGICAL ADVICE) */}
+      {currentTopic.advice && (
+        <div className="pt-2 border-t border-slate-100 dark:border-slate-800 shrink-0">
+          <div className="p-2.5 rounded-xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-900/40 space-y-1">
+            <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+              <span>Mẹo giao tiếp lịch sự:</span>
+            </span>
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              {currentTopic.advice}
+            </p>
           </div>
         </div>
       )}

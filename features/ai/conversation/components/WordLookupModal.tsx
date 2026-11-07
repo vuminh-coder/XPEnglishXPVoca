@@ -26,7 +26,7 @@ export function WordLookupModal({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 16, scale: 0.96 }}
           transition={{ duration: 0.18, ease: "easeOut" }}
-          className="fixed right-3 bottom-28 sm:right-6 sm:bottom-6 z-50 w-[275px] xs:w-[290px] sm:w-[310px] p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 shadow-xl space-y-2 select-none"
+          className="fixed right-3 bottom-[215px] lg:right-[35.5%] lg:bottom-20 z-50 w-[275px] xs:w-[290px] sm:w-[310px] p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 shadow-xl space-y-2 select-none"
         >
           {/* Top Row: Word, Phonetic, Meaning & Top Right Actions (Bookmark & Close) */}
           <div className="flex items-start justify-between gap-2">
@@ -71,7 +71,7 @@ export function WordLookupModal({
 
           {/* Bottom Row: Example Sentence & Speaker Icon in Bottom Corner */}
           <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-slate-100 dark:border-slate-800">
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 flex-1 min-w-0">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 flex-1 min-w-0">
               {wordData.example || `Luyện tập phát âm chuẩn với "${wordData.word}"`}
             </p>
             <button

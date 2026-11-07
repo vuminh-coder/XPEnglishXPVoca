@@ -110,7 +110,7 @@ export const DictationVideoBlock: React.FC<DictationVideoBlockProps> = React.mem
       : 0;
 
     return (
-      <div className={`w-full space-y-2.5 sm:space-y-3 select-none ${className}`}>
+      <div className={`w-full space-y-2 select-none ${className}`}>
         {/* 1. INTERACTIVE MEDIA PLAYER CONTAINER (VIDEO CINEMA FRAME) */}
         <StudioMediaPlayerContainer
           practiceMode="dictation"

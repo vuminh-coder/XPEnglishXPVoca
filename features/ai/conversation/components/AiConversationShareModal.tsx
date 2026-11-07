@@ -96,7 +96,7 @@ export function AiConversationShareModal({
               <h3 className="text-sm font-bold text-slate-900 dark:text-white font-display">
                 Thẻ Chứng Nhận Thành Tích Hội Thoại
               </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Chia sẻ thành quả luyện tập với bạn bè & cộng đồng
               </p>
             </div>
@@ -128,7 +128,7 @@ export function AiConversationShareModal({
                   XP English | XP Voca
                 </span>
               </div>
-              <span className="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/40 text-[10px] font-bold font-mono uppercase tracking-wider flex items-center gap-1">
+              <span className="px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-200 border border-amber-300/40 text-xs font-bold font-mono uppercase tracking-wider flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-amber-300 fill-amber-300" />
                 <span>AI Certified</span>
               </span>
@@ -136,7 +136,7 @@ export function AiConversationShareModal({
 
             {/* Student & Topic info */}
             <div>
-              <span className="text-[10px] uppercase font-bold text-blue-200/80 tracking-wider block">
+              <span className="text-xs uppercase font-bold text-blue-200/80 tracking-wider block">
                 Chứng nhận hoàn tất hội thoại
               </span>
               <h4 className="text-lg font-black font-display text-white mt-0.5">
@@ -145,7 +145,7 @@ export function AiConversationShareModal({
               <p className="text-xs text-blue-100/90 font-medium mt-1">
                 Chủ đề: <strong className="text-white">{currentTopic.name}</strong> ({currentTopic.nameEn})
               </p>
-              <div className="flex items-center gap-2 mt-2 flex-wrap text-[11px] text-blue-200">
+              <div className="flex items-center gap-2 mt-2 flex-wrap text-xs text-blue-200">
                 <span className="px-2 py-0.5 rounded-md bg-white/10 border border-white/15 font-mono font-bold">
                   {difficulty}
                 </span>
@@ -163,7 +163,7 @@ export function AiConversationShareModal({
                   <Trophy className="w-7 h-7" />
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-blue-200 block">Xếp hạng</span>
+                  <span className="text-xs uppercase font-bold text-blue-200 block">Xếp hạng</span>
                   <div className="text-xl font-black font-display text-white flex items-center gap-1.5">
                     <span>Hạng {sessionEvaluation.grade}</span>
                     <span className="text-xs font-normal text-amber-300">({sessionEvaluation.label})</span>
@@ -172,12 +172,12 @@ export function AiConversationShareModal({
               </div>
 
               <div className="text-right">
-                <span className="text-[10px] uppercase font-bold text-blue-200 block">Điểm số</span>
+                <span className="text-xs uppercase font-bold text-blue-200 block">Điểm số</span>
                 <span className="text-2xl font-black font-display text-white tabular-nums">
                   {sessionEvaluation.overallScore}
                   <span className="text-sm font-normal text-blue-200">/100</span>
                 </span>
-                <span className="block text-[11px] font-bold text-emerald-300">
+                <span className="block text-xs font-bold text-emerald-300">
                   +{sessionEvaluation.xpAward} XP
                 </span>
               </div>
@@ -186,19 +186,19 @@ export function AiConversationShareModal({
             {/* 4 Metrics Strip */}
             <div className="grid grid-cols-4 gap-1.5 text-center text-white">
               <div className="p-2 rounded-lg bg-white/10 border border-white/15">
-                <span className="text-[9px] uppercase font-bold text-blue-200 block truncate">Mục tiêu</span>
+                <span className="text-xs uppercase font-bold text-blue-200 block">Mục tiêu</span>
                 <span className="text-xs font-black font-mono">{completedGoalsCount}/{currentTopic.goals.length}</span>
               </div>
               <div className="p-2 rounded-lg bg-white/10 border border-white/15">
-                <span className="text-[9px] uppercase font-bold text-blue-200 block truncate">Ngữ pháp</span>
+                <span className="text-xs uppercase font-bold text-blue-200 block">Ngữ pháp</span>
                 <span className="text-xs font-black font-mono">{sessionEvaluation.grammarScore}%</span>
               </div>
               <div className="p-2 rounded-lg bg-white/10 border border-white/15">
-                <span className="text-[9px] uppercase font-bold text-blue-200 block truncate">Tương tác</span>
+                <span className="text-xs uppercase font-bold text-blue-200 block">Tương tác</span>
                 <span className="text-xs font-black font-mono">{userTurnsCount} câu</span>
               </div>
               <div className="p-2 rounded-lg bg-white/10 border border-white/15">
-                <span className="text-[9px] uppercase font-bold text-blue-200 block truncate">Từ vựng</span>
+                <span className="text-xs uppercase font-bold text-blue-200 block">Từ vựng</span>
                 <span className="text-xs font-black font-mono">{sessionEvaluation.vocabScore}%</span>
               </div>
             </div>

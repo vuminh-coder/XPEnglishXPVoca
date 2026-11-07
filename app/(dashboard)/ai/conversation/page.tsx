@@ -7,11 +7,8 @@ import { useUiStore } from "@/stores/uiStore";
 import { useAiSessionStore, getInitialConversationSessionProbe } from "@/stores/aiSessionStore";
 import { lookupWordDeep } from "@/features/vocabulary/data/deepDictionary";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
-import { AiSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import {
   History,
-  Clock,
-  RotateCcw,
   CheckCircle2,
   MessageSquare,
   Target,
@@ -47,23 +44,6 @@ import {
   WordLookupModal,
   TOPIC_ICONS,
 } from "@/features/ai/conversation";
-
-const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.1"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M14 15a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v2" />
-    <circle cx="9" cy="7" r="3" />
-    <path d="M17 9a3 3 0 0 1 0 6" />
-    <path d="M20 7a6 6 0 0 1 0 10" />
-  </svg>
-);
 
 export default function AiConversationPage() {
   const { user, awardXp } = useAuthStore();
@@ -152,7 +132,10 @@ export default function AiConversationPage() {
     phrases: string[];
   }>(() => {
     const probe = getInitialConversationSessionProbe();
-    if (probe?.currentSuggestions && (probe.currentSuggestions.words?.length || probe.currentSuggestions.phrases?.length)) {
+    if (
+      probe?.currentSuggestions &&
+      (probe.currentSuggestions.words?.length || probe.currentSuggestions.phrases?.length)
+    ) {
       return probe.currentSuggestions as { words: SuggestedWord[]; phrases: string[] };
     }
     const topic = aiTopics.find((t) => t.id === selectedTopicId) || aiTopics[0];
@@ -171,7 +154,6 @@ export default function AiConversationPage() {
   const {
     isRecording,
     spokenText,
-    setSpokenText,
     recordingTime,
     audioFrequencies,
     isSpeaking,
@@ -186,7 +168,6 @@ export default function AiConversationPage() {
 
   // Background Revalidation from LocalStorage & DB (Non-blocking)
   useEffect(() => {
-    // 1. If not hydrated via Frame-0 probe yet, check localStorage
     const ramMessages = useAiSessionStore.getState().conversationSession?.messages;
     if (!ramMessages || ramMessages.length <= 1) {
       try {
@@ -206,7 +187,6 @@ export default function AiConversationPage() {
       } catch {}
     }
 
-    // 2. Authoritative background sync from DB
     fetch("/api/ai/sessions?mode=conversation&status=active")
       .then((res) => res.json())
       .then((data) => {
@@ -219,7 +199,8 @@ export default function AiConversationPage() {
           data.activeSession.messages.some((m: any) => m.role === "user")
         ) {
           const act = data.activeSession;
-          const currentCount = useAiSessionStore.getState().conversationSession?.messages?.length || 0;
+          const currentCount =
+            useAiSessionStore.getState().conversationSession?.messages?.length || 0;
           if (act.messages.length > currentCount) {
             setMessages(act.messages);
             if (act.topicId && aiTopics.some((t) => t.id === act.topicId)) {
@@ -241,16 +222,11 @@ export default function AiConversationPage() {
               messages: act.messages,
               elapsedTime: act.timeSpentSeconds,
             });
-            addToast({
-              type: "info",
-              title: "Khôi phục buổi hội thoại ✨",
-              message: "Đã nạp lại phiên hội thoại dở dang của bạn.",
-            });
           }
         }
       })
       .catch((err) => console.warn("[AiConversation] Active session hydration notice:", err));
-  }, [addToast, hasUserInteractedRef, setElapsedTime, setSelectedTopicId]);
+  }, [hasUserInteractedRef, setElapsedTime, setSelectedTopicId]);
 
   // Auto scroll chat
   useEffect(() => {
@@ -523,6 +499,8 @@ export default function AiConversationPage() {
       messages,
       selectedTopicId,
       currentTopic,
+      effectiveDifficulty,
+      currentPersona,
       stopRecordingOnly,
       handleResetSpeech,
       markUserInteracted,
@@ -639,11 +617,6 @@ export default function AiConversationPage() {
     }
     setIsSessionCompleted(true);
     awardXp(sessionEvaluation.xpAward, "speaking");
-    addToast({
-      type: "success",
-      title: `Hoàn Thành Buổi Hội Thoại (Hạng ${sessionEvaluation.grade})! 🎉`,
-      message: `+${sessionEvaluation.xpAward} XP cho chủ đề "${currentTopic.name}"!`,
-    });
 
     try {
       try {
@@ -696,15 +669,7 @@ export default function AiConversationPage() {
               }),
             });
           })
-        )
-          .then(() => {
-            addToast({
-              type: "info",
-              title: "Đã đồng bộ Thẻ Ôn Tập SM-2! 🧠",
-              message: `Đã tự động lưu ${itemsToSync.length} câu sửa vào Sổ tay để ôn tập ngắt quãng tại /review.`,
-            });
-          })
-          .catch((e) => console.warn("[AiConversation] Error auto-syncing SM-2 fixes:", e));
+        ).catch((e) => console.warn("[AiConversation] Error auto-syncing SM-2 fixes:", e));
       }
     } catch (err) {
       console.warn("Could not save conversation session to server:", err);
@@ -716,7 +681,6 @@ export default function AiConversationPage() {
     awardXp,
     sessionEvaluation,
     addToast,
-    currentTopic.name,
     sessionId,
     selectedTopicId,
     messages,
@@ -774,95 +738,63 @@ export default function AiConversationPage() {
   return (
     <div
       suppressHydrationWarning
-      className="w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none"
+      className="w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none"
     >
-      {/* 1. APP TOP HEADER (FIXED 56PX) */}
+      {/* 1. APP TOP HEADER (MOBILE ONLY — DESKTOP USES UNIFIED BENTO STUDIO HEADER) */}
       <AppTopHeader
+        className="lg:hidden"
         showGamificationStats={false}
-        hideMobileSearch={true}
-        rightDesktopContent={
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Lịch Sử Buổi Học Button */}
-            <button
-              type="button"
-              onClick={handleOpenHistoryDrawer}
-              className="h-9 px-3 rounded-xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-bold border border-slate-200/80 dark:border-slate-700 shadow-2xs flex items-center gap-1.5 cursor-pointer transition-all active:scale-95 shrink-0"
-              title="Xem lại lịch sử các buổi hội thoại trước"
-            >
-              <History className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-              <span className="hidden sm:inline">Lịch sử</span>
-            </button>
-
-            {/* Time badge hidden to eliminate time pressure per user ergonomics standard */}
-            <span className="hidden" aria-hidden="true">
-              <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
-            </span>
-
-            {isSessionCompleted ? (
-              <button
-                type="button"
-                onClick={handleRestartNewSession}
-                className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-              >
-                <RotateCcw className="w-4 h-4" />
-                <span>Buổi mới</span>
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleFinishConversation}
-                className="h-9 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-              >
-                <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-                <span>Chấm điểm</span>
-              </button>
-            )}
-          </div>
-        }
         customMobileSearchReplacement={
           <button
             type="button"
             onClick={handleOpenHistoryDrawer}
-            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+            className="lg:hidden h-8 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 shadow-2xs flex items-center gap-1.5 text-xs font-bold transition-all cursor-pointer active:scale-95 shrink-0"
             title="Lịch sử buổi hội thoại"
             aria-label="Lịch sử buổi hội thoại"
           >
-            <History className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
+            <History className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
+            <span>Lịch sử</span>
           </button>
         }
-      >
-        <AiSuiteNavTabs />
-      </AppTopHeader>
+      />
 
       {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS (FITS IN 1 SCREEN ON DESKTOP & DOCKED ABOVE BOTTOMNAV ON MOBILE) */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2 sm:px-5 lg:px-6 pt-1.5 sm:pt-3 lg:pt-3 pb-[50px] lg:pb-3 flex flex-col min-h-0 overflow-hidden space-y-1.5 sm:space-y-3">
-        {/* 2.1. SLIM HERO TOPIC STATUS STRIP (DESKTOP ONLY) */}
-        <div className="hidden lg:block shrink-0">
-          <AiConversationTopBar
-            currentTopic={currentTopic}
-            allTopics={aiTopics}
-            selectedTopicId={selectedTopicId}
-            onSelectTopic={handleSelectTopic}
-            isSessionCompleted={isSessionCompleted}
-            elapsedTime={elapsedTime}
-            formatElapsedTime={formatElapsedTime}
-            onRestartNewSession={handleRestartNewSession}
-            onFinishConversation={handleFinishConversation}
-            currentPersona={currentPersona}
-            allPersonas={AI_PERSONAS}
-            onSelectPersona={(persona) => setSelectedPersonaId(persona.id)}
-            currentDifficulty={effectiveDifficulty}
-            onSelectDifficulty={(diff) => setSelectedDifficulty(diff)}
-          />
-        </div>
-
-        {/* 2.2. MAIN BENTO GRID: FITS STRICTLY IN VIEWPORT */}
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2 sm:px-5 lg:px-6 pt-1.5 sm:pt-2.5 lg:pt-2.5 pb-[52px] lg:pb-2.5 flex flex-col min-h-0 overflow-hidden">
+        {/* 2.1. MAIN BENTO GRID: FITS STRICTLY IN VIEWPORT */}
         {!isSessionCompleted ? (
           /* ===== VIEW 1: STUDIO BENTO GRID (8/12 - 4/12) ===== */
           <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-2.5 lg:gap-3 items-stretch min-w-0">
             {/* CỘT TRÁI: AI CHAT COMPANION & INPUT DOCK (8/12) */}
             <div className="lg:col-span-8 flex flex-col min-w-0 h-full min-h-0">
-              <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 h-full min-h-0 space-y-1.5 sm:space-y-2 overflow-hidden">
+              <div className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col min-w-0 flex-1 h-full min-h-0 space-y-2 overflow-hidden">
+                {/* Desktop Unified Studio Header */}
+                <div className="hidden lg:block shrink-0">
+                  <AiConversationTopBar
+                    currentTopic={currentTopic}
+                    allTopics={aiTopics}
+                    selectedTopicId={selectedTopicId}
+                    onSelectTopic={handleSelectTopic}
+                    isSessionCompleted={isSessionCompleted}
+                    elapsedTime={elapsedTime}
+                    formatElapsedTime={formatElapsedTime}
+                    onRestartNewSession={handleRestartNewSession}
+                    onFinishConversation={handleFinishConversation}
+                    currentPersona={currentPersona}
+                    allPersonas={AI_PERSONAS}
+                    onSelectPersona={(persona) => setSelectedPersonaId(persona.id)}
+                    currentDifficulty={effectiveDifficulty}
+                    onSelectDifficulty={(diff) => setSelectedDifficulty(diff)}
+                    soundEnabled={soundEnabled}
+                    onToggleSound={() => {
+                      const next = !soundEnabled;
+                      setSoundEnabled(next);
+                      useAiSessionStore.getState().setConversationSession({ soundEnabled: next });
+                    }}
+                    onOpenHistoryDrawer={handleOpenHistoryDrawer}
+                    pastSessionsCount={pastSessions.length}
+                  />
+                </div>
+
                 <AiConversationChatStream
                   messages={messages}
                   currentTopic={currentTopic}
@@ -881,48 +813,63 @@ export default function AiConversationPage() {
                   user={user}
                   chatBottomRef={chatBottomRef}
                   headerLeftMobileContent={
-                    <button
-                      type="button"
-                      onClick={() => setShowTopicModal(true)}
-                      className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-900 dark:text-white border border-slate-200/80 dark:border-slate-700 transition-all cursor-pointer active:scale-95 text-xs font-bold truncate max-w-[130px] xs:max-w-[160px] sm:max-w-[200px]"
-                      title="Đổi chủ đề / Giọng AI / Trình độ"
-                    >
-                      <span className="shrink-0 text-sm">
-                        {TOPIC_ICONS[currentTopic.id] || "💬"}
-                      </span>
-                      <span className="truncate">{currentTopic.name}</span>
-                      <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                    </button>
+                    <div className="flex items-center justify-between gap-2 w-full min-w-0">
+                      <button
+                        type="button"
+                        onClick={() => setShowTopicModal(true)}
+                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-900 dark:text-white border border-slate-200/80 dark:border-slate-700 transition-all cursor-pointer active:scale-95 text-xs font-bold"
+                        title="Đổi chủ đề / Giọng AI / Trình độ"
+                      >
+                        <span className="shrink-0">
+                          {TOPIC_ICONS[currentTopic.id] || "💬"}
+                        </span>
+                        <span>{currentTopic.name}</span>
+                        <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setShowTopicModal(true)}
+                        className="px-2 py-1 rounded-lg bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/70 dark:border-blue-800/40 text-xs font-bold text-[#0059bb] dark:text-sky-300 flex items-center gap-1 shrink-0 cursor-pointer"
+                        title="Đổi bạn học AI & độ khó"
+                      >
+                        <span>{currentPersona.name}</span>
+                        <span>•</span>
+                        <span>
+                          {effectiveDifficulty === "Beginner"
+                            ? "Dễ"
+                            : effectiveDifficulty === "Intermediate"
+                              ? "Vừa"
+                              : "Khó"}
+                        </span>
+                      </button>
+                    </div>
                   }
                   headerRightMobileContent={
                     <>
-                      {/* Timer capsule (Hidden to remove time pressure) */}
-                      <span className="hidden" aria-hidden="true">
-                        <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
-                      </span>
-
                       {/* Goals Pill */}
                       <button
                         type="button"
                         onClick={() => setShowGoalsModal(true)}
-                        className="h-7 px-1.5 xs:px-2 rounded-md bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 border border-purple-200/80 dark:border-purple-800/50 text-xs font-bold flex items-center gap-1 shrink-0 active:scale-95 transition-all cursor-pointer shadow-2xs"
+                        className="h-7 px-2.5 rounded-lg bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/60 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 border border-purple-200/80 dark:border-purple-800/50 text-xs font-bold flex items-center gap-1.5 shrink-0 active:scale-95 transition-all cursor-pointer shadow-2xs"
                         title="Xem mục tiêu hội thoại & gợi ý từ vựng"
                       >
                         <Target className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+                        <span>Mục tiêu:</span>
                         <span className="tabular-nums font-mono font-bold">
                           {completedGoalsCount}/{currentTopic.goals.length}
                         </span>
                       </button>
 
-                      {/* Chấm điểm button */}
+                      {/* Chấm điểm button (Rule 18 Tonal Secondary Pill + Rule 19 Clear Verb) */}
                       <button
                         type="button"
                         onClick={handleFinishConversation}
-                        className="h-7 px-2 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-600 text-xs font-bold flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer shrink-0"
+                        className="h-7 px-2.5 rounded-lg bg-emerald-50 hover:bg-emerald-600 dark:bg-emerald-950/50 dark:hover:bg-emerald-600 text-emerald-700 hover:text-white dark:text-emerald-300 dark:hover:text-white border border-emerald-200/90 dark:border-emerald-800/60 text-xs font-bold flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer shrink-0"
                         title="Hoàn thành và chấm điểm buổi nói"
                       >
                         <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                        <span className="hidden xs:inline">Chấm điểm</span>
+                        <span>Chấm điểm</span>
                       </button>
                     </>
                   }
@@ -960,11 +907,12 @@ export default function AiConversationPage() {
           </div>
         ) : (
           /* ===== VIEW 2: IN-PLACE SCORECARD & SUMMARY ===== */
-          <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin">
+          <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
             <AiConversationScoreCard
               currentTopic={currentTopic}
               allTopics={aiTopics}
               onSelectTopic={handleSelectTopic}
+              onOpenHistoryDrawer={handleOpenHistoryDrawer}
               sessionEvaluation={sessionEvaluation}
               completedGoalsCount={completedGoalsCount}
               userTurnsCount={userTurnsCount}
@@ -1027,7 +975,7 @@ export default function AiConversationPage() {
                     <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                       Mục Tiêu & Từ Vựng Ngữ Cảnh
                     </h3>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                       Đạt {completedGoalsCount}/{currentTopic.goals.length} mục tiêu trong chủ đề này
                     </p>
                   </div>
@@ -1091,7 +1039,7 @@ export default function AiConversationPage() {
                     <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                       Cài Đặt Buổi Hội Thoại
                     </h3>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                       Chọn chủ đề, huấn luyện viên và độ khó
                     </p>
                   </div>
@@ -1161,8 +1109,8 @@ export default function AiConversationPage() {
                             )}
                           </div>
                           <div className="min-w-0 flex-1">
-                            <div className="text-xs font-bold truncate">{persona.name}</div>
-                            <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                            <div className="text-xs font-bold">{persona.name}</div>
+                            <div className="text-xs text-slate-500 dark:text-slate-400">
                               {persona.roleTitle}
                             </div>
                           </div>
@@ -1200,10 +1148,10 @@ export default function AiConversationPage() {
                               {TOPIC_ICONS[topic.id] || <MessageSquare className="w-4 h-4 text-[#0059bb]" />}
                             </div>
                             <div className="min-w-0">
-                              <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                              <div className="text-xs font-bold text-slate-900 dark:text-white">
                                 {topic.name}
                               </div>
-                              <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                              <div className="text-xs text-slate-500 dark:text-slate-400">
                                 {topic.nameEn} • {topic.level}
                               </div>
                             </div>

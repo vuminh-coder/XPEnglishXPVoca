@@ -2,14 +2,10 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight,
   Flame,
   Sparkles,
   Coins,
-  X,
-  Wand2,
   Headphones,
   Home,
   Compass,
@@ -84,7 +80,6 @@ export default function DashboardPage() {
   // 1. Deterministic Server & Initial Hydration Baseline (Zero Hydration Mismatch)
   const [currentTask, setCurrentTask] = useState<string | null>(null);
   const [isLoadingPlan, setIsLoadingPlan] = useState<boolean>(true);
-  const [showAnnouncement, setShowAnnouncement] = useState<boolean>(true);
   const [activeSkillTab, setActiveSkillTabState] = useState<SkillType>("dictation");
   const [selectedDayIndex, setSelectedDayIndexState] = useState<number | null>(4);
   const [leaderboardTab, setLeaderboardTabState] = useState<"week" | "month">("week");
@@ -128,11 +123,6 @@ export default function DashboardPage() {
     useDashboardStore.getState().setFilter({ leaderboardCriterion: criterion });
   };
 
-  const handleCloseAnnouncement = () => {
-    setShowAnnouncement(false);
-    useDashboardStore.getState().setFilter({ showAnnouncement: false });
-  };
-
   /* eslint-disable react-hooks/set-state-in-effect -- Client mount detection and safe filter hydration */
   useEffect(() => {
     setIsMounted(true);
@@ -143,7 +133,6 @@ export default function DashboardPage() {
       if (typeof savedFilters.selectedDayIndex !== "undefined") setSelectedDayIndexState(savedFilters.selectedDayIndex);
       if (savedFilters.leaderboardTab) setLeaderboardTabState(savedFilters.leaderboardTab);
       if (savedFilters.leaderboardCriterion) setLeaderboardCriterionState(savedFilters.leaderboardCriterion);
-      if (typeof savedFilters.showAnnouncement === "boolean") setShowAnnouncement(savedFilters.showAnnouncement);
     }
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
@@ -735,11 +724,12 @@ export default function DashboardPage() {
 
   return (
     <div
-      className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12"
+      className="w-full min-h-screen bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12"
       suppressHydrationWarning
     >
-      {/* 0. UNIVERSAL 56PX (h-14) TOP ACTION & NAVIGATION HEADER BAR */}
+      {/* 0. TOP ACTION & NAVIGATION HEADER BAR — Mobile/Tablet only (Desktop uses the left Sidebar + in-page CTAs) */}
       <AppTopHeader
+        className="lg:hidden"
         rightDesktopContent={
           <div className="flex items-center gap-2">
             {/* Khối Luyện bài mới làm trong */}
@@ -831,55 +821,8 @@ export default function DashboardPage() {
       </AppTopHeader>
 
       {/* MAIN DASHBOARD CANVAS WITH STAGGERED ENTRANCE */}
-      <PageEntranceWrapper className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-3.5 sm:py-6 pb-24 sm:pb-8 space-y-4 sm:space-y-6">
-        {/* 1. TOP ANNOUNCEMENT BANNER */}
-        <AnimatePresence>
-          {showAnnouncement && (
-            <motion.div
-              initial={{ opacity: 0, y: -8, scale: 0.99 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -8, scale: 0.99 }}
-              className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex items-center justify-between gap-3 relative overflow-hidden"
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-9 h-9 rounded-xl bg-[#0059bb] text-white flex items-center justify-center shrink-0 shadow-2xs">
-                  <Wand2 className="w-4.5 h-4.5 stroke-[2] text-white" />
-                </div>
-                <div className="min-w-0">
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
-                    <span className="sm:hidden">Phòng Writing AI mới!</span>
-                    <span className="hidden sm:inline">Phòng Luyện Writing AI & Dictation Audio Studio đã sẵn sàng!</span>
-                  </h3>
-                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 hidden sm:block truncate">
-                    Thực hành chép chính tả với bảng điều khiển âm thanh 44 sóng âm cao cấp và nhận gợi ý sửa lỗi từ AI.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
-                <Link href="/study/dictation">
-                  <button
-                    type="button"
-                    className="h-8 px-3 rounded-lg bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/70 text-xs font-bold shadow-2xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all"
-                  >
-                    <span>Khám phá</span>
-                    <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
-                  </button>
-                </Link>
-                <button
-                  type="button"
-                  onClick={handleCloseAnnouncement}
-                  className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-all cursor-pointer"
-                  title="Đóng thông báo"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* 2. HERO PROFILE GREETING & 4 MICRO-METRIC CARDS */}
+      <PageEntranceWrapper className="w-full max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-7 pb-24 sm:pb-10 space-y-5 sm:space-y-7">
+        {/* 1. HERO PROFILE GREETING & 4 MICRO-METRIC CARDS */}
         <DashboardHeroGreeting
           user={user}
           userTitle={userTitle}
@@ -888,12 +831,8 @@ export default function DashboardPage() {
           isLoadingCheckin={isLoadingCheckin || !isMounted}
         />
 
-        {/* 3. BENTO 2-COLUMN MAIN CANVAS (Left: 7/12, Right: 5/12 - 0px CLS Standard) */}
-        <div
-          className={`grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 ${
-            Boolean(aiAnswer || isAiLoading) ? "items-stretch" : "items-start"
-          }`}
-        >
+        {/* 3. BENTO 2-COLUMN MAIN CANVAS (Left: 7/12, Right: 5/12 - 0px CLS Standard & Pixel-Aligned Bottom Edge) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
           {/* ─── LEFT COLUMN (7/12) ─── */}
           <div className="lg:col-span-7 flex flex-col gap-5 sm:gap-6">
             {/* 3.1. Today's Mission Deck */}
@@ -927,6 +866,11 @@ export default function DashboardPage() {
               aiAnswer={aiAnswer}
               handleQuickAskSubmit={handleQuickAskSubmit}
             />
+
+            {/* 3.3b. Quick Action Tiles — Desktop: Bento card inside the 7/12 column, stretches to align 0px with Right Column */}
+            <div id="dashboard-quick-actions-inline" className="hidden lg:flex flex-col flex-1">
+              <DashboardQuickActionsGrid variant="inline" />
+            </div>
           </div>
 
           {/* ─── RIGHT COLUMN (5/12) ─── */}
@@ -992,8 +936,8 @@ export default function DashboardPage() {
               )}
             </div>
 
-            {/* Desktop View (>= lg): Both cards rendered stacked in full, 100% unchanged */}
-            <div className="hidden lg:flex flex-col gap-5 sm:gap-6">
+            {/* Desktop View (>= lg): Both cards rendered stacked in full, stretching last card to match Left Column */}
+            <div className="hidden lg:flex flex-col gap-5 sm:gap-6 flex-1">
               <DashboardLeaderboardCard
                 leaderboardTab={leaderboardTab}
                 setLeaderboardTab={setLeaderboardTab}
@@ -1004,18 +948,22 @@ export default function DashboardPage() {
                 user={user}
                 topLeaders={topLeaders}
               />
-              <DashboardDailyQuestsCard
-                displayChallenges={displayChallenges}
-                isLoadingChallenges={isLoadingChallenges || !isMounted}
-                claimingChallengeId={claimingChallengeId}
-                handleClaimChallenge={handleClaimChallenge}
-              />
+              <div className="flex-1 flex flex-col">
+                <DashboardDailyQuestsCard
+                  displayChallenges={displayChallenges}
+                  isLoadingChallenges={isLoadingChallenges || !isMounted}
+                  claimingChallengeId={claimingChallengeId}
+                  handleClaimChallenge={handleClaimChallenge}
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* 4. DEDICATED FULL-WIDTH QUICK ACTION BENTO TILES (4 CARDS) */}
-        <DashboardQuickActionsGrid />
+        {/* 4. FULL-WIDTH QUICK ACTION TILES — Mobile/Tablet only (Desktop renders them inside the left column) */}
+        <div className="lg:hidden">
+          <DashboardQuickActionsGrid />
+        </div>
       </PageEntranceWrapper>
     </div>
   );

@@ -120,11 +120,11 @@ export function DashboardStreakStudio({
         </div>
       )}
 
-      {/* 4. Checkin Button CTA */}
-      <div className="pt-1.5 sm:pt-2">
+      {/* 4. Checkin Button CTA (Rule 18 Tonal Secondary Emerald CTA) */}
+      <div className="pt-1 sm:pt-1.5">
         {isCheckedInToday ? (
           <div
-            className="w-full py-2 sm:py-2.5 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 cursor-default select-none shadow-2xs"
+            className="w-full py-2 sm:py-2.5 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/15 border border-emerald-500/25 text-emerald-700 dark:text-emerald-400 font-bold text-xs sm:text-sm flex items-center justify-center gap-1.5 cursor-default select-none shadow-2xs"
           >
             <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
             <span>Đã điểm danh hôm nay</span>
@@ -134,14 +134,14 @@ export function DashboardStreakStudio({
             type="button"
             onClick={handleCheckIn}
             disabled={isCheckingIn || isLoadingCheckin}
-            className="w-full py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs sm:text-sm shadow-sm shadow-emerald-500/25 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer border-t border-white/20 disabled:opacity-60"
+            className="w-full py-2 sm:py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-600 dark:bg-emerald-950/60 dark:hover:bg-emerald-600 text-emerald-700 hover:text-white dark:text-emerald-300 dark:hover:text-white border border-emerald-200/90 dark:border-emerald-800/80 hover:border-emerald-600 font-bold text-xs sm:text-sm shadow-2xs active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer group/checkin disabled:opacity-60"
           >
             {isCheckingIn ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              <CalendarCheck className="w-4 h-4 stroke-[2.2] text-white" />
+              <CalendarCheck className="w-4 h-4 stroke-[2.2] text-emerald-600 group-hover/checkin:text-white dark:text-emerald-400 dark:group-hover/checkin:text-white transition-colors" />
             )}
-            <span>{isCheckingIn ? "Đang điểm danh..." : "Điểm danh ngay"}</span>
+            <span>{isCheckingIn ? "Đang điểm danh..." : "Điểm danh ngay (+15 XP)"}</span>
           </button>
         )}
       </div>

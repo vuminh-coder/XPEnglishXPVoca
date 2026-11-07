@@ -132,7 +132,7 @@ function InteractiveTranscriptSidebarComponent({
 
   return (
     <div
-      className={`w-full h-full bg-[#f8fafc] dark:bg-slate-900/90 flex flex-col overflow-hidden font-sans ${className}`}
+      className={`w-full h-full bg-white dark:bg-slate-900 flex flex-col overflow-hidden font-sans ${className}`}
     >
       {/* 1. TOP TABS: PHỤ ĐỀ vs GỢI Ý BÀI HỌC */}
       <div className="flex items-center border-b border-slate-100 dark:border-slate-800/80 px-5 pt-3 gap-7 sm:gap-8 shrink-0">

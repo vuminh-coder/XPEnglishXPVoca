@@ -46,20 +46,24 @@ export function DashboardHeroGreeting({
             )}
           </div>
 
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
               {isActuallyLoading ? (
                 <ShimmerBox className="h-6 w-48 rounded-md" />
               ) : (
-                <h1 className="text-base sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white font-display truncate">
-                  Chào mừng trở lại, {displayName}!
+                <h1 className="text-[15px] sm:text-xl font-extrabold tracking-tight text-slate-900 dark:text-white font-display leading-snug">
+                  <span className="text-slate-600 dark:text-slate-300 font-bold sm:font-extrabold sm:text-slate-900 dark:sm:text-white">
+                    Chào mừng trở lại,
+                  </span>{" "}
+                  <br className="sm:hidden" />
+                  <span>{displayName}!</span>
                 </h1>
               )}
-              <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold font-mono border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
+              <span className="px-2 py-0.5 rounded-md bg-blue-50/80 dark:bg-slate-800 text-[#0059bb] dark:text-sky-300 text-[11px] font-bold font-mono border border-blue-200/70 dark:border-slate-700/60 shadow-2xs shrink-0 self-end sm:self-center">
                 Lv.{user?.level || 1} • {userTitle}
               </span>
             </div>
-            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
               Kiên trì luyện tập từng ngày để bứt phá mục tiêu Tiếng Anh của bạn!
             </p>
           </div>
@@ -70,18 +74,18 @@ export function DashboardHeroGreeting({
           <Link href="/myvideo">
             <button
               type="button"
-              className="px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200/80 dark:border-emerald-800/40 hover:bg-emerald-100 text-emerald-700 dark:text-emerald-300 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer active:scale-95"
+              className="px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer active:scale-95"
             >
-              <Video className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <Video className="w-4 h-4 text-slate-500 dark:text-slate-400" />
               <span>Video/Audio</span>
             </button>
           </Link>
           <Link href="/community">
             <button
               type="button"
-              className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer active:scale-95"
+              className="px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer active:scale-95"
             >
-              <MessageSquare className="w-4 h-4 text-slate-500" />
+              <MessageSquare className="w-4 h-4 text-slate-500 dark:text-slate-400" />
               <span>Cộng đồng</span>
             </button>
           </Link>
@@ -180,20 +184,19 @@ export function DashboardHeroGreeting({
                   </span>
                 </div>
               )}
-              <span className="px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300 font-mono font-bold text-[9px] shrink-0 leading-none">
+              <span className="px-1.5 py-0.5 rounded bg-blue-100/90 dark:bg-blue-950 text-[#0059bb] dark:text-sky-300 font-mono font-bold text-[9px] shrink-0 leading-none">
                 {formatPercent(xpPercent, { decimals: 0 })}
               </span>
             </div>
-            <div className="w-full mt-1">
-              <div className="h-1 w-full rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+            <div className="flex items-center gap-2 mt-0.5">
+              <div className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate leading-tight shrink-0">
+                Lv.{user?.level || 1}
+              </div>
+              <div className="h-1.5 flex-1 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#0059bb] via-indigo-600 to-purple-600 transition-all duration-500"
+                  className="h-full rounded-full bg-[#0059bb] dark:bg-sky-400 transition-all duration-500"
                   style={{ width: `${xpPercent}%` }}
                 />
-              </div>
-              <div className="text-[9.5px] sm:text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate mt-1.5 leading-tight">
-                <span className="sm:hidden">Tiến độ Lv.{user?.level || 1}</span>
-                <span className="hidden sm:inline">Tiến độ cấp độ Lv.{user?.level || 1}</span>
               </div>
             </div>
           </div>

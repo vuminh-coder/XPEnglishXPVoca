@@ -52,9 +52,9 @@ export function ShadowingListingHeroStatsSkeleton() {
  */
 export function ShadowingListingSkeleton() {
   return (
-    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
-      {/* 1. TOP APP HEADER SKELETON (56px Baseline - Exact 0px CLS Twin) */}
-      <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
+    <div className="w-full min-h-screen bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none">
+      {/* 1. TOP APP HEADER SKELETON (56px Baseline - Mobile Only) */}
+      <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 flex lg:hidden items-center justify-between gap-4 shrink-0 shadow-2xs">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
             <ShimmerBox className="h-7 w-24 rounded-lg bg-blue-500/20 dark:bg-blue-500/10" />
@@ -65,8 +65,6 @@ export function ShadowingListingSkeleton() {
         <div className="flex items-center gap-2 sm:gap-2.5">
           {/* Mobile search button shimmer */}
           <ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />
-          {/* Desktop search input shimmer */}
-          <ShimmerBox className="h-9 w-44 sm:w-56 lg:w-64 xl:w-72 rounded-xl hidden lg:block" />
           {/* Action button shimmer */}
           <ShimmerBox className="h-9 w-24 sm:w-36 rounded-xl bg-blue-600/30 shrink-0" />
           {/* User Avatar shimmer */}
@@ -75,7 +73,7 @@ export function ShadowingListingSkeleton() {
       </div>
 
       {/* 2. MAIN CONTENT CANVAS SKELETON */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
+      <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
         {/* VIEW MODE PILL TOGGLE (Standard Audio is ACTIVE) */}
         <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-3 flex-wrap">
           <div className="w-full sm:w-auto grid grid-cols-2 sm:flex items-center gap-1 sm:gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
@@ -104,8 +102,8 @@ export function ShadowingListingSkeleton() {
             <ShimmerBox className="h-7 w-32 rounded-lg" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none"
@@ -148,8 +146,8 @@ export function ShadowingListingSkeleton() {
             <ShimmerBox className="h-7 w-32 rounded-lg" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none"
@@ -192,8 +190,8 @@ export function ShadowingListingSkeleton() {
             <ShimmerBox className="h-7 w-32 rounded-lg" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none"
@@ -245,7 +243,7 @@ export function ShadowingListingSkeleton() {
  */
 export function ShadowingStudioSkeleton() {
   return (
-    <div className="w-full h-screen max-h-screen flex flex-col overflow-hidden select-none font-sans bg-[#f8fafc] dark:bg-[#050505]">
+    <div className="w-full h-screen max-h-screen flex flex-col overflow-hidden select-none font-sans bg-[#fffefb] dark:bg-slate-950">
       {/* 1. TOP HEADER SKELETON (56px Baseline - StudioTopHeader Twin) */}
       <div className="w-full px-3.5 sm:px-5 lg:px-6 h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-4 shrink-0 shadow-2xs">
         <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 overflow-hidden">
@@ -309,10 +307,10 @@ export function ShadowingStudioSkeleton() {
       </div>
 
       {/* 3. 2-COLUMN STUDIO WORKSPACE SKELETON */}
-      <div className="flex-1 flex flex-col lg:flex-row items-stretch min-h-0 overflow-y-auto lg:overflow-hidden">
+      <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 py-2.5 lg:py-3 flex flex-col lg:flex-row items-stretch gap-4 lg:gap-5 min-h-0 overflow-y-auto lg:overflow-hidden">
         {/* CỘT TRÁI: SINGLE-SENTENCE FOCUS SHADOWING WORKSPACE */}
-        <div className="flex-1 min-w-0 p-2.5 sm:p-3 lg:p-3.5 space-y-2.5 overflow-y-auto hide-scrollbar pb-24 lg:pb-3.5">
-          <div className="space-y-2.5 w-full">
+        <div className="flex-1 min-w-0 p-0 space-y-2 overflow-y-auto hide-scrollbar pb-24 lg:pb-1">
+          <div className="space-y-2 w-full">
             {/* 3.1. KHỐI AUDIO WAVEFORM STUDIO CARD */}
             <div className="p-3 sm:p-3.5 lg:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/60 dark:shadow-black/40 space-y-2 sm:space-y-2.5">
               {/* Top Status LED + Volume Slider + Digital Timer */}
@@ -513,7 +511,7 @@ export function ShadowingStudioSkeleton() {
         </div>
 
         {/* CỘT PHẢI: INTERACTIVE TRANSCRIPT SIDEBAR SKELETON (Desktop >= lg) */}
-        <div className="hidden lg:flex w-[380px] xl:w-[400px] 2xl:w-[420px] shrink-0 border-l border-slate-200/90 dark:border-slate-800 bg-[#f8fafc] dark:bg-slate-900/90 h-full flex-col overflow-hidden">
+        <div className="hidden lg:flex w-[370px] xl:w-[390px] shrink-0 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs h-full flex-col overflow-hidden">
           {/* 1. Header Tabs: Phụ đề vs Gợi ý */}
           <div className="flex items-center border-b border-slate-100 dark:border-slate-800/80 px-5 pt-3 gap-7 sm:gap-8 shrink-0">
             <div className="pb-2.5 relative">
@@ -725,15 +723,14 @@ export function TranscriptSentencesSkeleton({ count = 6 }: { count?: number }) {
  */
 export function ShadowingVideoListingSkeleton() {
   return (
-    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
-      {/* 1. TOP APP HEADER SKELETON (56px Baseline - AppTopHeader Twin) */}
-      <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
+    <div className="w-full min-h-screen bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none">
+      {/* 1. TOP APP HEADER SKELETON (56px Baseline - Mobile Only) */}
+      <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 flex lg:hidden items-center justify-between gap-4 shrink-0 shadow-2xs">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
             <ShimmerBox className="h-7 w-24 rounded-lg bg-blue-500/20 dark:bg-blue-500/10" />
             <ShimmerBox className="h-7 w-24 rounded-lg hidden sm:block" />
             <ShimmerBox className="h-7 w-28 rounded-lg hidden md:block" />
-            <ShimmerBox className="h-7 w-24 rounded-lg hidden lg:block" />
           </div>
         </div>
         <div className="flex items-center gap-2 sm:gap-2.5">
@@ -747,7 +744,7 @@ export function ShadowingVideoListingSkeleton() {
       </div>
 
       {/* 2. MAIN CONTENT CANVAS SKELETON */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
+      <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
         {/* VIEW MODE PILL TOGGLE (Nhại Âm Video is ACTIVE) */}
         <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-3 flex-wrap">
           <div className="w-full sm:w-auto grid grid-cols-2 sm:flex items-center gap-1 sm:gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
@@ -766,19 +763,7 @@ export function ShadowingVideoListingSkeleton() {
           </div>
         </div>
 
-        {/* 1. HERO SPOTLIGHT & RECOMMENDATION BANNER SKELETON */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-3.5">
-          <div className="space-y-2 max-w-xl">
-            <ShimmerBox className="h-7 w-80 sm:w-96 rounded-lg bg-blue-500/20" />
-            <ShimmerBox className="h-4 w-full rounded" />
-            <ShimmerBox className="h-4 w-4/5 rounded" />
-          </div>
-          <div className="shrink-0">
-            <ShimmerBox className="h-10 w-44 rounded-xl bg-blue-600/30 dark:bg-blue-500/20" />
-          </div>
-        </div>
-
-        {/* 2. CATEGORY CHIPS BAR SKELETON */}
+        {/* 1. CATEGORY CHIPS BAR SKELETON */}
         <div className="space-y-3">
           <div className="flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar">
             <ShimmerBox className="h-8 w-28 rounded-xl bg-[#0059bb]/30" />
@@ -801,8 +786,8 @@ export function ShadowingVideoListingSkeleton() {
           </div>
         </div>
 
-        {/* 3. VIDEO CARDS 16:9 GRID SKELETON */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+        {/* 2. VIDEO CARDS 16:9 GRID SKELETON */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {Array.from({ length: 8 }, (_, i) => (
             <div
               key={i}
@@ -851,7 +836,7 @@ export function ShadowingVideoListingSkeleton() {
  */
 export function ShadowingVideoStudioSkeleton() {
   return (
-    <div className="w-full h-screen max-h-screen flex flex-col overflow-hidden select-none font-sans bg-[#f8fafc] dark:bg-[#050505]">
+    <div className="w-full h-screen max-h-screen flex flex-col overflow-hidden select-none font-sans bg-[#fffefb] dark:bg-slate-950">
       {/* 1. TOP HEADER SKELETON (56px Baseline - StudioTopHeader Twin) */}
       <div className="w-full px-3.5 sm:px-5 lg:px-6 h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-4 shrink-0 shadow-2xs">
         <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 overflow-hidden">
@@ -914,10 +899,10 @@ export function ShadowingVideoStudioSkeleton() {
       </div>
 
       {/* 3. 2-COLUMN STUDIO WORKSPACE SKELETON */}
-      <div className="flex-1 flex flex-col lg:flex-row items-stretch min-h-0 overflow-y-auto lg:overflow-hidden">
+      <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 py-2.5 lg:py-3 flex flex-col lg:flex-row items-stretch gap-4 lg:gap-5 min-h-0 overflow-y-auto lg:overflow-hidden">
         {/* CỘT TRÁI: VIDEO CINEMA & SHADOWING RECORDING WORKSPACE */}
-        <div className="flex-1 min-w-0 p-2.5 sm:p-3 lg:p-3.5 space-y-2.5 overflow-y-auto hide-scrollbar pb-24 lg:pb-3.5">
-          <div className="space-y-2.5 w-full">
+        <div className="flex-1 min-w-0 p-0 space-y-2 overflow-y-auto hide-scrollbar pb-24 lg:pb-1">
+          <div className="space-y-2 w-full">
             {/* 3.1. VIDEO CINEMA FRAME SKELETON (1:1 Exact Twin with VideoCinemaFrame) */}
             <div className="relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm p-1.5 sm:p-2 select-none flex flex-col justify-between space-y-2">
               {/* 1. Responsive 16:9 Cinema Viewport */}
@@ -1086,7 +1071,7 @@ export function ShadowingVideoStudioSkeleton() {
         </div>
 
         {/* CỘT PHẢI: INTERACTIVE TRANSCRIPT SIDEBAR SKELETON (Desktop >= lg) */}
-        <div className="hidden lg:flex w-[380px] xl:w-[400px] 2xl:w-[420px] shrink-0 border-l border-slate-200/90 dark:border-slate-800 bg-[#f8fafc] dark:bg-slate-900/90 h-full flex-col overflow-hidden">
+        <div className="hidden lg:flex w-[370px] xl:w-[390px] shrink-0 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs h-full flex-col overflow-hidden">
           {/* 1. Header Tabs: Phụ đề vs Gợi ý */}
           <div className="flex items-center border-b border-slate-100 dark:border-slate-800/80 px-5 pt-3 gap-7 sm:gap-8 shrink-0">
             <div className="pb-2.5 relative">

@@ -688,53 +688,63 @@ export function ShadowingPageContent({
   }, [completedLessonIds]);
 
   const displayedBasicLessons = useMemo(() => {
-    const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
-    const midPool = lessonsList.filter(
-      (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
-    );
-    const midHalf = Math.ceil(midPool.length / 2);
-
-    const basicPool = [...easyPool, ...midPool.slice(0, midHalf)];
+    const easyPool = lessonsList.filter((l) => {
+      const lvl = String(l.level || "A1").toUpperCase();
+      return (
+        BASIC_LEVELS.has(l.level) ||
+        lvl.includes("A1") ||
+        lvl.includes("A2") ||
+        lvl.includes("EASY") ||
+        lvl.includes("BEGINNER")
+      );
+    });
     const safeBasic =
-      basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
+      easyPool.length > 0 ? easyPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
 
     if (listingSearch.trim()) {
       const q = listingSearch.toLowerCase();
-      return safeBasic
-        .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
-        .slice(0, 8);
+      return safeBasic.filter(
+        (l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q)
+      );
     }
-    return pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lessonsList, completedLessonIdsKey, listingSearch, BASIC_LEVELS, shuffleSeedBasic]);
+    if (shuffleSeedBasic === 0) return safeBasic;
+    const offset = (shuffleSeedBasic * 4) % Math.max(1, safeBasic.length);
+    return [...safeBasic.slice(offset), ...safeBasic.slice(0, offset)];
+  }, [lessonsList, listingSearch, BASIC_LEVELS, shuffleSeedBasic]);
 
   const displayedAdvancedLessons = useMemo(() => {
-    const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
-    const midPool = lessonsList.filter(
-      (l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2"
-    );
-    const advPool = [...hardPool, ...midPool.slice(Math.ceil(midPool.length / 2))];
+    const hardPool = lessonsList.filter((l) => {
+      const lvl = String(l.level || "").toUpperCase();
+      return (
+        ADVANCED_LEVELS.has(l.level) ||
+        lvl.includes("C1") ||
+        lvl.includes("C2") ||
+        lvl.includes("HARD") ||
+        lvl.includes("ADVANCED")
+      );
+    });
     const safeAdv =
-      advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
+      hardPool.length > 0 ? hardPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
 
     if (listingSearch.trim()) {
       const q = listingSearch.toLowerCase();
-      return safeAdv
-        .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
-        .slice(0, 8);
+      return safeAdv.filter(
+        (l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q)
+      );
     }
-    return pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lessonsList, completedLessonIdsKey, listingSearch, ADVANCED_LEVELS, shuffleSeedAdvanced]);
+    if (shuffleSeedAdvanced === 0) return safeAdv;
+    const offset = (shuffleSeedAdvanced * 4) % Math.max(1, safeAdv.length);
+    return [...safeAdv.slice(offset), ...safeAdv.slice(0, offset)];
+  }, [lessonsList, listingSearch, ADVANCED_LEVELS, shuffleSeedAdvanced]);
 
   const handleShuffleBasic = useCallback(() => {
     setAudioShuffleBasic((prev) => prev + 1);
-    addToast({ type: "info", title: "Đã đổi 8 bài học cơ bản ngẫu nhiên mới!" });
+    addToast({ type: "info", title: "Đã đổi 4 bài nói cơ bản mới!" });
   }, [setAudioShuffleBasic, addToast]);
 
   const handleShuffleAdvanced = useCallback(() => {
     setAudioShuffleAdvanced((prev) => prev + 1);
-    addToast({ type: "info", title: "Đã đổi 8 bài học nâng cao ngẫu nhiên mới!" });
+    addToast({ type: "info", title: "Đã đổi 4 bài nói nâng cao mới!" });
   }, [setAudioShuffleAdvanced, addToast]);
 
   // Computed stats for Micro-Hero Bento Grid
@@ -1218,8 +1228,8 @@ export function ShadowingPageContent({
     <div
       className={`w-full min-w-0 max-w-none font-sans relative select-none ${
         selectedLessonId
-          ? "h-full max-h-screen overflow-hidden p-0"
-          : "min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col"
+          ? "h-full max-h-[100dvh] overflow-hidden p-0 bg-[#fffefb] dark:bg-slate-950"
+          : "min-h-screen bg-[#fffefb] dark:bg-slate-950 flex flex-col"
       }`}
     >
       {/* 1. LISTING VIEW */}

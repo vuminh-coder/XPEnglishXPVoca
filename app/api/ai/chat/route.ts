@@ -373,11 +373,80 @@ CRITICAL RULES:
           });
         }
 
-        parsedData = {
+        // Smart Grammar & Phrasing Detection for Fallback Engine
+        let fallbackGrammarCorrection:
+          | { hasError: boolean; original: string; corrected: string; explanation: string }
+          | undefined = undefined;
+        let fallbackBetterPhrasing = "Could I have a table for two and see the menu, please?";
+
+        const trimmedMsg = lastUserMsg.trim();
+        if (/\bwant table\b/i.test(trimmedMsg) || /\blike order\b/i.test(trimmedMsg) || /\bsee menu\b/i.test(trimmedMsg)) {
+          const fixed = trimmedMsg
+            .replace(/\bi want table\b/gi, "I would like a table")
+            .replace(/\bwant table\b/gi, "would like a table")
+            .replace(/\bsee menu\b/gi, "see the menu")
+            .replace(/\bwould like order\b/gi, "would like to order")
+            .replace(/\bget bill\b/gi, "get the bill");
+          fallbackGrammarCorrection = {
+            hasError: true,
+            original: trimmedMsg,
+            corrected: fixed,
+            explanation:
+              "Bổ sung mạo từ 'a/the' trước danh từ đếm được ('a table', 'the menu', 'the bill') và giới từ 'to' trong cấu trúc 'would like to V'.",
+          };
+          fallbackBetterPhrasing =
+            "Hello! Could we get a table for two and see the menu, please? I'd love to order a fresh garden salad and a coffee.";
+        } else if (/\bi go\b/i.test(trimmedMsg) && /\byesterday\b/i.test(trimmedMsg)) {
+          fallbackGrammarCorrection = {
+            hasError: true,
+            original: trimmedMsg,
+            corrected: trimmedMsg.replace(/\bi go\b/gi, "I went"),
+            explanation: "Sử dụng động từ quá khứ đơn 'went' thay vì 'go' khi đi kèm trạng từ chỉ quá khứ 'yesterday'.",
+          };
+          fallbackBetterPhrasing = trimmedMsg.replace(/\bi go\b/gi, "I went");
+        } else if (/\b(he|she|it)\s+don't\b/i.test(trimmedMsg)) {
+          fallbackGrammarCorrection = {
+            hasError: true,
+            original: trimmedMsg,
+            corrected: trimmedMsg.replace(/\bdon't\b/gi, "doesn't"),
+            explanation: "Chủ ngữ ngôi thứ 3 số ít (he/she/it) cần dùng trợ động từ 'doesn't' thay vì 'don't'.",
+          };
+          fallbackBetterPhrasing = trimmedMsg.replace(/\bdon't\b/gi, "doesn't");
+        } else if (trimmedMsg.length > 0) {
+          fallbackBetterPhrasing =
+            topicId === "at1"
+              ? "I'd love to order a fresh garden salad and a cup of coffee, and could we have the bill when it's ready?"
+              : "Could you share a bit more detail about how we can proceed with this?";
+        }
+
+        const scenarioReplies: Record<string, { reply: string; vi: string }> = {
+          at1: {
+            reply:
+              "Certainly! Right this way to your table for two. I've put in your order for the fresh garden salad and hot coffee, and I'll bring your bill right over—would you like to pay by card or cash today?",
+            vi: "Chắc chắn rồi! Mời quý khách ngồi vào bàn đôi lối này. Tôi đã ghi nhận món salad rau tươi và cà phê nóng, đồng thời sẽ mang hóa đơn ra ngay—hôm nay quý khách muốn thanh toán bằng thẻ hay tiền mặt ạ?",
+          },
+          at2: {
+            reply:
+              "Your background in problem solving is very impressive! Could you share a specific example of a challenging project you led recently?",
+            vi: "Nền tảng giải quyết vấn đề của bạn rất ấn tượng! Bạn có thể chia sẻ một ví dụ cụ thể về dự án thử thách mà bạn đã dẫn dắt gần đây không?",
+          },
+          at3: {
+            reply:
+              "Thank you! I have checked in your luggage and assigned you a window seat in row 14. Here is your boarding pass—have a wonderful flight!",
+            vi: "Cảm ơn quý khách! Tôi đã làm thủ tục hành lý và xếp ghế cạnh cửa sổ ở hàng 14 cho quý khách. Đây là thẻ lên máy bay—chúc quý khách một chuyến bay tốt đẹp!",
+          },
+        };
+
+        const chosenReply = scenarioReplies[topicId] || {
           reply: `That's a fantastic point! Could you elaborate more on how that relates to your experience?`,
-          vietnameseTranslation: `Đó là một ý kiến tuyệt vời! Bạn có thể chia sẻ thêm về trải nghiệm đó không?`,
-          grammarCorrection: undefined,
-          betterPhrasing: "I would like to elaborate further on this topic.",
+          vi: `Đó là một ý kiến tuyệt vời! Bạn có thể chia sẻ thêm về trải nghiệm đó không?`,
+        };
+
+        parsedData = {
+          reply: chosenReply.reply,
+          vietnameseTranslation: chosenReply.vi,
+          grammarCorrection: fallbackGrammarCorrection,
+          betterPhrasing: fallbackBetterPhrasing,
           suggestedWords: fallbackBank.words.slice(0, 3),
           suggestedPhrases: fallbackBank.phrases.slice(0, 2),
           goalsCompleted: matchedFallbackGoals,

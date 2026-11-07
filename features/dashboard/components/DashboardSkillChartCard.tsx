@@ -36,11 +36,11 @@ const SpeakingIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => 
 );
 
 const SKILL_TAB_CONFIGS = [
-  { id: "dictation", label: "Dictation", Icon: Headphones },
-  { id: "shadowing", label: "Shadowing", Icon: Mic },
-  { id: "speaking", label: "Nói (AI)", Icon: SpeakingIcon },
-  { id: "vocab", label: "Từ vựng", Icon: BookOpen },
-  { id: "writing", label: "Viết (AI)", Icon: Wand2 },
+  { id: "dictation", label: "Dictation", shortLabel: "Dictation", Icon: Headphones },
+  { id: "shadowing", label: "Shadowing", shortLabel: "Shadowing", Icon: Mic },
+  { id: "speaking", label: "Nói (AI)", shortLabel: "Nói AI", Icon: SpeakingIcon },
+  { id: "vocab", label: "Từ vựng", shortLabel: "Từ vựng", Icon: BookOpen },
+  { id: "writing", label: "Viết (AI)", shortLabel: "Viết AI", Icon: Wand2 },
 ] as const;
 
 export type SkillTabId = (typeof SKILL_TAB_CONFIGS)[number]["id"];
@@ -49,7 +49,9 @@ const SKILL_SUB_ACTIONS: Record<
   string,
   {
     title: string;
+    mobileTitle: string;
     subtitle: string;
+    mobileSubtitle: string;
     ctaLabel: string;
     href: string;
     Icon: React.ComponentType<{ className?: string }>;
@@ -60,58 +62,73 @@ const SKILL_SUB_ACTIONS: Record<
 > = {
   dictation: {
     title: "Nâng cao phản xạ Nghe Chép Chính Tả!",
+    mobileTitle: "Nghe Chép Chính Tả",
     subtitle: "Luyện nghe bắt âm chuẩn xác qua các bài hội thoại thực tế.",
+    mobileSubtitle: "Bắt âm qua hội thoại",
     ctaLabel: "Nghe ngay",
     href: "/study/dictation",
     Icon: Headphones,
     containerClass:
-      "bg-blue-50/90 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-900/40",
+      "bg-blue-50/70 dark:bg-blue-950/35 border-blue-200/80 dark:border-blue-900/40",
     iconBoxClass: "bg-[#0059bb] text-white",
-    buttonClass: "bg-[#0059bb] hover:bg-[#004ba0] text-white",
+    buttonClass:
+      "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 border border-blue-200/90 dark:border-blue-800/80 hover:bg-[#0059bb] hover:text-white dark:hover:bg-[#0059bb] dark:hover:text-white",
   },
   shadowing: {
     title: "Chuẩn hóa ngữ điệu bản xứ cùng Shadowing!",
+    mobileTitle: "Luyện Nói Shadowing",
     subtitle: "Nhại giọng theo từng nhịp câu và nhận phân tích phát âm chi tiết.",
+    mobileSubtitle: "Chuẩn ngữ điệu bản xứ",
     ctaLabel: "Tập nói ngay",
     href: "/study/shadowing",
     Icon: Mic,
     containerClass:
-      "bg-cyan-50/90 dark:bg-cyan-950/40 border-cyan-200/80 dark:border-cyan-900/40",
+      "bg-cyan-50/70 dark:bg-cyan-950/35 border-cyan-200/80 dark:border-cyan-900/40",
     iconBoxClass: "bg-cyan-600 text-white",
-    buttonClass: "bg-cyan-600 hover:bg-cyan-700 text-white",
+    buttonClass:
+      "bg-white dark:bg-slate-900 text-cyan-700 dark:text-cyan-400 border border-cyan-200/90 dark:border-cyan-800/80 hover:bg-cyan-600 hover:text-white",
   },
   speaking: {
     title: "Thực hành Phản Xạ Nói cùng AI Coach!",
+    mobileTitle: "Phản Xạ Nói Cùng AI",
     subtitle: "Chấm điểm phát âm 6 tiêu chí thời gian thực bằng giọng nói.",
+    mobileSubtitle: "Chấm phát âm 6 tiêu chí",
     ctaLabel: "Luyện nói AI",
     href: "/study/practice?subMode=speaking",
     Icon: SpeakingIcon,
     containerClass:
-      "bg-purple-50/90 dark:bg-purple-950/40 border-purple-200/80 dark:border-purple-900/40",
+      "bg-purple-50/70 dark:bg-purple-950/35 border-purple-200/80 dark:border-purple-900/40",
     iconBoxClass: "bg-purple-600 text-white",
-    buttonClass: "bg-purple-600 hover:bg-purple-700 text-white",
+    buttonClass:
+      "bg-white dark:bg-slate-900 text-purple-700 dark:text-purple-400 border border-purple-200/90 dark:border-purple-800/80 hover:bg-purple-600 hover:text-white",
   },
   vocab: {
     title: "Mở rộng vốn từ vựng học thuật!",
+    mobileTitle: "Học Từ Vựng Cốt Lõi",
     subtitle: "Học 10 từ mới mỗi ngày để hoàn thành mục tiêu 3,000 từ cốt lõi.",
+    mobileSubtitle: "10 từ mới mỗi ngày",
     ctaLabel: "Học ngay",
     href: "/vocabulary",
     Icon: BookOpen,
     containerClass:
-      "bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-200/80 dark:border-emerald-900/40",
+      "bg-emerald-50/70 dark:bg-emerald-950/35 border-emerald-200/80 dark:border-emerald-900/40",
     iconBoxClass: "bg-emerald-600 text-white",
-    buttonClass: "bg-emerald-600 hover:bg-emerald-700 text-white",
+    buttonClass:
+      "bg-white dark:bg-slate-900 text-emerald-700 dark:text-emerald-400 border border-emerald-200/90 dark:border-emerald-800/80 hover:bg-emerald-600 hover:text-white",
   },
   writing: {
     title: "Luyện Viết & Ghép Câu Chuẩn Ngữ Pháp!",
+    mobileTitle: "Viết & Ghép Câu AI",
     subtitle: "Thực hành sắp xếp cấu trúc câu theo chủ đề từ vựng thực chiến.",
+    mobileSubtitle: "Ghép câu theo chủ đề",
     ctaLabel: "Ghép câu ngay",
     href: "/study/sentence-builder",
     Icon: Wand2,
     containerClass:
-      "bg-amber-50/90 dark:bg-amber-950/40 border-amber-200/80 dark:border-amber-900/40",
+      "bg-amber-50/70 dark:bg-amber-950/35 border-amber-200/80 dark:border-amber-900/40",
     iconBoxClass: "bg-amber-500 text-white",
-    buttonClass: "bg-amber-500 hover:bg-amber-600 text-white",
+    buttonClass:
+      "bg-white dark:bg-slate-900 text-amber-700 dark:text-amber-400 border border-amber-200/90 dark:border-amber-800/80 hover:bg-amber-500 hover:text-white",
   },
 };
 
@@ -225,16 +242,16 @@ export function DashboardSkillChartCard({
       className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 space-y-4"
     >
       {/* Upper Header: Title & Badges */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 flex items-center justify-center shadow-2xs shrink-0">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center shadow-2xs shrink-0">
             <TrendingUp className="w-4 h-4 stroke-[2.2]" />
           </div>
-          <div>
-            <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-              Thời Lượng Luyện Kỹ Năng Tuần Này
+          <div className="min-w-0">
+            <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
+              Thời Lượng Luyện Kỹ Năng<span className="hidden sm:inline"> Tuần Này</span>
             </h3>
-            <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 block">
               Tổng 7 ngày:{" "}
               <span
                 suppressHydrationWarning
@@ -254,11 +271,11 @@ export function DashboardSkillChartCard({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.18 }}
-            className="flex items-center gap-1.5 self-start sm:self-auto"
+            className="flex items-center gap-1.5 shrink-0"
           >
             <span
               suppressHydrationWarning
-              className="px-2.5 py-1 rounded-md text-[11px] font-bold font-mono border shadow-2xs"
+              className="hidden sm:inline-block px-2.5 py-1 rounded-md text-[11px] font-bold font-mono border shadow-2xs"
               style={{
                 backgroundColor: `${currentSkillConfig.color}15`,
                 color: currentSkillConfig.color,
@@ -277,51 +294,45 @@ export function DashboardSkillChartCard({
         </AnimatePresence>
       </div>
 
-      {/* 5-Skill Segmented Tab Switcher with Spring LayoutId */}
-      <div className="relative w-full">
-        <div
-          role="tablist"
-          className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between gap-1 overflow-x-auto no-scrollbar select-none"
-        >
-          {SKILL_TAB_CONFIGS.map((tab) => {
-            const isActive = activeSkillTab === tab.id;
-            const Icon = tab.Icon;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                id={`tab-${tab.id}`}
-                aria-selected={isActive}
-                onClick={() => setActiveSkillTab(tab.id)}
-                className={`relative flex-1 py-1.5 px-1.5 sm:px-3 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap flex items-center justify-center gap-1 sm:gap-1.5 z-10 select-none ${
-                  isActive
-                    ? "text-slate-900 dark:text-white shadow-2xs font-extrabold"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium"
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeSkillTabIndicator"
-                    transition={{
-                      type: "spring",
-                      stiffness: 500,
-                      damping: 35,
-                    }}
-                    className="absolute inset-0 bg-white dark:bg-slate-900 rounded-lg -z-10 shadow-xs border border-slate-200/60 dark:border-slate-700/60"
-                  />
-                )}
-                <Icon className="w-3.5 h-3.5 shrink-0" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-        {/* Subtle Mobile Scroll Hint Fade at Right Edge */}
-        <div
-          className="sm:hidden pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-slate-100 dark:from-slate-800 to-transparent rounded-r-xl z-20"
-          aria-hidden="true"
-        />
+      {/* 5-Skill Segmented Tab Switcher — 5-Column Grid so all 5 tabs fit 100% on both Mobile and Desktop */}
+      <div
+        role="tablist"
+        className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 grid grid-cols-5 gap-1 select-none"
+      >
+        {SKILL_TAB_CONFIGS.map((tab) => {
+          const isActive = activeSkillTab === tab.id;
+          const Icon = tab.Icon;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              id={`tab-${tab.id}`}
+              aria-selected={isActive}
+              onClick={() => setActiveSkillTab(tab.id)}
+              className={`relative py-1.5 px-0.5 sm:px-2.5 rounded-lg text-[9.5px] sm:text-xs tracking-tight sm:tracking-normal font-bold transition-all duration-200 cursor-pointer flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 z-10 select-none leading-tight ${
+                isActive
+                  ? "text-[#0059bb] dark:text-white shadow-2xs font-extrabold"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-semibold"
+              }`}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="activeSkillTabIndicator"
+                  transition={{
+                    type: "spring",
+                    stiffness: 500,
+                    damping: 35,
+                  }}
+                  className="absolute inset-0 bg-white dark:bg-slate-900 rounded-lg -z-10 shadow-xs border border-slate-200/60 dark:border-slate-700/60"
+                />
+              )}
+              <Icon className="w-3.5 h-3.5 shrink-0" />
+              <span className="sm:hidden whitespace-nowrap">{tab.shortLabel}</span>
+              <span className="hidden sm:inline whitespace-nowrap">{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Interactive SVG Chart Waveform Canvas / 1:1 Shimmer Skeleton */}
@@ -586,22 +597,24 @@ export function DashboardSkillChartCard({
         </div>
       )}
 
-      {/* Context-Aware Sub-Action Card Embedded */}
+      {/* Context-Aware Sub-Action Card Embedded (Rule 18 Secondary/Tonal CTA) */}
       <div
-        className={`p-3 rounded-xl border flex items-center justify-between gap-3 shadow-2xs transition-colors duration-200 ${subAction.containerClass}`}
+        className={`p-3 rounded-xl border flex items-center justify-between gap-2.5 sm:gap-3 shadow-2xs transition-colors duration-200 ${subAction.containerClass}`}
       >
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
           <div
             className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-2xs shrink-0 transition-colors ${subAction.iconBoxClass}`}
           >
             <SubActionIcon className="w-4 h-4 stroke-[2]" />
           </div>
-          <div className="min-w-0">
-            <h4 className="text-xs font-bold text-slate-900 dark:text-white font-display truncate">
-              {subAction.title}
+          <div className="min-w-0 flex-1">
+            <h4 className="text-xs font-bold text-slate-900 dark:text-white font-display leading-snug truncate">
+              <span className="sm:hidden">{subAction.mobileTitle}</span>
+              <span className="hidden sm:inline">{subAction.title}</span>
             </h4>
-            <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
-              {subAction.subtitle}
+            <p className="text-[11px] font-medium text-slate-600 dark:text-slate-400 leading-tight truncate mt-0.5">
+              <span className="sm:hidden">{subAction.mobileSubtitle}</span>
+              <span className="hidden sm:inline">{subAction.subtitle}</span>
             </p>
           </div>
         </div>
@@ -609,10 +622,10 @@ export function DashboardSkillChartCard({
         <Link href={subAction.href} className="shrink-0">
           <button
             type="button"
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 cursor-pointer transition-all shadow-2xs active:scale-95 ${subAction.buttonClass}`}
+            className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold flex items-center gap-1 cursor-pointer transition-all shadow-2xs active:scale-95 whitespace-nowrap ${subAction.buttonClass}`}
           >
             <span>{subAction.ctaLabel}</span>
-            <ArrowRight className="w-3.5 h-3.5 stroke-[2]" />
+            <ArrowRight className="w-3.5 h-3.5 stroke-[2.2]" />
           </button>
         </Link>
       </div>

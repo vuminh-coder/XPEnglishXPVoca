@@ -44,9 +44,9 @@ export function ShimmerBox({
  */
 export function ListeningListingSkeleton() {
   return (
-    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
+    <div className="w-full min-h-screen bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none">
       {/* 1. TOP APP HEADER SKELETON (56px Baseline - AppTopHeader Twin) */}
-      <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
+      <div className="lg:hidden w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
         {/* Left: 4 Header Pills (Dictation, Shadowing, Luyện từ, Thi thử) */}
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
@@ -75,7 +75,7 @@ export function ListeningListingSkeleton() {
       </div>
 
       {/* 2. MAIN CONTENT CANVAS SKELETON */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
+      <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-7 pb-24">
         {/* VIEW MODE PILL TOGGLE (Standard Audio is ACTIVE) */}
         <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-3 flex-wrap">
           <div className="w-full sm:w-auto grid grid-cols-2 sm:flex items-center gap-1 sm:gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">
@@ -237,9 +237,9 @@ export function ListeningListingSkeleton() {
  */
 export function VideoListingSkeleton() {
   return (
-    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
+    <div className="w-full min-h-screen bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none">
       {/* 1. TOP APP HEADER SKELETON (56px Baseline - AppTopHeader Twin) */}
-      <div className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
+      <div className="lg:hidden w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-6 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
             <ShimmerBox className="h-7 w-24 rounded-lg bg-blue-500/20 dark:bg-blue-500/10" />
@@ -257,7 +257,7 @@ export function VideoListingSkeleton() {
       </div>
 
       {/* 2. MAIN CONTENT CANVAS SKELETON */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-5 sm:py-6 space-y-6 sm:space-y-7 pb-20">
+      <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-7 pb-24">
         {/* VIEW MODE PILL TOGGLE (Kho Video Tuyển Chọn is ACTIVE) */}
         <div className="flex items-center justify-between gap-3 border-b border-slate-200/80 dark:border-slate-800 pb-3 flex-wrap">
           <div className="w-full sm:w-auto grid grid-cols-2 sm:flex items-center gap-1 sm:gap-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl border border-slate-200/90 dark:border-slate-700/60 shadow-2xs">

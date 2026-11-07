@@ -14,8 +14,7 @@ import {
 import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
-import { VideoSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
-import { Plus, Video, Layers, Play } from "lucide-react";
+import { Video, Layers, Play } from "lucide-react";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 
 // Modular Feature Components & Hooks
@@ -541,9 +540,10 @@ export default function MyVideoPage() {
   }, [savedVideos, searchQuery, selectedCategory, selectedFilter]);
 
   return (
-    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
-      {/* 0. UNIVERSAL 56PX (h-14) TOP ACTION & NAVIGATION HEADER BAR */}
+    <div className="w-full min-h-screen bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none pb-24 md:pb-12">
+      {/* 0. MOBILE-ONLY 56PX (h-14) TOP HEADER BAR (Hidden on Desktop lg:hidden) */}
       <AppTopHeader
+        className="lg:hidden"
         showGamificationStats={false}
         hideMobileSearch={false}
         searchProps={{
@@ -553,34 +553,10 @@ export default function MyVideoPage() {
           onClear: () => setSearchQuery(""),
           hideDesktopInput: true,
         }}
-        rightDesktopContent={
-          <div className="flex items-center gap-2.5 shrink-0">
-            <button
-              type="button"
-              onClick={() => {
-                setMobileViewMode("library");
-                window.dispatchEvent(new CustomEvent("open-youtube-import"));
-                const input = document.getElementById("youtube-url-input");
-                if (input) {
-                  input.scrollIntoView({ behavior: "smooth", block: "center" });
-                  input.focus();
-                }
-              }}
-              className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-              title="Nhập thêm video YouTube mới để học"
-            >
-              <Plus className="w-4 h-4 stroke-[2.5]" />
-              <span className="hidden sm:inline">Thêm video mới</span>
-              <span className="sm:hidden">Thêm video</span>
-            </button>
-          </div>
-        }
-      >
-        <VideoSuiteNavTabs />
-      </AppTopHeader>
+      />
 
       {/* MAIN DASHBOARD CANVAS */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-2.5 sm:py-6 pb-24 sm:pb-8 space-y-3 sm:space-y-6">
+      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-2.5 sm:py-3.5 pb-24 sm:pb-8 space-y-3 sm:space-y-4">
         {/* MOBILE VIEW MODE SEGMENTED CONTROL (lg:hidden - Rule 14 & 20) */}
         {activeVideo && (
           <div className="lg:hidden p-1 rounded-xl bg-slate-200/80 dark:bg-slate-800/80 grid grid-cols-2 gap-1 select-none shadow-2xs">
@@ -634,7 +610,7 @@ export default function MyVideoPage() {
             ref={playerWorkspaceRef}
             className={`${
               mobileViewMode === "library" ? "hidden lg:grid " : "grid "
-            }grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-5 sm:gap-6 items-stretch scroll-mt-16`}
+            }grid-cols-1 lg:grid-cols-[1.62fr_1fr] gap-4 sm:gap-5 items-stretch scroll-mt-4`}
           >
             {/* CỘT TRÁI (1.62fr): VIDEO PLAYER STUDIO */}
             <VideoPlayerStudio
@@ -698,13 +674,13 @@ export default function MyVideoPage() {
                   setMobileViewMode("player");
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="w-full py-2 px-3 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-[#0059bb] dark:text-sky-400 text-xs font-bold flex items-center justify-between cursor-pointer active:scale-98 transition-all"
+                className="w-full py-2 px-3 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900 text-[#0059bb] dark:text-sky-400 text-xs font-bold flex items-center justify-between cursor-pointer active:scale-98 transition-all"
               >
                 <div className="flex items-center gap-2 truncate">
                   <Play className="w-3.5 h-3.5 fill-current shrink-0" />
                   <span className="truncate">Đang học: {activeVideo.title}</span>
                 </div>
-                <span className="text-[11px] font-medium shrink-0 ml-2">Quay lại phòng học →</span>
+                <span className="text-xs font-semibold shrink-0 ml-2">Quay lại phòng học →</span>
               </button>
             </div>
           )}

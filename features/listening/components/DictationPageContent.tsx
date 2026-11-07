@@ -47,6 +47,16 @@ import { syncRoadmapSessionProgress } from "@/features/roadmap";
 const BASIC_LEVELS = new Set(["Easy", "Beginner", "A1", "A2"]);
 const ADVANCED_LEVELS = new Set(["Hard", "Advanced", "C1", "C2"]);
 
+const INITIAL_AUDIO_FALLBACK_LESSONS = MOCK_LESSONS_DATA.filter(
+  (l: any) =>
+    !l.isVideo &&
+    !String(l.id).startsWith("vid_") &&
+    !String(l.id).startsWith("yt_") &&
+    !String(l.id).startsWith("video_") &&
+    !String(l.audioUrl || "").includes("youtube") &&
+    !String(l.audioUrl || "").includes("youtu.be")
+);
+
 function parseCompletedSentencesMap(arr: any[]): { [idx: number]: boolean } {
   const compMap: { [idx: number]: boolean } = {};
   if (!Array.isArray(arr)) return compMap;
@@ -110,7 +120,9 @@ export function DictationPageContent({
 
   // Frame 0 Synchronous Cache Read for lessons list (0ms instant UI return)
   const [lessonsList, setLessonsList] = useState<any[]>(() =>
-    cachedAudioLessons && cachedAudioLessons.length > 0 ? cachedAudioLessons : []
+    cachedAudioLessons && cachedAudioLessons.length > 0
+      ? cachedAudioLessons
+      : INITIAL_AUDIO_FALLBACK_LESSONS
   );
 
   useEffect(() => {
@@ -809,43 +821,52 @@ export function DictationPageContent({
   }, [completedLessonIds]);
 
   const displayedBasicLessons = useMemo(() => {
-    const easyPool = lessonsList.filter((l) => BASIC_LEVELS.has(l.level));
-    const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
-    const midPool = lessonsList.filter((l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2");
-    const midHalf = Math.ceil(midPool.length / 2);
-
-    const basicPool = [...easyPool, ...midPool.slice(0, midHalf)];
-    const safeBasic = basicPool.length > 0 ? basicPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 2));
+    const easyPool = lessonsList.filter((l) => {
+      const lvl = (l.level || "").toUpperCase();
+      return (
+        BASIC_LEVELS.has(l.level) ||
+        lvl.includes("A1") ||
+        lvl.includes("A2") ||
+        lvl.includes("EASY") ||
+        lvl.includes("BEGINNER")
+      );
+    });
+    const safeBasic = easyPool.length > 0 ? easyPool : lessonsList.slice(0, Math.ceil(lessonsList.length / 3));
 
     if (listingSearch.trim()) {
       const q = listingSearch.toLowerCase();
-      return safeBasic
-        .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
-        .slice(0, 8);
+      return safeBasic.filter(
+        (l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q)
+      );
     }
-    // shuffleSeedBasic increments whenever user clicks "Đổi bài"
-    return pick10RandomLessons(safeBasic, completedLessonIds || []).slice(0, 8);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lessonsList, completedLessonIdsKey, listingSearch, shuffleSeedBasic]);
+    if (shuffleSeedBasic === 0) return safeBasic;
+    const offset = (shuffleSeedBasic * 4) % Math.max(1, safeBasic.length);
+    return [...safeBasic.slice(offset), ...safeBasic.slice(0, offset)];
+  }, [lessonsList, listingSearch, shuffleSeedBasic]);
 
   const displayedAdvancedLessons = useMemo(() => {
-    const hardPool = lessonsList.filter((l) => ADVANCED_LEVELS.has(l.level));
-    const midPool = lessonsList.filter((l) => l.level === "Intermediate" || l.level === "B1" || l.level === "B2");
-    const midHalf = Math.ceil(midPool.length / 2);
-
-    const advPool = [...hardPool, ...midPool.slice(midHalf)];
-    const safeAdv = advPool.length > 0 ? advPool : lessonsList.slice(Math.ceil(lessonsList.length / 2));
+    const hardPool = lessonsList.filter((l) => {
+      const lvl = (l.level || "").toUpperCase();
+      return (
+        ADVANCED_LEVELS.has(l.level) ||
+        lvl.includes("C1") ||
+        lvl.includes("C2") ||
+        lvl.includes("HARD") ||
+        lvl.includes("ADVANCED")
+      );
+    });
+    const safeAdv = hardPool.length > 0 ? hardPool : lessonsList.slice(Math.ceil((lessonsList.length * 2) / 3));
 
     if (listingSearch.trim()) {
       const q = listingSearch.toLowerCase();
-      return safeAdv
-        .filter((l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q))
-        .slice(0, 8);
+      return safeAdv.filter(
+        (l) => l.title.toLowerCase().includes(q) || l.category?.toLowerCase().includes(q)
+      );
     }
-    // shuffleSeedAdvanced increments whenever user clicks "Đổi bài"
-    return pick10RandomLessons(safeAdv, completedLessonIds || []).slice(0, 8);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lessonsList, completedLessonIdsKey, listingSearch, shuffleSeedAdvanced]);
+    if (shuffleSeedAdvanced === 0) return safeAdv;
+    const offset = (shuffleSeedAdvanced * 4) % Math.max(1, safeAdv.length);
+    return [...safeAdv.slice(offset), ...safeAdv.slice(0, offset)];
+  }, [lessonsList, listingSearch, shuffleSeedAdvanced]);
 
   const handleShuffleBasic = useCallback(() => {
     setIsShufflingBasic(true);
@@ -1512,8 +1533,8 @@ export function DictationPageContent({
     <div
       className={`w-full min-w-0 max-w-none font-sans ${
         selectedLessonId
-          ? "h-full max-h-[100dvh] overflow-hidden p-0"
-          : "min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col"
+          ? "h-full max-h-[100dvh] overflow-hidden p-0 bg-[#fffefb] dark:bg-slate-950"
+          : "min-h-screen bg-[#fffefb] dark:bg-slate-950 flex flex-col"
       }`}
     >
       <AnimatePresence mode="wait">

@@ -1397,12 +1397,62 @@ const COMMON_WORDS_MAP: { [key: string]: { pos: string; ipa: string; meaning: st
   your: { pos: "Tính từ sở hữu", ipa: "/jʊər/", meaning: "Của bạn" },
   yourself: { pos: "Đại từ bản thân", ipa: "/jʊərˈself/", meaning: "Chính bạn, tự bản thân bạn" },
   zero: { pos: "Số từ", ipa: "/ˈzɪr.oʊ/", meaning: "Số không (0)" },
-  zone: { pos: "Danh từ", ipa: "/zoʊn/", meaning: "Khu vực, vùng" }
+  zone: { pos: "Danh từ", ipa: "/zoʊn/", meaning: "Khu vực, vùng" },
+  // Conversational & AI Tutor Core Vocabulary
+  hobby: { pos: "Danh từ", ipa: "/ˈhɑː.bi/", meaning: "Sở thích cá nhân", detailMeaning: "Hoạt động yêu thích thường làm trong thời gian rảnh rỗi." },
+  hobbies: { pos: "Danh từ số nhiều", ipa: "/ˈhɑː.biz/", meaning: "Các sở thích cá nhân", detailMeaning: "Những hoạt động giải trí bạn yêu thích vào thời gian rảnh." },
+  routine: { pos: "Danh từ", ipa: "/ruːˈtiːn/", meaning: "Thói quen, lịch trình hàng ngày", detailMeaning: "Chuỗi hoạt động lặp đi lặp lại đều đặn mỗi ngày." },
+  tutor: { pos: "Danh từ", ipa: "/ˈtuː.t̬ɚ/", meaning: "Gia sư, người hướng dẫn", detailMeaning: "Giáo viên dạy kèm trực tiếp 1-kèm-1." },
+  hello: { pos: "Thán từ", ipa: "/həˈloʊ/", meaning: "Xin chào", detailMeaning: "Lời chào thân thiện khi bắt đầu cuộc trò chuyện." },
+  daily: { pos: "Tính từ / Trạng từ", ipa: "/ˈdeɪ.li/", meaning: "Hằng ngày, mỗi ngày", detailMeaning: "Diễn ra đều đặn vào tất cả các ngày." },
+  movies: { pos: "Danh từ số nhiều", ipa: "/ˈmuː.viz/", meaning: "Phim ảnh, các bộ phim", detailMeaning: "Loạt tác phẩm điện ảnh nói chung." },
+  cinema: { pos: "Danh từ", ipa: "/ˈsɪn.ə.mə/", meaning: "Rạp chiếu phim, điện ảnh", detailMeaning: "Nơi trình chiếu các bộ phim màn ảnh rộng." },
+  genre: { pos: "Danh từ", ipa: "/ˈʒɑːn.rə/", meaning: "Thể loại (phim, nhạc, sách)", detailMeaning: "Phân loại tác phẩm nghệ thuật theo phong cách hoặc chủ đề." },
+  cinematography: { pos: "Danh từ", ipa: "/ˌsɪn.ə.məˈtɑː.ɡrə.fi/", meaning: "Nghệ thuật quay phim", detailMeaning: "Kỹ thuật ánh sáng và góc máy trong điện ảnh." },
+  soundtrack: { pos: "Danh từ", ipa: "/ˈsaʊnd.træk/", meaning: "Nhạc phim", detailMeaning: "Âm nhạc và bài hát được thu âm cho một bộ phim." },
+  blockbuster: { pos: "Danh từ", ipa: "/ˈblɑːkˌbʌs.tɚ/", meaning: "Phim bom tấn ăn khách", detailMeaning: "Bộ phim có kinh phí lớn và đạt doanh thu vang dội." },
+  storyline: { pos: "Danh từ", ipa: "/ˈstɔːr.i.laɪn/", meaning: "Cốt truyện, mạch truyện", detailMeaning: "Diễn biến chính của một bộ phim hoặc cuốn tiểu thuyết." },
+  gripping: { pos: "Tính từ", ipa: "/ˈɡrɪp.ɪŋ/", meaning: "Lôi cuốn, hấp dẫn nghẹt thở", detailMeaning: "Thu hút toàn bộ sự chú ý của người xem hoặc người đọc." },
+  perspective: { pos: "Danh từ", ipa: "/pɚˈspek.tɪv/", meaning: "Góc nhìn, quan điểm", detailMeaning: "Cách nhìn nhận và đánh giá một vấn đề." },
+  fascinating: { pos: "Tính từ", ipa: "/ˈfæs.ən.eɪ.tɪŋ/", meaning: "Hấp dẫn, vô cùng thú vị", detailMeaning: "Có sức cuốn hút mạnh mẽ và gợi sự tò mò." },
+  specifically: { pos: "Trạng từ", ipa: "/spəˈsɪf.ɪ.kli/", meaning: "Cụ thể là, đặc biệt là", detailMeaning: "Nhấn mạnh vào một chi tiết hoặc mục đích rõ ràng." },
+  elaborate: { pos: "Động từ / Tính từ", ipa: "/iˈlæb.ə.reɪt/", meaning: "Giải thích chi tiết hơn, mở rộng ý", detailMeaning: "Trình bày thêm thông tin sâu sắc để làm rõ ý kiến." },
+  fantastic: { pos: "Tính từ", ipa: "/fænˈtæs.tɪk/", meaning: "Tuyệt vời, xuất sắc", detailMeaning: "Rất tốt, ấn tượng vượt ngoài mong đợi." },
+  ingredient: { pos: "Danh từ", ipa: "/ɪnˈɡriː.di.ənt/", meaning: "Nguyên liệu, thành phần", detailMeaning: "Thực phẩm hoặc yếu tố dùng để chế biến món ăn." },
+  flavorful: { pos: "Tính từ", ipa: "/ˈfleɪ.vɚ.fəl/", meaning: "Đậm đà hương vị, thơm ngon", detailMeaning: "Có mùi vị phong phú, hấp dẫn vị giác." },
+  homemade: { pos: "Tính từ", ipa: "/ˌhoʊmˈmeɪd/", meaning: "Tự làm tại nhà", detailMeaning: "Chế biến hoặc làm thủ công tại gia đình thay vì mua sẵn." },
+  destination: { pos: "Danh từ", ipa: "/ˌdes.təˈneɪ.ʃən/", meaning: "Điểm đến, nơi dừng chân", detailMeaning: "Địa điểm cuối cùng của một chuyến du lịch hoặc hành trình." },
+  scenery: { pos: "Danh từ", ipa: "/ˈsiː.nɚ.i/", meaning: "Phong cảnh thiên nhiên", detailMeaning: "Cảnh sắc núi non, sông nước hoặc thiên nhiên xung quanh." },
+  breathtaking: { pos: "Tính từ", ipa: "/ˈbreθˌteɪ.kɪŋ/", meaning: "Đẹp ngoạn mục, đẹp ngỡ ngàng", detailMeaning: "Cảnh tượng tráng lệ khiến người xem phải trầm trồ." },
+  automation: { pos: "Danh từ", ipa: "/ˌɑː.t̬əˈmeɪ.ʃən/", meaning: "Sự tự động hóa", detailMeaning: "Ứng dụng công nghệ để vận hành quy trình tự động." },
+  artificial: { pos: "Tính từ", ipa: "/ˌɑːr.t̬əˈfɪʃ.əl/", meaning: "Nhân tạo", detailMeaning: "Do con người tạo ra, đặc biệt trong Trí tuệ nhân tạo (AI)." },
+  efficiency: { pos: "Danh từ", ipa: "/ɪˈfɪʃ.ən.si/", meaning: "Hiệu suất, sự hiệu quả", detailMeaning: "Đạt kết quả tối đa với thời gian và công sức tối thiểu." },
+  productivity: { pos: "Danh từ", ipa: "/ˌproʊ.dʌkˈtɪv.ə.t̬i/", meaning: "Năng suất làm việc", detailMeaning: "Tốc độ và hiệu quả hoàn thành công việc." },
+  deadline: { pos: "Danh từ", ipa: "/ˈded.laɪn/", meaning: "Hạn chót hoàn thành", detailMeaning: "Thời điểm cuối cùng phải nộp hoặc hoàn tất công việc." },
+  collaboration: { pos: "Danh từ", ipa: "/kəˌlæb.əˈreɪ.ʃən/", meaning: "Sự hợp tác, phối hợp nhóm", detailMeaning: "Cùng làm việc chung để đạt mục tiêu lớn." },
+  favorite: { pos: "Tính từ / Danh từ", ipa: "/ˈfeɪ.vər.ɪt/", meaning: "Yêu thích nhất", detailMeaning: "Được ưa chuộng hơn tất cả những lựa chọn khác." },
+  honest: { pos: "Tính từ", ipa: "/ˈɑː.nɪst/", meaning: "Thành thật, chân thành", detailMeaning: "Nói sự thật, thẳng thắn (To be honest = Thành thật mà nói)." },
+  comedy: { pos: "Danh từ", ipa: "/ˈkɑː.mə.di/", meaning: "Phim hài, hài kịch", detailMeaning: "Thể loại giải trí mang tính hài hước, vui nhộn." },
+  bistro: { pos: "Danh từ", ipa: "/ˈbiː.stroʊ/", meaning: "Nhà hàng nhỏ ấm cúng, quán ăn phong cách Pháp", detailMeaning: "Nhà hàng phục vụ các món ăn ngon và đồ uống trong không gian thân mật." },
+  salad: { pos: "Danh từ", ipa: "/ˈsæl.əd/", meaning: "Món rau trộn (sa-lát)", detailMeaning: "Món ăn làm từ rau xanh tươi trộn cùng nước sốt và các nguyên liệu bổ dưỡng." },
+  delicious: { pos: "Tính từ", ipa: "/dɪˈlɪʃ.əs/", meaning: "Thơm ngon, tuyệt hảo", detailMeaning: "Có hương vị hấp dẫn, ngon miệng." },
+  beverage: { pos: "Danh từ", ipa: "/ˈbev.ɚ.ɪdʒ/", meaning: "Đồ uống, thức uống", detailMeaning: "Các loại thức uống nói chung trong thực đơn nhà hàng." },
+  sparkling: { pos: "Tính từ", ipa: "/ˈspɑːr.klɪŋ/", meaning: "Có ga, sủi bọt (sparkling water)", detailMeaning: "Nước khoáng có ga tạo cảm giác sảng khoái khi thưởng thức." },
+  menu: { pos: "Danh từ", ipa: "/ˈmen.juː/", meaning: "Thực đơn món ăn", detailMeaning: "Danh sách các món ăn và đồ uống phục vụ tại nhà hàng." },
+  appetizer: { pos: "Danh từ", ipa: "/ˈæp.ə.taɪ.zɚ/", meaning: "Món khai vị", detailMeaning: "Món ăn nhẹ dùng đầu bữa để kích thích vị giác." },
+  dessert: { pos: "Danh từ", ipa: "/dɪˈzɝːt/", meaning: "Món tráng miệng", detailMeaning: "Món ngọt hoặc trái cây dùng vào cuối bữa ăn." },
+  reservation: { pos: "Danh từ", ipa: "/ˌrez.ɚˈveɪ.ʃən/", meaning: "Sự đặt chỗ trước (bàn ăn, phòng khách sạn)", detailMeaning: "Liên hệ giữ chỗ trước tại nhà hàng hoặc khách sạn." },
+  itinerary: { pos: "Danh từ", ipa: "/aɪˈtɪn.ə.rer.i/", meaning: "Lịch trình chuyến đi", detailMeaning: "Kế hoạch chi tiết về tuyến đường và điểm tham quan khi du lịch." },
+  sightseeing: { pos: "Danh từ", ipa: "/ˈsaɪtˌsiː.ɪŋ/", meaning: "Hoạt động ngắm cảnh, tham quan", detailMeaning: "Đi thăm các địa danh nổi tiếng và cảnh đẹp khi du lịch." },
+  luggage: { pos: "Danh từ", ipa: "/ˈlʌɡ.ɪdʒ/", meaning: "Hành lý mang theo", detailMeaning: "Vali, túi xách chứa đồ đạc cá nhân trong chuyến đi." },
+  passport: { pos: "Danh từ", ipa: "/ˈpæs.pɔːrt/", meaning: "Hộ chiếu xuất nhập cảnh", detailMeaning: "Giấy tờ tùy thân quốc tế bắt buộc khi đi nước ngoài." },
+  discount: { pos: "Danh từ / Động từ", ipa: "/ˈdɪs.kaʊnt/", meaning: "Sự giảm giá, chiết khấu", detailMeaning: "Khoản tiền được khấu trừ trực tiếp trên giá bán niêm yết." },
+  affordable: { pos: "Tính từ", ipa: "/əˈfɔːr.də.bəl/", meaning: "Giá cả phải chăng, vừa túi tiền", detailMeaning: "Mức giá hợp lý mà đa số người mua có thể chi trả dễ dàng." }
 };
 
 /***
  * Deep AI Word Lookup Function
- * Normalizes input word, strips suffixes (ing, ed, s, es, ly), and generates full pedagogical breakdown.
+ * Normalizes input word, strips suffixes (ies, es, s, ed, ing, ly), and generates full pedagogical breakdown.
  */
 export function lookupWordDeep(rawWord: string): DeepWordDefinition {
   const cleanWord = rawWord.toLowerCase().replace(/[^a-z0-9]/g, "").trim();
@@ -1413,13 +1463,20 @@ export function lookupWordDeep(rawWord: string): DeepWordDefinition {
       ipa: "/ˈsæm.pəl/",
       pos: "Từ vựng (Word)",
       meaning: "Từ vựng tiếng Anh",
-      example: `Example with ${rawWord}`,
+      example: `Let's practice using "${rawWord}" in a sentence.`,
     };
   }
 
   // Direct match in Primary Database
   if (DICTIONARY_DATABASE[cleanWord]) {
-    return DICTIONARY_DATABASE[cleanWord];
+    const entry = DICTIONARY_DATABASE[cleanWord];
+    return {
+      ...entry,
+      example:
+        entry.example && !entry.example.startsWith("Usage example of")
+          ? entry.example
+          : `I often use the word "${cleanWord}" when speaking English.`,
+    };
   }
 
   // Match in Common Words Map
@@ -1430,36 +1487,62 @@ export function lookupWordDeep(rawWord: string): DeepWordDefinition {
       ipa: item.ipa,
       pos: item.pos,
       meaning: item.meaning,
-      detailMeaning: item.detailMeaning || `Từ "${rawWord}" là một từ vựng tiếng Anh thông dụng.`,
-      example: `Usage example of "${rawWord}".`,
+      detailMeaning: item.detailMeaning || `Từ "${rawWord}" là từ vựng thông dụng trong giao tiếp tiếng Anh.`,
+      example: item.detailMeaning || `Ví dụ giao tiếp: Hãy thử đặt câu phản xạ với từ "${cleanWord}".`,
     };
   }
 
-  // Stemming fallback (Remove 's', 'es', 'ed', 'ing', 'ly')
-  let stem = cleanWord;
-  if (cleanWord.endsWith("s") && cleanWord.length > 3) stem = cleanWord.slice(0, -1);
-  if (cleanWord.endsWith("ed") && cleanWord.length > 4) stem = cleanWord.slice(0, -2);
-  if (cleanWord.endsWith("ing") && cleanWord.length > 4) stem = cleanWord.slice(0, -3);
-
-  if (DICTIONARY_DATABASE[stem]) {
-    const base = DICTIONARY_DATABASE[stem];
-    return {
-      ...base,
-      word: rawWord,
-      detailMeaning: `Biến thể từ của gốc từ "${base.word}". ${base.detailMeaning || ""}`,
-    };
+  // Morphological Lemmatization Candidates (ies -> y, es -> '', s -> '', ed -> '', ing -> '')
+  const candidates: string[] = [];
+  if (cleanWord.endsWith("ies") && cleanWord.length > 4) {
+    candidates.push(cleanWord.slice(0, -3) + "y");
+  }
+  if (cleanWord.endsWith("es") && cleanWord.length > 4) {
+    candidates.push(cleanWord.slice(0, -2));
+    candidates.push(cleanWord.slice(0, -1));
+  }
+  if (cleanWord.endsWith("s") && cleanWord.length > 3) {
+    candidates.push(cleanWord.slice(0, -1));
+  }
+  if (cleanWord.endsWith("ied") && cleanWord.length > 4) {
+    candidates.push(cleanWord.slice(0, -3) + "y");
+  }
+  if (cleanWord.endsWith("ed") && cleanWord.length > 4) {
+    candidates.push(cleanWord.slice(0, -2));
+    candidates.push(cleanWord.slice(0, -1));
+  }
+  if (cleanWord.endsWith("ing") && cleanWord.length > 4) {
+    candidates.push(cleanWord.slice(0, -3));
+    candidates.push(cleanWord.slice(0, -3) + "e");
+  }
+  if (cleanWord.endsWith("ly") && cleanWord.length > 4) {
+    candidates.push(cleanWord.slice(0, -2));
   }
 
-  if (COMMON_WORDS_MAP[stem]) {
-    const base = COMMON_WORDS_MAP[stem];
-    return {
-      word: rawWord,
-      ipa: base.ipa,
-      pos: base.pos,
-      meaning: base.meaning,
-      detailMeaning: `Biến thể từ của gốc từ "${stem}".`,
-      example: `Usage example of "${rawWord}".`,
-    };
+  for (const stem of candidates) {
+    if (DICTIONARY_DATABASE[stem]) {
+      const base = DICTIONARY_DATABASE[stem];
+      return {
+        ...base,
+        word: rawWord,
+        detailMeaning: `Dạng biến thể của gốc từ "${base.word}". ${base.detailMeaning || ""}`,
+        example:
+          base.example && !base.example.startsWith("Usage example of")
+            ? base.example
+            : `Biến thể của "${base.word}" trong câu giao tiếp thực tế.`,
+      };
+    }
+    if (COMMON_WORDS_MAP[stem]) {
+      const base = COMMON_WORDS_MAP[stem];
+      return {
+        word: rawWord,
+        ipa: base.ipa,
+        pos: base.pos,
+        meaning: base.meaning,
+        detailMeaning: `Dạng biến thể của gốc từ "${stem}".`,
+        example: base.detailMeaning || `Gốc từ "${stem}": ${base.meaning}.`,
+      };
+    }
   }
 
   // Smart Morphological Analysis & Contextual Gloss Generator Fallback
@@ -1469,25 +1552,24 @@ export function lookupWordDeep(rawWord: string): DeepWordDefinition {
   const isNounSuffix = /^(.*)(tion|sion|ment|ness|ance|ence|ity)$/i.test(cleanWord);
   const isAdjSuffix = /^(.*)(able|ible|ful|less|ous|ive|al)$/i.test(cleanWord);
 
-  let guessedPos = "Từ vựng";
-  let formattedWord = rawWord.charAt(0).toUpperCase() + rawWord.slice(1);
-  let smartMeaning = formattedWord;
+  let guessedPos = "Từ vựng giao tiếp";
+  let smartMeaning = "Từ vựng theo ngữ cảnh hội thoại";
 
   if (isVerbIng) {
-    guessedPos = "Động từ dạng V-ing / Tính từ";
-    smartMeaning = `Đang làm, hoạt động`;
+    guessedPos = "Động từ V-ing / Tính từ";
+    smartMeaning = "Hành động đang diễn ra trong câu";
   } else if (isPastEd) {
-    guessedPos = "Động từ quá khứ / Tính từ";
-    smartMeaning = `Đã thực hiện, được xử lý`;
+    guessedPos = "Động từ quá khứ / Phân từ";
+    smartMeaning = "Hành động đã diễn ra trong quá khứ";
   } else if (isAdverbLy) {
-    guessedPos = "Phó từ / Trạng từ";
-    smartMeaning = `Một cách rành mạch`;
+    guessedPos = "Trạng từ";
+    smartMeaning = "Trạng từ bổ nghĩa cho hành động";
   } else if (isNounSuffix) {
     guessedPos = "Danh từ";
-    smartMeaning = `Sự, quá trình, trạng thái`;
+    smartMeaning = "Danh từ chỉ sự việc / khái niệm";
   } else if (isAdjSuffix) {
     guessedPos = "Tính từ";
-    smartMeaning = `Thường có tính chất, khả năng`;
+    smartMeaning = "Tính từ miêu tả tính chất";
   }
 
   return {
@@ -1495,9 +1577,9 @@ export function lookupWordDeep(rawWord: string): DeepWordDefinition {
     ipa: `/${cleanWord}/`,
     pos: guessedPos,
     meaning: smartMeaning,
-    detailMeaning: `Nghĩa từ vựng trong ngữ cảnh bài đọc. Luyện tập đặt câu và phát âm chuẩn với "${rawWord}".`,
-    collocations: [`${cleanWord} in sentence`, `learn ${cleanWord}`],
-    example: `Usage example of "${rawWord}".`,
-    synonyms: ["word", "vocabulary"],
+    detailMeaning: `Bấm biểu tượng loa để nghe phát âm chuẩn của "${rawWord}" và lưu vào Sổ tay từ vựng.`,
+    collocations: [`${cleanWord} in context`],
+    example: `Bấm loa để nghe phát âm chuẩn từ "${rawWord}" và lưu vào Sổ tay.`,
+    synonyms: ["vocabulary"],
   };
 }

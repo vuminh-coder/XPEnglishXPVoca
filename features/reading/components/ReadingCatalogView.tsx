@@ -1,21 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion } from "framer-motion";
 import {
   BookOpen,
-  Search,
   RefreshCw,
   Clock,
   Check,
-  Sparkles,
   ArrowRight,
-  TrendingUp,
-  Compass,
   FileText,
+  Search,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs";
@@ -31,23 +30,45 @@ import {
 // Module-scope constants
 const BASIC_LEVELS = new Set(["Easy", "Beginner", "A1", "A2"]);
 const ADVANCED_LEVELS = new Set(["Hard", "Advanced", "C1", "C2"]);
+const CARDS_PER_SECTION = 4;
+
+const CATEGORY_LABELS_VI: Record<string, string> = {
+  Workplace: "Công sở",
+  Business: "Kinh doanh",
+  Travel: "Du lịch",
+  "Daily Life": "Đời sống",
+  Science: "Khoa học",
+  Technology: "Công nghệ",
+  Health: "Sức khỏe",
+  Education: "Giáo dục",
+  Environment: "Môi trường",
+  Culture: "Văn hóa",
+  Psychology: "Tâm lý học",
+  Economics: "Kinh tế",
+  History: "Lịch sử",
+  Art: "Nghệ thuật",
+};
+
+export function formatReadingCategoryVi(category?: string): string {
+  if (!category) return "Đời sống";
+  return CATEGORY_LABELS_VI[category] || category;
+}
 
 function PassageCardCover({
   src,
   alt,
-  icon,
 }: {
   src?: string;
   alt: string;
-  icon: string;
+  icon?: string;
 }) {
   const [hasError, setHasError] = useState(false);
 
   if (!src || hasError) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-slate-200 dark:from-slate-800 dark:to-slate-900 select-none">
-        <div className="w-12 h-12 rounded-2xl bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm border border-white/40 dark:border-slate-700/50 flex items-center justify-center shadow-2xs">
-          <BookOpen className="w-6 h-6 text-[#0059bb] dark:text-sky-400" />
+        <div className="w-11 h-11 rounded-2xl bg-white/40 dark:bg-slate-800/60 backdrop-blur-sm border border-white/40 dark:border-slate-700/50 flex items-center justify-center shadow-2xs">
+          <BookOpen className="w-5 h-5 text-[#0059bb] dark:text-sky-400" />
         </div>
       </div>
     );
@@ -60,7 +81,7 @@ function PassageCardCover({
       fill
       unoptimized
       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-      className="object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
+      className="object-cover lg:group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
       onError={() => setHasError(true)}
     />
   );
@@ -132,38 +153,20 @@ export function ReadingCatalogView() {
     return combined.length > 0 ? combined : READING_PASSAGES_DATA.slice(20);
   }, []);
 
-  // Deterministic seed-based shuffling (Preserves card display across page navigations)
-  const displayedBasicPassages = React.useMemo(() => {
-    if (listingSearch.trim()) {
-      const q = listingSearch.toLowerCase();
-      return basicPool
-        .filter((p) => p.title.toLowerCase().includes(q) || p.category?.toLowerCase().includes(q))
-        .slice(0, 8);
-    }
-    const offset = (shuffleSeedBasic * 8) % Math.max(1, basicPool.length);
-    const sliced = basicPool.slice(offset, offset + 8);
-    if (sliced.length < 8 && basicPool.length >= 8) {
-      return [...sliced, ...basicPool.slice(0, 8 - sliced.length)];
-    }
-    return sliced;
-  }, [basicPool, shuffleSeedBasic, listingSearch]);
+  // Deterministic seed-based ordering for the full horizontal carousel (4 cards per view)
+  const orderedBasicPassages = React.useMemo(() => {
+    if (basicPool.length === 0) return [];
+    const offset = (shuffleSeedBasic * CARDS_PER_SECTION) % basicPool.length;
+    return [...basicPool.slice(offset), ...basicPool.slice(0, offset)];
+  }, [basicPool, shuffleSeedBasic]);
 
-  const displayedAdvancedPassages = React.useMemo(() => {
-    if (listingSearch.trim()) {
-      const q = listingSearch.toLowerCase();
-      return advancedPool
-        .filter((p) => p.title.toLowerCase().includes(q) || p.category?.toLowerCase().includes(q))
-        .slice(0, 8);
-    }
-    const offset = (shuffleSeedAdvanced * 8) % Math.max(1, advancedPool.length);
-    const sliced = advancedPool.slice(offset, offset + 8);
-    if (sliced.length < 8 && advancedPool.length >= 8) {
-      return [...sliced, ...advancedPool.slice(0, 8 - sliced.length)];
-    }
-    return sliced;
-  }, [advancedPool, shuffleSeedAdvanced, listingSearch]);
+  const orderedAdvancedPassages = React.useMemo(() => {
+    if (advancedPool.length === 0) return [];
+    const offset = (shuffleSeedAdvanced * CARDS_PER_SECTION) % advancedPool.length;
+    return [...advancedPool.slice(offset), ...advancedPool.slice(0, offset)];
+  }, [advancedPool, shuffleSeedAdvanced]);
 
-  // Tab Filtered Passages (when filtering by Category/Level Tabs)
+  // Tab Filtered Passages
   const tabFilteredPassages = React.useMemo(() => {
     if (activeCategoryTab === "all") return null;
     if (activeCategoryTab === "basic") {
@@ -191,6 +194,7 @@ export function ReadingCatalogView() {
       (p) =>
         p.title.toLowerCase().includes(q) ||
         (p.category && p.category.toLowerCase().includes(q)) ||
+        formatReadingCategoryVi(p.category).toLowerCase().includes(q) ||
         (p.level && p.level.toLowerCase().includes(q))
     );
   }, [listingSearch]);
@@ -211,12 +215,7 @@ export function ReadingCatalogView() {
     { id: "completed", label: "Đã hoàn thành" },
   ];
 
-  const totalWordsAvailable = READING_PASSAGES_DATA.reduce(
-    (acc, p) => acc + (p.wordCount || 0),
-    0
-  );
-
-  const renderPassageCard = (passage: ReadingPassage) => {
+  const renderPassageCard = (passage: ReadingPassage, extraClassName = "") => {
     const isCompleted = completedPassageIds.includes(passage.id);
 
     return (
@@ -224,85 +223,74 @@ export function ReadingCatalogView() {
         key={passage.id}
         href={`/study/reading/${passage.id}`}
         prefetch={true}
-        className="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 hover:border-[#0059bb]/70 dark:hover:border-sky-500/70 bg-white dark:bg-slate-900 hover:shadow-lg shadow-2xs transition-all cursor-pointer relative overflow-hidden flex flex-col group select-none block active:scale-[0.99]"
+        className={`rounded-2xl bg-white dark:bg-slate-900 lg:hover:-translate-y-0.5 lg:hover:shadow-lg lg:hover:shadow-slate-900/[0.04] shadow-2xs transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col group select-none active:scale-[0.99] isolate ${extraClassName}`}
       >
-        {/* 1. VISUAL COVER BANNER: Full-Bleed 16/10 Header (Chuẩn trang Thi thử đề, Video, Dictation & Shadowing) */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 bg-slate-950 border-b border-slate-100 dark:border-slate-800/80">
+        {/* Unbroken 4-corner & 4-edge 1px border overlay rendered above GPU image layer */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-2xl border border-slate-200 dark:border-slate-800 lg:group-hover:border-[#0059bb]/70 dark:lg:group-hover:border-sky-500/70 transition-colors duration-300 z-30"
+        />
+
+        {/* 1. VISUAL COVER BANNER (No bg-slate-950 black bleed or double border-radius clip) */}
+        <div className="relative h-36 sm:h-[120px] w-full overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border-b border-slate-100 dark:border-slate-800/80">
           <PassageCardCover
             src={passage.coverImage}
             alt={passage.title}
             icon={passage.icon}
           />
 
-          {/* Soft Directional Scrim (Leaves top & center bright, protects readability) */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent pointer-events-none" />
 
-          {/* Subtle Ambient Light Tone on Hover */}
-          <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.04] transition-colors pointer-events-none" />
-
-          {/* Top Header Bar trên ảnh (Ethereal Frosted Glassmorphism twin badges) */}
-          <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between gap-1.5 z-20">
-            {/* Top-Left: CEFR Level Badge */}
-            <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs whitespace-nowrap">
-              Level {getLevelLabel(passage.level)}
+          {/* Top Floating Badges */}
+          <div className="absolute top-3 sm:top-2.5 inset-x-3 sm:inset-x-2.5 flex items-center justify-between gap-2 z-20">
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-950/60 text-white backdrop-blur-md border border-white/20 shadow-2xs whitespace-nowrap">
+              {getLevelLabel(passage.level)}
             </span>
 
-            {/* Top-Right: Completed Status Badge OR Duration Badge */}
             {isCompleted ? (
-              <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-emerald-500/30 text-emerald-100 backdrop-blur-md border border-emerald-400/40 shadow-2xs flex items-center gap-1 whitespace-nowrap">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/90 text-white backdrop-blur-md shadow-2xs flex items-center gap-1 whitespace-nowrap">
                 <Check className="w-3 h-3 stroke-[3]" />
                 <span>Đã đọc</span>
               </span>
             ) : (
-              <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs tabular-nums flex items-center gap-1 shrink-0">
-                <Clock className="w-2.5 h-2.5 text-white/95 stroke-[2.2]" />
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-slate-950/60 text-white/95 backdrop-blur-md border border-white/20 shadow-2xs tabular-nums flex items-center gap-1 shrink-0">
+                <Clock className="w-2.5 h-2.5 text-white/90 stroke-[2]" />
                 <span>{passage.duration || "4 min"}</span>
               </span>
             )}
           </div>
-
-          {/* Center Glass Reading Orb: Smooth Fade & Subtle Scale on Hover */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
-            <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
-              <BookOpen className="w-4.5 h-4.5 text-white" />
-            </div>
-          </div>
         </div>
 
-        {/* 2. CARD BODY & FOOTER CONTAINER */}
-        <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0 bg-white dark:bg-slate-900">
-          <div>
-            {/* Metadata Row: Category Name (Left) & Word Count (Right) */}
-            <div className="flex items-center justify-between gap-2 text-xs mb-0.5 min-w-0">
-              <span className="truncate font-semibold text-slate-500 dark:text-slate-400 text-[11px]">
-                {passage.category || "Văn Hóa & Đời Sống"}
-              </span>
-              <span className="font-mono tabular-nums shrink-0 whitespace-nowrap text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1">
-                <BookOpen className="w-3 h-3 text-slate-400" />
-                <span>{passage.wordCount || 150} từ</span>
-              </span>
+        {/* 2. BALANCED CARD BODY & SINGLE-LINE FOOTER */}
+        <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between gap-2 sm:gap-2.5 min-w-0 bg-white dark:bg-slate-900">
+          <div className="space-y-1">
+            {/* Single Clean Eyebrow Metadata Row in Vietnamese */}
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
+              <span className="truncate">{formatReadingCategoryVi(passage.category)}</span>
+              <span className="text-slate-300 dark:text-slate-700">•</span>
+              <span className="font-mono tabular-nums shrink-0">{passage.wordCount || 150} từ</span>
             </div>
 
-            {/* Title with Dynamic 2-Line Clamp */}
+            {/* Title: natural height on single-card Mobile view, fixed 2-line min-height on multi-column Tablet/Desktop */}
             <h3
-              className="text-[13.5px] font-bold font-sans line-clamp-2 leading-snug transition-colors text-slate-900 dark:text-white group-hover:text-[#0059bb] dark:group-hover:text-sky-400"
+              className="text-[15px] font-bold font-sans line-clamp-2 sm:min-h-[2.6rem] leading-snug transition-colors text-slate-900 dark:text-white lg:group-hover:text-[#0059bb] dark:lg:group-hover:text-sky-400"
               title={passage.title}
             >
               {passage.title}
             </h3>
           </div>
 
-          {/* Card Footer: Balanced Action Targets */}
-          <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
-            <span className="inline-flex items-center gap-1.5 font-semibold text-xs text-slate-500 dark:text-slate-400">
-              <FileText className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 stroke-[2.2] shrink-0" />
-              <span>{passage.questions?.length || 4} câu hỏi</span>
+          {/* Card Footer: Single-Line Non-Wrapping Metadata + Secondary Pill (Rule 18) */}
+          <div className="pt-2 sm:pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-1.5 font-medium text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
+              <FileText className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
+              <span>{passage.questions?.length || 5} câu hỏi</span>
             </span>
 
-            <div className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn">
-              <span>Đọc Ngay</span>
-              <ArrowRight className="w-3 h-3 stroke-[2.5] text-white group-hover/btn:translate-x-0.5 transition-transform" />
-            </div>
+            <span className="h-7 px-3 rounded-full bg-slate-100 dark:bg-slate-800 lg:group-hover:bg-[#0059bb] text-slate-700 dark:text-slate-200 lg:group-hover:text-white text-xs font-bold flex items-center justify-center gap-1 transition-all shrink-0 whitespace-nowrap">
+              <span>Đọc bài</span>
+              <ArrowRight className="w-3 h-3 stroke-[2.2] lg:group-hover:translate-x-0.5 transition-transform" />
+            </span>
           </div>
         </div>
       </Link>
@@ -310,178 +298,297 @@ export function ReadingCatalogView() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none pb-20">
-      {/* 1. TOP HEADER WITH NAV TABS & SEARCH */}
+    <div className="w-full min-h-screen bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none pb-16">
+      {/* 1. MOBILE-ONLY TOP HEADER (Hidden on Desktop lg:hidden, Preserved on Mobile) */}
       <AppTopHeader
+        className="lg:hidden"
         showGamificationStats={false}
-        hideMobileSearch={true}
+        hideMobileSearch={false}
         searchProps={{
           value: listingSearch,
           onChange: setListingSearch,
-          placeholder: "Tìm kiếm bài đọc theo tên hoặc chủ đề...",
+          placeholder: "Tìm bài đọc, chủ đề...",
           onClear: () => setListingSearch(""),
         }}
       >
         <StudySuiteNavTabs />
       </AppTopHeader>
 
-      {/* 2. STATS & HERO BANNER (CHUẨN 60-30-10 & AGENCY MINIMALISM) */}
-      <div className="w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 pt-3.5 sm:pt-4">
-        <div className="px-4 py-3 sm:px-5 sm:py-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/90 flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 shadow-2xs">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0059bb] text-white flex items-center justify-center shrink-0 shadow-sm shadow-[#0059bb]/20">
-              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
-            </div>
-            <div className="min-w-0">
-              <h1 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight leading-tight">
-                Kho Bài Đọc Hiểu Ngữ Cảnh
-              </h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5 truncate max-w-xl">
-                Kho bài đọc phân cấp chuẩn quốc tế, tra từ vựng ngữ cảnh một chạm và trắc nghiệm chuyên sâu.
-              </p>
-            </div>
+      {/* 2. SPACIOUS CENTERED READING CATALOG WORKSPACE */}
+      <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-8 lg:px-10 pt-3.5 sm:pt-4 lg:pt-5 pb-8 space-y-4 sm:space-y-5">
+        {/* CATEGORY FILTER PILLS + DESKTOP INLINE SEARCH */}
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar max-w-full">
+            {categoryTabs.map((tab) => {
+              const isActive = activeCategoryTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveCategoryTab(tab.id)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer select-none ${
+                    isActive
+                      ? "bg-[#0059bb] text-white shadow-xs"
+                      : "bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-[#0059bb]/50 hover:text-[#0059bb] dark:hover:text-sky-400"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Minimal Inline Metric Cluster */}
-          <div className="hidden md:flex items-center gap-3 sm:gap-4 shrink-0 py-1.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-700/60 self-start md:self-auto">
-            <div className="flex items-center gap-1.5 text-xs">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-              <span className="text-slate-500 dark:text-slate-400 font-medium">Tổng bài đọc:</span>
-              <span className="font-bold text-slate-900 dark:text-white font-mono">
-                {READING_PASSAGES_DATA.length} bài
-              </span>
-            </div>
-            <div className="w-px h-3.5 bg-slate-200 dark:bg-slate-700" />
-            <div className="flex items-center gap-1.5 text-xs">
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-              <span className="text-slate-500 dark:text-slate-400 font-medium">Vốn từ:</span>
-              <span className="font-bold text-slate-900 dark:text-white font-mono">
-                ~{totalWordsAvailable.toLocaleString()} từ
-              </span>
+          {/* Desktop Search Box (Since AppTopHeader is hidden on Desktop) */}
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
+            <div className="relative w-64 xl:w-72">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+              <input
+                type="text"
+                value={listingSearch}
+                onChange={(e) => setListingSearch(e.target.value)}
+                placeholder="Tìm bài đọc, chủ đề..."
+                className="w-full h-9 pl-9 pr-8 text-xs sm:text-sm font-medium rounded-full bg-white dark:bg-slate-900 border border-slate-200/85 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb] focus:ring-2 focus:ring-[#0059bb]/15 transition-all shadow-2xs"
+              />
+              {listingSearch && (
+                <button
+                  type="button"
+                  onClick={() => setListingSearch("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                  title="Xóa tìm kiếm"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
           </div>
         </div>
 
-        {/* 2.2 CATEGORY FILTER TABS (Preserved in Zustand Store - Ẩn trên mobile để tối ưu màn hình) */}
-        <div className="hidden sm:flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar mt-3.5 sm:mt-4">
-          {categoryTabs.map((tab) => {
-            const isActive = activeCategoryTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setActiveCategoryTab(tab.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer select-none ${
-                  isActive
-                    ? "bg-[#0059bb] text-white shadow-xs"
-                    : "bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-[#0059bb]/50 hover:text-[#0059bb] dark:hover:text-sky-400"
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 3. PASSAGES CANVAS */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 pt-2.5 sm:pt-4 pb-6 sm:pb-8 space-y-8">
         {/* CASE A: SEARCH RESULTS */}
         {searchFilteredPassages ? (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/80 dark:border-slate-800">
-              <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
+          <div className="space-y-5">
+            <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/70 dark:border-slate-800">
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display">
                 Kết quả tìm kiếm cho: &ldquo;{listingSearch}&rdquo; ({searchFilteredPassages.length} bài)
               </h2>
             </div>
             {searchFilteredPassages.length === 0 ? (
-              <div className="py-12 text-center text-slate-400 dark:text-slate-500 text-xs">
+              <div className="py-16 text-center text-slate-400 dark:text-slate-500 text-xs">
                 <p className="font-semibold text-sm">Không tìm thấy bài đọc nào phù hợp</p>
                 <p className="mt-1">Hãy thử tìm với từ khóa khác hoặc xóa ô tìm kiếm</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
-                {searchFilteredPassages.map(renderPassageCard)}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {searchFilteredPassages.map((p) => renderPassageCard(p))}
               </div>
             )}
           </div>
         ) : tabFilteredPassages ? (
           /* CASE B: TAB FILTERED VIEW (Basic, Intermediate, Advanced, Completed) */
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/80 dark:border-slate-800">
-              <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
-                Danh sách bài đọc: {categoryTabs.find((t) => t.id === activeCategoryTab)?.label} ({tabFilteredPassages.length} bài)
+          <div className="space-y-5">
+            <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/70 dark:border-slate-800">
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display">
+                {categoryTabs.find((t) => t.id === activeCategoryTab)?.label} ({tabFilteredPassages.length} bài)
               </h2>
             </div>
             {tabFilteredPassages.length === 0 ? (
-              <div className="py-12 text-center text-slate-400 dark:text-slate-500 text-xs">
+              <div className="py-16 text-center text-slate-400 dark:text-slate-500 text-xs">
                 <p className="font-semibold text-sm">Chưa có bài đọc nào trong danh mục này</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
-                {tabFilteredPassages.map(renderPassageCard)}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {tabFilteredPassages.map((p) => renderPassageCard(p))}
               </div>
             )}
           </div>
         ) : (
-          /* CASE C: DEFAULT DUAL ROW BROWSE (All mode) */
-          <>
+          /* CASE C: DEFAULT AIRY 2-ROW HORIZONTAL CAROUSEL (4 Cards per View, Slide 4 at a Time) */
+          <div className="space-y-5 sm:space-y-6">
             {/* HÀNG 1: BÀI ĐỌC CƠ BẢN (A1 - A2) */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/80 dark:border-slate-800">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 font-mono font-bold text-xs border border-blue-200/70 dark:border-blue-800/60 shadow-2xs">
-                    A1 - A2
-                  </span>
-                  <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
-                    Bài đọc cơ bản
-                  </h2>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleShuffleBasic}
-                  className="px-3 py-1.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 hover:border-[#0059bb]/50 dark:hover:border-sky-500/50 flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs active:scale-95"
-                >
-                  <RefreshCw className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                  <span>Đổi bài ngẫu nhiên</span>
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
-                {displayedBasicPassages.map(renderPassageCard)}
-              </div>
-            </div>
+            <HorizontalReadingRow
+              badgeText="A1 - A2"
+              badgeVariant="blue"
+              title="Bài đọc cơ bản & giao tiếp"
+              passages={orderedBasicPassages}
+              renderCard={renderPassageCard}
+            />
 
             {/* HÀNG 2: BÀI ĐỌC NÂNG CAO (B1 - C2) */}
-            <div className="space-y-4 pt-2">
-              <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/80 dark:border-slate-800">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-mono font-bold text-xs border border-indigo-200/70 dark:border-indigo-800/60 shadow-2xs">
-                    B1 - C2
-                  </span>
-                  <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight">
-                    Bài đọc nâng cao
-                  </h2>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleShuffleAdvanced}
-                  className="px-3 py-1.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 hover:border-[#0059bb]/50 dark:hover:border-sky-500/50 flex items-center gap-1.5 cursor-pointer transition-colors shadow-2xs active:scale-95"
-                >
-                  <RefreshCw className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
-                  <span>Đổi bài ngẫu nhiên</span>
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-5">
-                {displayedAdvancedPassages.map(renderPassageCard)}
-              </div>
-            </div>
-          </>
+            <HorizontalReadingRow
+              badgeText="B1 - C2"
+              badgeVariant="indigo"
+              title="Bài đọc học thuật & chuyên sâu"
+              passages={orderedAdvancedPassages}
+              renderCard={renderPassageCard}
+            />
+          </div>
         )}
       </div>
     </div>
+  );
+}
+
+interface HorizontalReadingRowProps {
+  badgeText: string;
+  badgeVariant: "blue" | "indigo";
+  title: string;
+  passages: ReadingPassage[];
+  renderCard: (passage: ReadingPassage, extraClassName?: string) => React.ReactNode;
+}
+
+function HorizontalReadingRow({
+  badgeText,
+  badgeVariant,
+  title,
+  passages,
+  renderCard,
+}: HorizontalReadingRowProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isProgrammaticScrollRef = useRef(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  // Group passages into pages of 4 cards so each horizontal slide displays 4 cards on Desktop
+  const slides = React.useMemo(() => {
+    const chunks: ReadingPassage[][] = [];
+    for (let i = 0; i < passages.length; i += CARDS_PER_SECTION) {
+      chunks.push(passages.slice(i, i + CARDS_PER_SECTION));
+    }
+    return chunks;
+  }, [passages]);
+
+  const totalPages = isMobileView ? passages.length : slides.length;
+
+  const updateScrollBounds = useCallback(() => {
+    if (!scrollRef.current) return;
+    const mobile = typeof window !== "undefined" && window.innerWidth < 640;
+    setIsMobileView(mobile);
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setCanScrollLeft(scrollLeft > 8);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 8);
+    if (!isProgrammaticScrollRef.current && clientWidth > 0) {
+      const gap = mobile ? 16 : 20;
+      const maxSteps = mobile ? passages.length : slides.length;
+      const page = Math.round(scrollLeft / (clientWidth + gap));
+      setCurrentPage(Math.max(0, Math.min(maxSteps - 1, page)));
+    }
+  }, [passages.length, slides.length]);
+
+  useEffect(() => {
+    updateScrollBounds();
+    window.addEventListener("resize", updateScrollBounds);
+    return () => window.removeEventListener("resize", updateScrollBounds);
+  }, [updateScrollBounds, passages]);
+
+  const scrollToDirection = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const mobile = typeof window !== "undefined" && window.innerWidth < 640;
+    const maxSteps = mobile ? passages.length : slides.length;
+    const gap = mobile ? 16 : 20;
+    const targetPage = direction === "left" ? currentPage - 1 : currentPage + 1;
+    const clamped = Math.max(0, Math.min(maxSteps - 1, targetPage));
+    setCurrentPage(clamped);
+    setCanScrollLeft(clamped > 0);
+    setCanScrollRight(clamped < maxSteps - 1);
+    isProgrammaticScrollRef.current = true;
+
+    let targetLeft = clamped * (scrollRef.current.clientWidth + gap);
+    if (mobile) {
+      const cards = scrollRef.current.querySelectorAll("a");
+      const cardEl = cards[clamped] as HTMLElement | undefined;
+      if (cardEl) targetLeft = cardEl.offsetLeft;
+    } else {
+      const slideEl = scrollRef.current.children[clamped] as HTMLElement | undefined;
+      if (slideEl) targetLeft = slideEl.offsetLeft;
+    }
+
+    scrollRef.current.scrollTo({
+      left: targetLeft,
+      behavior: "smooth",
+    });
+    window.setTimeout(() => {
+      isProgrammaticScrollRef.current = false;
+      updateScrollBounds();
+    }, 450);
+  };
+
+  if (passages.length === 0) return null;
+
+  return (
+    <section className="space-y-3 min-w-0">
+      <div className="flex items-center justify-between gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+          <span
+            className={`px-2.5 py-0.5 rounded-full font-mono font-bold text-xs whitespace-nowrap shrink-0 border ${
+              badgeVariant === "blue"
+                ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border-blue-200/70 dark:border-blue-800/60"
+                : "bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-200/70 dark:border-indigo-800/60"
+            }`}
+          >
+            {badgeText}
+          </span>
+          <h2 className="text-sm sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight truncate">
+            {title}
+          </h2>
+        </div>
+
+        {/* Horizontal Carousel Navigation Controls (Slide 4 Cards on Desktop, 1 Full Card on Mobile) */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          <span className="text-xs font-mono font-semibold text-slate-400 dark:text-slate-500 mr-1 tabular-nums">
+            {currentPage + 1}/{totalPages}
+          </span>
+
+          <button
+            type="button"
+            onClick={() => scrollToDirection("left")}
+            disabled={!canScrollLeft}
+            className="w-8 h-8 rounded-full border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 lg:hover:text-[#0059bb] dark:lg:hover:text-sky-400 lg:hover:border-[#0059bb]/50 disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
+            title="Lướt sang trái"
+            aria-label="Lướt sang trái"
+          >
+            <ChevronLeft className="w-4 h-4 stroke-[2.2]" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scrollToDirection("right")}
+            disabled={!canScrollRight}
+            className="w-8 h-8 rounded-full border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 lg:hover:text-[#0059bb] dark:lg:hover:text-sky-400 lg:hover:border-[#0059bb]/50 disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
+            title="Lướt sang phải"
+            aria-label="Lướt sang phải"
+          >
+            <ChevronRight className="w-4 h-4 stroke-[2.2]" />
+          </button>
+        </div>
+      </div>
+
+      {/* Horizontal Scroll Container:
+          - py-2 -my-2 prevents overflow-x-auto from slicing off top/bottom borders & hover lift!
+          - On Mobile (< sm): 1 complete card per view (w-full min-w-full), zero half-cut cards on the right edge.
+          - On Desktop (lg): 4 complete cards per view (lg:grid-cols-4). */}
+      <div className="relative">
+        <div
+          ref={scrollRef}
+          onScroll={updateScrollBounds}
+          className="flex items-start sm:items-stretch gap-4 sm:gap-5 overflow-x-auto scroll-smooth no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 -my-2 snap-x snap-mandatory"
+        >
+          {slides.map((slidePassages, slideIdx) => (
+            <div
+              key={slideIdx}
+              className="contents sm:grid sm:w-full sm:min-w-full sm:shrink-0 sm:snap-start sm:grid-cols-2 lg:grid-cols-4 sm:gap-5"
+            >
+              {slidePassages.map((passage) =>
+                renderCard(
+                  passage,
+                  "w-full min-w-full sm:w-auto sm:min-w-0 shrink-0 snap-start sm:snap-align-none"
+                )
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

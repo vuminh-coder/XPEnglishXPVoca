@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trophy, Clock, Award } from "lucide-react";
+import { Trophy, Clock, Award, UserPlus } from "lucide-react";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import { ShimmerBox, ShimmerCircle } from "@/shared/components/feedback/ShimmerSkeleton";
 
@@ -138,7 +138,7 @@ export function DashboardLeaderboardCard({
       </div>
 
       {/* 3. Leaderboard Rows with AnimatePresence */}
-      <div suppressHydrationWarning className="min-h-[190px]">
+      <div suppressHydrationWarning className="min-h-[150px]">
         {isLoadingLeaderboard ? (
           <div className="space-y-2">
             {/* User Row Shimmer */}
@@ -253,6 +253,17 @@ export function DashboardLeaderboardCard({
                   </div>
                 );
               })}
+
+              {/* Empty-slot invite: fills the unused height when fewer than 3 learners are ranked */}
+              {topLeaders.length < 3 && (
+                <Link
+                  href="/community"
+                  className="flex items-center justify-center gap-2 p-2.5 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-[#0059bb] dark:hover:text-sky-400 hover:border-[#0059bb]/50 dark:hover:border-sky-500/50 hover:bg-blue-50/40 dark:hover:bg-slate-800/50 transition-colors cursor-pointer"
+                >
+                  <UserPlus className="w-3.5 h-3.5 stroke-[2.2]" />
+                  <span>Còn {3 - topLeaders.length} vị trí — mời bạn bè cùng học</span>
+                </Link>
+              )}
             </motion.div>
           </AnimatePresence>
         )}

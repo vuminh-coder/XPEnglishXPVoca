@@ -21,65 +21,54 @@ function ShimmerBox({
 
 export default function AiConversationLoading() {
   return (
-    <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
-      {/* 1. APP TOP HEADER SKELETON (FIXED 56PX - EXACT 1:1 GEOMETRIC TWIN - 0PX CLS) */}
-      <div className="w-full h-14 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-5 lg:px-6 flex items-center justify-between gap-4 shrink-0 shadow-2xs">
-        {/* Left Pills Container (Tab Luyện viết active) */}
+    <div className="w-full h-full min-h-screen lg:h-screen lg:min-h-0 lg:overflow-hidden bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none">
+      {/* 1. MOBILE APP TOP HEADER SKELETON (lg:hidden - EXACT 1:1 GEOMETRIC TWIN - 0PX CLS) */}
+      <div className="lg:hidden w-full h-14 bg-white/95 dark:bg-slate-900/95 border-b border-slate-200/90 dark:border-slate-800 px-3 sm:px-5 flex items-center justify-between gap-2 shrink-0 shadow-2xs">
         <div className="flex items-center gap-2">
-          {/* Mobile hamburger shimmer */}
-          <ShimmerBox className="h-9 w-9 rounded-xl lg:hidden" />
-          <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 inline-flex items-center gap-1">
-            <ShimmerBox className="h-7 w-24 sm:w-28 rounded-lg" />
-            <ShimmerBox className="h-7 w-24 sm:w-28 rounded-lg !bg-[#0059bb]/20 dark:!bg-sky-500/30" />
-          </div>
+          <ShimmerBox className="h-9 w-9 rounded-xl" />
+          <ShimmerBox className="h-7 w-28 rounded-xl !bg-[#0059bb]/15 dark:!bg-sky-500/25" />
         </div>
 
-        {/* Right Desktop Content + Gamification Chips + Avatar */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          {/* History Button shimmer */}
-          <ShimmerBox className="h-9 w-20 rounded-xl !bg-slate-200/80 dark:!bg-slate-800/80 hidden sm:block" />
-          {/* Timer Pill shimmer */}
-          <ShimmerBox className="h-9 w-20 rounded-xl !bg-amber-500/15 dark:!bg-amber-500/20 border border-amber-500/20" />
-          {/* Primary Action Button shimmer */}
-          <ShimmerBox className="h-9 w-28 rounded-xl !bg-emerald-600/20 dark:!bg-emerald-500/25 shrink-0" />
-          {/* Gamification Streak Chip shimmer */}
-          <ShimmerBox className="h-8.5 w-12 rounded-xl !bg-orange-500/20 shrink-0" />
-          {/* Gamification Gold Chip shimmer */}
-          <ShimmerBox className="h-8.5 w-12 rounded-xl !bg-amber-500/20 hidden xs:block shrink-0" />
-          {/* User Avatar Shimmer with Ring */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          <ShimmerBox className="h-8 w-20 rounded-xl !bg-slate-200/80 dark:!bg-slate-800/80" />
+          <ShimmerBox className="h-8 w-24 rounded-xl !bg-emerald-500/20 dark:!bg-emerald-500/25 shrink-0" />
           <ShimmerBox className="w-8.5 h-8.5 rounded-full ring-2 ring-slate-200 dark:ring-slate-700 shrink-0" />
         </div>
       </div>
 
-      {/* 2. MAIN DASHBOARD VIEWPORT CANVAS (MATCHES 1:1 PAGE GEOMETRY) */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-2 flex flex-col min-h-0 lg:overflow-hidden space-y-2 sm:space-y-2.5 pb-20 lg:pb-2">
-        {/* 2.1. SLIM HERO TOPIC STATUS STRIP */}
-        <div className="p-2 sm:p-2.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0">
-          <div className="flex items-center gap-2.5 min-w-0 flex-1">
-            <ShimmerBox className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl !bg-[#0059bb]/15 dark:!bg-sky-400/15 shrink-0" />
-            <div className="space-y-1.5 min-w-0 flex-1">
-              <div className="flex items-center gap-2">
-                <ShimmerBox className="h-6 w-48 sm:w-64 rounded-xl !bg-slate-100 dark:!bg-slate-800" />
-                <ShimmerBox className="h-4 w-20 rounded-lg !bg-[#0059bb]/15" />
-              </div>
-              <ShimmerBox className="h-3 w-64 sm:w-96 rounded-md" />
-            </div>
-          </div>
-          <ShimmerBox className="h-8 w-24 rounded-xl hidden sm:block" />
-        </div>
-
-        {/* 2.2. MAIN BENTO GRID (8/12 - 4/12) */}
+      {/* 2. MAIN STUDIO VIEWPORT CANVAS (MATCHES 1:1 PAGE GEOMETRY) */}
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-3 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-2.5 flex flex-col min-h-0 lg:overflow-hidden pb-16 lg:pb-2.5">
         <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2.5 lg:gap-3 items-stretch min-w-0">
-          {/* CỘT TRÁI: AI CHAT COMPANION & INPUT DOCK (8/12) */}
+          {/* CỘT TRÁI: AI CHAT STUDIO & INPUT DOCK (8/12) */}
           <div className="lg:col-span-8 flex flex-col min-w-0 lg:h-full lg:min-h-0">
-            <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2">
-              {/* Header Trong Khung Chat */}
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-1.5 gap-2 shrink-0">
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col min-w-0 flex-1 lg:h-full lg:min-h-0 space-y-2">
+              {/* Unified Desktop Studio Header Skeleton */}
+              <div className="hidden lg:flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 gap-2 shrink-0">
                 <div className="flex items-center gap-2">
-                  <ShimmerBox className="w-16 h-5 rounded-lg !bg-[#0059bb]/15" />
-                  <ShimmerBox className="h-4 w-52 rounded-md" />
+                  <ShimmerBox className="h-9 w-56 rounded-xl !bg-slate-100 dark:!bg-slate-800" />
+                  <ShimmerBox className="h-9 w-36 rounded-xl" />
+                  <ShimmerBox className="h-9 w-28 rounded-xl" />
                 </div>
-                <ShimmerBox className="h-6 w-20 rounded-xl" />
+                <div className="flex items-center gap-1.5">
+                  <ShimmerBox className="h-9 w-24 rounded-xl" />
+                  <ShimmerBox className="h-9 w-24 rounded-xl" />
+                  <ShimmerBox className="h-9 w-28 rounded-xl !bg-emerald-500/20" />
+                </div>
+              </div>
+
+              {/* Mobile Studio Header Skeleton */}
+              <div className="flex lg:hidden flex-col gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2 shrink-0">
+                <div className="flex items-center justify-between gap-2">
+                  <ShimmerBox className="h-8 flex-1 rounded-xl" />
+                  <ShimmerBox className="h-8 w-20 rounded-xl" />
+                </div>
+                <div className="flex items-center justify-between gap-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <ShimmerBox className="h-7 w-24 rounded-xl" />
+                    <ShimmerBox className="h-7 w-20 rounded-xl" />
+                  </div>
+                  <ShimmerBox className="h-7 w-28 rounded-xl" />
+                </div>
               </div>
 
               {/* Chat Stream Skeleton */}
@@ -93,8 +82,8 @@ export default function AiConversationLoading() {
                       <ShimmerBox className="h-3.5 w-4/5 rounded-md" />
                     </div>
                     <div className="flex items-center gap-3 px-1">
-                      <ShimmerBox className="h-3 w-16 rounded-md" />
-                      <ShimmerBox className="h-3 w-20 rounded-md" />
+                      <ShimmerBox className="h-3.5 w-16 rounded-md" />
+                      <ShimmerBox className="h-3.5 w-20 rounded-md" />
                     </div>
                   </div>
                 </div>
@@ -109,7 +98,7 @@ export default function AiConversationLoading() {
                   <ShimmerBox className="w-8 h-8 rounded-full shrink-0 mt-0.5" />
                 </div>
 
-                {/* AI Detailed Feedback Bubble (Grammar + Better Phrasing) */}
+                {/* AI Detailed Feedback Bubble */}
                 <div className="flex items-start gap-2.5 justify-start">
                   <ShimmerBox className="w-8 h-8 rounded-xl !bg-[#0059bb]/20 dark:!bg-sky-400/20 shrink-0 mt-0.5" />
                   <div className="space-y-2 max-w-[88%] sm:max-w-[82%] w-full">
@@ -117,7 +106,6 @@ export default function AiConversationLoading() {
                       <ShimmerBox className="h-3.5 w-full rounded-md" />
                       <ShimmerBox className="h-3.5 w-5/6 rounded-md" />
                     </div>
-                    {/* Grammar Correction Box */}
                     <div className="p-3 rounded-2xl bg-slate-100/90 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 space-y-2">
                       <ShimmerBox className="h-3.5 w-36 rounded-md !bg-amber-500/20" />
                       <ShimmerBox className="h-3.5 w-4/5 rounded-md" />
@@ -127,38 +115,12 @@ export default function AiConversationLoading() {
                 </div>
               </div>
 
-              {/* Dải Gợi Ý Thuần Chữ (Suggestions Strip) */}
-              <div className="pt-2 pb-0.5 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2 shrink-0">
-                <ShimmerBox className="h-3.5 w-16 rounded-md !bg-[#0059bb]/20" />
-                <ShimmerBox className="h-3.5 w-20 rounded-md" />
-                <ShimmerBox className="h-3.5 w-24 rounded-md" />
-                <ShimmerBox className="h-3.5 w-36 rounded-md hidden sm:block" />
-              </div>
-
-              {/* Voice & Text Input Dock (Pinned to Bottom) */}
-              <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 space-y-1.5 shrink-0">
-                <div className="flex items-center gap-2 p-1.5 sm:p-2 rounded-2xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
-                  {/* Round Mic Button */}
-                  <ShimmerBox className="w-10 h-10 rounded-full !bg-[#0059bb]/30 dark:!bg-[#0059bb]/40 shrink-0" />
-
-                  {/* Input Box */}
+              {/* Voice & Text Input Dock (Pinned to Bottom - 0px CLS) */}
+              <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 shrink-0">
+                <div className="flex items-center gap-2 p-1.5 sm:p-2 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
+                  <ShimmerBox className="w-9 h-9 rounded-full !bg-[#0059bb]/30 dark:!bg-[#0059bb]/40 shrink-0" />
                   <ShimmerBox className="h-9 flex-1 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800" />
-
-                  {/* Send Button */}
-                  <ShimmerBox className="h-9 w-18 sm:w-20 rounded-xl !bg-[#0059bb]/25 shrink-0" />
-                </div>
-
-                {/* Audio Waveform 16 Spikes */}
-                <div className="flex items-center justify-center gap-[3px] h-4 bg-slate-50 dark:bg-slate-950/60 px-2 py-0.5 rounded-xl border border-slate-200/60 dark:border-slate-800">
-                  {Array.from({ length: 16 }).map((_, i) => (
-                    <ShimmerBox
-                      key={i}
-                      className="w-[2.5px] rounded-full shrink-0"
-                      style={{
-                        height: `${Math.floor(Math.sin((i / 16) * Math.PI) * 8) + 4}px`,
-                      }}
-                    />
-                  ))}
+                  <ShimmerBox className="h-9 w-20 rounded-xl !bg-[#0059bb]/25 shrink-0" />
                 </div>
               </div>
             </div>
@@ -166,7 +128,7 @@ export default function AiConversationLoading() {
 
           {/* CỘT PHẢI: GOALS & CONTEXTUAL VOCABULARY DECK (4/12) */}
           <div className="lg:col-span-4 flex flex-col min-w-0 lg:h-full lg:min-h-0">
-            <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-2.5 lg:h-full lg:min-h-0 overflow-y-auto">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col justify-between gap-2.5 lg:h-full lg:min-h-0 overflow-y-auto">
               {/* Goals Checklist Shimmer */}
               <div className="space-y-2 shrink-0">
                 <div className="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800">
@@ -193,7 +155,7 @@ export default function AiConversationLoading() {
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5 shrink-0">
                 <div className="flex items-center justify-between">
                   <ShimmerBox className="h-4 w-28 rounded-md !bg-[#0059bb]/15" />
-                  <ShimmerBox className="h-3 w-16 rounded-md" />
+                  <ShimmerBox className="h-3.5 w-16 rounded-md" />
                 </div>
                 <div className="space-y-1.5">
                   {[1, 2, 3].map((i) => (
@@ -205,7 +167,7 @@ export default function AiConversationLoading() {
                         <ShimmerBox className="h-3.5 w-20 rounded-md" />
                         <ShimmerBox className="h-3 w-32 rounded-md" />
                       </div>
-                      <ShimmerBox className="w-7 h-7 rounded-lg" />
+                      <ShimmerBox className="w-7 h-7 rounded-xl" />
                     </div>
                   ))}
                 </div>
@@ -215,7 +177,7 @@ export default function AiConversationLoading() {
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5 shrink-0">
                 <div className="flex items-center justify-between">
                   <ShimmerBox className="h-4 w-28 rounded-md !bg-amber-500/15" />
-                  <ShimmerBox className="h-3 w-16 rounded-md" />
+                  <ShimmerBox className="h-3.5 w-16 rounded-md" />
                 </div>
                 <div className="space-y-1.5">
                   {[1, 2].map((i) => (
@@ -228,6 +190,12 @@ export default function AiConversationLoading() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Polite Communication Tip Shimmer */}
+              <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-1.5 shrink-0">
+                <ShimmerBox className="h-4 w-36 rounded-md !bg-emerald-500/15" />
+                <ShimmerBox className="h-12 w-full rounded-xl !bg-emerald-500/10" />
               </div>
             </div>
           </div>

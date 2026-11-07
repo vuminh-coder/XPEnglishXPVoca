@@ -484,10 +484,10 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
 
   return (
     <div
-      className={`relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm p-1.5 sm:p-2 select-none flex flex-col justify-between space-y-2 transition-all ${className}`}
+      className={`relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm p-1.5 select-none flex flex-col justify-between space-y-1.5 transition-all ${className}`}
     >
       {/* 1. Responsive 16:9 Cinema Viewport */}
-      <div className="relative w-full max-w-2xl mx-auto aspect-video max-h-[210px] sm:max-h-[240px] md:max-h-[260px] rounded-xl overflow-hidden shadow-inner border border-slate-200/80 dark:border-slate-800 bg-black flex items-center justify-center group shrink-0">
+      <div className="relative w-full max-w-2xl mx-auto aspect-video max-h-[135px] sm:max-h-[138px] xl:max-h-[175px] rounded-xl overflow-hidden shadow-inner border border-slate-200/80 dark:border-slate-800 bg-black flex items-center justify-center group shrink-0">
         {youtubeId ? (
           <div className="w-full h-full relative">
             <div id={playerContainerId} className="w-full h-full" />
@@ -546,7 +546,7 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
       </div>
 
       {/* 2. Control Dock (Below Video, Clean & Symmetrical) */}
-      <div className="w-full shrink-0 px-2 sm:px-3 pt-1.5 pb-1 space-y-2 bg-transparent select-none">
+      <div className="w-full shrink-0 px-2 sm:px-3 pt-1 pb-0.5 space-y-1.5 bg-transparent select-none">
         {/* Scrubber Progress Bar */}
         <div className="flex items-center gap-2.5">
           <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 tabular-nums shrink-0 font-bold">
@@ -614,13 +614,13 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
             <button
               type="button"
               onClick={onTogglePlay}
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0059bb] hover:bg-[#004ba0] text-white flex items-center justify-center shadow-md shadow-blue-900/25 active:scale-95 transition-all cursor-pointer shrink-0 select-none group"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#0059bb] hover:bg-[#004ba0] text-white flex items-center justify-center shadow-md shadow-blue-900/25 active:scale-95 transition-all cursor-pointer shrink-0 select-none group"
               title={isPlaying ? "Tạm dừng video (Space)" : "Phát video (Space)"}
             >
               {isPlaying ? (
-                <Pause className="w-4.5 h-4.5 sm:w-5.5 sm:h-5.5 fill-white stroke-white" />
+                <Pause className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-white stroke-white" />
               ) : (
-                <Play className="w-4.5 h-4.5 sm:w-5.5 sm:h-5.5 fill-white stroke-white ml-0.5" />
+                <Play className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-white stroke-white ml-0.5" />
               )}
             </button>
 

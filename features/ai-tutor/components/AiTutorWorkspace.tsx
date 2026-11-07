@@ -12,7 +12,6 @@ import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
 import { lookupWordDeep } from "@/features/vocabulary/data/deepDictionary";
 import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
-import { AiSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
 import { ShimmerBox } from "@/shared/components/feedback/ShimmerSkeleton";
 
 import {
@@ -535,7 +534,7 @@ export default function AiTutorWorkspace() {
     }
   };
 
-  // 1-Click Interactive Dictionary with lookupWordDeep
+  // 1-Click Interactive Dictionary with lookupWordDeep & Contextual Suggestions
   const handleWordClick = (rawWord: string) => {
     const cleanWord = rawWord.replace(/[^a-zA-Z]/g, "").toLowerCase();
     if (!cleanWord || cleanWord.length < 2) return;
@@ -543,17 +542,34 @@ export default function AiTutorWorkspace() {
     speakText(cleanWord);
 
     const deepDef = lookupWordDeep(cleanWord);
-    const cleanMeaning = (deepDef.meaning || `Nghĩa Tiếng Việt của từ "${cleanWord}"`)
-      .replace(/\s*\([^)]*\)/g, "")
+    const matchedSuggestion = currentSuggestions.words.find(
+      (w) => w.word.toLowerCase() === cleanWord
+    );
+    const rawMeaning =
+      matchedSuggestion?.meaning &&
+      deepDef.meaning.includes("Từ vựng giao tiếp")
+        ? matchedSuggestion.meaning
+        : deepDef.meaning ||
+          matchedSuggestion?.meaning ||
+          "Từ vựng tiếng Anh thông dụng";
+    const cleanMeaning = rawMeaning.replace(/\s*\([^)]*\)/g, "").trim();
+    const cleanIpa = (deepDef.ipa || `/${cleanWord}/`)
+      .replace(/[()]/g, "")
       .trim();
-    const cleanIpa = (deepDef.ipa || `/${cleanWord}/`).replace(/[()]/g, "").trim();
     setSelectedWordData({
       word: cleanWord,
       ipa: cleanIpa,
       meaning: cleanMeaning,
       example:
-        deepDef.example || `Used naturally in speech: "${cleanWord}"`,
+        deepDef.example ||
+        `Luyện nói thực tế với từ "${cleanWord}" trong hội thoại.`,
     });
+  };
+
+  const handleSelectStarterPhrase = (phrase: string) => {
+    speakText(phrase);
+    const cleaned = phrase.replace(/\.{2,}$/, "").trim();
+    setSpokenText((prev) => (prev.trim() ? prev : `${cleaned} `));
   };
 
   const handleSaveWordToVocab = async () => {
@@ -1012,13 +1028,9 @@ export default function AiTutorWorkspace() {
     if (isRecording) {
       stopRecordingOnly();
     }
+    setSelectedWordData(null);
     setIsSessionCompleted(true);
     awardXp(sessionEvaluation.xpAward, "speaking");
-    addToast({
-      type: "success",
-      title: `Hoàn Thành Buổi Luyện Nói (Hạng ${sessionEvaluation.grade})! 🎉`,
-      message: `+${sessionEvaluation.xpAward} XP cùng Huấn luyện viên ${activePersonaObj.name}!`,
-    });
 
     // Persist full practice transcript & scorecard to PostgreSQL Neon ai_practice_sessions
     try {
@@ -1092,115 +1104,34 @@ export default function AiTutorWorkspace() {
   };
 
   return (
-    <div suppressHydrationWarning className="w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans select-none">
-      {/* 1. APP TOP HEADER (FIXED 56PX) */}
+    <div suppressHydrationWarning className="w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-[#fffefb] dark:bg-slate-950 flex flex-col font-sans select-none">
+      {/* 1. APP TOP HEADER (MOBILE ONLY < 1024px — HIDDEN ON DESKTOP) */}
       <AppTopHeader
+        className="lg:hidden"
         showGamificationStats={false}
-        hideMobileSearch={true}
-        rightDesktopContent={
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Lịch Sử Buổi Học Button */}
-            <button
-              type="button"
-              onClick={handleOpenHistoryDrawer}
-              className="h-9 px-3 rounded-xl bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-bold border border-slate-200/80 dark:border-slate-700 shadow-2xs flex items-center gap-1.5 cursor-pointer transition-all active:scale-95 shrink-0"
-              title="Xem lại lịch sử các buổi học trước"
-            >
-              <History className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-              <span className="hidden sm:inline">Lịch sử</span>
-            </button>
-
-            {/* Time badge hidden to eliminate time pressure per user ergonomics standard */}
-            <span className="hidden" aria-hidden="true">
-              <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
-            </span>
-
-            {isSessionCompleted ? (
-              <button
-                type="button"
-                onClick={handleRestartNewSession}
-                className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-              >
-                <RotateCcw className="w-4 h-4" />
-                <span>Buổi mới</span>
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleFinishConversation}
-                className="h-9 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-              >
-                <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-                <span>Chấm điểm</span>
-              </button>
-            )}
-          </div>
-        }
         customMobileSearchReplacement={
           <button
             type="button"
             onClick={handleOpenHistoryDrawer}
-            className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
+            className="lg:hidden h-8 px-2.5 rounded-lg bg-slate-100/90 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer active:scale-95 shrink-0"
             title="Lịch sử buổi học"
             aria-label="Lịch sử buổi học"
           >
-            <History className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
+            <History className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
+            <span>Lịch sử</span>
           </button>
         }
-      >
-        <AiSuiteNavTabs />
-      </AppTopHeader>
+      />
 
       {/* 2. MAIN DASHBOARD-STYLE VIEWPORT CANVAS (FITS IN 1 SCREEN ON DESKTOP & DOCKED ABOVE BOTTOMNAV ON MOBILE) */}
-      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2 sm:px-5 lg:px-6 pt-1.5 sm:pt-3 lg:pt-3 pb-[50px] lg:pb-3 flex flex-col min-h-0 overflow-hidden space-y-1.5 sm:space-y-3">
-        {/* 2.1. SLIM HERO STATUS STRIP (DASHBOARD BENTO STYLE - HIDDEN ON MOBILE, VISIBLE ON DESKTOP) */}
-        <div className="hidden lg:flex p-2.5 sm:p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs items-center justify-between gap-2 shrink-0">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <button
-              type="button"
-              onClick={() => setShowVoiceModal(true)}
-              className="shrink-0 relative cursor-pointer group"
-              title="Nhấp để đổi giọng nói / huấn luyện viên AI"
-            >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-50 group-hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shadow-2xs font-mono transition-colors">
-                <span>{activePersonaObj.countryCode}</span>
-              </div>
-              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white dark:border-slate-900" />
-            </button>
-
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display">
-                  {isSessionCompleted
-                    ? "Báo Cáo Buổi Luyện Nói"
-                    : `Đang trò chuyện cùng ${activePersonaObj.name}`}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setShowVoiceModal(true)}
-                  className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:group-hover:bg-blue-900/50 text-[#0059bb] dark:text-sky-300 text-xs font-bold font-mono border border-blue-200/60 dark:border-blue-800/40 shadow-2xs flex items-center gap-1 cursor-pointer transition-all"
-                  title="Nhấp để đổi giọng nói / huấn luyện viên AI"
-                >
-                  <span>{activePersonaObj.role}</span>
-                  <ChevronDown className="w-3 h-3 text-[#0059bb] dark:text-sky-400" />
-                </button>
-              </div>
-              <p className="text-xs font-medium text-slate-600 dark:text-slate-300 truncate">
-                {isSessionCompleted
-                  ? `Đã hoàn thành buổi đánh giá cùng ${activePersonaObj.name} (${activePersonaObj.accent})`
-                  : "Nói tự do bằng Micro • Bấm Micro lần 1 để nói, bấm lại lần 2 để gửi tự động"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* 2.2. MAIN BENTO GRID: FITS STRICTLY IN DESKTOP VIEWPORT */}
+      <div className="flex-1 w-full max-w-[1600px] 2xl:max-w-[1760px] mx-auto px-2 sm:px-5 lg:px-6 pt-1.5 sm:pt-3 lg:pt-3 pb-[68px] lg:pb-3 flex flex-col min-h-0 overflow-hidden space-y-1.5 sm:space-y-3">
+        {/* 2.1. MAIN BENTO GRID: FITS STRICTLY IN DESKTOP VIEWPORT */}
         {!isSessionCompleted ? (
           /* ===== VIEW 1: STUDIO BENTO GRID (8/12 - 4/12) ===== */
           <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-3.5 items-stretch min-w-0 overflow-hidden">
             {/* CỘT TRÁI: VOICE CHAT STREAM & INPUT DOCK (8/12) */}
             <div className="lg:col-span-8 flex flex-col min-w-0 h-full min-h-0 overflow-hidden">
-              <div className="p-2 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col min-w-0 flex-1 h-full min-h-0 space-y-1.5 sm:space-y-2.5 overflow-hidden">
+              <div className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col min-w-0 flex-1 h-full min-h-0 space-y-1.5 sm:space-y-2.5 overflow-hidden">
                 {/* Header Trong Khung Chat */}
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2 gap-2 shrink-0">
                   <button
@@ -1209,55 +1140,81 @@ export default function AiTutorWorkspace() {
                     className="flex items-center gap-2 min-w-0 text-left hover:opacity-85 transition-opacity cursor-pointer group"
                     title="Nhấp để đổi giọng nói / huấn luyện viên AI"
                   >
-                    <span className="w-7 h-7 rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold text-xs font-mono border border-blue-200/60 dark:border-blue-800/40 flex items-center justify-center shrink-0">
-                      {activePersonaObj.countryCode}
-                    </span>
-                    <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
-                      {activePersonaObj.name}
-                    </span>
-                    <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0059bb] transition-colors shrink-0" />
+                    <div className="relative shrink-0">
+                      <span className="w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 font-bold text-xs font-mono border border-blue-200/80 dark:border-blue-800/50 flex items-center justify-center">
+                        {activePersonaObj.countryCode}
+                      </span>
+                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white dark:border-slate-900" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate">
+                          {activePersonaObj.name}
+                        </span>
+                        <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0059bb] transition-colors shrink-0" />
+                      </div>
+                      <p className="text-xs font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                        <span className="sm:hidden">
+                          {activePersonaObj.countryName} • {speechSpeed}x
+                        </span>
+                        <span className="hidden sm:inline">
+                          {activePersonaObj.role} • {speechSpeed}x
+                        </span>
+                      </p>
+                    </div>
                   </button>
 
-                  <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
                     {/* 1. Thời Gian Luyện Nói (Hidden to eliminate time pressure) */}
                     <span className="hidden" aria-hidden="true">
                       <span suppressHydrationWarning>{formatElapsedTime(elapsedTime)}</span>
                     </span>
 
-                    {/* 2. Nút Chấm Bài / Buổi Mới (Luôn hiện trên mobile < lg, desktop đã có ở AppTopHeader) */}
-                    <div className="lg:hidden shrink-0">
+                    {/* 2. Nút Lịch Sử (Hiện trên Desktop >= lg; Mobile đã có trên AppTopHeader) */}
+                    <button
+                      type="button"
+                      onClick={handleOpenHistoryDrawer}
+                      className="hidden lg:flex h-8 px-3 rounded-lg bg-slate-100/90 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 text-xs font-bold border border-slate-200/80 dark:border-slate-700 shadow-2xs items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95 shrink-0"
+                      title="Xem lại lịch sử các buổi học trước"
+                    >
+                      <History className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                      <span>Lịch sử</span>
+                    </button>
+
+                    {/* 3. Nút Chấm Điểm / Buổi Mới (Tonal Semantic Secondary Button per Rule 18) */}
+                    <div className="shrink-0">
                       {isSessionCompleted ? (
                         <button
                           type="button"
                           onClick={handleRestartNewSession}
-                          className="h-7 w-7 sm:w-auto sm:px-2.5 rounded-md bg-[#0059bb] hover:bg-[#004899] text-white border border-[#0059bb] text-xs font-bold flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer"
+                          className="h-8 px-2.5 sm:px-3 rounded-lg bg-blue-50 hover:bg-[#0059bb] text-[#0059bb] hover:text-white dark:bg-blue-950/60 dark:text-sky-300 border border-blue-200/90 dark:border-blue-800/70 text-xs font-bold flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer"
                           title="Bắt đầu buổi luyện mới"
                         >
-                          <RotateCcw className="w-3.5 h-3.5" />
-                          <span className="hidden sm:inline">Buổi mới</span>
+                          <RotateCcw className="w-3.5 h-3.5 shrink-0" />
+                          <span>Buổi mới</span>
                         </button>
                       ) : (
                         <button
                           type="button"
                           onClick={handleFinishConversation}
-                          className="h-7 w-7 sm:w-auto sm:px-2.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white border border-emerald-600 text-xs font-bold flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer"
+                          className="h-8 px-2.5 sm:px-3 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200/90 dark:border-emerald-800/70 text-xs font-bold flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all cursor-pointer"
                           title="Hoàn thành và chấm điểm buổi nói"
                         >
-                          <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2]" />
-                          <span className="hidden sm:inline">Chấm điểm</span>
+                          <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.2] shrink-0" />
+                          <span>Chấm điểm</span>
                         </button>
                       )}
                     </div>
 
-                    {/* 3. Nút Đổi Giọng Nói: 1-Chạm Đổi Ngay Luân Phiên (Emma -> Alex -> Chloe) */}
+                    {/* 4. Nút Đổi Giọng Nói: 1-Chạm Đổi Ngay Luân Phiên (Emma -> Alex -> Chloe) */}
                     <button
                       type="button"
                       onClick={handleCycleNextPersona}
-                      className="h-7 w-7 sm:w-auto sm:px-2.5 rounded-md text-xs font-bold border border-blue-200/80 dark:border-blue-800/50 bg-blue-50/80 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all shadow-2xs flex items-center justify-center gap-1 cursor-pointer active:scale-95 shrink-0"
+                      className="h-8 px-2.5 rounded-lg text-xs font-bold border border-blue-200/80 dark:border-blue-800/50 bg-blue-50/80 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all shadow-2xs flex items-center justify-center gap-1 cursor-pointer active:scale-95 shrink-0"
                       title={`Đang là ${activePersonaObj.name} (${activePersonaObj.countryName}) • Bấm để đổi ngay sang giọng tiếp theo`}
                     >
-                      <Shuffle className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400" />
-                      <span className="hidden sm:inline">Đổi giọng</span>
+                      <Shuffle className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                      <span>Đổi giọng</span>
                     </button>
                   </div>
                 </div>
@@ -1451,120 +1408,43 @@ export default function AiTutorWorkspace() {
                   <div ref={chatBottomRef} />
                 </div>
 
-                {/* Dải Gợi Ý Thuần Chữ (Shrink-0) */}
+                {/* Dải Gợi Ý Từ Vựng & Mẫu Câu (Mobile/Tablet < lg only — Desktop đã có Sidebar 4/12 chuyên biệt) */}
                 {(currentSuggestions.words.length > 0 ||
                   currentSuggestions.phrases.length > 0) && (
-                  <div className="pt-2 pb-0.5 border-t border-slate-100 dark:border-slate-800 shrink-0 min-w-0">
-                    {/* BẢN DESKTOP (lg:flex): Giữ nguyên vẹn 100% bố cục dòng linh hoạt */}
-                    <div className="hidden lg:flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 flex-wrap">
-                      <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
-                        <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
-                      </span>
+                  <div className="lg:hidden pt-1.5 pb-0.5 border-t border-slate-100 dark:border-slate-800 shrink-0 min-w-0">
+                    <div className="flex flex-col gap-1.5 text-xs text-slate-700 dark:text-slate-300 min-w-0">
+                      {currentSuggestions.words.length > 0 && (
+                        <div className="grid grid-cols-3 gap-1.5 min-w-0">
+                          {currentSuggestions.words.slice(0, 3).map((w, idx) => (
+                            <button
+                              key={`mob_w_${idx}`}
+                              type="button"
+                              onClick={() => handleWordClick(w.word)}
+                              className="px-2 py-1 rounded-lg bg-blue-50/85 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-300 border border-blue-200/80 dark:border-blue-800/60 text-xs font-bold active:scale-95 cursor-pointer transition-all flex items-center justify-center gap-1 min-w-0"
+                              title={`Tra từ & nghe phát âm: ${w.word}`}
+                            >
+                              <Sparkles className="w-3 h-3 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                              <span className="truncate">{w.word}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
 
-                      {currentSuggestions.words.slice(0, 3).map((w, idx) => (
-                        <React.Fragment key={`w_${idx}`}>
-                          {idx > 0 && (
-                            <span className="text-slate-300 dark:text-slate-600 select-none">
-                              •
-                            </span>
-                          )}
-                          <button
-                            type="button"
-                            onClick={() => speakText(w.word)}
-                            className="text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors"
-                          >
-                            {w.word}
-                          </button>
-                        </React.Fragment>
-                      ))}
-
-                      {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
-                        <React.Fragment key={`p_${idx}`}>
-                          <span className="text-slate-300 dark:text-slate-600 select-none">
-                            •
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => speakText(phrase)}
-                            className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors truncate max-w-[220px]"
-                          >
-                            "{phrase}"
-                          </button>
-                        </React.Fragment>
-                      ))}
-                    </div>
-
-                    {/* BẢN MOBILE (< lg): Đúng 2 dòng, lướt ngang mượt mà nếu độ dài vượt quá width điện thoại */}
-                    <div className="lg:hidden flex flex-col gap-1 text-xs text-slate-700 dark:text-slate-300 min-w-0">
-                      {currentSuggestions.words.length > 0 ? (
-                        <>
-                          {/* Dòng 1: Gợi ý + Từ vựng (lướt ngang nếu dài hơn màn hình) */}
-                          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap min-w-0 pr-1 py-0.5">
-                            <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
-                              <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
-                            </span>
-
-                            {currentSuggestions.words.slice(0, 3).map((w, idx) => (
-                              <React.Fragment key={`mob_w_${idx}`}>
-                                {idx > 0 && (
-                                  <span className="text-slate-300 dark:text-slate-600 select-none shrink-0">
-                                    •
-                                  </span>
-                                )}
-                                <button
-                                  type="button"
-                                  onClick={() => speakText(w.word)}
-                                  className="text-xs font-bold text-slate-800 dark:text-slate-200 hover:text-[#0059bb] dark:hover:text-sky-400 active:opacity-70 cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors shrink-0"
-                                >
-                                  {w.word}
-                                </button>
-                              </React.Fragment>
-                            ))}
-                          </div>
-
-                          {/* Dòng 2: Mẫu câu mở đầu (lướt ngang nếu dài hơn màn hình) */}
-                          {currentSuggestions.phrases.length > 0 && (
-                            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap min-w-0 pr-1 py-0.5">
-                              {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
-                                <React.Fragment key={`mob_p_${idx}`}>
-                                  {idx > 0 && (
-                                    <span className="text-slate-300 dark:text-slate-600 select-none shrink-0">
-                                      •
-                                    </span>
-                                  )}
-                                  <button
-                                    type="button"
-                                    onClick={() => speakText(phrase)}
-                                    className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 active:opacity-70 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors shrink-0"
-                                  >
-                                    "{phrase}"
-                                  </button>
-                                </React.Fragment>
-                              ))}
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        /* Trường hợp không có words, chỉ có phrases */
-                        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar whitespace-nowrap min-w-0 pr-1 py-0.5">
-                          <span className="text-xs font-bold text-[#0059bb] dark:text-sky-400 uppercase tracking-wider flex items-center gap-1 shrink-0 select-none">
-                            <Sparkles className="w-3.5 h-3.5 text-[#0059bb]" /> Gợi ý:
-                          </span>
+                      {currentSuggestions.phrases.length > 0 && (
+                        <div className="flex flex-col gap-1 min-w-0">
                           {currentSuggestions.phrases.slice(0, 2).map((phrase, idx) => (
-                            <React.Fragment key={`mob_p_only_${idx}`}>
-                              {idx > 0 && (
-                                <span className="text-slate-300 dark:text-slate-600 select-none shrink-0">
-                                  •
-                                </span>
-                              )}
-                              <button
-                                type="button"
-                                onClick={() => speakText(phrase)}
-                                className="text-xs text-slate-700 dark:text-slate-300 hover:text-[#0059bb] dark:hover:text-sky-400 active:opacity-70 font-semibold cursor-pointer bg-transparent border-none p-0 focus:outline-none transition-colors shrink-0"
-                              >
-                                "{phrase}"
-                              </button>
-                            </React.Fragment>
+                            <button
+                              key={`mob_p_${idx}`}
+                              type="button"
+                              onClick={() => handleSelectStarterPhrase(phrase)}
+                              className="w-full px-2.5 py-1 rounded-lg bg-amber-50/85 dark:bg-amber-950/35 text-amber-900 dark:text-amber-100 border border-amber-200/75 dark:border-amber-800/50 text-xs font-semibold active:scale-[0.99] cursor-pointer transition-all flex items-center justify-between gap-2 text-left"
+                            >
+                              <span className="flex items-center gap-1.5 min-w-0">
+                                <Lightbulb className="w-3 h-3 text-amber-500 shrink-0" />
+                                <span className="truncate">"{phrase}"</span>
+                              </span>
+                              <Volume2 className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                            </button>
                           ))}
                         </div>
                       )}
@@ -1572,14 +1452,14 @@ export default function AiTutorWorkspace() {
                   </div>
                 )}
 
-                {/* Voice Input Dock (Pinned to bottom of left card) */}
-                <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 space-y-1.5 shrink-0">
+                {/* Voice Input Dock (Pinned to bottom of left card — 0px CLS constant height) */}
+                <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 shrink-0">
                   <div className="flex items-center gap-2 p-1.5 sm:p-2 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800">
-                    {/* Nút Micro Toggle-to-Send */}
+                    {/* Nút Micro Toggle-to-Send (Primary CTA when idle/recording) */}
                     <button
                       type="button"
                       onClick={handleMicrophoneToggle}
-                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shrink-0 cursor-pointer ${
+                      className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all shrink-0 cursor-pointer ${
                         isRecording
                           ? "bg-rose-500 text-white animate-pulse ring-4 ring-rose-500/25 shadow-md"
                           : spokenText.trim()
@@ -1597,12 +1477,12 @@ export default function AiTutorWorkspace() {
                       {isRecording ? (
                         <Square className="w-4 h-4 fill-white" />
                       ) : (
-                        <Mic className="w-4.5 h-4.5 stroke-[2]" />
+                        <Mic className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
                       )}
                     </button>
 
                     {/* Khung Hiển Thị & Nhập Liệu Lời Nói */}
-                    <div className="relative flex-1">
+                    <div className="relative flex-1 min-w-0">
                       <input
                         type="text"
                         readOnly={isRecording}
@@ -1622,17 +1502,19 @@ export default function AiTutorWorkspace() {
                           loading
                             ? "Gia sư AI đang phản hồi..."
                             : isRecording
-                            ? `🔴 Đang nghe bạn nói... (00:${
+                            ? `🔴 Đang nghe (00:${
                                 recordingTime < 10
                                   ? `0${recordingTime}`
                                   : recordingTime
-                              }) • Bấm lại Micro để GỬI`
+                              })...`
                             : spokenText
-                            ? "Đã có nội dung (Có thể gõ phím chỉnh sửa hoặc bấm Gửi)"
-                            : "Nói qua Micro hoặc gõ tiếng Anh tại đây (Enter để gửi)..."
+                            ? "Chỉnh sửa hoặc bấm Gửi"
+                            : "Nhấn Micro nói hoặc nhập..."
                         }
                         value={spokenText}
-                        className="w-full h-9 pl-3 pr-8 text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#0059bb]"
+                        className={`w-full h-9 pl-2.5 sm:pl-3 ${
+                          spokenText ? "pr-7" : "pr-2.5 sm:pr-3"
+                        } text-xs sm:text-sm font-medium rounded-lg bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#0059bb]`}
                       />
                       {spokenText && (
                         <button
@@ -1646,50 +1528,29 @@ export default function AiTutorWorkspace() {
                       )}
                     </div>
 
-                    {/* Nút Gửi */}
+                    {/* Nút Gửi (Rõ động từ hành động theo Rule 19) */}
                     <button
                       type="button"
                       onClick={handleSendSpokenSpeech}
                       disabled={!spokenText.trim() || loading}
-                      className={`h-9 px-3.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-2xs shrink-0 transition-all ${
+                      className={`h-9 px-3 sm:px-3.5 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-2xs shrink-0 transition-all ${
                         spokenText.trim() && !loading
                           ? "bg-[#0059bb] hover:bg-[#004899] text-white shadow-md active:scale-95 cursor-pointer"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-400 opacity-40 cursor-not-allowed"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-400 opacity-50 cursor-not-allowed"
                       }`}
                       title="Gửi câu nói đến Gia sư AI (Phím Enter)"
                     >
-                      <Send className="w-3.5 h-3.5 stroke-[2]" />
-                      <span className="hidden sm:inline">Gửi</span>
+                      <Send className="w-3.5 h-3.5 stroke-[2] shrink-0" />
+                      <span>Gửi</span>
                     </button>
                   </div>
-
-                  {/* Active Audio Waveform */}
-                  {(isRecording || isSpeaking) && (
-                    <div className="flex items-center justify-center gap-[3px] h-4 bg-slate-50 dark:bg-slate-950/60 px-2 py-0.5 rounded-lg border border-slate-200/60 dark:border-slate-800">
-                      {audioFrequencies.map((freq, i) => (
-                        <div
-                          key={i}
-                          className="w-[2.5px] rounded-full shrink-0 transition-all duration-75"
-                          style={{
-                            height: `${Math.max(
-                              3,
-                              Math.min(12, (freq / 100) * 12)
-                            )}px`,
-                            backgroundColor: isRecording
-                              ? "#f43f5e"
-                              : "#0059bb",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
 
             {/* CỘT PHẢI: HIGH-END HARMONIOUS SIDEBAR (4/12) */}
             <div className="hidden lg:flex lg:col-span-4 flex-col min-w-0 lg:h-full lg:min-h-0">
-              <div className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-2.5 lg:h-full lg:min-h-0 overflow-y-auto">
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col justify-between gap-2.5 lg:h-full lg:min-h-0 overflow-y-auto">
                 {/* 1. KHỐI CHỌN GIA SƯ AI & SPEED DOCK TRÊN CÙNG */}
                 <div className="space-y-2 shrink-0">
                   <div className="flex items-center justify-between pb-1">
@@ -1805,7 +1666,7 @@ export default function AiTutorWorkspace() {
                         <Lightbulb className="w-3.5 h-3.5 text-amber-500" /> MẪU CÂU MỞ ĐẦU
                       </span>
                       <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                        Click nghe mẫu
+                        Click chọn & nghe
                       </span>
                     </div>
 
@@ -1814,7 +1675,7 @@ export default function AiTutorWorkspace() {
                         <button
                           key={idx}
                           type="button"
-                          onClick={() => speakText(ph)}
+                          onClick={() => handleSelectStarterPhrase(ph)}
                           className="w-full text-left px-3 py-2 rounded-xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-700 text-amber-950 dark:text-amber-100 transition-all flex items-center justify-between gap-2 group cursor-pointer shadow-2xs"
                         >
                           <span className="text-xs font-semibold truncate flex-1">
@@ -1835,25 +1696,25 @@ export default function AiTutorWorkspace() {
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.2 }}
-            className="flex-1 min-h-0 overflow-y-auto space-y-3"
+            className="flex-1 min-h-0 flex flex-col gap-2 sm:gap-3 overflow-y-auto lg:overflow-hidden"
           >
             {/* Top Overall Score Card */}
-            <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 dark:border-slate-800 pb-2.5">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/20 shadow-2xs shrink-0">
-                    <Award className="w-6 h-6" />
+            <div className="p-2.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md space-y-2 sm:space-y-3 shrink-0">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2 sm:pb-2.5">
+                <div className="flex items-center gap-2.5 sm:gap-3">
+                  <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-500/20 shadow-2xs shrink-0">
+                    <Award className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display">
+                      <h2 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-display truncate">
                         Đánh Giá Buổi Luyện Nói
                       </h2>
-                      <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 uppercase">
+                      <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/20 uppercase whitespace-nowrap shrink-0">
                         Hoàn Tất
                       </span>
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+                    <p className="text-xs text-slate-600 dark:text-slate-300 font-medium truncate">
                       Huấn luyện viên:{" "}
                       <strong className="text-slate-900 dark:text-white">
                         {activePersonaObj.name}
@@ -1864,144 +1725,168 @@ export default function AiTutorWorkspace() {
                 </div>
 
                 {/* Overall Score Badge */}
-                <div className="flex items-center gap-3 sm:self-center">
+                <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 sm:self-center min-w-0">
                   <div
-                    className={`px-3 py-1 rounded-lg border text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-2xs ${sessionEvaluation.color}`}
+                    className={`px-2 sm:px-3 py-1 rounded-lg border text-xs font-bold uppercase sm:tracking-wider flex items-center gap-1 sm:gap-1.5 shadow-2xs whitespace-nowrap shrink-0 ${sessionEvaluation.color}`}
                   >
                     <span>Hạng {sessionEvaluation.grade}</span>
                     <span>•</span>
                     <span>{sessionEvaluation.label}</span>
                   </div>
-                  <div className="text-right">
-                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                      Điểm Phản Xạ
-                    </span>
-                    <span className="text-lg sm:text-xl font-black text-[#0059bb] dark:text-sky-400 font-display tabular-nums">
-                      {sessionEvaluation.overallScore}/100
-                    </span>
-                  </div>
-                  <div className="h-8 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block" />
-                  <div className="text-right">
-                    <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                      Phần Thưởng
-                    </span>
-                    <span className="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400 font-display tabular-nums">
-                      +{sessionEvaluation.xpAward} XP
-                    </span>
+                  <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                    <div className="text-right">
+                      <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase sm:tracking-wider block whitespace-nowrap">
+                        <span className="sm:hidden">Điểm số</span>
+                        <span className="hidden sm:inline">Điểm Phản Xạ</span>
+                      </span>
+                      <span className="text-sm sm:text-xl font-black text-[#0059bb] dark:text-sky-400 font-display tabular-nums whitespace-nowrap">
+                        {sessionEvaluation.overallScore}/100
+                      </span>
+                    </div>
+                    <div className="h-7 w-px bg-slate-200 dark:bg-slate-800" />
+                    <div className="text-right">
+                      <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase sm:tracking-wider block whitespace-nowrap">
+                        <span className="sm:hidden">Thưởng</span>
+                        <span className="hidden sm:inline">Phần Thưởng</span>
+                      </span>
+                      <span className="text-sm sm:text-xl font-black text-emerald-600 dark:text-emerald-400 font-display tabular-nums whitespace-nowrap">
+                        +{sessionEvaluation.xpAward} XP
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleOpenHistoryDrawer}
+                      className="hidden lg:flex h-9 px-3 ml-1 rounded-xl bg-slate-100/90 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 text-xs font-bold border border-slate-200/80 dark:border-slate-700 shadow-2xs items-center justify-center gap-1.5 cursor-pointer transition-all active:scale-95 shrink-0"
+                      title="Xem lại lịch sử các buổi học trước"
+                    >
+                      <History className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                      <span>Lịch sử</span>
+                    </button>
                   </div>
                 </div>
               </div>
 
-              {/* 4 Quick Stat Metric Tiles */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-amber-500" /> Thời gian nói
+              {/* 4 Quick Stat Metric Tiles (Single Row on both Mobile & Desktop) */}
+              <div className="grid grid-cols-4 gap-1.5 sm:gap-2.5">
+                <div className="p-2 sm:p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-0.5 sm:space-y-1 shadow-2xs min-w-0">
+                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1 whitespace-nowrap">
+                    <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0 hidden sm:inline" />
+                    <span className="sm:hidden">Thời gian</span>
+                    <span className="hidden sm:inline">Thời gian nói</span>
                   </span>
-                  <p suppressHydrationWarning className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-mono tabular-nums">
+                  <p suppressHydrationWarning className="text-xs sm:text-base font-bold text-slate-900 dark:text-white font-mono tabular-nums">
                     {formatElapsedTime(elapsedTime)}
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-                    <MessageSquare className="w-3.5 h-3.5 text-[#0059bb]" /> Lượt tương tác
+                <div className="p-2 sm:p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-0.5 sm:space-y-1 shadow-2xs min-w-0">
+                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1 whitespace-nowrap">
+                    <MessageSquare className="w-3.5 h-3.5 text-[#0059bb] shrink-0 hidden sm:inline" />
+                    <span className="sm:hidden">Tương tác</span>
+                    <span className="hidden sm:inline">Lượt tương tác</span>
                   </span>
-                  <p className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-mono tabular-nums">
+                  <p className="text-xs sm:text-base font-bold text-slate-900 dark:text-white font-mono tabular-nums">
                     {userTurnsCount} câu
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-                    <Mic className="w-3.5 h-3.5 text-indigo-500" /> Điểm phát âm
+                <div className="p-2 sm:p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-0.5 sm:space-y-1 shadow-2xs min-w-0">
+                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1 whitespace-nowrap">
+                    <Mic className="w-3.5 h-3.5 text-indigo-500 shrink-0 hidden sm:inline" />
+                    <span className="sm:hidden">Phát âm</span>
+                    <span className="hidden sm:inline">Điểm phát âm</span>
                   </span>
-                  <p className="text-sm sm:text-base font-bold text-indigo-600 dark:text-indigo-400 font-mono tabular-nums">
+                  <p className="text-xs sm:text-base font-bold text-indigo-600 dark:text-indigo-400 font-mono tabular-nums">
                     {sessionEvaluation.pronunciationScore}/100
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 shadow-2xs">
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
-                    <CheckCircle className="w-3.5 h-3.5 text-emerald-500" /> Chuẩn ngữ pháp
+                <div className="p-2 sm:p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-0.5 sm:space-y-1 shadow-2xs min-w-0">
+                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1 whitespace-nowrap">
+                    <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0 hidden sm:inline" />
+                    <span className="sm:hidden">Ngữ pháp</span>
+                    <span className="hidden sm:inline">Chuẩn ngữ pháp</span>
                   </span>
-                  <p className="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 font-mono tabular-nums">
+                  <p className="text-xs sm:text-base font-bold text-emerald-600 dark:text-emerald-400 font-mono tabular-nums">
                     {sessionEvaluation.grammarScore}%
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Bento Detailed Analytics */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+            {/* Bento Detailed Analytics (0px Bottom Delta on Desktop, Single-Screen Fit on Mobile) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-3 lg:flex-1 lg:min-h-0 items-stretch">
               {/* Cột Trái: Lỗi Ngữ Pháp & Gợi Ý Phrasing Tự Nhiên (8/12) */}
-              <div className="lg:col-span-8 p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-                  <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
-                    <Lightbulb className="w-3.5 h-3.5 text-amber-500" /> TỔNG HỢP NGỮ PHÁP & DIỄN ĐẠT TỰ NHIÊN
-                  </h3>
-                  <span className="text-xs font-bold text-slate-600 dark:text-slate-300 font-mono">
-                    {grammarCorrections.length} ghi chú
-                  </span>
-                </div>
+              <div className="lg:col-span-8 p-2.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col justify-between gap-2 sm:gap-3 lg:h-full lg:min-h-0">
+                <div className="flex flex-col gap-2 flex-1 min-h-0">
+                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-1.5 sm:pb-2 shrink-0">
+                    <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#0059bb] dark:text-sky-400 font-display flex items-center gap-1.5">
+                      <Lightbulb className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                      <span>NGỮ PHÁP & DIỄN ĐẠT TỰ NHIÊN</span>
+                    </h3>
+                    <span className="text-xs font-bold text-slate-600 dark:text-slate-300 font-mono shrink-0">
+                      {grammarCorrections.length} ghi chú
+                    </span>
+                  </div>
 
-                {grammarCorrections.length > 0 ? (
-                  <div className="space-y-2 max-h-[220px] overflow-y-auto pr-1">
-                    {grammarCorrections.map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1.5 text-xs sm:text-sm"
-                      >
-                        <div className="flex items-start gap-2">
-                          <span className="font-bold text-slate-400 shrink-0 font-mono text-xs">
-                            #{idx + 1}
-                          </span>
-                          <div className="space-y-1 flex-1">
-                            {item.corrected && (
-                              <div>
-                                <span className="text-rose-600 dark:text-rose-400 line-through mr-1 font-semibold">
-                                  {item.original}
-                                </span>
-                                ➔{" "}
-                                <strong className="text-emerald-700 dark:text-emerald-300 font-bold ml-1">
-                                  {item.corrected}
-                                </strong>
-                                {item.explanation && (
-                                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
-                                    {item.explanation
-                                      .replace(/^\((.*)\)$/, "$1")
-                                      .trim()}
-                                  </p>
-                                )}
-                              </div>
-                            )}
-                            {item.betterPhrasing && (
-                              <div className="text-emerald-800 dark:text-emerald-200 font-medium pt-1">
-                                <span className="font-bold text-emerald-700 dark:text-emerald-300 mr-1.5">
-                                  ✨ Diễn đạt tự nhiên:
-                                </span>
-                                "{item.betterPhrasing}"
-                              </div>
-                            )}
+                  {grammarCorrections.length > 0 ? (
+                    <div className="space-y-2 max-h-[150px] sm:max-h-[210px] overflow-y-auto pr-1 flex-1 min-h-0">
+                      {grammarCorrections.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className="p-2.5 sm:p-3 rounded-xl bg-slate-50/80 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800 space-y-1 text-xs sm:text-sm"
+                        >
+                          <div className="flex items-start gap-2">
+                            <span className="font-bold text-slate-400 shrink-0 font-mono text-xs">
+                              #{idx + 1}
+                            </span>
+                            <div className="space-y-1 flex-1 min-w-0">
+                              {item.corrected && (
+                                <div>
+                                  <span className="text-rose-600 dark:text-rose-400 line-through mr-1 font-semibold">
+                                    {item.original}
+                                  </span>
+                                  ➔{" "}
+                                  <strong className="text-emerald-700 dark:text-emerald-300 font-bold ml-1">
+                                    {item.corrected}
+                                  </strong>
+                                  {item.explanation && (
+                                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+                                      {item.explanation
+                                        .replace(/^\((.*)\)$/, "$1")
+                                        .trim()}
+                                    </p>
+                                  )}
+                                </div>
+                              )}
+                              {item.betterPhrasing && (
+                                <div className="text-emerald-800 dark:text-emerald-200 font-medium pt-0.5">
+                                  <span className="font-bold text-emerald-700 dark:text-emerald-300 mr-1.5">
+                                    ✨ Tự nhiên hơn:
+                                  </span>
+                                  "{item.betterPhrasing}"
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-5 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-500/20 text-center space-y-1.5">
-                    <CheckCircle2 className="w-7 h-7 text-emerald-500 mx-auto" />
-                    <p className="text-sm font-bold text-emerald-700 dark:text-emerald-300">
-                      Phản xạ rất tuyệt vời!
-                    </p>
-                    <p className="text-xs text-slate-600 dark:text-slate-300">
-                      Bạn không gặp lỗi ngữ pháp nghiêm trọng nào trong suốt buổi nói chuyện hôm nay.
-                    </p>
-                  </div>
-                )}
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-500/20 text-center space-y-1 flex-1 flex flex-col items-center justify-center">
+                      <CheckCircle2 className="w-6 h-6 text-emerald-500 mx-auto" />
+                      <p className="text-xs sm:text-sm font-bold text-emerald-700 dark:text-emerald-300">
+                        Phản xạ rất tuyệt vời!
+                      </p>
+                      <p className="text-xs text-slate-600 dark:text-slate-300">
+                        Bạn không gặp lỗi ngữ pháp nghiêm trọng nào trong buổi nói hôm nay.
+                      </p>
+                    </div>
+                  )}
+                </div>
 
                 {/* Toggle View Full Chat History */}
-                <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+                <div className="pt-1.5 sm:pt-2 border-t border-slate-100 dark:border-slate-800 shrink-0">
                   <button
                     type="button"
                     onClick={() =>
@@ -2018,7 +1903,7 @@ export default function AiTutorWorkspace() {
                   </button>
 
                   {showChatHistoryInSummary && (
-                    <div className="mt-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-2 max-h-[200px] overflow-y-auto">
+                    <div className="mt-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 space-y-1.5 max-h-[140px] overflow-y-auto">
                       {messages.map((m) => (
                         <div key={m.id} className="text-xs space-y-0.5">
                           <span
@@ -2032,7 +1917,7 @@ export default function AiTutorWorkspace() {
                               ? `${activePersonaObj.name}:`
                               : "Bạn:"}
                           </span>
-                          <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs sm:text-sm">
+                          <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs">
                             {m.text}
                           </p>
                         </div>
@@ -2043,9 +1928,9 @@ export default function AiTutorWorkspace() {
               </div>
 
               {/* Cột Phải: Lời Nhận Xét Của Huấn Luyện Viên (4/12) */}
-              <div className="lg:col-span-4 p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-3">
+              <div className="lg:col-span-4 p-2.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md flex flex-col justify-between gap-2 sm:gap-3 lg:h-full lg:min-h-0">
                 {/* Coach Evaluation Card */}
-                <div className="p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/40 space-y-2">
+                <div className="p-2.5 sm:p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/40 space-y-2 flex-1 flex flex-col justify-between">
                   <div className="flex items-center gap-2.5">
                     <div className="w-8 h-8 rounded-full bg-white dark:bg-slate-900 border border-blue-200/80 dark:border-blue-800 flex items-center justify-center text-xs font-black text-[#0059bb] dark:text-sky-400 shrink-0 shadow-2xs font-mono">
                       {activePersonaObj.countryCode}
@@ -2062,26 +1947,29 @@ export default function AiTutorWorkspace() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-lg border border-blue-200/60 dark:border-blue-900/30">
+                  <p className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed bg-white/80 dark:bg-slate-900/80 p-2 sm:p-2.5 rounded-lg border border-blue-200/60 dark:border-blue-900/30 flex-1 flex items-center">
                     "{sessionEvaluation.coachFeedback}"
                   </p>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
+                {/* Action Buttons (Side-by-side on Mobile to fit 100% in single screen, stacked on Desktop) */}
+                <div className="pt-1.5 sm:pt-2 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 lg:grid-cols-1 gap-2 shrink-0">
                   <button
                     type="button"
                     onClick={handleRestartNewSession}
-                    className="w-full py-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] active:scale-95 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-2xs cursor-pointer transition-all"
+                    className="w-full py-2 sm:py-2.5 px-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] active:scale-95 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer transition-all whitespace-nowrap"
                   >
-                    <RotateCcw className="w-4 h-4" /> Bắt Đầu Buổi Mới (+15 XP/câu)
+                    <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                    <span className="sm:hidden">Buổi Tập Mới</span>
+                    <span className="hidden sm:inline">Bắt Đầu Buổi Mới (+15 XP/câu)</span>
                   </button>
 
                   <Link
                     href="/dashboard"
-                    className="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-colors block text-center"
+                    className="w-full py-2 sm:py-2.5 px-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-colors text-center whitespace-nowrap"
                   >
-                    Về Bảng Điều Khiển
+                    <span className="sm:hidden">Về Trang Chủ</span>
+                    <span className="hidden sm:inline">Về Bảng Điều Khiển</span>
                   </Link>
                 </div>
               </div>
@@ -2236,7 +2124,7 @@ export default function AiTutorWorkspace() {
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
-            className="fixed right-3 bottom-28 sm:right-6 sm:bottom-6 z-50 w-[275px] xs:w-[290px] sm:w-[310px] p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 shadow-xl space-y-2 select-none"
+            className="fixed left-3 right-3 bottom-[242px] sm:left-auto sm:right-6 sm:bottom-24 lg:right-[35.5%] lg:bottom-20 z-50 sm:w-[320px] p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 shadow-xl space-y-2 select-none"
           >
             {/* Top Row: Word, Phonetic, Meaning & Top Right Actions (Bookmark & Close) */}
             <div className="flex items-start justify-between gap-2">
@@ -2281,7 +2169,7 @@ export default function AiTutorWorkspace() {
 
             {/* Bottom Row: Example Sentence & Speaker Icon in Bottom Corner */}
             <div className="flex items-center justify-between gap-2 pt-1.5 border-t border-slate-100 dark:border-slate-800">
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 flex-1 min-w-0">
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 flex-1 min-w-0">
                 {selectedWordData.example || `Luyện tập phát âm chuẩn với "${selectedWordData.word}"`}
               </p>
               <button

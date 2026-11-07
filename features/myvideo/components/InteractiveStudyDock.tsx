@@ -70,14 +70,14 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
   toggleShadowingRecord,
 }) => {
   return (
-    <div className="flex flex-col h-full">
-      <div className="rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 overflow-hidden flex flex-col h-full min-h-0">
+    <div className="flex flex-col h-full lg:relative min-h-[420px] lg:min-h-0">
+      <div className="lg:absolute lg:inset-0 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 overflow-hidden flex flex-col h-full min-h-0">
         {/* Header Tabs Segmented Dock - 2 CORE STUDY TABS */}
         <div className="p-1 sm:p-1.5 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 grid grid-cols-2 gap-1.5 shrink-0">
           <button
             type="button"
             onClick={() => setRightPanelTab("subtitles")}
-            className={`py-2 px-3 rounded-lg text-xs sm:text-sm font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-2 ${
+            className={`py-2 px-3 rounded-xl text-xs sm:text-sm font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-2 ${
               rightPanelTab === "subtitles"
                 ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
@@ -90,19 +90,19 @@ export const InteractiveStudyDock: React.FC<InteractiveStudyDockProps> = ({
           <button
             type="button"
             onClick={() => setRightPanelTab("dictation")}
-            className={`py-2 px-3 rounded-lg text-xs sm:text-sm font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-2 ${
+            className={`py-2 px-3 rounded-xl text-xs sm:text-sm font-bold font-display transition-all cursor-pointer flex items-center justify-center gap-2 ${
               rightPanelTab === "dictation"
                 ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs"
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             <Brain className="w-4 h-4 text-purple-500 shrink-0" />
-            <span className="truncate">Dictation</span>
+            <span className="truncate">Chép Chính Tả</span>
           </button>
         </div>
 
         {/* Scrollable Content Container */}
-        <div className="p-3.5 sm:p-4 space-y-3 overflow-y-auto flex-1 min-h-0 max-h-[500px] sm:max-h-[560px] lg:max-h-none">
+        <div className="p-3 sm:p-3.5 space-y-2.5 overflow-y-auto flex-1 min-h-0 max-h-[480px] sm:max-h-[520px] lg:max-h-none">
           {/* TAB 1: PHỤ ĐỀ SONG NGỮ 1-CLICK TRA TỪ */}
           {rightPanelTab === "subtitles" && (
             <SubtitlesTabPane

@@ -2,12 +2,11 @@
 
 import React, { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Video,
   Search,
   Sparkles,
-  Play,
   Clock,
   PlusCircle,
   X,
@@ -15,7 +14,6 @@ import {
   ChevronRight,
   RefreshCw,
   ListChecks,
-  Film,
   Heart,
   Flame,
   Tv,
@@ -23,12 +21,17 @@ import {
   Layers,
   Briefcase,
   Globe,
+  ArrowRight,
 } from "lucide-react";
 import { VideoRequestModal } from "./VideoRequestModal";
 import { VideoComprehensionQuizModal } from "./VideoComprehensionQuizModal";
 import { VideoCategoryIcon } from "./VideoCategoryIcon";
 import { getLessonCoverImage } from "../utils/lessonImageMapper";
 import { ShimmerBox } from "./LoadingSkeletons";
+import {
+  MOCK_VIDEO_LESSONS,
+  MOCK_VIDEO_CATEGORIES,
+} from "@/features/listening/data/videoCatalogMockData";
 import {
   useVideoCatalogStore,
   buildLessonQueryKey,
@@ -45,12 +48,59 @@ interface VideoCatalogBrowseViewProps {
 
 const CEFR_LEVELS = ["Tất cả", "A1", "A2", "B1", "B2", "C1", "C2"];
 
+const INITIAL_VIDEO_FALLBACK_LESSONS: VideoCatalogLessonItem[] = MOCK_VIDEO_LESSONS.map((l) => ({
+  id: l.id,
+  slug: l.slug,
+  title: l.title,
+  description: l.description,
+  sourceType: l.sourceType,
+  externalId: l.externalId,
+  thumbnailUrl: l.thumbnailUrl,
+  durationSeconds: l.durationSeconds,
+  durationFormatted: l.durationFormatted,
+  cefrLevel: l.cefrLevel,
+  supportedTypes: l.supportedTypes,
+  accent: l.accent,
+  wpmSpeed: l.wpmSpeed,
+  viewCount: l.viewCount,
+  studyCount: l.studyCount,
+  isCommunityCurated: false,
+  hasFullData: !l.id.startsWith("mov_"),
+  segmentCount: l.segments.length > 2 ? l.segments.length : 8,
+  totalSentences: l.segments.length > 2 ? l.segments.length : 8,
+  category: {
+    id: l.categoryId,
+    slug: l.categorySlug,
+    name: l.categoryName,
+  },
+  playlist: null,
+  createdAt: "2026-01-01T00:00:00.000Z",
+}));
+
+const INITIAL_VIDEO_FALLBACK_CATEGORIES: VideoCatalogCategory[] = MOCK_VIDEO_CATEGORIES.map(
+  (c, idx) => ({
+    id: c.id,
+    slug: c.slug,
+    name: c.name,
+    description: c.description || "",
+    icon: c.icon,
+    orderIndex: idx,
+    lessonCount: INITIAL_VIDEO_FALLBACK_LESSONS.filter((l) => l.category?.slug === c.slug).length,
+    playlistCount: 1,
+    playlists: [],
+  })
+);
+
 export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
   onSelectVideoLesson,
   practiceMode = "dictation",
 }) => {
   // Global SWR Cache & Filter Store
-  const categories = useVideoCatalogStore((s) => s.categories);
+  const storeCategories = useVideoCatalogStore((s) => s.categories);
+  const categories =
+    storeCategories && storeCategories.length > 0
+      ? storeCategories
+      : INITIAL_VIDEO_FALLBACK_CATEGORIES;
   const filters = useVideoCatalogStore((s) => s.filters);
   const setFilter = useVideoCatalogStore((s) => s.setFilter);
   const isLessonsLoading = useVideoCatalogStore((s) => s.isLessonsLoading);
@@ -67,18 +117,42 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
   const setSelectedLevel = (lvl: string) => setFilter("selectedLevel", lvl);
   const setSearchQuery = (q: string) => setFilter("searchQuery", q);
 
-  // Synchronous Frame 0 Cache Hit (0ms instant UI return)
+  // Synchronous Frame 0 Cache Hit with in-memory fallback (0ms instant UI return)
   const queryKey = buildLessonQueryKey(filters);
   const cachedLessons = useVideoCatalogStore((s) => s.lessonsCache[queryKey]?.data);
-  const [lessons, setLessons] = useState<VideoCatalogLessonItem[]>(() => cachedLessons || []);
+  const [rawLessons, setRawLessons] = useState<VideoCatalogLessonItem[]>(() =>
+    cachedLessons && cachedLessons.length > 0 ? cachedLessons : INITIAL_VIDEO_FALLBACK_LESSONS
+  );
 
   useEffect(() => {
-    if (cachedLessons) {
-      setLessons(cachedLessons);
+    if (cachedLessons && cachedLessons.length > 0) {
+      setRawLessons(cachedLessons);
     }
   }, [cachedLessons]);
 
-  // Loading indicator only displays when there is ZERO data in cache
+  const lessons = useMemo(() => {
+    if (cachedLessons && cachedLessons.length > 0) return cachedLessons;
+    return rawLessons.filter((l) => {
+      if (selectedCategory !== "all" && l.category?.slug !== selectedCategory) return false;
+      if (
+        selectedLevel !== "Tất cả" &&
+        l.cefrLevel.toUpperCase() !== selectedLevel.toUpperCase()
+      ) {
+        return false;
+      }
+      if (searchQuery.trim()) {
+        const q = searchQuery.trim().toLowerCase();
+        if (
+          !l.title.toLowerCase().includes(q) &&
+          !(l.category?.name || "").toLowerCase().includes(q)
+        ) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [cachedLessons, rawLessons, selectedCategory, selectedLevel, searchQuery]);
+
   const isLoadingLessons = isLessonsLoading && lessons.length === 0;
 
   // Category horizontal scroll state
@@ -114,12 +188,10 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
     null
   );
 
-  // 1. Load Categories via SWR (0ms if cached, background revalidate if stale)
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
 
-  // 2. Load Lessons via SWR with query debouncing
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchLessons();
@@ -127,7 +199,6 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
     return () => clearTimeout(timer);
   }, [selectedCategory, selectedLevel, searchQuery, sortBy, fetchLessons]);
 
-  // Manual force refresh handler
   const handleForceRefresh = async () => {
     invalidateCache("all");
     await Promise.all([
@@ -136,13 +207,11 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
     ]);
   };
 
-  // Check if user is browsing the comprehensive "All Topics" hub overview
   const isBrowsingAll =
     selectedCategory === "all" &&
     !searchQuery.trim() &&
     selectedLevel === "Tất cả";
 
-  // Filter lessons per featured topic for horizontal scrolling display
   const romanceLessons = useMemo(() => {
     return lessons.filter(
       (l) =>
@@ -173,11 +242,6 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
         l.category?.slug === "animation-pixar-disney" ||
         l.category?.id === "cat_animation_pixar_disney"
     );
-  }, [lessons]);
-
-  // Modular lessons that already have full verbatim data, subtitles, and AI quiz
-  const hasDataLessons = useMemo(() => {
-    return lessons.filter((l) => l.hasFullData || !l.id.startsWith("mov_"));
   }, [lessons]);
 
   const tedLessons = useMemo(() => {
@@ -222,105 +286,49 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
   }, [lessons, tedLessons, businessTechLessons]);
 
   return (
-    <div className="space-y-6 sm:space-y-7">
-      {/* 1. HERO SPOTLIGHT & RECOMMENDATION BANNER */}
-      <div className="hidden sm:block p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs relative overflow-hidden">
-        {/* Ambient subtle light-blue gradient accent */}
-        <div className="absolute top-0 right-0 w-96 h-full bg-gradient-to-l from-blue-50/70 via-sky-50/20 to-transparent dark:from-blue-950/20 dark:via-transparent dark:to-transparent pointer-events-none" />
-
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-3.5">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2 sm:gap-2.5">
-              <Film className="w-5 h-5 sm:w-6 sm:h-6 text-rose-600 dark:text-rose-400 shrink-0" />
-              <span>
-                {practiceMode === "shadowing"
-                  ? "Luyện Nói & Nhại Âm Đa Giác Quan Qua YouTube"
-                  : "Luyện Nghe & Đọc Hiểu Đa Giác Quan Qua YouTube"}
-              </span>
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mt-1 leading-relaxed">
-              {practiceMode === "shadowing"
-                ? "Luyện phát âm, ngữ điệu và phản xạ nói tự nhiên theo người bản xứ qua trích đoạn phim ảnh, TED Talks và bài học truyền cảm hứng đạt hàng triệu view."
-                : "Trích đoạn phim lãng mạn, sitcom hài hước, hoạt hình Pixar và bài học truyền cảm hứng đạt hàng triệu view, phân câu rõ ràng và bài tập đọc hiểu AI."}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            <button
-              type="button"
-              onClick={handleForceRefresh}
-              disabled={isLessonsLoading}
-              className="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-800 dark:hover:bg-slate-700/90 border border-slate-200/80 dark:border-slate-700/80 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs active:scale-95 disabled:opacity-50"
-              title="Làm mới danh sách video từ máy chủ"
-            >
-              <RefreshCw
-                className={`w-3.5 h-3.5 ${
-                  isLessonsLoading
-                    ? "animate-spin text-[#0059bb]"
-                    : "text-slate-500 dark:text-slate-400"
-                }`}
-              />
-              <span className="hidden sm:inline">Làm mới</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsRequestModalOpen(true)}
-              className="px-4 py-2.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold flex items-center gap-2 transition-all cursor-pointer shadow-xs active:scale-95"
-            >
-              <PlusCircle className="w-4 h-4 stroke-[2.5]" />
-              <span>Đề Xuất Video Mới</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. FILTER & SEARCH TOOLBAR */}
+    <div className="space-y-7">
+      {/* 1. COMPACT FILTER & SEARCH TOOLBAR (Removed bulky hero banner) */}
       <div className="space-y-3">
-        {/* Category Chips Bar with Edge Gradient Masks & Scroll Arrows */}
+        {/* Category Chips Bar with Scroll Arrows (Desktop Gradient Fade, Mobile Touch Swipe) */}
         <div className="relative group/categories">
           {canScrollLeft && (
-            <button
-              type="button"
-              onClick={() => handleScrollCategories("left")}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:text-[#0059bb] transition-all cursor-pointer"
-              aria-label="Cuộn danh mục sang trái"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
+            <div className="hidden sm:flex items-center justify-start pr-5 absolute left-0 inset-y-0 z-20 bg-gradient-to-r from-[#fffefb] via-[#fffefb]/90 to-transparent dark:from-slate-950 dark:via-slate-950/90 pointer-events-none">
+              <button
+                type="button"
+                onClick={() => handleScrollCategories("left")}
+                className="pointer-events-auto w-7 h-7 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs flex items-center justify-center text-slate-700 dark:text-slate-200 hover:text-[#0059bb] transition-all cursor-pointer"
+                aria-label="Cuộn danh mục sang trái"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+            </div>
           )}
 
           {canScrollRight && (
-            <button
-              type="button"
-              onClick={() => handleScrollCategories("right")}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-slate-700 dark:text-slate-200 hover:text-[#0059bb] transition-all cursor-pointer"
-              aria-label="Cuộn danh mục sang phải"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          )}
-
-          {/* Subtle gradient masks preventing cut-off text */}
-          {canScrollLeft && (
-            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50/90 dark:from-slate-950/90 to-transparent z-10" />
-          )}
-          {canScrollRight && (
-            <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-slate-50/90 dark:from-slate-950/90 to-transparent z-10" />
+            <div className="hidden sm:flex items-center justify-end pl-5 absolute right-0 inset-y-0 z-20 bg-gradient-to-l from-[#fffefb] via-[#fffefb]/90 to-transparent dark:from-slate-950 dark:via-slate-950/90 pointer-events-none">
+              <button
+                type="button"
+                onClick={() => handleScrollCategories("right")}
+                className="pointer-events-auto w-7 h-7 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xs flex items-center justify-center text-slate-700 dark:text-slate-200 hover:text-[#0059bb] transition-all cursor-pointer"
+                aria-label="Cuộn danh mục sang phải"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           )}
 
           <div
             ref={categoryScrollRef}
             onScroll={checkCategoryScroll}
-            className="flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar px-1"
+            className="flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar px-0.5 sm:pr-9"
           >
             <button
               type="button"
               onClick={() => setSelectedCategory("all")}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer select-none flex items-center gap-1.5 ${
                 selectedCategory === "all"
-                  ? "bg-[#0059bb] border-[#0059bb] text-white shadow-2xs font-bold"
-                  : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300"
+                  ? "bg-[#0059bb] border-[#0059bb] text-white shadow-xs"
+                  : "bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100/70"
               }`}
             >
               <Layers className={`w-3.5 h-3.5 shrink-0 ${selectedCategory === "all" ? "text-white" : "text-slate-500 dark:text-slate-400"}`} />
@@ -331,10 +339,10 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
                 type="button"
                 key={cat.slug}
                 onClick={() => setSelectedCategory(cat.slug)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer select-none flex items-center gap-1.5 ${
+                className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border cursor-pointer select-none flex items-center gap-1.5 ${
                   selectedCategory === cat.slug
-                    ? "bg-[#0059bb] border-[#0059bb] text-white shadow-2xs font-bold"
-                    : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:border-slate-300"
+                    ? "bg-[#0059bb] border-[#0059bb] text-white shadow-xs"
+                    : "bg-white dark:bg-slate-900 border-slate-200/80 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100/70"
                 }`}
               >
                 <VideoCategoryIcon
@@ -349,33 +357,34 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
           </div>
         </div>
 
-        {/* Sub-Filters: Search + Level + Sort (Hidden on mobile, unified via AppTopHeader) */}
-        <div className="hidden sm:flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          {/* Search Input (Standardized h-10) */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm video theo phim, trích đoạn, nhân vật, kênh..."
-              className="w-full h-10 pl-10 pr-9 rounded-xl text-xs sm:text-sm border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0059bb]/20 focus:border-[#0059bb] shadow-2xs transition-all"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
-                title="Xóa tìm kiếm"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
+        {/* Sub-Filters: Search + Level + Suggest Video CTA */}
+        <div className="hidden sm:flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 flex-1">
+            {/* Search Input */}
+            <div className="relative flex-1 max-w-sm">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm video theo phim, trích đoạn, kênh..."
+                aria-label="Tìm video theo phim, trích đoạn, kênh"
+                className="w-full h-9 pl-9 pr-8 rounded-xl text-xs border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-[#0059bb]"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+                  title="Xóa tìm kiếm"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
 
-          <div className="hidden sm:flex items-center gap-2.5 overflow-x-auto shrink-0">
-            {/* CEFR Level filter with Apple-grade motion sliding indicator */}
-            <div className="h-10 flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60 shadow-2xs relative">
+            {/* CEFR Level filter */}
+            <div className="h-9 flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/60 relative">
               {CEFR_LEVELS.map((lvl) => {
                 const isActive = selectedLevel === lvl;
                 return (
@@ -383,7 +392,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
                     type="button"
                     key={lvl}
                     onClick={() => setSelectedLevel(lvl)}
-                    className={`relative px-2.5 sm:px-3 h-full rounded-lg text-xs font-bold transition-colors cursor-pointer select-none z-10 ${
+                    className={`relative px-2.5 h-full rounded-lg text-xs font-bold transition-colors cursor-pointer select-none z-10 ${
                       isActive
                         ? "text-[#0059bb] dark:text-sky-400 font-extrabold"
                         : "text-slate-500 hover:text-slate-800 dark:text-slate-400"
@@ -402,43 +411,45 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
               })}
             </div>
           </div>
-        </div>
 
-        {/* Results Counter & Active Filter feedback */}
-        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-slate-700 dark:text-slate-300">
-              {isLoadingLessons ? "Đang tải video..." : "Danh sách video"}
-            </span>
-            {selectedLevel !== "Tất cả" && (
-              <span className="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-950/50 text-[#0059bb] dark:text-sky-400 font-bold font-mono text-[11px] border border-blue-200/60 dark:border-blue-800/40">
-                Level {selectedLevel}
-              </span>
-            )}
-            {selectedCategory !== "all" && (
-              <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-[11px] border border-slate-200 dark:border-slate-700">
-                {categories.find((c) => c.slug === selectedCategory)?.name || selectedCategory}
-              </span>
-            )}
+          {/* Right Actions: Refresh + Suggest Video (Single Primary CTA) */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={handleForceRefresh}
+              disabled={isLessonsLoading}
+              className="h-9 px-3 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 disabled:opacity-50"
+              title="Làm mới danh sách video"
+            >
+              <RefreshCw
+                className={`w-3.5 h-3.5 ${
+                  isLessonsLoading ? "animate-spin text-[#0059bb]" : "text-slate-500"
+                }`}
+              />
+              <span className="hidden lg:inline">Làm mới</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsRequestModalOpen(true)}
+              className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95"
+            >
+              <PlusCircle className="w-4 h-4 stroke-[2.5]" />
+              <span>Đề xuất video</span>
+            </button>
           </div>
-
-          {searchQuery && (
-            <span className="text-[11px] text-slate-400 font-medium">
-              Khớp với &ldquo;{searchQuery}&rdquo;
-            </span>
-          )}
         </div>
       </div>
 
-      {/* 3. VIDEO CONTENT CANVAS */}
+      {/* 2. VIDEO CONTENT CANVAS */}
       {isLoadingLessons ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
-          {Array.from({ length: 8 }, (_, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {Array.from({ length: 4 }, (_, i) => (
             <VideoCardShimmer key={i} />
           ))}
         </div>
       ) : lessons.length === 0 ? (
-        <div className="py-16 text-center text-slate-400 text-xs bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-8 shadow-2xs">
+        <div className="py-16 text-center text-slate-400 text-xs bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-8">
           <Video className="w-10 h-10 mx-auto mb-3 text-slate-300 dark:text-slate-700" />
           <p className="font-bold text-slate-700 dark:text-slate-300 text-sm">
             Không tìm thấy video nào phù hợp với bộ lọc hiện tại.
@@ -455,92 +466,75 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             }}
             className="mt-4 px-4 py-2 rounded-xl text-xs font-bold bg-[#0059bb] hover:bg-[#004ba0] text-white cursor-pointer shadow-xs active:scale-95 transition-all"
           >
-            Xem Tất Cả Video
+            Xem tất cả video
           </button>
         </div>
       ) : isBrowsingAll ? (
-        /* ==================================================================== */
-        /* MULTI-ROW TOPIC SHOWCASE (Thay thế cấu trúc hàng cơ bản như bên Audio) */
-        /* ==================================================================== */
-        <div className="space-y-7 sm:space-y-8">
-          {/* ROW 1: PHIM LÃNG MẠN & CẢM XÚC */}
+        <div className="space-y-9">
           <HorizontalVideoTopicRow
             title="Phim Lãng Mạn & Cảm Xúc"
-            icon={<Heart className="w-5 h-5 text-rose-500 fill-rose-500/15 shrink-0" />}
+            icon={<Heart className="w-4.5 h-4.5 text-rose-500 fill-rose-500/15 shrink-0" />}
             categorySlug="romance-cinema"
-            themeColor="rose"
             lessons={romanceLessons}
             practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
 
-          {/* ROW 2: PHIM TRUYỀN CẢM HỨNG & TRIẾT LÝ SỐNG */}
           <HorizontalVideoTopicRow
             title="Phim Truyền Cảm Hứng & Triết Lý Sống"
-            icon={<Flame className="w-5 h-5 text-amber-500 fill-amber-500/15 shrink-0" />}
+            icon={<Flame className="w-4.5 h-4.5 text-amber-500 fill-amber-500/15 shrink-0" />}
             categorySlug="inspirational-life"
-            themeColor="amber"
             lessons={inspirationalLessons}
             practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
 
-          {/* ROW 3: SITCOM KINH ĐIỂN & HÀI KỊCH ĐỜI SỐNG */}
           <HorizontalVideoTopicRow
             title="Sitcom Kinh Điển & Hài Kịch Đời Sống"
-            icon={<Tv className="w-5 h-5 text-[#0059bb] dark:text-sky-400 shrink-0" />}
+            icon={<Tv className="w-4.5 h-4.5 text-[#0059bb] dark:text-sky-400 shrink-0" />}
             categorySlug="classic-sitcoms"
-            themeColor="blue"
             lessons={sitcomLessons}
             practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
 
-          {/* ROW 4: HOẠT HÌNH PIXAR & DISNEY */}
           <HorizontalVideoTopicRow
             title="Hoạt Hình Pixar & Disney"
-            icon={<Sparkles className="w-5 h-5 text-purple-500 fill-purple-500/15 shrink-0" />}
+            icon={<Sparkles className="w-4.5 h-4.5 text-purple-500 fill-purple-500/15 shrink-0" />}
             categorySlug="animation-pixar-disney"
-            themeColor="purple"
             lessons={animationLessons}
             practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
 
-          {/* ROW 5: DIỄN THUYẾT TED-ED & PHÁT TRIỂN BẢN THÂN (BÀI HỌC CÓ ĐỦ DATA) */}
           <HorizontalVideoTopicRow
             title="Diễn Thuyết TED-Ed & Phát Triển Bản Thân"
-            icon={<Brain className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />}
+            icon={<Brain className="w-4.5 h-4.5 text-emerald-600 dark:text-emerald-400 shrink-0" />}
             categorySlug="ted-ed"
-            themeColor="emerald"
             lessons={tedLessons}
             practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
 
-          {/* ROW 6: CÔNG NGHỆ, TÀI CHÍNH & PHỎNG VẤN QUỐC TẾ */}
           <HorizontalVideoTopicRow
-            title="Công Nghệ, Tài Chính & Phỏng Vấn Quốc TẾ"
-            icon={<Briefcase className="w-5 h-5 text-[#0059bb] dark:text-sky-400 shrink-0" />}
+            title="Công Nghệ, Tài Chính & Phỏng Vấn Quốc Tế"
+            icon={<Briefcase className="w-4.5 h-4.5 text-[#0059bb] dark:text-sky-400 shrink-0" />}
             categorySlug="career-business"
-            themeColor="blue"
             lessons={businessTechLessons}
             practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
             onViewCategory={(slug) => setSelectedCategory(slug)}
           />
 
-          {/* ROW 7: GIAO TIẾP ĐỜI THỰC, DU LỊCH & KHÁM PHÁ BBC */}
           <HorizontalVideoTopicRow
             title="Giao Tiếp Đời Thực, Du Lịch & Khám Phá BBC"
-            icon={<Globe className="w-5 h-5 text-teal-600 dark:text-teal-400 shrink-0" />}
+            icon={<Globe className="w-4.5 h-4.5 text-teal-600 dark:text-teal-400 shrink-0" />}
             categorySlug="daily-conversations"
-            themeColor="emerald"
             lessons={dailyLifeLessons}
             practiceMode={practiceMode}
             onSelectVideoLesson={onSelectVideoLesson}
@@ -548,10 +542,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
           />
         </div>
       ) : (
-        /* ==================================================================== */
-        /* SINGLE TOPIC / FILTERED GRID (Khi người dùng chọn 1 chủ đề hoặc search)*/
-        /* ==================================================================== */
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {lessons.map((lesson) => (
             <VideoCardItem
               key={lesson.id}
@@ -563,7 +554,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
         </div>
       )}
 
-      {/* 4. MODALS */}
+      {/* 3. MODALS */}
       <VideoRequestModal
         isOpen={isRequestModalOpen}
         onClose={() => setIsRequestModalOpen(false)}
@@ -581,10 +572,20 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
   );
 };
 
-/**
- * REUSABLE VIDEO CARD ITEM COMPONENT
- * Clean UI/UX adhering to Rule #18 (Single Primary CTA) & Rule #20 (60-30-10 palette)
- */
+function formatShortVideoCategoryName(name?: string, slug?: string): string {
+  const s = (slug || "").toLowerCase();
+  if (s.includes("romance")) return "Phim Lãng Mạn";
+  if (s.includes("inspirational")) return "Phim Cảm Hứng";
+  if (s.includes("sitcom")) return "Sitcom Hài Kịch";
+  if (s.includes("animation")) return "Hoạt Hình Pixar";
+  if (s.includes("ted")) return "Diễn Thuyết TED";
+  if (s.includes("business") || s.includes("career") || s.includes("finance")) return "Kinh Doanh";
+  if (s.includes("science") || s.includes("tech")) return "Công Nghệ";
+  if (s.includes("daily")) return "Đời Sống Thực Tế";
+  if (!name) return "Video Tiếng Anh";
+  return name.split("&")[0].trim();
+}
+
 const VideoCardItem: React.FC<{
   lesson: VideoCatalogLessonItem;
   practiceMode?: "dictation" | "shadowing";
@@ -594,19 +595,21 @@ const VideoCardItem: React.FC<{
   return (
     <motion.div
       key={lesson.id}
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ y: -3 }}
+      whileTap={{ scale: 0.99 }}
       onClick={() => onSelectVideoLesson?.(lesson)}
-      className={`rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-[#0059bb]/50 dark:hover:border-sky-500/40 hover:shadow-lg shadow-2xs transition-all cursor-pointer flex flex-col group relative overflow-hidden select-none ${className}`}
+      className={`group relative rounded-2xl bg-white dark:bg-slate-900 shadow-xs lg:hover:shadow-md transition-all cursor-pointer flex flex-col overflow-hidden select-none h-full ${className}`}
     >
+      {/* Crisp 4-Corner & 4-Edge Border Overlay (Rendered above image GPU layer) */}
+      <div className="pointer-events-none absolute inset-0 rounded-2xl border border-slate-200 dark:border-slate-800 lg:group-hover:border-[#0059bb]/70 dark:lg:group-hover:border-sky-500/60 transition-colors z-30" />
+
       {/* 1. VISUAL COVER BANNER */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 bg-slate-950 border-b border-slate-100 dark:border-slate-800/80">
+      <div className="relative h-36 sm:h-[120px] w-full overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border-b border-slate-100 dark:border-slate-800/80">
         <img
           src={lesson.thumbnailUrl}
           alt={lesson.title}
           onLoad={(e) => {
             const img = e.currentTarget;
-            // YouTube returns a 120x90 JPEG placeholder when video ID is missing/private
             if (img.naturalWidth === 120 && img.naturalHeight === 90) {
               img.src = getLessonCoverImage({
                 id: lesson.id,
@@ -622,59 +625,53 @@ const VideoCardItem: React.FC<{
               category: lesson.category?.name || lesson.category?.slug,
             });
           }}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]"
+          className="w-full h-full object-cover lg:group-hover:scale-105 transition-transform duration-500"
         />
 
         {/* Soft Directional Scrim */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.04] transition-colors pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/10 to-transparent pointer-events-none" />
 
         {/* Top Badges */}
         <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between gap-1.5 z-20">
-          <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs whitespace-nowrap flex items-center gap-1">
-            <span>Level {lesson.cefrLevel}</span>
+          <span className="px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-900/65 text-white backdrop-blur-md border border-white/15 whitespace-nowrap">
+            {lesson.cefrLevel}
           </span>
 
-          <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-white/15 hover:bg-white/20 text-white backdrop-blur-md border border-white/25 shadow-2xs tabular-nums flex items-center gap-1 shrink-0">
-            <Clock className="w-2.5 h-2.5 text-white/95 stroke-[2.2]" />
+          <span className="px-2 py-0.5 rounded-lg text-[10px] font-mono font-semibold bg-slate-900/60 text-white backdrop-blur-md tabular-nums flex items-center gap-1 shrink-0">
+            <Clock className="w-2.5 h-2.5 text-white/90" />
             <span>{lesson.durationFormatted}</span>
           </span>
-        </div>
-
-        {/* Center Play Orb */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
-          <div className="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
-            <Play className="w-4.5 h-4.5 fill-white translate-x-0.5" />
-          </div>
         </div>
       </div>
 
       {/* 2. CARD BODY & FOOTER */}
-      <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5 min-w-0 bg-white dark:bg-slate-900">
-        <div>
-          <div className="flex items-center justify-between gap-2 text-xs mb-0.5 min-w-0">
-            <span className="truncate font-semibold text-slate-500 dark:text-slate-400 text-[11px] flex items-center gap-1.5">
+      <div className="p-3.5 flex-1 flex flex-col justify-between gap-2.5 min-w-0 bg-white dark:bg-slate-900">
+        <div className="space-y-1">
+          <div className="flex items-center justify-between gap-2 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+            <span className="truncate flex items-center gap-1.5">
               <VideoCategoryIcon
                 slug={lesson.category?.slug}
                 className="w-3 h-3 shrink-0"
               />
-              <span className="truncate">{lesson.category?.name || "Tiếng Anh"}</span>
+              <span className="truncate">
+                {formatShortVideoCategoryName(lesson.category?.name, lesson.category?.slug)}
+              </span>
             </span>
-            <span className="font-mono tabular-nums shrink-0 whitespace-nowrap text-[11px] font-semibold text-slate-400 dark:text-slate-500 flex items-center gap-1">
-              <ListChecks className="w-3 h-3 text-slate-400" />
+            <span className="font-mono tabular-nums shrink-0 flex items-center gap-1 text-slate-400">
+              <ListChecks className="w-3 h-3" />
               <span>{lesson.totalSentences} câu</span>
             </span>
           </div>
 
           <h4
-            className="text-[13.5px] font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors"
+            className="text-sm font-bold text-slate-900 dark:text-white leading-[19px] line-clamp-2 overflow-hidden sm:h-[38px] lg:group-hover:text-[#0059bb] dark:lg:group-hover:text-sky-400 transition-colors"
             title={lesson.title}
           >
             {lesson.title}
           </h4>
         </div>
 
-        <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+        <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
           <Link
             href={`/study/dictation/video/comprehension/${lesson.id}${
               practiceMode === "shadowing" ? "?from=shadowing" : ""
@@ -682,23 +679,17 @@ const VideoCardItem: React.FC<{
             onClick={(e) => {
               e.stopPropagation();
             }}
-            className="group/ai h-8 px-3 rounded-xl text-xs font-bold text-slate-600 hover:text-violet-700 dark:text-slate-300 dark:hover:text-violet-300 bg-slate-50 hover:bg-violet-50/70 dark:bg-slate-800/80 dark:hover:bg-violet-950/40 border border-slate-200/90 dark:border-slate-700/80 hover:border-violet-300 dark:hover:border-violet-600/60 flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shrink-0 shadow-2xs"
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-violet-700 dark:text-violet-300 bg-violet-50/80 dark:bg-violet-950/40 hover:bg-violet-100 transition-colors"
             title="Làm bài trắc nghiệm đọc hiểu AI • +25 XP"
           >
-            <Sparkles className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 group-hover/ai:scale-110 transition-transform shrink-0" />
+            <Sparkles className="w-3 h-3 text-violet-600 dark:text-violet-400 shrink-0" />
             <span>Đọc hiểu AI</span>
           </Link>
 
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelectVideoLesson?.(lesson);
-            }}
-            className="h-8 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0 select-none group/btn"
-          >
+          <span className="inline-flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 lg:group-hover:bg-[#0059bb] lg:group-hover:text-white transition-colors">
             <span>Học Ngay</span>
-            <Play className="w-3 h-3 fill-white group-hover/btn:translate-x-0.5 transition-transform" />
-          </div>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </span>
         </div>
       </div>
     </motion.div>
@@ -728,44 +719,64 @@ function HorizontalVideoTopicRow({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // Group into pages of 4 lessons so each desktop swipe moves 4 full cards
+  const pages = useMemo(() => {
+    const result: VideoCatalogLessonItem[][] = [];
+    for (let i = 0; i < lessons.length; i += 4) {
+      let chunk = lessons.slice(i, i + 4);
+      if (chunk.length < 4 && lessons.length >= 4) {
+        const needed = 4 - chunk.length;
+        const extras = lessons.filter((item) => !chunk.some((c) => c.id === item.id)).slice(0, needed);
+        chunk = [...chunk, ...extras];
+      }
+      result.push(chunk);
+    }
+    return result;
+  }, [lessons]);
+
+  const totalPages = pages.length;
 
   const checkScroll = useCallback(() => {
-    if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollLeft(scrollLeft > 10);
-      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+    const el = scrollRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setCanScrollLeft(scrollLeft > 12);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 12);
+    if (clientWidth > 0) {
+      setCurrentPage(Math.round(scrollLeft / clientWidth));
     }
   }, []);
 
   useEffect(() => {
     checkScroll();
     const el = scrollRef.current;
-    if (el) {
-      el.addEventListener("scroll", checkScroll, { passive: true });
-      window.addEventListener("resize", checkScroll);
-      return () => {
-        el.removeEventListener("scroll", checkScroll);
-        window.removeEventListener("resize", checkScroll);
-      };
-    }
+    if (!el) return;
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
   }, [checkScroll, lessons]);
 
   const handleScroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = scrollRef.current.clientWidth + 20;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
+    const el = scrollRef.current;
+    if (!el) return;
+    const scrollAmount = el.clientWidth + 20;
+    el.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
   };
 
   if (lessons.length === 0) return null;
 
   return (
-    <div className="space-y-3.5 pt-1">
+    <section className="space-y-4">
       {/* Row Header */}
-      <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-800">
+      <div className="flex items-center justify-between pb-2.5 border-b border-slate-200/70 dark:border-slate-800 gap-2">
         <button
           type="button"
           onClick={() => onViewCategory(categorySlug)}
@@ -773,20 +784,25 @@ function HorizontalVideoTopicRow({
           title={`Xem tất cả video ${title}`}
         >
           {icon}
-          <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-display tracking-tight truncate group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors">
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight truncate group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors">
             {title}
           </h3>
         </button>
 
-        {/* Row Header Actions: Navigation chevrons aligned to corner */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        {/* Row Header Actions: Page indicator + Navigation chevrons */}
+        <div className="flex items-center gap-2 shrink-0">
+          {totalPages > 1 && (
+            <span className="hidden sm:inline text-xs font-mono font-semibold text-slate-400 dark:text-slate-500 mr-0.5 tabular-nums">
+              {Math.min(currentPage + 1, totalPages)}/{totalPages}
+            </span>
+          )}
           <button
             type="button"
             onClick={() => handleScroll("left")}
             disabled={!canScrollLeft}
-            className="w-8 h-8 rounded-lg border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-25 disabled:pointer-events-none flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
-            title="Cuộn sang trái"
-            aria-label="Cuộn sang trái"
+            className="w-8 h-8 rounded-lg border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#0059bb] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
+            title="Lướt sang trái"
+            aria-label={`Lướt trái ${title}`}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -794,57 +810,62 @@ function HorizontalVideoTopicRow({
             type="button"
             onClick={() => handleScroll("right")}
             disabled={!canScrollRight}
-            className="w-8 h-8 rounded-lg border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-25 disabled:pointer-events-none flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
-            title="Cuộn sang phải"
-            aria-label="Cuộn sang phải"
+            className="w-8 h-8 rounded-lg border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#0059bb] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center transition-all cursor-pointer shadow-2xs active:scale-95"
+            title="Lướt sang phải"
+            aria-label={`Lướt phải ${title}`}
           >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Horizontal Carousel Viewport (Khử hoàn toàn mờ mờ, hiển thị sắc nét trọn vẹn 4 bài đầu) */}
-      <div className="relative group/carousel">
-        {/* Scrollable Container */}
-        <div
-          ref={scrollRef}
-          className="flex gap-4 sm:gap-5 overflow-x-auto scroll-smooth no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pb-3 pt-1 snap-x snap-mandatory"
-        >
-          {lessons.map((lesson) => (
-            <VideoCardItem
-              key={lesson.id}
-              lesson={lesson}
-              practiceMode={practiceMode}
-              onSelectVideoLesson={onSelectVideoLesson}
-              className="w-[85vw] sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-60px)/4)] shrink-0 snap-start"
-            />
-          ))}
-        </div>
+      {/* Horizontal Carousel: 4 full cards per slide on Desktop, 1 full card per swipe on Mobile */}
+      <div
+        ref={scrollRef}
+        className="flex items-start sm:items-stretch gap-4 sm:gap-5 overflow-x-auto scroll-smooth no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory py-1"
+      >
+        {pages.map((pageLessons, pageIdx) => (
+          <div
+            key={pageIdx}
+            className="contents sm:grid sm:w-full sm:min-w-full sm:shrink-0 sm:snap-start sm:grid-cols-2 lg:grid-cols-4 sm:gap-5"
+          >
+            {pageLessons.map((lesson) => (
+              <div
+                key={lesson.id}
+                className="w-full min-w-full shrink-0 snap-start sm:w-auto sm:min-w-0 sm:shrink"
+              >
+                <VideoCardItem
+                  lesson={lesson}
+                  practiceMode={practiceMode}
+                  onSelectVideoLesson={onSelectVideoLesson}
+                />
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
-    </div>
+    </section>
   );
 }
 
 function VideoCardShimmer() {
   return (
     <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col overflow-hidden select-none">
-      <div className="relative aspect-[16/10] w-full overflow-hidden shrink-0 border-b border-slate-100 dark:border-slate-800">
+      <div className="relative h-36 sm:h-[120px] w-full overflow-hidden shrink-0 border-b border-slate-100 dark:border-slate-800">
         <ShimmerBox className="w-full h-full" />
-        <div className="absolute top-2.5 left-2.5 w-14 h-5 rounded-lg bg-slate-900/40" />
-        <div className="absolute top-2.5 right-2.5 w-12 h-5 rounded-lg bg-slate-900/40" />
       </div>
-      <div className="px-3 pt-2 pb-2.5 sm:px-3.5 sm:pt-2 sm:pb-2.5 flex-1 flex flex-col justify-between space-y-1.5">
-        <div>
-          <div className="flex items-center justify-between gap-2 mb-1">
+      <div className="p-3.5 flex-1 flex flex-col justify-between gap-2.5">
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between gap-2">
             <ShimmerBox className="h-3.5 w-24 rounded" />
             <ShimmerBox className="h-3.5 w-12 rounded" />
           </div>
-          <ShimmerBox className="h-4 w-full rounded mb-1" />
+          <ShimmerBox className="h-4 w-full rounded" />
           <ShimmerBox className="h-4 w-3/4 rounded" />
         </div>
-        <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
-          <ShimmerBox className="h-8 w-24 rounded-xl" />
-          <ShimmerBox className="h-8 w-24 rounded-xl bg-blue-600/30" />
+        <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+          <ShimmerBox className="h-6 w-20 rounded-full" />
+          <ShimmerBox className="h-7 w-24 rounded-full" />
         </div>
       </div>
     </div>

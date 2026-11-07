@@ -290,7 +290,7 @@ function ShadowingStudioWorkspaceComponent({
   return (
     <div
       id="active-shadowing-workspace"
-      className="w-full h-full max-h-full flex flex-col overflow-hidden select-none font-sans min-h-0"
+      className="w-full h-full max-h-full flex flex-col overflow-hidden select-none font-sans min-h-0 bg-[#fffefb] dark:bg-slate-950"
     >
       {/* 1. Top Unified Studio Navigation Bar */}
       <StudioTopHeader
@@ -332,15 +332,15 @@ function ShadowingStudioWorkspaceComponent({
       />
 
       {/* 3. 2-Column Responsive Workspace: Left Main Shadowing & Right Transcript Panel */}
-      <div className="flex-1 flex flex-col lg:flex-row items-stretch min-h-0 overflow-hidden">
+      <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 py-2.5 lg:py-3 flex flex-col lg:flex-row items-stretch gap-4 lg:gap-5 min-h-0 overflow-hidden">
         {/* CỘT TRÁI: SINGLE-SENTENCE FOCUS SHADOWING WORKSPACE (MATCHING DICTATION 100%) */}
         <div
-          className={`flex-1 min-w-0 p-3 sm:p-3.5 space-y-2.5 sm:space-y-3 overflow-y-auto overscroll-contain pb-28 lg:pb-4 hide-scrollbar ${
+          className={`flex-1 min-w-0 p-0 space-y-2 overflow-y-auto overscroll-contain pb-28 lg:pb-1 hide-scrollbar ${
             mobileStudioTab === "practice" ? "block" : "hidden lg:block"
           }`}
         >
           {currentSentence ? (
-            <div className="space-y-2.5 sm:space-y-3 w-full">
+            <div className="space-y-2 w-full">
               {/* 3.1 INTERACTIVE MEDIA PLAYER CONTAINER (VIDEO CINEMA OR ACOUSTIC WAVEFORM) */}
               <StudioMediaPlayerContainer
                 practiceMode="shadowing"
@@ -411,8 +411,8 @@ function ShadowingStudioWorkspaceComponent({
               {isInPlaceSwitchingLesson ? (
                 <ShadowingSentenceLoadingSkeleton />
               ) : (
-                <div className="w-full space-y-2 sm:space-y-2.5 font-sans select-none">
-                  {/* Header Row: Trạng thái & Nút Dịch */}
+                <div className="w-full space-y-1.5 sm:space-y-2 font-sans select-none">
+                  {/* Header Row: Trạng thái */}
                   <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-0.5">
                     <div className="flex items-center gap-1.5 font-medium">
                       {isRecording ? (
@@ -427,32 +427,13 @@ function ShadowingStudioWorkspaceComponent({
                         </>
                       )}
                     </div>
-
-                    <button
-                      type="button"
-                      onClick={() => setHideTranslation((prev) => !prev)}
-                      className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer select-none group"
-                      title="Ẩn hoặc hiện bản dịch nghĩa tiếng Việt và IPA"
-                    >
-                      {hideTranslation ? (
-                        <>
-                          <Eye className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
-                          <span className="font-semibold">Xem dịch / IPA</span>
-                        </>
-                      ) : (
-                        <>
-                          <EyeOff className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
-                          <span className="font-semibold">Ẩn gợi ý</span>
-                        </>
-                      )}
-                    </button>
                   </div>
 
                   {/* Words Container Card (Wrap Layout matching Dictation for flawless Mobile reading) */}
-                  <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+                  <div className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
                     <div
                       ref={wordTrackContainerRef}
-                      className="flex flex-wrap gap-1.5 sm:gap-2 items-center py-1.5 sm:py-2 px-1"
+                      className="flex flex-wrap gap-1.5 sm:gap-2 items-center py-1 px-1"
                     >
                       {currentSentence.text.split(" ").map((word: string, wIdx: number) => {
                         const clean = word.replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "").toLowerCase();
@@ -530,13 +511,13 @@ function ShadowingStudioWorkspaceComponent({
 
                   {/* Action Shortcut Buttons Bar (Matching Dictation's exact sizing & responsive layout) */}
                   <div className="flex flex-wrap items-center justify-between gap-2 px-1 pt-0.5">
-                    <div className="flex items-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial flex-wrap">
+                    <div className="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto flex-wrap">
                       {/* Nút Thu Âm & Chấm Điểm */}
                       {!isRecording ? (
                         <button
                           type="button"
                           onClick={startRecording}
-                          className="inline-flex items-center justify-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
+                          className="inline-flex items-center justify-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px] whitespace-nowrap"
                         >
                           <Mic className="w-3.5 h-3.5 text-rose-500 shrink-0" />
                           <span>Thu âm & Chấm điểm</span>
@@ -548,7 +529,7 @@ function ShadowingStudioWorkspaceComponent({
                         <button
                           type="button"
                           onClick={stopRecording}
-                          className="inline-flex items-center justify-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-bold text-white bg-rose-600 hover:bg-rose-700 transition-all cursor-pointer shadow-md active:scale-98 min-h-[34px] sm:min-h-[36px] animate-pulse"
+                          className="inline-flex items-center justify-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-bold text-white bg-rose-600 hover:bg-rose-700 transition-all cursor-pointer shadow-md active:scale-98 min-h-[34px] sm:min-h-[36px] animate-pulse whitespace-nowrap"
                         >
                           <Square className="w-3.5 h-3.5 fill-white text-white shrink-0" />
                           <span>Dừng thu ({recordingTime}s)</span>
@@ -559,7 +540,7 @@ function ShadowingStudioWorkspaceComponent({
                       <button
                         type="button"
                         onClick={handlePlaySampleAudio}
-                        className="inline-flex items-center justify-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
+                        className="inline-flex items-center justify-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px] whitespace-nowrap"
                       >
                         <Volume2 className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                         <span>Nghe câu mẫu</span>
@@ -579,7 +560,7 @@ function ShadowingStudioWorkspaceComponent({
                               setIsPlayingUserAudio(true);
                             }
                           }}
-                          className="inline-flex items-center justify-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-200/80 dark:border-emerald-800/60 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px]"
+                          className="inline-flex items-center justify-center gap-1.5 sm:gap-2 flex-1 sm:flex-initial px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-200/80 dark:border-emerald-800/60 transition-all cursor-pointer shadow-2xs active:scale-98 min-h-[34px] sm:min-h-[36px] whitespace-nowrap"
                         >
                           <Headphones className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                           <span>Nghe lại giọng bạn</span>
@@ -588,12 +569,12 @@ function ShadowingStudioWorkspaceComponent({
                     </div>
 
                     {/* Nhóm nút bên phải: Dịch / IPA & Làm lại câu */}
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center justify-end gap-1.5 w-full sm:w-auto">
                       {(currentSentence.translation || currentSentence.vietnamese || currentSentence.ipa) && (
                         <button
                           type="button"
                           onClick={() => setHideTranslation((prev) => !prev)}
-                          className={`inline-flex items-center justify-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer shadow-2xs min-h-[34px] sm:min-h-[36px] active:scale-95 ${
+                          className={`inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer shadow-2xs min-h-[34px] sm:min-h-[36px] active:scale-95 whitespace-nowrap ${
                             !hideTranslation
                               ? "bg-blue-50 dark:bg-blue-950/60 text-[#0059bb] dark:text-sky-400 border border-blue-200/80 dark:border-blue-800/60 font-bold"
                               : "text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800"
@@ -631,35 +612,35 @@ function ShadowingStudioWorkspaceComponent({
                         initial={{ opacity: 0, height: 0, y: -4 }}
                         animate={{ opacity: 1, height: "auto", y: 0 }}
                         exit={{ opacity: 0, height: 0, y: -4 }}
-                        className="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900 border border-blue-100/90 dark:border-slate-800 shadow-2xs space-y-2.5 overflow-hidden"
+                        className="p-2 sm:p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-blue-100/90 dark:border-slate-800 shadow-2xs space-y-1.5 overflow-hidden"
                       >
                         {/* TAB CHUYỂN BÊN DỊCH VÀ BÊN IPA (KHI CÓ CẢ 2) */}
                         {(currentSentence.translation || currentSentence.vietnamese) && currentSentence.ipa && (
-                          <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-100 dark:border-slate-800/80">
+                          <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-slate-100 dark:border-slate-800/80">
                             <div className="inline-flex p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/60 shadow-2xs">
                               <button
                                 type="button"
                                 onClick={() => handleSelectHelperTab("translation")}
-                                className={`px-3 py-1.5 rounded-md text-xs sm:text-[12.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                                className={`px-2.5 py-1 rounded-md text-xs sm:text-[12.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                                   activeHelperTab === "translation"
                                     ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
                                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                                 }`}
                               >
-                                <Languages className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                                <Languages className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
                                 <span>Bản dịch</span>
                               </button>
 
                               <button
                                 type="button"
                                 onClick={() => handleSelectHelperTab("ipa")}
-                                className={`px-3 py-1.5 rounded-md text-xs sm:text-[12.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                                className={`px-2.5 py-1 rounded-md text-xs sm:text-[12.5px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                                   activeHelperTab === "ipa"
                                     ? "bg-white dark:bg-slate-900 text-[#0059bb] dark:text-sky-400 shadow-xs font-extrabold"
                                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                                 }`}
                               >
-                                <Speech className="w-4 h-4 text-[#0059bb] dark:text-sky-400 shrink-0" />
+                                <Speech className="w-3.5 h-3.5 text-[#0059bb] dark:text-sky-400 shrink-0" />
                                 <span>Phiên âm IPA</span>
                               </button>
                             </div>
@@ -692,19 +673,19 @@ function ShadowingStudioWorkspaceComponent({
 
                         {/* Tab 1: Bản dịch tiếng Việt */}
                         {((activeHelperTab === "translation" && (currentSentence.translation || currentSentence.vietnamese)) || (!currentSentence.ipa && (currentSentence.translation || currentSentence.vietnamese))) && (
-                          <div className="pl-4 pr-3 py-2 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed my-1 break-words">
+                          <div className="pl-3 pr-2.5 py-1.5 border-l-[3px] border-[#0059bb]/70 dark:border-sky-400/70 bg-blue-50/40 dark:bg-blue-950/20 rounded-r-xl text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 font-medium leading-snug my-0.5 break-words">
                             {(currentSentence.translation || currentSentence.vietnamese || "").replace(/^(?:Việt|viet|vi|vn|Vietnamese|tiếng việt)?\s*:\s*/i, "").trim()}
                           </div>
                         )}
 
                         {/* Tab 2: Phiên âm IPA */}
                         {((activeHelperTab === "ipa" && currentSentence.ipa) || (!(currentSentence.translation || currentSentence.vietnamese) && currentSentence.ipa)) && (
-                          <div className="flex items-start gap-2.5 text-xs sm:text-sm py-0.5">
+                          <div className="flex items-start gap-2.5 text-xs sm:text-sm py-0">
                             <div className="flex items-center gap-1 font-bold text-[#0059bb] dark:text-sky-400 shrink-0 mt-0.5">
-                              <Speech className="w-4 h-4 shrink-0 text-[#0059bb] dark:text-sky-400" />
+                              <Speech className="w-3.5 h-3.5 shrink-0 text-[#0059bb] dark:text-sky-400" />
                               <span>IPA:</span>
                             </div>
-                            <p className="font-mono font-bold tracking-wide text-slate-900 dark:text-white leading-relaxed text-xs sm:text-[14px] selection:bg-blue-100 dark:selection:bg-blue-900/40 select-all">
+                            <p className="font-mono font-bold tracking-wide text-slate-900 dark:text-white leading-snug text-xs sm:text-[13.5px] selection:bg-blue-100 dark:selection:bg-blue-900/40 select-all">
                               {currentSentence.ipa.startsWith("/") ? currentSentence.ipa : `/${currentSentence.ipa}/`}
                             </p>
                           </div>
@@ -807,7 +788,7 @@ function ShadowingStudioWorkspaceComponent({
 
         {/* CỘT PHẢI: INTERACTIVE TRANSCRIPT SIDEBAR */}
         <div
-          className={`w-full lg:w-[380px] xl:w-[400px] 2xl:w-[420px] shrink-0 border-t lg:border-t-0 lg:border-l border-slate-200/90 dark:border-slate-800 bg-[#f8fafc] dark:bg-slate-900/90 flex flex-col min-h-0 overflow-y-auto pb-24 lg:pb-0 ${
+          className={`w-full lg:w-[370px] xl:w-[390px] shrink-0 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col min-h-0 overflow-hidden mb-24 lg:mb-0 ${
             mobileStudioTab === "transcript" ? "flex flex-1" : "hidden lg:flex"
           }`}
         >
