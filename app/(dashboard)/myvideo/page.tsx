@@ -122,17 +122,19 @@ export default function MyVideoPage() {
   // Track study time when a video is actively loaded
   useStudyTimeTracker("dictation", { activeCondition: activeVideo !== null });
 
-  // Load saved videos on mount
+  // Load saved videos on mount & sync initial activeVideo after hydration
   useEffect(() => {
     loadSavedVideos();
-  }, [loadSavedVideos]);
-
-  // Initial video fallback setup if still empty
-  useEffect(() => {
-    if (!activeVideo && savedVideos.length > 0) {
-      setActiveVideo(savedVideos[0]);
+    const { session, savedVideos: loadedVideos } = useVideoStore.getState();
+    if (loadedVideos.length > 0) {
+      if (session.activeVideoId) {
+        const found = loadedVideos.find((v) => v.id === session.activeVideoId);
+        if (found) setActiveVideoState(found);
+      } else {
+        setActiveVideo(loadedVideos[0]);
+      }
     }
-  }, [savedVideos, activeVideo, setActiveVideo]);
+  }, [loadSavedVideos, setActiveVideo]);
 
   // Sync activeVideo with store changes (BUG-02 fix: depend only on savedVideos)
   const activeVideoIdRef = useRef(activeVideo?.id);

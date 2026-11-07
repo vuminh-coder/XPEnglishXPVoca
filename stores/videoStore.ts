@@ -48,23 +48,6 @@ export const DEFAULT_MYVIDEO_SESSION: MyVideoSessionState = {
 import { PRESET_YOUTUBE_VIDEOS } from "@/features/listening/data/defaultVideoPresets";
 export { PRESET_YOUTUBE_VIDEOS };
 
-const getInitialSavedVideos = (): YouTubeVideoItem[] => {
-  if (typeof window !== "undefined") {
-    try {
-      const stored = localStorage.getItem("xp_voca_my_videos");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
-        }
-      }
-    } catch {
-      // fallback
-    }
-  }
-  return PRESET_YOUTUBE_VIDEOS;
-};
-
 interface VideoState {
   savedVideos: YouTubeVideoItem[];
   session: MyVideoSessionState;
@@ -80,7 +63,7 @@ interface VideoState {
 }
 
 export const useVideoStore = create<VideoState>((set, get) => ({
-  savedVideos: getInitialSavedVideos(),
+  savedVideos: PRESET_YOUTUBE_VIDEOS,
   session: { ...DEFAULT_MYVIDEO_SESSION },
 
   setSession: (session) =>

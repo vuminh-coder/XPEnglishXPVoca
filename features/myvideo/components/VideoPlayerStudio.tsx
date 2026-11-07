@@ -70,7 +70,10 @@ export const VideoPlayerStudio: React.FC<VideoPlayerStudioProps> = ({
   addToast,
 }) => {
   const startTimestamp = extractYouTubeStartTimestamp(activeVideo.youtubeUrl);
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const [origin, setOrigin] = React.useState("");
+  React.useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
 
   return (
     <div className="flex flex-col">
