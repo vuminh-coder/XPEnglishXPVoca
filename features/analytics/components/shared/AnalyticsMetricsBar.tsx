@@ -82,15 +82,15 @@ export const AnalyticsMetricsBar: React.FC<AnalyticsMetricsBarProps> = ({
       : "sm:col-span-2 xl:col-span-1";
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-6 xl:grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-6 xl:grid-cols-5 gap-3.5">
       {cards.map((card, idx) => (
         <div
           key={card.label}
-          className={`p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm flex items-center gap-3 transition-colors ${card.hover} ${spanFor(
+          className={`p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-md shadow-slate-200/50 dark:shadow-black/40 flex items-center gap-3.5 transition-all duration-200 hover:-translate-y-0.5 ${card.hover} ${spanFor(
             idx
           )}`}
         >
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${card.tile}`}>
+          <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border border-black/5 dark:border-white/5 shadow-2xs ${card.tile}`}>
             <card.Icon className={card.iconClass} />
           </div>
           <div className="min-w-0 flex-1">
