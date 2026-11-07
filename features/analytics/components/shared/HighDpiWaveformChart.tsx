@@ -212,6 +212,8 @@ export const HighDpiWaveformChart: React.FC<HighDpiWaveformChartProps> = ({
                 type="button"
                 onClick={() => onSelectDayIndex(i)}
                 aria-pressed={isSelected}
+                title={isToday ? "Hôm nay" : dateLabel}
+                aria-label={isToday ? "Hôm nay" : `Ngày ${dateLabel}`}
                 className={`py-2 px-0 text-center transition-colors cursor-pointer text-xs font-sans tabular-nums leading-tight whitespace-nowrap border-b-2 ${
                   isSelected
                     ? isToday
@@ -228,7 +230,10 @@ export const HighDpiWaveformChart: React.FC<HighDpiWaveformChartProps> = ({
                     <span className="hidden sm:inline">Hôm nay</span>
                   </>
                 ) : (
-                  dateLabel
+                  <>
+                    <span className="sm:hidden">{dateLabel.split("/")[0]}</span>
+                    <span className="hidden sm:inline">{dateLabel}</span>
+                  </>
                 )}
               </button>
             );

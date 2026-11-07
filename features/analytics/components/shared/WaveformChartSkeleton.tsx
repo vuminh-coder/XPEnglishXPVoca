@@ -98,7 +98,10 @@ export const WaveformChartSkeleton: React.FC<WaveformChartSkeletonProps> = ({
                     <span className="hidden sm:inline">Hôm nay</span>
                   </>
                 ) : (
-                  d
+                  <>
+                    <span className="sm:hidden">{d.split("/")[0]}</span>
+                    <span className="hidden sm:inline">{d}</span>
+                  </>
                 )}
               </div>
             );
