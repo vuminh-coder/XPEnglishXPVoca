@@ -8,9 +8,6 @@ import {
   Menu,
   Sun,
   Moon,
-  Quote,
-  Volume2,
-  Shuffle,
   ArrowLeft,
   User,
   LogOut,
@@ -19,21 +16,13 @@ import {
   Bot,
   Search,
   X,
-  Flame,
   Coins,
   Settings,
-  Sparkles,
 } from "lucide-react";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
 import { useAiChatbotStore } from "@/stores/aiChatbotStore";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
-import { speakLessonText } from "@/shared/utils/ttsEngine";
-import {
-  getDailyInspirationalQuote,
-  getRandomInspirationalQuote,
-  InspirationalQuote,
-} from "@/features/gamification/data/inspirationalQuotes";
 
 /* =========================================================================
    1. REUSABLE PILL HELPER SUB-COMPONENTS
@@ -167,10 +156,6 @@ export interface AppTopHeaderProps {
   leftContent?: React.ReactNode;
   /** Optional custom back button callback (if provided, replaces the hamburger menu) */
   onBack?: () => void;
-  /** Whether to show the inspirational daily quote on desktop (default: true) */
-  showDailyQuote?: boolean;
-  /** Custom quote object if desired */
-  customQuote?: InspirationalQuote;
   /** Optional search props for adaptive desktop input & mobile search overlay */
   searchProps?: HeaderSearchProps;
   /** Whether to show Gamification stats chips (Streak 🔥, Gold 🪙) (default: false) */
@@ -181,20 +166,10 @@ export interface AppTopHeaderProps {
   rightDesktopContent?: React.ReactNode;
   /** Optional mobile-specific right content (e.g. compact stats & action buttons for < sm screens) */
   rightMobileContent?: React.ReactNode;
-  /** Optional custom title or element rendered on mobile (< sm) instead of the default XP English logo */
-  mobileTitle?: React.ReactNode;
   /** When true, completely hides the mobile search icon button */
   hideMobileSearch?: boolean;
   /** Custom replacement for the mobile search button (e.g. Share button on Profile page) */
   customMobileSearchReplacement?: React.ReactNode;
-  /** Whether to hide Theme toggle & Avatar on desktop (default: true) */
-  hideThemeAndAvatarOnDesktop?: boolean;
-  /** Whether to hide User Avatar on mobile screens (default: false) */
-  hideAvatarOnMobile?: boolean;
-  /** Whether to hide Gamification stats (Streak/Coins) on mobile screens (default: false) */
-  hideGamificationOnMobile?: boolean;
-  /** Whether header is sticky on top (default: true) */
-  sticky?: boolean;
   /** Additional container classes */
   className?: string;
 }
@@ -203,20 +178,13 @@ export function AppTopHeader({
   children,
   leftContent,
   onBack,
-  showDailyQuote = true,
-  customQuote,
   searchProps,
   showGamificationStats = false,
   rightExtraActions,
   rightDesktopContent,
   rightMobileContent,
-  mobileTitle,
   hideMobileSearch = false,
   customMobileSearchReplacement,
-  hideThemeAndAvatarOnDesktop = true,
-  hideAvatarOnMobile = false,
-  hideGamificationOnMobile = false,
-  sticky = true,
   className = "",
 }: AppTopHeaderProps) {
   const pathname = usePathname();
@@ -283,27 +251,9 @@ export function AppTopHeader({
 
   const userName = user?.fullName || user?.username || "Học viên XP Voca";
 
-  // By default, preserve User Avatar on Desktop even when rightDesktopContent is present
-  const shouldHideThemeAndAvatarOnDesktop = hideThemeAndAvatarOnDesktop;
-  const desktopHiddenClass = shouldHideThemeAndAvatarOnDesktop ? "lg:hidden" : "";
-  const mobileHiddenClass = hideAvatarOnMobile ? "hidden sm:block" : "";
-  const themeAvatarResponsiveClass = `${desktopHiddenClass} ${mobileHiddenClass}`.trim();
-
-  const [quote, setQuote] = useState<InspirationalQuote>(() => {
-    return customQuote || getDailyInspirationalQuote();
-  });
-
-  useEffect(() => {
-    if (customQuote) {
-      setQuote(customQuote);
-    }
-  }, [customQuote]);
-
   return (
     <div
-      className={`w-full h-[50px] sm:h-14 bg-gradient-to-b from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-md px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1.5 sm:gap-4 select-none shrink-0 border-b border-slate-200/80 dark:border-slate-800 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] ${
-        sticky ? "sticky top-0 z-30" : "relative"
-      } ${className}`}
+      className={`w-full h-[50px] sm:h-14 bg-gradient-to-b from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-md px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1.5 sm:gap-4 select-none shrink-0 border-b border-slate-200/80 dark:border-slate-800 shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] sticky top-0 z-30 ${className}`}
     >
       {/* ─── LEFT SECTION: Hamburger Toggle / Back + Custom Page Mode Switcher ─── */}
       <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
@@ -329,25 +279,19 @@ export function AppTopHeader({
           </button>
         )}
 
-        {/* Mobile Website Brand Name (< sm) or Custom Mobile Title */}
+        {/* Mobile Website Brand Logo (< sm) */}
         {!onBack && (
-          mobileTitle !== undefined ? (
-            <div className="sm:hidden flex items-center min-w-0">
-              {mobileTitle}
-            </div>
-          ) : (
-            <Link
-              href="/dashboard"
-              className="sm:hidden flex items-center gap-1 shrink-0 select-none group"
-              title="Trang chủ XP English"
-            >
-              <span className="text-[13px] sm:text-[15px] font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight whitespace-nowrap">
-                <span className="text-[#0059bb]">XP</span> English
-                <span className="text-amber-500 font-normal">|</span>
-                <span className="text-amber-500">XP Voca</span>
-              </span>
-            </Link>
-          )
+          <Link
+            href="/dashboard"
+            className="sm:hidden flex items-center gap-1 shrink-0 select-none group"
+            title="Trang chủ XP English"
+          >
+            <span className="text-[13px] sm:text-[15px] font-black text-slate-900 dark:text-white flex items-center gap-1 font-display tracking-tight whitespace-nowrap">
+              <span className="text-[#0059bb]">XP</span> English
+              <span className="text-amber-500 font-normal">|</span>
+              <span className="text-amber-500">XP Voca</span>
+            </span>
+          </Link>
         )}
 
         {/* Custom Mode Switcher Pill / Left Content Slot (Hidden on mobile if on normal page with tabs) */}
@@ -356,7 +300,7 @@ export function AppTopHeader({
         </div>
       </div>
 
-      {/* ─── RIGHT SECTION: Search, Gamification, Custom Actions, Quote & User Avatar ─── */}
+      {/* ─── RIGHT SECTION: Search, Gamification, Custom Actions & User Avatar ─── */}
       <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
         {/* 1. Integrated Desktop Search Input */}
         {searchProps && !searchProps.hideDesktopInput && (
@@ -401,16 +345,7 @@ export function AppTopHeader({
             >
               <Search className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
             </button>
-          ) : (
-            <Link
-              href="/vocabulary"
-              className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-transparent sm:bg-slate-100/90 hover:bg-transparent sm:hover:bg-slate-200/90 dark:bg-transparent dark:sm:bg-slate-800/90 dark:sm:hover:bg-slate-700/90 text-slate-800 dark:text-slate-200 border-0 sm:border sm:border-slate-200/60 dark:border-0 dark:sm:border-slate-700/60 shadow-none sm:shadow-2xs flex items-center justify-center transition-all cursor-pointer active:scale-90 shrink-0"
-              title="Tìm kiếm"
-              aria-label="Tìm kiếm"
-            >
-              <Search className="w-5 h-5 sm:w-4.5 sm:h-4.5 stroke-[2.2] sm:stroke-[2]" />
-            </Link>
-          )
+          ) : null
         )}
 
         {/* 3. Custom Desktop Right Content (e.g. Action Buttons) */}
@@ -429,7 +364,7 @@ export function AppTopHeader({
 
         {/* 4. Gamification Chips: Streak 🔥 & Coins 🪙 */}
         {showGamificationStats && (
-          <div className={`${hideGamificationOnMobile ? "hidden sm:flex" : "flex"} items-center gap-1.5 shrink-0`}>
+          <div className="flex items-center gap-1.5 shrink-0">
             {/* Streak Flame Chip */}
             <Link
               href="/analytics"
@@ -456,53 +391,11 @@ export function AppTopHeader({
           </div>
         )}
 
-        {/* 5. Daily Inspirational Quote (Desktop) when no custom rightDesktopContent and no searchProps */}
-        {!rightDesktopContent && !searchProps && showDailyQuote && quote && (
-          <div className="relative hidden lg:flex max-w-[300px] xl:max-w-[480px] items-center justify-between gap-2.5 group transition-all">
-            <div className="flex items-center gap-2 min-w-0">
-              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-                <Quote className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-              </div>
-
-              <div className="min-w-0">
-                <p className="text-xs sm:text-[13px] font-bold text-slate-900 dark:text-white truncate">
-                  "{quote.en}"
-                </p>
-                <p className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate hidden xl:block">
-                  {quote.vn} —{" "}
-                  <span className="font-semibold text-slate-600 dark:text-slate-300">
-                    {quote.author}
-                  </span>
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-0.5 shrink-0">
-              <button
-                type="button"
-                onClick={() => speakLessonText(quote.en, { rate: 0.95 })}
-                className="p-1 sm:p-1.5 rounded-lg text-slate-400 hover:text-blue-600 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                title="Nghe phát âm chuẩn tiếng Anh"
-              >
-                <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setQuote(getRandomInspirationalQuote(quote.id))}
-                className="p-1 sm:p-1.5 rounded-lg text-slate-400 hover:text-amber-500 dark:hover:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                title="Đổi câu danh ngôn ngẫu nhiên"
-              >
-                <Shuffle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 hover:text-amber-500 transition-colors" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* 6. Custom Extra Actions (if any) */}
+        {/* 5. Custom Extra Actions (if any) */}
         {rightExtraActions}
 
-        {/* 7. User Avatar with Interactive Floating Popover Menu */}
-        <div className={`relative shrink-0 ${themeAvatarResponsiveClass}`} ref={userMenuRef}>
+        {/* 6. User Avatar with Interactive Floating Popover Menu (Mobile only, Desktop uses Left Sidebar) */}
+        <div className="relative shrink-0 lg:hidden" ref={userMenuRef}>
           <button
             type="button"
             onClick={() => {
