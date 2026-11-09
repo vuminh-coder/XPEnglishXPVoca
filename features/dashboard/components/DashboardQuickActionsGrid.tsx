@@ -129,11 +129,11 @@ export function DashboardQuickActionsGrid({ variant = "full" }: DashboardQuickAc
                     <Icon className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h4 className="text-[11.5px] sm:text-[13px] font-bold text-slate-900 dark:text-white font-display truncate group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors leading-tight">
+                    <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-display truncate group-hover:text-[#0059bb] dark:group-hover:text-sky-400 transition-colors leading-tight">
                       <span className="sm:hidden">{action.mobileTitle || action.title}</span>
                       <span className="hidden sm:inline">{action.title}</span>
                     </h4>
-                    <p className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5 leading-tight">
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5 leading-tight">
                       <span className="sm:hidden">{action.mobileBadge}</span>
                       <span className="hidden sm:inline">{action.badge}</span>
                     </p>

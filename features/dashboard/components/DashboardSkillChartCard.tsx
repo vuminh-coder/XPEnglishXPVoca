@@ -310,7 +310,7 @@ export function DashboardSkillChartCard({
               id={`tab-${tab.id}`}
               aria-selected={isActive}
               onClick={() => setActiveSkillTab(tab.id)}
-              className={`relative py-1.5 px-0.5 sm:px-2.5 rounded-lg text-[9.5px] sm:text-xs tracking-tight sm:tracking-normal font-bold transition-all duration-200 cursor-pointer flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 z-10 select-none leading-tight ${
+              className={`relative py-1.5 px-0.5 sm:px-2.5 rounded-lg text-[11px] sm:text-xs tracking-tight sm:tracking-normal font-bold transition-all duration-200 cursor-pointer flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 z-10 select-none leading-tight ${
                 isActive
                   ? "text-[#0059bb] dark:text-white shadow-2xs font-extrabold"
                   : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-semibold"
@@ -612,7 +612,7 @@ export function DashboardSkillChartCard({
               <span className="sm:hidden">{subAction.mobileTitle}</span>
               <span className="hidden sm:inline">{subAction.title}</span>
             </h4>
-            <p className="text-[11px] font-medium text-slate-600 dark:text-slate-400 leading-tight truncate mt-0.5">
+            <p className="text-xs font-medium text-slate-600 dark:text-slate-400 leading-tight truncate mt-0.5">
               <span className="sm:hidden">{subAction.mobileSubtitle}</span>
               <span className="hidden sm:inline">{subAction.subtitle}</span>
             </p>

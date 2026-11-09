@@ -42,7 +42,7 @@ export function DashboardStreakStudio({
           <div className="text-3xl sm:text-4xl font-black font-display bg-gradient-to-b from-amber-400 via-amber-500 to-orange-500 bg-clip-text text-transparent tracking-tight leading-none drop-shadow-[0_4px_12px_rgba(245,158,11,0.35)]">
             {user?.currentStreak || 1}
           </div>
-          <div className="text-[10px] sm:text-[11px] font-black uppercase tracking-[0.18em] text-amber-600 dark:text-amber-400 mt-0.5 font-display">
+          <div className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 mt-0.5 font-display">
             ngày streak
           </div>
         </div>

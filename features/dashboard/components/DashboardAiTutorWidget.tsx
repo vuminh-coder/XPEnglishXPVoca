@@ -147,7 +147,7 @@ export function DashboardAiTutorWidget({
 
         {/* Quick Prompt Suggestion Chips */}
         {!hasActiveResponse && (
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar sm:flex-wrap pt-0.5">
+          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar sm:flex-wrap pt-0.5 max-w-full">
             {[
               "Phân biệt affect & effect",
               "Mẹo nghe nối âm TOEIC",
@@ -157,7 +157,7 @@ export function DashboardAiTutorWidget({
                 key={chip}
                 type="button"
                 onClick={() => setAiQuestion(chip)}
-                className="px-2.5 py-1 rounded-lg bg-slate-100/90 hover:bg-purple-50 dark:bg-slate-800/80 dark:hover:bg-purple-950/60 text-slate-600 hover:text-purple-700 dark:text-slate-300 dark:hover:text-purple-300 border border-slate-200/80 hover:border-purple-200 dark:border-slate-700/70 dark:hover:border-purple-800 text-[11px] font-semibold transition-colors cursor-pointer whitespace-nowrap shrink-0"
+                className="px-2.5 py-1 rounded-lg bg-slate-100/90 hover:bg-purple-50 dark:bg-slate-800/80 dark:hover:bg-purple-950/60 text-slate-600 hover:text-purple-700 dark:text-slate-300 dark:hover:text-purple-300 border border-slate-200/80 hover:border-purple-200 dark:border-slate-700/70 dark:hover:border-purple-800 text-xs font-bold transition-colors cursor-pointer whitespace-nowrap shrink-0"
               >
                 {chip}
               </button>
