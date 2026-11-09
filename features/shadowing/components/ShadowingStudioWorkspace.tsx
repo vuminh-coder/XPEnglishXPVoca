@@ -194,7 +194,6 @@ function ShadowingStudioWorkspaceComponent({
   // Auto-reset merge state & word track scroll position whenever active sentence changes
   React.useEffect(() => {
     setInternalMerged(false);
-    wordTrackContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
   }, [currentSentenceIndex, currentLesson?.id, wordTrackContainerRef]);
 
   const rawSentence =
@@ -208,6 +207,13 @@ function ShadowingStudioWorkspaceComponent({
   const currentSentence = React.useMemo(() => {
     return buildEffectiveSentence(rawSentence, nextSentence, isMergedWithNext);
   }, [rawSentence, nextSentence, isMergedWithNext]);
+
+  const leftColRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (leftColRef.current) {
+      leftColRef.current.scrollTop = 0;
+    }
+  }, [currentLesson?.id, currentSentenceIndex]);
 
   const sentenceDuration =
     currentSentence?.startTime !== undefined &&
@@ -265,28 +271,6 @@ function ShadowingStudioWorkspaceComponent({
     return "text-sm sm:text-base min-h-[34px] sm:min-h-[36px] px-2.5 sm:px-3 py-1 sm:py-1.5";
   }, [fontSizeLevel]);
 
-  // Auto-scroll ngang mượt mà theo từng từ phát âm thời gian thực hoặc playback mẫu (giống Dictation)
-  React.useEffect(() => {
-    const targetIdx = isRecording
-      ? (activeSpeechWordIndex !== null && activeSpeechWordIndex !== undefined && activeSpeechWordIndex >= 0 ? activeSpeechWordIndex : null)
-      : activePlaybackWordIndex;
-
-    if (targetIdx !== null && targetIdx !== undefined && targetIdx >= 0) {
-      if (targetIdx <= 1) {
-        wordTrackContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        const activeEl = wordTokenRefs.current?.[targetIdx];
-        if (activeEl) {
-          activeEl.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center",
-          });
-        }
-      }
-    }
-  }, [isRecording, activeSpeechWordIndex, activePlaybackWordIndex, wordTokenRefs, wordTrackContainerRef]);
-
   return (
     <div
       id="active-shadowing-workspace"
@@ -335,6 +319,7 @@ function ShadowingStudioWorkspaceComponent({
       <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 py-2.5 lg:py-3 flex flex-col lg:flex-row items-stretch gap-4 lg:gap-5 min-h-0 overflow-hidden">
         {/* CỘT TRÁI: SINGLE-SENTENCE FOCUS SHADOWING WORKSPACE (MATCHING DICTATION 100%) */}
         <div
+          ref={leftColRef}
           className={`flex-1 min-w-0 p-0 space-y-2 overflow-y-auto overscroll-contain pb-28 lg:pb-1 hide-scrollbar ${
             mobileStudioTab === "practice" ? "block" : "hidden lg:block"
           }`}

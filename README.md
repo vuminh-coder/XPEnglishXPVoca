@@ -7256,3 +7256,18 @@ Nhằm triệt tiêu hoàn toàn sự cố `ChunkLoadError: Loading chunk app/la
   - **Khoảng đệm đáy thông thoáng (`pb-24`)**: Đảm bảo toàn bộ biểu đồ và thẻ học tập phía dưới không bao giờ bị thanh điều hướng di động hoặc trợ lý AI che khuất.
 - **Đồng Bộ Khung Xương Nạp Trang 1:1 Zero Cumulative Layout Shift ([`loading.tsx`](file:///e:/XP%20English%20%20XP%20Voca/app/%28dashboard%29/analytics/loading.tsx))**:
   - Tái lập trình khung xương nạp trang [`WaveformChartSkeleton.tsx`](file:///e:/XP%20English%20%20XP%20Voca/features/analytics/components/shared/WaveformChartSkeleton.tsx) và Shimmer ma trận heatmap theo đúng tỷ lệ pixel 1:1 của các thành phần thực tế, đạt chuẩn `0px CLS`.
+
+### 🎧 Chuẩn Hóa Toàn Diện Logic & Triệt Tiêu Lỗi Tự Động Lướt Trên Dictation & Shadowing (`/study/dictation` & `/study/shadowing`)
+- **Triệt Tiêu 100% Hiện Tượng Tự Động Lướt/Nhảy Khung Nhìn ("Làm đến đâu tự động lướt tới đó")**:
+  - **Dictation Studio ([DictationWorkspace.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/DictationWorkspace.tsx))**:
+    - Loại bỏ hoàn toàn `useEffect` auto-scroll gọi `scrollIntoView` trên `tokens` thay đổi.
+    - Gỡ bỏ toàn bộ các lệnh `scrollIntoView` gây giật màn hình trong các hành động: Xem chữ đầu (`handleHintFirstLetter`), Xem từ (`handleRevealNextWord`), và Nhấp vào khối từ (`handleTokenClick`).
+    - Xóa bỏ giới hạn chiều cao `max-h-[82px] sm:max-h-[88px]` và thanh cuộn ẩn `overflow-y-auto` trên khung hiển thị từ; chuyển sang bố cục dàn dòng tự nhiên `flex flex-wrap gap-1.5 sm:gap-2` giúp các câu dài 15-20+ từ hiển thị trọn vẹn 100% không bị cắt dòng, không che khuất phần tử, và không phát sinh cuộn dọc nội bộ.
+    - **Làm Nổi Bật Tâm Điểm Từ Đang Làm (Active Focus Token - Rule 20 Royal Blue `#0059bb`)**: Bổ sung biến `activeUnsolvedIndex` tự động nhận diện từ mục tiêu cần gõ tiếp theo; áp dụng viền kép `border-2 border-[#0059bb]`, nền xanh nhạt `bg-blue-50/90 dark:bg-blue-950/80`, và vòng sáng tâm điểm `ring-2 ring-blue-500/30 shadow-xs`, giúp người học nhận biết tức thì vị trí từ cần nghe chép chính tả thay vì chỉ thấy các khối dấu chấm đơn điệu.
+  - **Shadowing Studio ([ShadowingStudioWorkspace.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingStudioWorkspace.tsx) & [ShadowingPageContent.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingPageContent.tsx))**:
+    - Loại bỏ hoàn toàn `React.useEffect` tự động gọi `activeEl.scrollIntoView` và `scrollTo` theo từng từ thời gian thực trong lúc phát audio mẫu hoặc thu âm nhại giọng.
+    - Giữ nguyên hiển thị từ ngữ bám sát màn hình trong `flex flex-wrap gap-1.5 sm:gap-2`, loại bỏ triệt để hiện tượng giật trôi màn hình hay cuộn bất thường khi phát âm.
+  - **Thanh Phụ Đề Thông Minh ([InteractiveTranscriptSidebar.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/InteractiveTranscriptSidebar.tsx))**:
+    - Thay thế `sentenceRefs.current[currentIndex]?.scrollIntoView` bằng cuộn danh sách nội bộ thông qua `scrollParent.scrollTo({ top, behavior: 'smooth' })`, cách ly hoàn toàn việc cuộn phụ đề bên trong thẻ danh sách mà không bao giờ tác động hay làm trôi khung nhìn trang chính.
+  - **Khởi Tạo Trạng Thái Đầu Trang Chuẩn Mực Khi Vào Bài Học**:
+    - Thiết lập `leftColRef` trên cả [ListeningStudioWorkspace.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/listening/components/ListeningStudioWorkspace.tsx) và [ShadowingStudioWorkspace.tsx](file:///e:/XP%20English%20%20XP%20Voca/features/shadowing/components/ShadowingStudioWorkspace.tsx) tự động đặt `scrollTop = 0` khi tải bài học mới hoặc chuyển câu, đảm bảo khung trình phát Video/Waveform, thanh trạng thái câu, và thanh công cụ tiện ích luôn hiển thị rõ nét ngay đầu màn hình.

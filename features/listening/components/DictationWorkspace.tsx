@@ -316,26 +316,6 @@ export function DictationWorkspace({
     tokenizeSentence(sentenceText, properNouns)
   );
 
-  // Auto-scroll the token row to keep the current/next active unsolved word centered in view
-  useEffect(() => {
-    if (!isCollapsed || !tokenContainerRef.current) return;
-
-    // Find the next active word token (masked or first-letter)
-    const nextUnsolvedIndex = tokens.findIndex(
-      (t) => t.status === "masked" || t.status === "first-letter"
-    );
-
-    const targetIndex = nextUnsolvedIndex !== -1 ? nextUnsolvedIndex : tokens.length - 1;
-    const targetElement = tokenItemRefs.current[targetIndex];
-
-    if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  }, [tokens, isCollapsed]);
 
   // Track last rendered sentence key to prevent clearing input or resetting tokens on parent re-renders
   const lastSentenceKeyRef = useRef<string>(`${lessonId ?? ""}_${sentenceIndex ?? ""}_${sentenceText}`);
@@ -539,12 +519,6 @@ export function DictationWorkspace({
       inputRef.current.focus();
     }
 
-    // Cuộn mượt mà đến khối từ vừa được mở chữ cái đầu
-    tokenItemRefs.current[targetIndex]?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "center",
-    });
   }, [tokens, checkCompletion]);
 
   // Action: Reveal next word (Alt + R) - Mở từ ngay lập tức, dọn sạch ô nhập liệu, kích hoạt hoàn thành
@@ -577,12 +551,6 @@ export function DictationWorkspace({
       inputRef.current.focus();
     }
 
-    // Cuộn mượt mà đến vị trí từ vừa mở
-    tokenItemRefs.current[targetIndex]?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "center",
-    });
 
     // Kích hoạt kiểm tra hoàn thành nếu tất cả từ đã được giải quyết
     checkCompletion(nextTokens);
@@ -670,11 +638,6 @@ export function DictationWorkspace({
         inputRef.current.focus();
       }
 
-      tokenItemRefs.current[index]?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
 
       checkCompletion(nextTokens);
     } else {
@@ -694,6 +657,11 @@ export function DictationWorkspace({
       inputRef.current.focus();
     }
   };
+
+  // Tự động xác định từ mục tiêu đang giải quyết để làm nổi bật tâm điểm (Rule 20 Royal Blue)
+  const activeUnsolvedIndex = tokens.findIndex(
+    (t) => t.status === "masked" || t.status === "first-letter"
+  );
 
   const solvedCount = tokens.filter(
     (t) => t.status === "matched" || t.status === "revealed"
@@ -747,22 +715,18 @@ export function DictationWorkspace({
           </button>
         </div>
 
-        {/* Masked / Revealed Token Row (Hidden Scrollbar + Auto-Centered Track) */}
-        <div className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+        {/* Masked / Revealed Token Row (Không tự động lướt, hiển thị trọn vẹn không cắt dòng) */}
+        <div className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
           <div
             ref={tokenContainerRef}
-            style={isCollapsed ? { scrollbarWidth: "none", msOverflowStyle: "none" } : undefined}
-            className={`gap-1.5 sm:gap-2 items-center py-1 px-1 ${
-              isCollapsed
-                ? "flex flex-wrap max-h-[82px] sm:max-h-[88px] overflow-y-auto scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden"
-                : "flex flex-wrap"
-            }`}
+            className="flex flex-wrap gap-1.5 sm:gap-2 items-center py-1 px-1"
           >
               {tokens.map((token, idx) => {
                 const isMatched = token.status === "matched";
                 const isRevealed = token.status === "revealed";
                 const isFirstLetter = token.status === "first-letter";
                 const isSolved = isMatched || isRevealed;
+                const isActiveToken = idx === activeUnsolvedIndex;
 
                 // Render text inside block
                 let displayContent: React.ReactNode = token.dots;
@@ -818,7 +782,9 @@ export function DictationWorkspace({
                             ? "bg-blue-50 dark:bg-blue-950/40 text-[#0059bb] dark:text-sky-200 font-bold border-2 border-blue-300 dark:border-blue-700 shadow-2xs"
                             : "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold border border-slate-300 dark:border-slate-600 shadow-2xs"
                           : isFirstLetter
-                          ? "bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 font-bold border border-amber-400 shadow-2xs"
+                          ? "bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 font-bold border-2 border-amber-500 shadow-xs ring-2 ring-amber-400/30"
+                          : isActiveToken
+                          ? "bg-blue-50/90 dark:bg-blue-950/80 text-[#0059bb] dark:text-sky-300 font-extrabold border-2 border-[#0059bb] dark:border-sky-400 ring-2 ring-blue-500/30 dark:ring-sky-400/30 shadow-xs"
                           : token.isProperNoun
                           ? "bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200/90 dark:border-blue-800/80 text-[#0059bb] dark:text-sky-300 font-semibold hover:border-[#0059bb] dark:hover:border-sky-400 shadow-2xs"
                           : "bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:border-slate-500 dark:hover:text-white shadow-2xs"

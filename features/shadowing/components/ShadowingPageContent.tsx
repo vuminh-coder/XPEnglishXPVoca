@@ -672,9 +672,6 @@ export function ShadowingPageContent({
   /* eslint-disable react-hooks/set-state-in-effect -- Reset active word on sentence index change */
   useEffect(() => {
     setActivePlaybackWordIndex(null);
-    if (wordTrackContainerRef.current) {
-      wordTrackContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
-    }
   }, [currentSentenceIndex]);
   /* eslint-enable react-hooks/set-state-in-effect */
 

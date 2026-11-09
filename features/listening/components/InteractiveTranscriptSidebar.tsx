@@ -120,13 +120,18 @@ function InteractiveTranscriptSidebarComponent({
   const progressPercent =
     totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
-  // Tự động cuộn đến câu đang học
+  // Tự động cuộn danh sách phụ đề nội bộ đến câu đang học (cách ly hoàn toàn với thanh cuộn trang chính)
   useEffect(() => {
     if (activeTab === "transcript" && sentenceRefs.current[currentIndex]) {
-      sentenceRefs.current[currentIndex]?.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-      });
+      const el = sentenceRefs.current[currentIndex];
+      const scrollParent = el?.closest(".overflow-y-auto");
+      if (el && scrollParent) {
+        const parentTop = scrollParent.getBoundingClientRect().top;
+        const elTop = el.getBoundingClientRect().top;
+        const currentScroll = scrollParent.scrollTop;
+        const targetScroll = currentScroll + (elTop - parentTop) - 24;
+        scrollParent.scrollTo({ top: Math.max(0, targetScroll), behavior: "smooth" });
+      }
     }
   }, [currentIndex, activeTab]);
 

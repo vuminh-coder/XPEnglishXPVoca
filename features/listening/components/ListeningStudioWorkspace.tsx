@@ -132,6 +132,13 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
   const mediaInfo = resolveLessonMedia(currentLesson);
   const isVideoLesson = mediaInfo.isVideoLesson;
 
+  const leftColRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    if (leftColRef.current) {
+      leftColRef.current.scrollTop = 0;
+    }
+  }, [currentLesson?.id, currentSentenceIndex]);
+
   const sentenceDuration =
     currentSentence?.startTime !== undefined &&
     currentSentence?.endTime !== undefined &&
@@ -196,6 +203,7 @@ export const ListeningStudioWorkspace: React.FC<ListeningStudioWorkspaceProps> =
       <div className="flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto px-3 sm:px-5 lg:px-6 py-2.5 lg:py-3 flex flex-col lg:flex-row items-stretch gap-4 lg:gap-5 min-h-0 overflow-hidden">
         {/* CỘT TRÁI: SINGLE-SENTENCE FOCUS WORKSPACE */}
         <div
+          ref={leftColRef}
           className={`flex-1 min-w-0 space-y-2 overflow-y-auto overscroll-contain pb-28 lg:pb-1 hide-scrollbar ${
             mobileStudioTab === "dictation" ? "block" : "hidden lg:block"
           }`}
