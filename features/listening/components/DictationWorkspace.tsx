@@ -663,6 +663,35 @@ export function DictationWorkspace({
     (t) => t.status === "masked" || t.status === "first-letter"
   );
 
+  // Tự động trượt ngang theo dõi từ đang giải quyết (chỉ tác động thanh ngang container.scrollLeft, tuyệt đối 0px cuộn dọc trang/window)
+  useEffect(() => {
+    const container = tokenContainerRef.current;
+    if (!container) return;
+
+    if (activeUnsolvedIndex < 0) return;
+
+    const targetEl = tokenItemRefs.current?.[activeUnsolvedIndex];
+    if (targetEl) {
+      const containerRect = container.getBoundingClientRect();
+      const targetRect = targetEl.getBoundingClientRect();
+      const currentScrollLeft = container.scrollLeft;
+      const wordContentLeft = targetRect.left - containerRect.left + currentScrollLeft;
+      const targetScrollLeft = wordContentLeft - (container.clientWidth / 2) + (targetRect.width / 2);
+
+      container.scrollTo({
+        left: Math.max(0, targetScrollLeft),
+        behavior: "smooth",
+      });
+    }
+  }, [activeUnsolvedIndex, sentenceIndex]);
+
+  // Reset thanh trượt ngang về đầu khi chuyển câu mới
+  useEffect(() => {
+    if (tokenContainerRef.current) {
+      tokenContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+    }
+  }, [sentenceIndex]);
+
   const solvedCount = tokens.filter(
     (t) => t.status === "matched" || t.status === "revealed"
   ).length;
@@ -715,11 +744,12 @@ export function DictationWorkspace({
           </button>
         </div>
 
-        {/* Masked / Revealed Token Row (Không tự động lướt, hiển thị trọn vẹn không cắt dòng) */}
-        <div className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+        {/* Masked / Revealed Token Row (Single-Row Horizontal Track, Tự động trượt ngang theo từ mục tiêu) */}
+        <div className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs overflow-hidden">
           <div
             ref={tokenContainerRef}
-            className="flex flex-wrap gap-1.5 sm:gap-2 items-center py-1 px-1"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="flex flex-nowrap items-center gap-1.5 sm:gap-2 overflow-x-auto scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden py-1 px-1 w-full min-w-0"
           >
               {tokens.map((token, idx) => {
                 const isMatched = token.status === "matched";

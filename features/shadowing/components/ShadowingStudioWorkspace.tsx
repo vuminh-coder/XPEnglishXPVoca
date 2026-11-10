@@ -194,7 +194,35 @@ function ShadowingStudioWorkspaceComponent({
   // Auto-reset merge state & word track scroll position whenever active sentence changes
   React.useEffect(() => {
     setInternalMerged(false);
+    wordTrackContainerRef.current?.scrollTo({ left: 0, behavior: "smooth" });
   }, [currentSentenceIndex, currentLesson?.id, wordTrackContainerRef]);
+
+  // Single-row horizontal auto-scroll following the active word (recording speech cursor or playback cursor)
+  // Scoped strictly to container.scrollLeft to prevent any vertical window or page scrolling
+  React.useEffect(() => {
+    const container = wordTrackContainerRef.current;
+    if (!container) return;
+
+    const targetIdx = isRecording
+      ? (activeSpeechWordIndex !== null && activeSpeechWordIndex !== undefined ? activeSpeechWordIndex : -1)
+      : (activePlaybackWordIndex !== null && activePlaybackWordIndex !== undefined ? activePlaybackWordIndex : -1);
+
+    if (targetIdx < 0) return;
+
+    const targetEl = wordTokenRefs.current?.[targetIdx];
+    if (targetEl) {
+      const containerRect = container.getBoundingClientRect();
+      const targetRect = targetEl.getBoundingClientRect();
+      const currentScrollLeft = container.scrollLeft;
+      const wordContentLeft = targetRect.left - containerRect.left + currentScrollLeft;
+      const targetScrollLeft = wordContentLeft - (container.clientWidth / 2) + (targetRect.width / 2);
+
+      container.scrollTo({
+        left: Math.max(0, targetScrollLeft),
+        behavior: "smooth",
+      });
+    }
+  }, [isRecording, activeSpeechWordIndex, activePlaybackWordIndex, wordTrackContainerRef, wordTokenRefs]);
 
   const rawSentence =
     currentLesson?.transcript?.[currentSentenceIndex] ||
@@ -414,11 +442,12 @@ function ShadowingStudioWorkspaceComponent({
                     </div>
                   </div>
 
-                  {/* Words Container Card (Wrap Layout matching Dictation for flawless Mobile reading) */}
-                  <div className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm">
+                  {/* Words Container Card (Single-Row Horizontal Track) */}
+                  <div className="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm overflow-hidden">
                     <div
                       ref={wordTrackContainerRef}
-                      className="flex flex-wrap gap-1.5 sm:gap-2 items-center py-1 px-1"
+                      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+                      className="flex flex-nowrap items-center gap-1.5 sm:gap-2 overflow-x-auto scroll-smooth hide-scrollbar [&::-webkit-scrollbar]:hidden py-1 px-1 w-full min-w-0"
                     >
                       {currentSentence.text.split(" ").map((word: string, wIdx: number) => {
                         const clean = word.replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "").toLowerCase();
