@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
+import { extractYouTubeVideoId, formatDurationSeconds } from "@/features/listening/utils/videoUrlHelper";
 
 export async function GET(
   req: NextRequest,
@@ -70,6 +71,69 @@ export async function GET(
       console.warn("[API video-catalog/lessons/[id]] DB lookup error:", dbErr);
     }
     if (!lesson) {
+      // Fallback: check user-created YouTube lessons persisted in ListeningLesson
+      try {
+        const listeningFallback = await prisma.listeningLesson.findUnique({ where: { id } });
+        const ytId = listeningFallback ? extractYouTubeVideoId(listeningFallback.audioUrl || "") : null;
+        if (listeningFallback && ytId) {
+          const transcript = Array.isArray(listeningFallback.transcript)
+            ? (listeningFallback.transcript as any[])
+            : [];
+          const lastEnd =
+            transcript.length > 0 ? Number(transcript[transcript.length - 1]?.endTime || 180) : 180;
+          const durSec = Math.max(30, Math.round(lastEnd));
+          return NextResponse.json({
+            success: true,
+            lesson: {
+              id: listeningFallback.id,
+              slug: listeningFallback.id,
+              title: listeningFallback.title,
+              description: `Bài học Video YouTube (${listeningFallback.category})`,
+              sourceType: "YOUTUBE",
+              externalId: ytId,
+              thumbnailUrl:
+                listeningFallback.imageUrl || `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`,
+              durationSeconds: durSec,
+              durationFormatted: formatDurationSeconds(durSec),
+              cefrLevel: listeningFallback.level || "B1",
+              supportedTypes: "BOTH",
+              accent: listeningFallback.accent || "en-US",
+              wpmSpeed: 130,
+              viewCount: 0,
+              studyCount: 0,
+              category: {
+                id: "custom-youtube",
+                slug: "custom-youtube",
+                name: listeningFallback.category || "Video Tự Nhập",
+              },
+              playlist: null,
+              properNouns: [],
+              keywords: [],
+              segmentsCount: transcript.length,
+              segments: transcript.map((seg, idx) => {
+                const startTime = Number(seg.startTime ?? 0);
+                const endTime = Number(seg.endTime ?? startTime + 3);
+                return {
+                  id: String(seg.id || `seg_${idx + 1}`),
+                  orderIndex: idx + 1,
+                  startTime,
+                  endTime,
+                  duration: parseFloat(Math.max(0.3, endTime - startTime).toFixed(3)),
+                  text: seg.text || seg.english || "",
+                  normalizedText: (seg.text || "").toLowerCase(),
+                  translationVi: seg.translation || seg.vietnamese || "",
+                  properNouns: seg.properNouns || [],
+                  keywords: seg.keywords || [],
+                  wordTimings: Array.isArray(seg.wordTimings) ? seg.wordTimings : undefined,
+                };
+              }),
+            },
+          });
+        }
+      } catch (listenErr) {
+        console.warn("[API video-catalog/lessons/[id]] Listening fallback error:", listenErr);
+      }
+
       return NextResponse.json(
         { success: false, error: "Không tìm thấy bài học video tương ứng" },
         { status: 404 }

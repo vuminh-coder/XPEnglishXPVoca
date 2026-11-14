@@ -1,39 +1,51 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { hashRoomPasscode } from "@/infrastructure/security/roomPasscode";
+
+const PUBLIC_ROOM_SELECT = {
+  id: true,
+  name: true,
+  description: true,
+  category: true,
+  accentColor: true,
+  maxMembers: true,
+  isPrivate: true,
+  createdById: true,
+  createdAt: true,
+  creator: {
+    select: {
+      fullName: true,
+      username: true,
+      avatarEmoji: true,
+    },
+  },
+  members: {
+    select: {
+      status: true,
+      user: {
+        select: {
+          id: true,
+          fullName: true,
+          username: true,
+          avatarEmoji: true,
+          title: true,
+          totalXp: true,
+        },
+      },
+    },
+    take: 25,
+  },
+  _count: {
+    select: { members: true },
+  },
+};
 
 export async function GET(req: Request) {
   try {
     const rooms = await prisma.studyRoom.findMany({
       take: 20,
-      include: {
-        creator: {
-          select: {
-            fullName: true,
-            username: true,
-            avatarEmoji: true,
-          },
-        },
-        members: {
-          select: {
-            status: true,
-            user: {
-              select: {
-                id: true,
-                fullName: true,
-                username: true,
-                avatarEmoji: true,
-                title: true,
-                totalXp: true,
-              },
-            },
-          },
-          take: 25,
-        },
-        _count: {
-          select: { members: true },
-        },
-      },
+      select: PUBLIC_ROOM_SELECT,
       orderBy: { createdAt: "desc" },
     });
 
@@ -95,7 +107,7 @@ export async function POST(req: Request) {
         accentColor: accentColor || "indigo",
         maxMembers: maxMembers ? parseInt(maxMembers) : 20,
         isPrivate: !!isPrivate,
-        passcode: passcode || null,
+        passcode: isPrivate && passcode ? hashRoomPasscode(String(passcode)) : null,
         createdById: userId,
         members: {
           create: {
@@ -137,7 +149,8 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ success: true, room });
+    const { passcode: _omittedPasscode, ...safeRoom } = room;
+    return NextResponse.json({ success: true, room: safeRoom });
   } catch (error) {
     console.error("POST /api/study-rooms error:", error);
     return NextResponse.json(

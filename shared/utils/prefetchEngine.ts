@@ -1,23 +1,29 @@
 /**
  * Client-Side Intelligent Prefetch Engine
  * Warms up browser HTTP cache and server-side memoryCache on hover/touch
- * Achieving 0ms instant page transitions for user navigation.
+ * Achieving instant page transitions for authenticated user navigation.
  */
+
+import { useUserStore } from "@/stores/userStore";
 
 const prefetchedEndpoints = new Map<string, number>();
 const PREFETCH_COOLDOWN_MS = 45_000; // 45s cooldown per endpoint
+
+const PUBLIC_PREFETCH_ROUTES = new Set<string>([
+  "/study/dictation",
+  "/study/shadowing",
+  "/community/leaderboard",
+]);
 
 /**
  * Maps frontend application routes to their corresponding critical backend API endpoints
  */
 const ROUTE_API_MAP: Record<string, string[]> = {
   "/dashboard": ["/api/dashboard/overview"],
-  "/": ["/api/dashboard/overview"],
   "/vocabulary": ["/api/user/vocab"],
   "/study/dictation": ["/api/listening/lessons"],
-  "/study/listening": ["/api/listening/lessons"],
   "/study/shadowing": ["/api/listening/lessons"],
-  "/study/reading": ["/api/vocabulary"],
+  "/study/reading": ["/api/user/profile"],
   "/analytics": ["/api/user/analytics"],
   "/community/leaderboard": ["/api/leaderboard?period=week"],
   "/profile": ["/api/user/analytics", "/api/user/profile"],
@@ -25,18 +31,21 @@ const ROUTE_API_MAP: Record<string, string[]> = {
 
 /**
  * Prefetches the critical API data for a given destination route.
- * Call this on onMouseEnter or onTouchStart of navigation links/buttons.
+ * Skips private `/api/user/*` & `/api/dashboard/*` endpoints when no authenticated user session is present.
  */
 export function prefetchRouteData(targetHref: string): void {
   if (typeof window === "undefined") return;
 
   const cleanHref = targetHref.split("?")[0].split("#")[0];
+  const hasSession = Boolean(useUserStore.getState().user);
 
-  // Find matching endpoint mappings
   let endpointsToWarm: string[] = [];
 
   for (const [routePrefix, apis] of Object.entries(ROUTE_API_MAP)) {
-    if (cleanHref === routePrefix || (routePrefix !== "/" && cleanHref.startsWith(routePrefix))) {
+    if (cleanHref === routePrefix || cleanHref.startsWith(`${routePrefix}/`)) {
+      if (!hasSession && !PUBLIC_PREFETCH_ROUTES.has(routePrefix)) {
+        continue;
+      }
       endpointsToWarm = endpointsToWarm.concat(apis);
     }
   }
@@ -48,12 +57,11 @@ export function prefetchRouteData(targetHref: string): void {
   endpointsToWarm.forEach((endpoint) => {
     const lastPrefetched = prefetchedEndpoints.get(endpoint) || 0;
     if (now - lastPrefetched < PREFETCH_COOLDOWN_MS) {
-      return; // Already warmed recently
+      return;
     }
 
     prefetchedEndpoints.set(endpoint, now);
 
-    // Warm up the endpoint asynchronously with low network priority
     try {
       if (typeof window.fetch === "function") {
         fetch(endpoint, {
@@ -63,7 +71,7 @@ export function prefetchRouteData(targetHref: string): void {
             "X-Prefetch": "true",
           },
         }).catch(() => {
-          // Prefetching is purely opportunistic - suppress network errors
+          // Prefetching is opportunistic — suppress network errors
         });
       }
     } catch {

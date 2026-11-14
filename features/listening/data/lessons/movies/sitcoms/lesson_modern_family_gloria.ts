@@ -658,7 +658,7 @@ export const LESSON_MODERN_FAMILY_GLORIA_LANGUAGE_STRUGGLES: MockVideoLesson = {
         "startTime": 118.3,
         "endTime": 121.5,
         "text": "What is? What is?",
-        "translationVi": "What is? What is?",
+        "translationVi": "Gì cơ? Gì cơ?",
         "ipaUs": "/wɑː.ɾɪz? wɑː.ɾɪz?/",
         "keywords": [
             "What is",

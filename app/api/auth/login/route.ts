@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
-import { comparePassword } from "@/infrastructure/auth/password";
+import { comparePassword, hashPassword, needsPasswordRehash } from "@/infrastructure/auth/password";
 import { signAuthToken } from "@/infrastructure/auth/jwt";
 import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { getTrustedClientIp } from "@/infrastructure/security/validation";
 
 export async function POST(req: NextRequest) {
   try {
     // Brute-force protection: 5 login attempts per 15 minutes per IP
-    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    const clientIp = getTrustedClientIp(req);
     if (isRateLimited(`auth_login_${clientIp}`, 5, 15 * 60 * 1000)) {
       return NextResponse.json(
         { success: false, error: "Quá nhiều lần thử đăng nhập. Vui lòng đợi 15 phút." },
@@ -41,6 +42,7 @@ export async function POST(req: NextRequest) {
         fullName: true,
         email: true,
         passwordHash: true,
+        role: true,
         level: true,
         totalXp: true,
         currentStreak: true,
@@ -51,6 +53,11 @@ export async function POST(req: NextRequest) {
         title: true,
         coins: true,
         streakFreezes: true,
+        isPremium: true,
+        premiumTier: true,
+        premiumStartedAt: true,
+        premiumExpiresAt: true,
+        doubleXpUntil: true,
       },
     });
 
@@ -77,18 +84,40 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Generate JWT Token
+    // Lazy password hash upgrade to PBKDF2 v2 (100k iterations)
+    if (needsPasswordRehash(profile.passwordHash)) {
+      prisma.profile
+        .update({
+          where: { id: profile.id },
+          data: { passwordHash: hashPassword(String(password)) },
+          select: { id: true },
+        })
+        .catch(() => {});
+    }
+
+    const normalizedRole = profile.role === "ADMIN" ? "ADMIN" : "USER";
+
+    // Generate JWT Token with role claim
     const token = signAuthToken({
       userId: profile.id,
       email: profile.email,
       username: profile.username,
+      role: normalizedRole,
     });
+
+    let isPremium = profile.isPremium || false;
+    let premiumTier = profile.premiumTier || null;
+    if (isPremium && profile.premiumExpiresAt && profile.premiumExpiresAt < new Date()) {
+      isPremium = false;
+      premiumTier = null;
+    }
 
     const userPayload = {
       id: profile.id,
       username: profile.username || profile.id,
       fullName: profile.fullName || profile.username || "Học viên XP Voca",
       email: profile.email || `${profile.id}@xpvoca.com`,
+      role: normalizedRole,
       level: profile.level,
       totalXp: profile.totalXp,
       currentStreak: profile.currentStreak,
@@ -102,6 +131,11 @@ export async function POST(req: NextRequest) {
       title: profile.title,
       coins: profile.coins,
       streakFreezes: profile.streakFreezes,
+      isPremium,
+      premiumTier,
+      premiumStartedAt: profile.premiumStartedAt ? profile.premiumStartedAt.toISOString() : null,
+      premiumExpiresAt: profile.premiumExpiresAt ? profile.premiumExpiresAt.toISOString() : null,
+      doubleXpUntil: profile.doubleXpUntil ? profile.doubleXpUntil.toISOString() : null,
     };
 
     const response = NextResponse.json({

@@ -88,13 +88,12 @@ function sanitizeMinutesMap(raw: string | null): Record<string, number> {
 }
 
 /**
- * Safely formats a Date into local YYYY-MM-DD string without UTC timezone shift
+ * Safely formats a Date into local YYYY-MM-DD string in app timezone (Asia/Ho_Chi_Minh)
  */
+import { getLocalDateString as getSharedLocalDateString } from "@/shared/utils/dateUtils";
+
 export function getLocalDateString(d: Date = new Date()): string {
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  return getSharedLocalDateString(d);
 }
 
 /**

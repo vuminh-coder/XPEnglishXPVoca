@@ -25,8 +25,8 @@ describe("AI Conversation Mobile Ergonomics & Layout Architecture (/ai/conversat
       expect(pageContent).toContain("suppressHydrationWarning");
     });
 
-    it("docks cleanly right above BottomNav on mobile with pb-[50px] lg:pb-3", () => {
-      expect(pageContent).toContain("pb-[50px] lg:pb-3");
+    it("docks cleanly right above BottomNav on mobile with pb-[52px] lg:pb-2.5", () => {
+      expect(pageContent).toContain("pb-[52px] lg:pb-2.5");
     });
   });
 
@@ -73,10 +73,10 @@ describe("AI Conversation Mobile Ergonomics & Layout Architecture (/ai/conversat
       expect(chatStreamContent).toContain("overscroll-contain");
     });
 
-    it("organizes suggestion chips into 2-row smooth horizontal scroll strip on mobile", () => {
-      expect(inputDockContent).toContain("overflow-x-auto no-scrollbar whitespace-nowrap");
+    it("organizes suggestion chips without horizontal overflow on mobile", () => {
+      expect(inputDockContent).toContain("flex items-center gap-1.5 flex-wrap min-w-0");
       expect(inputDockContent).toContain("mob_w_");
-      expect(inputDockContent).toContain("mob_p_");
+      expect(inputDockContent).toContain("currentSuggestions.phrases");
     });
   });
 });

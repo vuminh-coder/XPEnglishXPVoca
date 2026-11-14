@@ -49,10 +49,22 @@ export default function ClientAuthWrapper({
       window.addEventListener("error", handleChunkError);
       window.addEventListener("unhandledrejection", handleChunkError);
 
-      // 2. Restore user theme preference (light, dark, system)
+      // 2. Restore user theme preference (light, dark, system), migrating legacy settings key if needed
       const savedTheme = localStorage.getItem("xp_theme_preference");
       if (savedTheme === "light" || savedTheme === "dark" || savedTheme === "system") {
         useUiStore.getState().setTheme(savedTheme);
+      } else {
+        try {
+          const legacySettings = localStorage.getItem("xp_user_settings");
+          if (legacySettings) {
+            const parsed = JSON.parse(legacySettings) as { darkMode?: boolean };
+            if (typeof parsed.darkMode === "boolean") {
+              useUiStore.getState().setTheme(parsed.darkMode ? "dark" : "light");
+            }
+          }
+        } catch {
+          // Ignore malformed legacy settings
+        }
       }
 
       // 3. Service Worker registration: Only register in production.

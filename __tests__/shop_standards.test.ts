@@ -11,6 +11,7 @@ vi.mock("@/infrastructure/database/prisma", () => ({
     profile: {
       findUnique: vi.fn(),
       update: vi.fn(),
+      updateMany: vi.fn(),
     },
     purchaseLog: {
       findMany: vi.fn(),
@@ -121,7 +122,11 @@ describe("XP Shop & Inventory Standards (/api/shop/*)", () => {
 
       const mockTx = {
         profile: {
-          findUnique: vi.fn().mockResolvedValue({ coins: 200, streakFreezes: 1 }),
+          findUnique: vi
+            .fn()
+            .mockResolvedValueOnce({ coins: 200, streakFreezes: 1, doubleXpUntil: null })
+            .mockResolvedValueOnce({ coins: 150, streakFreezes: 2, doubleXpUntil: null }),
+          updateMany: vi.fn().mockResolvedValue({ count: 1 }),
           update: vi.fn().mockResolvedValue({ coins: 150, streakFreezes: 2 }),
         },
         purchaseLog: {
@@ -146,14 +151,13 @@ describe("XP Shop & Inventory Standards (/api/shop/*)", () => {
       expect(json.coins).toBe(150);
       expect(json.streakFreezes).toBe(2);
 
-      expect(mockTx.profile.update).toHaveBeenCalledWith(
+      expect(mockTx.profile.updateMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: { id: "user_rich" },
+          where: { id: "user_rich", coins: { gte: 50 } },
           data: expect.objectContaining({
             coins: { decrement: 50 },
             streakFreezes: { increment: 1 },
           }),
-          select: { coins: true, streakFreezes: true },
         })
       );
       expect(invalidateDashboardCache).toHaveBeenCalledWith("user_rich");

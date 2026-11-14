@@ -6,11 +6,11 @@ test.describe("Kênh Thoại Nhóm Realtime (Voice Channel 5.0) - Automated Veri
     await context.grantPermissions(["microphone"]);
 
     // 2. Navigate to Group Study Rooms page
-    await page.goto("http://localhost:3000/study/rooms");
+    await page.goto("/study/rooms");
     await page.waitForLoadState("networkidle");
 
     // 3. Select first room card and click join
-    const joinRoomBtn = page.locator('button:has-text("Tham gia phòng")').first();
+    const joinRoomBtn = page.locator('button:has-text("Tham gia")').first();
     await expect(joinRoomBtn).toBeVisible();
     await joinRoomBtn.click();
 
@@ -26,20 +26,23 @@ test.describe("Kênh Thoại Nhóm Realtime (Voice Channel 5.0) - Automated Veri
     await expect(toast).toBeVisible();
 
     // 7. Verify control buttons (Muted / Active / Settings) are rendered
-    const muteToggle = page.locator('button:has-text("Muted"), button:has-text("Đã vào Kênh Thoại")');
+    const muteToggle = page.locator('button:has-text("Muted"), button:has-text("Đã vào Kênh Thoại"), button:has-text("Đang phát tiếng...")');
     await expect(muteToggle).toBeVisible();
   });
 
   test("Verify Mute/Unmute Shortcut (Ctrl + Shift + M)", async ({ page, context }) => {
     await context.grantPermissions(["microphone"]);
-    await page.goto("http://localhost:3000/study/rooms");
+    await page.goto("/study/rooms");
     await page.waitForLoadState("networkidle");
 
-    const joinRoomBtn = page.locator('button:has-text("Tham gia phòng")').first();
+    const joinRoomBtn = page.locator('button:has-text("Tham gia")').first();
     await joinRoomBtn.click();
 
     const voiceChannelBtn = page.locator('button:has-text("Vào Kênh Thoại")');
     await voiceChannelBtn.click();
+
+    // Wait for connected state before pressing shortcut
+    await expect(page.locator('button:has-text("Đã vào Kênh Thoại"), button:has-text("Đang phát tiếng...")')).toBeVisible();
 
     // Trigger hotkey Ctrl+Shift+M to toggle Mute
     await page.keyboard.press("Control+Shift+KeyM");

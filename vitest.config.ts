@@ -5,6 +5,8 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
+    testTimeout: 30000,
+    maxWorkers: 4,
     include: ["__tests__/**/*.test.ts", "__tests__/**/*.test.tsx"],
   },
   resolve: {

@@ -31,10 +31,12 @@ export async function GET(req: NextRequest) {
         title: true,
         coins: true,
         streakFreezes: true,
+        role: true,
         isPremium: true,
         premiumTier: true,
         premiumStartedAt: true,
         premiumExpiresAt: true,
+        doubleXpUntil: true,
       },
     });
 
@@ -63,6 +65,7 @@ export async function GET(req: NextRequest) {
         username: profile.username || profile.id,
         fullName: profile.fullName || "Học viên XP Voca",
         email: profile.email || `${profile.id}@xpvoca.com`,
+        role: profile.role === "ADMIN" ? "ADMIN" : "USER",
         level: profile.level,
         totalXp: profile.totalXp,
         currentStreak: profile.currentStreak,
@@ -77,12 +80,16 @@ export async function GET(req: NextRequest) {
         premiumTier,
         premiumStartedAt: profile.premiumStartedAt ? profile.premiumStartedAt.toISOString() : null,
         premiumExpiresAt: profile.premiumExpiresAt ? profile.premiumExpiresAt.toISOString() : null,
+        doubleXpUntil: profile.doubleXpUntil ? profile.doubleXpUntil.toISOString() : null,
         imageUrl: profile.avatarUrl || null,
         avatar: profile.avatarUrl || null,
         avatarUrl: profile.avatarUrl || null,
       },
     });
   } catch (_error) {
-    return NextResponse.json({ success: false, data: null });
+    return NextResponse.json(
+      { success: false, error: "Database unavailable", data: null },
+      { status: 503 }
+    );
   }
 }

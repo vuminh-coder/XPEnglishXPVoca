@@ -1,6 +1,7 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { sharedStore } from "@/infrastructure/cache/sharedStore";
 
 export interface PvpRoomStore {
   code: string;
@@ -26,30 +27,33 @@ export interface PvpRoomStore {
   createdAt: number;
 }
 
-// Memory map storing active rooms (cleaned up after 1 hour)
-const activeRooms = new Map<string, PvpRoomStore>();
+// Distributed serverless store for active PvP rooms (1 hour TTL)
+const PVP_ROOM_PREFIX = "pvp_room:";
+const PVP_ROOM_TTL_SECONDS = 3600;
 
-function cleanupExpiredRooms() {
-  const now = Date.now();
-  const ONE_HOUR = 60 * 60 * 1000;
-  for (const [code, room] of activeRooms.entries()) {
-    if (now - room.createdAt > ONE_HOUR) {
-      activeRooms.delete(code);
-    }
-  }
+async function getRoom(code: string): Promise<PvpRoomStore | null> {
+  return await sharedStore.get<PvpRoomStore>(`${PVP_ROOM_PREFIX}${code}`);
 }
 
-function generate5DigitCode(): string {
-  let code = "";
-  do {
-    code = Math.floor(10000 + Math.random() * 90000).toString();
-  } while (activeRooms.has(code));
-  return code;
+async function saveRoom(code: string, room: PvpRoomStore): Promise<void> {
+  await sharedStore.set(`${PVP_ROOM_PREFIX}${code}`, room, PVP_ROOM_TTL_SECONDS);
+}
+
+async function deleteRoom(code: string): Promise<void> {
+  await sharedStore.del(`${PVP_ROOM_PREFIX}${code}`);
+}
+
+async function generate5DigitCode(): Promise<string> {
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const code = Math.floor(10000 + Math.random() * 90000).toString();
+    const existing = await getRoom(code);
+    if (!existing) return code;
+  }
+  return Math.floor(10000 + Math.random() * 90000).toString();
 }
 
 export async function POST(request: Request) {
   try {
-    cleanupExpiredRooms();
     const body = await request.json();
     const { action } = body;
 
@@ -75,7 +79,7 @@ export async function POST(request: Request) {
         // DB lookup failure fallback
       }
 
-      const roomCode = generate5DigitCode();
+      const roomCode = await generate5DigitCode();
       const newRoom: PvpRoomStore = {
         code: roomCode,
         hostId: userId,
@@ -95,7 +99,7 @@ export async function POST(request: Request) {
         createdAt: Date.now(),
       };
 
-      activeRooms.set(roomCode, newRoom);
+      await saveRoom(roomCode, newRoom);
 
       return NextResponse.json({
         success: true,
@@ -112,7 +116,7 @@ export async function POST(request: Request) {
       }
 
       const formattedCode = code.trim();
-      const room = activeRooms.get(formattedCode);
+      const room = await getRoom(formattedCode);
 
       if (!room) {
         return NextResponse.json({ error: "Mã phòng không tồn tại hoặc đã hết hạn" }, { status: 404 });
@@ -137,7 +141,7 @@ export async function POST(request: Request) {
       room.guestAvatar = profile?.avatarEmoji || body?.userAvatar || "🦉";
       room.guestLevel = profile?.level || 1;
 
-      activeRooms.set(formattedCode, room);
+      await saveRoom(formattedCode, room);
 
       return NextResponse.json({
         success: true,
@@ -153,7 +157,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Thiếu mã phòng" }, { status: 400 });
       }
 
-      const room = activeRooms.get(code);
+      const room = await getRoom(code);
       if (!room) {
         return NextResponse.json({ error: "Phòng không tồn tại" }, { status: 404 });
       }
@@ -170,7 +174,7 @@ export async function POST(request: Request) {
     // 4. START BATTLE (HOST ONLY)
     if (action === "start") {
       const { code } = body;
-      const room = activeRooms.get(code);
+      const room = await getRoom(code);
 
       if (!room) {
         return NextResponse.json({ error: "Phòng không tồn tại" }, { status: 404 });
@@ -182,7 +186,7 @@ export async function POST(request: Request) {
 
       room.status = "STARTING";
       room.startTime = Date.now() + 3000; // 3-second synchronized countdown
-      activeRooms.set(code, room);
+      await saveRoom(code, room);
 
       return NextResponse.json({
         success: true,
@@ -193,7 +197,7 @@ export async function POST(request: Request) {
     // 5. SUBMIT SCORE & PER-QUESTION PROGRESS
     if (action === "submit-progress") {
       const { code, score, questionIndex, isCorrect } = body;
-      const room = activeRooms.get(code);
+      const room = await getRoom(code);
 
       if (!room) {
         return NextResponse.json({ error: "Phòng không tồn tại" }, { status: 404 });
@@ -223,7 +227,7 @@ export async function POST(request: Request) {
         room.status = "BATTLE";
       }
 
-      activeRooms.set(code, room);
+      await saveRoom(code, room);
 
       return NextResponse.json({
         success: true,
@@ -234,16 +238,16 @@ export async function POST(request: Request) {
     // 6. LEAVE ROOM
     if (action === "leave") {
       const { code } = body;
-      const room = activeRooms.get(code);
+      const room = await getRoom(code);
       if (room) {
         if (room.hostId === userId) {
-          activeRooms.delete(code);
+          await deleteRoom(code);
         } else if (room.guestId === userId) {
           room.guestId = undefined;
           room.guestName = undefined;
           room.guestAvatar = undefined;
           room.status = "WAITING";
-          activeRooms.set(code, room);
+          await saveRoom(code, room);
         }
       }
       return NextResponse.json({ success: true });

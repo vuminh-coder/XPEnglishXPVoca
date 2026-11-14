@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { extractYouTubeVideoId } from "@/features/listening/utils/videoUrlHelper";
 
 export interface SubtitleSentence {
   id: string;
@@ -188,10 +189,7 @@ export const useVideoStore = create<VideoState>((set, get) => ({
 }));
 
 export function extractYouTubeId(url: string): string | null {
-  if (!url) return null;
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  const match = url.trim().match(regExp);
-  return match && match[2].length === 11 ? match[2] : null;
+  return extractYouTubeVideoId(url);
 }
 
 export function extractYouTubeStartTimestamp(url: string): number {

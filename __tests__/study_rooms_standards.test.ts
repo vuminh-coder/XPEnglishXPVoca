@@ -57,12 +57,14 @@ describe("Study Rooms Performance & Query Standards", () => {
       expect(json.success).toBe(true);
       expect(json.rooms).toHaveLength(1);
 
-      // Verify Rule 3 & Bounded Query Standards
+      // Verify Rule 3 & Bounded Query Standards (never leak passcode)
       expect(findManyArgs.take).toBe(20);
-      expect(findManyArgs.include.members.take).toBe(25);
-      expect(findManyArgs.include.creator.select).toBeDefined();
-      expect(findManyArgs.include.creator.select.passwordHash).toBeUndefined();
-      expect(findManyArgs.include.members.select.user.select.passwordHash).toBeUndefined();
+      expect(findManyArgs.select).toBeDefined();
+      expect(findManyArgs.select.passcode).toBeUndefined();
+      expect(findManyArgs.select.members.take).toBe(25);
+      expect(findManyArgs.select.creator.select).toBeDefined();
+      expect(findManyArgs.select.creator.select.passwordHash).toBeUndefined();
+      expect(findManyArgs.select.members.select.user.select.passwordHash).toBeUndefined();
     });
 
     it("POST /api/study-rooms validates inputs, uses selective projection, and generates 6-digit ID", async () => {
@@ -180,6 +182,11 @@ describe("Study Rooms Performance & Query Standards", () => {
       const userId = "user_chatter";
       vi.spyOn(authModule, "getAuthenticatedUserId").mockResolvedValue(userId);
 
+      (vi.spyOn(prisma.studyRoom, "findUnique") as any).mockResolvedValue({
+        id: "123456",
+        isPrivate: false,
+        createdById: "creator_id",
+      });
       (vi.spyOn(prisma.profile, "findUnique") as any).mockResolvedValue({ id: userId });
       (vi.spyOn(prisma.roomMessage, "create") as any).mockResolvedValue({
         id: "msg_1",
@@ -200,6 +207,27 @@ describe("Study Rooms Performance & Query Standards", () => {
       expect(res.status).toBe(200);
       expect(json.success).toBe(true);
       expect(json.message.content).toBe("Let's study hard!");
+    });
+
+    it("POST /api/study-rooms/[id]/messages returns 403 when non-member posts to a private room", async () => {
+      const userId = "intruder_user";
+      vi.spyOn(authModule, "getAuthenticatedUserId").mockResolvedValue(userId);
+
+      (vi.spyOn(prisma.studyRoom, "findUnique") as any).mockResolvedValue({
+        id: "999999",
+        isPrivate: true,
+        createdById: "owner_id",
+      });
+      (vi.spyOn(prisma.studyRoomMember, "findUnique") as any).mockResolvedValue(null);
+
+      const req = new Request("http://localhost/api/study-rooms/999999/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content: "Unauthorized message" }),
+      });
+
+      const res = await postMessage(req, { params: Promise.resolve({ id: "999999" }) });
+      expect(res.status).toBe(403);
     });
   });
 });

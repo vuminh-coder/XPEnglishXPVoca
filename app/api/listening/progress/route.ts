@@ -3,6 +3,7 @@ import { prisma, handlePrismaError } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
 import { EXTENDED_SHADOWING_LESSONS } from "@/features/shadowing/data/extendedShadowingData";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: "Invalid progress payload" }, { status: 400 });
     }
 
-    const todayStr = new Date().toISOString().slice(0, 10);
+    const todayStr = getLocalDateString(new Date());
     const safeTimeSpent = Math.min(14_400, Math.max(0, Number(timeSpent) || 0));
     const safeXpEarned = Math.min(100, Math.max(0, Math.floor(Number(xpEarned) || 0)));
     const addedMinutes = Math.ceil(safeTimeSpent / 60);

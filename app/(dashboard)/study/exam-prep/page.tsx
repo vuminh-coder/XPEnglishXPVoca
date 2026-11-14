@@ -22,17 +22,17 @@ import { AppTopHeader } from "@/shared/components/layout/AppTopHeader";
 import { StudySuiteNavTabs } from "@/shared/components/layout/nav-tabs/StudySuiteNavTabs";
 
 // Extracted Sub-Components
-import { ExamConfiguratorBanner } from "./components/hub/ExamConfiguratorBanner";
-import { ExamFilterToolbar } from "./components/hub/ExamFilterToolbar";
-import { ExamPaperCard } from "./components/hub/ExamPaperCard";
-import { ExamWorkspaceTopBar } from "./components/workspace/ExamWorkspaceTopBar";
-import { ExamQuestionWorkspace } from "./components/workspace/ExamQuestionWorkspace";
+import { ExamConfiguratorBanner } from "@/features/exam-prep/components/hub/ExamConfiguratorBanner";
+import { ExamFilterToolbar } from "@/features/exam-prep/components/hub/ExamFilterToolbar";
+import { ExamPaperCard } from "@/features/exam-prep/components/hub/ExamPaperCard";
+import { ExamWorkspaceTopBar } from "@/features/exam-prep/components/workspace/ExamWorkspaceTopBar";
+import { ExamQuestionWorkspace } from "@/features/exam-prep/components/workspace/ExamQuestionWorkspace";
 import {
   ExamDesktopAnswerSheet,
   ExamMobileAnswerDrawer,
-} from "./components/workspace/ExamAnswerSheet";
-import { ExamMobileThumbBar } from "./components/workspace/ExamMobileThumbBar";
-import { ExamSubmitConfirmModal } from "./components/shared/ExamSubmitConfirmModal";
+} from "@/features/exam-prep/components/workspace/ExamAnswerSheet";
+import { ExamMobileThumbBar } from "@/features/exam-prep/components/workspace/ExamMobileThumbBar";
+import { ExamSubmitConfirmModal } from "@/features/exam-prep/components/shared/ExamSubmitConfirmModal";
 import { useExamCatalogStore } from "@/stores/examCatalogStore";
 
 function ExamPrepContent() {
@@ -96,17 +96,6 @@ function ExamPrepContent() {
   useEffect(() => {
     fetchExamPapers();
   }, [fetchExamPapers]);
-
-  useEffect(() => {
-    const idParam = searchParams?.get("id") || searchParams?.get("examId");
-    if (idParam && !selectedExam) {
-      fetchExamDetail(idParam).then((paper) => {
-        if (paper) {
-          handleStartExam(paper);
-        }
-      });
-    }
-  }, [searchParams, selectedExam, fetchExamDetail]);
 
   // Submit Exam and Persist Results
   const handleSubmitExam = () => {
@@ -298,6 +287,18 @@ function ExamPrepContent() {
       message: `Đề: ${paper.title} • ${paper.timeLimitMinutes} phút`,
     });
   };
+
+  useEffect(() => {
+    const idParam = searchParams?.get("id") || searchParams?.get("examId");
+    if (idParam && !selectedExam) {
+      fetchExamDetail(idParam).then((paper) => {
+        if (paper) {
+          handleStartExam(paper);
+        }
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, selectedExam, fetchExamDetail]);
 
   // Toggle Flag Question
   const handleToggleFlag = (questionId: string) => {

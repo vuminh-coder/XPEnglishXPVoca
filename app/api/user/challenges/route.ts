@@ -1,6 +1,6 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
-import { getLocalDateString } from "@/shared/utils/dateUtils";
+import { getLocalDateString, getAppStartOfToday } from "@/shared/utils/dateUtils";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { NextResponse } from "next/server";
 
@@ -29,8 +29,7 @@ export async function GET(request: Request) {
     const userId = await getAuthenticatedUserId(request);
     const isGuest = !userId || userId === "guest_user" || userId === "local_user";
     const todayStr = getLocalDateString();
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
+    const startOfToday = getAppStartOfToday();
 
     if (isGuest) {
       return NextResponse.json({
@@ -56,11 +55,12 @@ export async function GET(request: Request) {
         },
       });
 
-      // B. Total vocabulary reviewed/practiced
+      // B. Vocabulary reviewed/practiced today
       const totalReviewed = await prisma.userVocabulary.count({
         where: {
           userId,
           proficiency: { gt: 0 },
+          lastPracticed: { gte: startOfToday },
         },
       });
 
@@ -168,8 +168,7 @@ export async function POST(request: Request) {
 
     const todayStr = getLocalDateString();
     const claimSkillKey = `challenge_claim_${challengeId}`;
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
+    const startOfToday = getAppStartOfToday();
 
     const result = await safeDbExecute(async () => {
       // Use $transaction to prevent double-claim race condition
@@ -211,14 +210,13 @@ export async function POST(request: Request) {
           });
           progress = practices.reduce((acc, p) => acc + (p.minutes || 0), 0);
         } else {
-          // Fallback for review_cards
+          // review_cards must also satisfy today's practice threshold
           progress = await tx.userVocabulary.count({
-            where: { userId, proficiency: { gt: 0 } },
+            where: { userId, proficiency: { gt: 0 }, lastPracticed: { gte: startOfToday } },
           });
         }
 
-        // Check threshold (allow reasonable leniency for review)
-        if (progress < challengeDef.target && challengeId !== "review_cards") {
+        if (progress < challengeDef.target) {
           return {
             notCompleted: true,
             message: `Chưa hoàn thành nhiệm vụ (${progress}/${challengeDef.target}).`,

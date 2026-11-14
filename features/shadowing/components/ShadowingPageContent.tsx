@@ -8,6 +8,7 @@ import { useNotificationStore } from "@/stores/notificationStore";
 import { useListeningStore } from "@/stores/listeningStore";
 import { useUiStore } from "@/stores/uiStore";
 import { speakLessonText, stopTTS } from "@/shared/utils/ttsEngine";
+import { calculateCharacterWeightedWordIndex } from "@/features/listening/services/youtubeSubtitleParser";
 import dynamic from "next/dynamic";
 import {
   ShadowingListingSkeleton,
@@ -98,6 +99,7 @@ export function formatVideoLessonToShadowing(rawVideo: any) {
       explanationVi: seg.explanationAi || seg.explanationVi || "",
       properNouns: seg.properNouns || [],
       keywords: seg.keywords || [],
+      wordTimings: Array.isArray(seg.wordTimings) ? seg.wordTimings : undefined,
     })),
     videoMetadata: {
       sourceType: rawVideo.sourceType || "YOUTUBE",
@@ -668,11 +670,61 @@ export function ShadowingPageContent({
 
   // Auto-scroll is cleanly managed inside ShadowingStudioWorkspace via activeSpeechWordIndex & activePlaybackWordIndex
 
-  // 3. Reset scroll position on sentence change
-  /* eslint-disable react-hooks/set-state-in-effect -- Reset active word on sentence index change */
+  // 3. Reset active word on sentence change
+  /* eslint-disable react-hooks/set-state-in-effect -- Sync karaoke word highlighting with YouTube Video playback ticks */
   useEffect(() => {
     setActivePlaybackWordIndex(null);
   }, [currentSentenceIndex]);
+
+  useEffect(() => {
+    if (!currentSentence || playingSentenceText !== currentSentence.text) return;
+    const mediaInfo = resolveLessonMedia(currentLesson);
+    if (!mediaInfo.isVideoLesson || mediaDisplayMode === "audio") return;
+
+    const words = currentSentence.text.trim().split(/\s+/).filter(Boolean);
+    if (words.length === 0) return;
+
+    const start = currentSentence.startTime ?? 0;
+    const end =
+      typeof currentSentence.endTime === "number" && currentSentence.endTime > start
+        ? currentSentence.endTime
+        : start + Math.max(2, currentSentence.duration ?? 5);
+    const effectiveDuration = Math.max(0.5, end - start);
+
+    const timings = (currentSentence as any).wordTimings;
+    let nextWordIdx = 0;
+
+    if (Array.isArray(timings) && timings.length > 0) {
+      const absTime = start + sentencePlaybackTime;
+      let matched = -1;
+      for (let w = 0; w < timings.length; w++) {
+        const wt = timings[w];
+        if (absTime >= wt.start && absTime <= wt.end) {
+          matched = w;
+          break;
+        }
+        if (absTime > wt.end) {
+          matched = w;
+        }
+      }
+      nextWordIdx = Math.min(words.length - 1, Math.max(0, matched < 0 ? 0 : matched));
+    } else {
+      const clampedRel = Math.max(0, Math.min(effectiveDuration, sentencePlaybackTime));
+      nextWordIdx = calculateCharacterWeightedWordIndex(
+        currentSentence.text,
+        clampedRel,
+        effectiveDuration
+      );
+    }
+
+    setActivePlaybackWordIndex((prev) => (prev === nextWordIdx ? prev : nextWordIdx));
+  }, [
+    currentLesson,
+    currentSentence,
+    playingSentenceText,
+    mediaDisplayMode,
+    sentencePlaybackTime,
+  ]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   // 2-Row Listing State

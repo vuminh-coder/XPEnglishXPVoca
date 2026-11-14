@@ -62,6 +62,12 @@ export default function MyVocabularyPage() {
     return useVocabularyCatalogStore.getState().myVocabFilters.searchQuery || "";
   });
   const [playingAudioText, setPlayingAudioText] = useState<string | null>(null);
+  const [renderNowMs, setRenderNowMs] = useState<number>(() => Date.now());
+
+  useEffect(() => {
+    const timer = setInterval(() => setRenderNowMs(Date.now()), 60_000);
+    return () => clearInterval(timer);
+  }, []);
 
   const setFilter = (next: MyVocabTabFilter) => {
     setFilterState(next);
@@ -121,10 +127,10 @@ export default function MyVocabularyPage() {
       dueWords: enrichedLearned.filter((l) => {
         if (l.proficiency === 5) return false;
         if (!l.nextReview) return true;
-        return new Date(l.nextReview).getTime() <= Date.now() + 24 * 60 * 60 * 1000;
+        return new Date(l.nextReview).getTime() <= renderNowMs + 24 * 60 * 60 * 1000;
       }),
     };
-  }, [enrichedLearned]);
+  }, [enrichedLearned, renderNowMs]);
 
   const filteredByTab = useMemo(() => {
     if (filter === "all") return enrichedLearned;

@@ -1,22 +1,10 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
-import { LEVEL_TITLES } from "@/shared/constants";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
-
-// Level threshold milestones
-const LEVEL_XP = [
-  0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
-  7600, 9200, 11000,
-];
-
-function calculateLevelAndTitle(xp: number, currentLevel: number) {
-  let newLevel = currentLevel;
-  while (newLevel < LEVEL_XP.length && xp >= LEVEL_XP[newLevel]) {
-    newLevel++;
-  }
-  return { level: newLevel, title: LEVEL_TITLES[newLevel] || "Grandmaster" };
-}
+import { sharedStore } from "@/infrastructure/cache/sharedStore";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
+import { calculateLevelAndTitle } from "@/shared/utils/xp";
 
 // Anti-Cheat constraints
 const MIN_PLAY_DURATION_SECONDS = 8;
@@ -40,20 +28,8 @@ function getCooldownForGame(gameType: string): number {
   return MIN_COOLDOWN_MS;
 }
 
-// In-memory rate limiting map: userId -> lastSubmissionTimestampMs
-const userLastGameTimestamp = new Map<string, number>();
-
-// Periodic cleanup every 10 minutes to avoid memory leaks
-if (typeof setInterval !== "undefined") {
-  setInterval(() => {
-    const now = Date.now();
-    for (const [uid, time] of userLastGameTimestamp.entries()) {
-      if (now - time > 10 * 60 * 1000) {
-        userLastGameTimestamp.delete(uid);
-      }
-    }
-  }, 10 * 60 * 1000).unref?.();
-}
+// Cross-instance distributed rate cooldown key prefix
+const GAME_COOLDOWN_PREFIX = "game_cooldown:";
 
 /**
  * Server-authoritative reward calculation based on game rules
@@ -179,10 +155,10 @@ export async function POST(request: Request) {
       });
     }
 
-    // Rate Limiting & Cooldown Protection
+    // Rate Limiting & Cooldown Protection (serverless-safe via sharedStore)
     const now = Date.now();
-    const cooldownKey = `${userId}:${gameType}`;
-    const lastPlayed = userLastGameTimestamp.get(cooldownKey) || 0;
+    const cooldownKey = `${GAME_COOLDOWN_PREFIX}${userId}:${gameType}`;
+    const lastPlayed = (await sharedStore.get<number>(cooldownKey)) || 0;
     const requiredCooldown = getCooldownForGame(gameType);
     if (now - lastPlayed < requiredCooldown) {
       return NextResponse.json(
@@ -195,7 +171,7 @@ export async function POST(request: Request) {
       );
     }
 
-    userLastGameTimestamp.set(cooldownKey, now);
+    await sharedStore.set(cooldownKey, now, Math.max(10, Math.ceil(requiredCooldown / 1000)));
 
     // If duration was too fast, acknowledge game over but grant 0 rewards
     if (durationSeconds < getMinDurationForGame(gameType)) {
@@ -247,7 +223,7 @@ export async function POST(request: Request) {
 
         // Sync to DailySkillPractice for 7-day analytics & skill charts if XP earned
         if (authorizedXp > 0) {
-          const todayDate = new Date().toISOString().split("T")[0];
+          const todayDate = getLocalDateString(new Date());
           const practiceMinutes = Math.max(1, Math.round(durationSeconds / 60));
           await tx.dailySkillPractice.upsert({
             where: {

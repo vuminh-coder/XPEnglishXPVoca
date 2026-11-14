@@ -55,6 +55,7 @@ export interface DictationVideoBlockProps {
   // Layout customization
   mediaDisplayMode?: MediaDisplayMode;
   onMediaDisplayModeChange?: (mode: MediaDisplayMode) => void;
+  viewportVariant?: "studio" | "cinema";
   className?: string;
 }
 
@@ -103,6 +104,7 @@ export const DictationVideoBlock: React.FC<DictationVideoBlockProps> = React.mem
     onToggleMergeNext,
     mediaDisplayMode = "video",
     onMediaDisplayModeChange,
+    viewportVariant = "studio",
     className = "",
   }) {
     const wordCount = currentSentence?.text
@@ -133,6 +135,7 @@ export const DictationVideoBlock: React.FC<DictationVideoBlockProps> = React.mem
           onRewindAudioSpeech={onRewindAudioSpeech}
           mediaDisplayMode={mediaDisplayMode}
           onMediaDisplayModeChange={onMediaDisplayModeChange}
+          viewportVariant={viewportVariant}
           onToast={onToast}
           className="w-full"
         />

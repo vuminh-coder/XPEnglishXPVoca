@@ -205,25 +205,34 @@ describe("Security Modules Deep Audit & Unit Tests", () => {
   });
 
   describe("4. Password Hashing (infrastructure/auth/password.ts)", () => {
-    it("should hash password with modern PBKDF2 random salt format (pbkdf2:salt:hash)", () => {
+    it("should hash password with modern PBKDF2v2 random salt format (pbkdf2v2:salt:hash)", () => {
       const rawPassword = "SecurePassword123!";
       const hash1 = hashPassword(rawPassword);
       const hash2 = hashPassword(rawPassword);
 
-      // Format: pbkdf2:<32-hex-salt>:<128-hex-hash>
-      expect(hash1).toMatch(/^pbkdf2:[a-f0-9]{32}:[a-f0-9]{128}$/);
-      expect(hash2).toMatch(/^pbkdf2:[a-f0-9]{32}:[a-f0-9]{128}$/);
+      // Format: pbkdf2v2:<32-hex-salt>:<128-hex-hash> (100,000 iterations SHA-512)
+      expect(hash1).toMatch(/^pbkdf2v2:[a-f0-9]{32}:[a-f0-9]{128}$/);
+      expect(hash2).toMatch(/^pbkdf2v2:[a-f0-9]{32}:[a-f0-9]{128}$/);
 
       // Unique salt per hash: two hashes of the same password must differ
       expect(hash1).not.toBe(hash2);
     });
 
-    it("should verify correct password against modern PBKDF2 hash", () => {
+    it("should verify correct password against modern PBKDF2v2 hash", () => {
       const rawPassword = "MySecretPassword2026!";
       const hash = hashPassword(rawPassword);
 
       expect(comparePassword(rawPassword, hash)).toBe(true);
       expect(comparePassword("WrongPassword!", hash)).toBe(false);
+    });
+
+    it("should verify 10k-iteration legacy PBKDF2 salted hash (pbkdf2:salt:hash) for backward compatibility", () => {
+      const rawPassword = "LegacySaltedPassword!";
+      const salt = "0123456789abcdef0123456789abcdef";
+      const legacySaltedHash = `pbkdf2:${salt}:${crypto.pbkdf2Sync(rawPassword, salt, 10000, 64, "sha512").toString("hex")}`;
+
+      expect(comparePassword(rawPassword, legacySaltedHash)).toBe(true);
+      expect(comparePassword("WrongPassword!", legacySaltedHash)).toBe(false);
     });
 
     it("should seamlessly verify legacy PBKDF2 hashes (pbkdf2:hash with static salt)", () => {

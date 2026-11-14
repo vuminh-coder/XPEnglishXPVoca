@@ -1,6 +1,7 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 
 export async function GET(request: Request) {
   try {
@@ -62,7 +63,7 @@ export async function GET(request: Request) {
     const totalMinutesSpent = Math.round(totalSeconds / 60);
 
     const recentProgression = attempts.slice(0, 7).reverse().map((att) => ({
-      date: (att.completedAt || att.startedAt).toISOString().split("T")[0],
+      date: getLocalDateString(new Date(att.completedAt || att.startedAt)),
       score: att.estimatedScore || (att.estimatedBand ? att.estimatedBand * 100 : att.totalScore || 0),
       accuracy: att.percentage || 0
     }));

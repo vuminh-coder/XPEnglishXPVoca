@@ -131,6 +131,38 @@ export function PracticeMatchPairsArena({
     }
   }, [isBatchCleared, currentBatchIndex, validVocabs.length, activeBatchVocabs.length]);
 
+  const checkMatch = useCallback(
+    (enCard: MatchCardItem, viCard: MatchCardItem) => {
+      if (enCard.vocabId === viCard.vocabId) {
+        // MATCH SUCCESS!
+        playSuccessDing();
+        setMatchedVocabIds((prev) => new Set(prev).add(enCard.vocabId));
+        setSelectedEnId(null);
+        setSelectedViId(null);
+
+        const newCombo = combo + 1;
+        setCombo(newCombo);
+        setMaxCombo((prev) => Math.max(prev, newCombo));
+
+        const xpGained = 5 + Math.min(newCombo, 5); // Bonus XP for streak
+        setTotalXpEarned((prev) => prev + xpGained);
+        awardXp(xpGained);
+      } else {
+        // MISMATCH!
+        playWrongBuzz();
+        setWrongPair({ enId: enCard.id, viId: viCard.id });
+        setCombo(0);
+
+        setTimeout(() => {
+          setWrongPair(null);
+          setSelectedEnId(null);
+          setSelectedViId(null);
+        }, 450);
+      }
+    },
+    [combo, awardXp]
+  );
+
   // Card click handlers
   const handleSelectEnCard = useCallback(
     (card: MatchCardItem) => {
@@ -158,7 +190,7 @@ export function PracticeMatchPairsArena({
         }
       }
     },
-    [selectedEnId, selectedViId, wrongPair, playWordAudio, viCardsWithMatched]
+    [selectedEnId, selectedViId, wrongPair, playWordAudio, viCardsWithMatched, checkMatch]
   );
 
   const handleSelectViCard = useCallback(
@@ -182,37 +214,8 @@ export function PracticeMatchPairsArena({
         }
       }
     },
-    [selectedEnId, selectedViId, wrongPair, enCards]
+    [selectedEnId, selectedViId, wrongPair, enCards, checkMatch]
   );
-
-  const checkMatch = (enCard: MatchCardItem, viCard: MatchCardItem) => {
-    if (enCard.vocabId === viCard.vocabId) {
-      // MATCH SUCCESS!
-      playSuccessDing();
-      setMatchedVocabIds((prev) => new Set(prev).add(enCard.vocabId));
-      setSelectedEnId(null);
-      setSelectedViId(null);
-
-      const newCombo = combo + 1;
-      setCombo(newCombo);
-      setMaxCombo((prev) => Math.max(prev, newCombo));
-
-      const xpGained = 5 + Math.min(newCombo, 5); // Bonus XP for streak
-      setTotalXpEarned((prev) => prev + xpGained);
-      awardXp(xpGained);
-    } else {
-      // MISMATCH!
-      playWrongBuzz();
-      setWrongPair({ enId: enCard.id, viId: viCard.id });
-      setCombo(0);
-
-      setTimeout(() => {
-        setWrongPair(null);
-        setSelectedEnId(null);
-        setSelectedViId(null);
-      }, 450);
-    }
-  };
 
   const handleRestart = () => {
     setCurrentBatchIndex(0);

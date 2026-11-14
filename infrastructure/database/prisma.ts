@@ -7,8 +7,16 @@ import { execSync } from 'child_process';
  */
 function resolveIpv4Sync(hostname: string): string | null {
   try {
-    const stdout = execSync(`nslookup ${hostname}`, { timeout: 2000, encoding: 'utf8' });
-    const matches = stdout.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) || [];
+    // Request IPv4 (A) records and parse ONLY the answer block after "Name:" so we never
+    // accidentally capture the local/ISP DNS resolver IP printed in the leading "Server:" header.
+    const stdout = execSync(`nslookup -type=A ${hostname}`, { timeout: 2000, encoding: 'utf8' });
+    const answerIndex = stdout.search(/\bName:\s/i);
+    if (answerIndex === -1) {
+      return null;
+    }
+
+    const answerSection = stdout.slice(answerIndex);
+    const matches = answerSection.match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) || [];
     const candidates = matches.filter(
       (ip) =>
         !ip.startsWith('192.168.') &&

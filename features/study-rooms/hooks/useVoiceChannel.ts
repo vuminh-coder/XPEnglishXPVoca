@@ -28,6 +28,10 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
 
   const localStreamRef = useRef<MediaStream | null>(null);
+  const optionsRef = useRef<VoiceChannelOptions>(options);
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
   const handleAutoReconnectRef = useRef<() => Promise<void>>(async () => {});
   const connectVoiceRef = useRef<() => Promise<void>>(async () => {});
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -48,16 +52,16 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
       setInputDevices(audioInputs);
       setOutputDevices(audioOutputs);
 
-      if (audioInputs.length > 0 && !selectedInputId) {
-        setSelectedInputId(audioInputs[0].deviceId);
+      if (audioInputs.length > 0) {
+        setSelectedInputId((prev) => prev || audioInputs[0].deviceId);
       }
-      if (audioOutputs.length > 0 && !selectedOutputId) {
-        setSelectedOutputId(audioOutputs[0].deviceId);
+      if (audioOutputs.length > 0) {
+        setSelectedOutputId((prev) => prev || audioOutputs[0].deviceId);
       }
     } catch (err) {
       console.error("Error enumerating audio devices:", err);
     }
-  }, [selectedInputId, selectedOutputId]);
+  }, []);
 
   useEffect(() => {
     enumerateDevices();
@@ -97,7 +101,7 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
         const normalized = Math.min(100, Math.round((average / 128) * 100));
 
         setVolumeLevel(normalized);
-        options.onVolumeChange?.(normalized);
+        optionsRef.current.onVolumeChange?.(normalized);
 
         // VAD Logic with Noise Gate
         const speakingNow = normalized > noiseGateThreshold;
@@ -107,13 +111,13 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
             speakingTimeoutRef.current = null;
           }
           setIsSpeaking(true);
-          options.onSpeakingChange?.(true);
+          optionsRef.current.onSpeakingChange?.(true);
         } else {
           // Keep speaking ring active for 300ms after silence
           if (!speakingTimeoutRef.current) {
             speakingTimeoutRef.current = setTimeout(() => {
               setIsSpeaking(false);
-              options.onSpeakingChange?.(false);
+              optionsRef.current.onSpeakingChange?.(false);
             }, 300);
           }
         }
@@ -155,8 +159,8 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
     setIsReconnecting(false);
     setIsSpeaking(false);
     setVolumeLevel(0);
-    options.onConnectionStateChange?.("disconnected");
-  }, [options]);
+    optionsRef.current.onConnectionStateChange?.("disconnected");
+  }, []);
 
   // Auto Reconnection with Exponential Backoff
   const handleAutoReconnect = useCallback(async () => {
@@ -168,7 +172,7 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
 
     reconnectAttemptRef.current += 1;
     setIsReconnecting(true);
-    options.onConnectionStateChange?.("reconnecting");
+    optionsRef.current.onConnectionStateChange?.("reconnecting");
 
     const backoffDelay = Math.min(5000, 1000 * Math.pow(2, reconnectAttemptRef.current));
     setTimeout(async () => {
@@ -178,7 +182,7 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
         // Handled in next tick
       }
     }, backoffDelay);
-  }, [disconnectVoice, options]);
+  }, [disconnectVoice]);
 
   useEffect(() => {
     handleAutoReconnectRef.current = handleAutoReconnect;
@@ -189,7 +193,7 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
     try {
       setErrorMsg(null);
       setIsReconnecting(false);
-      options.onConnectionStateChange?.("connecting");
+      optionsRef.current.onConnectionStateChange?.("connecting");
 
       const constraints: MediaStreamConstraints = {
         audio: {
@@ -219,7 +223,7 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
       startAudioAnalyser(stream);
       setIsConnected(true);
       reconnectAttemptRef.current = 0;
-      options.onConnectionStateChange?.("connected");
+      optionsRef.current.onConnectionStateChange?.("connected");
 
       // Start periodic signaling heartbeat
       if (heartbeatTimerRef.current) clearInterval(heartbeatTimerRef.current);
@@ -236,10 +240,10 @@ export function useVoiceChannel(options: VoiceChannelOptions = {}) {
       console.error("Failed to access microphone:", err);
       setErrorMsg("Quyền truy cập Micro bị từ chối hoặc thiết bị bận!");
       setIsConnected(false);
-      options.onConnectionStateChange?.("disconnected");
+      optionsRef.current.onConnectionStateChange?.("disconnected");
       throw err;
     }
-  }, [selectedInputId, isMuted, isConnected, enumerateDevices, options]);
+  }, [selectedInputId, isMuted, isConnected, enumerateDevices]);
 
   useEffect(() => {
     connectVoiceRef.current = connectVoice;

@@ -45,3 +45,24 @@ yarn-error.log*
 next-env.d.ts
 
 /lib/generated/prisma
+
+# ad-hoc scripts & test artifacts
+/public/test-artifacts/
+/scripts/__pycache__/
+/scripts/archive/
+/scripts/titanic_frames/
+/scripts/**/*.py
+/scripts/**/*.js
+/scripts/**/*.mjs
+/scripts/**/*.txt
+/scripts/**/*.xml
+/scripts/**/*.mp3
+/scripts/**/*.png
+/scripts/**/*.jpg
+/scripts/**/*.mp4
+/scripts/**/*.html
+/scripts/**/*.cjs
+/scripts/**/*.dict
+/scripts/**/*.log
+/test-results/
+/playwright-report/

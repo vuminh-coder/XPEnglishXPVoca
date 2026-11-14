@@ -32,10 +32,12 @@ model Profile {
   passwordResetExpires DateTime?       @map("password_reset_expires")
   activeAvatarFrame   String?          @map("active_avatar_frame") @db.VarChar(100)
   activeChatBubble    String?          @map("active_chat_bubble") @db.VarChar(100)
+  role                String           @default("USER") @db.VarChar(20)
   isPremium           Boolean          @default(false) @map("is_premium")
   premiumTier         String?          @map("premium_tier") @db.VarChar(50)
   premiumStartedAt    DateTime?        @map("premium_started_at")
   premiumExpiresAt    DateTime?        @map("premium_expires_at")
+  doubleXpUntil       DateTime?        @map("double_xp_until")
   subscriptionOrders  SubscriptionOrder[]
   purchaseLogs        PurchaseLog[]
   vocabularies        UserVocabulary[]
@@ -737,5 +739,15 @@ model LessonRequest {
   @@index([status])
   @@index([createdAt(sort: Desc)])
   @@map("lesson_requests")
+}
+
+model EphemeralState {
+  key       String   @id @db.VarChar(255)
+  valueJson String   @map("value_json") @db.Text
+  expiresAt DateTime @map("expires_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@index([expiresAt])
+  @@map("ephemeral_states")
 }
 

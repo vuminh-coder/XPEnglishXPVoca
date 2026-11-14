@@ -1,4 +1,9 @@
-const YOUTUBE_TIMEDTEXT_HOSTS = new Set(["www.youtube.com", "youtube.com"]);
+const YOUTUBE_TIMEDTEXT_HOSTS = new Set([
+  "www.youtube.com",
+  "youtube.com",
+  "m.youtube.com",
+  "music.youtube.com",
+]);
 const VIDEO_ID_PATTERN = /^[A-Za-z0-9_-]{11}$/;
 
 /**

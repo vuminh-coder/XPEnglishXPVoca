@@ -192,7 +192,7 @@ describe("Social, Study Rooms & AI Recommendations Standard Suite", () => {
       expect(prisma.studyRoom.findMany).toHaveBeenCalledWith(
         expect.objectContaining({
           take: 20,
-          include: expect.objectContaining({
+          select: expect.objectContaining({
             creator: expect.any(Object),
             members: expect.objectContaining({
               take: 25,
@@ -201,8 +201,9 @@ describe("Social, Study Rooms & AI Recommendations Standard Suite", () => {
           }),
         })
       );
-      const includeArgs = (prisma.studyRoom.findMany as any).mock.calls[0][0].include;
-      expect(includeArgs.creator.select.passwordHash).toBeUndefined();
+      const selectArgs = (prisma.studyRoom.findMany as any).mock.calls[0][0].select;
+      expect(selectArgs.passcode).toBeUndefined();
+      expect(selectArgs.creator.select.passwordHash).toBeUndefined();
       expect(json.success).toBe(true);
       expect(json.rooms.length).toBe(1);
     });

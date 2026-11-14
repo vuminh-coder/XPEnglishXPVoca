@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { getServerGeminiApiKey, requireAuthenticatedAiCaller } from "@/infrastructure/security/aiGuard";
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+const GEMINI_API_KEY = getServerGeminiApiKey();
 
 export async function POST(req: NextRequest) {
   try {
-    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-    if (isRateLimited(`ai_ui_critique_${clientIp}`, 5, 60 * 1000)) {
-      return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
+    const authGuard = await requireAuthenticatedAiCaller(req, "ai_ui_critique", 5, 60 * 1000);
+    if ("errorResponse" in authGuard) {
+      return authGuard.errorResponse;
     }
 
     const { route, rating, category, comments } = await req.json();

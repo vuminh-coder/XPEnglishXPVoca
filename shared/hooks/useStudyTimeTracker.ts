@@ -18,8 +18,8 @@ export function useStudyTimeTracker(
   const {
     autoStart = true,
     activeCondition = true,
-    flushIntervalSeconds = 30,
-    minFlushSeconds = 15,
+    flushIntervalSeconds = 60,
+    minFlushSeconds = 60,
   } = options;
 
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
@@ -48,9 +48,11 @@ export function useStudyTimeTracker(
   const flushNow = useCallback(() => {
     const buffered = bufferSecondsRef.current;
     if (buffered >= minFlushSeconds) {
-      const minutesToRecord = Math.max(1, Math.round(buffered / 60));
-      useUserStore.getState().addPracticeTime(minutesToRecord, skillRef.current);
-      bufferSecondsRef.current = 0;
+      const minutesToRecord = Math.floor(buffered / 60);
+      if (minutesToRecord > 0) {
+        useUserStore.getState().addPracticeTime(minutesToRecord, skillRef.current);
+        bufferSecondsRef.current = buffered % 60;
+      }
     }
   }, [minFlushSeconds]);
 

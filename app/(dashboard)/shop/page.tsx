@@ -29,6 +29,7 @@ interface ShopItem {
   accentText: string;
   category: "consumable" | "cosmetic";
   tag: string;
+  comingSoon?: boolean;
 }
 
 export default function ShopPage() {
@@ -39,6 +40,12 @@ export default function ShopPage() {
   const [purchasedItems, setPurchasedItems] = useState<Set<string>>(new Set());
   const [isEquipping, setIsEquipping] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<"all" | "consumable" | "cosmetic">("all");
+  const [renderNowMs, setRenderNowMs] = useState(() => Date.now());
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setRenderNowMs(Date.now()), 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -80,14 +87,15 @@ export default function ShopPage() {
     },
     {
       id: "energy_boost",
-      name: "Bình Tăng Tốc Năng Lượng (Energy Boost)",
-      desc: "Hồi phục toàn bộ năng lượng luyện tập lập tức, mở khóa không giới hạn lượt làm bài thi trong ngày.",
+      name: "Bình Tăng Tốc Năng Lượng (Sắp ra mắt)",
+      desc: "Tính năng giới hạn năng lượng đang được hoàn thiện. Vật phẩm tạm thời chưa mở bán để bảo vệ Vàng của bạn.",
       cost: 75,
-      icon: <Coins className="w-5 h-5 text-emerald-500 stroke-[2.2]" />,
-      accentBg: "bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200/80 dark:border-emerald-800",
-      accentText: "text-emerald-600 dark:text-emerald-400",
+      icon: <Coins className="w-5 h-5 text-slate-400 stroke-[2.2]" />,
+      accentBg: "bg-slate-100 dark:bg-slate-800 border-slate-200/80 dark:border-slate-700",
+      accentText: "text-slate-500 dark:text-slate-400",
       category: "consumable",
-      tag: "Vật phẩm Hỗ trợ",
+      tag: "Sắp ra mắt",
+      comingSoon: true,
     },
     {
       id: "super_streak_shield",
@@ -192,22 +200,22 @@ export default function ShopPage() {
         });
 
         if (user) {
-          if (itemId === "streak_freeze") {
-            useAuthStore.setState({
-              user: {
-                ...user,
-                coins: currentCoins - cost,
-                streakFreezes: (user.streakFreezes || 0) + 1,
-              },
-            });
-          } else {
-            useAuthStore.setState({
-              user: {
-                ...user,
-                coins: currentCoins - cost,
-              },
-            });
-          }
+          useAuthStore.setState({
+            user: {
+              ...user,
+              coins: typeof data.coins === "number" ? data.coins : currentCoins - cost,
+              streakFreezes:
+                typeof data.streakFreezes === "number"
+                  ? data.streakFreezes
+                  : itemId === "streak_freeze"
+                  ? (user.streakFreezes || 0) + 1
+                  : itemId === "super_streak_shield"
+                  ? (user.streakFreezes || 0) + 3
+                  : user.streakFreezes,
+              doubleXpUntil:
+                data.doubleXpUntil !== undefined ? data.doubleXpUntil : user.doubleXpUntil,
+            },
+          });
         }
 
         setTimeout(() => setSuccessId(null), 2500);
@@ -419,16 +427,20 @@ export default function ShopPage() {
                       ) : (
                         <button
                           onClick={() => handlePurchase(item.id, item.cost)}
-                          disabled={isPurchasing || isSuccess}
-                          className={`h-9 px-4 rounded-xl text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1 active:scale-95 ${
-                            isSuccess
-                              ? "bg-emerald-600 text-white"
+                          disabled={Boolean((item as { comingSoon?: boolean }).comingSoon) || isPurchasing || isSuccess || !canAfford}
+                          className={`h-9 px-4 rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1 active:scale-95 ${
+                            (item as { comingSoon?: boolean }).comingSoon
+                              ? "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed"
+                              : isSuccess
+                              ? "bg-emerald-600 text-white cursor-default"
                               : canAfford
-                              ? "bg-[#0059bb] hover:bg-[#004ba0] text-white"
+                              ? "bg-[#0059bb] hover:bg-[#004ba0] text-white cursor-pointer"
                               : "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed"
                           }`}
                         >
-                          {isSuccess ? (
+                          {(item as { comingSoon?: boolean }).comingSoon ? (
+                            "Sắp ra mắt"
+                          ) : isSuccess ? (
                             <>
                               <Check className="w-3.5 h-3.5" /> Mua thành công!
                             </>
@@ -526,7 +538,13 @@ export default function ShopPage() {
                   <Zap className="w-5 h-5 text-amber-500 shrink-0" />
                   <div className="min-w-0">
                     <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block">Nhân Đôi XP</span>
-                    <span className="text-sm font-black text-slate-900 dark:text-white font-mono">30 Phút</span>
+                    <span className="text-sm font-black text-slate-900 dark:text-white font-mono">
+                      {user?.isPremium
+                        ? "VIP 2X vĩnh viễn"
+                        : user?.doubleXpUntil && new Date(user.doubleXpUntil).getTime() > renderNowMs
+                        ? `Đang bật (${Math.max(1, Math.ceil((new Date(user.doubleXpUntil).getTime() - renderNowMs) / 60_000))}p)`
+                        : "Chưa kích hoạt"}
+                    </span>
                   </div>
                 </div>
               </div>

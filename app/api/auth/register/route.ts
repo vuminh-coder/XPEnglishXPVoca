@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { hashPassword } from "@/infrastructure/auth/password";
 import { signAuthToken } from "@/infrastructure/auth/jwt";
-import { sanitizeInput, isValidEmail } from "@/infrastructure/security/validation";
+import { getTrustedClientIp, sanitizeInput, isValidEmail } from "@/infrastructure/security/validation";
 import { isRateLimited } from "@/infrastructure/security/rateLimit";
 
 export async function POST(req: NextRequest) {
   try {
     // Anti-spam: 3 registrations per hour per IP
-    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    const clientIp = getTrustedClientIp(req);
     if (isRateLimited(`auth_register_${clientIp}`, 3, 60 * 60 * 1000)) {
       return NextResponse.json(
         { success: false, error: "Quá nhiều lần đăng ký. Vui lòng thử lại sau." },
@@ -55,8 +55,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Generate unique User ID & Username
-    const usernamePrefix = trimmedEmail.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "");
+    // Generate unique User ID & guaranteed-unique Username
+    const usernamePrefix = trimmedEmail.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "") || "user";
+    let candidateUsername = usernamePrefix.slice(0, 30);
+    const existingUsername = await prisma.profile.findFirst({
+      where: { username: candidateUsername },
+      select: { id: true },
+    });
+    if (existingUsername) {
+      candidateUsername = `${usernamePrefix.slice(0, 22)}_${Math.random().toString(36).substring(2, 7)}`;
+    }
+
     const userId = `usr_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
     const hashedPassword = hashPassword(String(password));
 
@@ -67,7 +76,8 @@ export async function POST(req: NextRequest) {
         email: trimmedEmail,
         passwordHash: hashedPassword,
         fullName: trimmedFullName,
-        username: usernamePrefix || "user",
+        username: candidateUsername,
+        role: "USER",
         avatarEmoji: "🦉",
         level: 1,
         totalXp: 0,
@@ -83,6 +93,7 @@ export async function POST(req: NextRequest) {
         username: true,
         fullName: true,
         email: true,
+        role: true,
         level: true,
         totalXp: true,
         currentStreak: true,
@@ -101,6 +112,7 @@ export async function POST(req: NextRequest) {
       userId: newProfile.id,
       email: newProfile.email,
       username: newProfile.username,
+      role: "USER",
     });
 
     const userPayload = {
@@ -108,6 +120,7 @@ export async function POST(req: NextRequest) {
       username: newProfile.username,
       fullName: newProfile.fullName,
       email: newProfile.email,
+      role: "USER" as const,
       level: newProfile.level,
       totalXp: newProfile.totalXp,
       currentStreak: newProfile.currentStreak,

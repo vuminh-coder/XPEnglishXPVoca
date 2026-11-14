@@ -2,21 +2,7 @@ import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
-import { LEVEL_TITLES } from "@/shared/constants";
-
-// Helper to calculate level and title from XP
-function calculateLevelAndTitle(xp: number, currentLevel: number) {
-  const LEVEL_XP = [
-    0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
-    7600, 9200, 11000,
-  ];
-  let newLevel = currentLevel;
-  while (newLevel < LEVEL_XP.length && xp >= LEVEL_XP[newLevel]) {
-    newLevel++;
-  }
-  const newTitle = LEVEL_TITLES[newLevel] || "Grandmaster";
-  return { level: newLevel, title: newTitle };
-}
+import { calculateLevelAndTitle } from "@/shared/utils/xp";
 
 export async function GET(request: Request) {
   try {

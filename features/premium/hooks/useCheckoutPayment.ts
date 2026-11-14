@@ -94,7 +94,44 @@ export function useCheckoutPayment() {
     setIsVerifying(true);
 
     try {
-      // 1. Try real server-side transaction confirmation
+      // 1. Poll server order verification status (activated only via bank webhook or Admin approval)
+      const statusRes = await fetch("/api/subscription/checkout", { cache: "no-store" });
+      if (statusRes.ok) {
+        const statusJson = await statusRes.json();
+        if (statusJson.success && statusJson.isPremium && statusJson.order?.status === "completed") {
+          await activateSubscription(selectedKey, {
+            isPremium: true,
+            premiumTier: statusJson.profile?.premiumTier || selectedKey,
+            premiumExpiresAt: statusJson.profile?.premiumExpiresAt,
+            streakFreezes: statusJson.profile?.streakFreezes,
+          });
+
+          setReceiptData({
+            orderId: statusJson.order.id,
+            planName: plan.name,
+            planKey: selectedKey,
+            amount: plan.totalPriceNum,
+            amountFormatted: plan.totalPriceFormatted,
+            transferSyntax: statusJson.order.transferSyntax || transferContent,
+            activatedAt: new Date().toLocaleDateString("vi-VN"),
+            expiresAt: statusJson.profile?.premiumExpiresAt
+              ? new Date(statusJson.profile.premiumExpiresAt).toLocaleDateString("vi-VN")
+              : "Vĩnh viễn",
+            giftsAwarded: ["Khiên Kim Cương Streak", "Đặc quyền VIP 2X XP"],
+          });
+
+          setIsVerifying(false);
+          setIsSuccess(true);
+          addToast({
+            type: "success",
+            title: "Kích hoạt Premium thành công!",
+            message: `Chào mừng bạn đến với hội viên VIP ${plan.name}.`,
+          });
+          return;
+        }
+      }
+
+      // 2. Notify server to record/keep pending order awaiting real payment reconciliation
       const res = await fetch("/api/subscription/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -103,8 +140,7 @@ export function useCheckoutPayment() {
 
       const json = await res.json();
 
-      if (json.success && json.data) {
-        // Successfully verified and activated in PostgreSQL
+      if (res.ok && json.success && json.data?.isPremium) {
         await activateSubscription(selectedKey, json.data);
 
         setReceiptData({
@@ -118,11 +154,7 @@ export function useCheckoutPayment() {
           expiresAt: json.data.premiumExpiresAt
             ? new Date(json.data.premiumExpiresAt).toLocaleDateString("vi-VN")
             : "Vĩnh viễn",
-          giftsAwarded: json.data.giftsAwarded || [
-            "+3 Khiên Kim Cương Streak",
-            "Nón Cử Nhân Cú Vàng",
-            "Nhân đôi X2 XP",
-          ],
+          giftsAwarded: json.data.giftsAwarded || [],
         });
 
         setIsVerifying(false);
@@ -134,47 +166,24 @@ export function useCheckoutPayment() {
         });
         return;
       }
-    } catch (err) {
-      console.log("[Subscription API fallback to local activation]:", err);
-    }
-
-    // 2. Client / Local fallback (e.g. offline or local_user session)
-    setTimeout(async () => {
-      await activateSubscription(selectedKey);
-
-      const now = new Date();
-      const expiresAtDate =
-        selectedKey === "lifetime"
-          ? "Vĩnh viễn (2099)"
-          : selectedKey === "yearly"
-          ? new Date(now.getTime() + 456 * 24 * 60 * 60 * 1000).toLocaleDateString("vi-VN")
-          : new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString("vi-VN");
-
-      setReceiptData({
-        orderId: `ORD-${Date.now().toString().slice(-6)}`,
-        planName: plan.name,
-        planKey: selectedKey,
-        amount: plan.totalPriceNum,
-        amountFormatted: plan.totalPriceFormatted,
-        transferSyntax: transferContent,
-        activatedAt: now.toLocaleDateString("vi-VN"),
-        expiresAt: expiresAtDate,
-        giftsAwarded:
-          selectedKey === "yearly"
-            ? ["+3 Khiên Kim Cương Streak", "Nón Cử Nhân Cú Vàng", "Nhân đôi X2 XP"]
-            : selectedKey === "lifetime"
-            ? ["Huy hiệu Golden Crown", "+99 Khiên Streak", "Ưu tiên AI VIP"]
-            : ["+1 Khiên Streak", "Nhân đôi X2 XP"],
-      });
 
       setIsVerifying(false);
-      setIsSuccess(true);
       addToast({
-        type: "success",
-        title: "Kích hoạt Premium thành công!",
-        message: `Chào mừng bạn đến với hội viên VIP ${plan.name}.`,
+        type: "info",
+        title: "Đang chờ xác nhận thanh toán",
+        message:
+          json?.error ||
+          "Hệ thống đã ghi nhận yêu cầu. Gói VIP sẽ được kích hoạt ngay khi giao dịch được đối soát thành công.",
       });
-    }, 1200);
+    } catch (err) {
+      console.error("[Subscription verification error]:", err);
+      setIsVerifying(false);
+      addToast({
+        type: "warning",
+        title: "Chưa thể kiểm tra giao dịch",
+        message: "Vui lòng đăng nhập và thử lại sau khi hoàn tất chuyển khoản.",
+      });
+    }
   }, [selectedKey, plan, transferContent, activateSubscription, addToast]);
 
   return {

@@ -1,13 +1,14 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
+import { getLocalDateString, getShiftedAppDateString } from "@/shared/utils/dateUtils";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   try {
     const userId = await getAuthenticatedUserId(request);
-    const todayStr = new Date().toISOString().slice(0, 10);
+    const todayStr = getLocalDateString(new Date());
 
     // Smart Adaptive Fallback task if not authenticated or no plan configured yet
     const fallbackPlan = {
@@ -15,7 +16,7 @@ export async function GET(request: Request) {
       title: "Kế Hoạch Học Tập Toàn Diện",
       targetExam: "TOEIC",
       targetScore: 750,
-      targetDate: new Date(Date.now() + 90 * 86400000).toISOString().slice(0, 10),
+      targetDate: getShiftedAppDateString(90),
       currentLevel: "A2 Elementary",
       weeklyHours: 5,
       dailyTasks: [
@@ -69,7 +70,7 @@ export async function GET(request: Request) {
 
     // Check if there is a task for today, otherwise inject today's adaptive task
     const hasTodayTask = plan.dailyTasks.some((t: any) => {
-      const taskDate = new Date(t.date).toISOString().slice(0, 10);
+      const taskDate = getLocalDateString(new Date(t.date));
       return taskDate === todayStr;
     });
 

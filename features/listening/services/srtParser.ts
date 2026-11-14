@@ -6,6 +6,13 @@
 
 import { SubtitleSentence } from "@/stores/videoStore";
 import { extractDictationWord, shiftTimestampSec } from "@/features/listening/services/youtubeSubtitleParser";
+import {
+  cleanSubtitleText,
+  isMeaningfulSubtitleText,
+  normalizeSubtitlePipeline,
+  NormalizedCue,
+  NormalizedVnCue,
+} from "@/features/listening/services/subtitleNormalizer";
 
 /** Raw parsed cue before conversion */
 interface RawSrtCue {
@@ -44,23 +51,6 @@ export function parseSrtTimestamp(ts: string): number {
   }
 
   return 0;
-}
-
-/**
- * Clean HTML tags and decode common entities from subtitle text
- */
-function cleanSubtitleText(text: string): string {
-  return text
-    .replace(/<[^>]+>/g, "")         // Strip HTML/XML tags
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&#39;/g, "'")
-    .replace(/\r/g, "")              // Normalize line endings
-    .trim();
 }
 
 /**
@@ -141,63 +131,83 @@ export function parseSrtContent(srtText: string, videoId?: string): SubtitleSent
   // Sort by startTime
   rawCues.sort((a, b) => a.startTime - b.startTime);
 
-  // Convert to SubtitleSentence[] with bilingual detection & gap bridging
-  const results: SubtitleSentence[] = rawCues.map((cue, idx) => {
+  // Convert raw cues into EN and VN spans, then normalize/align into natural sentences
+  const enCues: NormalizedCue[] = [];
+  const vnCues: NormalizedVnCue[] = [];
+
+  for (const cue of rawCues) {
+    const cleanedLines = cue.lines
+      .map((l) => cleanSubtitleText(l))
+      .filter((l) => isMeaningfulSubtitleText(l));
+    if (cleanedLines.length === 0) continue;
+
     let textEn = "";
     let textVn = "";
 
-    if (cue.lines.length >= 2) {
-      // Check if second line is Vietnamese → bilingual subtitle
-      const firstLine = cue.lines[0];
-      const secondLine = cue.lines.slice(1).join(" ");
+    if (cleanedLines.length >= 2) {
+      const firstLine = cleanedLines[0];
+      const secondLine = cleanedLines.slice(1).join(" ");
 
       if (looksVietnamese(secondLine) && !looksVietnamese(firstLine)) {
-        // Line 1 = English, Line 2+ = Vietnamese
         textEn = firstLine;
         textVn = secondLine;
       } else if (looksVietnamese(firstLine) && !looksVietnamese(secondLine)) {
-        // Line 1 = Vietnamese, Line 2 = English (reversed order)
         textEn = secondLine;
         textVn = firstLine;
       } else {
-        // Both same language or can't detect → join all as English
-        textEn = cue.lines.join(" ");
-        textVn = "";
+        textEn = cleanedLines.join(" ");
       }
     } else {
-      textEn = cue.lines[0];
-      textVn = "";
+      textEn = cleanedLines[0];
     }
 
-    // Auto-detect: if the single line is Vietnamese, swap
     if (!textVn && looksVietnamese(textEn)) {
       textVn = textEn;
       textEn = "";
     }
 
-    const dictationWord = textEn ? extractDictationWord(textEn) : "vocabulary";
+    const startTime = cue.startTime;
+    const endTime = Math.max(startTime + 0.3, cue.endTime);
 
-    // Bridge small timing gaps (<= 0.6s) to next cue so continuous speech transitions smoothly
-    const nextCue = rawCues[idx + 1];
-    let adjustedEndTime = cue.endTime;
-    if (nextCue && nextCue.startTime > cue.endTime) {
-      const silenceGap = nextCue.startTime - cue.endTime;
-      if (silenceGap <= 0.6) {
-        adjustedEndTime = nextCue.startTime;
-      }
+    if (textEn) {
+      enCues.push({
+        startTime,
+        endTime,
+        duration: parseFloat((endTime - startTime).toFixed(3)),
+        textEn,
+      });
     }
+    if (textVn) {
+      vnCues.push({
+        startTime,
+        endTime,
+        textVn,
+      });
+    }
+  }
 
-    return {
+  if (enCues.length === 0 && vnCues.length > 0) {
+    return vnCues.map((vn, idx) => ({
       id: `srt_${videoId || "manual"}_${idx + 1}`,
-      startTime: cue.startTime,
-      endTime: parseFloat(adjustedEndTime.toFixed(3)),
-      textEn: textEn || textVn, // Fallback: if no English, show Vietnamese as main text
-      textVn,
-      dictationWord,
-    };
-  });
+      startTime: vn.startTime,
+      endTime: vn.endTime ?? parseFloat((vn.startTime + 3.0).toFixed(3)),
+      textEn: vn.textVn,
+      textVn: vn.textVn,
+      dictationWord: "vocabulary",
+    }));
+  }
 
-  return results;
+  const normalized = normalizeSubtitlePipeline(enCues, vnCues);
+
+  return normalized.map((item, idx) => ({
+    id: `srt_${videoId || "manual"}_${idx + 1}`,
+    startTime: item.startTime,
+    endTime: item.endTime,
+    textEn: item.textEn,
+    textVn: item.textVn,
+    dictationWord: extractDictationWord(item.textEn),
+    wordTimings: item.wordTimings,
+  }));
 }
 
 /**

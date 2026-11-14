@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { getLessonCoverImage } from "@/features/listening/utils/lessonImageMapper";
+import { getLessonCoverImage } from "@/shared/utils/lessonImageMapper";
 import { BookOpen } from "lucide-react";
 
 interface LessonCoverImageProps {

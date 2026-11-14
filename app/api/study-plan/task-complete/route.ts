@@ -1,15 +1,9 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
-import { LEVEL_TITLES } from "@/shared/constants";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
-
-function calculateLevelAndTitle(xp: number, currentLevel: number) {
-  const levelXp = [0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200, 7600, 9200, 11000];
-  let newLevel = currentLevel;
-  while (newLevel < levelXp.length && xp >= levelXp[newLevel]) newLevel++;
-  return { level: newLevel, title: LEVEL_TITLES[newLevel] || "Grandmaster" };
-}
+import { getLocalDateString } from "@/shared/utils/dateUtils";
+import { calculateLevelAndTitle } from "@/shared/utils/xp";
 
 export async function POST(request: Request) {
   try {
@@ -73,7 +67,7 @@ export async function POST(request: Request) {
 
       // Sync to DailySkillPractice for 7-day analytics
       const skillName = task.taskType === "listening" ? "dictation" : task.taskType === "speaking" ? "speaking" : task.taskType === "writing" ? "writing" : "vocab";
-      const todayDate = new Date().toISOString().split("T")[0];
+      const todayDate = getLocalDateString(new Date());
       await tx.dailySkillPractice.upsert({
         where: {
           userId_skill_date: {

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { useAiChatbotStore } from "@/stores/aiChatbotStore";
 import { useNotificationStore } from "@/stores/notificationStore";
@@ -14,8 +14,17 @@ const BUBBLE_SIZE = 48; // 48px standard floating bubble
 const PADDING = 16;
 const DRAG_THRESHOLD = 5;
 
+function ChatbotSearchSync({ onSearchChange }: { onSearchChange: (search: string) => void }) {
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    onSearchChange(searchParams?.toString() || "");
+  }, [searchParams, onSearchChange]);
+  return null;
+}
+
 export default function FloatingAiChatbot() {
   const pathname = usePathname();
+  const [searchStr, setSearchStr] = useState("");
   const {
     isOpen,
     toggleOpen,
@@ -149,21 +158,29 @@ export default function FloatingAiChatbot() {
       pathname?.startsWith("/study/shadowing") ||
       pathname?.startsWith("/study/reading")
     ) &&
-    typeof window !== "undefined" &&
-    (window.location.search.includes("id=") ||
-      window.location.search.includes("lessonId=") ||
-      pathname?.includes("/comprehension")));
+      (searchStr.includes("id=") ||
+        searchStr.includes("lessonId=") ||
+        pathname?.includes("/comprehension")));
 
   const isAiWorkspace =
     pathname?.startsWith("/ai/tutor") || pathname?.startsWith("/ai/conversation");
 
   // When dismissed by user, in exam mode, active studio practice, or dedicated AI workspace, render nothing on-screen
-  if (!mounted || isDismissed || isExamMode || isStudioPractice || isAiWorkspace) return null;
+  if (!mounted || isDismissed || isExamMode || isStudioPractice || isAiWorkspace) {
+    return (
+      <Suspense fallback={null}>
+        <ChatbotSearchSync onSearchChange={setSearchStr} />
+      </Suspense>
+    );
+  }
 
   const questCount = dbData?.dailyQuests?.filter((q) => !q.isCompleted).length ?? 0;
 
   return (
     <>
+      <Suspense fallback={null}>
+        <ChatbotSearchSync onSearchChange={setSearchStr} />
+      </Suspense>
       {/* 1. Messenger-Style Draggable Bubble (Refined 48px) */}
       <motion.div
         ref={bubbleContainerRef}

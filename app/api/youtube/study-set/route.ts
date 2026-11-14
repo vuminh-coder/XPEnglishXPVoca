@@ -1,39 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
+import type {
+  GeneratedFlashcard,
+  GeneratedQuiz,
+  VideoStudySetResponse,
+} from "@/shared/types";
+
+export type { GeneratedFlashcard, GeneratedQuiz, VideoStudySetResponse };
 
 interface SubtitleItem {
   textEn: string;
   textVn?: string;
   startTime?: number;
-}
-
-export interface GeneratedFlashcard {
-  id: string;
-  word: string;
-  phonetic: string;
-  pos: string;
-  definitionVn: string;
-  contextSentence: string;
-  contextTranslation: string;
-  memoryTip?: string;
-}
-
-export interface GeneratedQuiz {
-  id: string;
-  question: string;
-  options: string[];
-  correctAnswerIndex: number;
-  explanation: string;
-}
-
-export interface VideoStudySetResponse {
-  summary: {
-    en: string;
-    vn: string;
-  };
-  flashcards: GeneratedFlashcard[];
-  quizzes: GeneratedQuiz[];
-  totalWords: number;
-  sourceVideoId: string;
 }
 
 // Smart heuristic fallback generator when Gemini API is unavailable or rate limited

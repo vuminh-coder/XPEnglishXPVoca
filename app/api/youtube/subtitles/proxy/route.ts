@@ -12,13 +12,26 @@ const REQUEST_HEADERS = {
 const MAX_SUBTITLE_BYTES = 1_000_000;
 
 function isValidSubtitleContent(text: string): boolean {
-  if (!text || text.trim().length < 30) return false;
-  const lower = text.toLowerCase();
-  return !(
+  if (!text || text.trim().length < 20) return false;
+  const lower = text.trim().toLowerCase();
+  if (
     lower.includes("we're sorry") ||
+    lower.includes("<title>sorry...") ||
     lower.includes("automated queries") ||
-    (lower.startsWith("<!doctype html") && !lower.includes("<text") && !lower.includes('"events"'))
-  );
+    lower.includes("accounts.google.com/servicelogin") ||
+    lower.includes("consent.youtube.com")
+  ) {
+    return false;
+  }
+  if (
+    (lower.startsWith("<!doctype html") || lower.startsWith("<html")) &&
+    !lower.includes("<text") &&
+    !lower.includes('"events"') &&
+    !lower.includes("<p ")
+  ) {
+    return false;
+  }
+  return true;
 }
 
 function getClientIp(request: NextRequest): string {

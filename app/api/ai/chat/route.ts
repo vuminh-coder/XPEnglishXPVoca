@@ -1,6 +1,6 @@
-import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { checkConversationalAiRateLimit, getServerGeminiApiKey } from "@/infrastructure/security/aiGuard";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
-import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 import { NextResponse } from "next/server";
 
 // Helper for smart fallback responses when offline or testing
@@ -159,16 +159,11 @@ const TOPIC_SUGGESTION_BANKS: Record<
 
 export async function POST(request: Request) {
   try {
-    const authenticatedId = await getAuthenticatedUserId(request);
-    const userId = authenticatedId || "guest_ai_user";
-    const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
-    const rateLimitKey = authenticatedId ? `ai_chat_user_${authenticatedId}` : `ai_chat_guest_${clientIp}`;
-
-    // Rate Limit: 60 req/min cho người học đăng nhập, 30 req/min cho khách theo IP (tránh nghẽn chung)
-    const limit = authenticatedId ? 60 : 30;
-    if (isRateLimited(rateLimitKey, limit, 60 * 1000)) {
-      return NextResponse.json({ error: "Hệ thống đang bận. Vui lòng thử lại sau giây lát." }, { status: 429 });
+    const rateCheck = await checkConversationalAiRateLimit(request, "ai_chat", 60, 10, 60 * 1000);
+    if (rateCheck.rateLimitedResponse) {
+      return rateCheck.rateLimitedResponse;
     }
+    const userId = rateCheck.authenticatedId;
 
     const body = await request.json();
     const {
@@ -189,7 +184,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid messages array" }, { status: 400 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY || "";
+    const apiKey = getServerGeminiApiKey();
     const fallbackBank = TOPIC_SUGGESTION_BANKS[topicId] || TOPIC_SUGGESTION_BANKS.at1;
 
     // System instruction: Distinguish between Quick Ask (Tiếng Việt giải nghĩa) vs Speaking Conversation
@@ -463,7 +458,7 @@ CRITICAL RULES:
     let xpAwarded = 0;
     if (userId && userId !== "guest_ai_user" && userId !== "guest_user" && userId !== "local_user" && !userId.startsWith("local_user")) {
       await safeDbExecute(async () => {
-        const todayStr = new Date().toISOString().slice(0, 10);
+        const todayStr = getLocalDateString(new Date());
         const practicesToday = await prisma.dailySkillPractice.findMany({
           where: { userId, date: todayStr, skill: "ai_ask" },
         });

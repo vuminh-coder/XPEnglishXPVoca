@@ -1,10 +1,18 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { memoryRateLimiter } from "@/infrastructure/security/rateLimiter";
-import { isPayloadTooLarge } from "@/infrastructure/security/validation";
+import {
+  getTrustedClientIp,
+  isPayloadTooLarge,
+  isStreamPayloadTooLarge,
+} from "@/infrastructure/security/validation";
+import { verifyEdgeAuthToken } from "@/infrastructure/auth/edgeJwt";
 
 // Routes that strictly require authenticated server session
-const PROTECTED_ROUTES = ["/settings", "/admin"];
+const PROTECTED_ROUTES = ["/settings", "/admin", "/profile", "/shop", "/onboarding"];
+
+// Admin-only routes requiring role === "ADMIN"
+const ADMIN_ROUTES = ["/admin", "/api/admin"];
 
 // Authentication flow routes where logged-in users should be redirected
 const AUTH_ROUTES = ["/login", "/register", "/forgot-password"];
@@ -21,18 +29,6 @@ const AUTH_RATE_LIMITED_PATHS = [
 const MAX_GENERAL_PAYLOAD_SIZE = 1 * 1024 * 1024; // 1 MB
 const MAX_MEDIA_PAYLOAD_SIZE = 10 * 1024 * 1024; // 10 MB for media upload routes
 
-function getClientIp(request: NextRequest): string {
-  const xff = request.headers.get("x-forwarded-for");
-  if (xff) {
-    return xff.split(",")[0].trim();
-  }
-  const realIp = request.headers.get("x-real-ip");
-  if (realIp) {
-    return realIp.trim();
-  }
-  return "127.0.0.1";
-}
-
 function applySecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "DENY");
@@ -41,10 +37,11 @@ function applySecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  const ip = getClientIp(request);
-  const sessionToken = request.cookies.get("xp_voca_session")?.value;
+  const ip = getTrustedClientIp(request);
+  const rawSessionToken = request.cookies.get("xp_voca_session")?.value;
+  const sessionPayload = rawSessionToken ? await verifyEdgeAuthToken(rawSessionToken) : null;
 
   // ─── 1. PAYLOAD SIZE VALIDATION (APIs) ───
   if (pathname.startsWith("/api/")) {
@@ -53,7 +50,14 @@ export function proxy(request: NextRequest) {
     const maxAllowedSize = isMediaUploadRoute ? MAX_MEDIA_PAYLOAD_SIZE : MAX_GENERAL_PAYLOAD_SIZE;
     const contentLength = request.headers.get("content-length");
 
-    if (isPayloadTooLarge(contentLength, maxAllowedSize)) {
+    const headerTooLarge = isPayloadTooLarge(contentLength, maxAllowedSize);
+    const streamTooLarge =
+      !headerTooLarge &&
+      !contentLength &&
+      ["POST", "PUT", "PATCH"].includes(request.method) &&
+      (await isStreamPayloadTooLarge(request, maxAllowedSize));
+
+    if (headerTooLarge || streamTooLarge) {
       const errorResponse = NextResponse.json(
         {
           error: "Payload Too Large",
@@ -103,16 +107,46 @@ export function proxy(request: NextRequest) {
     }
   }
 
-  // ─── 3. EDGE ROUTE PROTECTION ───
+  // ─── 3. EDGE ROUTE & RBAC PROTECTION ───
   const isProtected = PROTECTED_ROUTES.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`)
   );
 
-  if (isProtected && !sessionToken) {
+  if (isProtected && !sessionPayload) {
     const loginUrl = new URL("/login", request.url);
     const redirectTarget = pathname + search;
     loginUrl.searchParams.set("redirect", redirectTarget);
-    return applySecurityHeaders(NextResponse.redirect(loginUrl));
+    const redirectResponse = NextResponse.redirect(loginUrl);
+    if (rawSessionToken) {
+      redirectResponse.cookies.delete("xp_voca_session");
+    }
+    return applySecurityHeaders(redirectResponse);
+  }
+
+  const isAdminRoute = ADMIN_ROUTES.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`)
+  );
+
+  if (isAdminRoute) {
+    if (!sessionPayload) {
+      if (pathname.startsWith("/api/")) {
+        return applySecurityHeaders(
+          NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 })
+        );
+      }
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname + search);
+      return applySecurityHeaders(NextResponse.redirect(loginUrl));
+    }
+
+    if (sessionPayload.role !== "ADMIN") {
+      if (pathname.startsWith("/api/")) {
+        return applySecurityHeaders(
+          NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 })
+        );
+      }
+      return applySecurityHeaders(NextResponse.redirect(new URL("/dashboard?error=forbidden", request.url)));
+    }
   }
 
   // ─── 4. REVERSE AUTH GUARD (AUTH FLOW REDIRECT) ───
@@ -120,7 +154,7 @@ export function proxy(request: NextRequest) {
     (route) => pathname === route || pathname.startsWith(`${route}/`)
   );
 
-  if (isAuthRoute && sessionToken) {
+  if (isAuthRoute && sessionPayload) {
     const rawRedirect = request.nextUrl.searchParams.get("redirect");
     const safeTarget =
       rawRedirect && rawRedirect.startsWith("/") && !rawRedirect.startsWith("//")

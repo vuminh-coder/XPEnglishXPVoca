@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { MOCK_THEMES } from "@/shared/constants";
+import { MOCK_THEMES } from "@/features/vocabulary/data/mockThemes";
 import { MOCK_VOCABULARIES } from "./mock-vocabularies";
 import { BASIC_VOCABULARIES } from "@/features/vocabulary/data/basicVocabularies";
 import { ACADEMIC_COLLOCATIONS } from "@/features/vocabulary/data/academicCollocations";

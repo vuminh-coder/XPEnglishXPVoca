@@ -1,17 +1,31 @@
 import crypto from "crypto";
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
-if (!JWT_SECRET && process.env.NODE_ENV === "production") {
-  console.error("CRITICAL SECURITY ERROR: JWT_SECRET environment variable is not defined in production!");
+declare global {
+  var __xpVocaDevJwtSecret: string | undefined;
 }
 
-const EFFECTIVE_JWT_SECRET = JWT_SECRET || "xp_english_xp_voca_jwt_secret_key_2026_dev_only";
+export function getJwtSecret(): string {
+  const envSecret = process.env.JWT_SECRET?.trim();
+  if (envSecret) {
+    return envSecret;
+  }
+
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("CRITICAL SECURITY ERROR: JWT_SECRET environment variable must be defined in production!");
+  }
+
+  if (!globalThis.__xpVocaDevJwtSecret) {
+    const bytes = globalThis.crypto.getRandomValues(new Uint8Array(32));
+    globalThis.__xpVocaDevJwtSecret = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  }
+  return globalThis.__xpVocaDevJwtSecret;
+}
 
 export interface SessionPayload {
   userId: string;
   email?: string | null;
   username?: string | null;
+  role?: "USER" | "ADMIN" | string;
   iat?: number;
   exp?: number;
 }
@@ -56,7 +70,7 @@ export function signAuthToken(payload: Omit<SessionPayload, "iat" | "exp">, expi
   const encodedPayload = base64UrlEncode(JSON.stringify(fullPayload));
 
   const signature = crypto
-    .createHmac("sha256", EFFECTIVE_JWT_SECRET)
+    .createHmac("sha256", getJwtSecret())
     .update(`${encodedHeader}.${encodedPayload}`)
     .digest("base64")
     .replace(/=/g, "")
@@ -79,7 +93,7 @@ export function verifyAuthToken(token: string): SessionPayload | null {
     const [encodedHeader, encodedPayload, signature] = parts;
 
     const expectedSignature = crypto
-      .createHmac("sha256", EFFECTIVE_JWT_SECRET)
+      .createHmac("sha256", getJwtSecret())
       .update(`${encodedHeader}.${encodedPayload}`)
       .digest("base64")
       .replace(/=/g, "")

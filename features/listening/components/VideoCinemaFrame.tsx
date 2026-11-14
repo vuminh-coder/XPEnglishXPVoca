@@ -16,6 +16,8 @@ import {
   Radio,
   Loader2,
   AlertCircle,
+  Maximize2,
+  Minimize2,
 } from "lucide-react";
 import { Rewind5sIcon, Forward5sIcon } from "@/shared/components/icons/SeekIcons";
 
@@ -60,6 +62,7 @@ export interface VideoCinemaFrameProps {
   isRecording?: boolean;
   liveAudioEnergy?: number;
   practiceMode?: "dictation" | "shadowing" | "listening";
+  viewportVariant?: "studio" | "cinema";
   fallbackNotice?: string;
   onEmbedError?: (errorMessage: string) => void;
   onFallbackToAudio?: () => void;
@@ -134,6 +137,7 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
   isRecording = false,
   liveAudioEnergy = 0,
   practiceMode = "dictation",
+  viewportVariant = "studio",
   fallbackNotice,
   onEmbedError,
   onFallbackToAudio,
@@ -149,16 +153,24 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
   const [isLoopSentence, setIsLoopSentence] = useState(false);
+  const [isTheaterExpanded, setIsTheaterExpanded] = useState(false);
+  const [startedYoutubeId, setStartedYoutubeId] = useState<string | null>(null);
   const [embedError, setEmbedError] = useState<string | null>(null);
+
+  const hasStartedOnce =
+    isPlaying || (Boolean(youtubeId) && startedYoutubeId === youtubeId);
 
   const playerRef = useRef<any>(null);
   const isPlayingPropRef = useRef(isPlaying);
-  isPlayingPropRef.current = isPlaying;
-
   const isLoopSentenceRef = useRef(isLoopSentence);
-  isLoopSentenceRef.current = isLoopSentence;
+
+  useEffect(() => {
+    isPlayingPropRef.current = isPlaying;
+    isLoopSentenceRef.current = isLoopSentence;
+  }, [isPlaying, isLoopSentence]);
 
   const isHandlingEndRef = useRef(false);
+  const isProgrammaticSeekRef = useRef(false);
   const loopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const effectiveDuration = Math.max(1, duration || 6);
@@ -190,7 +202,10 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
           videoId: youtubeId,
           playerVars: {
             autoplay: 0,
-            controls: 1, // Standard native controls available
+            controls: 0, // Use unified Studio Control Dock without duplicate YouTube chrome
+            iv_load_policy: 3,
+            fs: 0,
+            disablekb: 1,
             modestbranding: 1,
             rel: 0,
             playsinline: 1,
@@ -221,13 +236,19 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
               }
 
               if (event.data === 1) {
+                setStartedYoutubeId(youtubeId);
                 // If YouTube started playing externally, ensure workspace state reflects it
                 if (!isPlayingPropRef.current && onTogglePlay) {
                   onTogglePlay();
                 }
               } else if (event.data === 2) {
-                // Paused
-                if (isPlayingPropRef.current && !isHandlingEndRef.current && onTogglePlay) {
+                // Paused — ignore transient pause emitted while programmatically seeking
+                if (
+                  isPlayingPropRef.current &&
+                  !isHandlingEndRef.current &&
+                  !isProgrammaticSeekRef.current &&
+                  onTogglePlay
+                ) {
                   onTogglePlay();
                 }
               } else if (event.data === 0) {
@@ -288,6 +309,10 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
 
         // If at the end of sentence or previously finished, seek to start before playing
         if (isHandlingEndRef.current || curTime >= end - 0.15 || curTime < start - 1.0) {
+          isProgrammaticSeekRef.current = true;
+          setTimeout(() => {
+            isProgrammaticSeekRef.current = false;
+          }, 350);
           playerRef.current.seekTo(start, true);
           onPlaybackTimeUpdate?.(0);
         }
@@ -312,6 +337,10 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
     if (playerRef.current && isPlayerReady && currentSentence && typeof currentSentence.startTime === "number") {
       try {
         const start = Math.max(0, currentSentence.startTime);
+        isProgrammaticSeekRef.current = true;
+        setTimeout(() => {
+          isProgrammaticSeekRef.current = false;
+        }, 350);
         playerRef.current.seekTo(start, true);
         onPlaybackTimeUpdate?.(0);
         if (!isPlayingPropRef.current) {
@@ -330,7 +359,8 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
       typeof currentSentence?.endTime === "number" && currentSentence.endTime > start
         ? currentSentence.endTime
         : start + effectiveDuration;
-    const stopThreshold = Math.max(start + 0.1, end - 0.05);
+    // Allow brief tail margin past `end` so the final phoneme is never clipped by 80ms polling
+    const stopThreshold = Math.max(start + 0.25, end + 0.06);
 
     const ticker = setInterval(() => {
       if (!playerRef.current) return;
@@ -482,71 +512,120 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
     return null;
   }
 
+  const cinemaMaxWidth = isTheaterExpanded
+    ? "100%"
+    : viewportVariant === "cinema"
+    ? "min(100%, calc(clamp(220px, 38vh, 380px) * 16 / 9))"
+    : "min(100%, calc(clamp(215px, 34vh, 340px) * 16 / 9))";
+
   return (
     <div
-      className={`relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm p-1.5 select-none flex flex-col justify-between space-y-1.5 transition-all ${className}`}
+      className={`relative w-full rounded-[20px] overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm select-none flex flex-col justify-between transition-all ${className}`}
     >
-      {/* 1. Responsive 16:9 Cinema Viewport */}
-      <div className="relative w-full max-w-2xl mx-auto aspect-video max-h-[135px] sm:max-h-[138px] xl:max-h-[175px] rounded-xl overflow-hidden shadow-inner border border-slate-200/80 dark:border-slate-800 bg-black flex items-center justify-center group shrink-0">
-        {youtubeId ? (
-          <div className="w-full h-full relative">
-            <div id={playerContainerId} className="w-full h-full" />
-          </div>
-        ) : thumb ? (
-          <div className="relative w-full h-full flex items-center justify-center">
-            <img
-              src={thumb}
-              alt={title}
-              onLoad={(e) => {
-                const img = e.currentTarget;
-                if (img.naturalWidth === 120 && img.naturalHeight === 90) {
-                  img.src = getLessonCoverImage({ title });
-                }
-              }}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = getLessonCoverImage({ title });
-              }}
-              className="w-full h-full object-cover"
-            />
-          </div>
-        ) : null}
+      {/* 1. Full-Width Double-Bezel Cinema Hardware Stage */}
+      <div className="relative w-full bg-slate-950 bg-[radial-gradient(ellipse_at_center,rgba(0,89,187,0.16)_0%,rgba(2,6,23,0.98)_75%)] p-1.5 sm:p-2 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-center overflow-hidden">
+        {/* True 16:9 Cinema Viewport (Never breaks aspect ratio) */}
+        <div
+          style={{ width: cinemaMaxWidth }}
+          className="relative aspect-video mx-auto rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 bg-black flex items-center justify-center group shrink-0"
+        >
+          {youtubeId ? (
+            <div className="w-full h-full relative">
+              <div id={playerContainerId} className="w-full h-full" />
+              {/* Initial Studio Poster Scrim before first play (eliminates initial YouTube overlay clutter) */}
+              {!isPlaying && !hasStartedOnce && !embedError && (
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-slate-950 overflow-hidden">
+                  {thumb && (
+                    <img
+                      src={thumb}
+                      alt={title}
+                      onLoad={(e) => {
+                        const img = e.currentTarget;
+                        if (img.naturalWidth === 120 && img.naturalHeight === 90) {
+                          img.src = getLessonCoverImage({ title });
+                        }
+                      }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = getLessonCoverImage({ title });
+                      }}
+                      className="absolute inset-0 w-full h-full object-cover opacity-90"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-slate-950/35 pointer-events-none" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setStartedYoutubeId(youtubeId);
+                      onTogglePlay?.();
+                    }}
+                    className="relative z-10 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-slate-950/70 hover:bg-[#0059bb] backdrop-blur-md text-white flex items-center justify-center shadow-xl shadow-black/50 ring-1 ring-white/25 transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-105 active:scale-95 cursor-pointer"
+                    title="Phát video (Space)"
+                  >
+                    {!isPlayerReady ? (
+                      <Loader2 className="w-6 h-6 animate-spin text-white" />
+                    ) : (
+                      <Play className="w-6 h-6 sm:w-7 sm:h-7 fill-white stroke-white ml-0.5" />
+                    )}
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : thumb ? (
+            <div className="relative w-full h-full flex items-center justify-center">
+              <img
+                src={thumb}
+                alt={title}
+                onLoad={(e) => {
+                  const img = e.currentTarget;
+                  if (img.naturalWidth === 120 && img.naturalHeight === 90) {
+                    img.src = getLessonCoverImage({ title });
+                  }
+                }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = getLessonCoverImage({ title });
+                }}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : null}
 
-        {/* Buffering Indicator */}
-        {isBuffering && (
-          <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-md border border-white/20 text-white text-[11px] font-medium flex items-center gap-1.5 pointer-events-none z-20 shadow-md">
-            <Loader2 className="w-3.5 h-3.5 animate-spin text-sky-400" />
-            <span>Đang tải đệm...</span>
-          </div>
-        )}
+          {/* Buffering Indicator */}
+          {isBuffering && (
+            <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-md border border-white/20 text-white text-[11px] font-medium flex items-center gap-1.5 pointer-events-none z-20 shadow-md">
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-sky-400" />
+              <span>Đang tải đệm...</span>
+            </div>
+          )}
 
-        {/* Embed error fallback notice */}
-        {embedError && (
-          <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-sm z-30 p-4 flex flex-col items-center justify-center text-center space-y-2">
-            <AlertCircle className="w-8 h-8 text-amber-400" />
-            <p className="text-xs sm:text-sm font-semibold text-white max-w-sm">
-              {embedError}
-            </p>
-            <p className="text-[11px] text-slate-300">
-              {fallbackNotice ||
-                (practiceMode === "shadowing"
-                  ? "Bạn vẫn có thể luyện nói nhại âm bình thường với âm thanh chuẩn bản ngữ."
-                  : "Bạn vẫn có thể luyện nghe bình thường với âm thanh chuẩn bản ngữ.")}
-            </p>
-            {onFallbackToAudio && (
-              <button
-                type="button"
-                onClick={onFallbackToAudio}
-                className="mt-1 px-3 py-1.5 rounded-lg bg-[#0059bb] hover:bg-blue-600 text-white text-xs font-semibold shadow transition-all cursor-pointer"
-              >
-                Chuyển sang chế độ Audio
-              </button>
-            )}
-          </div>
-        )}
+          {/* Embed error fallback notice */}
+          {embedError && (
+            <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-sm z-30 p-4 flex flex-col items-center justify-center text-center space-y-2">
+              <AlertCircle className="w-8 h-8 text-amber-400" />
+              <p className="text-xs sm:text-sm font-semibold text-white max-w-sm">
+                {embedError}
+              </p>
+              <p className="text-[11px] text-slate-300">
+                {fallbackNotice ||
+                  (practiceMode === "shadowing"
+                    ? "Bạn vẫn có thể luyện nói nhại âm bình thường với âm thanh chuẩn bản ngữ."
+                    : "Bạn vẫn có thể luyện nghe bình thường với âm thanh chuẩn bản ngữ.")}
+              </p>
+              {onFallbackToAudio && (
+                <button
+                  type="button"
+                  onClick={onFallbackToAudio}
+                  className="mt-1 px-3 py-1.5 rounded-lg bg-[#0059bb] hover:bg-blue-600 text-white text-xs font-semibold shadow transition-all cursor-pointer"
+                >
+                  Chuyển sang chế độ Audio
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* 2. Control Dock (Below Video, Clean & Symmetrical) */}
-      <div className="w-full shrink-0 px-2 sm:px-3 pt-1 pb-0.5 space-y-1.5 bg-transparent select-none">
+      <div className="w-full shrink-0 px-3 sm:px-4 pt-2.5 pb-2 space-y-1.5 bg-white dark:bg-slate-900 select-none">
         {/* Scrubber Progress Bar */}
         <div className="flex items-center gap-2.5">
           <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 tabular-nums shrink-0 font-bold">
@@ -692,6 +771,23 @@ export const VideoCinemaFrame: React.FC<VideoCinemaFrameProps> = ({
                 )}
               </button>
             )}
+
+            <button
+              type="button"
+              onClick={() => setIsTheaterExpanded((prev) => !prev)}
+              className={`hidden sm:flex w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full items-center justify-center border transition-all cursor-pointer ${
+                isTheaterExpanded
+                  ? "bg-blue-500/10 border-blue-400/40 text-[#0059bb] dark:text-sky-400"
+                  : "border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400"
+              }`}
+              title={isTheaterExpanded ? "Thu gọn khung video" : "Phóng to khung video"}
+            >
+              {isTheaterExpanded ? (
+                <Minimize2 className="w-4 h-4" />
+              ) : (
+                <Maximize2 className="w-4 h-4" />
+              )}
+            </button>
           </div>
         </div>
       </div>

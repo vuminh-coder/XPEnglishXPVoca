@@ -18,10 +18,12 @@ export interface User {
   avatarUrl?: string;
   coins?: number;
   streakFreezes?: number;
+  role?: "USER" | "ADMIN";
   isPremium?: boolean;
   premiumTier?: "monthly" | "yearly" | "lifetime";
   premiumExpiresAt?: string | null;
   premiumStartedAt?: string | null;
+  doubleXpUntil?: string | null;
 }
 
 export interface Vocabulary {
@@ -69,4 +71,34 @@ export interface Achievement {
   category: string;
   condition: { type: string; value: number };
   xpBonus: number;
+}
+
+export interface GeneratedFlashcard {
+  id: string;
+  word: string;
+  phonetic: string;
+  pos: string;
+  definitionVn: string;
+  contextSentence: string;
+  contextTranslation: string;
+  memoryTip?: string;
+}
+
+export interface GeneratedQuiz {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswerIndex: number;
+  explanation: string;
+}
+
+export interface VideoStudySetResponse {
+  summary: {
+    en: string;
+    vn: string;
+  };
+  flashcards: GeneratedFlashcard[];
+  quizzes: GeneratedQuiz[];
+  totalWords: number;
+  sourceVideoId: string;
 }

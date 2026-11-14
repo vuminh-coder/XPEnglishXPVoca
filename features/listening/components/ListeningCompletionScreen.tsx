@@ -178,7 +178,7 @@ export const ListeningCompletionScreen: React.FC<ListeningCompletionScreenProps>
 
           {/* Nút Làm Bài Trắc Nghiệm Đọc Hiểu Video AI (+40 XP) */}
           {Boolean((currentLesson as any)?.videoMetadata || (currentLesson as any)?.sourceType === "YOUTUBE" || currentLesson?.audioUrl?.includes("youtube") || (currentLesson as any)?.quiz) && (
-            <Link href={`/study/dictation/video/${currentLesson.id}/comprehension`}>
+            <Link href={`/study/dictation/video/comprehension/${currentLesson.id}`}>
               <button
                 type="button"
                 className="px-5 py-2.5 rounded-xl bg-violet-50 dark:bg-violet-950/60 hover:bg-violet-100 dark:hover:bg-violet-900/60 text-violet-700 dark:text-violet-300 border border-violet-200/90 dark:border-violet-800/60 font-bold text-xs sm:text-sm shadow-2xs flex items-center gap-1.5 cursor-pointer transition-all active:scale-95"

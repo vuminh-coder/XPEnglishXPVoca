@@ -1,22 +1,10 @@
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma, handlePrismaError, safeDbExecute } from "@/infrastructure/database/prisma";
-import { LEVEL_TITLES, LEVEL_XP } from "@/shared/constants";
 import { getLocalDateString } from "@/shared/utils/dateUtils";
+import { calculateLevelFromXp } from "@/shared/utils/xp";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
-
-function calculateLevelFromXp(totalXp: number): { level: number; title: string } {
-  let level = 1;
-  for (let i = 1; i < LEVEL_XP.length; i++) {
-    if (totalXp >= LEVEL_XP[i]) {
-      level = i + 1;
-    } else {
-      break;
-    }
-  }
-  const title = LEVEL_TITLES[level] || "Master Learner";
-  return { level, title };
-}
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
 
 /**
  * Server-Authoritative User Activity Award Endpoint
@@ -30,9 +18,9 @@ export async function POST(request: Request) {
     const { xp = 0, coins = 0, minutes = 0, skill = "vocab" } = body;
 
     // Bounds checking & sanity validation (prevent client spoofing absurd values)
-    const safeXp = Math.max(0, Math.min(500, Math.round(Number(xp) || 0)));
-    const safeCoins = Math.max(0, Math.min(200, Math.round(Number(coins) || 0)));
-    const safeMinutes = Math.max(0, Math.min(180, Math.round(Number(minutes) || 0)));
+    const safeXp = Math.max(0, Math.min(100, Math.round(Number(xp) || 0)));
+    const safeCoins = Math.max(0, Math.min(50, Math.round(Number(coins) || 0)));
+    const safeMinutes = Math.max(0, Math.min(60, Math.round(Number(minutes) || 0)));
     const safeSkill = String(skill || "vocab").toLowerCase().slice(0, 30);
 
     // If unauthenticated (Guest / Local User Mode), return accepted payload without DB mutation
@@ -49,14 +37,32 @@ export async function POST(request: Request) {
       });
     }
 
+    if (isRateLimited(`activity_award_${userId}`, 12, 60_000)) {
+      return NextResponse.json(
+        { error: "Bạn đang gửi yêu cầu nhận thưởng quá nhanh. Vui lòng chờ giây lát." },
+        { status: 429 }
+      );
+    }
+
     const todayStr = getLocalDateString(new Date());
 
     const result = await safeDbExecute(async () => {
+      // 0. Check server-authoritative 2X XP multipliers (VIP Premium or active Double XP Boost)
+      const bonusState = await prisma.profile.findUnique({
+        where: { id: userId },
+        select: { isPremium: true, doubleXpUntil: true },
+      });
+      const hasDoubleXp = Boolean(
+        bonusState?.isPremium ||
+          (bonusState?.doubleXpUntil && new Date(bonusState.doubleXpUntil).getTime() > Date.now())
+      );
+      const grantedXp = hasDoubleXp ? safeXp * 2 : safeXp;
+
       // 1. Atomically increment stats on profile
       const updatedProfile = await prisma.profile.update({
         where: { id: userId },
         data: {
-          totalXp: { increment: safeXp },
+          totalXp: { increment: grantedXp },
           coins: { increment: safeCoins },
           minutesStudied: { increment: safeMinutes },
           updatedAt: new Date(),
@@ -106,7 +112,7 @@ export async function POST(request: Request) {
       const isFirstActivityToday = !existingPracticeToday;
 
       // 3. Upsert DailySkillPractice entry for today
-      if (safeMinutes > 0 || safeXp > 0) {
+      if (safeMinutes > 0 || grantedXp > 0) {
         await prisma.dailySkillPractice.upsert({
           where: {
             userId_skill_date: {
@@ -117,7 +123,7 @@ export async function POST(request: Request) {
           },
           update: {
             minutes: { increment: safeMinutes },
-            xpEarned: { increment: safeXp },
+            xpEarned: { increment: grantedXp },
             updatedAt: new Date(),
           },
           create: {
@@ -125,7 +131,7 @@ export async function POST(request: Request) {
             skill: safeSkill,
             date: todayStr,
             minutes: safeMinutes,
-            xpEarned: safeXp,
+            xpEarned: grantedXp,
           },
         });
       }
@@ -178,6 +184,8 @@ export async function POST(request: Request) {
 
       return {
         totalXp: updatedProfile.totalXp,
+        awardedXp: grantedXp,
+        multiplier: hasDoubleXp ? 2 : 1,
         level: finalLevel,
         title: finalTitle,
         coins: updatedProfile.coins + (levelUp ? 100 * computedLevel : 0),

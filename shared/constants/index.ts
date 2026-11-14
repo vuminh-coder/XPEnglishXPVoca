@@ -1,6 +1,3 @@
-import { BASIC_VOCABULARY_THEMES } from "@/features/vocabulary/data/themes";
-import { ADVANCED_VOCABULARY_THEMES } from "@/features/vocabulary/data/advancedVocabularies";
-
 export const LEVEL_XP = [0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200, 7600, 9200, 11000];
 
 export const LEVEL_TITLES: Record<number, string> = {
@@ -20,24 +17,3 @@ export const LEVEL_TITLES: Record<number, string> = {
   14: 'Vocabulary Sage',
   15: 'Grandmaster'
 };
-
-export const MOCK_THEMES = [
-  ...BASIC_VOCABULARY_THEMES.map((bt) => ({
-    id: bt.id,
-    name: bt.name,
-    nameEn: bt.nameEn,
-    icon: bt.icon,
-    difficulty: bt.difficulty,
-    totalVocabs: bt.totalVocabs,
-    color: bt.color,
-  })),
-  ...ADVANCED_VOCABULARY_THEMES.map((at) => ({
-    id: at.id,
-    name: at.name,
-    nameEn: at.nameEn,
-    icon: at.icon,
-    difficulty: at.difficulty,
-    totalVocabs: at.totalVocabs,
-    color: at.color,
-  })),
-];

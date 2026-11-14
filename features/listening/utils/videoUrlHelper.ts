@@ -23,36 +23,84 @@ const COMMON_LOWER_WORDS = new Set([
  * - https://www.youtube.com/watch?v=UF8uR6Z6KLc
  * - https://youtu.be/UF8uR6Z6KLc
  * - https://www.youtube.com/shorts/UF8uR6Z6KLc
+ * - https://www.youtube.com/live/UF8uR6Z6KLc
+ * - https://www.youtube.com/embed/UF8uR6Z6KLc
  * - UF8uR6Z6KLc
  */
 export function extractYouTubeVideoId(input: string): string | null {
-  if (!input) return null;
+  if (!input || typeof input !== "string") return null;
   const trimmed = input.trim();
   if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) {
     return trimmed;
   }
+
+  // Try structured URL parsing first for hosts like youtube.com, m.youtube.com, music.youtube.com, youtu.be
+  try {
+    const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+    const parsed = new URL(withProtocol);
+    const host = parsed.hostname.replace(/^www\./i, "").toLowerCase();
+
+    if (host === "youtu.be") {
+      const seg = parsed.pathname.split("/").filter(Boolean)[0];
+      if (seg && /^[a-zA-Z0-9_-]{11}$/.test(seg)) return seg;
+    }
+
+    if (
+      host === "youtube.com" ||
+      host === "m.youtube.com" ||
+      host === "music.youtube.com" ||
+      host === "youtube-nocookie.com"
+    ) {
+      const vParam = parsed.searchParams.get("v");
+      if (vParam && /^[a-zA-Z0-9_-]{11}$/.test(vParam)) return vParam;
+
+      const pathMatch = parsed.pathname.match(
+        /^\/(?:shorts|live|embed|v|e)\/([a-zA-Z0-9_-]{11})(?:[/?#]|$)/i
+      );
+      if (pathMatch) return pathMatch[1];
+    }
+  } catch {
+    // Fallback to regex for partial/malformed strings
+  }
+
   const match = trimmed.match(
-    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([a-zA-Z0-9_-]{11})/
+    /(?:youtu\.be\/|(?:m\.|music\.|www\.)?youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|e\/|shorts\/|live\/|watch\?v=|watch\?.+&v=))([a-zA-Z0-9_-]{11})/i
   );
   return match ? match[1] : null;
 }
 
 /**
- * Strips subtitle noise such as [Music], [Applause], (cheers), HTML tags
+ * Strips subtitle noise such as [Music], [Applause], (cheers), ♪, >>, zero-width chars, and HTML tags
  */
 export function cleanSubtitleLine(text: string): string {
   if (!text) return "";
   return text
+    .replace(/[\u200B-\u200D\uFEFF]/g, "")
+    .replace(/<br\s*\/?>/gi, " ")
     .replace(/<[^>]+>/g, "")
-    .replace(/\[(?:Music|Applause|Laughter|Cheering|Audio|Sound|Silence|Singing)\]/gi, "")
-    .replace(/\((?:Music|Applause|Laughter|Cheering|Audio|Sound|Silence|Singing)\)/gi, "")
+    .replace(
+      /\[(?:Music|Applause|Laughter|Cheering|Audio|Sound|Silence|Singing|Background\s*Music|Âm\s*nhạc|Tiếng\s*vỗ\s*tay|Nhạc\s*nền|Cười)[^\]]*\]/gi,
+      ""
+    )
+    .replace(
+      /\((?:Music|Applause|Laughter|Cheering|Audio|Sound|Silence|Singing|Âm\s*nhạc|Tiếng\s*vỗ\s*tay|Nhạc\s*nền|Cười)[^)]*\)/gi,
+      ""
+    )
+    .replace(/[♪♫]+/g, " ")
+    .replace(/^\s*>{2,}\s*/g, "")
+    .replace(/\s*>{2,}\s*/g, " ")
     .replace(/&amp;/g, "&")
     .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&ndash;/g, "-")
+    .replace(/&mdash;/g, "—")
+    .replace(/&hellip;/g, "...")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/\s+/g, " ")
-    .trim();
+    .trim()
+    .normalize("NFC");
 }
 
 /**

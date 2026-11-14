@@ -115,6 +115,7 @@ export function WordLinkGame({
   const [isMuted, setIsMuted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
+  const [finalDurationSeconds, setFinalDurationSeconds] = useState(1);
   const [rewards, setRewards] = useState({ xp: 0, coins: 0 });
   const startRef = useRef(0);
 
@@ -266,6 +267,7 @@ export function WordLinkGame({
     setCharacterIdx((idx) => (idx + 1) % XP_CHARACTERS.length);
     setGameOver(false);
     setFinalScore(0);
+    setFinalDurationSeconds(1);
     setRewards({ xp: 0, coins: 0 });
     startRef.current = Date.now();
   }, [pool, pairCount, themeId, unitNumber, currentPart]);
@@ -279,6 +281,7 @@ export function WordLinkGame({
       const durationSeconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
       const base = pairCount * 12;
       const score = Math.max(20, base - mistakeCount * 4 + Math.max(0, Math.round(40 - durationSeconds / 2)));
+      setFinalDurationSeconds(durationSeconds);
       setFinalScore(score);
       setRewards({ xp: 30, coins: 15 });
       setGameOver(true);
@@ -523,7 +526,7 @@ export function WordLinkGame({
   if (gameOver) {
     const total = pairCount + mistakes;
     const accuracy = Math.round((pairCount / Math.max(1, total)) * 100);
-    const durationSeconds = Math.max(1, Math.round((Date.now() - startRef.current) / 1000));
+    const durationSeconds = finalDurationSeconds;
     const reviewItems: GameReviewItem[] = items.map((i) => ({
       ...i.review,
       isCorrect: !mistakeIds.has(i.pairId),

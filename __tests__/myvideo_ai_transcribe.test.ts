@@ -1,88 +1,74 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import {
-  generateHeuristicAiSubtitles,
   generateAiSubtitlesForVideo,
+  RawTranscriptRequiredError,
 } from "@/features/myvideo/services/videoAiTranscribeService";
+import { POST as aiTranscribePost } from "@/app/api/youtube/ai-transcribe/route";
+import { NextRequest } from "next/server";
 
-describe("MyVideo Gemini Flash AI Transcribe Engine Tests", () => {
-  describe("1. Heuristic AI Subtitle Generation (Guaranteed Fallback)", () => {
-    it("generates authentic, structured speech subtitles for famous speeches like Steve Jobs", () => {
-      const subtitles = generateHeuristicAiSubtitles(
-        "UF8uR6Z6KLc",
-        "Steve Jobs' 2005 Stanford Commencement Address",
-        "Stanford"
-      );
-
-      expect(subtitles.length).toBeGreaterThanOrEqual(6);
-      expect(subtitles[0].english).toContain("honored to be with you today");
-      expect(subtitles[0].vietnamese).toContain("vinh dự");
-      expect(subtitles[0].isAiGenerated).toBe(true);
-      expect(subtitles[0].startSeconds).toBe(1.5);
-      expect(subtitles[0].duration).toBeGreaterThan(0);
-      expect(subtitles[0].dictationWord).toBe("commencement");
-    });
-
-    it("generates progressive non-overlapping timestamps", () => {
-      const subtitles = generateHeuristicAiSubtitles(
-        "test_123",
-        "Atomic Habits TED Talk on Daily Systems",
-        "James Clear"
-      );
-
-      for (let i = 0; i < subtitles.length; i++) {
-        const item = subtitles[i];
-        expect(item.startSeconds).toBeLessThan(item.startSeconds + item.duration);
-        expect(item.start).toMatch(/^\d{2}:\d{2}:\d{2}\.\d{3}$/);
-        expect(item.end).toMatch(/^\d{2}:\d{2}:\d{2}\.\d{3}$/);
-
-        if (i > 0) {
-          const prev = subtitles[i - 1];
-          expect(item.startSeconds).toBeGreaterThanOrEqual(prev.startSeconds + prev.duration);
-        }
-      }
-    });
-
-    it("generates valid general educational subtitles for arbitrary video titles", () => {
-      const subtitles = generateHeuristicAiSubtitles(
-        "custom_vid",
-        "Advanced English Phrasal Verbs in Daily Life",
-        "BBC Learning English"
-      );
-
-      expect(subtitles.length).toBeGreaterThan(0);
-      expect(subtitles[0].english).toContain("Advanced English Phrasal Verbs in Daily Life");
-      expect(subtitles[0].vietnamese).toBeDefined();
-      expect(subtitles[0].dictationWord).toBeDefined();
-    });
+describe("MyVideo Transcript Alignment Engine (Anti-Hallucination Policy)", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  describe("2. End-to-End generateAiSubtitlesForVideo Service", () => {
-    it("returns 100% available subtitles even when GEMINI_API_KEY is unset/mocked", async () => {
-      const subtitles = await generateAiSubtitlesForVideo({
-        videoId: "any_random_youtube_id",
-        videoTitle: "10 Common Idioms Native Speakers Use",
-        authorName: "English with Lucy",
-      });
+  it("rejects requests without rawTranscript instead of fabricating fake subtitles from title", async () => {
+    await expect(
+      generateAiSubtitlesForVideo({
+        videoId: "UF8uR6Z6KLc",
+        videoTitle: "Steve Jobs' 2005 Stanford Commencement Address",
+        authorName: "Stanford",
+      })
+    ).rejects.toBeInstanceOf(RawTranscriptRequiredError);
+  });
 
-      expect(Array.isArray(subtitles)).toBe(true);
-      expect(subtitles.length).toBeGreaterThanOrEqual(5);
-      expect(subtitles.every((s) => s.english.length > 0)).toBe(true);
-      expect(subtitles.every((s) => s.vietnamese.length > 0)).toBe(true);
-      expect(subtitles.every((s) => s.dictationWord.length > 0)).toBe(true);
-      expect(subtitles.every((s) => s.isAiGenerated === true)).toBe(true);
+  it("returns HTTP 422 RAW_TRANSCRIPT_REQUIRED when API POST omits rawTranscript", async () => {
+    const req = new NextRequest("http://localhost:3000/api/youtube/ai-transcribe", {
+      method: "POST",
+      body: JSON.stringify({
+        videoId: "UF8uR6Z6KLc",
+        videoTitle: "Steve Jobs Stanford",
+      }),
+      headers: { "Content-Type": "application/json" },
     });
 
-    it("extracts non-stop-word dictation targets for all generated sentences", async () => {
-      const subtitles = await generateAiSubtitlesForVideo({
-        videoId: "speech_test",
-        videoTitle: "How Great Leaders Inspire Action",
-        authorName: "Simon Sinek",
-      });
+    const res = await aiTranscribePost(req);
+    const json = await res.json();
 
-      const stopWords = new Set(["the", "and", "a", "to", "in", "it", "is", "of"]);
-      for (const sub of subtitles) {
-        expect(stopWords.has(sub.dictationWord)).toBe(false);
+    expect(res.status).toBe(422);
+    expect(json.success).toBe(false);
+    expect(json.code).toBe("RAW_TRANSCRIPT_REQUIRED");
+  });
+
+  it("deterministically aligns authentic rawTranscript with non-overlapping timestamps", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockRejectedValue(new Error("Offline unit test translation mock"))
+    );
+    delete process.env.GEMINI_API_KEY;
+
+    const rawTranscript =
+      "Today I want to tell you three stories from my life. Just three stories. Stay hungry and keep learning every single day.";
+
+    const subtitles = await generateAiSubtitlesForVideo({
+      videoId: "UF8uR6Z6KLc",
+      videoTitle: "Stanford Address",
+      rawTranscript,
+    });
+
+    expect(subtitles.length).toBeGreaterThanOrEqual(2);
+    expect(subtitles[0].english).toContain("Today I want to tell you three stories");
+    expect(subtitles.every((s) => s.dictationWord.length > 0)).toBe(true);
+    expect(subtitles.every((s) => s.isAiGenerated === true)).toBe(true);
+
+    for (let i = 0; i < subtitles.length; i++) {
+      const item = subtitles[i];
+      expect(item.startSeconds).toBeLessThan(item.startSeconds + item.duration);
+      expect(item.start).toMatch(/^\d{2}:\d{2}:\d{2}\.\d{3}$/);
+      expect(item.end).toMatch(/^\d{2}:\d{2}:\d{2}\.\d{3}$/);
+      if (i > 0) {
+        const prev = subtitles[i - 1];
+        expect(item.startSeconds).toBeGreaterThanOrEqual(prev.startSeconds + prev.duration);
       }
-    });
+    }
   });
 });

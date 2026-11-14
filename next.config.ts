@@ -61,6 +61,26 @@ const nextConfig: NextConfig = {
         destination: "/study/shadowing",
         permanent: true,
       },
+      {
+        source: "/study/listening",
+        destination: "/study/dictation",
+        permanent: true,
+      },
+      {
+        source: "/study/listening/:path*",
+        destination: "/study/dictation/:path*",
+        permanent: true,
+      },
+      {
+        source: "/study/plan",
+        destination: "/analytics",
+        permanent: true,
+      },
+      {
+        source: "/study/dictation/video/:id([^/]+)/comprehension",
+        destination: "/study/dictation/video/comprehension/:id",
+        permanent: true,
+      },
     ];
   },
 };

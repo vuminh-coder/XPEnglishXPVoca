@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
+import { useUiStore } from "@/stores/uiStore";
 import {
   User,
   FileText,
@@ -16,6 +18,7 @@ import {
   Trash2,
   LogOut,
   Clock,
+  GraduationCap,
 } from "lucide-react";
 import { AppTopHeader, HeaderPillContainer, HeaderPillItem } from "@/shared/components/layout/AppTopHeader";
 import { ProfileSuiteNavTabs } from "@/shared/components/layout/nav-tabs";
@@ -51,20 +54,25 @@ function saveSettings(settings: UserSettings) {
 export default function SettingsPage() {
   const { user, updateProfile, logout } = useAuthStore();
   const { addToast } = useNotificationStore();
+  const { theme, setTheme } = useUiStore();
   const [mounted] = useState(() => typeof window !== "undefined");
   const [fullName, setFullName] = useState("");
   const [bio, setBio] = useState("");
   const [settings, setSettings] = useState<UserSettings>(loadSettings());
 
-  /* eslint-disable react-hooks/set-state-in-effect -- Syncing form from external auth store when user identity changes */
+  /* eslint-disable react-hooks/set-state-in-effect -- Syncing form from external auth/ui stores when identity or global theme changes */
   useEffect(() => {
     if (user) {
       setFullName(user.fullName);
       setBio(user.bio || "");
     }
-    setSettings(loadSettings());
+    const loaded = loadSettings();
+    const effectiveDark =
+      theme === "dark" ||
+      (theme === "system" && typeof document !== "undefined" && document.documentElement.classList.contains("dark"));
+    setSettings({ ...loaded, darkMode: effectiveDark });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.id]);
+  }, [user?.id, theme]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   if (!mounted || !user) {
@@ -83,6 +91,9 @@ export default function SettingsPage() {
     const updated = { ...settings, [key]: value };
     setSettings(updated);
     saveSettings(updated);
+    if (key === "darkMode") {
+      setTheme(value ? "dark" : "light");
+    }
   };
 
   const handleSaveProfile = () => {
@@ -192,6 +203,15 @@ export default function SettingsPage() {
                 <option value={60}>60 phút</option>
               </select>
             </div>
+          </div>
+          <div className="pt-1">
+            <Link
+              href="/onboarding"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 text-xs font-bold transition-all"
+            >
+              <GraduationCap className="w-4 h-4 text-[#0059bb] dark:text-sky-400" />
+              <span>Làm lại bài kiểm tra trình độ (Placement Test)</span>
+            </Link>
           </div>
         </div>
 

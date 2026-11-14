@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { getServerGeminiApiKey, requireAuthenticatedAiCaller } from "@/infrastructure/security/aiGuard";
 
 export async function POST(req: Request) {
   try {
-    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-    if (isRateLimited(`ai_writing_grade_${clientIp}`, 10, 60 * 1000)) {
-      return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
+    const authGuard = await requireAuthenticatedAiCaller(req, "ai_writing_grade", 10, 60 * 1000);
+    if ("errorResponse" in authGuard) {
+      return authGuard.errorResponse;
     }
 
     const body = await req.json();
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
+    const apiKey = getServerGeminiApiKey();
 
     // Fallback evaluation if API key is not set
     if (!apiKey) {

@@ -14,6 +14,7 @@ export async function GET(request: Request) {
       select: {
         coins: true,
         streakFreezes: true,
+        doubleXpUntil: true,
         activeAvatarFrame: true,
         activeChatBubble: true,
       },
@@ -39,6 +40,7 @@ export async function GET(request: Request) {
       success: true,
       coins: profile.coins,
       streakFreezes: profile.streakFreezes,
+      doubleXpUntil: profile.doubleXpUntil ? profile.doubleXpUntil.toISOString() : null,
       activeAvatarFrame: profile.activeAvatarFrame,
       activeChatBubble: profile.activeChatBubble,
       purchaseLogs,

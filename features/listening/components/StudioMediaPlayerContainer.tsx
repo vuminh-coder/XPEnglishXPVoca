@@ -35,6 +35,7 @@ export interface StudioMediaPlayerContainerProps {
   liveAudioEnergy?: number;
   mediaDisplayMode?: MediaDisplayMode;
   onMediaDisplayModeChange?: (mode: MediaDisplayMode) => void;
+  viewportVariant?: "studio" | "cinema";
   onToast?: (toast: { type: "info" | "success" | "error"; title: string; message?: string }) => void;
   className?: string;
 }
@@ -73,6 +74,7 @@ export const StudioMediaPlayerContainer: React.FC<StudioMediaPlayerContainerProp
     liveAudioEnergy,
     mediaDisplayMode = "video",
     onMediaDisplayModeChange,
+    viewportVariant = "studio",
     onToast,
     className = "",
   }) {
@@ -122,6 +124,7 @@ export const StudioMediaPlayerContainer: React.FC<StudioMediaPlayerContainerProp
             }
             currentSentence={currentSentence}
             practiceMode={practiceMode}
+            viewportVariant={viewportVariant}
             isPlaying={isPlaying}
             playbackSpeed={playbackSpeed}
             volume={volume}

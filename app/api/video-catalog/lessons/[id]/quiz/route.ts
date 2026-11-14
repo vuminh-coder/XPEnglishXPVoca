@@ -3,6 +3,7 @@ import { getVideoLessonQuiz } from "@/features/listening/services/videoComprehen
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { prisma } from "@/infrastructure/database/prisma";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 
 export async function GET(
   req: NextRequest,
@@ -83,7 +84,7 @@ export async function POST(
 
     if (userId && !userId.startsWith("guest_") && xpReward > 0) {
       try {
-        const todayStr = new Date().toISOString().split("T")[0];
+        const todayStr = getLocalDateString(new Date());
         const minutes = Math.max(1, Math.round(timeSpentSeconds / 60));
 
         await prisma.$transaction(async (tx) => {

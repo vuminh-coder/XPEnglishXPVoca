@@ -71,6 +71,12 @@ export function buildEffectiveSentence<
       : sentence.ipa || nextSentence.ipa;
   const start = sentence.startTime ?? 0;
   const combinedEndTime = nextSentence.endTime || (sentence.endTime ?? start) + 3;
+  const sWords = (sentence as any).wordTimings;
+  const nWords = (nextSentence as any).wordTimings;
+  const combinedWordTimings =
+    Array.isArray(sWords) && sWords.length > 0 && Array.isArray(nWords) && nWords.length > 0
+      ? [...sWords, ...nWords]
+      : undefined;
 
   return {
     ...sentence,
@@ -80,5 +86,6 @@ export function buildEffectiveSentence<
     ipa: combinedIpa,
     endTime: combinedEndTime,
     duration: Math.max(3, combinedEndTime - start),
+    wordTimings: combinedWordTimings,
   };
 }

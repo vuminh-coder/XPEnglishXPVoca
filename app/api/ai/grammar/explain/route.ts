@@ -2,8 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { getGrammarLesson } from "@/features/grammar/data/grammarContent";
 import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { sharedStore } from "@/infrastructure/cache/sharedStore";
 import fs from "fs";
 import path from "path";
+
+const ALLOWED_GRAMMAR_LEVELS = new Set(["beginner", "intermediate", "advanced"]);
+const SAFE_TOPIC_ID_REGEX = /^[a-zA-Z0-9_-]{1,64}$/;
+const GRAMMAR_CACHE_TTL_SECONDS = 30 * 24 * 60 * 60;
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
 
@@ -20,22 +25,32 @@ export async function POST(req: NextRequest) {
 
     const { topicId, level, mode, messages } = await req.json();
 
-    if (!topicId) {
-      return NextResponse.json({ error: "Missing topicId" }, { status: 400 });
+    const safeTopicId = typeof topicId === "string" && SAFE_TOPIC_ID_REGEX.test(topicId) ? path.basename(topicId) : null;
+    if (!safeTopicId) {
+      return NextResponse.json({ error: "Invalid topicId" }, { status: 400 });
     }
 
-    const lesson = getGrammarLesson(topicId);
+    const lesson = getGrammarLesson(safeTopicId);
     if (!lesson) {
       return NextResponse.json({ error: "Lesson not found" }, { status: 404 });
     }
 
-    const cacheDir = path.join(process.cwd(), "lib", "data", "grammar_cache");
-    const cacheKey = `${topicId}_${level || "intermediate"}.md`;
-    const cachePath = path.join(cacheDir, cacheKey);
+    const normalizedLevel = typeof level === "string" ? level.trim().toLowerCase() : "intermediate";
+    const safeLevel = ALLOWED_GRAMMAR_LEVELS.has(normalizedLevel) ? normalizedLevel : "intermediate";
+
+    const cacheDir = path.resolve(process.cwd(), "lib", "data", "grammar_cache");
+    const cacheKey = `${safeTopicId}_${safeLevel}.md`;
+    const cachePath = path.resolve(cacheDir, cacheKey);
+    const sharedCacheKey = `grammar_guide:${safeTopicId}:${safeLevel}`;
 
     // ── CASE 1: GENERATE DETAILED GUIDE ──
     if (mode === "generate_guide") {
-      if (fs.existsSync(cachePath)) {
+      const distributedGuide = await sharedStore.get<string>(sharedCacheKey).catch(() => null);
+      if (distributedGuide) {
+        return NextResponse.json({ guide: distributedGuide });
+      }
+
+      if (cachePath.startsWith(cacheDir + path.sep) && fs.existsSync(cachePath)) {
         try {
           const cachedGuide = fs.readFileSync(cachePath, "utf-8");
           return NextResponse.json({ guide: cachedGuide });
@@ -100,14 +115,9 @@ Return ONLY the raw markdown text. No JSON wrapper, no metadata.`;
 
         // Save to cache on success
         if (guideText && GEMINI_API_KEY) {
-          try {
-            if (!fs.existsSync(cacheDir)) {
-              fs.mkdirSync(cacheDir, { recursive: true });
-            }
-            fs.writeFileSync(cachePath, guideText, "utf-8");
-          } catch (writeErr) {
-            console.warn("Failed to write grammar cache file:", writeErr);
-          }
+          await sharedStore.set(sharedCacheKey, guideText, GRAMMAR_CACHE_TTL_SECONDS).catch((writeErr) => {
+            console.warn("Failed to persist grammar guide in sharedStore:", writeErr);
+          });
         }
       } catch (err) {
         console.warn("Failed to generate AI guide, using static details fallback:", err);

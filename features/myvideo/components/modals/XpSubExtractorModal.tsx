@@ -15,6 +15,17 @@ import {
   X,
 } from "lucide-react";
 import { CaptionTrackInfo, TranslationLanguageInfo } from "@/features/listening/services/xpSubExtractor";
+import {
+  parseTimedTextAny,
+  parseVnTimedTextAny,
+  extractDictationWord,
+} from "@/features/listening/services/youtubeSubtitleParser";
+import {
+  normalizeSubtitlePipeline,
+  NormalizedCue,
+} from "@/features/listening/services/subtitleNormalizer";
+import { translateMissingVietnameseBatch } from "@/features/listening/services/subtitleTranslateHelper";
+import { isAllowedYouTubeTimedTextUrl } from "@/infrastructure/security/youtubeSubtitleUrl";
 import { SubtitleSentence, YouTubeVideoItem } from "@/stores/videoStore";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 import { Toast } from "@/stores/notificationStore";
@@ -78,8 +89,61 @@ export const XpSubExtractorModal: React.FC<XpSubExtractorModalProps> = ({
           return;
         }
       }
+
+      // Fallback Tier: Same-Origin SSRF-validated Proxy (`/api/youtube/subtitles/proxy`)
+      if (isAllowedYouTubeTimedTextUrl(baseUrl)) {
+        const cleanUrl = baseUrl.replace(/\\u0026/g, "&").replace(/\\\//g, "/");
+        const uEn = new URL(cleanUrl);
+        uEn.searchParams.set("fmt", "json3");
+        const proxyEnRes = await fetch(
+          `/api/youtube/subtitles/proxy?url=${encodeURIComponent(uEn.toString())}`,
+          { signal: AbortSignal.timeout(6000) }
+        );
+        if (proxyEnRes.ok) {
+          const rawEn = await proxyEnRes.text();
+          const parsedEn = parseTimedTextAny(rawEn);
+          if (parsedEn.length > 0) {
+            let parsedVn: { startTime: number; endTime?: number; textVn: string }[] = [];
+            if (bilingual && targetLang) {
+              try {
+                const uVn = new URL(cleanUrl);
+                uVn.searchParams.set("fmt", "json3");
+                uVn.searchParams.set("tlang", targetLang);
+                const proxyVnRes = await fetch(
+                  `/api/youtube/subtitles/proxy?url=${encodeURIComponent(uVn.toString())}`,
+                  { signal: AbortSignal.timeout(5000) }
+                );
+                if (proxyVnRes.ok) {
+                  parsedVn = parseVnTimedTextAny(await proxyVnRes.text());
+                }
+              } catch {}
+            }
+
+            const normalized = normalizeSubtitlePipeline(parsedEn as NormalizedCue[], parsedVn);
+            const finalItems =
+              bilingual && targetLang === "vi"
+                ? await translateMissingVietnameseBatch(normalized)
+                : normalized;
+
+            const mapped: SubtitleSentence[] = finalItems.map((it, idx) => ({
+              id: `xpsub_${activeVideo.id}_${idx + 1}`,
+              startTime: it.startTime,
+              endTime: it.endTime,
+              textEn: it.textEn,
+              textVn: bilingual ? it.textVn : "",
+              dictationWord: extractDictationWord(it.textEn),
+              wordTimings: it.wordTimings,
+            }));
+            setXpSubPreviewSentences(mapped);
+            return;
+          }
+        }
+      }
+
+      setXpSubError("Không trích xuất được nội dung từ luồng phụ đề này. Hãy thử chọn track khác hoặc nạp .SRT.");
     } catch (e: any) {
       console.warn("Preview fetch warning:", e);
+      setXpSubError("Lỗi kết nối khi trích xuất phụ đề từ YouTube.");
     } finally {
       setIsExtractingPreview(false);
     }

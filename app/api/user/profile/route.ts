@@ -101,6 +101,50 @@ export async function POST(request: Request) {
     const defaultFullName = "Học viên XP Voca";
     const defaultUsername = "user_" + safeSuffix;
 
+    // Ensure sanitizedUsername is unique across other profiles before updating
+    if (sanitizedUsername) {
+      const conflictProfile = await prisma.profile.findFirst({
+        where: {
+          username: sanitizedUsername,
+          id: { not: userId },
+        },
+        select: { id: true },
+      });
+      if (conflictProfile) {
+        return NextResponse.json(
+          { error: "Tên người dùng (username) này đã được sử dụng. Vui lòng chọn tên khác." },
+          { status: 409 }
+        );
+      }
+    }
+
+    // Verify cosmetic ownership in PurchaseLog before equipping on profile
+    if (activeAvatarFrame !== undefined && activeAvatarFrame !== null) {
+      const ownedFrame = await prisma.purchaseLog.findFirst({
+        where: { userId, itemId: String(activeAvatarFrame) },
+        select: { id: true },
+      });
+      if (!ownedFrame) {
+        return NextResponse.json(
+          { error: "Bạn chưa sở hữu khung avatar này trong Kho đồ." },
+          { status: 403 }
+        );
+      }
+    }
+
+    if (activeChatBubble !== undefined && activeChatBubble !== null) {
+      const ownedBubble = await prisma.purchaseLog.findFirst({
+        where: { userId, itemId: String(activeChatBubble) },
+        select: { id: true },
+      });
+      if (!ownedBubble) {
+        return NextResponse.json(
+          { error: "Bạn chưa sở hữu khung chat này trong Kho đồ." },
+          { status: 403 }
+        );
+      }
+    }
+
     const updatedProfile = await prisma.profile.upsert({
       where: { id: userId },
       update: {

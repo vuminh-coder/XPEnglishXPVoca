@@ -2,15 +2,12 @@
 import React from "react";
 import { useNotificationStore, type ToastType } from "@/stores/notificationStore";
 import {
-  Sparkles,
   AlertTriangle,
-  AlertCircle,
   XCircle,
   Zap,
   X,
   RotateCcw,
   RotateCw,
-  Bookmark,
   BookmarkCheck,
   BookmarkX,
   Shuffle,
@@ -18,7 +15,6 @@ import {
   Flag,
   Mic,
   MicOff,
-  Bell,
   Headphones,
   CheckCircle2,
   Clock,
@@ -204,15 +200,17 @@ function getToastVisual(toast: { type: ToastType; title: string; message?: strin
   }
 }
 
+const TOAST_DECORATIVE_EMOJI_RE = /(?:⚠️|[🎉⚠↺🔖📌✨⭐🔥👍👏❌✅💡💾⏳🔴])/gu;
+
+function cleanEmoji(text: string): string {
+  return text.replace(TOAST_DECORATIVE_EMOJI_RE, "").trim();
+}
+
 function getToastCardStyle(toast: { type: ToastType; title: string }) {
-  if (/^CHƯA ĐẠT\b/i.test(toast.title.replace(/[🎉⚠️↺🔖📌✨⭐🔥👍👏❌✅💡💾⏳🔴]/gu, "").trim())) {
+  if (/^CHƯA ĐẠT\b/i.test(cleanEmoji(toast.title))) {
     return "border-rose-200/90 dark:border-rose-800/60 bg-white/95 dark:bg-slate-900/95 shadow-[0_12px_36px_-6px_rgba(244,63,94,0.18)] dark:shadow-[0_12px_36px_-6px_rgba(0,0,0,0.7)] ring-1 ring-rose-500/15";
   }
   return cardStyleMap[toast.type];
-}
-
-function cleanEmoji(text: string): string {
-  return text.replace(/[🎉⚠️↺🔖📌✨⭐🔥👍👏❌✅💡💾⏳🔴]/gu, "").trim();
 }
 
 function renderToastTitle(title: string) {

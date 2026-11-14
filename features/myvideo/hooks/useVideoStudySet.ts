@@ -7,7 +7,7 @@ import {
   batchSaveFlashcardsToNotebook,
   BatchSaveResult,
 } from "../services/videoAiStudySetService";
-import { GeneratedFlashcard, GeneratedQuiz, VideoStudySetResponse } from "@/app/api/youtube/study-set/route";
+import { GeneratedFlashcard, GeneratedQuiz, VideoStudySetResponse } from "@/shared/types";
 import { speakLessonText } from "@/shared/utils/ttsEngine";
 
 export interface UseVideoStudySetProps {

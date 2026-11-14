@@ -31,6 +31,7 @@ import {
 } from "@/shared/components/layout/AppTopHeader";
 import { PageEntranceWrapper } from "@/shared/components/feedback/PageEntranceAnimation";
 import { useStudyTimeTracker } from "@/shared/hooks/useStudyTimeTracker";
+import { useVoiceChannel, VoiceControlPanel } from "@/features/study-rooms";
 
 import {
   useStudyRoomStore,
@@ -57,6 +58,7 @@ export default function StudyRoomsPage() {
 
   // 2. Active in-room workspace state (Frame 0 Probe - Keep in room across tab navigation)
   const [activeRoom, setActiveRoom] = useState<StudyRoom | null>(() => getInitialActiveRoomProbe());
+  const voice = useVoiceChannel({ roomId: activeRoom?.id });
 
   // 3. Focus Pomodoro Timer (Frame 0 Probe with elapsed time deduction)
   const initialPomodoro = getInitialPomodoroProbe();
@@ -216,9 +218,27 @@ export default function StudyRoomsPage() {
   };
 
   const handleLeaveRoom = () => {
+    voice.disconnectVoice();
     setActiveRoom(null);
     useStudyRoomStore.getState().leaveRoom();
     setMessages([]);
+  };
+
+  const handleConnectVoice = async () => {
+    try {
+      await voice.connectVoice();
+      addToast({
+        type: "success",
+        title: "Đã bật Kênh Thoại Nhóm 🎙️",
+        message: "Micro của bạn đã kết nối với phòng học.",
+      });
+    } catch {
+      addToast({
+        type: "error",
+        title: "Không thể bật Kênh Thoại",
+        message: "Vui lòng cấp quyền truy cập Micro trên trình duyệt.",
+      });
+    }
   };
 
   const handleSelectCategory = (catId: string) => {
@@ -417,12 +437,37 @@ export default function StudyRoomsPage() {
                 </div>
               </div>
 
-              <button
-                onClick={handleLeaveRoom}
-                className="px-4 h-10 rounded-xl font-bold text-xs text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-900/50 border border-rose-200 dark:border-rose-900/50 transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer shadow-2xs"
-              >
-                <LogOut className="w-3.5 h-3.5" /> Rời phòng
-              </button>
+              <div className="flex flex-wrap items-center gap-2.5">
+                <VoiceControlPanel
+                  isConnected={voice.isConnected}
+                  isMuted={voice.isMuted}
+                  isDeaf={voice.isDeaf}
+                  isSpeaking={voice.isSpeaking}
+                  volumeLevel={voice.volumeLevel}
+                  isPushToTalk={voice.isPushToTalk}
+                  isPttActive={voice.isPttActive}
+                  noiseGateThreshold={voice.noiseGateThreshold}
+                  setNoiseGateThreshold={voice.setNoiseGateThreshold}
+                  setIsPushToTalk={voice.setIsPushToTalk}
+                  inputDevices={voice.inputDevices}
+                  outputDevices={voice.outputDevices}
+                  selectedInputId={voice.selectedInputId}
+                  selectedOutputId={voice.selectedOutputId}
+                  setSelectedInputId={voice.setSelectedInputId}
+                  setSelectedOutputId={voice.setSelectedOutputId}
+                  onConnect={handleConnectVoice}
+                  onDisconnect={voice.disconnectVoice}
+                  onToggleMute={voice.toggleMute}
+                  onToggleDeaf={voice.toggleDeaf}
+                />
+
+                <button
+                  onClick={handleLeaveRoom}
+                  className="px-4 h-10 rounded-xl font-bold text-xs text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/30 hover:bg-rose-100 dark:hover:bg-rose-900/50 border border-rose-200 dark:border-rose-900/50 transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer shadow-2xs"
+                >
+                  <LogOut className="w-3.5 h-3.5" /> Rời phòng
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -492,9 +537,16 @@ export default function StudyRoomsPage() {
                           </div>
                         </div>
                       </div>
-                      <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 border border-amber-200 text-amber-600 text-[10px] font-black">
-                        Host
-                      </span>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {voice.isConnected && voice.isMuted && (
+                          <span className="px-2 py-0.5 rounded-md bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-400 text-[10px] font-black">
+                            🔇 Muted
+                          </span>
+                        )}
+                        <span className="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-950/60 border border-amber-200 text-amber-600 text-[10px] font-black">
+                          Host
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

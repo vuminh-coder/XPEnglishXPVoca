@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Home, BookOpen, Headphones, Bot, Users, User } from "lucide-react";
 import { motion } from "framer-motion";
 import { useUiStore } from "@/stores/uiStore";
@@ -10,10 +10,27 @@ import { useUserStore } from "@/stores/userStore";
 import { prefetchRouteData } from "@/shared/utils/prefetchEngine";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 
+function SearchQuerySync({ onSearchChange }: { onSearchChange: (search: string) => void }) {
+  const searchParams = useSearchParams();
+  React.useEffect(() => {
+    onSearchChange(searchParams?.toString() || "");
+  }, [searchParams, onSearchChange]);
+  return null;
+}
+
+interface BottomNavTab {
+  name: string;
+  path: string;
+  icon: React.ComponentType<{ className?: string }>;
+  badge?: number;
+  isProfile?: boolean;
+}
+
 export default function BottomNav() {
   const pathname = usePathname();
   const { sidebarCollapsed, hideBottomNav } = useUiStore();
   const user = useUserStore((s) => s.user);
+  const [searchStr, setSearchStr] = React.useState("");
 
   // Hide BottomNav on active exam screen or when studio pages explicitly request it
   const isExamActivePage =
@@ -36,21 +53,12 @@ export default function BottomNav() {
     pathname?.startsWith("/study/practice")
   );
 
-  const [hasLessonQuery, setHasLessonQuery] = React.useState(false);
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const search = window.location.search;
-      setHasLessonQuery(
-        Boolean(
-          search.includes("id=") ||
-          search.includes("lessonId=") ||
-          search.includes("theme=") ||
-          pathname?.includes("/comprehension")
-        )
-      );
-    }
-  }, [pathname]);
+  const hasLessonQuery = Boolean(
+    searchStr.includes("id=") ||
+    searchStr.includes("lessonId=") ||
+    searchStr.includes("theme=") ||
+    pathname?.includes("/comprehension")
+  );
 
   if (
     isExamActivePage ||
@@ -58,12 +66,16 @@ export default function BottomNav() {
     isDedicatedGameRoute ||
     (isStudioPracticeRoute && hasLessonQuery)
   ) {
-    return null;
+    return (
+      <Suspense fallback={null}>
+        <SearchQuerySync onSearchChange={setSearchStr} />
+      </Suspense>
+    );
   }
 
   const userName = user?.fullName || user?.username || "Học viên XP Voca";
 
-  const tabs = [
+  const tabs: BottomNavTab[] = [
     {
       name: "Trang chủ",
       path: "/dashboard",
@@ -88,7 +100,6 @@ export default function BottomNav() {
       name: "Cộng đồng",
       path: "/community",
       icon: Users,
-      badge: 1,
     },
     {
       name: "Cá nhân",
@@ -99,7 +110,11 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav
+    <>
+      <Suspense fallback={null}>
+        <SearchQuerySync onSearchChange={setSearchStr} />
+      </Suspense>
+      <nav
       className="md:hidden fixed bottom-0 left-0 right-0 h-[50px] pb-[env(safe-area-inset-bottom,0px)] bg-gradient-to-t from-white via-slate-50/90 to-slate-100/80 dark:from-slate-800/90 dark:via-slate-900/95 dark:to-slate-950/95 backdrop-blur-xl border-t border-slate-200/80 dark:border-slate-800 z-[var(--z-navbar)] flex items-center justify-around px-1 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] dark:shadow-[0_-2px_16px_rgba(0,0,0,0.4)] select-none"
       aria-label="Mobile navigation"
     >
@@ -159,16 +174,17 @@ export default function BottomNav() {
                 />
               )}
 
-              {/* Facebook-style Red Notification Accent Badge */}
-              {tab.badge && (
+              {/* Optional notification count badge */}
+              {tab.badge && tab.badge > 0 ? (
                 <span className="absolute -top-1.5 -right-2 min-w-[15px] h-[15px] px-1 rounded-full bg-[#f43f5e] text-white text-[9px] font-bold font-mono flex items-center justify-center border border-white dark:border-slate-900 shadow-2xs pointer-events-none">
                   {tab.badge}
                 </span>
-              )}
+              ) : null}
             </div>
           </Link>
         );
       })}
-    </nav>
+      </nav>
+    </>
   );
 }

@@ -22,6 +22,7 @@ vi.mock("@/infrastructure/auth/auth", () => ({
 vi.mock("@/infrastructure/auth/password", () => ({
   hashPassword: vi.fn((pwd) => `hashed_${pwd}`),
   comparePassword: vi.fn((pwd, hash) => hash === `hashed_${pwd}`),
+  needsPasswordRehash: vi.fn(() => false),
 }));
 
 vi.mock("@/infrastructure/auth/jwt", () => ({

@@ -33,6 +33,8 @@ import {
   BookText,
   Link2,
   Puzzle,
+  GraduationCap,
+  ShieldAlert,
 } from "lucide-react";
 import { UserAvatar } from "@/shared/components/feedback/UserAvatar";
 import {
@@ -97,7 +99,7 @@ const sections = [
         badge: "AI",
       },
       {
-        name: "Luyện viết",
+        name: "Hội thoại AI",
         path: "/ai/conversation",
         icon: <Wand2 className="w-[21px] h-[21px]" strokeWidth={1.9} />,
         page: "aichat",
@@ -507,7 +509,7 @@ function SidebarNavInner({
                       : "bottom-full mb-2 left-0 right-0"
                   }`}
                 >
-                  {/* 1. Hồ sơ */}
+                  {/* 1. Hồ sơ & Định hướng / Quản trị */}
                   <Link
                     href="/profile"
                     onMouseEnter={() => prefetchRouteData("/profile")}
@@ -521,6 +523,32 @@ function SidebarNavInner({
                     <User className="w-4 h-4 text-slate-700 dark:text-slate-200 stroke-[1.8]" />
                     <span>Hồ sơ</span>
                   </Link>
+
+                  <Link
+                    href="/onboarding"
+                    onClick={() => {
+                      setShowUserMenu(false);
+                      if (sidebarOpen) toggleSidebar();
+                    }}
+                    className="flex items-center gap-3 px-3 py-2 rounded-xl font-medium text-[13px] text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  >
+                    <GraduationCap className="w-4 h-4 text-[#0059bb] dark:text-sky-400 stroke-[1.8]" />
+                    <span>Kiểm tra trình độ</span>
+                  </Link>
+
+                  {user?.role === "ADMIN" && (
+                    <Link
+                      href="/admin"
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        if (sidebarOpen) toggleSidebar();
+                      }}
+                      className="flex items-center gap-3 px-3 py-2 rounded-xl font-semibold text-[13px] text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/40 transition-colors cursor-pointer"
+                    >
+                      <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400 stroke-[1.8]" />
+                      <span>Quản trị Admin</span>
+                    </Link>
+                  )}
 
                   {/* 2. Giao diện Sáng/Tối */}
                   <div className="my-1 border-t border-slate-100 dark:border-white/10" />
@@ -735,7 +763,7 @@ const LINK_WIDTH_MAP: Record<string, string> = {
   "Dictation": "w-[58px]",
   "Shadowing": "w-[72px]",
   "Luyện nói": "w-[66px]",
-  "Luyện viết": "w-[68px]",
+  "Hội thoại AI": "w-[78px]",
   "Đọc hiểu": "w-[66px]",
   "Luyện từ vựng": "w-[88px]",
   "Thi thử đề": "w-[68px]",

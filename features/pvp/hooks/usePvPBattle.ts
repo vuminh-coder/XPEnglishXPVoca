@@ -143,31 +143,36 @@ export function usePvPBattle() {
           }),
         });
         const data = await res.json();
-        const finalXp = data.success ? (data.data?.xpGained || (result === "WIN" ? 30 : result === "DRAW" ? 15 : 5)) : (result === "WIN" ? 30 : result === "DRAW" ? 15 : 5);
-        const finalCoins = data.success ? (data.coinsAwarded || (result === "WIN" ? 20 : result === "DRAW" ? 10 : 2)) : (result === "WIN" ? 20 : 10);
+        if (!res.ok || !data.success) {
+          console.warn("Server rejected PvP match submission:", data?.error || res.status);
+          setXpAwarded(0);
+          setCoinsAwarded(0);
+          setLevelUp(false);
+          return;
+        }
+
+        const finalXp = Number(data.data?.xpGained ?? 0);
+        const finalCoins = Number(data.data?.coinsGained ?? data.coinsAwarded ?? 0);
 
         setXpAwarded(finalXp);
         setCoinsAwarded(finalCoins);
-        setLevelUp(!!data.levelUp);
+        setLevelUp(Boolean(data.levelUp || data.data?.levelUp));
 
-        // Immediate Client-Side User Store Sync for seamless UI feedback
-        useUserStore.getState().awardXp(finalXp, "vocab");
-        useUserStore.getState().awardCoins(finalCoins);
-        useUserStore.getState().addPracticeTime(1, "vocab");
-        useUserStore.getState().syncStreak(true);
+        // Immediate Client-Side User Store Sync for authenticated DB submissions only
+        if (!data.guest && (finalXp > 0 || finalCoins > 0)) {
+          useUserStore.getState().awardXp(finalXp, "vocab");
+          useUserStore.getState().awardCoins(finalCoins);
+          useUserStore.getState().addPracticeTime(1, "vocab");
+          useUserStore.getState().syncStreak(true);
+        }
 
         // Refresh stats
         loadMatchHistory();
       } catch (err) {
         console.warn("Failed to sync match result to server:", err);
-        const fallbackXp = result === "WIN" ? 30 : result === "DRAW" ? 15 : 5;
-        const fallbackCoins = result === "WIN" ? 20 : 10;
-        setXpAwarded(fallbackXp);
-        setCoinsAwarded(fallbackCoins);
-        useUserStore.getState().awardXp(fallbackXp, "vocab");
-        useUserStore.getState().awardCoins(fallbackCoins);
-        useUserStore.getState().addPracticeTime(1, "vocab");
-        useUserStore.getState().syncStreak(true);
+        setXpAwarded(0);
+        setCoinsAwarded(0);
+        setLevelUp(false);
       }
     },
     [matchedOpponent, loadMatchHistory]

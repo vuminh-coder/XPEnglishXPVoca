@@ -2,14 +2,10 @@ import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
-import { LEVEL_TITLES } from "@/shared/constants";
-import { calculateXp, MatchResult, VALID_RESULTS } from "@/shared/utils/xp";
+import { calculateLevelProgression, calculateXp, MatchResult, VALID_RESULTS } from "@/shared/utils/xp";
 import { sanitizeInput } from "@/infrastructure/security/validation";
-
-const LEVEL_XP = [
-  0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200,
-  7600, 9200, 11000,
-];
+import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 
 export async function POST(request: Request) {
   try {
@@ -34,6 +30,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid score values" }, { status: 400 });
     }
 
+    const expectedResult: MatchResult =
+      parsedUserScore > parsedOppScore ? "WIN" : parsedUserScore < parsedOppScore ? "LOSE" : "DRAW";
+    if (result !== expectedResult) {
+      return NextResponse.json({ error: "Match result inconsistent with scores" }, { status: 400 });
+    }
+
     const sanitizedOpponent = sanitizeInput(String(opponent).trim().slice(0, 50));
 
     // Server-authoritative XP calculation with hard security cap (max 50 XP per match)
@@ -56,6 +58,13 @@ export async function POST(request: Request) {
         },
         message: "Trận đấu đã hoàn thành ở chế độ Khách.",
       });
+    }
+
+    if (isRateLimited(`pvp_match_submit_${userId}`, 6, 60_000)) {
+      return NextResponse.json(
+        { error: "Quá nhiều lượt nộp kết quả PvP. Vui lòng thử lại sau." },
+        { status: 429 }
+      );
     }
 
     // Server-Authoritative Database Transaction
@@ -126,17 +135,12 @@ export async function POST(request: Request) {
 
       // 3. Update XP, check Level up, and calculate Coins
       const newXp = profile.totalXp + xpGained;
-      let newLevel = profile.level;
-      let levelUp = false;
-      let levelUpCoins = 0;
-
-      while (newLevel < LEVEL_XP.length && newXp >= LEVEL_XP[newLevel]) {
-        newLevel++;
-        levelUp = true;
-        levelUpCoins += 100 * newLevel;
-      }
-
-      const newTitle = LEVEL_TITLES[newLevel] || profile.title;
+      const {
+        level: newLevel,
+        title: newTitle,
+        leveledUp: levelUp,
+        levelUpCoins,
+      } = calculateLevelProgression(newXp, profile.level, profile.title);
       const coinsGained = result === "WIN" ? 20 : result === "DRAW" ? 10 : 2;
       const totalCoinsGained = coinsGained + levelUpCoins;
 
@@ -160,7 +164,7 @@ export async function POST(request: Request) {
       });
 
       // 4. Sync to DailySkillPractice for 7-day analytics & skill charts
-      const todayDate = new Date().toISOString().split("T")[0];
+      const todayDate = getLocalDateString(new Date());
       await tx.dailySkillPractice.upsert({
         where: {
           userId_skill_date: {

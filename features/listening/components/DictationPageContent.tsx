@@ -41,6 +41,7 @@ import {
   isSameLessonId,
 } from "@/features/listening/utils/lessonIdHelper";
 import { extractYouTubeVideoId } from "@/features/listening/utils/videoUrlHelper";
+import { processHighPrecisionSubtitles, getLastFetchedVideoMeta } from "@/features/listening/services/youtubeSubtitleService";
 import { syncRoadmapSessionProgress } from "@/features/roadmap";
 
 // Dual Row Level Definition Sets
@@ -966,9 +967,7 @@ export function DictationPageContent({
   const [isExtractingYoutube, setIsExtractingYoutube] = useState(false);
 
   const extractYoutubeId = (url: string): string | null => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return match && match[2].length === 11 ? match[2] : null;
+    return extractYouTubeVideoId(url);
   };
 
   const handleExtractYoutubeSubtitles = async () => {
@@ -977,7 +976,7 @@ export function DictationPageContent({
       addToast({
         type: "warning",
         title: "Link YouTube không hợp lệ",
-        message: "Vui lòng nhập đường dẫn video YouTube hợp lệ (VD: https://www.youtube.com/watch?v=...)",
+        message: "Hỗ trợ mọi định dạng: watch?v=..., youtu.be/..., shorts/..., hoặc live/...",
       });
       return;
     }
@@ -986,73 +985,81 @@ export function DictationPageContent({
       setIsExtractingYoutube(true);
       addToast({
         type: "info",
-        title: "Đang bóc tách phụ đề từ YouTube...",
+        title: "Đang bóc tách & chuẩn hóa phụ đề từ YouTube...",
       });
 
-      const res = await fetch(`/api/youtube/captions?videoId=${videoId}`);
-      const json = await res.json();
+      const { storeSubtitles, metadata } = await processHighPrecisionSubtitles(
+        videoId,
+        newTitle.trim() || undefined
+      );
+      const serverMeta = getLastFetchedVideoMeta();
 
-      if (json.hasCaptions && Array.isArray(json.subtitles) && json.subtitles.length > 0) {
-        const sentences = json.subtitles
-          .map((sub: any, idx: number) => ({
+      const sentences = storeSubtitles
+        .map((sub, idx) => {
+          const startTime = Number.isFinite(sub.startTime) ? sub.startTime : idx * 5;
+          const endTime =
+            Number.isFinite(sub.endTime) && sub.endTime > startTime
+              ? sub.endTime
+              : startTime + 4;
+          return {
             id: idx + 1,
-            text: sub.english || sub.text || "",
-            translation: sub.vietnamese || "Chưa có bản dịch song ngữ",
-            startTime: sub.startSeconds || idx * 5,
-            endTime: (sub.startSeconds || idx * 5) + (sub.duration || 5),
-          }))
-          .filter((s: any) => s.text.trim().length > 0);
+            text: sub.textEn,
+            translation: sub.textVn || "",
+            startTime,
+            endTime,
+            wordTimings: sub.wordTimings,
+          };
+        })
+        .filter((s) => s.text.trim().length > 0);
 
-        if (sentences.length === 0) {
-          throw new Error("Không trích xuất được phụ đề văn bản");
-        }
+      if (sentences.length === 0) {
+        throw new Error("Không trích xuất được phụ đề văn bản hợp lệ");
+      }
 
-        const autoTitle = newTitle.trim() || `YouTube Dictation: ${videoId}`;
-        const autoThumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      const lastEnd = sentences[sentences.length - 1]?.endTime ?? 180;
+      const autoTitle =
+        newTitle.trim() || metadata?.title || serverMeta?.title || `YouTube Dictation: ${videoId}`;
+      const autoThumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
-        const createRes = await fetch("/api/listening/lessons", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: autoTitle,
-            category: "YouTube Dictation",
-            level: newLevel,
-            accent: newAccent,
-            duration: `${Math.max(1, Math.ceil(sentences.length * 0.3))} min`,
-            imageUrl: newThumbnail.trim() || autoThumbnail,
-            transcript: sentences,
-          }),
-        });
+      const createRes = await fetch("/api/listening/lessons", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: autoTitle,
+          category: "YouTube Dictation",
+          level: newLevel,
+          accent: newAccent,
+          duration: `${Math.max(1, Math.ceil(lastEnd / 60))} min`,
+          audioUrl: `https://www.youtube.com/watch?v=${videoId}`,
+          imageUrl: newThumbnail.trim() || autoThumbnail,
+          transcript: sentences,
+        }),
+      });
 
-        const createJson = await createRes.json();
-        if (createJson.success && createJson.data) {
-          setLessonsList((prev) => [createJson.data, ...prev]);
-          setShowCreateForm(false);
-          setYoutubeUrl("");
-          setNewTitle("");
-          handleSelectLesson(createJson.data.id);
-          awardXp(20, "dictation");
-          addToast({
-            type: "success",
-            title: "🎉 Đã tạo bài Dictation từ YouTube thành công! (+20 XP)",
-            message: `Đã bóc tách thành công ${sentences.length} câu phụ đề.`,
-          });
-        } else {
-          throw new Error(createJson.error || "Không thể lưu bài học");
-        }
-      } else {
+      const createJson = await createRes.json();
+      if (createJson.success && createJson.data) {
+        setLessonsList((prev) => [createJson.data, ...prev]);
+        setShowCreateForm(false);
+        setYoutubeUrl("");
+        setNewTitle("");
+        handleSelectLesson(createJson.data.id);
+        awardXp(20, "dictation");
         addToast({
-          type: "warning",
-          title: "Không tìm thấy phụ đề",
-          message: "Video này không có phụ đề tiếng Anh có sẵn. Vui lòng chọn video khác có CC tiếng Anh.",
+          type: "success",
+          title: "🎉 Đã tạo bài Video Dictation thành công! (+20 XP)",
+          message: `Đã chuẩn hóa ${sentences.length} câu phụ đề khớp mốc thời gian.`,
         });
+      } else {
+        throw new Error(createJson.error || "Không thể lưu bài học");
       }
     } catch (err: any) {
       console.error("Error extracting YouTube captions:", err);
       addToast({
         type: "error",
-        title: "Lỗi trích xuất YouTube",
-        message: err.message || "Không thể tải phụ đề lúc này. Vui lòng thử lại.",
+        title: "Không trích xuất được phụ đề tự động",
+        message:
+          err?.message ||
+          "Video chưa có CC tiếng Anh. Bạn có thể chuyển sang tab Video YouTube -> Thêm Video YouTube để dán .SRT hoặc Transcript thật.",
       });
     } finally {
       setIsExtractingYoutube(false);

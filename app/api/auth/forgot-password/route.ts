@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import crypto from "crypto";
 import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { getTrustedClientIp } from "@/infrastructure/security/validation";
 
 export async function POST(req: NextRequest) {
   try {
     // Anti-enumeration: 3 forgot-password requests per hour per IP
-    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    const clientIp = getTrustedClientIp(req);
     if (isRateLimited(`auth_forgot_${clientIp}`, 3, 60 * 60 * 1000)) {
       return NextResponse.json(
         { success: false, error: "Quá nhiều yêu cầu. Vui lòng thử lại sau." },
@@ -46,14 +47,15 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Generate reset token and 1-hour expiry
+    // Generate reset token, store only its SHA-256 hash in DB, and set 1-hour expiry
     const resetToken = crypto.randomBytes(32).toString("hex");
+    const resetTokenHash = crypto.createHash("sha256").update(resetToken).digest("hex");
     const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
     await prisma.profile.update({
       where: { id: profile.id },
       data: {
-        passwordResetToken: resetToken,
+        passwordResetToken: resetTokenHash,
         passwordResetExpires: expiresAt,
       },
       select: { id: true },

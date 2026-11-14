@@ -493,6 +493,7 @@ export function VideoComprehensionStudioView({
               onToast={addToast}
               showMetaBar={false}
               showToolbar={false}
+              viewportVariant="cinema"
             />
           ) : (
             <div className="p-8 text-center text-slate-400 text-sm">

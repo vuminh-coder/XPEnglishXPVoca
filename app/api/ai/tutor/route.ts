@@ -1,5 +1,4 @@
-import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
-import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { checkConversationalAiRateLimit, getServerGeminiApiKey } from "@/infrastructure/security/aiGuard";
 import { NextResponse } from "next/server";
 
 // Fallback topic suggestion banks for Voice Tutor
@@ -106,17 +105,9 @@ const TUTOR_TOPIC_BANKS: Record<
 
 export async function POST(request: Request) {
   try {
-    const authenticatedId = await getAuthenticatedUserId(request);
-    const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
-    const rateLimitKey = authenticatedId ? `ai_tutor_user_${authenticatedId}` : `ai_tutor_guest_${clientIp}`;
-
-    // Rate Limit: 60 req/min cho người học đăng nhập, 30 req/min cho khách theo IP
-    const limit = authenticatedId ? 60 : 30;
-    if (isRateLimited(rateLimitKey, limit, 60 * 1000)) {
-      return NextResponse.json(
-        { error: "Hệ thống gia sư AI đang bận. Vui lòng thử lại sau giây lát." },
-        { status: 429 }
-      );
+    const rateCheck = await checkConversationalAiRateLimit(request, "ai_tutor", 60, 10, 60 * 1000);
+    if (rateCheck.rateLimitedResponse) {
+      return rateCheck.rateLimitedResponse;
     }
 
     const body = await request.json();
@@ -142,7 +133,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = process.env.GEMINI_API_KEY || "";
+    const apiKey = getServerGeminiApiKey();
 
     // Persona setup
     const personaStyle =

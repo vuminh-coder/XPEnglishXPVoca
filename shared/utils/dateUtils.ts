@@ -7,11 +7,41 @@
 /**
  * Returns a YYYY-MM-DD string for a given Date (server-local timezone).
  */
+const APP_TIME_ZONE = "Asia/Ho_Chi_Minh";
+
 export function getLocalDateString(d: Date = new Date()): string {
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  try {
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: APP_TIME_ZONE,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(d);
+  } catch {
+    const vnTime = new Date(d.getTime() + 7 * 60 * 60 * 1000);
+    const year = vnTime.getUTCFullYear();
+    const month = String(vnTime.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(vnTime.getUTCDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+}
+
+export function getAppDateString(d: Date = new Date()): string {
+  return getLocalDateString(d);
+}
+
+/**
+ * Returns the UTC Date representing 00:00:00.000 in Asia/Ho_Chi_Minh (+07:00)
+ * for the given reference timestamp.
+ */
+export function getAppStartOfToday(now: Date = new Date()): Date {
+  const dateStr = getLocalDateString(now);
+  return new Date(`${dateStr}T00:00:00.000+07:00`);
+}
+
+export function getShiftedAppDateString(offsetDays: number, now: Date = new Date()): string {
+  const shifted = new Date(now.getTime() + offsetDays * 86_400_000);
+  return getLocalDateString(shifted);
 }
 
 /**

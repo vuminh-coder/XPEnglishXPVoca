@@ -23,6 +23,7 @@ import {
   InteractiveStudyDock,
   VideoLibraryGrid,
   YouTubeImportDeck,
+  SrtImportModal,
   useYouTubePlayerSync,
   useVideoExercises,
   useWordLookup,
@@ -37,6 +38,7 @@ export default function MyVideoPage() {
     removeVideo,
     toggleFavorite,
     updateProgress,
+    updateVideoSubtitles,
     loadSavedVideos,
   } = useVideoStore();
 
@@ -46,6 +48,7 @@ export default function MyVideoPage() {
   const [importLevel, setImportLevel] = useState<YouTubeVideoItem["level"]>("Medium");
   const [isImporting, setIsImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
+  const [isRescueSrtOpen, setIsRescueSrtOpen] = useState(false);
   const playerWorkspaceRef = useRef<HTMLDivElement>(null);
 
   // Master Video Player State with Frame 0 session probe
@@ -520,6 +523,56 @@ export default function MyVideoPage() {
     ]
   );
 
+  // Rescue fallback: add video shell with empty subtitles so learner can import .SRT / .VTT directly
+  const handleRescueShellImport = useCallback(async () => {
+    const videoId = extractYouTubeId(youtubeInput);
+    if (!videoId) return;
+
+    const existing = savedVideos.find((v) => v.id === videoId);
+    if (existing) {
+      setActiveVideo(existing);
+      setImportError(null);
+      setIsRescueSrtOpen(true);
+      return;
+    }
+
+    let title = `Video YouTube (${videoId})`;
+    let authorName = "YouTube Creator";
+    try {
+      const serverMeta = getLastFetchedVideoMeta();
+      if (serverMeta?.title) title = serverMeta.title;
+      if (serverMeta?.authorName) authorName = serverMeta.authorName;
+    } catch {}
+
+    const shellVideo: YouTubeVideoItem = {
+      id: videoId,
+      youtubeUrl: `https://www.youtube.com/watch?v=${videoId}`,
+      title,
+      authorName,
+      thumbnailUrl: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      duration: "03:00",
+      category: importCategory,
+      level: importLevel,
+      savedAt: new Date().toISOString().split("T")[0],
+      progressPercent: 0,
+      isFavorite: false,
+      subtitles: [],
+    };
+
+    addVideo(shellVideo);
+    setActiveVideo(shellVideo);
+    setYoutubeInput("");
+    setImportError(null);
+    setIsRescueSrtOpen(true);
+  }, [
+    youtubeInput,
+    savedVideos,
+    importCategory,
+    importLevel,
+    addVideo,
+    setActiveVideo,
+  ]);
+
   // Filtered Video List (memoized — MED-02 fix)
   const filteredVideos = useMemo(() => {
     return savedVideos.filter((v) => {
@@ -603,6 +656,7 @@ export default function MyVideoPage() {
             setImportError={setImportError}
             onImport={handleImportYouTube}
             hasActiveVideo={Boolean(activeVideo)}
+            onRescueShellImport={extractYouTubeId(youtubeInput) ? handleRescueShellImport : undefined}
           />
         </div>
 
@@ -701,6 +755,20 @@ export default function MyVideoPage() {
           />
         </div>
       </div>
+
+      {/* Rescue SRT Import Modal when YouTube auto-captions fail */}
+      <SrtImportModal
+        isOpen={isRescueSrtOpen}
+        onClose={() => setIsRescueSrtOpen(false)}
+        activeVideo={activeVideo}
+        onImportSuccess={(subs: SubtitleSentence[]) => {
+          if (!activeVideo) return;
+          updateVideoSubtitles(activeVideo.id, subs);
+          setActiveVideo({ ...activeVideo, subtitles: subs });
+          setRightPanelTab("subtitles");
+        }}
+        addToast={addToast}
+      />
     </div>
   );
 }

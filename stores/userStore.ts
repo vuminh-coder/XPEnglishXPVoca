@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { User } from "@/shared/types";
-import { LEVEL_TITLES, LEVEL_XP } from "@/shared/constants";
 import { useVocabularyStore } from "./vocabularyStore";
-import { addSkillPracticeMinutes, addSkillPracticeSession, getLocalDateString, SkillType } from "./skillChartStore";
+import { addSkillPracticeMinutes, addSkillPracticeSession, SkillType } from "./skillChartStore";
+import { getLocalDateString, getShiftedAppDateString } from "@/shared/utils/dateUtils";
+import { calculateLevelProgression } from "@/shared/utils/xp";
 
 interface UserState {
   user: User | null;
@@ -55,14 +56,7 @@ export const useUserStore = create<UserState>((set, get) => ({
     const user = get().user;
     if (!user) return;
 
-    const formatLocalDate = (d: Date) => {
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    };
-
-    const todayStr = formatLocalDate(new Date());
+    const todayStr = getLocalDateString(new Date());
     const lastActiveKey = `xp_voca_last_active_${user.id}`;
     const lastActive = typeof window !== "undefined" ? localStorage.getItem(lastActiveKey) : null;
 
@@ -139,9 +133,7 @@ export const useUserStore = create<UserState>((set, get) => ({
 
       if (newFreezes > 0 && newStreak > 0) {
         newFreezes -= 1;
-        const yesterdayDate = new Date(todayDate);
-        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-        const yesterdayStr = formatLocalDate(yesterdayDate);
+        const yesterdayStr = getShiftedAppDateString(-1);
 
         const updatedUser = {
           ...user,
@@ -193,22 +185,22 @@ export const useUserStore = create<UserState>((set, get) => ({
     const user = get().user;
     if (!user) return { levelUp: false };
 
-    // Automatically apply 2X XP multiplier for Premium VIP members
-    const multiplier = user.isPremium ? 2 : 1;
+    // Apply 2X XP multiplier for VIP Premium members or active Double XP boost
+    const hasDoubleXp = Boolean(
+      user.isPremium ||
+        (user.doubleXpUntil && new Date(user.doubleXpUntil).getTime() > Date.now())
+    );
+    const multiplier = hasDoubleXp ? 2 : 1;
     const finalAmount = amount * multiplier;
     const newXp = (user.totalXp || 0) + finalAmount;
 
     // Level up check (multi-level jump support)
-    let newLevel = user.level || 1;
-    let levelUp = false;
-    let levelUpCoins = 0;
-    while (newLevel < LEVEL_XP.length && newXp >= LEVEL_XP[newLevel]) {
-      newLevel++;
-      levelUp = true;
-      levelUpCoins += 100 * newLevel;
-    }
-
-    const newTitle = LEVEL_TITLES[newLevel] || "Grandmaster";
+    const {
+      level: newLevel,
+      title: newTitle,
+      leveledUp: levelUp,
+      levelUpCoins,
+    } = calculateLevelProgression(newXp, user.level || 1);
     const newCoins = (user.coins || 0) + levelUpCoins;
     const updatedUser = { ...user, totalXp: newXp, level: newLevel, title: newTitle, coins: newCoins };
     set({ user: updatedUser });
@@ -234,14 +226,14 @@ export const useUserStore = create<UserState>((set, get) => ({
       try {
         const storedXp = localStorage.getItem(dailyXpKey);
         const dailyXp = storedXp ? JSON.parse(storedXp) : {};
-        dailyXp[todayStr] = (dailyXp[todayStr] || 0) + amount;
+        dailyXp[todayStr] = (dailyXp[todayStr] || 0) + finalAmount;
         localStorage.setItem(dailyXpKey, JSON.stringify(dailyXp));
       } catch (e) {
         console.error("Error saving daily XP:", e);
       }
 
       // Record per-skill XP session
-      addSkillPracticeSession(user.id, (skill || "vocab") as any, 0, amount);
+      addSkillPracticeSession(user.id, (skill || "vocab") as any, 0, finalAmount);
     }
     
     // Sync with server-authoritative activity award API endpoint

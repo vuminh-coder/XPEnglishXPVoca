@@ -7,4 +7,3 @@ export * from "./ImageOptimized";
 export * from "./LoadingSpinner";
 export * from "./StreakFlame3D";
 export * from "./ThemeToggle";
-export { default as UiReviewWidget } from "./UiReviewWidget";

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { MOCK_VIDEO_LESSONS } from "@/features/listening/data/videoCatalogMockData";
+import { extractYouTubeVideoId, formatDurationSeconds } from "@/features/listening/utils/videoUrlHelper";
 
 export async function GET(req: NextRequest) {
   try {
@@ -101,23 +102,81 @@ export async function GET(req: NextRequest) {
     }
 
     let dbLessons: any[] = [];
+    let customListeningVideoLessons: any[] = [];
 
     try {
-      dbLessons = await prisma.videoLesson.findMany({
-        where,
-        take: 50,
-        include: {
-          category: {
-            select: { id: true, slug: true, name: true, icon: true },
+      const includeCustomListening =
+        !category ||
+        category === "all" ||
+        category === "has-data" ||
+        category === "full-data" ||
+        category === "custom-youtube";
+
+      const listeningWhere: any = {
+        AND: [
+          {
+            OR: [
+              { id: { startsWith: "vid_" } },
+              { id: { startsWith: "yt_" } },
+              { audioUrl: { contains: "youtube.com" } },
+              { audioUrl: { contains: "youtu.be" } },
+            ],
           },
-          playlist: {
-            select: { id: true, slug: true, title: true, channelName: true },
+        ],
+      };
+      if (level && ["A1", "A2", "B1", "B2", "C1", "C2"].includes(level.toUpperCase())) {
+        listeningWhere.AND.push({ level: level.toUpperCase() });
+      }
+      if (search && search.trim()) {
+        const q = search.trim();
+        listeningWhere.AND.push({
+          OR: [
+            { title: { contains: q, mode: "insensitive" } },
+            { category: { contains: q, mode: "insensitive" } },
+          ],
+        });
+      }
+
+      const [vLessons, lVideoLessons] = await Promise.all([
+        prisma.videoLesson.findMany({
+          where,
+          take: 50,
+          orderBy: { createdAt: "desc" },
+          include: {
+            category: {
+              select: { id: true, slug: true, name: true, icon: true },
+            },
+            playlist: {
+              select: { id: true, slug: true, title: true, channelName: true },
+            },
+            _count: {
+              select: { segments: true },
+            },
           },
-          _count: {
-            select: { segments: true },
-          },
-        },
-      });
+        }),
+        includeCustomListening && !playlist
+          ? prisma.listeningLesson.findMany({
+              where: listeningWhere,
+              take: 30,
+              orderBy: { createdAt: "desc" },
+              select: {
+                id: true,
+                title: true,
+                category: true,
+                level: true,
+                duration: true,
+                accent: true,
+                audioUrl: true,
+                imageUrl: true,
+                transcript: true,
+                createdAt: true,
+              },
+            })
+          : Promise.resolve([]),
+      ]);
+
+      dbLessons = vLessons;
+      customListeningVideoLessons = lVideoLessons;
     } catch (dbErr) {
       console.warn("[API video-catalog/lessons] DB query error, using curated mock:", dbErr);
     }
@@ -139,6 +198,7 @@ export async function GET(req: NextRequest) {
       viewCount: l.viewCount,
       studyCount: l.studyCount,
       isCommunityCurated: l.isCommunityCurated,
+      hasFullData: l._count.segments > 0,
       segmentCount: l._count.segments,
       totalSentences: l._count.segments,
       category: l.category
@@ -159,13 +219,57 @@ export async function GET(req: NextRequest) {
       createdAt: l.createdAt.toISOString(),
     }));
 
-    // 3. Merge: Prioritize Curated Movie & Modular Lessons, append distinct DB lessons
-    const existingIds = new Set(formattedMock.map((m) => m.externalId || m.id));
-    const distinctDbLessons = formattedDb.filter(
-      (d) => !existingIds.has(d.externalId) && !existingIds.has(d.id)
-    );
+    const formattedCustomListening = customListeningVideoLessons
+      .map((l) => {
+        const ytId = extractYouTubeVideoId(l.audioUrl || "");
+        if (!ytId) return null;
+        const transcriptArr = Array.isArray(l.transcript) ? l.transcript : [];
+        const lastEnd =
+          transcriptArr.length > 0
+            ? Number(transcriptArr[transcriptArr.length - 1]?.endTime || 180)
+            : 180;
+        const durSec = Math.max(30, Math.round(lastEnd));
+        return {
+          id: l.id,
+          slug: l.id,
+          title: l.title,
+          description: `Video YouTube tự nhập (${l.category || "YouTube"})`,
+          sourceType: "YOUTUBE",
+          externalId: ytId,
+          thumbnailUrl: l.imageUrl || `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`,
+          durationSeconds: durSec,
+          durationFormatted: formatDurationSeconds(durSec),
+          cefrLevel: l.level || "B1",
+          supportedTypes: "BOTH",
+          accent: l.accent || "en-US",
+          wpmSpeed: 130,
+          viewCount: 0,
+          studyCount: 0,
+          isCommunityCurated: true,
+          hasFullData: transcriptArr.length > 0,
+          segmentCount: transcriptArr.length,
+          totalSentences: transcriptArr.length,
+          category: {
+            id: "custom-youtube",
+            slug: "custom-youtube",
+            name: l.category || "Video Tự Nhập",
+          },
+          playlist: null,
+          createdAt: l.createdAt.toISOString(),
+        };
+      })
+      .filter((item): item is NonNullable<typeof item> => item !== null);
 
-    const combinedLessons = [...formattedMock, ...distinctDbLessons];
+    // 3. Merge: Custom imported videos + DB catalog lessons + Curated Mock lessons (deduplicated)
+    const seenIds = new Set<string>();
+    const combinedLessons: any[] = [];
+    for (const candidate of [...formattedDb, ...formattedCustomListening, ...formattedMock]) {
+      const key = candidate.externalId || candidate.id;
+      if (seenIds.has(candidate.id) || (key && seenIds.has(key))) continue;
+      seenIds.add(candidate.id);
+      if (key) seenIds.add(key);
+      combinedLessons.push(candidate);
+    }
 
     // 4. Sort if requested
     if (sort === "views" || sort === "popular") {

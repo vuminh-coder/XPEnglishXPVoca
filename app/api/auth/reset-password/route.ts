@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { prisma } from "@/infrastructure/database/prisma";
 import { hashPassword } from "@/infrastructure/auth/password";
 
@@ -21,10 +22,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Find profile by token and verify expiry with selective projection
+    const tokenHash = crypto.createHash("sha256").update(String(token)).digest("hex");
+
+    // Find profile by hashed reset token (with legacy fallback during transition) and verify expiry
     const profile = await prisma.profile.findFirst({
       where: {
-        passwordResetToken: String(token),
+        OR: [{ passwordResetToken: tokenHash }, { passwordResetToken: String(token) }],
         passwordResetExpires: {
           gt: new Date(),
         },

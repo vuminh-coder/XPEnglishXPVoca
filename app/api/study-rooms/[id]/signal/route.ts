@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { sharedStore } from "@/infrastructure/cache/sharedStore";
 
-// In-memory queue for WebRTC signaling messages
-// Key: `${roomId}:${targetId}` -> Array of signals
-const signalQueue = new Map<string, Array<{ senderId: string; payload: any; timestamp: number }>>();
+interface SignalMessage {
+  senderId: string;
+  payload: unknown;
+  timestamp: number;
+}
+
+const SIGNAL_TTL_SECONDS = 30;
 
 export async function POST(
   req: Request,
@@ -26,24 +31,17 @@ export async function POST(
       return NextResponse.json({ error: "Invalid signaling payload" }, { status: 400 });
     }
 
-    const queueKey = `${roomId}:${targetId}`;
-    if (!signalQueue.has(queueKey)) {
-      signalQueue.set(queueKey, []);
-    }
-
-    const queue = signalQueue.get(queueKey)!;
-    queue.push({
+    const queueKey = `signal:${roomId}:${targetId}`;
+    const existingQueue = (await sharedStore.get<SignalMessage[]>(queueKey)) || [];
+    const now = Date.now();
+    const activeSignals = existingQueue.filter((s) => now - s.timestamp < SIGNAL_TTL_SECONDS * 1000);
+    activeSignals.push({
       senderId,
       payload,
-      timestamp: Date.now(),
+      timestamp: now,
     });
 
-    // Cleanup signals older than 30 seconds
-    const now = Date.now();
-    signalQueue.set(
-      queueKey,
-      queue.filter((s) => now - s.timestamp < 30000)
-    );
+    await sharedStore.set(queueKey, activeSignals.slice(-30), SIGNAL_TTL_SECONDS);
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -66,11 +64,13 @@ export async function GET(
 
     // SECURITY: Only allow reading signals addressed to the authenticated user
     // Prevents eavesdropping where attackers pass ?userId=<victim_id> to steal WebRTC signals
-    const queueKey = `${roomId}:${authedUserId}`;
-    const signals = signalQueue.get(queueKey) || [];
+    const queueKey = `signal:${roomId}:${authedUserId}`;
+    const rawSignals = (await sharedStore.get<SignalMessage[]>(queueKey)) || [];
+    const now = Date.now();
+    const signals = rawSignals.filter((s) => now - s.timestamp < SIGNAL_TTL_SECONDS * 1000);
 
     // Clear retrieved signals
-    signalQueue.delete(queueKey);
+    await sharedStore.del(queueKey);
 
     return NextResponse.json({ success: true, signals });
   } catch (error) {

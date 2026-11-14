@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/infrastructure/database/prisma";
 import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { verifyRoomPasscode } from "@/infrastructure/security/roomPasscode";
 
 export async function POST(
   req: Request,
@@ -38,7 +39,7 @@ export async function POST(
     }
 
     if (action === "join") {
-      if (room.isPrivate && room.passcode && room.passcode !== passcode) {
+      if (room.isPrivate && room.passcode && !verifyRoomPasscode(String(passcode || ""), room.passcode)) {
         return NextResponse.json(
           { success: false, error: "Mật khẩu phòng không đúng!" },
           { status: 403 }

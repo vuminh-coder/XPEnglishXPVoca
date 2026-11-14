@@ -98,10 +98,14 @@ export function PracticeSentenceBuilderArena({
       });
     });
 
-    // Scramble tokens using deterministic Fisher-Yates
+    // Scramble tokens using deterministic pure Fisher-Yates seeded by sentence
+    let seed = (currentWord?.id || targetEnSentence)
+      .split("")
+      .reduce((acc, ch) => (acc * 31 + ch.charCodeAt(0)) >>> 0, 1337);
     const scrambled = [...tokens];
     for (let i = scrambled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      const j = seed % (i + 1);
       [scrambled[i], scrambled[j]] = [scrambled[j], scrambled[i]];
     }
 

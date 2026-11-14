@@ -3,8 +3,8 @@
   "regions": ["iad1"],
   "crons": [
     {
-      "path": "/api/health/ping",
-      "schedule": "0 0 * * *"
+      "path": "/api/cron/daily-maintenance",
+      "schedule": "0 17 * * *"
     }
   ]
 }

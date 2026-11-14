@@ -525,7 +525,7 @@ describe("Task 10: Filter & Search Engine", () => {
   it("Test 10.1: Tìm kiếm theo tiêu đề (Search Query)", () => {
     const results = filterVideos(videoList, { search: "BBC" });
     expect(results.length).toBe(1);
-    expect(results[0].id).toBe("8K8s9U8_i50");
+    expect(results[0].id).toBe("fG7dJ6A3l7w");
   });
 
   it("Test 10.2: Lọc video theo trạng thái 'Đang học'", () => {

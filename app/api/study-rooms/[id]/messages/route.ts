@@ -101,6 +101,32 @@ export async function POST(
       );
     }
 
+    // Check room exists and verify membership for private rooms (mirrors GET guard)
+    const room = await prisma.studyRoom.findUnique({
+      where: { id: roomId },
+      select: { id: true, isPrivate: true, createdById: true },
+    });
+
+    if (!room) {
+      return NextResponse.json(
+        { success: false, error: "Room not found" },
+        { status: 404 }
+      );
+    }
+
+    if (room.isPrivate && room.createdById !== userId) {
+      const membership = await prisma.studyRoomMember.findUnique({
+        where: { roomId_userId: { roomId, userId } },
+        select: { userId: true },
+      });
+      if (!membership) {
+        return NextResponse.json(
+          { success: false, error: "Bạn không phải thành viên phòng này" },
+          { status: 403 }
+        );
+      }
+    }
+
     // Ensure profile exists for user with selective projection
     let profile = await prisma.profile.findUnique({
       where: { id: userId },

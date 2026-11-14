@@ -5,6 +5,7 @@ import { isRateLimited } from "@/infrastructure/security/rateLimit";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
 
 import { MOCK_LESSONS_DATA } from "@/features/listening/data/listeningMockData";
+import { extractYouTubeVideoId } from "@/features/listening/utils/videoUrlHelper";
 
 export async function GET(request: Request) {
   try {
@@ -69,37 +70,51 @@ export async function GET(request: Request) {
       const isAudioOnly = mode === "audio";
       const isVideoOnly = mode === "video";
 
-      const [lessons, videoLessons] = await Promise.all([
-        isVideoOnly
-          ? Promise.resolve([])
-          : prisma.listeningLesson.findMany({
-              where: whereClause,
-              orderBy: { orderIndex: "asc" },
-              take: takeLimit,
-              select: {
-                id: true,
-                title: true,
-                category: true,
-                level: true,
-                duration: true,
-                accent: true,
-                audioUrl: true,
-                imageUrl: true,
-                orderIndex: true,
-                progresses: userId
-                  ? {
-                      where: { userId },
-                      take: 1,
-                      select: {
-                        status: true,
-                        completedSentences: true,
-                        bookmarkedSentences: true,
-                        lastPracticedAt: true,
-                      },
-                    }
-                  : false,
+      const listeningQueryWhere = isVideoOnly
+        ? {
+            AND: [
+              whereClause,
+              {
+                OR: [
+                  { id: { startsWith: "vid_" } },
+                  { id: { startsWith: "yt_" } },
+                  { audioUrl: { contains: "youtube.com" } },
+                  { audioUrl: { contains: "youtu.be" } },
+                ],
               },
-            }),
+            ],
+          }
+        : whereClause;
+
+      const [lessons, videoLessons] = await Promise.all([
+        prisma.listeningLesson.findMany({
+          where: listeningQueryWhere,
+          orderBy: { orderIndex: "asc" },
+          take: takeLimit,
+          select: {
+            id: true,
+            title: true,
+            category: true,
+            level: true,
+            duration: true,
+            accent: true,
+            audioUrl: true,
+            imageUrl: true,
+            orderIndex: true,
+            progresses: userId
+              ? {
+                  where: { userId },
+                  take: 1,
+                  select: {
+                    status: true,
+                    completedSentences: true,
+                    bookmarkedSentences: true,
+                    lastPracticedAt: true,
+                  },
+                }
+              : false,
+          },
+        }),
         isAudioOnly
           ? Promise.resolve([])
           : prisma.videoLesson.findMany({
@@ -119,6 +134,13 @@ export async function GET(request: Request) {
           : 0;
 
         const isCompleted = userProgress?.status === "COMPLETED";
+        const ytId = extractYouTubeVideoId(lesson.audioUrl || "");
+        const isYtVideo =
+          Boolean(ytId) ||
+          lesson.id.startsWith("vid_") ||
+          lesson.id.startsWith("yt_") ||
+          (lesson.audioUrl || "").includes("youtube") ||
+          (lesson.audioUrl || "").includes("youtu.be");
 
         return {
           id: lesson.id,
@@ -134,6 +156,7 @@ export async function GET(request: Request) {
           completedSentences: userProgress?.completedSentences || [],
           bookmarkedSentences: userProgress?.bookmarkedSentences || [],
           lastPracticedAt: userProgress?.lastPracticedAt || null,
+          ...(isYtVideo ? { isVideo: true, externalId: ytId || undefined } : {}),
         };
       });
 

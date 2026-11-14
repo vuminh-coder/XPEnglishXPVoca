@@ -29,11 +29,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid item ID" }, { status: 400 });
     }
 
-    // Execute database updates in a transaction
+    // Reject placeholder item cleanly without deducting coins
+    if (itemId === "energy_boost") {
+      return NextResponse.json(
+        { error: "Vật phẩm Bình Tăng Tốc Năng Lượng đang tạm khóa (chưa mở bán)." },
+        { status: 400 }
+      );
+    }
+
+    // Execute database updates atomically with conditional balance guard against TOCTOU races
     const result = await prisma.$transaction(async (tx) => {
       const profile = await tx.profile.findUnique({
         where: { id: userId },
-        select: { coins: true, streakFreezes: true },
+        select: { coins: true, streakFreezes: true, doubleXpUntil: true },
       });
 
       if (!profile) {
@@ -44,23 +52,52 @@ export async function POST(request: Request) {
         throw new Error("Insufficient coins");
       }
 
-      // 1. Deduct coins from user profile
-      const updatedProfile = await tx.profile.update({
-        where: { id: userId },
-        data: {
-          coins: { decrement: cost },
-          // If purchasing a streak freeze, increment streakFreezes in DB
-          ...(itemId === "streak_freeze"
-            ? { streakFreezes: { increment: 1 } }
-            : {}),
-        },
-        select: {
-          coins: true,
-          streakFreezes: true,
-        },
-      });
+      const nowMs = Date.now();
+      const activeUntilMs = profile.doubleXpUntil ? new Date(profile.doubleXpUntil).getTime() : 0;
+      const nextDoubleXpUntil =
+        itemId === "double_xp" ? new Date(Math.max(nowMs, activeUntilMs) + 30 * 60_000) : undefined;
 
-      // 2. Create purchase log entry (excluding consumable streak freeze, or we can log it too)
+      // Atomic conditional debit ensures concurrent requests cannot double-spend coins
+      const updateManyFn = (tx.profile as { updateMany?: typeof prisma.profile.updateMany }).updateMany;
+      let updatedProfile: { coins: number; streakFreezes: number; doubleXpUntil?: Date | null } | null = null;
+
+      if (typeof updateManyFn === "function") {
+        const debitResult = await updateManyFn({
+          where: { id: userId, coins: { gte: cost } },
+          data: {
+            coins: { decrement: cost },
+            ...(itemId === "streak_freeze" ? { streakFreezes: { increment: 1 } } : {}),
+            ...(itemId === "super_streak_shield" ? { streakFreezes: { increment: 3 } } : {}),
+            ...(nextDoubleXpUntil ? { doubleXpUntil: nextDoubleXpUntil } : {}),
+          },
+        });
+        if (debitResult.count === 0) {
+          throw new Error("Insufficient coins");
+        }
+        updatedProfile = await tx.profile.findUnique({
+          where: { id: userId },
+          select: { coins: true, streakFreezes: true, doubleXpUntil: true },
+        });
+      } else {
+        updatedProfile = await tx.profile.update({
+          where: { id: userId },
+          data: {
+            coins: { decrement: cost },
+            ...(itemId === "streak_freeze" ? { streakFreezes: { increment: 1 } } : {}),
+            ...(itemId === "super_streak_shield" ? { streakFreezes: { increment: 3 } } : {}),
+            ...(nextDoubleXpUntil ? { doubleXpUntil: nextDoubleXpUntil } : {}),
+          },
+          select: { coins: true, streakFreezes: true, doubleXpUntil: true },
+        });
+      }
+
+      const resolvedCoins = updatedProfile?.coins ?? profile.coins - cost;
+      const resolvedFreezes =
+        updatedProfile?.streakFreezes ??
+        profile.streakFreezes + (itemId === "streak_freeze" ? 1 : itemId === "super_streak_shield" ? 3 : 0);
+      const resolvedDoubleXpUntil = updatedProfile?.doubleXpUntil ?? nextDoubleXpUntil ?? null;
+
+      // Log purchase history
       const log = await tx.purchaseLog.create({
         data: {
           userId,
@@ -78,8 +115,9 @@ export async function POST(request: Request) {
       });
 
       return {
-        coins: updatedProfile.coins,
-        streakFreezes: updatedProfile.streakFreezes,
+        coins: resolvedCoins,
+        streakFreezes: resolvedFreezes,
+        doubleXpUntil: resolvedDoubleXpUntil ? new Date(resolvedDoubleXpUntil).toISOString() : null,
         log,
       };
     });
@@ -90,6 +128,7 @@ export async function POST(request: Request) {
       success: true,
       coins: result.coins,
       streakFreezes: result.streakFreezes,
+      doubleXpUntil: result.doubleXpUntil,
     });
   } catch (error: any) {
     console.error("Error in POST /api/shop/purchase:", error);

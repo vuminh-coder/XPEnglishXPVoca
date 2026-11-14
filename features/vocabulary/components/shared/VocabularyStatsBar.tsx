@@ -41,7 +41,7 @@ export function VocabularyStatsBar({
       color: "text-amber-600 dark:text-amber-400",
       bg: "bg-amber-500/10",
       subText: "Xem lộ trình 30 ngày →",
-      href: "/study/plan",
+      href: "/analytics",
     },
     {
       title: "Trí Nhớ SRS",

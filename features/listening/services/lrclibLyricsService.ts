@@ -332,24 +332,89 @@ export async function fetchCompilationTracklistLyrics(videoId: string): Promise<
   return [];
 }
 
+const NON_MUSIC_TITLE_RE =
+  /\b(6 minute english|bbc learning english|ted talk|ted-ed|tedx|ielts|toeic|toefl|commencement|speech|lecture|podcast|interview|documentary|tutorial|grammar|lesson|listening practice|news|pronunciation|vocabulary)\b|\|\s*TED\b|\bTED\s*:/i;
+
+const GENERIC_QUERY_STOP_WORDS = new Set([
+  "video", "youtube", "english", "tieng", "anh", "hoc", "official", "lyric", "lyrics",
+  "audio", "music", "mv", "hd", "4k", "full", "cover", "live", "version", "ft", "feat",
+  "the", "and", "for", "with", "from", "a", "an", "of", "in", "on", "to",
+]);
+
+function normalizeTokenSet(input: string): Set<string> {
+  return new Set(
+    input
+      .toLowerCase()
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length >= 2 && !GENERIC_QUERY_STOP_WORDS.has(w))
+  );
+}
+
+/**
+ * Rejects placeholder/educational titles and ensures LRCLIB result actually matches the requested track & duration.
+ */
+export function isSafeLrclibCandidate(
+  candidate: LrclibLyricResponse,
+  videoTitle: string,
+  authorName?: string,
+  durationSeconds?: number
+): boolean {
+  if (!candidate || !candidate.syncedLyrics || candidate.syncedLyrics.length <= 50) {
+    return false;
+  }
+
+  if (durationSeconds && durationSeconds > 30 && typeof candidate.duration === "number" && candidate.duration > 0) {
+    const allowedDelta = Math.max(45, durationSeconds * 0.35);
+    if (Math.abs(candidate.duration - durationSeconds) > allowedDelta) {
+      return false;
+    }
+  }
+
+  const queryTokens = normalizeTokenSet(`${videoTitle} ${authorName || ""}`);
+  const candTokens = normalizeTokenSet(`${candidate.name || ""} ${candidate.artistName || ""}`);
+  if (queryTokens.size === 0 || candTokens.size === 0) {
+    return false;
+  }
+
+  let matched = 0;
+  for (const tok of candTokens) {
+    if (queryTokens.has(tok)) matched++;
+  }
+
+  // Require strong overlap with returned song name tokens specifically
+  const songTokens = normalizeTokenSet(candidate.name || "");
+  if (songTokens.size === 0) return false;
+  let songMatched = 0;
+  for (const tok of songTokens) {
+    if (queryTokens.has(tok)) songMatched++;
+  }
+
+  return songMatched / songTokens.size >= 0.6 && matched >= Math.min(2, queryTokens.size);
+}
+
 /**
  * Clean compilation title by removing Vietnamese filler words to extract potential English track names
  */
 export function cleanCompilationVideoTitle(rawTitle: string): string[] {
   if (!rawTitle) return [];
   const clean = rawTitle
-    .replace(/(những bài hát|bài hát|nhạc chill|nhạc english|tik tok|nhẹ nhàng|tuyển tập|hay nhất|lofi|spotify|acoustic|tiếng anh|nổi tiếng trên|album|full album|cover|audio|lyric|lyrics|official|video)/gi, " ")
+    .replace(/(những bài hát|bài hát|nhạc chill|nhạc english|tik tok|nhẹ nhàng|tuyển tập|hay nhất|lofi|spotify|acoustic|học tiếng anh|tiếng anh|nổi tiếng trên|youtube|album|full album|cover|audio|lyric|lyrics|official|video)/gi, " ")
     .replace(/[\(\[\{\|\}\]\)]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
   const candidates: string[] = [];
-  if (clean.length >= 3) candidates.push(clean);
+  if (clean.length >= 3 && normalizeTokenSet(clean).size > 0) {
+    candidates.push(clean);
+  }
 
   const parts = rawTitle
     .split(/[-–|,]/)
-    .map((p) => p.replace(/(những bài hát|nhạc|tik tok|spotify|acoustic|tiếng anh|nổi tiếng)/gi, "").trim())
-    .filter((p) => p.length > 3);
+    .map((p) => p.replace(/(những bài hát|nhạc|tik tok|spotify|acoustic|học tiếng anh|tiếng anh|youtube|nổi tiếng)/gi, "").trim())
+    .filter((p) => p.length > 3 && normalizeTokenSet(p).size > 0);
 
   parts.forEach((p) => {
     if (!candidates.includes(p)) candidates.push(p);
@@ -361,7 +426,20 @@ export function cleanCompilationVideoTitle(rawTitle: string): string[] {
 /**
  * Fetch Synced Lyrics from LRCLIB Open API for a music video
  */
-export async function fetchLrclibSyncedLyrics(videoTitle: string, authorName?: string, videoId?: string): Promise<RawSubtitleItem[]> {
+export async function fetchLrclibSyncedLyrics(
+  videoTitle: string,
+  authorName?: string,
+  videoId?: string,
+  durationSeconds?: number
+): Promise<RawSubtitleItem[]> {
+  if (!videoTitle || videoTitle.trim().toLowerCase() === "video học tiếng anh youtube") {
+    return [];
+  }
+
+  if (NON_MUSIC_TITLE_RE.test(videoTitle)) {
+    return [];
+  }
+
   // 1. Compilation Video Tracklist Description Fallback Engine FIRST (Fastest & highest precision for music mixes like aZGCSLa3GLk)
   if (videoId) {
     const compilationLyrics = await fetchCompilationTracklistLyrics(videoId);
@@ -371,9 +449,13 @@ export async function fetchLrclibSyncedLyrics(videoTitle: string, authorName?: s
   }
 
   const { trackName, artistName } = parseArtistAndTrackFromTitle(videoTitle, authorName);
+  if (normalizeTokenSet(videoTitle).size === 0) {
+    return [];
+  }
+
   const searchQueries: string[] = [];
 
-  if (trackName) {
+  if (trackName && normalizeTokenSet(trackName).size > 0) {
     searchQueries.push(artistName ? `${trackName} ${artistName}` : trackName);
   }
 
@@ -383,7 +465,7 @@ export async function fetchLrclibSyncedLyrics(videoTitle: string, authorName?: s
     if (!searchQueries.includes(cand)) searchQueries.push(cand);
   });
 
-  // 2. Single Song Search API across query candidates
+  // 2. Single Song Search API across query candidates (validated strictly against title/artist/duration)
   for (const searchQuery of searchQueries.slice(0, 3)) {
     try {
       const searchUrl = `https://lrclib.net/api/search?q=${encodeURIComponent(searchQuery)}`;
@@ -399,7 +481,7 @@ export async function fetchLrclibSyncedLyrics(videoTitle: string, authorName?: s
       if (res.ok) {
         const results: LrclibLyricResponse[] = await res.json();
         if (Array.isArray(results) && results.length > 0) {
-          const best = results.find((r) => r.syncedLyrics && r.syncedLyrics.length > 50) || results[0];
+          const best = results.find((r) => isSafeLrclibCandidate(r, videoTitle, authorName, durationSeconds));
           if (best && best.syncedLyrics) {
             const parsed = parseLrcContent(best.syncedLyrics);
             if (parsed.length > 0) {

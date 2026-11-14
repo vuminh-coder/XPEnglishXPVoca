@@ -757,7 +757,7 @@ export const LESSON_THE_OFFICE_MICHAEL_SCOTT_CONFERENCE_MEETINGS: MockVideoLesso
         "startTime": 122.6,
         "endTime": 129.5,
         "text": "PowerPoint. PowerPoint. PowerPoint.",
-        "translationVi": "PowerPoint. PowerPoint. PowerPoint.",
+        "translationVi": "Trình chiếu PowerPoint. PowerPoint. PowerPoint.",
         "ipaUs": "/ˈpaʊərˌpɔɪnt. ˈpaʊərˌpɔɪnt. ˈpaʊərˌpɔɪnt./",
         "keywords": [
             "PowerPoint"

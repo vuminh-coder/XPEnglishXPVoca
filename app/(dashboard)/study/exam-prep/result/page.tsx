@@ -26,10 +26,10 @@ import {
 } from "@/features/exam-prep/utils/examScoringEngine";
 import { useExamCatalogStore } from "@/stores/examCatalogStore";
 import ExamResultLoading from "./loading";
-import { ResultMicroHeroBar } from "../components/result/ResultMicroHeroBar";
-import { ResultScoreOverviewTab } from "../components/result/ResultScoreOverviewTab";
-import { ResultQuestionReviewTab } from "../components/result/ResultQuestionReviewTab";
-import { ResultAiDiagnosticTab } from "../components/result/ResultAiDiagnosticTab";
+import { ResultMicroHeroBar } from "@/features/exam-prep/components/result/ResultMicroHeroBar";
+import { ResultScoreOverviewTab } from "@/features/exam-prep/components/result/ResultScoreOverviewTab";
+import { ResultQuestionReviewTab } from "@/features/exam-prep/components/result/ResultQuestionReviewTab";
+import { ResultAiDiagnosticTab } from "@/features/exam-prep/components/result/ResultAiDiagnosticTab";
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);

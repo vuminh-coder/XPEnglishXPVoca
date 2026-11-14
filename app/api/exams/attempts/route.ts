@@ -4,6 +4,7 @@ import { prisma } from "@/infrastructure/database/prisma";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { MOCK_EXAM_PAPERS } from "@/features/exam-prep/data/exam-papers";
 import { calculateExamResult, UserExamAnswers } from "@/features/exam-prep/utils/examScoringEngine";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 
 export async function POST(request: Request) {
   try {
@@ -42,27 +43,27 @@ export async function POST(request: Request) {
     let examType = "TOEIC";
     let isIelts = false;
 
-    if (officialPaper) {
-      examTitle = officialPaper.title;
-      examType = officialPaper.type;
-      isIelts = officialPaper.type.includes("IELTS");
-      verifiedMaxScore = officialPaper.maxScore;
-      verifiedTotalQuestions = officialPaper.questions.length;
-
-      const scoredSummary = calculateExamResult(
-        officialPaper,
-        unifiedAnswers,
-        Math.max(1, Number(timeSpentSeconds) || 1)
+    if (!officialPaper) {
+      return NextResponse.json(
+        { error: "Không tìm thấy đề thi hợp lệ trong ngân hàng đề chuẩn." },
+        { status: 404 }
       );
-
-      verifiedScaledScore = scoredSummary.scaledScore;
-      verifiedAccuracyPercent = scoredSummary.accuracyPercent;
-    } else {
-      // Fallback for custom or unlisted mock exams
-      verifiedScaledScore = Math.min(990, Math.max(0, Number(body.scaledScore || body.totalScore) || 0));
-      verifiedAccuracyPercent = Math.min(100, Math.max(0, Number(body.accuracyPercent) || 0));
-      verifiedMaxScore = isIelts ? 9.0 : 990;
     }
+
+    examTitle = officialPaper.title;
+    examType = officialPaper.type;
+    isIelts = officialPaper.type.includes("IELTS");
+    verifiedMaxScore = officialPaper.maxScore;
+    verifiedTotalQuestions = officialPaper.questions.length;
+
+    const scoredSummary = calculateExamResult(
+      officialPaper,
+      unifiedAnswers,
+      Math.max(1, Number(timeSpentSeconds) || 1)
+    );
+
+    verifiedScaledScore = scoredSummary.scaledScore;
+    verifiedAccuracyPercent = scoredSummary.accuracyPercent;
 
     // Anti-Bot & Speed Limit Check: Prevent instant 0-second script flooding
     const safeTimeSpent = Math.max(5, Math.min(18000, Number(timeSpentSeconds) || 60));
@@ -149,7 +150,7 @@ export async function POST(request: Request) {
       });
 
       // 3.5. Sync to DailySkillPractice for 7-day analytics & skill charts
-      const todayDate = new Date().toISOString().split("T")[0];
+      const todayDate = getLocalDateString(new Date());
       const primarySkill = isIelts && examTitle.toLowerCase().includes("speaking")
         ? "speaking"
         : isIelts && examTitle.toLowerCase().includes("writing")

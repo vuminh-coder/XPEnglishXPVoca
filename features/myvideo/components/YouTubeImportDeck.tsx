@@ -108,6 +108,7 @@ export interface YouTubeImportDeckProps {
   onImport: (e: React.FormEvent) => void;
   hasActiveVideo?: boolean;
   onOpenXpSubModal?: () => void;
+  onRescueShellImport?: () => void;
 }
 
 export function YouTubeImportDeck({
@@ -123,6 +124,7 @@ export function YouTubeImportDeck({
   onImport,
   hasActiveVideo,
   onOpenXpSubModal,
+  onRescueShellImport,
 }: YouTubeImportDeckProps) {
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -525,9 +527,20 @@ export function YouTubeImportDeck({
       )}
 
       {importError && (
-        <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/40 text-rose-600 dark:text-rose-400 text-xs font-medium flex items-center gap-1.5">
-          <HelpCircle className="w-4 h-4 text-rose-500 shrink-0" />
-          <span>{importError}</span>
+        <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/40 text-rose-700 dark:text-rose-300 text-xs font-medium flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex items-start gap-1.5">
+            <HelpCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
+            <span>{importError}</span>
+          </div>
+          {onRescueShellImport && (
+            <button
+              type="button"
+              onClick={onRescueShellImport}
+              className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-rose-200 dark:border-rose-800 text-slate-800 dark:text-slate-100 hover:border-[#0059bb] text-xs font-bold shrink-0 cursor-pointer transition-colors"
+            >
+              Vẫn thêm video để tự nạp .SRT →
+            </button>
+          )}
         </div>
       )}
       </div>

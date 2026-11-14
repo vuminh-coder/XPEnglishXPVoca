@@ -189,12 +189,12 @@ export default function DashboardPage() {
             const currentUser = state.user;
             if (currentUser) {
               state.updateUserStats({
-                currentStreak: Math.max(currentUser.currentStreak || 1, data.checkin.currentStreak || 1),
-                longestStreak: Math.max(currentUser.longestStreak || 1, data.checkin.longestStreak || 1),
-                totalXp: Math.max(currentUser.totalXp || 0, data.checkin.totalXp || 0),
-                coins: Math.max(currentUser.coins || 0, data.checkin.coins || 0),
-                wordsLearned: Math.max(currentUser.wordsLearned || 0, data.checkin.wordsLearned || 0),
-                minutesStudied: Math.max(currentUser.minutesStudied || 0, data.checkin.minutesStudied || 0),
+                currentStreak: data.checkin.currentStreak ?? currentUser.currentStreak ?? 0,
+                longestStreak: Math.max(currentUser.longestStreak ?? 0, data.checkin.longestStreak ?? 0),
+                totalXp: Math.max(currentUser.totalXp ?? 0, data.checkin.totalXp ?? 0),
+                coins: data.checkin.coins ?? currentUser.coins ?? 0,
+                wordsLearned: Math.max(currentUser.wordsLearned ?? 0, data.checkin.wordsLearned ?? 0),
+                minutesStudied: Math.max(currentUser.minutesStudied ?? 0, data.checkin.minutesStudied ?? 0),
               });
             }
           }

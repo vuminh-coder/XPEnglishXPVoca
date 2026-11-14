@@ -175,7 +175,7 @@ export const VideoLibraryGrid: React.FC<VideoLibraryGridProps> = ({
               <div>
                 {/* Thumbnail HD */}
                 <div className="relative aspect-video bg-slate-900 overflow-hidden">
-                  {fallbackThumbs[video.id] || video.id === "8K8s9U8_i50" ? (
+                  {fallbackThumbs[video.id] ? (
                     <div className="w-full h-full bg-gradient-to-br from-[#003b80] via-[#0059bb] to-slate-900 flex flex-col items-start justify-end p-3.5 text-left select-none">
                       <span className="px-2 py-0.5 rounded-md bg-white/15 text-sky-200 text-xs font-bold mb-1 backdrop-blur-xs border border-white/15">
                         {video.authorName}

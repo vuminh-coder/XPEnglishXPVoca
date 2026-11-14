@@ -55,7 +55,12 @@ export async function POST(request: Request) {
       }),
       // Set all other items of same category to unequipped, and update current item
       prisma.purchaseLog.updateMany({
-        where: { userId, itemId: { contains: itemId.includes("frame") ? "frame" : itemId.includes("bubble") ? "bubble" : "premium_owl" } },
+        where: {
+          userId,
+          itemId: ["premium_owl", "cyber_glasses", "golden_badge", "ielts_champion_cape"].includes(itemId)
+            ? { in: ["premium_owl", "cyber_glasses", "golden_badge", "ielts_champion_cape"] }
+            : { contains: itemId.includes("frame") ? "frame" : itemId.includes("bubble") ? "bubble" : itemId },
+        },
         data: { isEquipped: false },
       }),
       prisma.purchaseLog.updateMany({

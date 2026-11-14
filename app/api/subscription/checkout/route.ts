@@ -4,6 +4,56 @@ import { prisma } from "@/infrastructure/database/prisma";
 import { PLANS } from "@/features/premium/constants";
 import { PlanKey } from "@/features/premium/types";
 
+/**
+ * Checks whether the current user's subscription order has been confirmed via webhook or Admin.
+ */
+export async function GET(req: NextRequest) {
+  try {
+    const userId = await getAuthenticatedUserId(req);
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const [profile, latestOrder] = await Promise.all([
+      prisma.profile.findUnique({
+        where: { id: userId },
+        select: {
+          isPremium: true,
+          premiumTier: true,
+          premiumExpiresAt: true,
+          streakFreezes: true,
+        },
+      }),
+      prisma.subscriptionOrder.findFirst({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          planKey: true,
+          amount: true,
+          transferSyntax: true,
+          status: true,
+          activatedAt: true,
+          expiresAt: true,
+        },
+      }),
+    ]);
+
+    return NextResponse.json({
+      success: true,
+      isPremium: Boolean(profile?.isPremium),
+      profile,
+      order: latestOrder,
+    });
+  } catch (error: any) {
+    console.error("[Subscription Checkout Status Error]:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error", message: error.message },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const userId = await getAuthenticatedUserId(req);

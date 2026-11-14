@@ -1,8 +1,7 @@
 import { YouTubeVideoItem } from "@/stores/videoStore";
 import { useVocabularyStore } from "@/stores/vocabularyStore";
-import { LearnedVocabulary } from "@/shared/types";
+import { GeneratedFlashcard, LearnedVocabulary, VideoStudySetResponse } from "@/shared/types";
 import { useUserStore } from "@/stores/userStore";
-import { GeneratedFlashcard, VideoStudySetResponse } from "@/app/api/youtube/study-set/route";
 
 const STUDY_SET_CACHE_PREFIX = "xp_video_study_set_";
 

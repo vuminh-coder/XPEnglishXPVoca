@@ -1,197 +1,124 @@
+import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthenticatedUserId } from "@/infrastructure/auth/auth";
+import { getAuthenticatedUserId, requireAdminUser } from "@/infrastructure/auth/auth";
 import { prisma } from "@/infrastructure/database/prisma";
-import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { PLANS } from "@/features/premium/constants";
 import { PlanKey } from "@/features/premium/types";
+import { activateVerifiedSubscription } from "@/features/premium/services/subscriptionActivation";
 
+function hasValidWebhookSecret(req: NextRequest): boolean {
+  const secret = process.env.PAYMENT_WEBHOOK_SECRET?.trim();
+  if (!secret) return false;
+  const header = req.headers.get("x-webhook-secret")?.trim();
+  if (!header || header.length !== secret.length) return false;
+  return crypto.timingSafeEqual(Buffer.from(header), Buffer.from(secret));
+}
+
+/**
+ * Subscription Confirmation Endpoint (Hardened).
+ * Self-service VIP activation by unprivileged clients is strictly prohibited.
+ * Only an authenticated ADMIN (approving a pending order) or a signed PAYMENT_WEBHOOK_SECRET caller can activate VIP.
+ */
 export async function POST(req: NextRequest) {
   try {
-    const userId = await getAuthenticatedUserId(req);
-    if (!userId) {
+    const body = await req.json().catch(() => ({}));
+    const planKey = (body?.planKey || "yearly") as PlanKey;
+    const orderId = typeof body?.orderId === "string" ? body.orderId : undefined;
+    const requestedUserId = typeof body?.userId === "string" ? body.userId : undefined;
+
+    if (!PLANS[planKey]) {
+      return NextResponse.json({ error: "Invalid plan key" }, { status: 400 });
+    }
+
+    // 1. Authorized internal webhook bypass check
+    if (hasValidWebhookSecret(req) && requestedUserId) {
+      const activation = await activateVerifiedSubscription({
+        orderId,
+        userId: requestedUserId,
+        planKey,
+        paidAmount: typeof body?.paidAmount === "number" ? body.paidAmount : undefined,
+      });
+      return NextResponse.json({
+        success: true,
+        message: "Kích hoạt Premium thành công qua đối soát thanh toán.",
+        data: {
+          isPremium: activation.profile.isPremium,
+          premiumTier: activation.profile.premiumTier,
+          premiumExpiresAt: activation.profile.premiumExpiresAt,
+          streakFreezes: activation.profile.streakFreezes,
+          orderId: activation.order.id,
+          giftsAwarded: activation.giftsAwarded,
+        },
+      });
+    }
+
+    // 2. Check authenticated caller
+    const callerId = await getAuthenticatedUserId(req);
+    if (!callerId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
-    const planKey = (body?.planKey || "yearly") as PlanKey;
+    // 3. Admin manual approval flow
+    const adminCheck = await requireAdminUser(req);
+    if (adminCheck.authorized) {
+      const targetUserId = requestedUserId || callerId;
+      const activation = await activateVerifiedSubscription({
+        orderId,
+        userId: targetUserId,
+        planKey,
+      });
 
-    if (!PLANS[planKey]) {
-      return NextResponse.json(
-        { error: "Invalid plan key" },
-        { status: 400 }
-      );
+      return NextResponse.json({
+        success: true,
+        message: `Admin đã phê duyệt kích hoạt gói ${PLANS[planKey].name} thành công.`,
+        data: {
+          isPremium: activation.profile.isPremium,
+          premiumTier: activation.profile.premiumTier,
+          premiumExpiresAt: activation.profile.premiumExpiresAt,
+          streakFreezes: activation.profile.streakFreezes,
+          orderId: activation.order.id,
+          giftsAwarded: activation.giftsAwarded,
+        },
+      });
     }
 
-    const planConfig = PLANS[planKey];
-    const now = new Date();
+    // 4. Unprivileged learner request -> ensure pending order is recorded WITHOUT granting VIP
+    const existingPendingOrder = await prisma.subscriptionOrder.findFirst({
+      where: { userId: callerId, status: "pending" },
+      orderBy: { createdAt: "desc" },
+      select: { id: true, transferSyntax: true, status: true, amount: true },
+    });
 
-    const result = await prisma.$transaction(async (tx) => {
-      // 1. Fetch current profile
-      const profile = await tx.profile.findUnique({
-        where: { id: userId },
-        select: {
-          id: true,
-          isPremium: true,
-          premiumTier: true,
-          premiumStartedAt: true,
-          premiumExpiresAt: true,
-          streakFreezes: true,
-        },
-      });
-
-      if (!profile) {
-        throw new Error("Profile not found");
-      }
-
-      // 2. Calculate expiration date with stacking support
-      let baseStartDate = now;
-      if (profile.isPremium && profile.premiumExpiresAt && profile.premiumExpiresAt > now) {
-        // Stack on top of remaining days
-        baseStartDate = profile.premiumExpiresAt;
-      }
-
-      let newExpiresAt: Date;
-      let durationMonths: number;
-
-      if (planKey === "lifetime") {
-        newExpiresAt = new Date("2099-12-31T23:59:59.999Z");
-        durationMonths = 999;
-      } else if (planKey === "yearly") {
-        // 12 months + 3 bonus months = 15 months (~456 days)
-        newExpiresAt = new Date(baseStartDate.getTime() + 456 * 24 * 60 * 60 * 1000);
-        durationMonths = 15;
-      } else {
-        // Monthly: 30 days
-        newExpiresAt = new Date(baseStartDate.getTime() + 30 * 24 * 60 * 60 * 1000);
-        durationMonths = 1;
-      }
-
-      // 3. Determine gift rewards
-      const freezesToAdd = planKey === "yearly" ? 3 : planKey === "lifetime" ? 99 : 1;
-      const giftsAwarded: string[] = [];
-
-      if (freezesToAdd > 0) {
-        giftsAwarded.push(`+${freezesToAdd} Khiên Kim Cương bảo vệ Streak`);
-      }
-
-      // Check and award exclusive avatar items
-      if (planKey === "yearly" || planKey === "lifetime") {
-        const existingOwl = await tx.purchaseLog.findFirst({
-          where: { userId, itemId: "premium_owl" },
-        });
-        if (!existingOwl) {
-          await tx.purchaseLog.create({
-            data: {
-              userId,
-              itemId: "premium_owl",
-              cost: 0,
-              isEquipped: true,
-            },
-          });
-          giftsAwarded.push("Nón Cử Nhân Cú Vàng độc quyền");
-        }
-      }
-
-      if (planKey === "lifetime") {
-        const existingBadge = await tx.purchaseLog.findFirst({
-          where: { userId, itemId: "golden_badge" },
-        });
-        if (!existingBadge) {
-          await tx.purchaseLog.create({
-            data: {
-              userId,
-              itemId: "golden_badge",
-              cost: 0,
-              isEquipped: true,
-            },
-          });
-          giftsAwarded.push("Huy hiệu Vương Miện Vàng VIP");
-        }
-      }
-
-      // 4. Update Profile
-      const updatedProfile = await tx.profile.update({
-        where: { id: userId },
+    let pendingOrder = existingPendingOrder;
+    if (!pendingOrder) {
+      const userSuffix = callerId.replace(/[^a-zA-Z0-9]/g, "").slice(-8).toUpperCase();
+      const salt = Math.random().toString(36).substring(2, 6).toUpperCase();
+      const durationMonths = planKey === "yearly" ? 15 : planKey === "monthly" ? 1 : 999;
+      pendingOrder = await prisma.subscriptionOrder.create({
         data: {
-          isPremium: true,
-          premiumTier: planKey,
-          premiumStartedAt: profile.premiumStartedAt || now,
-          premiumExpiresAt: newExpiresAt,
-          streakFreezes: { increment: freezesToAdd },
+          userId: callerId,
+          planKey,
+          amount: PLANS[planKey].totalPriceNum,
+          currency: "VND",
+          transferSyntax: `XP PRO ${userSuffix}_${salt}`,
+          status: "pending",
+          paymentMethod: "vietqr",
+          durationMonths,
+          expiresAt: new Date(Date.now() + 15 * 60 * 1000),
         },
-        select: {
-          id: true,
-          isPremium: true,
-          premiumTier: true,
-          premiumStartedAt: true,
-          premiumExpiresAt: true,
-          streakFreezes: true,
-        },
+        select: { id: true, transferSyntax: true, status: true, amount: true },
       });
+    }
 
-      // 5. Create or complete order record
-      const existingPendingOrder = await tx.subscriptionOrder.findFirst({
-        where: { userId, status: "pending" },
-        orderBy: { createdAt: "desc" },
-      });
-
-      let completedOrder;
-      if (existingPendingOrder) {
-        completedOrder = await tx.subscriptionOrder.update({
-          where: { id: existingPendingOrder.id },
-          data: {
-            planKey,
-            amount: planConfig.totalPriceNum,
-            status: "completed",
-            durationMonths,
-            activatedAt: now,
-            expiresAt: newExpiresAt,
-          },
-        });
-      } else {
-        const userSuffix = userId.startsWith("usr_")
-          ? userId.replace(/[^a-zA-Z0-9]/g, "").slice(-8).toUpperCase()
-          : userId.slice(0, 8).toUpperCase();
-        const salt = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const transferSyntax = `XP PRO ${userSuffix}_${salt}`;
-
-        completedOrder = await tx.subscriptionOrder.create({
-          data: {
-            userId,
-            planKey,
-            amount: planConfig.totalPriceNum,
-            currency: "VND",
-            transferSyntax,
-            status: "completed",
-            paymentMethod: "vietqr",
-            durationMonths,
-            activatedAt: now,
-            expiresAt: newExpiresAt,
-          },
-        });
-      }
-
-      return {
-        profile: updatedProfile,
-        order: completedOrder,
-        giftsAwarded,
-      };
-    });
-
-    invalidateDashboardCache(userId);
-
-    return NextResponse.json({
-      success: true,
-      message: `Kích hoạt gói ${planConfig.name} thành công!`,
-      data: {
-        isPremium: result.profile.isPremium,
-        premiumTier: result.profile.premiumTier,
-        premiumExpiresAt: result.profile.premiumExpiresAt,
-        streakFreezes: result.profile.streakFreezes,
-        orderId: result.order.id,
-        giftsAwarded: result.giftsAwarded,
+    return NextResponse.json(
+      {
+        success: false,
+        pendingVerification: true,
+        error: "Đơn hàng đang chờ đối soát giao dịch ngân hàng hoặc Admin phê duyệt.",
+        order: pendingOrder,
       },
-    });
+      { status: 403 }
+    );
   } catch (error: any) {
     console.error("[Subscription Confirm API Error]:", error);
     return NextResponse.json(

@@ -1,9 +1,20 @@
 import { prisma } from "@/infrastructure/database/prisma";
-import {
-  parseTimedTextAny,
-  formatTimestampMs,
-  WordTimingItem,
-} from "@/features/listening/services/youtubeSubtitleParser";
+import { extractYouTubeCaptionsOnServer } from "@/features/listening/services/youtubeTrackExtractor";
+import { cleanSubtitleText, normalizeSubtitlePipeline, NormalizedCue } from "@/features/listening/services/subtitleNormalizer";
+
+export interface PreExtractedSegmentInput {
+  startTime?: number;
+  startSeconds?: number;
+  endTime?: number;
+  duration?: number;
+  textEn?: string;
+  english?: string;
+  text?: string;
+  textVn?: string;
+  vietnamese?: string;
+  translation?: string;
+  wordTimings?: { word: string; start: number; end: number }[];
+}
 
 export interface IngestOptions {
   youtubeUrl: string;
@@ -11,8 +22,10 @@ export interface IngestOptions {
   playlistSlug?: string;
   customTitle?: string;
   customDescription?: string;
-  cefrLevel?: string; // A1, A2, B1, B2, C1, C2
+  cefrLevel?: string;
   submittedByUserId?: string;
+  preferredLang?: string;
+  preExtractedSegments?: PreExtractedSegmentInput[];
 }
 
 export interface IngestedSegmentData {
@@ -28,6 +41,7 @@ export interface IngestedSegmentData {
   properNouns: string[];
   keywords: string[];
   tokenCount: number;
+  wordTimings?: { word: string; start: number; end: number }[];
 }
 
 export {
@@ -42,7 +56,6 @@ export {
 
 import {
   extractYouTubeVideoId,
-  cleanSubtitleLine,
   detectProperNounsInSentence,
   extractKeywordsFromSentence,
   estimateCefrLevel,
@@ -50,20 +63,37 @@ import {
   normalizeSentenceText,
 } from "../utils/videoUrlHelper";
 
+export class VideoCaptionsNotFoundError extends Error {
+  code = "NO_CAPTIONS";
+  constructor(message: string) {
+    super(message);
+    this.name = "VideoCaptionsNotFoundError";
+  }
+}
+
 /**
  * Core Video Ingestion Pipeline:
- * Fetches YouTube captions, splits into sentences, tags proper nouns & keywords,
- * and saves to VideoLesson + LessonSegment database tables.
+ * Extracts captions in-process (never loopback HTTP), or uses client-provided pre-extracted/SRT/transcript segments,
+ * normalizes segments, tags proper nouns & keywords, and saves to VideoLesson + LessonSegment database tables.
  */
 export async function ingestYouTubeVideo(options: IngestOptions) {
-  const { youtubeUrl, categorySlug, playlistSlug, customTitle, customDescription, submittedByUserId } = options;
+  const {
+    youtubeUrl,
+    categorySlug,
+    playlistSlug,
+    customTitle,
+    customDescription,
+    submittedByUserId,
+    preferredLang,
+    preExtractedSegments,
+  } = options;
   const videoId = extractYouTubeVideoId(youtubeUrl);
 
   if (!videoId) {
     throw new Error(`URL YouTube không hợp lệ: "${youtubeUrl}"`);
   }
 
-  // 1. Resolve or create VideoCategory if specified
+  // 1. Resolve VideoCategory if specified
   let categoryId: string | null = null;
   if (categorySlug) {
     const cat = await prisma.videoCategory.findUnique({
@@ -81,103 +111,158 @@ export async function ingestYouTubeVideo(options: IngestOptions) {
     if (pl) playlistId = pl.id;
   }
 
-  // 3. Fetch Captions via YouTube Captions API / direct XML extraction
-  let captionsData: any = null;
-  try {
-    // Attempt internal server fetch
-    const host = process.env.NEXTAUTH_URL || process.env.APP_URL || "http://localhost:3000";
-    const res = await fetch(`${host}/api/youtube/captions?videoId=${videoId}`);
-    if (res.ok) {
-      captionsData = await res.json();
+  // 3. Use pre-extracted segments (browser rescue / SRT / transcript) OR extract directly in-process
+  let serverMetaTitle = "";
+  let serverMetaAuthor = "";
+  let rawItems: NormalizedCue[] = [];
+  let rawVnItems: { startTime: number; endTime?: number; textVn: string }[] = [];
+
+  if (Array.isArray(preExtractedSegments) && preExtractedSegments.length > 0) {
+    for (const seg of preExtractedSegments) {
+      const textEn = cleanSubtitleText(seg.textEn || seg.english || seg.text || "");
+      if (!textEn) continue;
+
+      const startRaw = seg.startTime ?? seg.startSeconds ?? 0;
+      const startTime = Number.isFinite(Number(startRaw)) ? Math.max(0, Number(startRaw)) : 0;
+      const durRaw =
+        seg.duration ?? (typeof seg.endTime === "number" ? seg.endTime - startTime : 3.2);
+      const duration = Math.max(0.4, Number.isFinite(Number(durRaw)) ? Number(durRaw) : 3.2);
+      const endTime =
+        typeof seg.endTime === "number" && seg.endTime > startTime
+          ? Number(seg.endTime)
+          : parseFloat((startTime + duration).toFixed(3));
+
+      rawItems.push({
+        startTime,
+        endTime,
+        duration,
+        textEn,
+        wordTimings: seg.wordTimings,
+      });
+
+      const vn = (seg.translation || seg.vietnamese || seg.textVn || "").trim();
+      if (vn) {
+        rawVnItems.push({ startTime, endTime, textVn: vn });
+      }
     }
-  } catch (err) {
-    console.warn("[Video Ingestion] Internal captions API fetch failed, trying direct fallback:", err);
+  } else {
+    const extracted = await extractYouTubeCaptionsOnServer(videoId, { preferredLang });
+    serverMetaTitle = extracted.title;
+    serverMetaAuthor = extracted.authorName;
+
+    if (!extracted.subtitles || extracted.subtitles.length === 0) {
+      throw new VideoCaptionsNotFoundError(
+        `Video YouTube (${videoId}) chưa trích xuất được phụ đề tự động (${extracted.failureReason}). Vui lòng nạp từ trình duyệt, file .srt/.vtt hoặc transcript.`
+      );
+    }
+
+    rawItems = extracted.subtitles.map((sub) => {
+      const startTime = Number.isFinite(sub.startSeconds) ? sub.startSeconds : 0;
+      const duration = Math.max(0.4, sub.duration || 3);
+      const endTime = parseFloat((startTime + duration).toFixed(3));
+      if (sub.vietnamese) {
+        rawVnItems.push({ startTime, endTime, textVn: sub.vietnamese });
+      }
+      return {
+        startTime,
+        endTime,
+        duration,
+        textEn: sub.english,
+        wordTimings: sub.wordTimings,
+      };
+    });
   }
 
-  const rawSubtitles = captionsData?.subtitles || [];
-  if (!rawSubtitles || rawSubtitles.length === 0) {
-    throw new Error(`Video YouTube (${videoId}) không tìm thấy phụ đề khả dụng.`);
+  const normalizedPipeline = normalizeSubtitlePipeline(rawItems, rawVnItems);
+  if (normalizedPipeline.length === 0) {
+    throw new VideoCaptionsNotFoundError(
+      `Không tìm thấy phân đoạn phụ đề hợp lệ cho video ${videoId}.`
+    );
   }
 
-  const videoTitle = customTitle || captionsData?.title || `YouTube Lesson: ${videoId}`;
-  const videoAuthor = captionsData?.authorName || "YouTube";
+  const videoTitle = customTitle?.trim() || serverMetaTitle || `YouTube Lesson: ${videoId}`;
+  const videoAuthor = serverMetaAuthor || "YouTube";
   const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
 
-  // 4. Transform raw subtitles into structured sentence segments
   let totalWordsCount = 0;
-  const segmentsData: IngestedSegmentData[] = [];
-
-  rawSubtitles.forEach((item: any, idx: number) => {
-    const textEn = cleanSubtitleLine(item.english || item.textEn || "");
-    if (!textEn) return;
-
-    const startSeconds = parseFloat(item.startSeconds ?? item.startTime ?? 0);
-    const duration = parseFloat(item.duration ?? (item.endTime ? item.endTime - item.startTime : 3));
-    const endSeconds = parseFloat((startSeconds + duration).toFixed(3));
-
-    const tokenCount = textEn.split(/\s+/).filter(Boolean).length;
+  const segmentsData: IngestedSegmentData[] = normalizedPipeline.map((item, idx) => {
+    const tokenCount = item.textEn.split(/\s+/).filter(Boolean).length;
     totalWordsCount += tokenCount;
 
-    const properNouns = detectProperNounsInSentence(textEn);
-    const keywords = extractKeywordsFromSentence(textEn, 3);
-    const normalizedText = normalizeSentenceText(textEn);
-    const translationVi = item.vietnamese || item.textVn || "";
-
-    segmentsData.push({
+    return {
       orderIndex: idx + 1,
-      startTime: startSeconds,
-      endTime: endSeconds,
-      text: textEn,
-      normalizedText,
-      translationVi,
-      properNouns,
-      keywords,
+      startTime: item.startTime,
+      endTime: item.endTime,
+      text: item.textEn,
+      normalizedText: normalizeSentenceText(item.textEn),
+      translationVi: item.textVn,
+      properNouns: detectProperNounsInSentence(item.textEn),
+      keywords: extractKeywordsFromSentence(item.textEn, 3),
       tokenCount,
-    });
+      wordTimings: item.wordTimings,
+    };
   });
-
-  if (segmentsData.length === 0) {
-    throw new Error(`Không thể trích xuất phân đoạn phụ đề hợp lệ cho video ${videoId}.`);
-  }
 
   const lastSegment = segmentsData[segmentsData.length - 1];
   const durationSeconds = Math.ceil(lastSegment.endTime);
   const durationFormatted = formatDurationSeconds(durationSeconds);
-
   const wpm = durationSeconds > 0 ? Math.round((totalWordsCount / durationSeconds) * 60) : 120;
   const sampleCombinedText = segmentsData.slice(0, 30).map((s) => s.text).join(" ");
   const calculatedCefr = options.cefrLevel || estimateCefrLevel(sampleCombinedText, wpm);
 
-  const slug = `yt-${videoId}-${Date.now().toString(36)}`;
-
-  // 5. Check if lesson with this externalId already exists
+  // Check if lesson with this externalId already exists
   const existing = await prisma.videoLesson.findFirst({
     where: { externalId: videoId },
     include: { segments: { select: { id: true } } },
   });
 
   if (existing) {
-    console.log(`[Video Ingestion] Video ${videoId} đã tồn tại trong CSDL (${existing.id}). Đang cập nhật metadata...`);
-    const updated = await prisma.videoLesson.update({
-      where: { id: existing.id },
-      data: {
-        title: videoTitle,
-        durationSeconds,
-        durationFormatted,
-        cefrLevel: calculatedCefr,
-        wpmSpeed: wpm,
-        categoryId: categoryId || existing.categoryId,
-        playlistId: playlistId || existing.playlistId,
-      },
+    const shouldReplaceSegments =
+      existing.segments.length === 0 ||
+      Boolean(preExtractedSegments && preExtractedSegments.length > 0);
+
+    const updated = await prisma.$transaction(async (tx) => {
+      const lesson = await tx.videoLesson.update({
+        where: { id: existing.id },
+        data: {
+          title: customTitle?.trim() || existing.title || videoTitle,
+          durationSeconds,
+          durationFormatted,
+          cefrLevel: calculatedCefr,
+          wpmSpeed: wpm,
+          categoryId: categoryId || existing.categoryId,
+          playlistId: playlistId || existing.playlistId,
+        },
+      });
+
+      if (shouldReplaceSegments) {
+        await tx.lessonSegment.deleteMany({ where: { lessonId: existing.id } });
+        await tx.lessonSegment.createMany({
+          data: segmentsData.map((s) => ({
+            lessonId: existing.id,
+            orderIndex: s.orderIndex,
+            startTime: s.startTime,
+            endTime: s.endTime,
+            text: s.text,
+            normalizedText: s.normalizedText,
+            translationVi: s.translationVi,
+            properNouns: s.properNouns,
+            keywords: s.keywords,
+            tokenCount: s.tokenCount,
+          })),
+        });
+      }
+      return lesson;
     });
+
     return {
       lesson: updated,
-      segmentCount: existing.segments.length,
+      segmentCount: shouldReplaceSegments ? segmentsData.length : existing.segments.length,
       isExisting: true,
     };
   }
 
-  // 6. Create new VideoLesson and bulk insert LessonSegments
+  const slug = `yt-${videoId}-${Date.now().toString(36)}`;
   const createdLesson = await prisma.$transaction(async (tx) => {
     const lesson = await tx.videoLesson.create({
       data: {
@@ -200,7 +285,6 @@ export async function ingestYouTubeVideo(options: IngestOptions) {
       },
     });
 
-    // Create segments in batch
     await tx.lessonSegment.createMany({
       data: segmentsData.map((s) => ({
         lessonId: lesson.id,

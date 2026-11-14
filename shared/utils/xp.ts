@@ -1,5 +1,48 @@
+import { LEVEL_TITLES, LEVEL_XP } from "@/shared/constants";
+
+export { LEVEL_TITLES, LEVEL_XP };
+
 export const VALID_RESULTS = ["WIN", "LOSE", "DRAW"] as const;
 export type MatchResult = (typeof VALID_RESULTS)[number];
+
+/**
+ * Computes next level, title, and level-up coin rewards from cumulative XP.
+ */
+export function calculateLevelProgression(
+  totalXp: number,
+  currentLevel: number = 1,
+  fallbackTitle: string = "Grandmaster"
+): { level: number; title: string; leveledUp: boolean; levelUpCoins: number } {
+  let newLevel = Math.max(1, currentLevel);
+  let leveledUp = false;
+  let levelUpCoins = 0;
+
+  while (newLevel < LEVEL_XP.length && totalXp >= LEVEL_XP[newLevel]) {
+    newLevel++;
+    leveledUp = true;
+    levelUpCoins += 100 * newLevel;
+  }
+
+  return {
+    level: newLevel,
+    title: LEVEL_TITLES[newLevel] || fallbackTitle,
+    leveledUp,
+    levelUpCoins,
+  };
+}
+
+export function calculateLevelAndTitle(
+  totalXp: number,
+  currentLevel: number = 1,
+  fallbackTitle: string = "Grandmaster"
+): { level: number; title: string } {
+  const { level, title } = calculateLevelProgression(totalXp, currentLevel, fallbackTitle);
+  return { level, title };
+}
+
+export function calculateLevelFromXp(totalXp: number): { level: number; title: string } {
+  return calculateLevelAndTitle(totalXp, 1, "Master Learner");
+}
 
 /**
  * Server-side XP calculation — NEVER trust client-sent XP values.

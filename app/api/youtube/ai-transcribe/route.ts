@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateAiSubtitlesForVideo } from "@/features/myvideo/services/videoAiTranscribeService";
+import {
+  generateAiSubtitlesForVideo,
+  RawTranscriptRequiredError,
+} from "@/features/myvideo/services/videoAiTranscribeService";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,6 +13,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { error: "Vui lòng cung cấp videoId", success: false },
         { status: 400 }
+      );
+    }
+
+    if (typeof rawTranscript !== "string" || rawTranscript.trim().length < 10) {
+      return NextResponse.json(
+        {
+          success: false,
+          code: "RAW_TRANSCRIPT_REQUIRED",
+          error:
+            "Video không có phụ đề CC khả dụng. Vui lòng dán nội dung transcript thật (>= 10 ký tự) hoặc tải lên file .srt / .vtt.",
+        },
+        { status: 422 }
       );
     }
 
@@ -31,11 +46,21 @@ export async function POST(req: NextRequest) {
       isAiGenerated: true,
     });
   } catch (error: any) {
+    if (error instanceof RawTranscriptRequiredError) {
+      return NextResponse.json(
+        {
+          success: false,
+          code: error.code,
+          error: error.message,
+        },
+        { status: 422 }
+      );
+    }
     console.error("[API AI Transcribe Error]:", error);
     return NextResponse.json(
       {
         success: false,
-        error: "Không thể sinh phụ đề AI cho video này",
+        error: "Không thể căn chỉnh phụ đề cho transcript này",
         details: error?.message,
       },
       { status: 500 }

@@ -4,7 +4,6 @@ export * from "./Card";
 export * from "./DoubleBezelCard";
 export * from "./NestedActionButton";
 export * from "./SearchFilterBar";
-export * from "./SkeletonLoader";
 export * from "./Toast";
 export * from "./CEFRBadge";
 export * from "./TTSSettingsModal";

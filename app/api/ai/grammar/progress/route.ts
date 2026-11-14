@@ -4,6 +4,7 @@ import { prisma } from "@/infrastructure/database/prisma";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { sanitizeInput } from "@/infrastructure/security/validation";
 import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { getLocalDateString } from "@/shared/utils/dateUtils";
 
 export async function POST(req: Request) {
   try {
@@ -116,7 +117,7 @@ export async function POST(req: Request) {
       });
 
       // 3. Upsert DailySkillPractice for 7-day analytics (grammar maps to writing skill)
-      const todayDate = new Date().toISOString().split("T")[0];
+      const todayDate = getLocalDateString(new Date());
       await tx.dailySkillPractice.upsert({
         where: {
           userId_skill_date: {

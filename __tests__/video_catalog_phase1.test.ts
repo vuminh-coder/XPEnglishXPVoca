@@ -373,11 +373,29 @@ describe("Phase 1: Video Catalog & Ingestion Engine Deep Test Suite", { timeout:
   // 12. API Integration: /api/video-catalog/request-lesson
   // ==========================================================================
   describe("12. Live Route Handler: /api/video-catalog/request-lesson", () => {
-    it("should reject submission with invalid URL (status 400)", async () => {
+    it("should reject unauthenticated submission with status 401", async () => {
       const { POST: postRequest } = await import("@/app/api/video-catalog/request-lesson/route");
       const req = new Request("http://localhost:3000/api/video-catalog/request-lesson", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ youtubeUrl: "https://www.youtube.com/watch?v=UF8uR6Z6KLc" }),
+      }) as any;
+
+      const res = await postRequest(req);
+      expect(res.status).toBe(401);
+    });
+
+    it("should reject submission with invalid URL (status 400)", async () => {
+      const { POST: postRequest } = await import("@/app/api/video-catalog/request-lesson/route");
+      const { signAuthToken } = await import("@/infrastructure/auth/jwt");
+      const token = signAuthToken({ userId: "test_video_user", role: "USER" });
+
+      const req = new Request("http://localhost:3000/api/video-catalog/request-lesson", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ youtubeUrl: "invalid-url-here" }),
       }) as any;
 
@@ -390,9 +408,15 @@ describe("Phase 1: Video Catalog & Ingestion Engine Deep Test Suite", { timeout:
 
     it("should detect already existing video in database", async () => {
       const { POST: postRequest } = await import("@/app/api/video-catalog/request-lesson/route");
+      const { signAuthToken } = await import("@/infrastructure/auth/jwt");
+      const token = signAuthToken({ userId: "test_video_user", role: "USER" });
+
       const req = new Request("http://localhost:3000/api/video-catalog/request-lesson", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ youtubeUrl: "https://www.youtube.com/watch?v=UF8uR6Z6KLc" }),
       }) as any;
 
@@ -407,6 +431,8 @@ describe("Phase 1: Video Catalog & Ingestion Engine Deep Test Suite", { timeout:
     it("should successfully create, deduplicate, and list requests", async () => {
       const { POST: postRequest, GET: getRequests } = await import("@/app/api/video-catalog/request-lesson/route");
       const { prisma } = await import("@/infrastructure/database/prisma");
+      const { signAuthToken } = await import("@/infrastructure/auth/jwt");
+      const token = signAuthToken({ userId: "test_video_user", role: "USER" });
 
       const testVideoId = "a1b2c3d4e5f";
       const testUrl = `https://www.youtube.com/watch?v=${testVideoId}`;
@@ -419,7 +445,10 @@ describe("Phase 1: Video Catalog & Ingestion Engine Deep Test Suite", { timeout:
       // 1. First submission
       const req1 = new Request("http://localhost:3000/api/video-catalog/request-lesson", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           youtubeUrl: testUrl,
           topicCategory: "TED-Ed",
@@ -437,7 +466,10 @@ describe("Phase 1: Video Catalog & Ingestion Engine Deep Test Suite", { timeout:
       // 2. Second duplicate submission
       const req2 = new Request("http://localhost:3000/api/video-catalog/request-lesson", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           youtubeUrl: testUrl,
         }),
@@ -448,8 +480,12 @@ describe("Phase 1: Video Catalog & Ingestion Engine Deep Test Suite", { timeout:
 
       expect(data2.alreadyRequested).toBe(true);
 
-      // 3. GET listing
-      const reqGet = new Request("http://localhost:3000/api/video-catalog/request-lesson") as any;
+      // 3. GET listing (authenticated, no PII leak)
+      const reqGet = new Request("http://localhost:3000/api/video-catalog/request-lesson", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }) as any;
       const resGet = await getRequests(reqGet);
       const dataGet = await resGet.json();
 

@@ -5,6 +5,9 @@ import {
   generateVttContent,
   generateTxtContent,
 } from "@/features/listening/services/xpSubExtractor";
+import { isAllowedYouTubeTimedTextUrl } from "@/infrastructure/security/youtubeSubtitleUrl";
+
+const SAFE_VIDEO_ID_PATTERN = /^[A-Za-z0-9_-]{11}$/;
 
 /**
  * POST /api/youtube/subtitles/download
@@ -19,6 +22,20 @@ export async function POST(request: NextRequest) {
     if (!videoId || !trackBaseUrl) {
       return NextResponse.json(
         { success: false, error: "Vui lòng cung cấp videoId và trackBaseUrl" },
+        { status: 400 }
+      );
+    }
+
+    if (typeof videoId !== "string" || !SAFE_VIDEO_ID_PATTERN.test(videoId)) {
+      return NextResponse.json(
+        { success: false, error: "Mã videoId không hợp lệ" },
+        { status: 400 }
+      );
+    }
+
+    if (typeof trackBaseUrl !== "string" || !isAllowedYouTubeTimedTextUrl(trackBaseUrl)) {
+      return NextResponse.json(
+        { success: false, error: "trackBaseUrl không nằm trong allowlist hợp lệ của YouTube" },
         { status: 400 }
       );
     }
@@ -65,7 +82,9 @@ export async function POST(request: NextRequest) {
         break;
     }
 
-    const filename = `[XP-Sub]_${videoId}_${isBilingual ? "bilingual" : "mono"}.${extension}`;
+    const safeVideoId = videoId.replace(/[^A-Za-z0-9_-]/g, "");
+    const safeMode = isBilingual ? "bilingual" : "mono";
+    const filename = `XP-Sub_${safeVideoId}_${safeMode}.${extension}`;
 
     return new NextResponse(fileContent, {
       status: 200,

@@ -88,7 +88,12 @@ export async function GET(req: NextRequest) {
       profile = await prisma.profile.update({ where: { id: profile.id }, data: { avatarUrl } });
     }
 
-    const token = signAuthToken({ userId: profile.id, email: profile.email, username: profile.username });
+    const token = signAuthToken({
+      userId: profile.id,
+      email: profile.email,
+      username: profile.username,
+      role: (profile.role as "USER" | "ADMIN") || "USER",
+    });
     const response = NextResponse.redirect(new URL("/dashboard", req.url));
     response.cookies.set("xp_voca_session", token, {
       httpOnly: true,

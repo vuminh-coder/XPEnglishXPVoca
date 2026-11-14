@@ -4,6 +4,7 @@ import { prisma } from "@/infrastructure/database/prisma";
 import { memoryCache } from "@/infrastructure/cache/memoryCache";
 import { invalidateDashboardCache } from "@/infrastructure/cache/dashboardCache";
 import { calculateSM2 } from "@/shared/utils/sm2";
+import { ensureVocabularyExists } from "@/infrastructure/database/vocabHelper";
 
 export async function POST(request: Request) {
   try {
@@ -74,18 +75,15 @@ export async function POST(request: Request) {
       });
     }
 
-    // 3. Resolve actual vocabulary in database by ID or by Word text
-    let targetVocab = await prisma.vocabulary.findUnique({
-      where: { id: vocabId },
-      select: { id: true },
+    // 3. Resolve or auto-seed curated vocabulary in PostgreSQL before recording SM-2 review
+    const targetVocab = await ensureVocabularyExists(vocabId, {
+      word: body.word,
+      phonetic: body.phonetic,
+      definition: body.definition,
+      definitionVn: body.definitionVn,
+      pos: body.pos,
+      themeId: body.themeId,
     });
-
-    if (!targetVocab) {
-      targetVocab = await prisma.vocabulary.findFirst({
-        where: { word: { equals: vocabId, mode: "insensitive" } },
-        select: { id: true },
-      });
-    }
 
     if (!targetVocab) {
       // Word is from a client-side mock or offline list (not in DB)

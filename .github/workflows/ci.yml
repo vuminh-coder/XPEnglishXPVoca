@@ -9,8 +9,25 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: xp_voca_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     env:
-      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test?schema=public"
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/xp_voca_ci?schema=public"
+      DIRECT_DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/xp_voca_ci?schema=public"
+      JWT_SECRET: "ci_pipeline_jwt_secret_key_for_tests_2026"
+      PASSWORD_SALT_KEY: "ci_pipeline_password_salt_key_2026"
       NEXT_TELEMETRY_DISABLED: 1
 
     steps:
@@ -26,8 +43,10 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Generate Prisma Client
-        run: npx prisma generate
+      - name: Generate Prisma Client & Sync Schema
+        run: |
+          npx prisma generate
+          npx prisma db push --skip-generate
 
       - name: Run Linter
         run: npm run lint

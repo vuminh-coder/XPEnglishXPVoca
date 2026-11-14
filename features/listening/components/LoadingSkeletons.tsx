@@ -762,16 +762,21 @@ export function VideoStudioSkeleton() {
         {/* CỘT TRÁI: VIDEO CINEMA + DICTATION */}
         <div className="flex-1 min-w-0 p-3 sm:p-3.5 space-y-2.5 sm:space-y-3 overflow-y-auto hide-scrollbar">
           {/* 2.1. VIDEO CINEMA FRAME SKELETON (1:1 Exact Twin with VideoCinemaFrame) */}
-          <div className="relative w-full rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm p-1.5 sm:p-2 select-none flex flex-col justify-between space-y-2">
-            {/* 1. Responsive 16:9 Cinema Viewport */}
-            <div className="relative w-full max-w-2xl mx-auto aspect-video max-h-[210px] sm:max-h-[240px] md:max-h-[260px] rounded-xl overflow-hidden shadow-inner border border-slate-200/80 dark:border-slate-800 bg-black flex items-center justify-center group shrink-0">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-xl ring-8 ring-white/5">
-                <div className="w-0 h-0 border-y-[9px] border-y-transparent border-l-[15px] border-l-white/80 ml-1" />
+          <div className="relative w-full rounded-[20px] overflow-hidden bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm select-none flex flex-col justify-between">
+            {/* 1. Full-Width Dark Cinema Stage + True 16:9 Viewport */}
+            <div className="relative w-full bg-slate-950 p-1.5 sm:p-2 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-center overflow-hidden">
+              <div
+                style={{ width: "min(100%, calc(clamp(215px, 34vh, 340px) * 16 / 9))" }}
+                className="relative aspect-video mx-auto rounded-xl overflow-hidden shadow-lg ring-1 ring-white/10 bg-black flex items-center justify-center group shrink-0"
+              >
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#0059bb]/40 border border-white/20 flex items-center justify-center shadow-xl ring-4 ring-white/10">
+                  <div className="w-0 h-0 border-y-[9px] border-y-transparent border-l-[15px] border-l-white/80 ml-1" />
+                </div>
               </div>
             </div>
 
             {/* 2. Control Dock (Below Video, Clean & Symmetrical) */}
-            <div className="w-full shrink-0 px-2 sm:px-3 pt-1.5 pb-1 space-y-2 bg-transparent select-none">
+            <div className="w-full shrink-0 px-3 sm:px-4 pt-2.5 pb-2 space-y-2 bg-white dark:bg-slate-900 select-none">
               {/* Scrubber Progress Bar */}
               <div className="flex items-center gap-2.5">
                 <ShimmerBox className="h-3 w-8 rounded font-mono" />

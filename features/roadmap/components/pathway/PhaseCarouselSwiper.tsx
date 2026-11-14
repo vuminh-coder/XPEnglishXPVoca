@@ -25,17 +25,6 @@ export const PhaseCarouselSwiper: React.FC<PhaseCarouselSwiperProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Tự động lướt đến chặng chứa bài học được chọn nếu người dùng chọn từ ngoài
-  useEffect(() => {
-    if (!selectedTaskId) return;
-    const phaseIdx = phases.findIndex((p) =>
-      p.tasks.some((t) => t.id === selectedTaskId)
-    );
-    if (phaseIdx !== -1 && phaseIdx !== activeIndex) {
-      scrollToPhase(phaseIdx);
-    }
-  }, [selectedTaskId, phases]);
-
   // Cuộn/lướt mượt mà tới chặng mục tiêu và nhảy số chặng ngay lập tức
   const scrollToPhase = useCallback(
     (index: number) => {
@@ -51,6 +40,18 @@ export const PhaseCarouselSwiper: React.FC<PhaseCarouselSwiperProps> = ({
     },
     [phases.length]
   );
+
+  // Tự động lướt đến chặng chứa bài học được chọn nếu người dùng chọn từ ngoài
+  useEffect(() => {
+    if (!selectedTaskId) return;
+    const phaseIdx = phases.findIndex((p) =>
+      p.tasks.some((t) => t.id === selectedTaskId)
+    );
+    if (phaseIdx !== -1 && phaseIdx !== activeIndex) {
+      scrollToPhase(phaseIdx);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTaskId, phases, scrollToPhase]);
 
   // Lắng nghe sự kiện scroll khi người dùng vuốt/lướt bằng ngón tay hoặc trackpad
   const handleScroll = useCallback(() => {

@@ -38,6 +38,11 @@ import {
   ChevronDown,
 } from "lucide-react";
 
+let aiTutorMsgSeq = 0;
+function createTutorMsgId(prefix: "user" | "ai"): string {
+  return `${prefix}_${Date.now()}_${aiTutorMsgSeq++}_${Math.random().toString(36).slice(2, 7)}`;
+}
+
 interface SuggestedWord {
   word: string;
   meaning?: string;
@@ -243,9 +248,6 @@ export default function AiTutorWorkspace() {
   const elapsedTimeRef = useRef(elapsedTime);
   const currentPersonaRef = useRef(currentPersona);
   const hasUserInteractedRef = useRef(false);
-  const msgCounterRef = useRef(0);
-  const generateMsgId = (prefix: "user" | "ai") =>
-    `${prefix}_${Date.now()}_${msgCounterRef.current++}_${Math.random().toString(36).slice(2, 7)}`;
   const activeTimeRef = useRef(0);
   const chatBottomRef = useRef<HTMLDivElement>(null);
   const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -789,7 +791,7 @@ export default function AiTutorWorkspace() {
     accumulatedTextRef.current = "";
     setSpokenText("");
 
-    const userMsgId = generateMsgId("user");
+    const userMsgId = createTutorMsgId("user");
     const userMessage: ChatMessage = {
       id: userMsgId,
       role: "user",
@@ -837,7 +839,7 @@ export default function AiTutorWorkspace() {
 
       if (data.reply) {
         const aiMsg: ChatMessage = {
-          id: generateMsgId("ai"),
+          id: createTutorMsgId("ai"),
           role: "ai",
           text: data.reply,
           vietnameseTranslation: data.vietnameseTranslation,
@@ -865,7 +867,7 @@ export default function AiTutorWorkspace() {
       const fallbackVi = `Nghe thật thú vị! Hãy kể thêm cho tôi nghe về suy nghĩ của bạn nhé.`;
 
       const aiMsg: ChatMessage = {
-        id: generateMsgId("ai"),
+        id: createTutorMsgId("ai"),
         role: "ai",
         text: fallbackReply,
         vietnameseTranslation: fallbackVi,

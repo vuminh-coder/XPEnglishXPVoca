@@ -1045,7 +1045,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
     },
     {
         "startTime": 153.3,
-        "endTime": 154.5,
+        "endTime": 153.8,
         "text": "Yes, Michael.",
         "translationVi": "Vâng, thưa sếp Michael.",
         "ipaUs": "/jɛs, ˈmaɪkəl./",
@@ -1115,7 +1115,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
     },
     {
         "startTime": 166.1,
-        "endTime": 168.0,
+        "endTime": 167.8,
         "text": "Oh, that's funny. MICHAEL!",
         "translationVi": "Ồ, buồn cười ghê nhỉ. SẾP MICHAEL ƠI!",
         "ipaUs": "/oʊ, ðæts ˈfʌni. ˈmaɪkəl!/",
@@ -1394,7 +1394,7 @@ export const LESSON_THE_OFFICE_JIM_PRANKS_ON_DWIGHT: MockVideoLesson = {
     },
     {
         "startTime": 233.5,
-        "endTime": 235.0,
+        "endTime": 234.8,
         "text": "You'll thank me later.",
         "translationVi": "Lát nữa rồi ông sẽ phải cảm ơn tôi đấy.",
         "ipaUs": "/juːl θæŋk miː ˈleɪtər./",

@@ -1,24 +1,32 @@
+import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { prisma, safeDbExecute } from "@/infrastructure/database/prisma";
+import { getLocalDateString, getShiftedAppDateString } from "@/shared/utils/dateUtils";
+
+function safeEqualSecret(candidate: string | null, expected: string): boolean {
+  if (!candidate) return false;
+  const a = Buffer.from(candidate);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
 
 function verifyCronAuth(request: Request): boolean {
-  const expectedSecret = process.env.CRON_SECRET;
+  const expectedSecret = process.env.CRON_SECRET?.trim();
   if (!expectedSecret) {
-    // If no CRON_SECRET is configured in env, allow in dev/local mode
+    // Fail closed in production; allow local/test runs without CRON_SECRET only in non-production
     return process.env.NODE_ENV !== "production";
   }
 
   const authHeader = request.headers.get("authorization");
-  const bearerToken = authHeader?.startsWith("Bearer ") ? authHeader.substring(7) : null;
-  const customHeader = request.headers.get("x-cron-secret");
-  const url = new URL(request.url);
-  const querySecret = url.searchParams.get("secret");
+  const bearerToken = authHeader?.startsWith("Bearer ") ? authHeader.substring(7).trim() : null;
+  const customHeader = request.headers.get("x-cron-secret")?.trim() ?? null;
 
-  return (
-    bearerToken === expectedSecret ||
-    customHeader === expectedSecret ||
-    querySecret === expectedSecret
-  );
+  return safeEqualSecret(bearerToken, expectedSecret) || safeEqualSecret(customHeader, expectedSecret);
+}
+
+export async function GET(request: Request) {
+  return POST(request);
 }
 
 export async function POST(request: Request) {
@@ -36,9 +44,8 @@ export async function POST(request: Request) {
     // 1. Maintain Streak Protection Logic
     const result = await safeDbExecute(async () => {
       const now = new Date();
-      const todayStr = now.toISOString().slice(0, 10);
-      const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-      const yesterdayStr = yesterday.toISOString().slice(0, 10);
+      const todayStr = getLocalDateString(now);
+      const yesterdayStr = getShiftedAppDateString(-1, now);
 
       // Find candidates with active streak
       const candidates = await prisma.profile.findMany({
@@ -118,8 +125,4 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-}
-
-export async function GET(request: Request) {
-  return POST(request);
 }

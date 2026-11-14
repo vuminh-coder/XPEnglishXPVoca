@@ -1,11 +1,19 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import Sidebar from "@/shared/components/layout/Sidebar";
 import BottomNav from "@/shared/components/layout/BottomNav";
 import { ToastContainer } from "@/shared/components/ui/Toast";
 import { useUiStore } from "@/stores/uiStore";
 import { useUserStore } from "@/stores/userStore";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+
+function DashboardSearchSync({ onSearchChange }: { onSearchChange: (search: string) => void }) {
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    onSearchChange(searchParams?.toString() || "");
+  }, [searchParams, onSearchChange]);
+  return null;
+}
 
 export default function DashboardLayout({
   children,
@@ -14,6 +22,7 @@ export default function DashboardLayout({
 }) {
   const { sidebarCollapsed, hideBottomNav } = useUiStore();
   const pathname = usePathname();
+  const [searchStr, setSearchStr] = React.useState("");
 
   useEffect(() => {
     useUserStore.getState().checkSession();
@@ -23,19 +32,11 @@ export default function DashboardLayout({
     (pathname === "/study/exam-prep" || pathname?.startsWith("/study/exams")) &&
     sidebarCollapsed;
 
-  const [isClientStudioRoute, setIsClientStudioRoute] = React.useState(false);
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const search = window.location.search;
-      setIsClientStudioRoute(
-        Boolean(
-          search.includes("id=") ||
-          search.includes("lessonId=") ||
-          pathname?.includes("/comprehension")
-        )
-      );
-    }
-  }, [pathname]);
+  const isClientStudioRoute = Boolean(
+    searchStr.includes("id=") ||
+    searchStr.includes("lessonId=") ||
+    pathname?.includes("/comprehension")
+  );
 
   const isStudioPracticeRoute = Boolean(
     pathname?.startsWith("/study/dictation") ||
@@ -49,6 +50,9 @@ export default function DashboardLayout({
 
   return (
     <>
+      <Suspense fallback={null}>
+        <DashboardSearchSync onSearchChange={setSearchStr} />
+      </Suspense>
       <aside id="app-sidebar">
         <Sidebar />
       </aside>

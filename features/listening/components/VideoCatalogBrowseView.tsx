@@ -24,6 +24,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { VideoRequestModal } from "./VideoRequestModal";
+import { VideoYouTubeImportModal } from "./VideoYouTubeImportModal";
 import { VideoComprehensionQuizModal } from "./VideoComprehensionQuizModal";
 import { VideoCategoryIcon } from "./VideoCategoryIcon";
 import { getLessonCoverImage } from "../utils/lessonImageMapper";
@@ -184,6 +185,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
 
   // Modals state
   const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [selectedQuizLesson, setSelectedQuizLesson] = useState<{ id: string; title: string } | null>(
     null
   );
@@ -412,7 +414,7 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             </div>
           </div>
 
-          {/* Right Actions: Refresh + Suggest Video (Single Primary CTA) */}
+          {/* Right Actions: Refresh + Suggest Video (Secondary) + Import YouTube (Single Primary CTA - Rule 18) */}
           <div className="flex items-center gap-2 shrink-0">
             <button
               type="button"
@@ -432,12 +434,41 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
             <button
               type="button"
               onClick={() => setIsRequestModalOpen(true)}
-              className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95"
+              className="h-9 px-3 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer active:scale-95"
             >
-              <PlusCircle className="w-4 h-4 stroke-[2.5]" />
+              <PlusCircle className="w-3.5 h-3.5 text-slate-500" />
               <span>Đề xuất video</span>
             </button>
+
+            <button
+              type="button"
+              onClick={() => setIsImportModalOpen(true)}
+              className="h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95"
+            >
+              <Video className="w-4 h-4 stroke-[2.2]" />
+              <span>Thêm Video YouTube</span>
+            </button>
           </div>
+        </div>
+
+        {/* Mobile Quick Action Strip for Importing YouTube Video */}
+        <div className="flex sm:hidden items-center justify-between gap-2 pt-0.5">
+          <button
+            type="button"
+            onClick={() => setIsRequestModalOpen(true)}
+            className="h-9 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            <PlusCircle className="w-3.5 h-3.5" />
+            <span>Đề xuất</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsImportModalOpen(true)}
+            className="flex-1 h-9 px-3.5 rounded-xl bg-[#0059bb] hover:bg-[#004899] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+          >
+            <Video className="w-4 h-4" />
+            <span>Thêm Video YouTube</span>
+          </button>
         </div>
       </div>
 
@@ -558,6 +589,31 @@ export const VideoCatalogBrowseView: React.FC<VideoCatalogBrowseViewProps> = ({
       <VideoRequestModal
         isOpen={isRequestModalOpen}
         onClose={() => setIsRequestModalOpen(false)}
+      />
+
+      <VideoYouTubeImportModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        practiceMode={practiceMode}
+        onImportedLesson={(lessonId) => {
+          onSelectVideoLesson?.({
+            id: lessonId,
+            slug: lessonId,
+            title: "Bài học Video YouTube mới",
+            description: null,
+            externalId: "",
+            thumbnailUrl: "",
+            durationSeconds: 180,
+            durationFormatted: "03:00",
+            cefrLevel: "B1",
+            supportedTypes: "BOTH",
+            accent: "en-US",
+            category: null,
+            totalSentences: 1,
+            viewCount: 0,
+            hasFullData: true,
+          });
+        }}
       />
 
       {selectedQuizLesson && (

@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getGrammarLesson } from "@/features/grammar/data/grammarContent";
-import { isRateLimited } from "@/infrastructure/security/rateLimit";
+import { getServerGeminiApiKey, requireAuthenticatedAiCaller } from "@/infrastructure/security/aiGuard";
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+const GEMINI_API_KEY = getServerGeminiApiKey();
 
 export async function POST(req: NextRequest) {
   try {
-    const clientIp = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-    if (isRateLimited(`ai_grammar_${clientIp}`, 20, 60 * 1000)) {
-      return NextResponse.json({ error: "Too many requests. Please slow down." }, { status: 429 });
+    const authGuard = await requireAuthenticatedAiCaller(req, "ai_grammar", 20, 60 * 1000);
+    if ("errorResponse" in authGuard) {
+      return authGuard.errorResponse;
     }
 
     const { topic, level, mode } = await req.json();

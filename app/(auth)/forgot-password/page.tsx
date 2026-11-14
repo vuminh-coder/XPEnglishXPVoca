@@ -33,8 +33,13 @@ export default function ForgotPasswordPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#070709]">
-          <Loader2 className="w-8 h-8 text-[#0059bb] animate-spin" />
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#070709] p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 space-y-4">
+            <div className="h-7 w-2/3 mx-auto rounded-lg bg-slate-200 dark:bg-slate-800 animate-pulse" />
+            <div className="h-4 w-5/6 mx-auto rounded-lg bg-slate-200/80 dark:bg-slate-800/80 animate-pulse" />
+            <div className="h-11 w-full rounded-xl bg-slate-200 dark:bg-slate-800 animate-pulse mt-4" />
+            <div className="h-11 w-full rounded-xl bg-slate-200/80 dark:bg-slate-800/80 animate-pulse" />
+          </div>
         </div>
       }
     >
